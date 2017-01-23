@@ -16,7 +16,6 @@ import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
-import com.expedia.vm.NewLaunchLobViewModel;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -37,10 +36,6 @@ public class LaunchListWidget extends RecyclerView {
 		typedArray.recycle();
 	}
 
-	public void setViewModel(NewLaunchLobViewModel viewModel) {
-		adapter = new LaunchListAdapter(header, viewModel, showLobHeader);
-		setAdapter(adapter);
-	}
 
 	@Override
 	protected void onFinishInflate() {
@@ -52,6 +47,8 @@ public class LaunchListWidget extends RecyclerView {
 		setLayoutManager(layoutManager);
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
+		adapter = new LaunchListAdapter(header, showLobHeader);
+		setAdapter(adapter);
 		addItemDecoration(new LaunchListDividerDecoration(getContext(), showLobHeader));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 	}
@@ -115,6 +112,7 @@ public class LaunchListWidget extends RecyclerView {
 	}
 
 	public void onPOSChange() {
+		adapter.onPOSChange();
 		smoothScrollToPosition(0);
 	}
 

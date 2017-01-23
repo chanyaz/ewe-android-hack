@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">行程重複</string>
     <!-- Text for price change-->
     <string name="price_change_text">價格變更</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">您的行程價格已經從 {oldprice} 變更為 {newprice}。價格時有變動。立即預訂以確保享有此價格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">價格已變更</string>
@@ -4434,6 +4434,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留：({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">轉機等待時間：{duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">總計時間：{duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已傳送到 {email}</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">傳送意見</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">不用了</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">請輸入有效的電子郵件地址</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">只能以英文字母輸入名字</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">只能以英文字母輸入姓氏 (最少 2 個字元)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">請輸入有效的電話號碼</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">請輸入有效的出生日期</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">請選擇性別</string>
+    <string name="passport_validation_error_message">請選擇護照發行國家</string>
 
 </resources>

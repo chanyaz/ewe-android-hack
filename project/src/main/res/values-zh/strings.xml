@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">重复行程</string>
     <!-- Text for price change-->
     <string name="price_change_text">价格有变动</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">您此次旅行的价格已由 {oldprice} 更改为 {newprice}。价格经常变化。马上预订，锁定这个价格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">价格有变动</string>
@@ -4434,9 +4434,11 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">在 ({airportcode}) {city}中转</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">总时长：{duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">飞行总时间：{duration} - {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
-    <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary} # 已发送至 {email}</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已发送至 {email}</string>
 
     <!--Rail search screen title-->
     <string name="trains">火车</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">反馈</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">不用了，谢谢</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">输入有效的电子邮件地址</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">只使用拼音输入名字</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">只使用拼音输入姓氏（至少 2 个字符）</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">输入有效的电话号码</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">输入有效的出生日期</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">选择性别</string>
+    <string name="passport_validation_error_message">选择护照国家/地区</string>
 
 </resources>
