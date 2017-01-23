@@ -19,8 +19,8 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         return false
     }
 
-    override fun trackFlightOverviewLoad(isDistancePresent: Boolean) {
-        FlightsV2Tracking.trackFlightOverview(false, true, isDistancePresent)
+    override fun trackFlightOverviewLoad() {
+        FlightsV2Tracking.trackFlightOverview(false, true)
     }
 
     override fun trackFlightSortFilterLoad() {

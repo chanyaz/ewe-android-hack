@@ -23,9 +23,9 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
         return true
     }
 
-    override fun trackFlightOverviewLoad(isDistancePresent: Boolean) {
+    override fun trackFlightOverviewLoad() {
         val isRoundTrip = flightOfferViewModel.isRoundTripSearchSubject.value
-        FlightsV2Tracking.trackFlightOverview(true, isRoundTrip, isDistancePresent)
+        FlightsV2Tracking.trackFlightOverview(true, isRoundTrip)
     }
 
     override fun trackFlightSortFilterLoad() {
