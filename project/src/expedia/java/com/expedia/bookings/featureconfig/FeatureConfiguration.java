@@ -164,7 +164,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public AboutSectionFragment getAboutSectionFragment(Context context) {
-		return AboutSectionFragment.buildOtherAppsSection(context);
+		return null;
 	}
 
 	@Override
