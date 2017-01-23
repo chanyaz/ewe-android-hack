@@ -90,12 +90,6 @@ public class ProfileScreenTest {
 		ProfileScreen.clickOpenSource();
 		assertIntentFiredToViewOpenSourceLicenses();
 
-		ProfileScreen.clickFlightTrack();
-		assertIntentFiredToViewAppInPlayStore("com.mobiata.flighttrack.five");
-
-		ProfileScreen.clickFlightBoard();
-		assertIntentFiredToViewAppInPlayStore("com.mobiata.flightboard");
-
 		ProfileScreen.clickMobiataLogo();
 		assertIntentFiredToViewUri(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context));
 
