@@ -23,6 +23,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -35,12 +36,7 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
-import com.expedia.util.getCheckoutToolbarTitle
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.safeSubscribe
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.*
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
@@ -110,6 +106,28 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var toolbarHeight = Ui.getToolbarSize(context)
     val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
 
+    val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
+    val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
+
+    val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
+    val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
+
+    private val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
+    fun areAcceptTermsRequired() : Boolean {
+        return acceptTermsRequired
+    }
+    val acceptTermsWidget: AcceptTermsWidget by lazy {
+        val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
+        val presenter = viewStub.inflate() as AcceptTermsWidget
+        presenter.acceptButton.setOnClickListener {
+            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
+            AnimUtils.slideDown(acceptTermsWidget)
+            acceptTermsWidget.visibility = View.GONE
+            acceptTermsWidget.acceptButton.unsubscribeOnClick()
+        }
+        presenter
+    }
+
     val paymentWidget: PaymentWidget by lazy {
         val presenter = paymentViewStub.inflate() as PaymentWidget
         presenter
@@ -168,15 +186,17 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.checkoutPriceChangeObservable.subscribe { response ->
-            vm.resetSliderObservable.onNext(Unit)
+            slideToPurchase.resetSlider()
             vm.animateInSlideToPurchaseObservable.onNext(true)
             getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
             trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice()))
             handleCheckoutPriceChange(response)
         }
+        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.noNetworkObservable.subscribe {
-            vm.resetSliderObservable.onNext(Unit)
+            slideToPurchase.resetSlider()
         }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
@@ -291,6 +311,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         legalInformationText.setOnClickListener {
             context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
         }
+        accessiblePurchaseButton.setOnClickListener {
+            if (getCheckoutViewModel().builder.hasValidParams()) {
+                getCheckoutViewModel().checkoutParams.onNext(getCheckoutViewModel().builder.build())
+            } else {
+                getCheckoutViewModel().slideAllTheWayObservable.onNext(Unit)
+            }
+        }
+        slideToPurchase.addSlideToListener(this)
     }
 
     private fun setupKeyboardListeners() {
@@ -427,7 +455,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     override fun onSlideAbort() {
-        ckoViewModel.resetSliderObservable.onNext(Unit)
+        slideToPurchase.resetSlider()
     }
 
     /** User account refresher **/

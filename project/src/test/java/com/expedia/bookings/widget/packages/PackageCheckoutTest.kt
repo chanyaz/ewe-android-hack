@@ -95,7 +95,7 @@ class PackageCheckoutTest {
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
         assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
+        assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
     }
 
     @Test
@@ -190,7 +190,7 @@ class PackageCheckoutTest {
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
         assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
+        assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
 
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
@@ -275,7 +275,7 @@ class PackageCheckoutTest {
         checkout.getCheckoutViewModel().packageServices = packageServiceRule.services!!
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
-        overview.slideToPurchaseLayout.visibility = View.VISIBLE
+        checkout.slideToPurchaseLayout.visibility = View.VISIBLE
     }
 
     private fun setUpPackageDb() {

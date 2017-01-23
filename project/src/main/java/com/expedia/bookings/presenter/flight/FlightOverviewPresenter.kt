@@ -84,7 +84,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     }
 
     override fun resetCheckoutState() {
-        slideToPurchase.resetSlider()
+        checkoutPresenter.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(!isBucketedForExpandedRateDetailsTest)
             toggleCheckoutButtonAndSliderVisibility(true)

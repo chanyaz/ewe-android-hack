@@ -34,6 +34,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     fun showCheckout() {
+        checkoutPresenter.slideToPurchase.resetSlider()
         show(checkoutPresenter, FLAG_CLEAR_TOP)
         checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         trackCheckoutPageLoad()
@@ -102,6 +103,10 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
         }
 
+    }
+
+    open protected fun resetCheckoutState() {
+        checkoutPresenter.slideToPurchase.resetSlider()
     }
 
 

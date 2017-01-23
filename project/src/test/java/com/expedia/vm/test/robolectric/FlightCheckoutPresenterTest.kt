@@ -65,7 +65,6 @@ class FlightCheckoutPresenterTest {
         flightOffer.isPassportNeeded = passportRequired
         flightOffer.pricePerPassengerCategory = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
         flightOffer.totalPrice = Money(9, "USD")
-
         flightTripDetails.offer = flightOffer
 
         flightCreateTripResponse.details = flightTripDetails
