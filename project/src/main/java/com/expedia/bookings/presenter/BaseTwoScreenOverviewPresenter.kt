@@ -54,7 +54,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
     val ANIMATION_DURATION = 400
-    var sliderHeight = 0f
     var checkoutButtonHeight = 0f
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
@@ -267,18 +266,18 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
-        sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
+        checkoutPresenter.sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
         val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-        val bottomDistance = sliderHeight - checkoutButtonHeight
+        val bottomDistance = checkoutPresenter.sliderHeight - checkoutButtonHeight
         val slideIn = if (hasCompleteInfo) {
             bottomDistance - (f * (bottomDistance))
         } else {
-            sliderHeight - ((1 - f) * checkoutButtonHeight)
+            checkoutPresenter.sliderHeight - ((1 - f) * checkoutButtonHeight)
         }
         val slideOut = if (hasCompleteInfo) {
             f * (bottomDistance)
         } else {
-            sliderHeight - (f * checkoutButtonHeight)
+            checkoutPresenter.sliderHeight - (f * checkoutButtonHeight)
         }
         bottomContainer.translationY = if (forward) slideIn else slideOut
         checkoutButtonContainer.translationY = if (forward) f * checkoutButtonHeight else (1 - f) * checkoutButtonHeight
@@ -361,17 +360,17 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun setUpLayoutListeners() {
         checkoutPresenter.slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
-                if (sliderHeight != 0f) {
+                checkoutPresenter.sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
+                if (checkoutPresenter.sliderHeight != 0f) {
                     checkoutPresenter.slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    bottomContainer.translationY = sliderHeight
+                    bottomContainer.translationY = checkoutPresenter.sliderHeight
                 }
             }
         })
         checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
-                if (sliderHeight != 0f) {
+                if (checkoutPresenter.sliderHeight != 0f) {
                     checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     checkoutButtonContainer.translationY = checkoutButtonHeight
                 }
@@ -382,7 +381,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
         checkoutButtonContainer.translationY = if (showCheckoutButton) 0f else checkoutButtonHeight
         val shouldShowSlider = !showCheckoutButton && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-        bottomContainer.translationY = if (showCheckoutButton) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
+        bottomContainer.translationY = if (showCheckoutButton) checkoutPresenter.sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else checkoutPresenter.sliderHeight
         checkoutButton.isEnabled = showCheckoutButton
     }
 

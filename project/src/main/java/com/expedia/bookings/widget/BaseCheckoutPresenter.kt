@@ -76,6 +76,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     /** contants **/
     private val ANIMATION_DELAY = 200L
+    var sliderHeight = 0f
 
     protected var cardType: PaymentType? = null
     protected var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)

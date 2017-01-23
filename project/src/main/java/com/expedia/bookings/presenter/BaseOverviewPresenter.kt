@@ -9,9 +9,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.safeSubscribe
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -25,7 +27,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+            resetCheckoutState()
+        }
         checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe {
+            resetCheckoutState()
             if (currentState == CVVEntryWidget::class.java.name) {
                 show(checkoutPresenter, FLAG_CLEAR_TOP)
             }
@@ -34,7 +40,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     fun showCheckout() {
-        checkoutPresenter.slideToPurchase.resetSlider()
+        resetCheckoutState()
         show(checkoutPresenter, FLAG_CLEAR_TOP)
         checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         trackCheckoutPageLoad()
@@ -109,11 +115,13 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.slideToPurchase.resetSlider()
     }
 
-
     private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (forward) {
+            if (!forward) {
+                checkoutPresenter.slideToPurchase.resetSlider()
+                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
+            } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()
                 postDelayed({
@@ -150,7 +158,16 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun updateScrollingSpace(scrollSpaceView: View?) {
+        val scrollSpaceViewLp = scrollSpaceView?.layoutParams
+        var scrollspaceheight = checkoutPresenter.slideToPurchaseLayout.height
+        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
+            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
+        }
+        if (scrollSpaceViewLp?.height != scrollspaceheight) {
+            scrollSpaceViewLp?.height = scrollspaceheight
+            scrollSpaceView?.layoutParams = scrollSpaceViewLp
             scrollSpaceView?.requestLayout()
+        }
     }
 
     fun resetScrollSpaceHeight() {
