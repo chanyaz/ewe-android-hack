@@ -227,8 +227,7 @@ public class ExpediaServices implements DownloadListener {
 	// Allows one to get the cookie store out of services, in case we need to
 	// inject the cookies elsewhere (e.g., a WebView)
 	public static HashMap<String, HashMap<String, Cookie>> getCookies(Context context) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.mCookieManager.getCookieStore();
+		return null;
 	}
 
 	public static void removeUserLoginCookies(Context context) {

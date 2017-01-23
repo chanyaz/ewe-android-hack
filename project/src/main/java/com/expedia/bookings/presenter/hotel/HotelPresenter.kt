@@ -36,14 +36,7 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.NavUtils
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.WalletUtils
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
@@ -83,6 +76,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
+    val userAccountRefresher: UserAccountRefresher = UserAccountRefresher(context, LineOfBusiness.HOTELS, null)
+
 
     val searchStub:ViewStub by bindView(R.id.search_stub)
     val searchPresenter: HotelSearchPresenter by lazy {
@@ -96,7 +91,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val secureWebView: SecurePaymentWebView by lazy {
         var newWebView = securePaymentStub.inflate() as SecurePaymentWebView
         newWebView.viewModel = WebViewViewModel()
-        newWebView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        newWebView.setExitButtonOnClickListener(View.OnClickListener {
+            userAccountRefresher.forceAccountRefresh()
+            this.back() })
         newWebView.closeWebView.subscribe {
             back()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
