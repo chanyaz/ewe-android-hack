@@ -81,8 +81,8 @@
     <string name="cars_dupe_trip_text">重複した旅行</string>
     <!-- Text for price change-->
     <string name="price_change_text">料金の変更</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
-    <string name="price_change_alert_TEMPLATE">フライト料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
+    <string name="price_change_alert_TEMPLATE">旅行の料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">料金変更</string>
     <!-- Text for error toolbar-->
@@ -4061,7 +4061,7 @@
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">旅程番号 %1$s が %2$s に送信されます</string>
+    <string name="tablet_itinerary_confirmation_TEMPLATE">旅程番号 %1$s が %2$s に送信されました</string>
     <!-- Share button text for hotels -->
     <string name="tablet_confirmation_share_hotel">宿泊をシェア</string>
     <!-- Share button text for flights -->
@@ -4434,9 +4434,11 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">{city} ({airportcode}) で乗り継ぎ</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">合計所要時間 : {duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
-    <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} が {email} に送信されました</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">旅程番号 {itinerary} が {email} に送信されました</string>
 
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">フィードバックを送信</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">送信しない</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">有効な Eメールアドレスを入力してください</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">名を半角アルファベットのみで入力してください</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">姓を半角アルファベットのみで入力してください (2 文字以上)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">有効な電話番号を入力してください</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">有効な生年月日を入力してください</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">性別を選択してください</string>
+    <string name="passport_validation_error_message">パスポートの発行国を選択してください</string>
 
 </resources>

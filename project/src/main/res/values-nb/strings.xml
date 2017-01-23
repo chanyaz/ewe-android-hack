@@ -81,12 +81,12 @@
     <string name="cars_dupe_trip_text">Duplisert reise</string>
     <!-- Text for price change-->
     <string name="price_change_text">Prisendring</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
-    <string name="price_change_alert_TEMPLATE">Prisen på reisen din har endret seg fra {oldprice} til {newprice}. Prisene kan forandre seg raskt. Bestill med det samme for å sikre deg denne prisen.</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
+    <string name="price_change_alert_TEMPLATE">Prisen på reisen din har endret seg fra {oldprice} til {newprice}. Prisene kan forandre seg raskt. Bestill nå for å sikre deg denne prisen.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Prisen har endret seg</string>
     <!-- Text for error toolbar-->
-    <string name="cars_payment_failed_text">Betaling mislyktes</string>
+    <string name="cars_payment_failed_text">Betalingen mislyktes</string>
     <!-- Text for error toolbar-->
     <string name="cars_invalid_input_text">Ugyldig informasjon</string>
     <!-- Text for generic error toolbar-->
@@ -4434,6 +4434,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Mellomlander på ({airportcode}) i {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Samlet varighet: {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Total varighet: {duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} sendt til {email}</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">Send tilbakemelding</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Nei, takk</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">Angi en gyldig e-postadresse</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">Angi fornavnet med kun bokstaver</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">Angi etternavnet med kun bokstaver (minst 2 tegn)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">Skriv inn et gyldig telefonnummer</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">Angi en gyldig fødselsdato</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">Velg kjønn</string>
+    <string name="passport_validation_error_message">Velg utstedelsesland for passet</string>
 
 </resources>
