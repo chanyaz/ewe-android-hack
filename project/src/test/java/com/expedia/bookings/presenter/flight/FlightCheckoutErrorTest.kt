@@ -121,6 +121,18 @@ class FlightCheckoutErrorTest {
         assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents[0].errorCode)
     }
 
+    @Test
+    fun testInvalidInput() {
+        createCheckoutParams("tealeafFlight:invalid_input", "invalid_input", "")
+        val testSubscriber = TestSubscriber<ApiError>()
+        flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
+        flightCheckoutVM.checkoutParams.onNext(checkoutParams)
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        testSubscriber.assertValueCount(1)
+        assertEquals(ApiError.Code.INVALID_INPUT, testSubscriber.onNextEvents[0].errorCode)
+    }
+
     private fun createCheckoutParams(transactionId: String, tripId: String, billingInfo: String) {
         checkoutParams = FlightCheckoutParams.Builder()
                 .tealeafTransactionId(transactionId)
