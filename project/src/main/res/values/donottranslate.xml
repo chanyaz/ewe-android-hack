@@ -122,6 +122,7 @@
     <string name="preference_itin_hotel_map_click">preference_itin_hotel_map_click</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
+    <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
     <string name="preference_hotel_image_load_latency">preference_hotel_image_load_latency</string>
 
