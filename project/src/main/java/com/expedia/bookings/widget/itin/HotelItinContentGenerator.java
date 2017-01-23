@@ -45,6 +45,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -355,7 +356,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				staticMapImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						final Intent intent = getItinCardData().getDirectionsIntent();
+						final Intent intent = GoogleMapsUtil.getGoogleMapsIntent(getItinCardData().getProperty().getLocation(), getItinCardData().getProperty().getName());
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
 						}
@@ -549,7 +550,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					final Intent intent = getItinCardData().getDirectionsIntent();
+					final Intent intent = GoogleMapsUtil.getDirectionsIntent(getItinCardData().getProperty().getLocation().toLongFormattedString());
 					if (intent != null) {
 						NavUtils.startActivitySafe(getContext(), intent);
 						OmnitureTracking.trackItinHotelDirections();

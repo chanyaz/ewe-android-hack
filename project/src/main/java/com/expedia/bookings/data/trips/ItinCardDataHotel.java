@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -204,17 +202,6 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 			return mProperty.isVipAccess();
 		}
 		return false;
-	}
-
-	public Intent getDirectionsIntent() {
-		final String address = mProperty.getLocation().toLongFormattedString();
-		if (TextUtils.isEmpty(address)) {
-			return null;
-		}
-		final Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + address);
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-
-		return intent;
 	}
 
 	@Override
