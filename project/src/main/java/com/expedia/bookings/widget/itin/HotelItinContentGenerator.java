@@ -464,7 +464,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		//Add shared data
 		addSharedGuiElements(commonItinDataContainer);
 
-		fetchWeather();
+		fetchWeather(weatherTextView);
 
 		return view;
 	}
@@ -778,7 +778,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return adapter.create(WUndergroundApi.class);
 	}
 
-	private void fetchWeather() {
+	private void fetchWeather(final TextView weather) {
 		getWUndergroundService().getWeather("mobiataXML",
 			getItinCardData().getProperty().getLocation().getLatitude() + "," + getItinCardData().getProperty()
 				.getLocation().getLongitude())
@@ -797,7 +797,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 				@Override
 				public void onNext(WUndergroundSearchResponse response) {
-					Log.i("Supreeth", "fetchWeather response = ");
+					Log.i("Supreeth", "fetchWeather response = " + response);
+					weather.setText(response.getWUndergroundCurrentConditions().getConditionsFull());
 				}
 			});
 	}
