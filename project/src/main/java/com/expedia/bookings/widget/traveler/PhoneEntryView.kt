@@ -1,25 +1,32 @@
 package com.expedia.bookings.widget.traveler
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.TelephoneSpinner
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerPhoneViewModel
+import com.squareup.phrase.Phrase
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
+    val phoneEditBox: EditText by bindView(R.id.edit_phone_number_country_code_button)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
     val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
@@ -29,18 +36,47 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
         phoneNumber.viewModel = vm.phoneViewModel
         vm.phoneCountryCodeSubject.subscribe { countryCode ->
-            if (!TextUtils.isEmpty(countryCode)) {
-                phoneSpinner.update(countryCode, "")
+            if (materialFormTestEnabled) {
+                if (TextUtils.isEmpty(countryCode)) {
+                    sendPointOfSaleCountryToViewModel()
+                } else {
+                    phoneEditBox.setText("+$countryCode")
+                }
             } else {
-                phoneSpinner.selectPOSCountry()
+                if (!TextUtils.isEmpty(countryCode)) {
+                    phoneSpinner.update(countryCode, "")
+                } else {
+                    phoneSpinner.selectPOSCountry()
+                }
             }
         }
-        phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
-        spinnerUpdated()
 
         if (materialFormTestEnabled) {
             phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, R.string.phone_validation_error_message)
+            phoneEditBox.setOnClickListener {
+                showCountryCodeDialog()
+            }
+        } else {
+            phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
+            spinnerUpdated()
         }
+    }
+
+    private fun showCountryCodeDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.resources.getString(R.string.country))
+        val adapter = TelephoneSpinnerAdapter(context, R.layout.material_item)
+
+        builder.setAdapter(adapter) {builder, position ->
+            val countryCode = adapter.getCountryCode(position)
+            viewModel.countryCodeObserver.onNext(countryCode)
+            viewModel.countryNameObserver.onNext(adapter.getCountryName(position))
+            viewModel.phoneCountryCodeSubject.onNext(countryCode.toString())
+        }
+
+        val alert = builder.create()
+        alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
+        alert.show()
     }
 
     init {
@@ -82,5 +118,13 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
                 isFirstSelected = true
             }
         }
+    }
+
+    private fun sendPointOfSaleCountryToViewModel() {
+        val pointOfSaleCountryName = context.getString(PointOfSale.getPointOfSale().countryNameResId)
+        val pointOfSaleCountryCode = TelephoneSpinnerAdapter(context).getCountryCodeFromCountryName(pointOfSaleCountryName)
+        viewModel.countryNameObserver.onNext(pointOfSaleCountryName)
+        viewModel.countryCodeObserver.onNext(pointOfSaleCountryCode)
+        viewModel.phoneCountryCodeSubject.onNext(pointOfSaleCountryCode.toString())
     }
 }

@@ -59,6 +59,10 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 		return mCountryPhoneCodes[position];
 	}
 
+	public int getCountryCodeFromCountryName(String countryName) {
+		return COUNTRY_CODES.get(countryName);
+	}
+
 	private void fillCountryCodes(Context context) {
 		final Resources res = context.getResources();
 

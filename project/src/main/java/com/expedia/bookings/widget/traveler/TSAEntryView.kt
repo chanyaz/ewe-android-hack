@@ -98,7 +98,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
         builder.setItems(items) { dialog, position ->
             genderEditText?.setText(items[position])
-            items[position]
             viewModel.genderViewModel.genderSubject.onNext(Traveler.Gender.valueOf(items[position].toUpperCase()))
             genderEditText?.viewModel?.errorSubject?.onNext(false)
         }

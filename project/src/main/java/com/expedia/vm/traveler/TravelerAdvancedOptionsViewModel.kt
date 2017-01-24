@@ -6,7 +6,7 @@ import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-class TravelerAdvancedOptionsViewModel(context: Context) {
+class TravelerAdvancedOptionsViewModel(val context: Context) {
     private var traveler: Traveler by Delegates.notNull()
 
     val redressViewModel: RedressViewModel by lazy {

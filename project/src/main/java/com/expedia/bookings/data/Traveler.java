@@ -274,8 +274,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mAssistance == null ? AssistanceType.NONE : mAssistance;
 	}
 
-	public String getAssistanceString(Context context) {
-		AssistanceType assistanceType = getAssistance();
+	public String getAssistanceString(Context context, AssistanceType assistanceType) {
 		Resources res = context.getResources();
 		String retStr;
 

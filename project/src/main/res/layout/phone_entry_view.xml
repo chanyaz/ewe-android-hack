@@ -11,6 +11,8 @@
         app:drop_down_view="@layout/spinner_dropdown_item"
         android:spinnerMode="dropdown"
         android:popupBackground="@android:color/white"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

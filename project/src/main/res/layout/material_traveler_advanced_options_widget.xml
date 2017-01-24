@@ -41,21 +41,39 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <com.expedia.bookings.widget.accessibility.AccessibleSpinner
-        android:id="@+id/edit_assistance_preference_spinner"
-        style="@style/FakeSpinner.Light"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_assistance_preference_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:popupBackground="@android:color/white"
-        android:textSize="@dimen/traveler_input_text_size"
-        app:spinner_label="@string/special_assistance" />
+        app:errorEnabled="true">
 
-    <com.expedia.bookings.widget.accessibility.AccessibleSpinner
-        android:id="@+id/edit_seat_preference_spinner"
-        style="@style/FakeSpinner.Light"
+        <EditText
+            android:id="@+id/edit_assistance_preference_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:drawableRight="@drawable/material_dropdown"
+            android:hint="@string/special_assistance"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/traveler_input_text_size" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/seat_preference_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:popupBackground="@android:color/white"
-        android:textSize="@dimen/traveler_input_text_size"
-        app:spinner_label="@string/seating_preference" />
+        app:errorEnabled="true">
+
+        <EditText
+            android:id="@+id/edit_seat_preference_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:drawableRight="@drawable/material_dropdown"
+            android:hint="@string/seating_preference"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/traveler_input_text_size" />
+
+    </android.support.design.widget.TextInputLayout>
 </merge>

@@ -19,7 +19,6 @@
 This is here because some devices (SGS2) override the textSize and we want to make sure it's consistent.
 -->
 <com.expedia.bookings.widget.TextView android:id="@android:id/text1"
-    style="?android:attr/spinnerItemStyle"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
