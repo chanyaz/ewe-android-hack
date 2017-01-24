@@ -47,8 +47,6 @@ class FlightCheckoutPresenterTest {
         assertViewIsVisible(accountButton)
         val travlerDefaultState = checkoutPresenter.travelerSummaryCardView
         assertViewIsVisible(travlerDefaultState)
-        val totalPriceWidget = checkoutPresenter.totalPriceWidget
-        assertViewIsVisible(totalPriceWidget)
         val scrollView = checkoutPresenter.scrollView
         assertViewIsVisible(scrollView)
         val legalInformationText = checkoutPresenter.legalInformationText

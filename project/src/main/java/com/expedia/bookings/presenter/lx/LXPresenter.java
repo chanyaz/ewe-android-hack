@@ -189,6 +189,8 @@ public class LXPresenter extends Presenter {
 			}
 			else {
 				overviewPresenter.makeNewCreateTripCall();
+				overviewPresenter.getCheckoutPresenter().getMainContent().setVisibility(VISIBLE);
+				overviewPresenter.getCheckoutPresenter().adjustScrollingSpace();
 			}
 		}
 	};

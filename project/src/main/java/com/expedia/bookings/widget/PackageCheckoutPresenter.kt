@@ -2,20 +2,16 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
-import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
@@ -42,20 +38,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     override fun onCreateTripResponse(response: TripResponse?) {
         response as PackageCreateTripResponse
         loginWidget.updateRewardsText(getLineOfBusiness())
-        totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
-        val packageTotalPrice = response.packageDetails.pricing
-        totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
-        val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
-        costSummaryViewModel.packageCostSummaryObservable.onNext(response)
-
-        val messageString =
-                if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
-                    R.string.cost_summary_breakdown_total_due_today
-                else
-                    R.string.bundle_total_text
-        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        getCreateTripViewModel().updateOverviewUiObservable.onNext(response)
         (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
     }
 
@@ -93,10 +76,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         PackagesTracking().trackCheckoutSlideToPurchase()
     }
 
-    override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
-        createTripResponse as PackageCreateTripResponse
-        PackagesTracking().trackBundleOverviewPageLoad(createTripResponse.packageDetails)
-    }
 
     override fun makeCheckoutViewModel(): PackageCheckoutViewModel {
         return PackageCheckoutViewModel(context, Ui.getApplication(context).packageComponent().packageServices())
@@ -114,9 +93,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         return tripViewModel as PackageCreateTripViewModel
     }
 
-    override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {
-        return PackageCostSummaryBreakdownViewModel(context)
-    }
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
         return true

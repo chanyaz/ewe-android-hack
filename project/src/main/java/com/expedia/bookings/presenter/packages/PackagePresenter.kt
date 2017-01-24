@@ -61,10 +61,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                     packagePrice.tripSavings.currencyCode)
-            checkoutPresenter.totalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
-            checkoutPresenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+            presenter.totalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
+            presenter.totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                     packagePrice.packageTotalPrice.currencyCode))
-            checkoutPresenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
+            presenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip -> trip!!
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
@@ -191,8 +191,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleWidget.collapseBundleWidgets()
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-                bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
-                bundlePresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                bundlePresenter.toggleCheckoutButtonAndSliderVisibility(false)
+                bundlePresenter.resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             } else {
@@ -303,7 +303,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     fun showBundleOverView() {
         show(bundlePresenter)
         bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
-        bundlePresenter.getCheckoutPresenter().trackShowBundleOverview()
+        bundlePresenter.trackShowBundleOverview()
     }
 
 }

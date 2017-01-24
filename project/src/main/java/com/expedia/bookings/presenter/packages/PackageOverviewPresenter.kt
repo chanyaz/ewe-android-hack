@@ -9,7 +9,10 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -20,6 +23,7 @@ import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
+import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
 
@@ -82,11 +86,11 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
 
         changeHotel.setOnMenuItemClickListener({
             bundleOverviewHeader.toggleOverviewHeader(false)
-            checkoutPresenter.resetAndShowTotalPriceWidget()
+            resetAndShowTotalPriceWidget()
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.updateDbTravelers()
-            checkoutPresenter.toggleCheckoutButton(false)
-            getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            toggleCheckoutButtonAndSliderVisibility(false)
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -97,12 +101,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
-            checkoutPresenter.resetAndShowTotalPriceWidget()
+            resetAndShowTotalPriceWidget()
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.updateDbTravelers()
-            checkoutPresenter.toggleCheckoutButton(false)
+            toggleCheckoutButtonAndSliderVisibility(false)
             bundleWidget.collapseBundleWidgets()
-            getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             val intent = Intent(context, PackageHotelActivity::class.java)
@@ -113,12 +117,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         })
 
         changeFlight.setOnMenuItemClickListener({
-            checkoutPresenter.resetAndShowTotalPriceWidget()
+            resetAndShowTotalPriceWidget()
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.updateDbTravelers()
             bundleOverviewHeader.toggleOverviewHeader(false)
-            checkoutPresenter.toggleCheckoutButton(false)
-            getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            toggleCheckoutButtonAndSliderVisibility(false)
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
@@ -199,5 +203,32 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     override fun setBundleWidgetAndToolbar(forward: Boolean) {
         setToolbarNavIcon(forward)
         bundleWidget.toggleMenuObservable.onNext(!forward)
+    }
+
+    override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {
+        return PackageCostSummaryBreakdownViewModel(context)
+    }
+
+    override fun onTripResponse(response: TripResponse?) {
+        response as PackageCreateTripResponse
+        totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
+        val packageTotalPrice = response.packageDetails.pricing
+        totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
+        val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+        costSummaryViewModel.packageCostSummaryObservable.onNext(response)
+
+        val messageString =
+                if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
+                    R.string.cost_summary_breakdown_total_due_today
+                else
+                    R.string.bundle_total_text
+        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+    }
+
+    override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
+        createTripResponse as PackageCreateTripResponse
+        PackagesTracking().trackBundleOverviewPageLoad(createTripResponse.packageDetails)
     }
 }

@@ -36,12 +36,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 show(checkoutPresenter, FLAG_CLEAR_TOP)
             }
         }
-
-        checkoutPresenter.checkoutButton.setOnClickListener {
-            showCheckout()
-            checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
-        }
-
         overviewLayoutListener = OverviewLayoutListener()
     }
 
@@ -70,7 +64,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             super.endTransition(forward)
             checkoutPresenter.toolbarDropShadow.visibility = View.GONE
             checkoutPresenter.mainContent.visibility = View.GONE
-            checkoutPresenter.trackShowBundleOverview()
         }
     }
 
@@ -94,13 +87,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun updateTransition(f: Float, forward: Boolean) {
             val progress = Math.min(1f, range + f)
             translateCheckout(progress, forward)
-            translateBottomContainer(progress, forward)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             setBundleWidgetAndToolbar(forward)
-            checkoutPresenter.toggleCheckoutButton(!forward)
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
@@ -111,8 +102,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 if (checkoutPresenter.getCheckoutViewModel().isValidForBooking()) {
                     checkoutPresenter.trackShowSlideToPurchase()
                 }
-            } else {
-                checkoutPresenter.trackShowBundleOverview()
             }
         }
 
@@ -123,30 +112,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     }
 
-
-    private fun translateBottomContainer(f: Float, forward: Boolean) {
-        checkoutPresenter.sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
-        val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-        val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
-        val slideIn = if (hasCompleteInfo) {
-            bottomDistance - (f * (bottomDistance))
-        } else {
-            checkoutPresenter.sliderHeight - ((1 - f) * checkoutPresenter.checkoutButtonHeight)
-        }
-        val slideOut = if (hasCompleteInfo) {
-            f * (bottomDistance)
-        } else {
-            checkoutPresenter.sliderHeight - (f * checkoutPresenter.checkoutButtonHeight)
-        }
-        checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
-        checkoutPresenter.checkoutButtonContainer.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
-    }
-
     open protected fun resetCheckoutState() {
         checkoutPresenter.slideToPurchase.resetSlider()
-        if (currentState == BundleDefault::class.java.name) {
-            checkoutPresenter.toggleCheckoutButton(true)
-        }
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
@@ -175,15 +142,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(cvv)
     }
 
-    override fun back(): Boolean {
-        val didHandleBack = super.back()
-        if (!didHandleBack) {
-            checkoutPresenter.resetPriceChange()
-            checkoutPresenter.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
-        }
-        return didHandleBack
-    }
-
     class BundleDefault
 
     open fun setBundleWidgetAndToolbar(forward: Boolean) { }
@@ -202,12 +160,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun updateScrollingSpace(scrollSpaceView: View?) {
         val scrollSpaceViewLp = scrollSpaceView?.layoutParams
-        var scrollspaceheight = checkoutPresenter.bottomContainer.height + checkoutPresenter.checkoutButtonContainer.height
+        var scrollspaceheight = checkoutPresenter.slideToPurchaseLayout.height
         if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
             scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
-        }
-        if (checkoutPresenter.priceChangeWidget.height > 0) {
-            scrollspaceheight -= checkoutPresenter.priceChangeWidget.height
         }
         if (scrollSpaceViewLp?.height != scrollspaceheight) {
             scrollSpaceViewLp?.height = scrollspaceheight
