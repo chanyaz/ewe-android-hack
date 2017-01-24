@@ -11,11 +11,15 @@ def getBrandList(commitFirst, commitSecond):
     
     for fileValue in filepathList:
         if "/src/" in fileValue:
-           brandName = fileValue.split("src/",1)[1].split("/",1)[0]
-           if brandName not in appList:
+            brandName = fileValue.split("src/",1)[1].split("/",1)[0]
+            if brandName.endswith("Debug"):
+                brandName = brandName.rsplit('Debug', 1)[0]
+            elif brandName.endswith("Release"):
+                brandName = brandName.rsplit('Release', 1)[0]
+            if brandName not in appList and "androidTest" != brandName and "test" != brandName:
                 appList.append(brandName)
     if len(appList) > 0:
-        if "Main " in appList:
+        if "debug" in appList or "main" in appList or "release" in appList:
             print ("")
         else:
             print (" ".join(appList))
