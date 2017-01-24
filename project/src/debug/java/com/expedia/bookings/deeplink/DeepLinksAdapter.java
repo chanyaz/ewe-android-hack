@@ -48,8 +48,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Attraction (Academy of Paris)", "expda://hotelSearch?location=Academy%20of%20Paris%2C%20Paris%2C%20France"),
 		new DeepLink("Airport (BVA)", "expda://hotelSearch?location=Paris%2C%20France%20(BVA-Beauvais)"),
 		new DeepLink("Intent", "intent://hotelSearch?location=Orlando,%20FL/#Intent;package=com.expedia.bookings;scheme=expda;end"),
-		new DeepLink("Current Location Search URI", "expda://hotelSearch"),
-		new DeepLink("Current Location Search URL", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
+		new DeepLink("Current Location Search", "expda://hotelSearch"),
 		new DeepLink("Sort by Recommended", "expda://hotelSearch?sortType=Recommended"),
 		new DeepLink("Sort by Discounts", "expda://hotelSearch?sortType=Discounts"),
 		new DeepLink("Sort by Price", "expda://hotelSearch?sortType=Price"),
@@ -57,8 +56,8 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Sort with Location and Dates", "expda://hotelSearch?sortType=Rating&location=Austin,%20TX", "checkInDate", 14, "checkOutDate", 18),
 
 		new DeepLink("Hotel ID 11562190", "expda://hotelSearch?hotelId=11562190&seocid=Google"),
-		new DeepLink("Hotel ID 9046290", "expda://hotelSearch/?hotelId=9046290"),
-		new DeepLink("Hotel ID 1819759", "expda://hotelSearch/?hotelId=1819759&cid=SEO.Google"),
+		new DeepLink("Hotel ID 9046290", "expda://hotelSearch?hotelId=9046290"),
+		new DeepLink("Hotel ID 1819759", "expda://hotelSearch?hotelId=1819759&cid=SEO.Google"),
 		new DeepLink("Future Dates", "expda://hotelSearch?hotelId=12539", "checkInDate", 14, "checkOutDate", 18),
 		new DeepLink("Out-dated Search", "expda://hotelSearch?location=San%20Diego,%20CA", "checkInDate", -365, "checkOutDate", -360),
 		new DeepLink("Check Out Only", "expda://hotelSearch?location=Key%20West,%20FL", "checkOutDate", 10),
@@ -75,39 +74,57 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Sold Out complex (maybe)", "expda://hotelSearch?hotelId=4183598&numAdults=3&childAges=3,2&cid=SEO.Google", "checkInDate", 1, "checkOutDate", 2),
 
 		new DeepLinkSection("Flights", R.color.flights_lob_btn),
-		new DeepLink("Flight Search URI", "expda://flightSearch"),
-		new DeepLink("Flight Search URL", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
+		new DeepLink("Flight Search", "expda://flightSearch"),
 		new DeepLink("Flight Search (Round trip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=1"),
 		new DeepLink("Flight Search (One Way)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&numAdults=1"),
 		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=3"),
 		new DeepLink("Flight Travel Guide", "expda://flightSearch?destination=ATH&seocid=Google"),
 
 		new DeepLinkSection("Activities", R.color.lx_primary_color),
-		new DeepLink("Activity Search URI", "expda://activitySearch"),
-		new DeepLink("Activity Search URL", "https://www.expedia.com/mobile/deeplink/things-to-do/search"),
+		new DeepLink("Activity Search", "expda://activitySearch"),
 		new DeepLink("San Francisco", "expda://activitySearch?location=San%20Francisco", "startDate", 3),
 
 		new DeepLinkSection("Cars", R.color.cars_primary_color),
-		new DeepLink("Car Search URI", "expda://carSearch"),
-		new DeepLink("Car Search URL", "https://www.expedia.com/mobile/deeplink/carsearch"),
+		new DeepLink("Car Search", "expda://carSearch"),
+		new DeepLink("Car Search", "expda://carSearch?pickupLocation=DTW"),
+		new DeepLink("Car Search with Params", "expda://carSearch?pickupDateTime=2017-03-12T22:30:00&dropoffDateTime=2017-03-15T09:30:00&pickupLocation=DTW"),
 
 		new DeepLinkSection("Deferred", R.color.launch_screen_primary),
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
 			"https://169006.measurementapi.com/serve?action=click&publisher_id=169006&site_id=107678&invoke_url=expda%3A%2F%2FhotelSearch%3FhotelId%3D12539"),
 
 		new DeepLinkSection("Other", R.color.gt_primary_color),
-		new DeepLink("Home URI", "expda://home"),
-		new DeepLink("Home URL", "https://www.expedia.com/mobile/deeplink"),
-		new DeepLink("Sign In URI", "expda://signIn"),
-		new DeepLink("Sign In URL", "https://www.expedia.com/mobile/deeplink/user/signin"),
-		new DeepLink("Trips URI", "expda://trips"),
-		new DeepLink("Trips URL", "https://www.expedia.com/mobile/deeplink/trips"),
+		new DeepLink("Home", "expda://home"),
+		new DeepLink("Sign In", "expda://signIn"),
+		new DeepLink("Trips", "expda://trips"),
 		new DeepLink("Unsupported URL Scheme", "george://noworky"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
 		new DeepLink("Support Email", "expda://supportEmail"),
 		new DeepLinkWithABTests("Force Bucket", "expda://forceBucket?key={}&value={}"),
 		new DeepLinkWithPackage("Empty Data", ""),
 		new DeepLinkCustom(),
+
+		new DeepLinkSection("Universal Links", R.color.hotels_primary_color),
+		new DeepLink("Current Location Search", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
+		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2018&endDate=01/03/2019&adults=3"),
+		new DeepLink("Hotel Future Dates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=02/12/2017&endDate=02/15/2017"),
+
+		new DeepLink("Flight Search", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
+		new DeepLink("Flight Search Round Trip", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT"),
+		new DeepLink("Flight Search With Passengers", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT&passengers=children:0,adults:3,seniors:0,infantinlap:Y"),
+
+		new DeepLink("Car Search", "https://www.expedia.com/mobile/deeplink/carsearch"),
+		new DeepLink("Car Search Future Dates", "https://www.expedia.com/mobile/deeplink/carsearch?date1=09/26/2017&date2=10/11/2017&time1=700PM&time2=500PM"),
+		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&date1=09/26/2017&date2=10/11/2017&time1=700PM&time2=500PM"),
+		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&date1=09/26/2017&date2=10/11/2017&time1=700AM&time2=500PM"),
+
+		new DeepLink("Activity Search", "https://www.expedia.com/mobile/deeplink/things-to-do/search"),
+		new DeepLink("Activity Search with Location", "https://www.expedia.com/mobile/deeplink/things-to-do/search?location=Bangkok (and vicinity), Thailand"),
+		new DeepLink("Activity Search with Categories", "https://www.expedia.com/mobile/deeplink/things-to-do/search?location=Bangkok (and vicinity), Thailand&startDate=09/26/2017&categories=Nightlife|Cruises%20%26%20Water%20Tours"),
+
+		new DeepLink("Home", "https://www.expedia.com/mobile/deeplink"),
+		new DeepLink("Sign In", "https://www.expedia.com/mobile/deeplink/user/signin"),
+		new DeepLink("Trips", "https://www.expedia.com/mobile/deeplink/trips"),
 	};
 
 	@Override
@@ -315,6 +332,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			linkBuilder.appendQueryParameter(endDateField, date2.toString("yyyy-MM-dd"));
 
 			this.link = linkBuilder.build().toString();
+
 		}
 	}
 

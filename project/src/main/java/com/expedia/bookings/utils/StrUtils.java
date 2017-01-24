@@ -435,6 +435,15 @@ public class StrUtils {
 		return city;
 	}
 
+	public static String formatCityName(String suggestion) {
+		String city = "";
+		Matcher cityMatcher = CITY_PATTERN.matcher(suggestion);
+		if (cityMatcher.find()) {
+			city = cityMatcher.group(1);
+		}
+		return city;
+	}
+
 	public static String formatAirportCodeCityName(SuggestionV4 suggestion) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
