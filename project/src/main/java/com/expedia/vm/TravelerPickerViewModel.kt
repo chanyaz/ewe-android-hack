@@ -98,6 +98,6 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
         val numChildrenOver12 = travelerParams.childrenAges.count { childAge -> childAge >= 12 }
         infantPreferenceSeatingObservable.onNext(numberOfInfants > 0)
         tooManyInfantsInLap.onNext(isInfantInLapObservable.value && (numberOfInfants > (travelerParams.numberOfAdults + numChildrenOver12)))
-        tooManyInfantsInSeat.onNext(!isInfantInLapObservable.value && (numberOfInfants > 2 && travelerParams.numberOfAdults == 1))
+        tooManyInfantsInSeat.onNext(!isInfantInLapObservable.value && (numberOfInfants > 2 && (travelerParams.numberOfAdults + numChildrenOver12) == 1))
     }
 }

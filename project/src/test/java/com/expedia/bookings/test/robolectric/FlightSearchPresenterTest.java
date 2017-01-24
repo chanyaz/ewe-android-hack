@@ -177,7 +177,8 @@ public class FlightSearchPresenterTest {
 		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
 		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), true);
 
-		travelerPicker.getChild3().setSelection(2);
+		travelerPicker.getChildPlus().performClick();
+		travelerPicker.getChild4().setSelection(15);
 		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
 		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
