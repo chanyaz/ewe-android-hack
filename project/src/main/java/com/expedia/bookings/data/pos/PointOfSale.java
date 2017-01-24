@@ -204,6 +204,10 @@ public class PointOfSale {
 	// 7407 - Should show package deal variation otherwise different messaging
 	private boolean showPackageFreeUnrealDeal;
 
+	private boolean shouldShowWebCheckout;
+	private String hotelsWebCheckoutURL;
+	private String hotelsWebBookingConfirmationURL;
+
 	private boolean mRequiresLXPostalCode;
 	private boolean mRequiresCarsPostalCode;
 	private boolean showBundleTotalWhenResortFees;
@@ -774,6 +778,18 @@ public class PointOfSale {
 		return mSupportsVipAccessV2;
 	}
 
+	public boolean shouldShowWebCheckout() {
+		return shouldShowWebCheckout;
+	}
+
+	public String getHotelsWebCheckoutURL() {
+		return hotelsWebCheckoutURL;
+	}
+
+	public String getHotelsWebBookingConfirmationURL() {
+		return hotelsWebBookingConfirmationURL;
+	}
+
 	public boolean shouldShowFreeUnrealDeal() {
 		return showPackageFreeUnrealDeal;
 	}
@@ -1282,6 +1298,9 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForPackages = data.optBoolean("earnMessageEnabled:packages", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
+		pos.shouldShowWebCheckout = data.optBoolean("shouldShowWebCheckout", false);
+		pos.hotelsWebCheckoutURL = data.optString("webCheckoutURL:hotels");
+		pos.hotelsWebBookingConfirmationURL = data.optString("webBookingConfirmationURL:hotels");
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
