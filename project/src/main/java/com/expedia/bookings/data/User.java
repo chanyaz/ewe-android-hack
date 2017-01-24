@@ -138,7 +138,7 @@ public class User implements JSONable {
 	 * @return true if a user is logged in, false otherwise.
 	 */
 	public static boolean isLoggedIn(Context context) {
-		boolean isLoggedIn = (isLoggedInOnDisk(context) && isLoggedInToAccountManager(context)) || Db.getUser() != null;
+		boolean isLoggedIn = (isLoggedInOnDisk(context) && isLoggedInToAccountManager(context));
 		if (isLoggedIn) {
 			if (Db.getUser() == null) {
 				Db.loadUser(context);

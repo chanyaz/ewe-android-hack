@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
@@ -72,7 +73,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 // declared open for mocking purposes in tests (see: HotelDeeplinkHandlerTest)
-open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
+open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs), UserAccountRefresher.IUserAccountRefreshListener {
 
     lateinit var reviewServices: ReviewsServices
         @Inject set
@@ -100,7 +101,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val securePaymentStub: ViewStub by bindView(R.id.secure_payment_stub)
-    val userAccountRefresher= UserAccountRefresher(context, LineOfBusiness.HOTELS, null)
+    val userAccountRefresher= UserAccountRefresher(context, LineOfBusiness.HOTELS, this)
+    override fun onUserAccountRefreshed() {
+        Log.v("MOHIT inside the refresher ")
+        if(Db.getUser() != null) {
+            Log.v("MOHIT inside true refresher ")
+            User.addUserToAccountManager(context, Db.getUser())
+            searchPresenter.searchViewModel.shopWithPointsViewModel.isShopWithPointsAvailableObservable.onNext(true)
+        }
+    }
+
     val secureWebView: SecurePaymentWebView by lazy {
         var newWebView = securePaymentStub.inflate() as SecurePaymentWebView
         newWebView.viewModel = WebViewViewModel()

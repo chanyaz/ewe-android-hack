@@ -293,34 +293,34 @@ public class PersistentCookieManager extends CookieManager implements CookieJar 
 		}
 	}
 
-	public void setCookie(String cookieName, String cookieValue, String domain) {
-		String urlKey = domain;
-		if (cookieStore.containsKey(urlKey)) {
-			HashMap<String, Cookie> cookies = cookieStore.get(urlKey);
-			cookies.put(cookieName, generateCookie(cookieName, cookieValue, domain));
-			cookieStore.put(urlKey, cookies);
-			save();
-		}
-		else {
-			createNewEntryWithCookie(cookieName, cookieValue, domain);
-		}
-	}
-
-	private Cookie generateCookie(String cookieName, String guid, String domain) {
-		Cookie.Builder cookieBuilder = new Cookie.Builder();
-		cookieBuilder.domain(domain);
-		cookieBuilder.expiresAt(fiveYearsFromNowInMilliseconds());
-		cookieBuilder.name(cookieName);
-		cookieBuilder.value(guid);
-		return cookieBuilder.build();
-	}
-
-	private void createNewEntryWithCookie(String cookieName, String cookieValue, String domain) {
-		HashMap<String, Cookie> cookies = new HashMap<>();
-		cookies.put(cookieName, generateCookie(cookieName, cookieValue, domain));
-		cookieStore.put(domain, cookies);
-		save();
-	}
+//	public void setCookie(String cookieName, String cookieValue, String domain) {
+//		String urlKey = domain;
+//		if (cookieStore.containsKey(urlKey)) {
+//			HashMap<String, Cookie> cookies = cookieStore.get(urlKey);
+//			cookies.put(cookieName, generateCookie(cookieName, cookieValue, domain));
+//			cookieStore.put(urlKey, cookies);
+//			save();
+//		}
+//		else {
+//			createNewEntryWithCookie(cookieName, cookieValue, domain);
+//		}
+//	}
+//
+//	private Cookie generateCookie(String cookieName, String guid, String domain) {
+//		Cookie.Builder cookieBuilder = new Cookie.Builder();
+//		cookieBuilder.domain(domain);
+//		cookieBuilder.expiresAt(fiveYearsFromNowInMilliseconds());
+//		cookieBuilder.name(cookieName);
+//		cookieBuilder.value(guid);
+//		return cookieBuilder.build();
+//	}
+//
+//	private void createNewEntryWithCookie(String cookieName, String cookieValue, String domain) {
+//		HashMap<String, Cookie> cookies = new HashMap<>();
+//		cookies.put(cookieName, generateCookie(cookieName, cookieValue, domain));
+//		cookieStore.put(domain, cookies);
+//		save();
+//	}
 
 
 	private long fiveYearsFromNowInMilliseconds() {
