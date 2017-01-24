@@ -34,6 +34,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.data.itin.WUndergroundForecastDay;
 import com.expedia.bookings.data.itin.WUndergroundSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
@@ -336,6 +337,18 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		LocationMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
 		TextView weatherTextView = Ui.findView(view, R.id.weather_text_view);
+		TextView weatherForecast0TextView = Ui.findView(view, R.id.weather_text_view_forecast0);
+		TextView weatherForecast1TextView = Ui.findView(view, R.id.weather_text_view_forecast1);
+		TextView weatherForecast2TextView = Ui.findView(view, R.id.weather_text_view_forecast2);
+		TextView weatherForecast3TextView = Ui.findView(view, R.id.weather_text_view_forecast3);
+		TextView weatherForecast4TextView = Ui.findView(view, R.id.weather_text_view_forecast4);
+		List<TextView> listOfWeather = new ArrayList<>();
+		listOfWeather.add(weatherForecast0TextView);
+		listOfWeather.add(weatherForecast1TextView);
+		listOfWeather.add(weatherForecast2TextView);
+		listOfWeather.add(weatherForecast3TextView);
+		listOfWeather.add(weatherForecast4TextView);
+
 		TextView localPhoneNumberHeaderTextView = Ui.findView(view, R.id.local_phone_number_header_text_view);
 		TextView localPhoneNumberTextView = Ui.findView(view, R.id.local_phone_number_text_view);
 		TextView tollFreePhoneNumberHeaderTextView = Ui.findView(view, R.id.toll_free_phone_number_header_text_view);
@@ -464,7 +477,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		//Add shared data
 		addSharedGuiElements(commonItinDataContainer);
 
-		fetchWeather(weatherTextView);
+		fetchWeather(listOfWeather, weatherTextView);
 
 		return view;
 	}
@@ -778,7 +791,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return adapter.create(WUndergroundApi.class);
 	}
 
-	private void fetchWeather(final TextView weather) {
+	private void fetchWeather(final List<TextView> weathers, final TextView currentWeather) {
 		getWUndergroundService().getWeather("mobiataXML",
 			getItinCardData().getProperty().getLocation().getLatitude() + "," + getItinCardData().getProperty()
 				.getLocation().getLongitude())
@@ -798,7 +811,20 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				@Override
 				public void onNext(WUndergroundSearchResponse response) {
 					Log.i("Supreeth", "fetchWeather response = " + response);
-					weather.setText(response.getWUndergroundCurrentConditions().getConditionsFull());
+					currentWeather.setText(response.getWUndergroundCurrentConditions().toString());
+					WUndergroundForecastDay tempWUndergroundForecastDay;
+					StringBuilder tempBuilder;
+					for (int i = 0; i<response.getSimpleForecast().getForecastDays().size(); i++) {
+						tempBuilder = new StringBuilder();
+						tempWUndergroundForecastDay = response.getSimpleForecast().getForecastDays().get(i);
+						tempBuilder.append(tempWUndergroundForecastDay.getDate().getWeekday());
+						tempBuilder.append(" - ");
+						tempBuilder.append("Max = " + tempWUndergroundForecastDay.getMaxTemp().getFahrenheit());
+						tempBuilder.append(", ");
+						tempBuilder.append("Min = " + tempWUndergroundForecastDay.getMinTemp().getFahrenheit());
+						Log.i("Supreeth", "Forecast -> " + tempBuilder.toString());
+						weathers.get(i).setText(tempBuilder.toString());
+					}
 				}
 			});
 	}

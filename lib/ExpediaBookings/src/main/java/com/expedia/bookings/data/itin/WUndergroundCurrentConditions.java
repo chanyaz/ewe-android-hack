@@ -22,9 +22,6 @@ public class WUndergroundCurrentConditions {
 
 	@Override
 	public String toString() {
-		return "WUndergroundCurrentConditions{" +
-			"conditionsFull='" + conditionsFull + '\'' +
-			", icon='" + icon + '\'' +
-			'}';
+		return "Current Condition = " + conditionsFull;
 	}
 }
