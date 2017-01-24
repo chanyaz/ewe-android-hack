@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,8 +14,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,15 +21,12 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
-
-import okhttp3.Cookie;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewFragment extends DialogFragment {
@@ -49,7 +42,6 @@ public class WebViewFragment extends DialogFragment {
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOGIN";
-	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 
@@ -71,24 +63,17 @@ public class WebViewFragment extends DialogFragment {
 	private String mUrl;
 	protected String mHtmlData;
 	private boolean enableSignIn;
-	private boolean mLoadCookies;
 	private boolean mAllowUseableNetRedirects;
 	private boolean mAttemptForceMobileSite;
 	private TrackingName mTrackingName;
 
-	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-		boolean allowUseableNetRedirects, String name) {
-		return newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, false, name);
-	}
-
-	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
+	public static WebViewFragment newInstance(String url, boolean enableSignIn,
 		boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
 		args.putString(ARG_URL, url);
 		args.putBoolean(ARG_ENABLE_LOGIN, enableSignIn);
-		args.putBoolean(ARG_LOAD_EXPEDIA_COOKIES, loadCookies);
 		args.putBoolean(ARG_ALLOW_MOBILE_REDIRECTS, allowUseableNetRedirects);
 		args.putBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
 		args.putString(ARG_TRACKING_NAME, name);
@@ -138,11 +123,6 @@ public class WebViewFragment extends DialogFragment {
 		String name = args.getString(ARG_TRACKING_NAME);
 		if (!TextUtils.isEmpty(name)) {
 			mTrackingName = TrackingName.valueOf(name);
-		}
-
-		mLoadCookies = args.getBoolean(ARG_LOAD_EXPEDIA_COOKIES, false);
-		if (mLoadCookies) {
-			loadCookies();
 		}
 
 		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
@@ -391,10 +371,6 @@ public class WebViewFragment extends DialogFragment {
 					doSupportEmail(url);
 					return true;
 				}
-				else if (mLoadCookies) {
-					view.loadUrl(url);
-					return false;
-				}
 				else {
 					return super.shouldOverrideUrlLoading(view, url);
 				}
@@ -419,26 +395,6 @@ public class WebViewFragment extends DialogFragment {
 		if (mFrame != null) {
 			mFrame.removeAllViews();
 		}
-	}
-
-	private void loadCookies() {
-		CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
-		CookieManager cookieManager = CookieManager.getInstance();
-
-		// Set the Expedia cookies for loading the URL properly
-		HashMap<String, HashMap<String, Cookie>> cookiesStore = ExpediaServices.getCookies(getActivity());
-		cookieManager.setAcceptCookie(true);
-		cookieManager.removeSessionCookie();
-
-		if (cookiesStore != null) {
-			for (HashMap<String, Cookie> cookies : cookiesStore.values()) {
-				for (Cookie cookie : cookies.values()) {
-					cookieManager.setCookie(cookie.domain(), cookie.toString());
-				}
-			}
-		}
-
-		cookieSyncManager.sync();
 	}
 
 	public interface WebViewFragmentListener {

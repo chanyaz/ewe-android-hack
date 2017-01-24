@@ -85,7 +85,6 @@ import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -229,7 +228,7 @@ public class ExpediaServices implements DownloadListener {
 	// inject the cookies elsewhere (e.g., a WebView)
 	public static HashMap<String, HashMap<String, Cookie>> getCookies(Context context) {
 		ExpediaServices services = new ExpediaServices(context);
-		return services.mCookieManager.getCookieStore();
+		return services.mCookieManager.getAppCookieStore();
 	}
 
 	public static void removeUserLoginCookies(Context context) {

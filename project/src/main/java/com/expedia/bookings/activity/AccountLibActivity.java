@@ -310,7 +310,6 @@ public class AccountLibActivity extends TrackingAppCompatActivity
 		public void onForgotPassword() {
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(AccountLibActivity.this);
 			builder.setUrl(PointOfSale.getPointOfSale().getForgotPasswordUrl());
-			builder.setInjectExpediaCookies(true);
 			builder.setTheme(R.style.HotelWebViewTheme);
 			builder.setTitle(getString(R.string.title_forgot_password));
 			startActivity(builder.getIntent());

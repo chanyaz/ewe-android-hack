@@ -632,7 +632,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 						PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.Airline_fee);
-					builder.setInjectExpediaCookies(true);
 					startActivity(builder.getIntent());
 				}
 			});

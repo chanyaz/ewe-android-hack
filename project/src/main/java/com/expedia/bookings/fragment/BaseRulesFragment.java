@@ -84,7 +84,6 @@ public abstract class BaseRulesFragment extends Fragment {
 				builder.setUrl(url);
 				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.rules_and_restrictions);
-				builder.setInjectExpediaCookies(true);
 				builder.setLoginEnabled(true);
 				startActivity(builder.getIntent());
 			}

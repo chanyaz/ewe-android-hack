@@ -602,7 +602,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		builder.setUrl(url);
 		builder.setTitle(titleResId);
 		builder.setTheme(R.style.ItineraryTheme);
-		builder.setInjectExpediaCookies(true);
 		builder.setAllowMobileRedirects(false);
 		builder.setAttemptForceMobileSite(true);
 		return builder;

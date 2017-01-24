@@ -14,7 +14,6 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.ItinUtils
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
@@ -106,7 +105,6 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
         builder.setTitle(R.string.itin_card_flight_checkin_title)
         builder.setTheme(R.style.ItineraryTheme)
         builder.setCheckInLink(true)
-        builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)
         builder.setAttemptForceMobileSite(true)
         builder.intent.putExtra(Constants.ITIN_CHECK_IN_AIRLINE_CODE, getAirlineCode(itinCardData))

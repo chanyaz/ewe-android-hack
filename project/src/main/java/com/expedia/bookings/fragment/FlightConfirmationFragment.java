@@ -278,7 +278,6 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		builder.setUrl(url);
 		builder.setTheme(R.style.FlightTheme);
 		builder.setTitle(R.string.insurance);
-		builder.setInjectExpediaCookies(true);
 		startActivity(builder.getIntent());
 	}
 

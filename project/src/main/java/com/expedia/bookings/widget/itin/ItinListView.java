@@ -901,7 +901,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		builder.setUrl(webDetailsURL);
 		builder.setTitle(R.string.itinerary);
 		builder.setTheme(R.style.ItineraryTheme);
-		builder.setInjectExpediaCookies(true);
 		builder.setAllowMobileRedirects(false);
 		context.startActivity(builder.getIntent());
 	}

@@ -81,7 +81,6 @@ public class LxRulesWidget extends LinearLayout {
 
 	private void showLegalPage(String legalPageUrl, int titleResId) {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-		builder.setInjectExpediaCookies(true);
 		builder.setTitle(titleResId);
 		builder.setUrl(legalPageUrl);
 		getContext().startActivity(builder.getIntent());

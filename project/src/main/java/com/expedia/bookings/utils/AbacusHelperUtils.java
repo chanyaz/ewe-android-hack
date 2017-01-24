@@ -17,7 +17,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.AbacusServices;
-import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.server.PersistentCookieManager;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;

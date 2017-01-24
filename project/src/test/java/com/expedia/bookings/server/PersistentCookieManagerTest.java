@@ -1,4 +1,4 @@
-package com.expedia.bookings.unit;
+package com.expedia.bookings.server;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,9 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.Strings;
-
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 import okio.BufferedSink;
@@ -220,9 +218,9 @@ public class PersistentCookieManagerTest {
 	public void setNewMC1CookieEmptyCookieStoreCase() {
 		String host = expedia.host();
 		manager.setMC1Cookie("GUID=1111", host);
-		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
+		HashMap<String, Cookie> expediaCookies = manager.getAppCookieStore().get(host);
 		expectMC1CookieValues(expediaCookies, "expedia.com");
-		Assert.assertEquals(1, manager.getCookieStore().size());
+		Assert.assertEquals(1, manager.getAppCookieStore().size());
 	}
 
 	@Test
@@ -230,9 +228,9 @@ public class PersistentCookieManagerTest {
 		String host = expedia.host();
 		manager.saveFromResponse(reviews, NO_COOKIES);
 		manager.setMC1Cookie("GUID=1111", host);
-		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
+		HashMap<String, Cookie> expediaCookies = manager.getAppCookieStore().get(host);
 		expectMC1CookieValues(expediaCookies, "expedia.com");
-		Assert.assertEquals(2, manager.getCookieStore().size());
+		Assert.assertEquals(2, manager.getAppCookieStore().size());
 	}
 
 	@Test
@@ -240,9 +238,9 @@ public class PersistentCookieManagerTest {
 		String host = expedia.host();
 		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
 		manager.setMC1Cookie("GUID=1111", host);
-		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
+		HashMap<String, Cookie> expediaCookies = manager.getAppCookieStore().get(host);
 		expectMC1CookieValues(expediaCookies, "expedia.com");
-		Assert.assertEquals(1, manager.getCookieStore().size());
+		Assert.assertEquals(1, manager.getAppCookieStore().size());
 	}
 
 	@Test
@@ -250,9 +248,9 @@ public class PersistentCookieManagerTest {
 		HttpUrl voyages = HttpUrl.parse("https://agence.voyages-sncf.com");
 		String host = voyages.host();
 		manager.setMC1Cookie("GUID=1111", host);
-		HashMap<String, Cookie> voyagesCookies = manager.getCookieStore().get(host);
+		HashMap<String, Cookie> voyagesCookies = manager.getAppCookieStore().get(host);
 		expectMC1CookieValues(voyagesCookies, "agence.voyages-sncf.com");
-		Assert.assertEquals(1, manager.getCookieStore().size());
+		Assert.assertEquals(1, manager.getAppCookieStore().size());
 	}
 
 	public void expectMC1CookieValues(HashMap<String, Cookie> expediaCookies, String expectedDomain) {
@@ -266,7 +264,7 @@ public class PersistentCookieManagerTest {
 	}
 
 	public void expectCookies(int num) {
-		HashMap<String, HashMap<String, Cookie>> cookieStore = manager.getCookieStore();
+		HashMap<String, HashMap<String, Cookie>> cookieStore = manager.getAppCookieStore();
 		java.util.Collection<HashMap<String, Cookie>> cookiesList = cookieStore.values();
 		List<Cookie> allCookies = new ArrayList<>();
 		for (HashMap<String, Cookie> cookies : cookiesList) {
@@ -296,7 +294,7 @@ public class PersistentCookieManagerTest {
 
 	@Test
 	public void loadSampleDataFromDisk() throws Throwable {
-		File file = new File("src/test/resources/cookies-4.dat");
+		File file = new File("src/androidTest/assets/cookies-4.dat");
 		Source from = Okio.source(file);
 		BufferedSink to = Okio.buffer(Okio.sink(oldCookieStorage));
 		to.writeAll(from);

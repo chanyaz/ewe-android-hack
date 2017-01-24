@@ -21,7 +21,6 @@ public class WebViewActivity extends TrackingFragmentActivity implements WebView
 	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
 	private static final String ARG_TITLE = "ARG_TITLE";
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOG_IN";
-	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ITIN_CHECKIN = "ARG_ITIN_CHECKIN";
@@ -84,11 +83,6 @@ public class WebViewActivity extends TrackingFragmentActivity implements WebView
 
 		public IntentBuilder setLoginEnabled(boolean enableLogin) {
 			mIntent.putExtra(ARG_ENABLE_LOGIN, enableLogin);
-			return this;
-		}
-
-		public IntentBuilder setInjectExpediaCookies(boolean injectExpediaCookies) {
-			mIntent.putExtra(ARG_INJECT_EXPEDIA_COOKIES, injectExpediaCookies);
 			return this;
 		}
 
@@ -165,7 +159,6 @@ public class WebViewActivity extends TrackingFragmentActivity implements WebView
 
 		if (savedInstanceState == null) {
 			boolean enableLogin = extras.getBoolean(ARG_ENABLE_LOGIN, false);
-			boolean injectExpediaCookies = extras.getBoolean(ARG_INJECT_EXPEDIA_COOKIES, false);
 
 			// We default to true as we want to be redirected to the mobile site in most cases, except where we
 			// do want to view desktop version (itineraries, for example).
@@ -173,7 +166,7 @@ public class WebViewActivity extends TrackingFragmentActivity implements WebView
 			String name = extras.getString(ARG_TRACKING_NAME);
 
 			WebViewFragment webViewFragment =
-				createWebViewFragment(extras, enableLogin, injectExpediaCookies, allowMobileRedirects, name);
+				createWebViewFragment(extras, enableLogin, allowMobileRedirects, name);
 			if (webViewFragment == null) {
 				finish();
 				return;
@@ -185,7 +178,7 @@ public class WebViewActivity extends TrackingFragmentActivity implements WebView
 		}
 	}
 
-	protected WebViewFragment createWebViewFragment(Bundle extras, boolean enableLogin, boolean injectExpediaCookies,
+	protected WebViewFragment createWebViewFragment(Bundle extras, boolean enableLogin,
 			boolean allowMobileRedirects, String name) {
 		WebViewFragment fragment;
 
@@ -205,7 +198,7 @@ public class WebViewActivity extends TrackingFragmentActivity implements WebView
 				return null;
 			}
 			boolean attemptForceMobileWeb = extras.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
-			fragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
+			fragment = WebViewFragment.newInstance(url, enableLogin, allowMobileRedirects,
 				attemptForceMobileWeb, name);
 		}
 		return fragment;
