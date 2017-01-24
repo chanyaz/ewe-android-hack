@@ -42,6 +42,25 @@ class TravelerPickerViewTest {
     }
 
     @Test
+    fun testInfantErrorMessageVisibility() {
+        for (i in 1..3) {
+            travelerPicker.childPlus.performClick()
+        }
+        travelerPicker.child1.setSelection(0)
+        travelerPicker.child2.setSelection(0)
+        travelerPicker.child3.setSelection(0)
+        //error message should be visible if we show seating preference for infant(Eg: Flights)
+        vm.showSeatingPreference = true
+        travelerPicker.infantPreferenceSeatingSpinner.setSelection(1)
+        assertEquals(View.VISIBLE, travelerPicker.infantError.visibility)
+
+        //error message should be not be visible if we do not show seating preference for infant(Eg: Flights)
+        vm.showSeatingPreference = false
+        travelerPicker.child3.setSelection(0)
+        assertEquals(View.GONE, travelerPicker.infantError.visibility)
+    }
+
+    @Test
     fun testInfants() {
         incrementChild(2)
 
