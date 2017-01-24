@@ -35,6 +35,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.hotels.WeatherParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
@@ -365,9 +366,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		boolean addedSupportNumber = addGoldOrSilverSupportNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
 		boolean addedSharedoptions = addSharedOptions(container);
+		boolean addedWeather = addWeather(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
 			+ addedItinNumber + " addedGoldOrSilverNumber:" + addedSupportNumber + " addedBookingInfo:"
-			+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions);
+			+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions + " addedWeather:" + addedWeather);
 	}
 
 	protected boolean addConfirmationNumber(ViewGroup container) {
@@ -483,6 +485,17 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			container.addView(item);
 			return true;
 		}
+		return false;
+	}
+
+	protected boolean addWeather(ViewGroup container) {
+		if (!showWeather()) {
+			return false;
+		}
+
+		ItinWeatherWidget itinWeatherWidget = new ItinWeatherWidget(getContext(), null);
+		itinWeatherWidget.getVm().getWeatherParamsObservable().onNext(new WeatherParams("mobiataXML", getItinCardData().getLocation().latitude, getItinCardData().getLocation().longitude));
+		container.addView(itinWeatherWidget);
 		return false;
 	}
 
@@ -819,6 +832,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
 		// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
 		return JodaUtils.getRelativeTimeSpanString(context, time, now, DateUtils.MINUTE_IN_MILLIS, 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// WUnderground Weather
+
+	public boolean showWeather() {
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

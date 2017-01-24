@@ -49,68 +49,6 @@
             android:scaleType="centerCrop" />
     </com.expedia.bookings.widget.ParallaxContainer>
 
-    <!-- WEATHER -->
-
-    <com.expedia.bookings.widget.TextView
-        style="@style/TextView.Itin.SectionHeader.Padded"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/itin_card_details_weather" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/weather_text_view"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/weather_text_view_forecast0"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/weather_text_view_forecast1"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/weather_text_view_forecast2"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/weather_text_view_forecast3"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/weather_text_view_forecast4"
-        style="@style/TextView.Itin.SectionText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
     <!-- ADDRESS -->
 
     <com.expedia.bookings.widget.TextView

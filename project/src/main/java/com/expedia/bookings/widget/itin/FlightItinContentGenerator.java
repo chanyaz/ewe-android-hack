@@ -1039,4 +1039,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return builder.create();
 		}
 	}
+
+	@Override
+	public boolean showWeather() {
+		return true;
+	}
 }

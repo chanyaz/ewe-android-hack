@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/TextView.Itin.SectionHeader.Padded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/itin_card_details_weather" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/current_condition_text_view"
+        style="@style/TextView.Itin.SectionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+
+</merge>

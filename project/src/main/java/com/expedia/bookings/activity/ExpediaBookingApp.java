@@ -25,6 +25,7 @@ import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.DaggerPackageComponent;
 import com.expedia.bookings.dagger.DaggerRailComponent;
 import com.expedia.bookings.dagger.DaggerTravelerComponent;
+import com.expedia.bookings.dagger.DaggerWeatherComponent;
 import com.expedia.bookings.dagger.FlightComponent;
 import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
@@ -32,6 +33,7 @@ import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.dagger.PackageComponent;
 import com.expedia.bookings.dagger.RailComponent;
 import com.expedia.bookings.dagger.TravelerComponent;
+import com.expedia.bookings.dagger.WeatherComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -364,6 +366,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private FlightComponent mFlightComponent;
 	private TravelerComponent mTravelerComponent;
 	private LaunchComponent mLaunchComponent;
+	private WeatherComponent mWeatherComponent;
 
 	private LXComponent mLXComponent;
 	private LXComponent mLXTestComponent;
@@ -491,7 +494,21 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		return mLaunchComponent;
 	}
 
-	// Configuration changes
+	public void defaultWeatherComponents() {
+		setWeatherComponent(DaggerWeatherComponent.builder()
+			.appComponent(mAppComponent)
+			.build());
+	}
+
+	public WeatherComponent getWeatherComponent() {
+		return mWeatherComponent;
+	}
+
+	public void setWeatherComponent(WeatherComponent mWeatherComponent) {
+		this.mWeatherComponent = mWeatherComponent;
+	}
+
+// Configuration changes
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
