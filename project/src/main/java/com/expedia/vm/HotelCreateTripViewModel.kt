@@ -13,7 +13,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
+open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>?) {
 
     // input
     val tripParams = PublishSubject.create<HotelCreateTripParams>()
@@ -46,7 +46,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
                     Db.getTripBucket().add(TripBucketItemHotelV2(t))
                     // TODO: populate hotelCreateTripResponseData with response data
                     tripResponseObservable.onNext(t)
-                    paymentModel.createTripSubject.onNext(t)
+                    paymentModel?.createTripSubject?.onNext(t)
                 }
             }
 

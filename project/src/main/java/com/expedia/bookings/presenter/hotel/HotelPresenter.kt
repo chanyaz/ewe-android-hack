@@ -8,7 +8,6 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
 import android.view.View
@@ -17,17 +16,14 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelFavoriteHelper
-import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -37,26 +33,14 @@ import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.hotel.HotelClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.NavUtils
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
+import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
-import com.expedia.vm.GeocodeSearchModel
-import com.expedia.vm.HotelCheckoutViewModel
-import com.expedia.vm.HotelConfirmationViewModel
-import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.HotelErrorViewModel
-import com.expedia.vm.HotelMapViewModel
-import com.expedia.vm.HotelPresenterViewModel
-import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.*
 import com.expedia.vm.hotel.FavoriteButtonViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
@@ -101,6 +85,28 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter
     }
 
+    val webCheckoutViewStub: ViewStub by bindView(R.id.web_checkout_view_stub)
+    val webCheckoutView: WebCheckoutView by lazy {
+        var newWebView = webCheckoutViewStub.inflate() as WebCheckoutView
+        val webCheckoutViewViewModel = WebCheckoutViewViewModel()
+        newWebView.setExitButtonOnClickListener(View.OnClickListener {
+            // TODO make signIn Call.
+            this.back()
+        })
+        webCheckoutViewViewModel.closeView.subscribe {
+            back()
+            // TODO make signIn call.
+            // TODO show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+        }
+        newWebView.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
+        newWebView.createTripViewModel.tripResponseObservable.subscribe{
+            webCheckoutView.viewModel.webViewURLObservable.onNext(PointOfSale.getPointOfSale().hotelsWebCheckoutURL + it.tripId)
+        }
+        setUpCreateTripErrorHandling(newWebView.createTripViewModel)
+
+        newWebView.viewModel = webCheckoutViewViewModel
+        newWebView
+    }
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -181,7 +187,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
         presenter.hotelDetailView.viewmodel.changeDates.subscribe(goToSearchScreen)
 
-        viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
+        if(!shouldUseWebCheckout(context)) {
+            viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
+        } else {
+            viewModel = HotelPresenterViewModel(webCheckoutView.createTripViewModel, null, presenter.hotelDetailView.viewmodel)
+        }
         viewModel.selectedRoomSoldOut.subscribe(presenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
         viewModel.hotelSoldOutWithHotelId.subscribe ((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
         viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.adapter.hotelSoldOut)
@@ -198,6 +208,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(presenter.hotelCheckoutViewModel.checkoutResponseObservable, context)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
+
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
@@ -226,17 +237,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             checkoutDialog.hide()
         }
 
-        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
-        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe { show(errorPresenter) }
-        presenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
-            val retryFun = fun() {
-                presenter.hotelCheckoutWidget.doCreateTrip()
-            }
-            val cancelFun = fun() {
-                show(detailPresenter)
-            }
-            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-        }
+        setUpCreateTripErrorHandling(presenter.hotelCheckoutWidget.createTripViewmodel)
 
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(presenter.hotelCheckoutWidget.createTripResponseListener)
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
@@ -249,6 +250,24 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         confirmationPresenter.hotelConfirmationViewModel.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.backPressedAfterUserWithEffectiveSwPAvailableSignedOut.subscribe(goToSearchScreen)
         presenter
+    }
+
+    private fun  setUpCreateTripErrorHandling(createTripViewModel: HotelCreateTripViewModel) {
+        createTripViewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
+        createTripViewModel.errorObservable.subscribe { show(errorPresenter) }
+        createTripViewModel.noResponseObservable.subscribe {
+            val retryFun = fun() {
+                if (shouldUseWebCheckout(context)) {
+                    webCheckoutView.doCreateTrip()
+                } else {
+                    checkoutPresenter.hotelCheckoutWidget.doCreateTrip()
+                }
+            }
+            val cancelFun = fun() {
+                show(detailPresenter)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
     }
 
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
@@ -280,11 +299,18 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
         hotelDetailViewModel = HotelDetailViewModel(context, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
-            checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
-            checkoutPresenter.setSearchParams(hotelSearchParams)
-            checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
-            checkoutPresenter.showCheckout(it)
-            show(checkoutPresenter)
+            if (shouldUseWebCheckout(context)) {
+                webCheckoutView.hotelSearchParams = hotelSearchParams
+                webCheckoutView.offer = it
+                webCheckoutView.doCreateTrip()
+                show(webCheckoutView)
+            } else {
+                checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
+                checkoutPresenter.setSearchParams(hotelSearchParams)
+                checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
+                checkoutPresenter.showCheckout(it)
+                show(checkoutPresenter)
+            }
         })
 
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
@@ -315,6 +341,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
     }
+
+    private fun shouldUseWebCheckout(context: Context) = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_3DS_checkout)
+            && PointOfSale.getPointOfSale().shouldShowWebCheckout()
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {
@@ -351,6 +380,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(checkoutToError)
         addTransition(detailsToError)
         addTransition(checkoutToSearch)
+        addTransition(detailsToWebCheckoutView)
 
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
@@ -551,6 +581,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
+    private val detailsToWebCheckoutView = object : Transition(HotelDetailPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+            webCheckoutView.visibility = if (!forward) View.GONE else View.VISIBLE
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+        }
+    }
 
     private val searchToError = object : Presenter.Transition(HotelSearchPresenter::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
 
