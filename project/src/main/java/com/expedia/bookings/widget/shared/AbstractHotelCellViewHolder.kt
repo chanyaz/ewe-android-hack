@@ -18,8 +18,10 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.ColorBuilder
@@ -161,24 +163,31 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             super.onBitmapLoaded(bitmap, from)
             imageView.setImageBitmap(bitmap)
 
-            val palette = Palette.Builder(bitmap).generate()
-            val color = palette.getDarkVibrantColor(R.color.transparent_dark)
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelImageLoadLatency)) {
+                val listener = Palette.PaletteAsyncListener { palette ->
+                    mixColor(palette)
+                }
+                Palette.Builder(bitmap).generate(listener)
+            } else {
+                val palette = Palette.Builder(bitmap).generate()
+                mixColor(palette)
+            }
+        }
 
+        private fun mixColor(palette: Palette) {
+            val color = palette.getDarkVibrantColor(R.color.transparent_dark)
             val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f);
             val topColor = fullColorBuilder.setAlpha(80).build() // 30
             val midColor1 = fullColorBuilder.setAlpha(15).build() // 5
             val midColor2 = fullColorBuilder.setAlpha(25).build() // 10
             val bottomColor = fullColorBuilder.setAlpha(125).build() // 50
-
             val startColor = fullColorBuilder.setAlpha(154).build()
             val endColor = fullColorBuilder.setAlpha(0).build()
-
             val colorArrayBottom = intArrayOf(0, 0, endColor, startColor)
             val colorArrayFull = intArrayOf(topColor, midColor1, midColor2, bottomColor)
 
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
-
 
             if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(showHotelFavorite())) {
                 drawable.shaderFactory = getShader(colorArrayFull)
@@ -187,7 +196,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             }
 
             gradient.background = drawable
-
         }
 
         override fun onBitmapFailed(errorDrawable: Drawable?) {
