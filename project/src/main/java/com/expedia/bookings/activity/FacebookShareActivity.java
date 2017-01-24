@@ -11,7 +11,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -90,11 +89,5 @@ public class FacebookShareActivity extends Activity {
 
 		dialog.show(linkContentBuilder.build());
 		finish();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		TuneUtils.startTune(this);
 	}
 }

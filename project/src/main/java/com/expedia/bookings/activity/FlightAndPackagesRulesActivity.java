@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
@@ -14,7 +15,7 @@ import com.expedia.bookings.fragment.FlightRulesFragmentV2;
 import com.expedia.bookings.fragment.PackagesRulesFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 
-public class FlightAndPackagesRulesActivity extends TrackingFragmentActivity {
+public class FlightAndPackagesRulesActivity extends FragmentActivity {
 
 	public static final String LOB_KEY = "LOB";
 

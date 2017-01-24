@@ -10,7 +10,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -54,33 +53,36 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-import com.mobileapptracker.MATDeeplinkListener;
-import com.mobileapptracker.MATEvent;
-import com.mobileapptracker.MATEventItem;
-import com.mobileapptracker.MobileAppTracker;
+import com.tune.Tune;
+import com.tune.TuneDeeplinkListener;
+import com.tune.TuneEvent;
+import com.tune.TuneEventItem;
+import com.tune.ma.application.TuneActivityLifecycleCallbacks;
+
 
 public class TuneUtils {
 
-	public static MobileAppTracker mobileAppTracker = null;
+	private static Tune tune = null;
 	private static boolean initialized = false;
-	public static Context context;
+	private static Context context;
 
 	public static void init(Application app) {
 		initialized = true;
 		context = app.getApplicationContext();
+		app.registerActivityLifecycleCallbacks(new TuneActivityLifecycleCallbacks());
 
 		String advertiserID = app.getString(R.string.tune_sdk_app_advertiser_id);
 		String conversionKey = app.getString(R.string.tune_sdk_app_conversion_key);
 
-		mobileAppTracker = MobileAppTracker.init(app, advertiserID, conversionKey);
+		tune = Tune.init(app, advertiserID, conversionKey);
 		if (ProductFlavorFeatureConfiguration.getInstance().shouldSetExistingUserForTune()
 			&& olderOrbitzVersionWasInstalled(context)) {
-			mobileAppTracker.setExistingUser(true);
+			tune.setExistingUser(true);
 		}
-		mobileAppTracker.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
-		mobileAppTracker.setDebugMode(BuildConfig.DEBUG && SettingUtils
+		tune.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
+		tune.setDebugMode(BuildConfig.DEBUG && SettingUtils
 			.get(context, context.getString(R.string.preference_enable_tune), false));
-		mobileAppTracker.checkForDeferredDeeplink(new MATDeeplinkListener() {
+		tune.registerDeeplinkListener(new TuneDeeplinkListener() {
 			@Override
 			public void didReceiveDeeplink(String deepLink) {
 				Log.d("Deferred deeplink recieved: " + deepLink);
@@ -98,7 +100,7 @@ public class TuneUtils {
 		});
 		updatePOS();
 
-		MATEvent launchEvent = new MATEvent("Custom_Open")
+		TuneEvent launchEvent = new TuneEvent("Custom_Open")
 			.withAttribute1(getTuid())
 			.withAttribute3(getMembershipTier())
 			.withAttribute2(isUserLoggedIn());
@@ -121,23 +123,13 @@ public class TuneUtils {
 			if (sendEapidToTuneTracking && Strings.isNotEmpty(posEapid) && !Strings.equals(posEapid, Integer.toString(PointOfSale.INVALID_EAPID))) {
 				posData = posTpid + "-" + posEapid;
 			}
-			mobileAppTracker.setTwitterUserId(posData);
-		}
-	}
-
-	public static void startTune(Activity activity) {
-		if (initialized) {
-			// Get source of open for app re-engagement
-			mobileAppTracker.setReferralSources(activity);
-			// MAT will not function unless the measureSession call is included
-			mobileAppTracker.measureSession();
-
+			tune.setTwitterUserId(posData);
 		}
 	}
 
 	public static void trackHomePageView() {
 		if (initialized) {
-			MATEvent event = new MATEvent("home_view");
+			TuneEvent event = new TuneEvent("home_view");
 
 			withTuidAndMembership(event)
 				.withAttribute2(isUserLoggedIn());
@@ -147,8 +139,8 @@ public class TuneUtils {
 
 	public static void trackHotelInfoSite(Property selectedProperty) {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_infosite");
-			MATEventItem eventItem = new MATEventItem("hotel_infosite_item");
+			TuneEvent event = new TuneEvent("hotel_infosite");
+			TuneEventItem eventItem = new TuneEventItem("hotel_infosite_item");
 			HotelSearchParams hotelSearchParams = getHotelSearchParams();
 			eventItem.withAttribute1(selectedProperty.getLocation().getCity())
 					 .withQuantity(getHotelSearchParams().getStayDuration());
@@ -179,8 +171,8 @@ public class TuneUtils {
 
 	public static void trackHotelV2InfoSite(HotelOffersResponse hotelOffersResponse) {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_infosite");
-			MATEventItem eventItem = new MATEventItem("hotel_infosite_item");
+			TuneEvent event = new TuneEvent("hotel_infosite");
+			TuneEventItem eventItem = new TuneEventItem("hotel_infosite_item");
 			final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-mm-dd");
 			LocalDate checkInDate = dtf.parseDateTime(hotelOffersResponse.checkInDate).toLocalDate();
 			LocalDate checkOutDate = dtf.parseDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
@@ -221,8 +213,8 @@ public class TuneUtils {
 	public static void trackHotelCheckoutStarted(Property selectedProperty, String currency, double totalPrice) {
 		if (initialized) {
 			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-			MATEvent event = new MATEvent("hotel_rate_details");
-			MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
+			TuneEvent event = new TuneEvent("hotel_rate_details");
+			TuneEventItem eventItem = new TuneEventItem("hotel_rate_details_item");
 			eventItem.withAttribute1(selectedProperty.getLocation().getCity());
 			eventItem.withAttribute3(selectedRate.getRoomDescription());
 
@@ -246,8 +238,8 @@ public class TuneUtils {
 
 	public static void trackHotelV2CheckoutStarted(HotelCreateTripResponse.HotelProductResponse hotelProductResponse) {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_rate_details");
-			MATEventItem eventItem = new MATEventItem("hotel_rate_details_item");
+			TuneEvent event = new TuneEvent("hotel_rate_details");
+			TuneEventItem eventItem = new TuneEventItem("hotel_rate_details_item");
 
 			eventItem.withAttribute1(hotelProductResponse.hotelCity);
 			eventItem.withAttribute3(hotelProductResponse.hotelRoomResponse.roomTypeDescription);
@@ -277,8 +269,8 @@ public class TuneUtils {
 
 	public static void trackHotelSearchResults() {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_search_results");
-			MATEventItem eventItem = new MATEventItem("hotel_search_results_item");
+			TuneEvent event = new TuneEvent("hotel_search_results");
+			TuneEventItem eventItem = new TuneEventItem("hotel_search_results_item");
 
 			Date checkInDate = getHotelSearchParams().getCheckInDate().toDate();
 			Date checkOutDate = getHotelSearchParams().getCheckOutDate().toDate();
@@ -331,8 +323,8 @@ public class TuneUtils {
 
 	public static void trackHotelV2SearchResults(HotelSearchTrackingData trackingData) {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_search_results");
-			MATEventItem eventItem = new MATEventItem("hotel_search_results_item");
+			TuneEvent event = new TuneEvent("hotel_search_results");
+			TuneEventItem eventItem = new TuneEventItem("hotel_search_results_item");
 
 			Date checkInDate = trackingData.getCheckInDate().toDate();
 			Date checkOutDate = trackingData.getCheckoutDate().toDate();
@@ -390,8 +382,8 @@ public class TuneUtils {
 
 	public static void trackHotelConfirmation(double revenue, double nightlyRate, String transactionId, String currency, TripBucketItemHotel hotel) {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_confirmation");
-			MATEventItem eventItem = new MATEventItem("hotel_confirmation_item");
+			TuneEvent event = new TuneEvent("hotel_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("hotel_confirmation_item");
 
 			int stayDuration = hotel.getHotelSearchParams().getStayDuration();
 			eventItem.withQuantity(stayDuration)
@@ -420,8 +412,8 @@ public class TuneUtils {
 
 	public static void trackHotelV2Confirmation(HotelCheckoutResponse hotelCheckoutResponse) {
 		if (initialized) {
-			MATEvent event = new MATEvent("hotel_confirmation");
-			MATEventItem eventItem = new MATEventItem("hotel_confirmation_item");
+			TuneEvent event = new TuneEvent("hotel_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("hotel_confirmation_item");
 
 			LocalDate checkInDate = new LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkInDate);
 			LocalDate checkOutDate = new LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkOutDate);
@@ -457,8 +449,8 @@ public class TuneUtils {
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
-			MATEvent event = new MATEvent("flight_rate_details");
-			MATEventItem eventItem = new MATEventItem("flight_rate_details_item");
+			TuneEvent event = new TuneEvent("flight_rate_details");
+			TuneEventItem eventItem = new TuneEventItem("flight_rate_details_item");
 			eventItem.withQuantity(trip.getPassengerCount())
 				.withAttribute2(searchParams.getDepartureLocation().getDestinationId())
 				.withAttribute3(searchParams.getArrivalLocation().getDestinationId())
@@ -487,8 +479,8 @@ public class TuneUtils {
 			FlightCreateTripResponse flightCreateTripResponse = Db.getTripBucket()
 				.getFlightV2().flightCreateTripResponse;
 
-			MATEvent event = new MATEvent("flight_rate_details");
-			MATEventItem eventItem = new MATEventItem("flight_rate_details_item");
+			TuneEvent event = new TuneEvent("flight_rate_details");
+			TuneEventItem eventItem = new TuneEventItem("flight_rate_details_item");
 			eventItem.withQuantity(flightSearchParams.getGuests())
 				.withAttribute2(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode)
 				.withAttribute3(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode)
@@ -523,8 +515,8 @@ public class TuneUtils {
 	public static void trackFlightOutBoundResults() {
 		if (initialized) {
 			FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
-			MATEvent event = new MATEvent("flight_outbound_result");
-			MATEventItem eventItem = new MATEventItem("flight_outbound_result_item");
+			TuneEvent event = new TuneEvent("flight_outbound_result");
+			TuneEventItem eventItem = new TuneEventItem("flight_outbound_result_item");
 			eventItem.withAttribute2(searchParams.getDepartureLocation().getDestinationId())
 				.withAttribute3(searchParams.getArrivalLocation().getDestinationId());
 
@@ -567,11 +559,10 @@ public class TuneUtils {
 
 	}
 
-	public static void trackFlightV2OutBoundResults(
-		FlightSearchTrackingData searchTrackingData) {
+	public static void trackFlightV2OutBoundResults(FlightSearchTrackingData searchTrackingData) {
 		if (initialized) {
-			MATEvent event = new MATEvent("flight_outbound_result");
-			MATEventItem eventItem = new MATEventItem("flight_outbound_result_item");
+			TuneEvent event = new TuneEvent("flight_outbound_result");
+			TuneEventItem eventItem = new TuneEventItem("flight_outbound_result_item");
 			eventItem.withAttribute2(searchTrackingData.getDepartureAirport().hierarchyInfo.airport.airportCode)
 				.withAttribute3(searchTrackingData.getArrivalAirport().hierarchyInfo.airport.airportCode);
 
@@ -617,8 +608,8 @@ public class TuneUtils {
 	public static void trackFlightInBoundResults() {
 		if (initialized) {
 			FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
-			MATEvent event = new MATEvent("flight_inbound_result");
-			MATEventItem eventItem = new MATEventItem("flight_inbound_result_item");
+			TuneEvent event = new TuneEvent("flight_inbound_result");
+			TuneEventItem eventItem = new TuneEventItem("flight_inbound_result_item");
 			eventItem.withAttribute2(searchParams.getArrivalLocation().getDestinationId())
 				.withAttribute3(searchParams.getDepartureLocation().getDestinationId());
 
@@ -664,8 +655,8 @@ public class TuneUtils {
 		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
 		List<FlightLeg> flightLegList) {
 		if (initialized) {
-			MATEvent event = new MATEvent("flight_inbound_result");
-			MATEventItem eventItem = new MATEventItem("flight_inbound_result_item");
+			TuneEvent event = new TuneEvent("flight_inbound_result");
+			TuneEventItem eventItem = new TuneEventItem("flight_inbound_result_item");
 			eventItem.withAttribute2(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode)
 				.withAttribute3(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode);
 
@@ -708,8 +699,8 @@ public class TuneUtils {
 	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency,
 		double totalPrice, double averagePrice) {
 		if (initialized) {
-			MATEvent event = new MATEvent("flight_confirmation");
-			MATEventItem eventItem = new MATEventItem("flight_confirmation_item");
+			TuneEvent event = new TuneEvent("flight_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("flight_confirmation_item");
 			eventItem.withQuantity(tripBucketItemFlight.getFlightSearchParams().getNumTravelers())
 				.withRevenue(totalPrice)
 				.withUnitPrice(averagePrice)
@@ -738,8 +729,8 @@ public class TuneUtils {
 
 	public static void trackFlightV2Booked(FlightCheckoutResponse flightCheckoutResponse, com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
 		if (initialized) {
-			MATEvent event = new MATEvent("flight_confirmation");
-			MATEventItem eventItem = new MATEventItem("flight_confirmation_item");
+			TuneEvent event = new TuneEvent("flight_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("flight_confirmation_item");
 			double totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.doubleValue();
 			int totalGuests = flightSearchParams.getGuests();
 			double averagePrice = totalPrice/totalGuests;
@@ -776,8 +767,8 @@ public class TuneUtils {
 
 	public static void trackCarSearch(CarSearch search, CarSearchParam params) {
 		if (initialized) {
-			MATEvent event = new MATEvent("car_result");
-			MATEventItem eventItem = new MATEventItem("car_result_item");
+			TuneEvent event = new TuneEvent("car_result");
+			TuneEventItem eventItem = new TuneEventItem("car_result_item");
 			eventItem.withAttribute2(params.getOriginLocation())
 				.withAttribute3(params.getOriginLocation());
 
@@ -817,8 +808,8 @@ public class TuneUtils {
 
 	public static void trackCarRateDetails(CreateTripCarOffer carOffer) {
 		if (initialized) {
-			MATEvent event = new MATEvent("car_rate_details");
-			MATEventItem eventItem = new MATEventItem("car_rate_details_item");
+			TuneEvent event = new TuneEvent("car_rate_details");
+			TuneEventItem eventItem = new TuneEventItem("car_rate_details_item");
 			eventItem.withAttribute2(carOffer.pickUpLocation.locationCode)
 				.withAttribute3(carOffer.dropOffLocation.locationCode)
 				.withAttribute4(carOffer.vehicleInfo.carCategoryDisplayLabel)
@@ -839,8 +830,8 @@ public class TuneUtils {
 
 	public static void trackCarConfirmation(CarCheckoutResponse carCheckoutResponse) {
 		if (initialized) {
-			MATEvent event = new MATEvent("car_confirmation");
-			MATEventItem eventItem = new MATEventItem("car_confirmation_item");
+			TuneEvent event = new TuneEvent("car_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("car_confirmation_item");
 
 			CreateTripCarOffer carOffer = carCheckoutResponse.newCarProduct;
 			eventItem.withQuantity(1)
@@ -868,8 +859,8 @@ public class TuneUtils {
 
 	public static void trackLXSearch(LxSearchParams searchParams, LXSearchResponse searchResponse) {
 		if (initialized) {
-			MATEvent event = new MATEvent("lx_search");
-			MATEventItem eventItem = new MATEventItem("lx_search_item");
+			TuneEvent event = new TuneEvent("lx_search");
+			TuneEventItem eventItem = new TuneEventItem("lx_search_item");
 
 			eventItem.withAttribute2(searchParams.getLocation());
 			if (searchResponse != null) {
@@ -907,8 +898,8 @@ public class TuneUtils {
 	public static void trackLXDetails(String lxActivityLocation, Money totalPrice, String lxOfferSelectedDate,
 		int selectedTicketCount, String lxActivityTitle) {
 		if (initialized) {
-			MATEvent event = new MATEvent("lx_details");
-			MATEventItem eventItem = new MATEventItem("lx_details_item").withAttribute2(lxActivityLocation)
+			TuneEvent event = new TuneEvent("lx_details");
+			TuneEventItem eventItem = new TuneEventItem("lx_details_item").withAttribute2(lxActivityLocation)
 				.withAttribute3(lxActivityTitle);
 
 			withTuidAndMembership(event)
@@ -929,8 +920,8 @@ public class TuneUtils {
 		String lxActivityStartDate,
 		LXCheckoutResponse checkoutResponse, String lxActivityTitle, int selectedTicketCount, int selectedChildTicketCount) {
 		if (initialized) {
-			MATEvent event = new MATEvent("lx_confirmation");
-			MATEventItem eventItem = new MATEventItem("lx_confirmation_item");
+			TuneEvent event = new TuneEvent("lx_confirmation");
+			TuneEventItem eventItem = new TuneEventItem("lx_confirmation_item");
 			double revenue = totalPrice.getAmount().doubleValue();
 			double ticketPriceAmt = ticketPrice.getAmount().doubleValue();
 
@@ -955,15 +946,15 @@ public class TuneUtils {
 		}
 	}
 
-	private static void trackEvent(MATEvent eventName) {
+	private static void trackEvent(TuneEvent eventName) {
 		if (initialized) {
-			mobileAppTracker.measureEvent(eventName);
+			tune.measureEvent(eventName);
 		}
 	}
 
 	public static void trackLogin() {
 		if (initialized) {
-			MATEvent loginEvent = new MATEvent("login");
+			TuneEvent loginEvent = new TuneEvent("login");
 			loginEvent.withAttribute1(getTuid());
 			loginEvent.withAttribute2(getMembershipTier());
 			trackEvent(loginEvent);
@@ -999,7 +990,7 @@ public class TuneUtils {
 		return Db.getHotelSearch().getSearchParams();
 	}
 
-	private static MATEvent withTuidAndMembership(MATEvent event) {
+	private static TuneEvent withTuidAndMembership(TuneEvent event) {
 		return event.withAttribute1(getTuid())
 			.withAttribute3(getMembershipTier());
 	}

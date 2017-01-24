@@ -102,7 +102,7 @@
         </activity>
 
         <!-- Add Tune library receiver -->
-        <receiver android:name="com.mobileapptracker.Tracker">
+        <receiver android:name="com.tune.TuneTracker">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>

@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Ui
 import com.google.android.gms.maps.MapView
 
-class PackageHotelActivity : TrackingAbstractAppCompatActivity() {
+class PackageHotelActivity : AbstractAppCompatActivity() {
     val hotelsPresenter: PackageHotelPresenter by lazy {
         findViewById(R.id.package_hotel_presenter) as PackageHotelPresenter
     }

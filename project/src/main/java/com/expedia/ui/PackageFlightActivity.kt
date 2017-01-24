@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.PackageFlightPresenter
 import com.expedia.bookings.utils.Ui
 
-class PackageFlightActivity : TrackingAbstractAppCompatActivity() {
+class PackageFlightActivity : AbstractAppCompatActivity() {
     val flightsPresenter: PackageFlightPresenter by lazy {
         val presenter = findViewById(R.id.package_flight_presenter) as PackageFlightPresenter
         presenter

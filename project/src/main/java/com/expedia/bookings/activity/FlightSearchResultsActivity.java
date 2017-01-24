@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
@@ -86,7 +87,7 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.phrase.Phrase;
 
-public class FlightSearchResultsActivity extends TrackingFragmentActivity implements FlightListFragmentListener,
+public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
 		FlightDetailsFragmentListener {
 

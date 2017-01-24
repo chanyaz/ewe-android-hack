@@ -7,6 +7,7 @@ import android.app.ActionBar.OnNavigationListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +24,7 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class TerminalMapActivity extends TrackingFragmentActivity implements OnNavigationListener {
+public class TerminalMapActivity extends FragmentActivity implements OnNavigationListener {
 
 	public static final String ARG_AIRPORT_CODE = "ARG_AIRPORT_CODE";
 

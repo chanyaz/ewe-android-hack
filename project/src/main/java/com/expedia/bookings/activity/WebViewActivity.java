@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -15,7 +16,7 @@ import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.Log;
 
-public class WebViewActivity extends TrackingFragmentActivity implements WebViewFragment.WebViewFragmentListener {
+public class WebViewActivity extends FragmentActivity implements WebViewFragment.WebViewFragmentListener {
 
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
