@@ -825,7 +825,7 @@ public class ItineraryManager implements JSONable {
 		FETCH_SHARED_ITIN,
 		// Fetches the shared itin data
 		REMOVE_ITIN,
-		// Deletes the selected itin. Currently we can only delete a shared itin.
+		// Removes the selected itin.
 
 		DEDUPLICATE_TRIPS,
 		// Remove shared trip if it matches one associated to a user
@@ -1503,11 +1503,7 @@ public class ItineraryManager implements JSONable {
 							+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
 
 						gatherAncillaryData = false;
-						Trip removeTrip = mTrips.remove(updatedTrip.getItineraryKey());
-						deletePendingNotification(removeTrip);
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
-
-						mTripsRemoved++;
+						removeTrip(updatedTrip.getItineraryKey());
 					}
 					else {
 						// Update trip
@@ -1666,18 +1662,13 @@ public class ItineraryManager implements JSONable {
 			if (trip == null) {
 				Log.w(LOGGING_TAG, "Tried to remove a tripNumber that doesn't exist: " + tripNumber);
 			}
-			else if (!trip.isShared()) {
-				Log.w(LOGGING_TAG,
-					"Tried to remove a non-shared trip, DENIED because we can only remove sharedItins # "
-						+ tripNumber);
-			}
 			else {
 				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
 
-				mTrips.remove(tripNumber);
 				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
 				// Delete notifications if any.
 				deletePendingNotification(trip);
+				mTrips.remove(tripNumber);
 				mTripsRemoved++;
 			}
 		}
