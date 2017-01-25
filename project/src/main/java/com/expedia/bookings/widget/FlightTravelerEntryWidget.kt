@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.animation.Animator
 import android.app.AlertDialog
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
@@ -35,6 +36,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
+    val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
     val passportCountryEditBox: EditText by bindView(R.id.passport_country_btn)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
@@ -82,7 +84,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             }
         }
         if (materialFormTestEnabled) {
-            vm.showPassportCountryObservable.subscribeVisibility(passportCountryEditBox)
+            vm.showPassportCountryObservable.subscribeVisibility(passportCountryInputLayout)
         } else {
             vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
         }
@@ -224,7 +226,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         var validPassport: Boolean
         if (materialFormTestEnabled) {
             view = passportCountryEditBox
-            validPassport = (passportCountryEditBox.visibility == View.VISIBLE && Strings.isNotEmpty(passportCountryEditBox.text.toString()))
+            validPassport = (passportCountryInputLayout.visibility == View.VISIBLE && Strings.isNotEmpty(passportCountryEditBox.text.toString()))
 
         } else {
             view = passportCountrySpinner
