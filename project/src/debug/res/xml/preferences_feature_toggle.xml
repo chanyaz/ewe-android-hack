@@ -81,13 +81,7 @@
             android:layout="@layout/preference"
             android:summary="Itinerary card detail view"
             android:title="Enable new itinerary detail view" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_itin_hotel_map_click"
-            android:layout="@layout/preference"
-            android:summary="Hotel Itinerary Map View Clickable"
-            android:title="Enable users to navigate to Google Maps" />
-
+        
         <CheckBoxPreference
             android:key="@string/preference_itin_new_sign_in_screen"
             android:layout="@layout/preference"
