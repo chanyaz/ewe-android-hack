@@ -37,6 +37,13 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 				.subscribe(makeEmptyObserver())
 	}
 
+	fun deepLinkMarketingIdLog(queryParams: Map<String, String> ) {
+		clientLogApi.deepLinkMarketingIdlog(queryParams)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(makeEmptyObserver())
+	}
+
 	//This endpoint doesn't return json so it will always onError
 	private fun makeEmptyObserver() : Observer<EmptyResponse>  {
 		return object : Observer<EmptyResponse> {
