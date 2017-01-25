@@ -5,9 +5,13 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
+import org.joda.time.Period
+import org.joda.time.PeriodType
 import rx.subjects.PublishSubject
 
 class UserReviewDialogViewModel(val context: Context) {
@@ -50,5 +54,24 @@ class UserReviewDialogViewModel(val context: Context) {
         context.startActivity(intent)
         SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
         SettingUtils.save(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().millis)
+    }
+
+    companion object {
+        @JvmStatic
+        fun shouldShowReviewDialog(context: Context): Boolean {
+            val hasShownUserReview = SettingUtils.get(context, R.string.preference_user_has_seen_review_prompt, false)
+            val hasBookedHotelOrFlight = SettingUtils.get(context, R.string.preference_user_has_booked_hotel_or_flight, false)
+            val isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsUserReviews)
+            val lastDate = DateTime(SettingUtils.get(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().millis))
+            val hasBeenAtLeast3Months = Period(lastDate, DateTime.now(), PeriodType.yearMonthDayTime()).months >= 3
+
+            if ((!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight) {
+                OmnitureTracking.trackItinUserRating()
+                if (isBucketed) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 }

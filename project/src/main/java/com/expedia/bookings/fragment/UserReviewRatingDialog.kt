@@ -51,5 +51,4 @@ class UserReviewRatingDialog(context: Context) {
             dialog.dismiss()
         }
     }
-
 }
