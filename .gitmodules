@@ -16,3 +16,6 @@
 [submodule "lib/bug-reporter"]
 	path = lib/bug-reporter
 	url = git@github.com:/ExpediaInc/ewe-android-bug-reporter.git
+[submodule "lib/apk-patch-size-estimator"]
+	path = lib/apk-patch-size-estimator
+	url = git@github.com:googlesamples/apk-patch-size-estimator.git
