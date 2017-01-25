@@ -14,8 +14,6 @@ import rx.Scheduler
 class WeatherServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val weatherApi: WUndergroundApi by lazy {
-        val gson = GsonBuilder().create()
-
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
