@@ -3010,6 +3010,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_ROOM_CANCEL_CLICK = "App.Itinerary.Hotel.Cancel";
 	private static final String ITIN_ERROR = "App.Itinerary.Error";
 	private static final String ITIN_HOTEL_GALLERY_OPEN = "App.Itinerary.Hotel.Photos";
+	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -3026,6 +3027,10 @@ public class OmnitureTracking {
 
 	public static void trackHotelItinGalleryOpen() {
 		createAndtrackLinkEvent(ITIN_HOTEL_GALLERY_OPEN, "Itinerary Action");
+	}
+
+	public static void trackHotelItinMapOpen() {
+		createAndtrackLinkEvent(ITIN_HOTEL_MAP_OPEN, "Itinerary Action");
 	}
 
 	public static void trackFindItin() {
