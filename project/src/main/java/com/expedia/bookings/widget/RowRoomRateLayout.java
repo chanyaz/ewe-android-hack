@@ -252,7 +252,13 @@ public class RowRoomRateLayout extends FrameLayout {
 		android.widget.TextView roomRateDiscountRibbon = Ui.findView(this, R.id.room_rate_discount_text);
 
 		mIsDescriptionTextSpanned = false;
-		final String roomLongDescription = mRate.getRoomLongDescription().trim();
+		final String roomLongDescription;
+		if (mRate.getRoomLongDescription() != null) {
+			roomLongDescription = mRate.getRoomLongDescription().trim();
+		}
+		else {
+			roomLongDescription = null;
+		}
 		String descriptionReduced;
 		int lengthCutOff;
 		// Let's try to show as much text to begin with as possible, without exceeding the row height.
@@ -263,7 +269,7 @@ public class RowRoomRateLayout extends FrameLayout {
 			lengthCutOff = res.getInteger(R.integer.room_rate_description_body_length_cutoff_more);
 		}
 
-		if (roomLongDescription.length() > lengthCutOff) {
+		if (roomLongDescription != null && roomLongDescription.length() > lengthCutOff) {
 			descriptionReduced = roomLongDescription.substring(0, lengthCutOff);
 			descriptionReduced += "...";
 			SpannableBuilder builder = new SpannableBuilder();
