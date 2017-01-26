@@ -17,7 +17,6 @@ import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.vm.AbstractHotelFilterViewModel;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.util.AndroidUtils;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -164,11 +163,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean areSocialMediaMenuItemsInAboutEnabled() {
 		return false;
-	}
-
-	@Override
-	public AboutSectionFragment getAboutSectionFragment(Context context) {
-		return null;
 	}
 
 	@Override

@@ -90,7 +90,7 @@ public class ProfileScreenTest {
 		ProfileScreen.clickOpenSource();
 		assertIntentFiredToViewOpenSourceLicenses();
 
-		ProfileScreen.clickMobiataLogo();
+		ProfileScreen.clickCopyrightLogo();
 		assertIntentFiredToViewUri(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context));
 
 		Intents.assertNoUnverifiedIntents();

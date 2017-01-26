@@ -17,7 +17,6 @@ import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.vm.AbstractHotelFilterViewModel;
-import com.mobiata.android.fragment.AboutSectionFragment;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
@@ -150,10 +149,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean areSocialMediaMenuItemsInAboutEnabled() {
 		return true;
-	}
-
-	public AboutSectionFragment getAboutSectionFragment(Context context) {
-		return null;
 	}
 
 	public boolean isLocalExpertEnabled() {

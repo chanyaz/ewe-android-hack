@@ -62,7 +62,6 @@ import java.util.Calendar
 class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
 
     private val TAG_SUPPORT = "TAG_SUPPORT"
-    private val TAG_ALSO_BY_US = "TAG_ALSO_BY_US"
     private val TAG_LEGAL = "TAG_LEGAL"
     private val TAG_DEBUG_SETTINGS = "TAG_DEBUG_SETTINGS"
     private val TAG_COPYRIGHT = "TAG_COPYRIGHT"
@@ -287,16 +286,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             debugFragment = builder.build()
             ft.add(R.id.debug_section, debugFragment, TAG_DEBUG_SETTINGS)
         }
-
-        // Apps also by us
-        var alsoByFragment: AboutSectionFragment? = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_ALSO_BY_US)
-        if (alsoByFragment == null) {
-            alsoByFragment = ProductFlavorFeatureConfiguration.getInstance().getAboutSectionFragment(context)
-            if (alsoByFragment != null) {
-                ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US)
-            }
-        }
-
 
         // Copyright
         copyrightFragment = Ui.findSupportFragment<CopyrightFragment>(this, TAG_COPYRIGHT)

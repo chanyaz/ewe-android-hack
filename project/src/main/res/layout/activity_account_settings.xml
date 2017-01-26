@@ -364,12 +364,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/about_section_margin" />
 
-            <FrameLayout
-                android:id="@+id/section_also_by"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/about_section_margin" />
-
             <Button
                 android:id="@+id/sign_out_button"
                 android:layout_width="match_parent"
