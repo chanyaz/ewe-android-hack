@@ -353,6 +353,15 @@
             android:key="12794"
             android:layout="@layout/preference"
             android:title="User Reviews" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13023"
+            android:layout="@layout/preference"
+            android:title="New trips sign in screen" />
     </PreferenceCategory>
 
 </PreferenceScreen>
