@@ -24,9 +24,9 @@
     <!-- Hotels summary rating template-->
     <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
     <!-- Hotels rating room cleanliness string -->
-    <string name="hotel_rating_room_cleanliness">部屋の清潔度</string>
+    <string name="hotel_rating_room_cleanliness">客室の清潔度</string>
     <!-- Hotels rating room comfort string -->
-    <string name="hotel_rating_room_comfort">部屋の快適度</string>
+    <string name="hotel_rating_room_comfort">客室の快適度</string>
     <!-- Hotels rating service and staff string -->
     <string name="hotel_rating_service_and_staff">サービス &amp; スタッフ</string>
     <!-- Hotels rating hotel condition string -->
@@ -415,7 +415,7 @@
     <string name="ticket_type_minibus">ミニバス</string>
     <string name="ticket_type_helicopter">ヘリコプター</string>
     <string name="ticket_type_device">デバイス</string>
-    <string name="ticket_type_room">部屋</string>
+    <string name="ticket_type_room">客室</string>
     <string name="ticket_type_carriage">馬車</string>
     <string name="ticket_type_buggy">バギー</string>
     <string name="ticket_type_atv">ATV</string>
@@ -652,7 +652,7 @@
     <string name="per_ticket_type_minibus">/ ミニバス</string>
     <string name="per_ticket_type_helicopter">/ ヘリコプター</string>
     <string name="per_ticket_type_device">/ デバイス</string>
-    <string name="per_ticket_type_room">/ 部屋</string>
+    <string name="per_ticket_type_room">/ 客室</string>
     <string name="per_ticket_type_carriage">/ 馬車</string>
     <string name="per_ticket_type_buggy">/ バギー</string>
     <string name="per_ticket_type_atv">/ ATV</string>
@@ -813,12 +813,12 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s 便のフライト</item>
-        <item quantity="one">%s 便のフライト</item>
-        <item quantity="two">%s 便のフライト</item>
-        <item quantity="few">%s 便のフライト</item>
-        <item quantity="many">%s 便のフライト</item>
-        <item quantity="other">%s 便のフライト</item>
+        <item quantity="zero">%s 件のフライト</item>
+        <item quantity="one">%s 件のフライト</item>
+        <item quantity="two">%s 件のフライト</item>
+        <item quantity="few">%s 件のフライト</item>
+        <item quantity="many">%s 件のフライト</item>
+        <item quantity="other">%s 件のフライト</item>
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
@@ -921,6 +921,8 @@
     <string name="infants_under_two">2 才未満の乳幼児</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">乳幼児を膝抱きできる大人 (12 歳以上) が規定人数に達していません。それぞれの座席が必要です。</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">12 歳以上の旅行者 1 名に対して予約可能な乳幼児の座席は、最大 2 席までです</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">膝抱き</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -976,7 +978,7 @@
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">プランに追加</string>
     <!-- Rooms and rates button to select a particular room and view details -->
-    <string name="room_rate_button_select_room">部屋を選択</string>
+    <string name="room_rate_button_select_room">客室を選択</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 件のレビュー</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
@@ -1573,7 +1575,7 @@
     <string name="itin_card_details_upgrade_hotel_button">期間限定 : アップグレード可 !</string>
     <string name="itin_card_flight_checkin_title">フライトのチェックイン</string>
     <!-- Label for button to edit Hotel booking -->
-    <string name="itin_card_edit_hotel_room_info">部屋情報を編集</string>
+    <string name="itin_card_edit_hotel_room_info">客室情報を編集</string>
     <!-- Accessibility announcement for button to edit Hotel booking -->
     <string name="itin_card_change_hotel_options">ホテル オプションを変更する</string>
 
@@ -1608,7 +1610,7 @@
     <string name="itin_card_details_check_out">チェックアウト</string>
     <string name="itin_card_details_address">住所</string>
     <string name="itin_card_details_local_phone">現地の電話番号</string>
-    <string name="itin_card_details_room_type">部屋タイプ</string>
+    <string name="itin_card_details_room_type">客室タイプ</string>
     <string name="itin_card_details_non_price_promotion_includes">含まれているもの :</string>
     <string name="itin_card_details_bed_type">ベッドタイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
@@ -2552,7 +2554,7 @@
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
     <string name="itinerary_confirmation_TEMPLATE">旅程番号 %s の送信先 :</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">部屋を予約する</string>
+    <string name="get_a_room">客室を予約する</string>
     <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
     <string name="add_to_your_trip">旅行に追加する</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -2697,7 +2699,7 @@
 
     <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
-    <string name="error_hotel_no_longer_available">申し訳ありません。保留中の部屋が無効になりました</string>
+    <string name="error_hotel_no_longer_available">申し訳ありません。保留中の客室が無効になりました</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">新しいホテルを選択する</string>
     <!-- Text for hotel error unknown -->
@@ -2903,7 +2905,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">ご利用いただける客室はありません</string>
     <!-- Title displayed when room is sold out -->
-    <string name="select_another_room">他の部屋を選択</string>
+    <string name="select_another_room">他の客室を選択</string>
     <!-- Message displayed when room is sold out -->
     <string name="error_room_sold_out">この客室は完売しました。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
@@ -3036,7 +3038,7 @@
     <!-- Handicapped parking amenity -->
     <string name="AmenityHandicappedParking">身障者用パーキング</string>
     <!-- In-room accessibility amenity -->
-    <string name="AmenityInRoomAccessibility">バリアフリーの部屋</string>
+    <string name="AmenityInRoomAccessibility">バリアフリーの客室</string>
     <!-- Accessibility equipment for the deaf amenity -->
     <string name="AmenityDeafAccessibilityEquipment">聴覚障害者対応</string>
     <!-- Braille or raised signage amenity -->
@@ -3134,7 +3136,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">空室を検索中…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。インターネットへの接続を確認してから、もう一度お試しください。</string>
+    <string name="error_no_response_room_rates">客室と料金情報をダウンロードできませんでした。インターネットへの接続を確認してから、もう一度お試しください。</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">1 泊あたり</string>
     <!-- Rate price displayed "total fee" -->
@@ -3174,9 +3176,9 @@
         <item quantity="other">残り %d 室です !</item>
     </plurals>
     <!-- The text we use to show room info for expanded room -->
-    <string name="room_information">部屋情報</string>
+    <string name="room_information">客室情報</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
-    <string name="room_information_button_cont_desc">部屋情報ボタン</string>
+    <string name="room_information_button_cont_desc">客室情報ボタン</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">返金不可</string>
     <!-- Label for free nights -->
@@ -3188,7 +3190,7 @@
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">全客室に共通のアメニティ : %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">部屋を選択</string>
+    <string name="select_a_room_instruction">客室を選択</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">キャンセル手数料無料</string>
     <!-- Top line of resort fee text -->
@@ -3200,7 +3202,7 @@
     <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">料金に含まれない</string>
     <!-- View Room button text -->
-    <string name="view_room_button_text">部屋を見る</string>
+    <string name="view_room_button_text">客室を見る</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">予約</string>
     <!-- Renovation Notice -->
@@ -4079,7 +4081,7 @@
     <!-- Header text to indicating hotel sold out -->
     <string name="tablet_sold_out_summary_text_hotel">この客室は完売しました。申し訳ありません。</string>
     <!-- Header text to that the hold on the room has expired. -->
-    <string name="tablet_expired_summary_text_hotel">申し訳ありません。保留中の部屋が無効になりました。</string>
+    <string name="tablet_expired_summary_text_hotel">申し訳ありません。保留中の客室が無効になりました。</string>
     <!-- Button text to remove sold hotel -->
     <string name="tablet_sold_out_remove_hotel">ホテルを削除</string>
     <!-- Button text to select another hotel -->
@@ -4889,9 +4891,9 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">ダイアログを開きます</string>
     <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">拡大して部屋情報を確認し、部屋を選択する</string>
+    <string name="hotel_room_expand_cont_desc">拡大して客室情報を確認し、客室を選択する</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">部屋を選択</string>
+    <string name="hotel_expanded_room_select_cont_desc">客室を選択</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">無効のクレジットカード タイプ</string>
 
