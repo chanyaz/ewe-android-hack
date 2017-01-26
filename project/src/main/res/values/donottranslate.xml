@@ -11,7 +11,7 @@
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
 
-    <string name="app_copyright_logo_url">@string/app_mobiata_info_url</string>
+    <string name="app_copyright_logo_url">http://www.expedia.com</string>
     <string name="app_copyright_name">@string/launcher_name</string>
 
     <!-- Generic strings/characters we use in various places that don't need translation -->
