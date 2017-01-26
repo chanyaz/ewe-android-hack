@@ -2,7 +2,7 @@ package com.expedia.bookings.data.clientlog
 
 import com.expedia.bookings.utils.ClientLogConstants
 
-class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long = 0L, val processingTime: Long = 0L, val requestToUser: Long = 0L, val deviceType: String = ClientLogConstants.DEVICE_TYPE) {
+class ClientLog(val pageName: String?, val eventName: String?, val deviceName: String?, val requestTime: Long?, val responseTime: Long?, val processingTime: Long?, val requestToUser: Long?, val deviceType: String = ClientLogConstants.DEVICE_TYPE) {
 
     class ResultBuilder {
         private var pageName: String? = null
@@ -88,7 +88,27 @@ class ClientLog(val pageName: String, val eventName: String, val deviceName: Str
         }
 
         fun build(): ClientLog {
-            return ClientLog(pageName!!, eventName!!, deviceName!!, 0L, responseTime!!)
+            return ClientLog(pageName, eventName, deviceName, null, responseTime, null, null)
+        }
+
+    }
+
+    class AppStartupTimeBuilder() {
+        private var requestToUser: Long? = null
+        private var pageName: String? = null
+
+        fun pageName(page: String?): ClientLog.AppStartupTimeBuilder {
+            pageName = page
+            return this
+        }
+
+        fun requestToUser(time: Long?): ClientLog.AppStartupTimeBuilder {
+            requestToUser = time
+            return this
+        }
+
+        fun build(): ClientLog {
+            return ClientLog(pageName, null, null, null, null, null, requestToUser)
         }
 
     }

@@ -9,6 +9,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.services.PersistentCookieManager;
@@ -294,6 +295,12 @@ public class AppModule {
 		return new UserLoginStateChangedModel();
 	}
 
+	@Provides
+	@Singleton
+	AppStartupTimeLogger appStartupTimeLogger() {
+		return new AppStartupTimeLogger();
+	}
+	
 	@Provides
 	@Named("GaiaInterceptor")
 	Interceptor provideGaiaRequestInterceptor(final Context context) {

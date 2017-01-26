@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.DialogFragment
@@ -33,13 +34,18 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.notification.Notification
-import com.expedia.bookings.tracking.AdTracker
-import com.expedia.bookings.tracking.FacebookEvents
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
+import com.expedia.bookings.utils.ClientLogConstants
+import com.expedia.bookings.data.clientlog.ClientLog
+import com.expedia.bookings.tracking.AdTracker
+import com.expedia.bookings.tracking.AppStartupTimeClientLog
+import com.expedia.bookings.tracking.AppStartupTimeLogger
+import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
@@ -49,6 +55,7 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
+import javax.inject.Inject
 
 class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
@@ -61,6 +68,12 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val PAGER_POS_ITIN = 1
     val PAGER_POS_ACCOUNT = 2
     var PAGER_SELECTED_POS = PAGER_POS_LAUNCH
+
+    lateinit var appStartupTimeLogger: AppStartupTimeLogger
+        @Inject set
+
+    lateinit var clientLogServices: ClientLogServices
+        @Inject set
 
     var jumpToItinId: String? = null
     private var pagerPosition = PAGER_POS_LAUNCH
@@ -88,6 +101,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AdTracker.trackLaunch()
+        Ui.getApplication(this).appComponent().inject(this)
 
         Ui.getApplication(this).defaultLaunchComponents()
         setContentView(R.layout.activity_phone_new_launch)
@@ -122,6 +136,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         }
         AbacusHelperUtils.downloadBucket(this)
+
+        appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
+        AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -327,7 +344,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onResume() {
         super.onResume()
         FacebookEvents.activateAppIfEnabledInConfig(this)
-        when(viewPager.currentItem) {
+        when (viewPager.currentItem) {
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
