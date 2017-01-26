@@ -48,8 +48,8 @@ class HotelFilterViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testVipAccessVisibilityAuPos() {
-        setPOS(PointOfSaleId.AUSTRALIA)
+    fun testVipAccessVisibilityGermanPosDisabled() {
+        setPOS(PointOfSaleId.GERMANY)
         initViewModel()
         assertEquals(View.GONE, hotelFilterView.filterVipContainer.visibility)
         assertEquals(View.GONE, hotelFilterView.optionLabel.visibility)
