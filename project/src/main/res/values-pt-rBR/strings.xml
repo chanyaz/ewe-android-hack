@@ -921,6 +921,8 @@
     <string name="infants_under_two">Crianças de até 2 anos</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Não há um número suficiente de adultos (maiores de 12 anos) para transportar as crianças no colo. Elas deverão viajar em seus próprios assentos.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Só podemos reservar assentos para até dois bebês por viajante com + de 12 anos</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Em colo</string>
     <!-- Description for infant travelers sitting in seats -->

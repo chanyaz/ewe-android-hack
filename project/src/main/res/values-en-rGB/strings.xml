@@ -921,6 +921,8 @@
     <string name="infants_under_two">Infants Under 2</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">There aren\'t enough adults (age 12+) to have infants sit in laps. They need their own seats.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">We are only able to book reserved seats for up to two infants per traveller aged 12+</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">In Laps</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -3096,7 +3098,7 @@
         <item quantity="other">View %s Reviews</item>
     </plurals>
 
-    <string name="zero_reviews">1 Reviews</string>
+    <string name="zero_reviews">0 Reviews</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -4121,7 +4123,7 @@
     <string name="rail_adult_age_label">(26-59 years old)</string>
 
     <!-- Children age label on rail search -->
-    <string name="rail_children_age_label">(1-15 years old)</string>
+    <string name="rail_children_age_label">(0-15 years old)</string>
 
     <!-- Youth age label on rail search -->
     <string name="rail_youth_age_label">(16-25 years old)</string>
@@ -4130,10 +4132,10 @@
     <string name="rail_senior_age_label">(60 years old +)</string>
 
     <!-- Children age label on hotel search -->
-    <string name="children_age_label">(1-17 years old)</string>
+    <string name="children_age_label">(0-17 years old)</string>
 
     <!-- Children age label content description -->
-    <string name="children_age_label_cont_desc">(1 to 17 years old)</string>
+    <string name="children_age_label_cont_desc">(0 to 17 years old)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Areas</string>
