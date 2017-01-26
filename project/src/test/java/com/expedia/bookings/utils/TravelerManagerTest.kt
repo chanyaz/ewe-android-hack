@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
@@ -13,7 +12,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.vm.test.traveler.MockTravelerProvider
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
@@ -107,7 +105,6 @@ class TravelerManagerTest {
 
     @Test
     fun testUpdateTravelersWhenUserNotLoggedIn() {
-        SettingUtils.save(RuntimeEnvironment.application  , R.string.preference_enable_rail_checkout_login, true)
         travelerManager.updateRailTravelers(RuntimeEnvironment.application)
         assertTrue(Db.getTravelers().size == 1)
         assertNull(Db.getTravelers()[0].lastName)
@@ -115,8 +112,6 @@ class TravelerManagerTest {
 
     @Test
     fun testUpdateTravelersWhenUserLoggedIn() {
-        SettingUtils.save(RuntimeEnvironment.application  , R.string.preference_enable_rail_checkout_login, true)
-
         val testUser = User();
         testUser.primaryTraveler = Traveler()
         testUser.primaryTraveler.firstName = mockTravelerProvider.testFirstName
