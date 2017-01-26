@@ -17,8 +17,4 @@ class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, heade
         val view = LayoutInflater.from(parent.context).inflate(R.layout.package_hotel_cell, parent, false)
         return PackageHotelCellViewHolder(view as ViewGroup, parent.width)
     }
-
-    override fun getHotelCellViewModel(context: Context, hotel: Hotel): HotelViewModel {
-        return PackageHotelViewModel(context, hotel)
-    }
 }

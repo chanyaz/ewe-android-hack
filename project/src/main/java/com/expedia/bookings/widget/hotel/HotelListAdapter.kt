@@ -16,10 +16,6 @@ import rx.subjects.PublishSubject
 class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>) :
         BaseHotelListAdapter(hotelSelectedSubject, headerSubject) {
 
-    override fun getHotelCellViewModel(context: Context, hotel: Hotel) : HotelViewModel {
-        return HotelViewModel(context, hotel)
-    }
-
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
         val bucketedForFavoriteTest = HotelFavoriteHelper.showHotelFavoriteTest(true)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)

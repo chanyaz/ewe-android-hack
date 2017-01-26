@@ -83,7 +83,7 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 2 stars of 5 rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel with 2 stars of 5 rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc(hotel).toString());
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getShowDiscountObservable().getValue());
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020Original price discounted 10%.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020Original price discounted 10%.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc(hotel).toString());
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 0;
 		hotel.hotelGuestRating = 3;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc());
+		assertEquals("Test Hotel with 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 0;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 4 stars of 5 rating.\\u0020", vm.getRatingContentDesc());
+		assertEquals("Test Hotel with 4 stars of 5 rating.\\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 0;
 		hotel.hotelGuestRating = 0;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel.\\u0020", vm.getRatingContentDesc());
+		assertEquals("Test Hotel.\\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 3;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc());
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -154,7 +154,8 @@ public class HotelViewModelTest {
 		PackageSearchResponse response = observer.getOnNextEvents().get(0);
 		Hotel firstHotel = response.packageResult.hotelsPackage.hotels.get(0);
 
-		HotelViewModel vm = new HotelViewModel(getContext(), firstHotel);
+		HotelViewModel vm = new HotelViewModel(getContext());
+		vm.bindHotelData(firstHotel);
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
 	}
@@ -176,7 +177,8 @@ public class HotelViewModelTest {
 		PackageSearchResponse response = observer.getOnNextEvents().get(0);
 		Hotel firstHotel = response.packageResult.hotelsPackage.hotels.get(1);
 
-		HotelViewModel vm = new HotelViewModel(getContext(), firstHotel);
+		HotelViewModel vm = new HotelViewModel(getContext());
+		vm.bindHotelData(hotel);
 		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
 	}
 
@@ -447,7 +449,6 @@ public class HotelViewModelTest {
 		TestSubscriber topAmenityTestSubscriber = TestSubscriber.create();
 		vm.getTopAmenityVisibilityObservable().subscribe(topAmenityTestSubscriber);
 		assertTrue((Boolean) topAmenityTestSubscriber.getOnNextEvents().get(0));
-
 	}
 
 	private void givenSoldOutHotel() {
@@ -491,7 +492,8 @@ public class HotelViewModelTest {
 
 	private void setupSystemUnderTest() {
 		Application applicationContext = RuntimeEnvironment.application;
-		vm = new HotelViewModel(applicationContext, hotel);
+		vm = new HotelViewModel(applicationContext);
+		vm.bindHotelData(hotel);
 	}
 
 	private User getUser() {
