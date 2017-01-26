@@ -199,8 +199,6 @@ public interface IProductFlavorFeatureConfiguration {
 	 */
 	boolean showUserRewardsEnrollmentCheck();
 
-	boolean useNewLaunchScreen();
-
 	boolean sendEapidToTuneTracking();
 
 	boolean shouldShowPackageIncludesView();

@@ -33,7 +33,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.Akeakamai;
@@ -333,12 +332,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				clickIntent = ItineraryActivity.createIntent(mContext, mNotification);
 			}
 			else {
-				if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {
-					clickIntent = NewPhoneLaunchActivity.createIntent(mContext, mNotification);
-				}
-				else {
-					clickIntent = PhoneLaunchActivity.createIntent(mContext, mNotification);
-				}
+				clickIntent = NewPhoneLaunchActivity.createIntent(mContext, mNotification);
 			}
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 

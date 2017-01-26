@@ -37,11 +37,8 @@
     <color name="launch_air_attach">#F27D0F</color>
     <color name="launch_tonight_only">#204A8E</color>
     <color name="hotel_lob_btn">@color/hotels_primary_color</color>
-    <color name="cars_lob_btn">@color/cars_primary_color</color>
     <color name="lx_lob_btn">@color/lx_primary_color</color>
-    <color name="transport_lob_btn">@color/gt_primary_color</color>
     <color name="flights_lob_btn">#204A8E</color>
-    <color name="disabled_lob_btn">#909ba3</color>
 
     <color name="launch_list_bg">#ECEFF1</color>
     <color name="launch_screen_primary">@color/exp_old_launch</color>

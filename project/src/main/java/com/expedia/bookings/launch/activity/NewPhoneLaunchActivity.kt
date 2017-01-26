@@ -507,11 +507,11 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
         b.setCancelable(false).setMessage(errorMessage).setPositiveButton(confirmButtonResourceId) { dialog, which -> dialog.dismiss() }.show()
     }
 
-    companion object {
-        val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
-        val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
-        val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
-        val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
+     companion object {
+         @JvmStatic val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
+         @JvmStatic val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
+         @JvmStatic val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
+         @JvmStatic val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
         /**
          * Create intent to open this activity and jump straight to a particular itin item.
          */

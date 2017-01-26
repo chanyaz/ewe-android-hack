@@ -6,7 +6,6 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,7 +13,6 @@ import android.os.Looper;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.launch.data.LaunchCollection;
 import com.expedia.bookings.launch.data.LaunchLocation;
@@ -1000,17 +998,6 @@ public class Events {
 		}
 	}
 
-	public static class LaunchLocationFetchComplete {
-		public final Location location;
-
-		public LaunchLocationFetchComplete(Location location) {
-			this.location = location;
-		}
-	}
-
-	public static class LaunchLocationFetchError {
-	}
-
 	public static class CollectionDownloadComplete {
 		public Collection collection;
 
@@ -1032,25 +1019,7 @@ public class Events {
 		}
 	}
 
-	public static class LaunchOnlineState {
-	}
-
-	public static class LaunchOfflineState {
-	}
-
 	// Launch screen -- air attach
-
-	public static class LaunchAirAttachBannerHide {
-	}
-
-	public static class LaunchAirAttachBannerShow {
-		public HotelSearchParams params;
-
-		public LaunchAirAttachBannerShow(HotelSearchParams params) {
-			this.params = params;
-		}
-	}
-
 	public static class PhoneLaunchOnResume {
 	}
 

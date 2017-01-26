@@ -56,7 +56,6 @@
     <color name="launch_actionbar_bg_color">#EDEDED</color>
     <color name="hotel_lob_btn">#70BB00</color>
     <color name="lx_lob_btn">#A1006B</color>
-    <color name="cars_lob_btn">@color/cars_primary_color</color>
     <color name="flights_lob_btn">#0088CE</color>
     <color name="action_bar_selected_tab_underline_color">#585858</color>
     <color name="launch_lob_bg">#E0DFDC</color>

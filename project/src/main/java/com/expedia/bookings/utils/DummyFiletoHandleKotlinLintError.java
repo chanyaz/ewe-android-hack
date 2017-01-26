@@ -845,6 +845,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_cell_prominent_gray_text,
 		R.dimen.hotel_price_per_night_prominent_text_size,
 		R.dimen.hotel_price_per_night_text_size,
+		R.string.nav_hotels,
+		R.string.nav_transport,
+		R.string.shop,
+		R.dimen.launch_tile_margin_top,
 		R.layout.itin_sign_in_presenter,
 		R.string.preference_user_has_seen_review_prompt,
 		R.string.preference_date_last_review_prompt_shown

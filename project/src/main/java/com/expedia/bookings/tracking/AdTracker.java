@@ -64,10 +64,6 @@ public class AdTracker {
 		LeanPlumUtils.tracking("Account Creation Success");
 	}
 
-	public static void trackViewHomepage() {
-		TuneUtils.trackHomePageView();
-	}
-
 	public static void trackViewItinList() {
 		LeanPlumUtils.tracking("Itinerary");
 	}

@@ -13,7 +13,6 @@
     <color name="lob_btn_color">#1F8EDE</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <!-- Lob box shadow gradient -->
     <color name="lob_box_shadow_start_color">#FF000000</color>

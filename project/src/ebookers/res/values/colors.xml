@@ -8,9 +8,7 @@
     <color name="lob_btn_color">#0099CC</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
-    <color name="transport_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#FF960D</color>
     <color name="hotel_member_pricing_color">#003366</color>
 
