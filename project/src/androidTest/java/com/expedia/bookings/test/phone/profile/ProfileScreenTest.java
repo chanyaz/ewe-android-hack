@@ -79,7 +79,7 @@ public class ProfileScreenTest {
 		assertIntentFiredToViewAppInPlayStore(context.getPackageName());
 
 		ProfileScreen.clickWereHiring();
-		assertIntentFiredToStartAboutWebViewWithUrl("http://www.mobiata.com/careers");
+		assertIntentFiredToStartAboutWebViewWithUrl("http://www.lifeatexpedia.com");
 
 		ProfileScreen.clickTerms();
 		assertIntentFiredToStartAboutWebViewWithUrl(PointOfSale.getPointOfSale().getTermsAndConditionsUrl());
