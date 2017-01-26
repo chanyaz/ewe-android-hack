@@ -5606,6 +5606,9 @@ public class OmnitureTracking {
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_premium_class)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
+		}
 		s.track();
 	}
 
