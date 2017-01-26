@@ -33,7 +33,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                                     val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
-    abstract fun getHotelCellViewModel(context: Context, hotel: Hotel): HotelViewModel
 
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
     val PRICING_STRUCTURE_HEADER_VIEW = 1
@@ -127,9 +126,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val fixedPosition = position - numHeaderItemsInHotelsList()
         when (holder) {
             is AbstractHotelCellViewHolder -> {
-                val viewModel = getHotelCellViewModel(holder.itemView.context, hotels[fixedPosition])
-                hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
-                holder.bind(viewModel)
+                val hotel = hotels[fixedPosition]
+                holder.bindHotelData(hotel)
+                hotelListItemsMetadata.add(HotelListItemMetadata(holder.viewModel.hotelId.value, holder.viewModel.soldOut))
                 if (!newResultsConsumed) {
                     newResultsConsumed = true
                     allViewsLoadedTimeObservable.onNext(Unit)

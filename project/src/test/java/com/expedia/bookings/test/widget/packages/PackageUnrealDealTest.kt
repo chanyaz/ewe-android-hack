@@ -49,7 +49,7 @@ class PackageUnrealDealTest {
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
 
         val hotel = makeHotel()
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Get your hotel for free by booking together.", packageHotelHolder.unrealDealMessage.text)
     }
@@ -60,7 +60,7 @@ class PackageUnrealDealTest {
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
 
         val hotel = makeHotel()
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
         Assert.assertTrue(packageHotelHolder.unrealDealMessage.visibility.equals(View.VISIBLE))
         Assert.assertEquals("Book this and save $110 (20%)", packageHotelHolder.unrealDealMessage.text)
     }

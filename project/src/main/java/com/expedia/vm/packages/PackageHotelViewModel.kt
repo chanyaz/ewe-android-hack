@@ -10,17 +10,26 @@ import com.expedia.vm.hotel.HotelViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
-class PackageHotelViewModel(var context: Context, hotel: Hotel) : HotelViewModel(context, hotel) {
-    val unrealDealMessageObservable = BehaviorSubject.create(getUnrealDeal())
-    val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>(getUnrealDeal().isNotEmpty())
+class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
+    val unrealDealMessageObservable = BehaviorSubject.create<String>()
+    val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
 
-    val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
+    val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>()
 
-    override  fun getHotelContentDesc(): CharSequence {
+    override fun bindHotelData(hotel: Hotel) {
+        super.bindHotelData(hotel)
+
+        val unrealDeal = getUnrealDeal(hotel)
+        unrealDealMessageObservable.onNext(unrealDeal)
+        unrealDealMessageVisibilityObservable.onNext(unrealDeal.isNotEmpty())
+        priceIncludesFlightsObservable.onNext(hotel.isPackage)
+    }
+
+    override fun getHotelContentDesc(hotel: Hotel): CharSequence {
         var result = SpannableBuilder()
         if (unrealDealMessageVisibilityObservable.value) {
             result.append(Phrase.from(context, R.string.hotel_unreal_deal_cont_desc_TEMPLATE)
-                    .put("unrealdeal", getUnrealDeal().replace("\\p{P}", ""))
+                    .put("unrealdeal", getUnrealDeal(hotel).replace("\\p{P}", ""))
                     .format()
                     .toString())
         }
@@ -43,36 +52,36 @@ class PackageHotelViewModel(var context: Context, hotel: Hotel) : HotelViewModel
         return result.build()
     }
 
-    override fun hasMemberDeal(): Boolean {
+    override fun hasMemberDeal(hotel: Hotel): Boolean {
         return false
     }
 
-    private fun getUnrealDeal(): String {
+    private fun getUnrealDeal(hotel: Hotel): String {
         if (hotel.packageOfferModel?.featuredDeal ?: false) {
             if (PointOfSale.getPointOfSale().shouldShowFreeUnrealDeal()) {
                 val dealVariation = hotel.packageOfferModel?.brandedDealData?.dealVariation ?: ""
                 return when (dealVariation) {
                     PackageOfferModel.DealVariation.FreeHotel -> resources.getString(R.string.free_hotel_deal)
                     PackageOfferModel.DealVariation.FreeFlight -> resources.getString(R.string.free_flight_deal)
-                    PackageOfferModel.DealVariation.HotelDeal -> getHotelDealMessage()
-                    PackageOfferModel.DealVariation.FreeOneNightHotel -> getFreeNightHotelMessage()
+                    PackageOfferModel.DealVariation.HotelDeal -> getHotelDealMessage(hotel)
+                    PackageOfferModel.DealVariation.FreeOneNightHotel -> getFreeNightHotelMessage(hotel)
                     else -> ""
                 }
             } else {
-                return getHotelDealMessage()
+                return getHotelDealMessage(hotel)
             }
         }
         return ""
     }
 
-    private fun getHotelDealMessage(): String {
+    private fun getHotelDealMessage(hotel: Hotel): String {
         return Phrase.from(resources.getString(R.string.hotel_deal_TEMPLATE))
                 .put("price", hotel.packageOfferModel?.brandedDealData?.savingsAmount)
                 .put("savings", hotel.packageOfferModel?.brandedDealData?.savingPercentageOverPackagePrice)
                 .format().toString()
     }
 
-    private fun getFreeNightHotelMessage(): String {
+    private fun getFreeNightHotelMessage(hotel: Hotel): String {
         val numberOfNights = hotel.packageOfferModel?.brandedDealData?.freeNights
         return Phrase.from(resources.getQuantityString(R.plurals.free_one_night_hotel_deal_TEMPLATE, numberOfNights?.toInt() ?: 1))
                 .put("night", numberOfNights)

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.shared
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -7,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
+import android.support.annotation.CallSuper
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -19,6 +21,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -47,6 +50,8 @@ import kotlin.properties.Delegates
 
 abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) :
         RecyclerView.ViewHolder(root), View.OnClickListener {
+
+    abstract fun createHotelViewModel(context: Context): HotelViewModel
 
     val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
@@ -83,10 +88,12 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
 
     val hotelClickedSubject = PublishSubject.create<Int>()
 
+    val viewModel = createHotelViewModel(itemView.context)
+
     init {
         itemView.setOnClickListener(this)
 
-        LayoutUtils.setSVG(airAttachSVG, R.raw.air_attach_curve);
+        LayoutUtils.setSVG(airAttachSVG, R.raw.air_attach_curve)
 
         if (shouldShowCircleForRatings()) {
             ratingBar = root.findViewById(R.id.circle_rating_bar) as StarRatingBar
@@ -96,8 +103,11 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         ratingBar.visibility = View.VISIBLE
     }
 
-    open fun bind(viewModel: HotelViewModel) {
-        hotelId = viewModel.hotelId
+    @CallSuper
+    open fun bindViewModel() {
+        viewModel.hotelId.subscribe { hotelId ->
+            this.hotelId = hotelId
+        }
 
         viewModel.hotelNameObservable.subscribeText(hotelName)
         viewModel.pricePerNightObservable.subscribeText(pricePerNight)
@@ -137,11 +147,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         viewModel.imageColorFilter.subscribeColorFilter(imageView)
         viewModel.hotelStarRatingObservable.subscribeStarRating(ratingBar)
 
-        viewModel.adImpressionObservable.subscribe {
-            AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
-            viewModel.setImpressionTracked(true)
-        }
-
         viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
             PicassoHelper.Builder(itemView.context)
                     .setPlaceholder(R.drawable.results_list_placeholder)
@@ -151,7 +156,18 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
                     .build()
                     .load(HotelMedia(url).getBestUrls(width / 2))
         }
-        cardView.contentDescription = viewModel.getHotelContentDesc()
+
+    }
+
+    @CallSuper
+    open fun bindHotelData(hotel: Hotel) {
+        viewModel.bindHotelData(hotel)
+
+        viewModel.adImpressionObservable.subscribe {
+            AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
+            viewModel.setImpressionTracked(hotel, true)
+        }
+        cardView.contentDescription = viewModel.getHotelContentDesc(hotel)
     }
 
     override fun onClick(view: View) {
@@ -176,7 +192,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
 
         private fun mixColor(palette: Palette) {
             val color = palette.getDarkVibrantColor(R.color.transparent_dark)
-            val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f);
+            val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f)
             val topColor = fullColorBuilder.setAlpha(80).build() // 30
             val midColor1 = fullColorBuilder.setAlpha(15).build() // 5
             val midColor2 = fullColorBuilder.setAlpha(25).build() // 10

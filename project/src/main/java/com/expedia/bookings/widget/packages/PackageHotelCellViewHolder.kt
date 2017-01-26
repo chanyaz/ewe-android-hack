@@ -1,8 +1,10 @@
 package com.expedia.bookings.widget.packages
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -18,18 +20,25 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCel
     val priceIncludesFlightsDivider: View by root.bindView(R.id.price_includes_flights_divider)
     val priceIncludesFlightsView: TextView by root.bindView(R.id.price_includes_flights)
 
-    override fun bind(viewModel: HotelViewModel) {
-        super.bind(viewModel)
+    init {
+        bindViewModel()
+    }
+
+    override fun bindViewModel() {
+        super.bindViewModel()
         viewModel as PackageHotelViewModel
         viewModel.unrealDealMessageObservable.subscribeText(unrealDealMessage)
         viewModel.unrealDealMessageVisibilityObservable.subscribeVisibility(unrealDealMessageContainer)
 
         viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsDivider)
         viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsView)
-        cardView.contentDescription = viewModel.getHotelContentDesc()
     }
 
     override fun showHotelFavorite(): Boolean {
         return false
+    }
+
+    override fun createHotelViewModel(context: Context): HotelViewModel {
+        return PackageHotelViewModel(context)
     }
 }

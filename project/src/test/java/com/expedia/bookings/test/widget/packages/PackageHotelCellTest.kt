@@ -55,7 +55,7 @@ class PackageHotelCellTest {
         givenHotelMobileExclusive(hotel)
         givenHotelTonightOnly(hotel)
         givenHotelWithFewRoomsLeft(hotel)
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("Sold Out", packageHotelHolder.urgencyMessageBox.text)
@@ -74,7 +74,7 @@ class PackageHotelCellTest {
 
         hotel.isSoldOut = false
 
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertNotEquals("Sold Out", packageHotelHolder.urgencyMessageBox.text)
@@ -90,7 +90,7 @@ class PackageHotelCellTest {
         givenHotelTonightOnly(hotel)
         givenHotelWithFewRoomsLeft(hotel)
 
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
@@ -103,7 +103,7 @@ class PackageHotelCellTest {
         givenHotelMobileExclusive(hotel)
         givenHotelTonightOnly(hotel)
 
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("Tonight Only!", packageHotelHolder.urgencyMessageBox.text)
@@ -114,7 +114,7 @@ class PackageHotelCellTest {
         val hotel = makeHotel()
         givenHotelMobileExclusive(hotel)
 
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("Mobile Exclusive", packageHotelHolder.urgencyMessageBox.text)
@@ -124,7 +124,7 @@ class PackageHotelCellTest {
     @Test fun testNoUrgencyMessage() {
         val hotel = makeHotel()
 
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.GONE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("", packageHotelHolder.urgencyMessageBox.text)
@@ -133,19 +133,19 @@ class PackageHotelCellTest {
 
     @Test fun testPriceIncludesFlights() {
         val hotel = makeHotel()
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
         Assert.assertEquals(View.GONE, packageHotelHolder.priceIncludesFlightsView.visibility)
 
         hotel.isPackage = true
         hotel.thumbnailUrl = "https://media.expedia.com"
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.priceIncludesFlightsView.visibility)
 
     }
 
     @Test fun testNoPriceIncludesFlights() {
         val hotel = makeHotel()
-        packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
+        packageHotelHolder.bindHotelData(hotel)
         Assert.assertEquals(View.GONE, packageHotelHolder.priceIncludesFlightsView.visibility)
     }
 

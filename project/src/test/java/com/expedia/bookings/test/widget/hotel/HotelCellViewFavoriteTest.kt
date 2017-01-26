@@ -65,7 +65,7 @@ class HotelCellViewFavoriteTest {
         givenHotelMobileExclusive(hotel)
         givenHotelTonightOnly(hotel)
         givenHotelWithFewRoomsLeft(hotel)
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
@@ -84,7 +84,7 @@ class HotelCellViewFavoriteTest {
 
         hotel.isSoldOut = false
 
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertNotEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
@@ -100,7 +100,7 @@ class HotelCellViewFavoriteTest {
         givenHotelTonightOnly(hotel)
         givenHotelWithFewRoomsLeft(hotel)
 
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
@@ -113,7 +113,7 @@ class HotelCellViewFavoriteTest {
         givenHotelMobileExclusive(hotel)
         givenHotelTonightOnly(hotel)
 
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("Tonight Only!", hotelViewHolder.urgencyMessageBox.text)
@@ -124,7 +124,7 @@ class HotelCellViewFavoriteTest {
         val hotel = makeHotel()
         givenHotelMobileExclusive(hotel)
 
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("Mobile Exclusive", hotelViewHolder.urgencyMessageBox.text)
@@ -134,7 +134,7 @@ class HotelCellViewFavoriteTest {
     @Test fun testNoUrgencyMessage() {
         val hotel = makeHotel()
 
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("", hotelViewHolder.urgencyMessageBox.text)
@@ -145,14 +145,14 @@ class HotelCellViewFavoriteTest {
         val hotel = makeHotel()
         PointOfSaleTestConfiguration.configurePointOfSale(getContext(), "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
         Assert.assertEquals(View.GONE, hotelViewHolder.topAmenityTitle.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
     }
 
     @Test fun testFavoriteButton() {
         val hotel = makeHotel()
-        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        hotelViewHolder.bindHotelData(hotel)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.heartView.visibility)
 
         Assert.assertEquals(

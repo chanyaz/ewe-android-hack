@@ -61,7 +61,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-        val viewModel = HotelViewModel(holder.itemView.context, hotels[position])
+        val viewModel = HotelViewModel(holder.itemView.context)
+        viewModel.bindHotelData(hotels[position])
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
@@ -115,8 +116,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         }
 
         fun bind(viewModel: HotelViewModel) {
-            hotelId = viewModel.hotelId
-            hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
+            hotelId = viewModel.hotelId.value
+            hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId.value, viewModel.soldOut))
 
             viewModel.hotelLargeThumbnailUrlObservable.subscribe {
                 PicassoHelper.Builder(hotelPreviewImage)
