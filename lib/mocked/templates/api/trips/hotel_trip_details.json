@@ -1,8 +1,7 @@
 {
   "apiVersion": "1.0",
-  "responseType": "TRIP_SUMMARY",
-  "responseData": [
-    {
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
       "levelOfDetail": "FULL",
       "tripId": "fb24d134-adbd-44f6-9904-48cfb33bbd50",
       "webDetailsURL": "https://www.expedia.com/trips/1103274148635",
@@ -213,5 +212,4 @@
       ],
       "isTripUpgradable": true
     }
-  ]
 }

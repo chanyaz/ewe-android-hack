@@ -25,6 +25,7 @@ import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.DaggerPackageComponent;
 import com.expedia.bookings.dagger.DaggerRailComponent;
 import com.expedia.bookings.dagger.DaggerTravelerComponent;
+import com.expedia.bookings.dagger.DaggerTripComponent;
 import com.expedia.bookings.dagger.FlightComponent;
 import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
@@ -32,6 +33,7 @@ import com.expedia.bookings.dagger.LaunchComponent;
 import com.expedia.bookings.dagger.PackageComponent;
 import com.expedia.bookings.dagger.RailComponent;
 import com.expedia.bookings.dagger.TravelerComponent;
+import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -361,6 +363,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private HotelComponent mHotelComponent;
 	private RailComponent mRailComponent;
 	private PackageComponent mPackageComponent;
+	private TripComponent mTripComponent;
 	private FlightComponent mFlightComponent;
 	private TravelerComponent mTravelerComponent;
 	private LaunchComponent mLaunchComponent;
@@ -406,6 +409,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			.build());
 	}
 
+	public void defaultTripComponents() {
+		setTripComponent(DaggerTripComponent.builder()
+			.appComponent(mAppComponent)
+			.build());
+	}
+
 	public void setRailComponent(RailComponent railComponent) {
 		mRailComponent = railComponent;
 	}
@@ -432,8 +441,16 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		mPackageComponent = packageComponent;
 	}
 
+	public void setTripComponent(TripComponent tripComponent) {
+		mTripComponent = tripComponent;
+	}
+
 	public PackageComponent packageComponent() {
 		return mPackageComponent;
+	}
+
+	public TripComponent tripComponent() {
+		return mTripComponent;
 	}
 
 	public void setFlightComponent(FlightComponent flightComponent) {

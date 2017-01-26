@@ -5,7 +5,6 @@ import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.server.TripParser
 import okio.Okio
 import org.joda.time.DateTime
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
@@ -67,24 +66,20 @@ class ItinCardDataHotelBuilder {
     private fun fetchTripHotel(jsonFileName: String): TripHotel {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/$jsonFileName.json"))).readUtf8()
         val jsonObject = JSONObject(data)
-        val jsonArray = jsonObject.getJSONArray("responseData")
-        val tripHotel = getHotelTrip(jsonArray)!!
+        val jsonResponseData = jsonObject.getJSONObject("responseData")
+        val tripHotel = getHotelTrip(jsonResponseData)!!
         return tripHotel
     }
 
-    private fun getHotelTrip(jsonArray: JSONArray): TripHotel? {
+    private fun getHotelTrip(jsonObject: JSONObject): TripHotel? {
         val tripParser = TripParser()
 
-        var index = 0
-        while (index < jsonArray.length()) {
-            val tripJsonObj = jsonArray.get(index) as JSONObject
-            val tripObj = tripParser.parseTrip(tripJsonObj)
-            val tripComponent = tripObj.tripComponents[0]
-            if (tripComponent is TripHotel) {
-                return tripComponent
-            }
-            index++
+        val tripObj = tripParser.parseTrip(jsonObject)
+        val tripComponent = tripObj.tripComponents[0]
+        if (tripComponent is TripHotel) {
+            return tripComponent
+        } else {
+            return null
         }
-        return null
     }
 }

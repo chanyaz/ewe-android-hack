@@ -881,6 +881,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		else if (data.hasDetailData() && isItinCardDetailFeatureOn) {
 			Intent i = new Intent(getContext(), ItinCardDetailsActivity.class);
+			i.putExtra("tripId", data.getTripId());
 			getContext().startActivity(i);
 		}
 		else if (data.hasDetailData()) {
