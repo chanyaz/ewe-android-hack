@@ -921,6 +921,8 @@
     <string name="infants_under_two">Alle 2-vuotiaat</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Matkalla ei ole riittävää määrää aikuisia (yli 12-vuotiaita), joiden sylissä vauvat voivat istua. He tarvitsevat omat istuinpaikat.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Voimme varata paikat korkeintaan kahdelle vauvalle jokaista yli 12-vuotiasta matkustajaa kohti</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Sylissä</string>
     <!-- Description for infant travelers sitting in seats -->

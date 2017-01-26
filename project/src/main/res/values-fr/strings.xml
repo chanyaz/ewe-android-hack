@@ -921,6 +921,8 @@
     <string name="infants_under_two">Enfants -2 ans</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Il n\&apos;y a pas assez d\&apos;adultes (de + de 12 ans) pour que les jeunes enfants s\&apos;assoient sur des genoux. Ces derniers ont besoin de leur propre siège.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Nous sommes uniquement en mesure de réserver des sièges attitrés pour un maximum de deux jeunes enfants par voyageur âgé de 12 ans et plus.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Sur genoux</string>
     <!-- Description for infant travelers sitting in seats -->

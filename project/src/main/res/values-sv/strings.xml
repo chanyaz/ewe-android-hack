@@ -882,7 +882,7 @@
         <item quantity="two">artiklar i resplanen</item>
         <item quantity="few">artiklar i resplanen</item>
         <item quantity="many">artiklar i resplanen</item>
-        <item quantity="other">komponenter i den här resplanen</item>
+        <item quantity="other">artiklar i den här resplanen</item>
     </plurals>
 
     <!-- LX Sort & Filter "Sort By" section header -->
@@ -921,6 +921,8 @@
     <string name="infants_under_two">Spädbarn under 2</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Resesällskapet har inte tillräckligt många vuxna (12 år eller äldre) för att ha spädbarn i knät. De behöver egna säten.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Vi kan endast boka sittplats för upp till två spädbarn per resenär över 12 år</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">I knä</string>
     <!-- Description for infant travelers sitting in seats -->

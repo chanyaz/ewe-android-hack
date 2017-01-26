@@ -921,6 +921,8 @@
     <string name="infants_under_two">Bebés de menos de 2 años</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">No hay suficientes adultos de más de 12 años para que todos los bebés viajen en regazo. Es necesario adquirir asientos para el resto de bebés.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Solo podemos reservar billetes con derecho a asiento para un máximo de dos bebés sentados por cada viajero de más de 12 años.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">En regazo</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -4659,7 +4661,7 @@
     <string name="vip_loyalty_applied_header_message">¡Se ha aplicado el doble de puntos de Expedia+!</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
     <string name="swp_widget_points_value_TEMPLATE">Tienes {points_or_amount} puntos</string>
-    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt;¡Se ha aplicado el doble de puntos de Expedia+!</string>
+    <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; ¡Se ha aplicado el doble de puntos de Expedia+!</string>
     <string name="swp_off_widget_header">Aplicar puntos de Expedia+</string>
     <string name="swp_on_widget_header">Se han aplicado los puntos de Expedia+</string>
 
