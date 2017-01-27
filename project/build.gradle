@@ -193,7 +193,7 @@ android {
         testApplicationId "com.expedia.bookings.test"
 
         //Set testRunnerPackage to com.expedia.bookings.test.CucumberInstrumentationRunner to run cucumber tests
-        def testRunnerPackage = "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
+        def testRunnerPackage = "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
         testInstrumentationRunner testRunnerPackage
         manifestPlaceholders = [instrumentationRunnerPath : testRunnerPackage]

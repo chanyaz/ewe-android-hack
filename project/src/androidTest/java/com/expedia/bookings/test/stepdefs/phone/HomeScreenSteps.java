@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 
@@ -27,6 +30,16 @@ public class HomeScreenSteps {
 			NewLaunchScreen.flightLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
 		}
+	}
+
+	@And("^I set Flight Round Trip AB test to \"(.*?)\"")
+	public void setFlightRoundTripABTest(String variant) throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTest,AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage,AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
+	}
+
+	@And("^2 AB test")
+	public void secondabtest() throws Throwable {
+
 	}
 }
 

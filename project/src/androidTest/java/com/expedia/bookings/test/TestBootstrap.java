@@ -32,7 +32,9 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 
 	@Before("@Flights")
 	public void bucketUserForMaterialFlightsExperience() throws Exception {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTest);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTest,AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage,AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
+//		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
+//		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 	}
 
 	@Before
