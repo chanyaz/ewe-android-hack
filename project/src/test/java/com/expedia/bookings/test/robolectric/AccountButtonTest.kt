@@ -9,7 +9,9 @@ import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.RewardsInfo
+import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.cars.CarCreateTripResponse
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemCar
@@ -144,5 +146,25 @@ class AccountButtonTest {
         val rewardContentDescriptionText = accountButton.getSignInWithRewardsContentDescriptionText(rewardsInfo).toString()
         val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_cont_desc_TEMPLATE).put("reward", "$12" ).format().toString()
         assertEquals(expectedText,rewardContentDescriptionText)
+    }
+
+    @Test
+    fun testRewardsForFlightV2() {
+        val createTripResponse = FlightCreateTripResponse()
+        val rewardsInfo = RewardsInfo()
+        rewardsInfo.totalAmountToEarn = Money("1234", "USD")
+        createTripResponse.rewards = rewardsInfo
+        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
+        val rewardsFlightV2 = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS_V2)
+        assertNotNull(rewardsFlightV2)
+
+        rewardsInfo.totalAmountToEarn = null
+        val noAmountToEarn = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS_V2)
+        assertNull(noAmountToEarn)
+
+        createTripResponse.rewards = null
+        val noReward = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS_V2)
+        assertNull(noReward)
+
     }
 }

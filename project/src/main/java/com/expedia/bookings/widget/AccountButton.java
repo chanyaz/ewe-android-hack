@@ -229,7 +229,7 @@ public class AccountButton extends LinearLayout {
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
 		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && (
-			lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.PACKAGES) && !AndroidUtils.isTablet(getContext());
+			lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES) && !AndroidUtils.isTablet(getContext());
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -444,6 +444,13 @@ public class AccountButton extends LinearLayout {
 		else if (lob == LineOfBusiness.PACKAGES) {
 			TripBucketItemPackages packages = Db.getTripBucket().getPackage();
 			PackageCreateTripResponse trip = packages == null ? null : packages.mPackageTripResponse;
+			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
+				return trip.getRewards();
+			}
+		}
+		else if (lob == LineOfBusiness.FLIGHTS_V2) {
+			TripBucketItemFlightV2 flightV2 = Db.getTripBucket().getFlightV2();
+			FlightCreateTripResponse trip = flightV2 == null ? null : flightV2.flightCreateTripResponse;
 			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
 				return trip.getRewards();
 			}
