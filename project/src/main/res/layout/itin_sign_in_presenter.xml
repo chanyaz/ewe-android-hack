@@ -27,7 +27,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minWidth="260dp"
-            app:cardBackgroundColor="@color/yellow"
+            app:cardBackgroundColor="@color/brand_secondary"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
