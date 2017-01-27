@@ -147,3 +147,32 @@ Feature: Flights testing
     Examples:
       | initialNumber | laterNumber |
       | 5             | 4           |
+
+
+  @Flights @SearchScreen
+  Scenario Outline: Verifying data consistency through screens for round trip
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    Then Validate that flight time field is displayed: true
+    And Validate that price field is displayed: true
+    And Validate that airline name field is displayed: true
+    And Validate that flight duration field is displayed: true
+    And Validate that round trip header is displayed: true
+    And Name of airline is "<AirlineName>"
+    And Price of the flight is <price>
+    And Duration of the flight is "<duration>"
+    And Timing of the flight is "<timing>"
+    And Number of stops are <number>
+
+    Examples:
+      | AirlineName    | price | duration | timing             | number |
+      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      |
