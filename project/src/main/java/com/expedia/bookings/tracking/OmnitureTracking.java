@@ -2171,6 +2171,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_DESTINATION_SEARCH + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(isGroundTransport ? LX_GT_DESTINATION_SEARCH : LX_DESTINATION_SEARCH);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXDisablePOISearch);
 
 		// Send the tracking data
 		s.track();
