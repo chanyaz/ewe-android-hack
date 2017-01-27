@@ -133,7 +133,7 @@
         <com.expedia.bookings.widget.LXSortFilterWidget
             android:id="@+id/sort_filter_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#EFEFEF"
             android:clickable="true"
             android:orientation="vertical"

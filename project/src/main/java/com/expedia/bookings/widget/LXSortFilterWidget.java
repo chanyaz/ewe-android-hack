@@ -340,15 +340,12 @@ public class LXSortFilterWidget extends LinearLayout {
 	}
 
 	private void animateDynamicFeedbackHeight(final boolean showDynamicFeedback) {
+		if (toolbarBackgroundView != null) {
+			toolbarBackgroundView.setVisibility(VISIBLE);
+		}
 		if (!userBucketedForCategoriesTest || themeAllThingsToDo) {
-			if (toolbarBackgroundView != null) {
-				toolbarBackgroundView.setVisibility(VISIBLE);
-			}
 			spaceBelowFilterCategories.setVisibility(showDynamicFeedback ? VISIBLE : GONE);
 			return;
-		}
-		else {
-			toolbarBackgroundView.setVisibility(GONE);
 		}
 		if ((spaceBelowFilterCategories.getVisibility() == VISIBLE && showDynamicFeedback) || (
 			spaceBelowFilterCategories.getVisibility() == GONE && !showDynamicFeedback)) {
