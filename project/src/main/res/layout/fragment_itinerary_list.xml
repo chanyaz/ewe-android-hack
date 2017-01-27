@@ -23,13 +23,21 @@
         app:pathViewWidth="2dp" />
 
     <!-- The No itins portion -->
+    <ViewStub
+        android:id="@+id/sign_in_presenter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/sign_in_presenter"
+        android:layout="@layout/sign_in_presenter_stub"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:id="@id/android:empty"
+        android:id="@+id/old_sign_in_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <RelativeLayout
             android:id="@+id/empty_list_content"

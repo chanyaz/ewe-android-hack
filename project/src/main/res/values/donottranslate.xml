@@ -126,6 +126,7 @@
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
     <string name="preference_hotel_image_load_latency">preference_hotel_image_load_latency</string>
     <string name="preference_flight_premium_class">preference_flight_premium_class</string>
+    <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

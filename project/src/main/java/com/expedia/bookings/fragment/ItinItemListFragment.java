@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
@@ -36,6 +38,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
@@ -61,7 +64,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private View mRoot;
 	private ImageView mShadowImageView;
 	private ItinListView mItinListView;
-	private View mEmptyView;
 	private View mOrEnterNumberTv;
 	private ItineraryManager mItinManager;
 	private ViewGroup mEmptyListLoadingContainer;
@@ -135,7 +137,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mRoot = Ui.findView(view, R.id.outer_container);
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
-		mEmptyView = Ui.findView(view, android.R.id.empty);
+
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
@@ -144,7 +146,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mStatusImage = Ui.findView(view, R.id.no_trips_image);
 		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
-		mItinListView.setEmptyView(mEmptyView);
+		setSignInView(view);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
 
@@ -204,6 +206,19 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 
 		return view;
+	}
+
+	private void setSignInView(View view) {
+		View mEmptyView;
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
+			R.string.preference_itin_new_sign_in_screen)) {
+			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
+			mEmptyView = viewStub.inflate();
+		}
+		else {
+			mEmptyView = Ui.findView(view, R.id.old_sign_in_view);
+		}
+		mItinListView.setEmptyView(mEmptyView);
 	}
 
 	@Override
