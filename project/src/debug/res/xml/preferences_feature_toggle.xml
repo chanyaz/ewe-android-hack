@@ -11,12 +11,6 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_rail_checkout_login"
-            android:layout="@layout/preference"
-            android:summary="Login on Rail checkout screen."
-            android:title="Enable Login on Rail Checkout" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

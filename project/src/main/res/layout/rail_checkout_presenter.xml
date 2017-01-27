@@ -43,8 +43,7 @@
                     android:id="@+id/login_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
 
                     <com.expedia.bookings.widget.AccountButton
                         android:id="@+id/login_button"

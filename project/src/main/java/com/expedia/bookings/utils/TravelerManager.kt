@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
@@ -41,8 +40,7 @@ class TravelerManager {
         val travelers = Db.getTravelers()
         travelers.clear()
         // Rail only collects Primary Traveler so don't worry about the details of the others.
-        val railLoginEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_rail_checkout_login)
-        if (railLoginEnabled && User.isLoggedIn(context)) {
+        if (User.isLoggedIn(context)) {
             travelers.add(Db.getUser().primaryTraveler)
         } else {
             travelers.add(Traveler())
