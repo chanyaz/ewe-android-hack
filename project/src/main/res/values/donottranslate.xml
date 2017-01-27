@@ -123,7 +123,6 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
-    <string name="preference_hotel_image_load_latency">preference_hotel_image_load_latency</string>
     <string name="preference_flight_premium_class">preference_flight_premium_class</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
 
