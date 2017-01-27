@@ -42,6 +42,7 @@ public class FlightSearchPresenterTest {
 	public void before() {
 		activity = Robolectric.buildActivity(Activity.class).create().get();
 		activity.setTheme(R.style.V2_Theme_Packages);
+		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
 

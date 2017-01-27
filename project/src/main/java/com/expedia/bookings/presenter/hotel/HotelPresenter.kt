@@ -35,10 +35,11 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
-import com.expedia.bookings.tracking.hotel.HotelClientLogTracker
+import com.expedia.bookings.tracking.hotel.ClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -86,11 +87,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
-    lateinit var hotelClientLogTracker: HotelClientLogTracker
+    lateinit var hotelClientLogTracker: ClientLogTracker
         @Inject set
 
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
+
+    val userBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
+    val eventName = if (userBucketedForTest) ClientLogConstants.PERCEIVED_INSTANT_SEARCH_RESULTS else ClientLogConstants.REGULAR_SEARCH_RESULTS
 
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
@@ -149,7 +153,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
-                hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData)
+                hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData, ClientLogConstants.MATERIAL_HOTEL_SEARCH_PAGE, eventName)
                 HotelTracking.trackHotelSearch(trackingData)
             }
         }
@@ -170,7 +174,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
                 if (searchTrackingBuilder.isWorkComplete()) {
                     val trackingData = searchTrackingBuilder.build()
-                    hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData)
+                    hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData, ClientLogConstants.MATERIAL_HOTEL_SEARCH_PAGE, eventName)
                     HotelTracking.trackHotelSearch(trackingData)
                 }
             }

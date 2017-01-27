@@ -33,6 +33,8 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     private var loadingState = true
     private var maxFlightDuration = 0
     protected var flights: List<FlightLeg> = emptyList()
+    private var newResultsConsumed = false
+    val allViewsLoadedTimeObservable = PublishSubject.create<Unit>()
 
     enum class ViewTypes {
         PRICING_STRUCTURE_HEADER_VIEW,
@@ -54,6 +56,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
         loadingState = false
+        newResultsConsumed = false
         val newFlights = ArrayList(flights)
         for (flightLeg in newFlights) {
             if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
@@ -87,6 +90,10 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
             is FlightViewHolder -> {
+                if (!newResultsConsumed) {
+                    newResultsConsumed = true
+                    allViewsLoadedTimeObservable.onNext(Unit)
+                }
                 holder.bind(makeFlightViewModel(holder.itemView.context, flights[position - adjustPosition()]))
             }
 

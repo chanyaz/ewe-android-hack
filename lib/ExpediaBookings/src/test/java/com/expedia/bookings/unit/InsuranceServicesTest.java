@@ -134,7 +134,7 @@ public class InsuranceServicesTest {
 			.adults(1)
 			.build();
 
-		flightServices.flightSearch(flightSearchParams, flightSearchObserver);
+		flightServices.flightSearch(flightSearchParams, flightSearchObserver, null);
 		flightSearchObserver.awaitTerminalEvent();
 		flightSearchObserver.assertNoErrors();
 		FlightSearchResponse flightSearchResponse = flightSearchObserver.getOnNextEvents().get(0);

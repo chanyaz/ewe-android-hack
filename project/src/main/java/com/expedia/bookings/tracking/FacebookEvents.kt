@@ -15,6 +15,7 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.Rate
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarLocation
@@ -37,6 +38,7 @@ import com.expedia.bookings.data.trips.TripBucketItemFlight
 import com.expedia.bookings.data.trips.TripBucketItemHotel
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
@@ -250,16 +252,17 @@ class FacebookEvents() {
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
-    fun trackFlightV2Search(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
-                            flightLegList: List<FlightLeg>) {
-        val destinationAirport = flightSearchParams.arrivalAirport.gaiaId
-        val arrivalAirport = flightSearchParams.departureAirport.gaiaId
+    fun trackFlightV2Search(searchTrackingData: FlightSearchTrackingData) {
+        val destinationAirport = searchTrackingData.arrivalAirport?.gaiaId
+        val arrivalAirport = searchTrackingData.departureAirport?.gaiaId
         val parameters = Bundle()
-        val lastFlightSegment = flightLegList[0].flightSegments.size - 1
-        val arrivalAirportAddress = flightLegList[0].flightSegments[lastFlightSegment].arrivalAirportAddress
-        addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
+        val lastFlightSegment = searchTrackingData.flightLegList[0].flightSegments.size - 1
+        val arrivalAirportAddress = searchTrackingData.flightLegList[0].flightSegments[lastFlightSegment].arrivalAirportAddress
+        addCommonFlightV2Params(parameters, searchTrackingData.arrivalAirport, searchTrackingData.departureAirport, searchTrackingData.departureDate,
+                searchTrackingData.returnDate, searchTrackingData.guests, searchTrackingData.children.size)
+        addArrivalAirportAddress(parameters, arrivalAirportAddress)
         parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
-        parameters.putString("LowestSearch_Value", flightLegList[0].packageOfferModel.price.packageTotalPrice.amount.toString())
+        parameters.putString("LowestSearch_Value", searchTrackingData.flightLegList[0].packageOfferModel.price.packageTotalPrice.amount.toString())
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -688,34 +691,40 @@ class FacebookEvents() {
 
     private fun addCommonFlightV2Params(parameters: Bundle, searchParams: com.expedia.bookings.data.flights.FlightSearchParams,
                                         arrivalAirportAddress: FlightLeg.FlightSegment.AirportAddress?) {
-        val dtf = ISODateTimeFormat.date()
 
-        searchParams.arrivalAirport.gaiaId
-        val destinationId = searchParams.arrivalAirport.gaiaId
-        parameters.putString("region_id", destinationId)
-        parameters.putString("destination_name", destinationId)
-        parameters.putString("LOB", "Flight")
-
-        if (arrivalAirportAddress != null) {
-            parameters.putString("destination_city", arrivalAirportAddress.city)
-            parameters.putString("destination_state", arrivalAirportAddress.state)
-            parameters.putString("destination_country", arrivalAirportAddress.country)
-        }
-
-        parameters.putString("Start_Date", dtf.print(searchParams.departureDate))
-        parameters.putString("End_Date", if (searchParams.returnDate != null) dtf.print(searchParams.returnDate) else "")
-
-        parameters.putInt("Booking_Window", getBookingWindow(searchParams.departureDate))
-        parameters.putString("FlightOrigin_AirportCode", searchParams.departureAirport.gaiaId)
-        parameters.putString("FlightDestination_AirportCode", destinationId)
-        parameters.putInt("Num_People", searchParams.guests)
-        parameters.putInt("Number_Children", searchParams.children.size)
-
+        addCommonFlightV2Params(parameters, searchParams.arrivalAirport, searchParams.departureAirport, searchParams.departureDate,
+                searchParams.returnDate, searchParams.guests, searchParams.children.size)
+        addArrivalAirportAddress(parameters, arrivalAirportAddress)
         if (facebookContext != null) {
             parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
+    }
+
+    private fun addCommonFlightV2Params(parameters: Bundle, arrivalAirport: SuggestionV4?,
+                                        departureAirport: SuggestionV4?, departureDate: LocalDate?, returnDate: LocalDate?, guests: Int, childrenNo: Int) {
+        val dtf = ISODateTimeFormat.date()
+        val destinationId = arrivalAirport!!.gaiaId
+        parameters.putString("region_id", destinationId)
+        parameters.putString("destination_name", destinationId)
+        parameters.putString("LOB", "Flight")
+        parameters.putString("Start_Date", dtf.print(departureDate))
+        parameters.putString("End_Date", if (returnDate != null) dtf.print(returnDate) else "")
+
+        parameters.putInt("Booking_Window", getBookingWindow(departureDate!!))
+        parameters.putString("FlightOrigin_AirportCode", departureAirport?.gaiaId)
+        parameters.putString("FlightDestination_AirportCode", destinationId)
+        parameters.putInt("Num_People", guests)
+        parameters.putInt("Number_Children", childrenNo)
+    }
+
+    private fun addArrivalAirportAddress(parameters: Bundle, arrivalAirportAddress: FlightLeg.FlightSegment.AirportAddress?) {
+        if (arrivalAirportAddress != null) {
+            parameters.putString("destination_city", arrivalAirportAddress.city)
+            parameters.putString("destination_state", arrivalAirportAddress.state)
+            parameters.putString("destination_country", arrivalAirportAddress.country)
+        }
     }
 
     private fun addCommonLocationEvents(parameters: Bundle, location: Location) {
