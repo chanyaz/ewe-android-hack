@@ -43,6 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
 	public static final int EBAndroidAppHotelColorSwitch = 12875;
+	public static final int EBAndroidAppHotelRoomRateExpanded = 12907;
 	public static final int EBAndroidAppMaterialFlightDistanceOnDetails = 12766;
 	public static final int EBAndroidAppHotelImageLoadLatency = 12908;
 	public static final int EBAndroidAppHotelPriceProminance = 12974;
@@ -100,6 +101,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
 		testIDs.add(EBAndroidAppMaterialFlightSearchRoundTripMessage);
 		testIDs.add(EBAndroidAppHotelColorSwitch);
+		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
 		testIDs.add(EBAndroidAppMaterialFlightDistanceOnDetails);
 		testIDs.add(EBAndroidAppHotelImageLoadLatency);
 		testIDs.add(EBAndroidAppHotelPriceProminance);

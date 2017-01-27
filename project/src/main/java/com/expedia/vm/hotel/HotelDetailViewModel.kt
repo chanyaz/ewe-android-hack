@@ -2,6 +2,7 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
@@ -9,13 +10,28 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
+import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 import rx.Observer
+import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 
-open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
-        BaseHotelDetailViewModel(context, roomSelectedObserver) {
+open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(context) {
+    init {
+        paramsSubject.subscribe { params ->
+            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
+                    DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
+                    DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
+                    .format()
+                    .toString())
+
+            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
+        }
+    }
 
     override fun pricePerDescriptor(): String {
         return context.getString(R.string.per_night)

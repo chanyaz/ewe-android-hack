@@ -3,11 +3,13 @@ package com.expedia.bookings.test.widget
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.util.endlessObserver
@@ -42,7 +44,7 @@ class PackageHotelDetailsTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = PackageHotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
+        vm = PackageHotelDetailViewModel(activity.applicationContext)
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()
@@ -90,6 +92,14 @@ class PackageHotelDetailsTest {
 
 
     private fun givenHotelSearchParams() {
+        val response = PackageSearchResponse()
+        response.packageInfo = PackageSearchResponse.PackageInfo()
+        response.packageInfo.hotelCheckinDate = PackageSearchResponse.HotelCheckinDate()
+        response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
+        response.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
+        response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
+        Db.setPackageResponse(response)
+
         checkIn = LocalDate.now();
         checkOut = checkIn.plusDays(1)
         val suggestion = SuggestionV4()

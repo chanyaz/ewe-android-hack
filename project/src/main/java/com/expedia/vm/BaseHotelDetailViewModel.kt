@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -10,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -38,21 +40,21 @@ import com.expedia.util.getGuestRatingBackground
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
-import org.joda.time.format.DateTimeFormat
 import rx.Observable
 import rx.Observer
-import rx.Subscription
-import rx.internal.util.RxRingBuffer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
 
-abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
+abstract class BaseHotelDetailViewModel(val context: Context) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
+
+    val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
 
     abstract fun getLobPriceObservable(rate: HotelRate)
     abstract fun showHotelFavorite(): Boolean
@@ -81,17 +83,14 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
         else
             galleryItemChangeObservable.onNext(Pair(position, ""))
-
     }
 
-    var subscriber: Subscription? = null
     private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
     private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
     val hotelPriceContentDesc = PublishSubject.create<String>()
 
-    val toolBarRatingColor = hotelSoldOut.map { if (it) ContextCompat.getColor(context, android.R.color.white) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
     val priceWidgetBackground = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.hotel_cell_gray_text) else ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)) }
 
@@ -169,118 +168,16 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
-    val bundlePricePerPersonObservable = BehaviorSubject.create<Money>()
-    val bundleTotalPriceObservable = BehaviorSubject.create<Money>()
-    val bundleSavingsObservable = BehaviorSubject.create<Money>()
     var isCurrentLocationSearch = false
     val scrollToRoom = PublishSubject.create<Unit>()
     val changeDates = PublishSubject.create<Unit>()
 
+    var selectedRoomIndex = -1
+
+    private var roomSubscriptions: CompositeSubscription? = null
+
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
-        hotelOffersResponse = response
-
-        val galleryUrls = ArrayList<HotelMedia>()
-
-        val images = Images.getHotelImages(hotelOffersResponse, R.drawable.room_fallback)
-        if (images.isNotEmpty()) {
-            galleryUrls.addAll(images.toMutableList())
-        } else {
-            val placeHolder = HotelMedia()
-            placeHolder.setIsPlaceholder(true)
-            galleryUrls.add(placeHolder)
-        }
-        galleryObservable.onNext(galleryUrls)
-
-        val amenityList = arrayListOf<Amenity>()
-        if (response.hotelAmenities != null) {
-            amenityList.addAll(Amenity.amenitiesToShow(response.hotelAmenities))
-        }
-
-        if (amenityList.isEmpty()) {
-            noAmenityObservable.onNext(Unit)
-        } else {
-            //Here have to pass the list of amenities which we want to show
-            amenitiesListObservable.onNext(amenityList)
-        }
-
-        hotelNameObservable.onNext(response.hotelName)
-
-        hotelRatingObservable.onNext(response.hotelStarRating.toFloat())
-        hotelRatingObservableVisibility.onNext(response.hotelStarRating > 0)
-        hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating.toInt()))
-
-        allRoomsSoldOut.onNext(false)
-        lastExpandedRowObservable.onNext(-1)
-        noRoomsInOffersResponse.onNext(CollectionUtils.isEmpty(response.hotelRoomResponse))
-
-        val firstHotelRoomResponse = response.hotelRoomResponse?.firstOrNull()
-        if (firstHotelRoomResponse != null) {
-            val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
-            onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
-            getLobPriceObservable(rate)
-            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            if (rate.packagePricePerPerson != null && rate.packageTotalPrice != null && rate.packageSavings != null) {
-                bundlePricePerPersonObservable.onNext(Money(BigDecimal(rate.packagePricePerPerson.amount.toDouble()), rate.packagePricePerPerson.currencyCode))
-                bundleTotalPriceObservable.onNext(rate.packageTotalPrice)
-                bundleSavingsObservable.onNext(rate.packageSavings)
-            }
-            discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
-            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
-        }
-
-        userRatingObservable.onNext(response.hotelGuestRating.toString())
-        userRatingBackgroundColorObservable.onNext(getGuestRatingBackground(context))
-        userRatingRecommendationTextObservable.onNext(getGuestRatingText(response.hotelGuestRating.toFloat(), context.resources))
-        isUserRatingAvailableObservable.onNext(hotelOffersResponse.hotelGuestRating > 0)
-
-        numberOfReviewsObservable.onNext(
-                if (hotelOffersResponse.totalReviews > 0)
-                    context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, hotelOffersResponse.totalReviews, HotelUtils.formattedReviewCount(hotelOffersResponse.totalReviews))
-                else context.resources.getString(R.string.zero_reviews))
-
-        val chargeableRateInfo = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
-        val packageLoyaltyInformation = response.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
-        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
-        var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
-        discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
-                .put("discount", discountPercentage ?: 0).format().toString(),
-                Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
-                        .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))
-
-        showDiscountPercentageObservable.onNext(!response.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
-        val isVipAccess = response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
-        hasVipAccessObservable.onNext(isVipAccess)
-        hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
-        hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
-        promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
-        promoImageObservable.onNext(getPromoImage(firstHotelRoomResponse))
-        val earnMessage = if (response.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) packageLoyaltyInformation?.earn?.getEarnMessage(context) ?: "" else chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
-        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
-        earnMessageObservable.onNext(earnMessage)
-        earnMessageVisibilityObservable.onNext(earnMessageVisibility)
-        promoMessageVisibilityObservable.onNext(!earnMessageVisibility)
-
-        val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
-        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
-
-        val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
-        if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
-            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
-        }
-        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
-        hotelPriceContentDesc.onNext(getHotelPriceContentDescription(isStrikeThroughPriceGreaterThanPriceToShowUsers))
-
-        hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
-        hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
-        val hasETPOffer = hasEtpOffer(hotelOffersResponse)
-        hasETPObservable.onNext(hasETPOffer)
-
-        if (response.firstHotelOverview != null) {
-            sectionBody = HtmlCompat.stripHtml(response.firstHotelOverview)
-            sectionBodyObservable.onNext(sectionBody)
-        }
-
-        hotelLatLngObservable.onNext(doubleArrayOf(hotelOffersResponse.latitude, hotelOffersResponse.longitude))
+        offerReturned(response)
     }
 
     val hotelDescriptionContainerObserver: Observer<Unit> = endlessObserver {
@@ -358,97 +255,65 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         { allRoomsSoldOut, noRoomsInOffersResponse -> allRoomsSoldOut || noRoomsInOffersResponse }.subscribe(hotelSoldOut)
 
         selectedRoomSoldOut.subscribe {
-            hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(false)
-            hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).roomSoldOut.onNext(true)
+            if (selectedRoomIndex != -1) {
+                hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).collapseRoomObservable.onNext(false)
+                hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
+            }
         }
 
         onlyShowTotalPrice.subscribe { onlyShowTotalPrice ->
             (if (onlyShowTotalPrice) totalPriceObservable else priceToShowCustomerObservable).subscribe(roomPriceToShowCustomer)
         }
 
-        paramsSubject.subscribe { params ->
-            if (params.forPackage) {
-                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
-                searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
-                        DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate))).put("enddate",
-                        DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))).put("guests", StrUtils.formatGuestString(context, params.guests))
-                        .format()
-                        .toString())
-                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                        .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
-                        .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
-                        .format().toString()
-                searchDatesObservable.onNext(dates)
-            } else {
-                searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
-                        DateUtils.localDateToMMMd(params.checkIn)).put("enddate",
-                        DateUtils.localDateToMMMd(params.checkOut)).put("guests", StrUtils.formatGuestString(context, params.guests))
-                        .format()
-                        .toString())
-            }
-
-            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
-        }
-
         hotelOffersSubject.subscribe(offersObserver)
 
-        hotelRoomRateViewModelsObservable.subscribe {
-            subscriber?.unsubscribe()
-            val hotelRoomRateViewModels = hotelRoomRateViewModelsObservable.value
-
-            if (hotelRoomRateViewModels == null || hotelRoomRateViewModels.isEmpty()) {
+        hotelRoomRateViewModelsObservable.subscribe { roomRateViewModels ->
+            roomSubscriptions?.unsubscribe()
+            if (roomRateViewModels == null || roomRateViewModels.isEmpty()) {
                 return@subscribe
             }
 
-            //Expand the first item
-            hotelRoomRateViewModels.first().expandRoomObservable.onNext(false)
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
+                //Expand the first item
+                roomRateViewModels.first().expandRoomObservable.onNext(false)
 
-            //Collapse all items except first
-            hotelRoomRateViewModels.drop(1).forEach { it.collapseRoomObservable.onNext(false) }
-
-            //Construct allRoomsSoldOut as Observable.combineLatest(hotelRoomRateViewModels.map { it.roomSoldOut }, { obj -> obj.all({ it == true }) })
-            //i.e. This will act as a contributing signal to Hotel Being Sold Out b/c All individual rooms sold out leads to hotel sold out.
-            //Workaround "Failed to set 'rx.buffer.size' with value "
-            //where RxRingBuffer.SIZE is the upper limit of Observables List for operators like combineLatest
-            //by splitting view models list into sublists of RxRingBuffer.SIZE size each and use 2 levels of combineLatest
-            val listOfListOfRoomRateViewModels = ArrayList<List<HotelRoomRateViewModel>>()
-            var hotelRoomRateViewModelsToBeSplit = hotelRoomRateViewModels.toList()
-            while (hotelRoomRateViewModelsToBeSplit.size > RxRingBuffer.SIZE) {
-                listOfListOfRoomRateViewModels.add(hotelRoomRateViewModelsToBeSplit.take(RxRingBuffer.SIZE))
-                hotelRoomRateViewModelsToBeSplit = hotelRoomRateViewModelsToBeSplit.drop(RxRingBuffer.SIZE)
+                //Collapse all items except first
+                roomRateViewModels.drop(1).forEach { it.collapseRoomObservable.onNext(false) }
+            } else {
+                roomRateViewModels.forEach { it.expandRoomObservable.onNext(false) }
             }
-            listOfListOfRoomRateViewModels.add(hotelRoomRateViewModelsToBeSplit.take(RxRingBuffer.SIZE))
 
-            val listOfObservables = listOfListOfRoomRateViewModels.map { listOfRoomRateViewModels -> Observable.combineLatest(listOfRoomRateViewModels.map { it.roomSoldOut }, { obj -> obj.all({ it -> it as Boolean }) }) }
-            Observable.combineLatest(listOfObservables, { obj -> obj.all({ it -> it as Boolean }) }).distinctUntilChanged().subscribe(allRoomsSoldOut)
-
-            subscriber = selectedRoomSoldOut.subscribe selectedRoomSoldOutLabel@{
-                for (hotelRoomRateViewModel in hotelRoomRateViewModels.drop(lastExpandedRowObservable.value)) {
-                    if (!hotelRoomRateViewModel.roomSoldOut.value) {
-                        hotelRoomRateViewModel.expandRoomObservable.onNext(false)
-                        hotelRoomRateViewModels.clear()
-                        return@selectedRoomSoldOutLabel
+            roomSubscriptions = CompositeSubscription()
+            roomRateViewModels.forEach { roomViewModel ->
+                roomSubscriptions?.add(roomViewModel.roomSoldOut.subscribe {
+                    if (areAllRoomsSoldOut(roomRateViewModels)) {
+                        // In the situation where all once available rooms become sold out, update the experience
+                        allRoomsSoldOut.onNext(true)
                     }
-                }
-
-                for (hotelRoomRateViewModel in hotelRoomRateViewModels.take(lastExpandedRowObservable.value)) {
-                    if (!(hotelRoomRateViewModel.roomSoldOut.value)) {
-                        hotelRoomRateViewModel.expandRoomObservable.onNext(false)
-                        hotelRoomRateViewModels.clear()
-                        return@selectedRoomSoldOutLabel
-                    }
-                }
+                })
             }
+
+            allRoomsSoldOut.onNext(areAllRoomsSoldOut(roomRateViewModels))
         }
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row if there is one
-            if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size && lastExpandedRowObservable.value != indexOfRowBeingExpanded) {
-                hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
+                if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size && lastExpandedRowObservable.value != indexOfRowBeingExpanded) {
+                    hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
+                }
+                lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
             }
-            lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
         }
 
+    }
+
+    private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>) : Boolean {
+        var soldOutCount = 0
+        for (vm in viewModels) {
+            if (vm.roomSoldOut.value) soldOutCount++
+        }
+        return soldOutCount == viewModels.size
     }
 
     fun addViewsAfterTransition() {
@@ -544,6 +409,138 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         }
     }
 
+    fun hasEtpOffer(response: HotelOffersResponse): Boolean {
+        return CollectionUtils.isNotEmpty(response.hotelRoomResponse) && response.hotelRoomResponse.any { it.payLaterOffer != null }
+    }
+
+    //get list of unique amenity for hotel room offers
+    //we display this unique amenity offered in the expanded room view
+    fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
+        if (CollectionUtils.isEmpty(hotelRooms)) {
+            return emptyList()
+        }
+        val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
+        var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
+        for (iRoom in 0..hotelRooms.size - 1) {
+            val rate = hotelOffersResponse.hotelRoomResponse[iRoom]
+            if (rate.valueAdds != null) {
+                val unique = rate.valueAdds.filter { !commonValueAdds.contains(it.description) }
+                if (unique.size > 0) {
+                    list.add(iRoom, context.getString(R.string.value_add_template, unique[0].description.toLowerCase(Locale.getDefault())))
+                }
+            }
+        }
+        return list
+    }
+
+    @CallSuper
+    protected open fun offerReturned(offerResponse: HotelOffersResponse) {
+        hotelOffersResponse = offerResponse
+
+        galleryObservable.onNext(getGalleryUrls())
+
+        val amenityList = arrayListOf<Amenity>()
+        if (offerResponse.hotelAmenities != null) {
+            amenityList.addAll(Amenity.amenitiesToShow(offerResponse.hotelAmenities))
+        }
+
+        if (amenityList.isEmpty()) {
+            noAmenityObservable.onNext(Unit)
+        } else {
+            //Here have to pass the list of amenities which we want to show
+            amenitiesListObservable.onNext(amenityList)
+        }
+
+        hotelNameObservable.onNext(offerResponse.hotelName)
+
+        hotelRatingObservable.onNext(offerResponse.hotelStarRating.toFloat())
+        hotelRatingObservableVisibility.onNext(offerResponse.hotelStarRating > 0)
+        hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating.toInt()))
+
+        allRoomsSoldOut.onNext(false)
+        lastExpandedRowObservable.onNext(-1)
+        noRoomsInOffersResponse.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
+
+        val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
+        if (firstHotelRoomResponse != null) {
+            val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
+            onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+            getLobPriceObservable(rate)
+            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
+            discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
+            showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
+        }
+
+        userRatingObservable.onNext(offerResponse.hotelGuestRating.toString())
+        userRatingBackgroundColorObservable.onNext(getGuestRatingBackground(context))
+        userRatingRecommendationTextObservable.onNext(getGuestRatingText(offerResponse.hotelGuestRating.toFloat(), context.resources))
+        isUserRatingAvailableObservable.onNext(offerResponse.hotelGuestRating > 0)
+
+        numberOfReviewsObservable.onNext(
+                if (offerResponse.totalReviews > 0)
+                    context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, offerResponse.totalReviews, HotelUtils.formattedReviewCount(offerResponse.totalReviews))
+                else context.resources.getString(R.string.zero_reviews))
+
+        val chargeableRateInfo = offerResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
+        val packageLoyaltyInformation = offerResponse.hotelRoomResponse?.firstOrNull()?.packageLoyaltyInformation
+        val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
+        var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
+        discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
+                .put("discount", discountPercentage ?: 0).format().toString(),
+                Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
+                        .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))
+
+        showDiscountPercentageObservable.onNext(!offerResponse.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
+        val isVipAccess = offerResponse.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
+        hasVipAccessObservable.onNext(isVipAccess)
+        hasVipAccessLoyaltyObservable.onNext(isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
+        hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
+        promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
+        promoImageObservable.onNext(getPromoImage(firstHotelRoomResponse))
+        val earnMessage = if (offerResponse.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) packageLoyaltyInformation?.earn?.getEarnMessage(context) ?: "" else chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
+        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
+        earnMessageObservable.onNext(earnMessage)
+        earnMessageVisibilityObservable.onNext(earnMessageVisibility)
+        promoMessageVisibilityObservable.onNext(!earnMessageVisibility)
+
+        val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
+        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
+
+        val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
+        if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
+            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !offerResponse.isPackage))
+        }
+        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
+        hotelPriceContentDesc.onNext(getHotelPriceContentDescription(isStrikeThroughPriceGreaterThanPriceToShowUsers))
+
+        hasFreeCancellationObservable.onNext(hasFreeCancellation(offerResponse))
+        hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
+        val hasETPOffer = hasEtpOffer(offerResponse)
+        hasETPObservable.onNext(hasETPOffer)
+
+        if (offerResponse.firstHotelOverview != null) {
+            sectionBody = HtmlCompat.stripHtml(offerResponse.firstHotelOverview)
+            sectionBodyObservable.onNext(sectionBody)
+        }
+
+        hotelLatLngObservable.onNext(doubleArrayOf(offerResponse.latitude, offerResponse.longitude))
+
+    }
+
+    private fun getGalleryUrls() : ArrayList<HotelMedia> {
+        val galleryUrls = ArrayList<HotelMedia>()
+
+        val images = Images.getHotelImages(hotelOffersResponse, R.drawable.room_fallback)
+        if (images.isNotEmpty()) {
+            galleryUrls.addAll(images.toMutableList())
+        } else {
+            val placeHolder = HotelMedia()
+            placeHolder.setIsPlaceholder(true)
+            galleryUrls.add(placeHolder)
+        }
+        return galleryUrls
+    }
+
     private fun getAllValueAdds(hotelOffersResponse: HotelOffersResponse): List<List<String>> {
         val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
                 .filter { it.valueAdds != null }
@@ -567,30 +564,6 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                     })
         }
         return emptyList()
-    }
-
-    fun hasEtpOffer(response: HotelOffersResponse): Boolean {
-        return CollectionUtils.isNotEmpty(response.hotelRoomResponse) && response.hotelRoomResponse.any { it.payLaterOffer != null }
-    }
-
-    //get list of unique amenity for hotel room offers
-    //we display this unique amenity offered in the expanded room view
-    fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
-        if (CollectionUtils.isEmpty(hotelRooms)) {
-            return emptyList()
-        }
-        val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
-        var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
-        for (iRoom in 0..hotelRooms.size - 1) {
-            val rate = hotelOffersResponse.hotelRoomResponse[iRoom]
-            if (rate.valueAdds != null) {
-                val unique = rate.valueAdds.filter { !commonValueAdds.contains(it.description) }
-                if (unique.size > 0) {
-                    list.add(iRoom, context.getString(R.string.value_add_template, unique[0].description.toLowerCase(Locale.getDefault())))
-                }
-            }
-        }
-        return list
     }
 
     private fun hasFreeCancellation(response: HotelOffersResponse): Boolean {

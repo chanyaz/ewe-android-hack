@@ -205,24 +205,24 @@ class HotelRoomRateViewModelTest {
     private fun setupNonSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
+        mockHotelDetailViewModel = HotelDetailViewModel(context)
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELS)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, false, LineOfBusiness.HOTELS)
     }
 
     private fun setupPackageRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockPackageHotelDetailViewModel = PackageHotelDetailViewModel(context, endlessObserver { /*ignore*/ })
+        mockPackageHotelDetailViewModel = PackageHotelDetailViewModel(context)
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockPackageHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.PACKAGES)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockPackageHotelDetailViewModel.rowExpandingObservable, false, LineOfBusiness.PACKAGES)
     }
 
     private fun setupSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
+        mockHotelDetailViewModel = HotelDetailViewModel(context)
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELS)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, false, LineOfBusiness.HOTELS)
     }
 }

@@ -625,6 +625,7 @@ public class OmnitureTracking {
 				s.setEvents(event);
 			}
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRoomRateExpanded);
 		// Send the tracking data
 		s.track();
 	}

@@ -42,7 +42,7 @@ class HotelValueAddsTest {
         service = HotelServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
-        vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(activity.applicationContext)
     }
 
     private fun setUpTest(): TestSubscriber<HotelOffersResponse> {
