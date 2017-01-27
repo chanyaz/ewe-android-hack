@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.AccountButton
 import com.expedia.bookings.widget.CheckoutLoginExtender
 import com.expedia.bookings.widget.CheckoutToolbar
@@ -397,6 +398,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             priceChangeWidget.visibility = View.GONE
             updateSlideToPurchase()
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
         }
     }
 
