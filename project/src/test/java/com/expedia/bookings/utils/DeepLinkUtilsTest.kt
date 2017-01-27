@@ -201,6 +201,21 @@ class DeepLinkUtilsTest {
     }
 
     @Test
+    fun gclid() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&gclid=SEMGCLID_KRABI_TEST_GCLID")
+        assertTrue(clientLogRequest.contains("gclid=SEMGCLID_KRABI_TEST_GCLID"))
+        assertOmnitureDeepLinkArgsSetup("icmdtl")
+    }
+
+    @Test
+    fun gclidAndSemcid() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&semcid=SEM_KRABI_TEST_GCLID&gclid=SEMGCLID_KRABI_TEST_GCLID")
+        assertTrue(clientLogRequest.contains("gclid=SEMGCLID_KRABI_TEST_GCLID&semcid=SEM_KRABI_TEST_GCLID"))
+        assertOmnitureDeepLinkArgsSetup("gclid")
+        assertOmnitureDeepLinkArgsSetup("semcid")
+    }
+
+    @Test
     fun testNoDeeplinkArgs() {
         val trackingArgsSizeBefore = OmnitureTracking.getDeepLinkArgs().size
         trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=178307&langid=1033")
