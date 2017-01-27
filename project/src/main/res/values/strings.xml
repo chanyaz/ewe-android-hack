@@ -4991,5 +4991,7 @@
     <string name="passport_validation_error_message">Select a passport country</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">Manually add your guest booked trip</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
 
 </resources>
