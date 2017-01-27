@@ -45,7 +45,6 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;

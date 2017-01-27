@@ -338,11 +338,6 @@
     <!-- BookingOverviewActivity -->
     <dimen name="slide_to_purchase_price_text_size">16dp</dimen>
 
-    <!-- Dimensions for leanplum in app message templates -->
-    <dimen name="leanplum_dialog_image_width">280dp</dimen>
-    <dimen name="leanplum_dialog_image_height">157dp</dimen>
-    <dimen name="gt_leanplum_dialog_height">190dp</dimen>
-
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>
     <dimen name="breakdown_indentation">17dp</dimen>

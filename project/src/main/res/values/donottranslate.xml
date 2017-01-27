@@ -33,13 +33,6 @@
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
 
-    <!-- Lean Plum SDK -->
-    <string name="lean_plum_sdk_dev_appid">iP8YMOTxnTNTBS7oclci3OIxWAKL8hXJyx84GepS09s</string>
-    <string name="lean_plum_sdk_dev_key">nKAaL3XpW5WsFx8kv8UjvDRjtYD0C3jGPDLSIamlFZ4</string>
-
-    <string name="lean_plum_sdk_prod_appid">xKlVSadJbLLqOI2ox80QLZQ5IBec4VRggWTjdpuQQAk</string>
-    <string name="lean_plum_sdk_prod_key">tCIe8ebANwhOqDWxLtscOmvONeW7OGR4f91hm8rT1cg</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">159126</string>
     <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>

@@ -404,53 +404,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-
-                <!-- Receives the actual messages. -->
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <!-- Receives the registration id. -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
-
-        <!--Push Notifications for lean plum sdk -->
-        <receiver
-            android:name="com.leanplum.LeanplumPushReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.leanplum.LeanplumPushListenerService" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.leanplum.LeanplumPushListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <service android:name="com.leanplum.LeanplumLocalPushListenerService" />
-
-        <service android:name="com.leanplum.LeanplumPushRegistrationService" />
-
-        <service
-            android:name="com.leanplum.LeanplumPushInstanceIDService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>
-
-        <!-- For geofencing only -->
-        <service android:name="com.leanplum.ReceiveTransitionsIntentService" />
-
         <!-- Search autocomplete components -->
 
         <provider

@@ -28,7 +28,6 @@ import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
