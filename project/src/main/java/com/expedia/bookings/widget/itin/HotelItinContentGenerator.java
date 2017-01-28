@@ -351,18 +351,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(),
 				itinCardData.getPropertyLocation().getLongitude()));
-<<<<<<< 5da36ac4f72c99b555094841d4f472d760b18d58
-			boolean isHotelMapInteractionFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_map_click);
-			if (isHotelMapInteractionFeatureEnabled) {
-				staticMapImageView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						final Intent intent = GoogleMapsUtil.getGoogleMapsIntent(getItinCardData().getProperty().getLocation(), getItinCardData().getProperty().getName());
-						if (intent != null) {
-							OmnitureTracking.trackHotelItinMapOpen();
-							NavUtils.startActivitySafe(getContext(), intent);
-						}
-=======
 
 			staticMapImageView.setOnClickListener(new OnClickListener() {
 				@Override
@@ -372,7 +360,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 							getItinCardData().getProperty().getName());
 					if (intent != null) {
 						NavUtils.startActivitySafe(getContext(), intent);
->>>>>>> 9715. Remove feature flag for hotel itin map click
 					}
 				}
 			});
