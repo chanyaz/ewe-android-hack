@@ -60,14 +60,6 @@ public class ProfileScreen {
 		onView(withText(R.string.open_source_software_licenses)).perform(scrollTo(), click());
 	}
 
-	public static void clickFlightTrack() {
-		onView(withText(R.string.FlightTrackTitle)).perform(scrollTo(), click());
-	}
-
-	public static void clickFlightBoard() {
-		onView(withText(R.string.FlightBoardTitle)).perform(scrollTo(), click());
-	}
-
 	public static void clickMobiataLogo() {
 		onView(withId(R.id.logo)).perform(scrollTo(), click());
 	}

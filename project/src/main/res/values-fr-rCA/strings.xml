@@ -921,6 +921,8 @@
     <string name="infants_under_two">Enfants 2 ans et -</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Il n\&apos;y a pas assez d\&apos;adultes (+ de 12 ans) pour le nombre de jeunes enfants sur les genoux d\&apos;un adulte. Ils doivent avoir leur propre siège.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Nous pouvons seulement réserver des sièges pour un maximum de deux jeunes enfants par voyageur âgé de 12 ans ou plus</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">Sur les genoux</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -1989,10 +1991,10 @@
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">%1$s restant à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s restants à &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Book now info label, when there are only a few seats left. Variant for Australian

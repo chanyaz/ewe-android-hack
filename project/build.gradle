@@ -110,6 +110,7 @@ dependencies {
     def roboVersion = '3.0'
     testCompile "org.robolectric:robolectric:${roboVersion}"
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
+    testCompile "org.robolectric:shadows-support-v4:${roboVersion}"
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
 
     def espressoVersion = '2.2.2'

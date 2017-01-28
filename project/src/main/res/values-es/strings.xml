@@ -921,6 +921,8 @@
     <string name="infants_under_two">Niños de menos de 2 años</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">No hay adultos suficientes (+ de 12 años) para tener a los niños en el regazo. Deben tener su propio asiento.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">Solo podemos reservar asientos para un máximo de dos niños por cada pasajero de 12 años o más</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">En el regazo</string>
     <!-- Description for infant travelers sitting in seats -->

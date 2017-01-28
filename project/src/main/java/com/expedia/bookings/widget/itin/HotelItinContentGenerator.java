@@ -351,19 +351,18 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(),
 				itinCardData.getPropertyLocation().getLongitude()));
-			boolean isHotelMapInteractionFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_map_click);
-			if (isHotelMapInteractionFeatureEnabled) {
-				staticMapImageView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						final Intent intent = GoogleMapsUtil.getGoogleMapsIntent(getItinCardData().getProperty().getLocation(), getItinCardData().getProperty().getName());
-						if (intent != null) {
-							OmnitureTracking.trackHotelItinMapOpen();
-							NavUtils.startActivitySafe(getContext(), intent);
-						}
+
+			staticMapImageView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final Intent intent = GoogleMapsUtil
+						.getGoogleMapsIntent(getItinCardData().getProperty().getLocation(),
+							getItinCardData().getProperty().getName());
+					if (intent != null) {
+						NavUtils.startActivitySafe(getContext(), intent);
 					}
-				});
-			}
+				}
+			});
 		}
 
 		//Upgrade hotel booking

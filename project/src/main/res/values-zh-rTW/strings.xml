@@ -878,11 +878,11 @@
     <!-- Label indicating how many items are being booked for the current trip -->
     <plurals name="items_in_trip">
         <item quantity="zero">行程項目</item>
-        <item quantity="one">個項目在行程中</item>
-        <item quantity="two">個項目在行程中</item>
-        <item quantity="few">個項目在行程中</item>
-        <item quantity="many">個項目在行程中</item>
-        <item quantity="other">個項目在行程中</item>
+        <item quantity="one">行程項目</item>
+        <item quantity="two">行程項目</item>
+        <item quantity="few">行程項目</item>
+        <item quantity="many">行程項目</item>
+        <item quantity="other">行程項目</item>
     </plurals>
 
     <!-- LX Sort & Filter "Sort By" section header -->
@@ -921,6 +921,8 @@
     <string name="infants_under_two">2 歲以下嬰兒</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">成人 (12 歲以上) 人數不夠讓嬰兒不佔位。嬰兒必須要有自己的座位。</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">我們只能為每位 12 歲以上的旅客預訂最多 2 個佔位的嬰兒座位。</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">不佔位</string>
     <!-- Description for infant travelers sitting in seats -->
@@ -3507,7 +3509,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -4433,7 +4435,7 @@
     <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity}到 ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留：({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
-    <string name="package_flight_overview_total_duration_TEMPLATE">轉機等待時間：{duration}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">總計時間：{duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
     <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">總計時間：{duration} • {distance} {distanceunit}</string>
 

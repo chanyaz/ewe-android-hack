@@ -921,6 +921,8 @@
     <string name="infants_under_two">만 2세 미만 영유아</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">영유아를 무릎에 앉힐 수 있는 어른(만 12세 이상)이 없습니다. 영유아에 개별 좌석이 필요합니다.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">만 12세 이상의 여행객 1명당 최대 2명의 영유아 좌석을 예약하실 수 있습니다.</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">무릎에 앉힘</string>
     <!-- Description for infant travelers sitting in seats -->

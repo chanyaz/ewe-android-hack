@@ -921,6 +921,8 @@
     <string name="infants_under_two">2 岁以下婴儿</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">12 岁以上成人的人数不够怀抱设定的婴儿人数。其他婴儿需要自己的座位。</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">我们只能为每位 12 岁及以上的旅客预订最多 2 名婴儿的座位。</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">怀抱</string>
     <!-- Description for infant travelers sitting in seats -->
