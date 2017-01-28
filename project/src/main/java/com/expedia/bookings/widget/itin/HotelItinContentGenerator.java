@@ -358,6 +358,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 					public void onClick(View v) {
 						final Intent intent = GoogleMapsUtil.getGoogleMapsIntent(getItinCardData().getProperty().getLocation(), getItinCardData().getProperty().getName());
 						if (intent != null) {
+							OmnitureTracking.trackHotelItinMapOpen();
 							NavUtils.startActivitySafe(getContext(), intent);
 						}
 					}
