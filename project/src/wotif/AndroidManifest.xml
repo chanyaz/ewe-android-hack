@@ -49,12 +49,6 @@
                 <data android:scheme="http"/>
                 <data android:pathPrefix="/activitySearch"/>
                 <data android:pathPrefix="/mobile/deeplink"/>
-                <data android:pathPrefix="/mobile/deeplink/trips"/>
-                <data android:pathPrefix="/mobile/deeplink/Hotel-Search"/>
-                <data android:pathPrefix="/mobile/deeplink/Flights-Search"/>
-                <data android:pathPrefix="/mobile/deeplink/carsearch"/>
-                <data android:pathPrefix="/mobile/deeplink/things-to-do/search"/>
-                <data android:pathPrefix="/mobile/deeplink/user/signin"/>
 
                 <data android:host="www.wotif.com" />
 

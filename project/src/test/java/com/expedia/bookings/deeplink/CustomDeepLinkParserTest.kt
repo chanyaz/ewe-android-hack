@@ -77,14 +77,6 @@ class CustomDeepLinkParserTest {
         assertChildTravelersEquals(children,  (output.children as ArrayList).toTypedArray())
     }
 
-    fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
-        Assert.assertEquals(childrenExpected.size, childrenActual.size)
-        for (i in childrenExpected.indices) {
-            Assert.assertEquals(childrenExpected[i].age, childrenActual[i].age)
-            Assert.assertEquals(childrenExpected[i].usingSeat(), childrenActual[i].usingSeat())
-        }
-    }
-
     @Test
     fun flightDeepLinkParsing() {
         var data = Uri.parse("expda://flightSearch")
@@ -264,5 +256,13 @@ class CustomDeepLinkParserTest {
         val data = Uri.parse("expda://wrongHost")
         val output = parser.parseDeepLink(data)
         Assert.assertTrue(output is HomeDeepLink)
+    }
+
+    private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
+        Assert.assertEquals(childrenExpected.size, childrenActual.size)
+        for (i in childrenExpected.indices) {
+            Assert.assertEquals(childrenExpected[i].age, childrenActual[i].age)
+            Assert.assertEquals(childrenExpected[i].usingSeat(), childrenActual[i].usingSeat())
+        }
     }
 }

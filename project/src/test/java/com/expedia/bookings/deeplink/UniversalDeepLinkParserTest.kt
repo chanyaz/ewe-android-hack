@@ -1,12 +1,14 @@
 package com.expedia.bookings.deeplink
 
 import android.net.Uri
+import com.expedia.bookings.data.ChildTraveler
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
 class UniversalDeepLinkParserTest() {
@@ -54,6 +56,33 @@ class UniversalDeepLinkParserTest() {
         Assert.assertEquals("deals", output.sortType)
         Assert.assertEquals(2, output.numAdults)
 
+    }
+
+    @Test
+    fun hotelInfoSiteUniversalLinkParsing() {
+        var data = Uri.parse("https://www.expedia.com/mobile/deeplink/Las-Vegas-Hotels-TI-Treasure-Island-Hotel-And-Casino.h15930.Hotel-Information")
+        var output = parser.parseDeepLink(data)
+        Assert.assertTrue(output is HotelDeepLink)
+
+        data = data.buildUpon().appendQueryParameter("chkin", "06/18/2017").build()
+        output = parser.parseDeepLink(data) as HotelDeepLink
+        Assert.assertEquals("15930", output.hotelId)
+        Assert.assertEquals(LocalDate(2017, 6, 18), output.checkInDate)
+
+        data = data.buildUpon().appendQueryParameter("chkout", "06/27/2017").build()
+        output = parser.parseDeepLink(data) as HotelDeepLink
+        Assert.assertEquals("15930", output.hotelId)
+        Assert.assertEquals(LocalDate(2017, 6, 18), output.checkInDate)
+        Assert.assertEquals(LocalDate(2017, 6, 27), output.checkOutDate)
+
+        data = data.buildUpon().appendQueryParameter("rm1", "a2:c2:c7:c8").build()
+        val children = arrayOf(ChildTraveler(2, false), ChildTraveler(7, false), ChildTraveler(8, false))
+        output = parser.parseDeepLink(data) as HotelDeepLink
+        Assert.assertEquals("15930", output.hotelId)
+        Assert.assertEquals(LocalDate(2017, 6, 18), output.checkInDate)
+        Assert.assertEquals(LocalDate(2017, 6, 27), output.checkOutDate)
+        Assert.assertEquals(2, output.numAdults)
+        assertChildTravelersEquals(children, (output.children as ArrayList).toTypedArray())
     }
 
     @Test
@@ -193,5 +222,13 @@ class UniversalDeepLinkParserTest() {
         Assert.assertTrue(output is ShortUrlDeepLink)
         output = output as ShortUrlDeepLink
         Assert.assertEquals("http://e.xpda.co", output.shortUrl)
+    }
+
+    private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
+        Assert.assertEquals(childrenExpected.size, childrenActual.size)
+        for (i in childrenExpected.indices) {
+            Assert.assertEquals(childrenExpected[i].age, childrenActual[i].age)
+            Assert.assertEquals(childrenExpected[i].usingSeat(), childrenActual[i].usingSeat())
+        }
     }
 }

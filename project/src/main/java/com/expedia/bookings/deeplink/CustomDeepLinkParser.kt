@@ -1,11 +1,13 @@
 package com.expedia.bookings.deeplink
 
 import android.net.Uri
+import com.expedia.bookings.data.ChildTraveler
+import com.expedia.bookings.utils.GuestsPickerUtils
 import com.expedia.bookings.utils.StrUtils
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
+import com.mobiata.android.Log
 import org.joda.time.format.DateTimeFormat
-import java.net.URLDecoder
+import java.util.ArrayList
+import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 
@@ -113,5 +115,35 @@ class CustomDeepLinkParser: DeepLinkParser() {
         forceBucketDeepLink.value = getQueryParameterIfExists(data, queryParameterNames, "value")
 
         return forceBucketDeepLink
+    }
+
+    private fun parseChildAges(childAgesStr: String, numAdults: Int): List<ChildTraveler>? {
+        val childAgesArr = childAgesStr.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val maxChildren = GuestsPickerUtils.getMaxChildren(numAdults)
+        val children = ArrayList<ChildTraveler>()
+        try {
+            var a = 0
+            while (a < childAgesArr.size && children.size < maxChildren) {
+                val childAge = Integer.parseInt(childAgesArr[a])
+
+                if (childAge < GuestsPickerUtils.MIN_CHILD_AGE) {
+                    Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
+                            + childAge)
+                } else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
+                    Log.w(TAG, "Child age ($childAge) not an actual child, ignoring: $childAge")
+                } else {
+                    children.add(ChildTraveler(childAge, false))
+                }
+                a++
+            }
+            if (children.size > 0) {
+                Log.d(TAG,
+                        "Setting children ages: " + Arrays.toString(children.toTypedArray()))
+                return children
+            }
+        } catch (e: NumberFormatException) {
+            Log.w(TAG, "Could not parse childAges: " + childAgesStr, e)
+        }
+        return null
     }
 }

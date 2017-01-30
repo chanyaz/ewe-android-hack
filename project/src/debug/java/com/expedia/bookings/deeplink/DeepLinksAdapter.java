@@ -53,36 +53,36 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Sort by Discounts", "expda://hotelSearch?sortType=Discounts"),
 		new DeepLink("Sort by Price", "expda://hotelSearch?sortType=Price"),
 		new DeepLink("Sort by Rating", "expda://hotelSearch?sortType=Rating"),
-		new DeepLink("Sort with Location and Dates", "expda://hotelSearch?sortType=Rating&location=Austin,%20TX", "checkInDate", 14, "checkOutDate", 18),
+		new DeepLink("Sort with Location and Dates", "expda://hotelSearch?sortType=Rating&location=Austin,%20TX", "checkInDate", 14, "checkOutDate", 18, "yyyy-MM-dd"),
 
 		new DeepLink("Hotel ID 11562190", "expda://hotelSearch?hotelId=11562190&seocid=Google"),
 		new DeepLink("Hotel ID 9046290", "expda://hotelSearch?hotelId=9046290"),
 		new DeepLink("Hotel ID 1819759", "expda://hotelSearch?hotelId=1819759&cid=SEO.Google"),
-		new DeepLink("Future Dates", "expda://hotelSearch?hotelId=12539", "checkInDate", 14, "checkOutDate", 18),
-		new DeepLink("Out-dated Search", "expda://hotelSearch?location=San%20Diego,%20CA", "checkInDate", -365, "checkOutDate", -360),
-		new DeepLink("Check Out Only", "expda://hotelSearch?location=Key%20West,%20FL", "checkOutDate", 10),
-		new DeepLink("Check In Only", "expda://hotelSearch?location=Key%20West,%20FL", "checkInDate", 7),
-		new DeepLink("28+ Day Stay", "expda://hotelSearch?location=Austin,%20TX", "checkInDate", 10, "checkOutDate", 40),
-		new DeepLink("Check Out Before Check In", "expda://hotelSearch?location=Nashville,%20TN", "checkInDate", 10, "checkOutDate", 7),
-		new DeepLink("Dates and 3 Guests", "expda://hotelSearch?location=Baltimore,%20MD&numAdults=3", "checkInDate", 7, "checkOutDate", 10),
+		new DeepLink("Future Dates", "expda://hotelSearch?hotelId=12539", "checkInDate", 14, "checkOutDate", 18, "yyyy-MM-dd"),
+		new DeepLink("Out-dated Search", "expda://hotelSearch?location=San%20Diego,%20CA", "checkInDate", -365, "checkOutDate", -360, "yyyy-MM-dd"),
+		new DeepLink("Check Out Only", "expda://hotelSearch?location=Key%20West,%20FL", "checkOutDate", 10, "yyyy-MM-dd"),
+		new DeepLink("Check In Only", "expda://hotelSearch?location=Key%20West,%20FL", "checkInDate", 7, "yyyy-MM-dd"),
+		new DeepLink("28+ Day Stay", "expda://hotelSearch?location=Austin,%20TX", "checkInDate", 10, "checkOutDate", 40, "yyyy-MM-dd"),
+		new DeepLink("Check Out Before Check In", "expda://hotelSearch?location=Nashville,%20TN", "checkInDate", 10, "checkOutDate", 7, "yyyy-MM-dd"),
+		new DeepLink("Dates and 3 Guests", "expda://hotelSearch?location=Baltimore,%20MD&numAdults=3", "checkInDate", 7, "checkOutDate", 10, "yyyy-MM-dd"),
 		new DeepLink("2 Adults", "expda://hotelSearch?location=Myrtle%20Beach,%20SC&numAdults=2"),
 		new DeepLink("2 Adults, 1 Child", "expda://hotelSearch?location=Myrtle%20Beach,%20SC&numAdults=2&childAges=2"),
 		new DeepLink("2 Adults, 1 Child, 1 Infant", "expda://hotelSearch?location=Myrtle%20Beach,%20SC&numAdults=2&childAges=2,1"),
 		new DeepLink("1 Adult, 2 Infants", "expda://hotelSearch?location=Myrtle%20Beach,%20SC&numAdults=1&childAges=1,1"),
-		new DeepLink("Deposits v1 Hotel", "expda://hotelSearch/?hotelId=18000", "checkInDate", 8, "checkOutDate", 10),
+		new DeepLink("Deposits v1 Hotel", "expda://hotelSearch/?hotelId=18000", "checkInDate", 8, "checkOutDate", 10, "yyyy-MM-dd"),
 		new DeepLink("Sold Out (maybe)", "expda://hotelSearch?hotelId=4183598&cid=SEO.Google"),
-		new DeepLink("Sold Out complex (maybe)", "expda://hotelSearch?hotelId=4183598&numAdults=3&childAges=3,2&cid=SEO.Google", "checkInDate", 1, "checkOutDate", 2),
+		new DeepLink("Sold Out complex (maybe)", "expda://hotelSearch?hotelId=4183598&numAdults=3&childAges=3,2&cid=SEO.Google", "checkInDate", 1, "checkOutDate", 2, "yyyy-MM-dd"),
 
 		new DeepLinkSection("Flights", R.color.flights_lob_btn),
 		new DeepLink("Flight Search", "expda://flightSearch"),
-		new DeepLink("Flight Search (Round trip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=1"),
-		new DeepLink("Flight Search (One Way)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&numAdults=1"),
-		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=3"),
+		new DeepLink("Flight Search (Round trip)", "expda://flightSearch?origin=SFO&destination=SEA&numAdults=1", "departureDate", 14, "returnDate", 18, "yyyy-MM-dd"),
+		new DeepLink("Flight Search (One Way)", "expda://flightSearch?origin=SFO&destination=SEA&numAdults=1", "departureDate", 14, "yyyy-MM-dd"),
+		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&numAdults=3", "departureDate", 14, "returnDate", 18, "yyyy-MM-dd"),
 		new DeepLink("Flight Travel Guide", "expda://flightSearch?destination=ATH&seocid=Google"),
 
 		new DeepLinkSection("Activities", R.color.lx_primary_color),
 		new DeepLink("Activity Search", "expda://activitySearch"),
-		new DeepLink("San Francisco", "expda://activitySearch?location=San%20Francisco", "startDate", 3),
+		new DeepLink("San Francisco", "expda://activitySearch?location=San%20Francisco", "startDate", 3, "yyyy-MM-dd"),
 
 		new DeepLinkSection("Cars", R.color.cars_primary_color),
 		new DeepLink("Car Search", "expda://carSearch"),
@@ -107,21 +107,22 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLinkSection("Universal Links", R.color.hotels_primary_color),
 		new DeepLink("Current Location Search", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
 		new DeepLink("Location Search with Location ID", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916"),
-		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2018&endDate=01/03/2019&adults=3"),
-		new DeepLink("Hotel Future Dates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=02/12/2017&endDate=02/15/2017"),
+		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?adults=3", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
+		new DeepLink("Hotel Future Dates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?hotelId=12539", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
+		new DeepLink("Hotel Info Site", "https://www.expedia.com/mobile/deeplink/Krabi-Trang-Hotels-Pakasai-Resort.h1276486.Hotel-Information?rm1=a2:c2:c7:c8", "chkin", 14, "chkout", 18, "MM/dd/yyyy"),
 
 		new DeepLink("Flight Search", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
 		new DeepLink("Flight Search Round Trip", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT"),
 		new DeepLink("Flight Search With Passengers", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT&passengers=children:0,adults:3,seniors:0,infantinlap:Y"),
 
 		new DeepLink("Car Search", "https://www.expedia.com/mobile/deeplink/carsearch"),
-		new DeepLink("Car Search Future Dates", "https://www.expedia.com/mobile/deeplink/carsearch?date1=09/26/2017&date2=10/11/2017&time1=700PM&time2=500PM"),
-		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&date1=09/26/2017&date2=10/11/2017&time1=700PM&time2=500PM"),
-		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&date1=09/26/2017&date2=10/11/2017&time1=700AM&time2=500PM"),
+		new DeepLink("Car Search Future Dates", "https://www.expedia.com/mobile/deeplink/carsearch?time1=700PM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
+		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&time1=700PM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
+		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&time1=700AM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
 
 		new DeepLink("Activity Search", "https://www.expedia.com/mobile/deeplink/things-to-do/search"),
 		new DeepLink("Activity Search with Location", "https://www.expedia.com/mobile/deeplink/things-to-do/search?location=Bangkok (and vicinity), Thailand"),
-		new DeepLink("Activity Search with Categories", "https://www.expedia.com/mobile/deeplink/things-to-do/search?location=Bangkok (and vicinity), Thailand&startDate=09/26/2017&categories=Nightlife|Cruises%20%26%20Water%20Tours"),
+		new DeepLink("Activity Search with Categories", "https://www.expedia.com/mobile/deeplink/things-to-do/search?location=Bangkok (and vicinity), Thailand&categories=Nightlife|Cruises%20%26%20Water%20Tours", "startDate", 14, "MM/dd/yyyy"),
 
 		new DeepLink("Home", "https://www.expedia.com/mobile/deeplink"),
 		new DeepLink("Sign In", "https://www.expedia.com/mobile/deeplink/user/signin"),
@@ -316,21 +317,21 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			this.link = link;
 		}
 
-		DeepLink(String label, String link, String dateField, int dayOffset) {
+		DeepLink(String label, String link, String dateField, int dayOffset, String pattern) {
 			this.label = label;
 
 			LocalDate date = LocalDate.now().plusDays(dayOffset);
-			Uri.Builder linkBuilder = Uri.parse(link).buildUpon().appendQueryParameter(dateField, date.toString("yyyy-MM-dd"));
+			Uri.Builder linkBuilder = Uri.parse(link).buildUpon().appendQueryParameter(dateField, date.toString(pattern));
 			this.link = linkBuilder.build().toString();
 		}
 
-		DeepLink(String label, String link, String startDateField, int startDayOffset, String endDateField, int endDayOffset) {
+		DeepLink(String label, String link, String startDateField, int startDayOffset, String endDateField, int endDayOffset, String pattern) {
 			this.label = label;
 
 			LocalDate date1 = LocalDate.now().plusDays(startDayOffset);
-			Uri.Builder linkBuilder = Uri.parse(link).buildUpon().appendQueryParameter(startDateField, date1.toString("yyyy-MM-dd"));
+			Uri.Builder linkBuilder = Uri.parse(link).buildUpon().appendQueryParameter(startDateField, date1.toString(pattern));
 			LocalDate date2 = LocalDate.now().plusDays(endDayOffset);
-			linkBuilder.appendQueryParameter(endDateField, date2.toString("yyyy-MM-dd"));
+			linkBuilder.appendQueryParameter(endDateField, date2.toString(pattern));
 
 			this.link = linkBuilder.build().toString();
 
