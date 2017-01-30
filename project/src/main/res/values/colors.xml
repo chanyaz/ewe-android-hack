@@ -5,6 +5,7 @@
 
     <color name="app_primary">@color/exp_rail_navy</color>
     <color name="app_primary_dark">@color/exp_rail_dark_navy</color>
+    <color name="brand_secondary">@color/exp_yellow</color>
 
     <!-- Action Bar colors -->
     <color name="launch_actionbar_bg_color">@color/exp_old_launch</color>

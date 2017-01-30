@@ -3,6 +3,7 @@
     <!-- When editing/adding colors to this file please first refer to the following wiki:
     https://github.com/ExpediaInc/ewe-android-eb/wiki/Design:-colors.xml-&-colors_palette.xml-best-practices.-->
     <!-- LOB colors -->
+    <color name="exp_yellow">#FFC60B</color>
     <color name="exp_lob_blue">#0888BD</color>
     <color name="exp_lob_dark_blue">#0B75A1</color>
     <color name="exp_lob_ripple_blue">#09688F</color>
