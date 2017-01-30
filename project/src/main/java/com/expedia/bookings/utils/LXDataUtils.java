@@ -1,9 +1,16 @@
 package com.expedia.bookings.utils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,19 +23,11 @@ import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.deeplink.ActivityDeepLink;
 import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.phrase.Phrase;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 public class LXDataUtils {
 	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
@@ -284,26 +283,25 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
 	}
 
-	public static LxSearchParams buildLXSearchParamsFromDeeplink(Context context, Uri data, Set<String> queryData) {
-		String startOfSearchWindow = data.getQueryParameter("startDate");
-		LocalDate defaultStartOfSearchWindow = LocalDate.now();
-		LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(startOfSearchWindow, defaultStartOfSearchWindow);
+	public static LxSearchParams buildLXSearchParamsFromDeeplink(ActivityDeepLink activityDeepLink) {
 
-		String endOfSearchWindow = data.getQueryParameter("endDate");
-		LocalDate defaultEndOfSearchWindow = startDate.plusDays(context.getResources().getInteger(R.integer.lx_default_search_range));
-		LocalDate endDate = DateUtils.yyyyMMddToLocalDateSafe(endOfSearchWindow, defaultEndOfSearchWindow);
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = startDate.plusDays(14);
+		if (activityDeepLink.getStartDate() != null) {
+			startDate = activityDeepLink.getStartDate();
+		}
 
 		String location = "";
 		String filters = "";
 		String activityId = "";
-		if (queryData.contains("location")) {
-			location = data.getQueryParameter("location");
+		if (activityDeepLink.getLocation() != null) {
+			location = activityDeepLink.getLocation();
 		}
-		if (queryData.contains("filters")) {
-			filters = data.getQueryParameter("filters");
+		if (activityDeepLink.getFilters() != null) {
+			filters = activityDeepLink.getFilters();
 		}
-		if (queryData.contains("activityId")) {
-			activityId = data.getQueryParameter("activityId");
+		if (activityDeepLink.getActivityID() != null) {
+			activityId = activityDeepLink.getActivityID();
 		}
 		return new LxSearchParams(location, DateUtils.ensureDateIsTodayOrInFuture(startDate),
 			DateUtils.ensureDateIsTodayOrInFuture(endDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "");

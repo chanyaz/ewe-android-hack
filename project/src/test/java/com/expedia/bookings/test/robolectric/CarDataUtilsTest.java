@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.robolectric;
 
 import java.io.File;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -16,6 +15,9 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.deeplink.CarDeepLink;
+import com.expedia.bookings.deeplink.DeepLink;
+import com.expedia.bookings.deeplink.DeepLinkParser;
 import com.expedia.bookings.server.TripParser;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateUtils;
@@ -29,6 +31,8 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricRunner.class)
 public class CarDataUtilsTest {
+
+	DeepLinkParser deepLinkParser = new DeepLinkParser();
 
 	@Test
 	public void testGetInfoCount() {
@@ -90,23 +94,19 @@ public class CarDataUtilsTest {
 	public void testFromDeeplinkWithAirportCode() {
 		final String expectedURL = "expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport";
 		final String pickupLocation = "SFO";
-		final String pickupDateTime = "2015-06-26T09:00:00";
-		final String dropoffDateTime = "2015-06-27T09:00:00";
+		final DateTime pickupDateTime = new DateTime(2015, 6, 26, 9, 0, 0);
+		final DateTime dropoffDateTime = new DateTime(2015, 6, 27, 9, 0, 0);
 		final String originDescription = "SFO-San Francisco International Airport";
 
 		CarSearchParam obtainedCarSearchParams = getCarSearchParamsFromDeeplink(expectedURL);
-
-		DateTime startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
-		DateTime endDateTime = DateUtils
-			.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, startDateTime.plusDays(3));
-
 		CarSearchParam expectedCarSearchParams = (CarSearchParam) new CarSearchParam.Builder()
-			.startDateTime(startDateTime).endDateTime(endDateTime)
+			.startDateTime(pickupDateTime).endDateTime(dropoffDateTime)
 			.origin(CarDataUtils.getSuggestionFromLocation(pickupLocation, null, originDescription)).build();
 
 		assertEquals(expectedCarSearchParams.getStartDateTime(), obtainedCarSearchParams.getStartDateTime());
 		assertEquals(expectedCarSearchParams.getEndDateTime(), obtainedCarSearchParams.getEndDateTime());
 		assertEquals(expectedCarSearchParams.getOriginLocation(), obtainedCarSearchParams.getOriginLocation());
+		assertEquals(null, obtainedCarSearchParams.getPickupLocationLatLng());
 		assertEquals(expectedCarSearchParams.getOriginDescription(), obtainedCarSearchParams.getOriginDescription());
 	}
 
@@ -120,12 +120,11 @@ public class CarDataUtilsTest {
 		final String originDescription = "SFO-San Francisco International Airport";
 
 		CarSearchParam obtainedCarSearchParams = getCarSearchParamsFromDeeplink(expectedURL);
-
 		DateTime startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTime, DateTime.now());
 		DateTime endDateTime = DateUtils
 			.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTime, startDateTime.plusDays(3));
 
-		CarSearchParam expectedCarSearchParams = (CarSearchParam) new CarSearchParam.Builder()
+		CarSearchParam expectedCarSearchParams = (CarSearchParam) new CarSearchParam.Builder().pickupLocationLatLng(new LatLong(pickupLocationLat, pickupLocationLng))
 			.startDateTime(startDateTime).endDateTime(endDateTime)
 			.origin(CarDataUtils
 				.getSuggestionFromLocation(null, new LatLong(pickupLocationLat, pickupLocationLng), originDescription))
@@ -133,14 +132,14 @@ public class CarDataUtilsTest {
 
 		assertEquals(expectedCarSearchParams.getStartDateTime(), obtainedCarSearchParams.getStartDateTime());
 		assertEquals(expectedCarSearchParams.getEndDateTime(), obtainedCarSearchParams.getEndDateTime());
+		assertEquals(null, obtainedCarSearchParams.getOriginLocation());
 		assertEquals(expectedCarSearchParams.getPickupLocationLatLng().lat, obtainedCarSearchParams.getPickupLocationLatLng().lat, 1e-10);
 		assertEquals(expectedCarSearchParams.getPickupLocationLatLng().lng, obtainedCarSearchParams.getPickupLocationLatLng().lng, 1e-10);
 		assertEquals(expectedCarSearchParams.getOriginDescription(), obtainedCarSearchParams.getOriginDescription());
 	}
 
 	private CarSearchParam getCarSearchParamsFromDeeplink(String expectedURL) {
-		Uri data = Uri.parse(expectedURL);
-		Set<String> queryData = data.getQueryParameterNames();
-		return CarDataUtils.fromDeepLink(data, queryData);
+		DeepLink deepLink = deepLinkParser.parseDeepLink(Uri.parse(expectedURL));
+		return CarDataUtils.fromDeepLink((CarDeepLink) deepLink);
 	}
 }

@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
@@ -20,6 +19,9 @@ import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.deeplink.ActivityDeepLink;
+import com.expedia.bookings.deeplink.DeepLink;
+import com.expedia.bookings.deeplink.DeepLinkParser;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
@@ -176,9 +178,9 @@ public class LXDataUtilsTest {
 	}
 
 	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
-		Uri data = Uri.parse(expectedURL);
-		Set<String> queryData = data.getQueryParameterNames();
-		return LXDataUtils.buildLXSearchParamsFromDeeplink(getContext(), data, queryData);
+		DeepLinkParser deepLinkParser = new DeepLinkParser();
+		DeepLink deepLink = deepLinkParser.parseDeepLink(Uri.parse(expectedURL));
+		return LXDataUtils.buildLXSearchParamsFromDeeplink((ActivityDeepLink) deepLink);
 	}
 
 	@Test
