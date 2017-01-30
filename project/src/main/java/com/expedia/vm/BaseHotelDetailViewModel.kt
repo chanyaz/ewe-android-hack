@@ -125,7 +125,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     var etpUniqueValueAddForRooms: List<String> by Delegates.notNull()
     val etpRoomResponseListObservable = BehaviorSubject.create<Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>>>()
 
-    val lastExpandedRowObservable = BehaviorSubject.create<Int>()
+    val lastExpandedRowIndexObservable = BehaviorSubject.create<Int>()
     val rowExpandingObservable = PublishSubject.create<Int>()
     val hotelRoomRateViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomRateViewModel>>()
 
@@ -257,7 +257,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
         selectedRoomSoldOut.subscribe {
             if (selectedRoomIndex != -1) {
-                hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).collapseRoomObservable.onNext(false)
+                hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).collapseRoomObservable.onNext(Unit)
                 hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
             }
         }
@@ -272,16 +272,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             roomSubscriptions?.unsubscribe()
             if (roomRateViewModels == null || roomRateViewModels.isEmpty()) {
                 return@subscribe
-            }
-
-            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
-                //Expand the first item
-                roomRateViewModels.first().expandRoomObservable.onNext(false)
-
-                //Collapse all items except first
-                roomRateViewModels.drop(1).forEach { it.collapseRoomObservable.onNext(false) }
-            } else {
-                roomRateViewModels.forEach { it.expandRoomObservable.onNext(false) }
             }
 
             roomSubscriptions = CompositeSubscription()
@@ -300,10 +290,13 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row if there is one
             if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
-                if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size && lastExpandedRowObservable.value != indexOfRowBeingExpanded) {
-                    hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
+                val previousRowIndex = lastExpandedRowIndexObservable.value
+                if (previousRowIndex >= 0
+                        && previousRowIndex < hotelRoomRateViewModelsObservable.value.size
+                        && previousRowIndex != indexOfRowBeingExpanded) {
+                    hotelRoomRateViewModelsObservable.value.elementAt(previousRowIndex).collapseRoomWithAnimationObservable.onNext(Unit)
                 }
-                lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
+                lastExpandedRowIndexObservable.onNext(indexOfRowBeingExpanded)
             }
         }
 
@@ -459,7 +452,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, offerResponse.hotelStarRating.toInt()))
 
         allRoomsSoldOut.onNext(false)
-        lastExpandedRowObservable.onNext(-1)
+        lastExpandedRowIndexObservable.onNext(-1)
         noRoomsInOffersResponse.onNext(CollectionUtils.isEmpty(offerResponse.hotelRoomResponse))
 
         val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()

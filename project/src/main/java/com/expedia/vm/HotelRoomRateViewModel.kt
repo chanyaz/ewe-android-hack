@@ -43,7 +43,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     var dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
     var roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
-    var roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
+    var roomInfoVisibilityObservable = roomRateInfoTextObservable.map { it != "" }
     var soldOutButtonLabelObservable: Observable<CharSequence> = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
 
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
@@ -60,57 +60,47 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val depositTermsClickedObservable = PublishSubject.create<Unit>()
 
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
+
     val viewRoomObservable = BehaviorSubject.create<Unit>()
-    val expandRoomObservable = PublishSubject.create<Boolean>()
-    val collapseRoomObservable = PublishSubject.create<Boolean>()
-    val expandedMeasurementsDone = PublishSubject.create<Unit>()
-    val roomInfoExpandCollapseObservable = PublishSubject.create<Unit>()
-    val roomInfoExpandCollapseObservable1 = PublishSubject.create<Unit>()
+    val expandRoomObservable = PublishSubject.create<Unit>()
+    val collapseRoomObservable = PublishSubject.create<Unit>()
+    val collapseRoomWithAnimationObservable = PublishSubject.create<Unit>()
+
     val shouldShowDiscountPercentage = BehaviorSubject.create<Boolean>()
     val discountPercentage = BehaviorSubject.create<String>()
     val depositTerms = BehaviorSubject.create<List<String>>()
     val setViewRoomContentDescription = BehaviorSubject.create<CharSequence>()
 
-    // TODO - create sepearate observable+observer for room selection.
-    // -- This should only take care of the expanding and collapsing of the view
-    val expandCollapseRoomRateInfoDescription: Observer<Unit> = endlessObserver {
-        roomInfoExpandCollapseObservable.onNext(Unit)
-    }
-
     val depositInfoContainerClick: Observer<Unit> = endlessObserver {
         depositTermsClickedObservable.onNext(Unit)
     }
 
-    val expandCollapseRoomRate: Observer<Boolean> = endlessObserver {
-        isChecked ->
-        if (!isChecked) {
-            setViewRoomContentDescription.onNext(context.getString(R.string.hotel_room_expand_cont_desc))
+    fun bookRoomClicked() {
+        setViewRoomContentDescription.onNext(context.getString(R.string.hotel_room_expand_cont_desc))
 
-            roomSelectedObservable.onNext(Pair(rowIndex,hotelRoomResponse))
-            //don't change the state of toggle button
-            viewRoomObservable.onNext(Unit)
+        roomSelectedObservable.onNext(Pair(rowIndex, hotelRoomResponse))
+        //don't change the state of toggle button
+        viewRoomObservable.onNext(Unit)
 
-            if (lob == LineOfBusiness.PACKAGES) {
-                PackagesTracking().trackHotelRoomBookClick()
-            }
-            else {
-                HotelTracking.trackLinkHotelRoomBookClick(hotelRoomResponse, hasETP)
-            }
-
-            if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
-                HotelTracking.trackLinkHotelAirAttachEligible(hotelRoomResponse, hotelId)
-            }
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelRoomBookClick()
         } else {
-            setViewRoomContentDescription.onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
+            HotelTracking.trackLinkHotelRoomBookClick(hotelRoomResponse, hasETP)
+        }
 
-            // expand row
-            expandRoomObservable.onNext(true)
-            if (lob == LineOfBusiness.PACKAGES) {
-                PackagesTracking().trackHotelViewBookClick()
-            }
-            else {
-                HotelTracking.trackLinkHotelViewRoomClick()
-            }
+        if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
+            HotelTracking.trackLinkHotelAirAttachEligible(hotelRoomResponse, hotelId)
+        }
+    }
+
+    fun roomRowExpanded() {
+        setViewRoomContentDescription.onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
+
+        if (lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackHotelViewBookClick()
+        }
+        else {
+            HotelTracking.trackLinkHotelViewRoomClick()
         }
     }
 
@@ -141,7 +131,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
         roomHeaderImageObservable.onNext(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
         roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription)
-        roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
+        roomInfoVisibilityObservable = roomRateInfoTextObservable.map { it != "" }
         soldOutButtonLabelObservable = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
 
         val rateInfo = hotelRoomResponse.rateInfo
@@ -216,7 +206,6 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
 
 
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
-        roomInfoExpandCollapseObservable1.onNext(Unit)
         lastRoomSelectedSubscription?.unsubscribe()
         roomSoldOut.onNext(false)
     }
