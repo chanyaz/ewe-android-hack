@@ -34,7 +34,7 @@ public class HomeScreenSteps {
 
 	@And("^I set Flight Round Trip AB test to \"(.*?)\"")
 	public void setFlightRoundTripABTest(String variant) throws Throwable {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTest,AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage,AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTest,AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage,AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 	}
 
 	@And("^2 AB test")

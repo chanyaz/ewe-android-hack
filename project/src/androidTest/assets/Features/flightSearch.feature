@@ -154,6 +154,16 @@ Feature: Flights testing
     Given I launch the App
     Then I set Flight Round Trip AB test to "<variant>"
     And 2 AB test
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
     Then Validate that flight time field is displayed: true
     And Validate that price field is displayed: true
     And Validate that airline name field is displayed: true
