@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.DialogFragment
@@ -35,17 +34,15 @@ import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
+import com.expedia.bookings.tracking.AdTracker
+import com.expedia.bookings.tracking.AppStartupTimeClientLog
+import com.expedia.bookings.tracking.AppStartupTimeLogger
+import com.expedia.bookings.tracking.FacebookEvents
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
-import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.data.clientlog.ClientLog
-import com.expedia.bookings.tracking.AdTracker
-import com.expedia.bookings.tracking.AppStartupTimeClientLog
-import com.expedia.bookings.tracking.AppStartupTimeLogger
-import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
@@ -158,7 +155,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
-            if ((itinListFragment?.mItinSignInPresenter?.back() ?: false)) {
+            if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
                 return
             }
             if (itinListFragment?.isInDetailMode ?: false) {
@@ -527,13 +524,17 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         b.setCancelable(false).setMessage(errorMessage).setPositiveButton(confirmButtonResourceId) { dialog, which -> dialog.dismiss() }.show()
     }
 
-     companion object {
-         @JvmStatic val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
-         @JvmStatic val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
-         @JvmStatic val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
-         @JvmStatic val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
-        /**
-         * Create intent to open this activity and jump straight to a particular itin item.
+    override fun onDialogCancel() {
+        //Do nothing here
+    }
+
+    companion object {
+        @JvmStatic val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
+        @JvmStatic val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
+        @JvmStatic val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
+        @JvmStatic val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
+
+        /** Create intent to open this activity and jump straight to a particular itin item.
          */
         @JvmStatic fun createIntent(context: Context, notification: Notification): Intent {
             val intent = Intent(context, NewPhoneLaunchActivity::class.java)
@@ -547,6 +548,5 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
             return intent
         }
-
     }
 }

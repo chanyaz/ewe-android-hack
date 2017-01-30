@@ -596,6 +596,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
 	}
 
+	@Override
+	public void onDialogCancel() {
+		//do nothing
+	}
+
 	//////////////////////
 	// Sign In Buttons
 

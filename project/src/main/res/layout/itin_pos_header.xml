@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/toolbar_trips_signin"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/exp_launch_secondary_blue"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/pos_trips_signin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/account_toolbar_text_color"
+            android:textSize="@dimen/account_toolbar_subtitle_text_size"
+            app:textStyle="medium"
+            android:layout_gravity="center" />
+
+        <Spinner
+            android:id="@+id/country_trips_signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:dropDownWidth="100dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</merge>

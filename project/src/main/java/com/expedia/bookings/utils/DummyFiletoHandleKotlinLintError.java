@@ -858,6 +858,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.add_guest_itin_widget,
 		R.string.preference_user_has_seen_review_prompt,
 		R.string.preference_date_last_review_prompt_shown,
-		R.layout.itin_sign_in_widget
+		R.layout.itin_sign_in_widget,
+		R.layout.itin_pos_header,
+		R.string.accessibility_cont_desc_pos_TEMPLATE,
+		R.layout.itin_pos_header_spinner
 	};
 }

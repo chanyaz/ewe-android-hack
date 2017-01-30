@@ -55,6 +55,7 @@ import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.AndroidUtils
 import com.mobiata.android.util.HtmlUtils
 import com.mobiata.android.util.SettingUtils
+import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 import java.text.NumberFormat
 import java.util.Calendar
@@ -340,6 +341,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onResume() {
         super.onResume()
+        Events.register(this)
         adjustLoggedInViews()
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
@@ -361,6 +363,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onPause() {
         super.onPause()
+        Events.unregister(this)
         scrollContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
     }
 
@@ -406,6 +409,15 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         dialog.show(activity.supportFragmentManager, "dialog_from_about_utils")
     }
 
+    @Subscribe
+    @Suppress("UNUSED_PARAMETER")
+    fun onPOSChanged(event: Events.PhoneLaunchOnPOSChange) {
+        adjustLoggedInViews()
+        appSettingsFragment?.notifyOnRowDataChanged(ROW_COUNTRY)
+        supportFragment?.notifyOnRowDataChanged(ROW_EXPEDIA_WEBSITE)
+        legalFragment?.setRowVisibility(ROW_ATOL_INFO, if (PointOfSale.getPointOfSale().showAtolInfo()) View.VISIBLE else View.GONE)
+    }
+
     fun onNewCountrySelected(pointOfSaleId: Int) {
         SettingUtils.save(context, R.string.PointOfSaleKey, Integer.toString(pointOfSaleId))
 
@@ -416,10 +428,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         activity.setResult(Constants.RESULT_CHANGED_PREFS)
         Events.post(Events.PhoneLaunchOnPOSChange())
 
-        adjustLoggedInViews()
-        appSettingsFragment?.notifyOnRowDataChanged(ROW_COUNTRY)
-        supportFragment?.notifyOnRowDataChanged(ROW_EXPEDIA_WEBSITE)
-        legalFragment?.setRowVisibility(ROW_ATOL_INFO, if (PointOfSale.getPointOfSale().showAtolInfo()) View.VISIBLE else View.GONE)
         Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
     }
 
