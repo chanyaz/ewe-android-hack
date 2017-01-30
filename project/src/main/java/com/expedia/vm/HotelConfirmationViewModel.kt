@@ -81,9 +81,16 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                 val percentagePaidWithPoints = if (BigDecimal(checkoutResponse.totalCharges).equals(BigDecimal.ZERO)) 0 else NumberUtils.getPercentagePaidWithPointsForOmniture(paymentSplits.payingWithPoints.amount.amount, BigDecimal(checkoutResponse.totalCharges))
                 val totalAppliedRewardCurrency = if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) paymentSplits.payingWithPoints.points.toString() else paymentSplits.payingWithPoints.amount.amount.toString()
             }
-        } ).subscribe{
-            val product = it.hotelCheckoutResponse.checkoutResponse.productResponse
-            val itinNumber = it.hotelCheckoutResponse.checkoutResponse.bookingResponse.itineraryNumber
+        }).subscribe {
+            val coupon = Db.getTripBucket().hotelV2.mHotelTripResponse.coupon
+            HotelTracking.trackHotelPurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency,
+                    hotelSearchParams.guests, if (coupon != null) coupon.code else "")
+
+        }
+
+        checkoutResponseObservable.subscribe {
+            val product = it.checkoutResponse.productResponse
+            val itinNumber = it.checkoutResponse.bookingResponse.itineraryNumber
             val checkInLocalDate = dtf.parseLocalDate(product.checkInDate)
             val checkOutLocalDate = dtf.parseLocalDate(product.checkOutDate)
             val location = Location()
@@ -103,13 +110,12 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             hotelCity.onNext(product.hotelCity)
             addCarBtnText.onNext(context.resources.getString(com.expedia.bookings.R.string.rent_a_car_TEMPLATE, product.hotelCity))
             addFlightBtnText.onNext(context.resources.getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
-            customerEmail.onNext(it.hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
+            customerEmail.onNext(it.checkoutResponse.bookingResponse.email)
 
             // Adding the guest trip in itin
             if (!User.isLoggedIn(context)) {
-                ItineraryManager.getInstance().addGuestTrip(it.hotelCheckoutResponse.checkoutResponse.bookingResponse.email, itinNumber)
-            }
-            else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
+                ItineraryManager.getInstance().addGuestTrip(it.checkoutResponse.bookingResponse.email, itinNumber)
+            } else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
                 // If user is logged in and if PWP or SWP is enabled for hotels, refresh user.
                 userAccountRefresher.forceAccountRefresh()
             }
@@ -129,15 +135,12 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             location.stateCode = product.hotelStateProvince
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
-            AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
-            val coupon = Db.getTripBucket().hotelV2.mHotelTripResponse.coupon
-            HotelTracking.trackHotelPurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency,
-                    hotelSearchParams.guests, if(coupon!=null) coupon.code else "")
+            AdImpressionTracking.trackAdConversion(context, it.checkoutResponse.bookingResponse.tripId)
 
             // LX Cross sell
             val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
-            addLXBtn.onNext(if(isUserBucketedForLXCrossSellTest) context.resources.getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
+            addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
 
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
