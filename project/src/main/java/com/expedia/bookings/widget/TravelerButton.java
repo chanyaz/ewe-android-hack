@@ -21,7 +21,7 @@ import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.FlightsV2Tracking;
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking;
 import com.expedia.bookings.tracking.PackagesTracking;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;

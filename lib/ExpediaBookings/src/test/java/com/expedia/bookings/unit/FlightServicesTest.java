@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
+import kotlin.Unit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,6 +28,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
 public class FlightServicesTest {
 	@Rule
@@ -48,8 +50,11 @@ public class FlightServicesTest {
 	public void testMockSearchBlowsUp() throws Throwable {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
+		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -58,11 +63,12 @@ public class FlightServicesTest {
 			.adults(1)
 			.build();
 
-		service.flightSearch(params, observer);
+		service.flightSearch(params, observer, resultsResponseReceived);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
 		observer.assertError(IOException.class);
+		resultsResponseReceivedTestSubscriber.assertValueCount(0);
 	}
 
 	@Test
@@ -70,8 +76,11 @@ public class FlightServicesTest {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
+		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -80,12 +89,13 @@ public class FlightServicesTest {
 			.adults(1)
 			.build();
 
-		service.flightSearch(params, observer);
+		service.flightSearch(params, observer, resultsResponseReceived);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
+		resultsResponseReceivedTestSubscriber.assertValueCount(1);
 		FlightSearchResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals(5, response.getLegs().size());
 		Assert.assertEquals(3, response.getOffers().size());
@@ -110,7 +120,7 @@ public class FlightServicesTest {
 			.adults(1)
 			.build();
 
-		service.flightSearch(params, observer);
+		service.flightSearch(params, observer, null);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();

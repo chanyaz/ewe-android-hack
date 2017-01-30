@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
