@@ -77,7 +77,7 @@ public class AboutUtils {
 	}
 
 	public void openCareers() {
-		openWebsite(mActivity, "http://www.mobiata.com/careers", false);
+		openWebsite(mActivity, "http://www.lifeatexpedia.com", false);
 		OmnitureTracking.trackClickWereHiring();
 	}
 
