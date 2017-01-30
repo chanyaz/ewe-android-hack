@@ -9,6 +9,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class WebCheckoutViewViewModel : WebViewViewModel() {
+    val bookedTripIDObservable = BehaviorSubject.create<String>()
     val closeView = PublishSubject.create<Unit>()
     var offerObservable = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     var hotelSearchParamsObservable = BehaviorSubject.create<HotelSearchParams>()

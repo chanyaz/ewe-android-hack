@@ -1,14 +1,13 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.util.AttributeSet
+import android.webkit.WebView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelCreateTripParams
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.vm.HotelCreateTripViewModel
-import rx.subjects.BehaviorSubject
-import kotlin.properties.Delegates
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.vm.WebCheckoutViewViewModel
 
 class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
@@ -16,4 +15,13 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         super.onFinishInflate()
         toolbar.title = context.getString(R.string.secure_checkout)
     }
+
+    override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+        super.onWebPageStarted(view, url, favicon)
+        if (url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)) {
+            view.stopLoading()
+            (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
+        }
+    }
+
 }

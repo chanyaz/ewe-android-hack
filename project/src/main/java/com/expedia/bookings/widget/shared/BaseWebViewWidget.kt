@@ -33,13 +33,17 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-            toggleLoading(true)
+            onWebPageStarted(view, url, favicon)
         }
 
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
             super.onReceivedError(view, request, error)
             toggleLoading(false)
         }
+    }
+
+    open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+        toggleLoading(true)
     }
 
     init {

@@ -84,6 +84,21 @@ class WebCheckoutViewTest {
         webCheckoutViewObservable.assertValueCount(0)
     }
 
+    @Test
+    fun webViewTripIDOnSuccessfulBooking() {
+        val bookingTripIDSubscriber = TestSubscriber<String>()
+        featureToggleWebCheckout(true)
+        setPOSWithWebCheckoutEnabled(true)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(1)
+        bookingTripIDSubscriber.assertValueCount(0)
+        val tripID = "testing-for-confirmation"
+        hotelPresenter.webCheckoutView.onWebPageStarted(hotelPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL + "?tripid=$tripID", null)
+        bookingTripIDSubscriber.assertValueCount(1)
+        bookingTripIDSubscriber.assertValue(tripID)
+    }
+
     private fun selectHotelRoom() {
         val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
         hotelPresenter.hotelDetailViewModel.roomSelectedSubject.onNext(hotelRoomResponse)
@@ -108,6 +123,5 @@ class WebCheckoutViewTest {
         suggestion.regionNames.shortName = ""
         return suggestion
     }
-
     
 }

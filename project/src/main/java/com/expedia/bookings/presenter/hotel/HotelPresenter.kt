@@ -113,10 +113,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             // TODO make signIn Call.
             back()
         })
-        webCheckoutViewViewModel.closeView.subscribe {
-            back()
-            // TODO make signIn call.
-            // TODO show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+        webCheckoutViewViewModel.bookedTripIDObservable.subscribe { bookedTripID ->
+            // TODO make a signIn call.
+            // TODO make an itins call
         }
         webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
         setUpCreateTripErrorHandling(webCheckoutViewViewModel.createTripViewModel)
