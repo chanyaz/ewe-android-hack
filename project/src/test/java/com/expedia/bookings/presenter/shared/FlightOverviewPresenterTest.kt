@@ -69,12 +69,22 @@ class FlightOverviewPresenterTest {
     @Test
     fun showDontShowBundlePrice() {
         sut.vm.showBundlePriceSubject.onNext(true)
+        sut.vm.showEarnMessage.onNext(false)
         assertEquals(View.VISIBLE, sut.bundlePriceTextView.visibility)
         assertEquals(View.VISIBLE, sut.bundlePriceLabelTextView.visibility)
+        assertEquals(View.GONE, sut.earnMessageTextView.visibility)
 
         sut.vm.showBundlePriceSubject.onNext(false)
+        sut.vm.showEarnMessage.onNext(true)
+        assertEquals(View.VISIBLE, sut.earnMessageTextView.visibility)
+        assertEquals(View.VISIBLE, sut.bundlePriceTextView.visibility)
+        assertEquals(View.GONE, sut.bundlePriceLabelTextView.visibility)
+
+        sut.vm.showBundlePriceSubject.onNext(false)
+        sut.vm.showEarnMessage.onNext(false)
         assertEquals(View.GONE, sut.bundlePriceTextView.visibility)
         assertEquals(View.GONE, sut.bundlePriceLabelTextView.visibility)
+        assertEquals(View.GONE, sut.earnMessageTextView.visibility)
     }
 
     private fun createSelectedFlightLeg() {
