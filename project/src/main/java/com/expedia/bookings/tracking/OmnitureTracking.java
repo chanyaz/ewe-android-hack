@@ -4301,6 +4301,11 @@ public class OmnitureTracking {
 				s.setEvar(15, deepLinkValue);
 			}
 
+			// eVar26
+			if ((deepLinkValue = deepLinkArgs.get("gclid")) != null) {
+				s.setEvar(26, deepLinkValue);
+			}
+
 			deepLinkArgs.clear();
 		}
 	}

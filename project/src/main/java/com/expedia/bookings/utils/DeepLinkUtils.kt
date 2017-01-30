@@ -33,6 +33,7 @@ object DeepLinkUtils {
             add("afflid")
             add("icmcid")
             add("icmdtl")
+            add("gclid")
         }
     }
 

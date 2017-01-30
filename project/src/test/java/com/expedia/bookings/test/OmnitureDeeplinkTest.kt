@@ -152,6 +152,19 @@ class OmnitureDeeplinkTest {
         assertNull(adms.getEvar(22))
     }
 
+    @Test
+    fun gclid() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&gclid=SEMGCLID_KRABI_TEST_GCLID")
+        assertEquals("SEMGCLID_KRABI_TEST_GCLID", adms.getEvar(26))
+    }
+
+    @Test
+    fun gclidAndSemcid() {
+        trackDeepLink("https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2017&endDate=01/03/2018&regionId=602231&semcid=SEM_KRABI_TEST_GCLID&gclid=SEMGCLID_KRABI_TEST_GCLID")
+        assertEquals("SEMGCLID_KRABI_TEST_GCLID", adms.getEvar(26))
+        assertEquals("SEM.SEM_KRABI_TEST_GCLID", adms.getEvar(22))
+    }
+
     private fun trackDeepLink(url :String) {
         // This is what sets the omniture variables we're interested in testing
         setIntentOnActivity(deepLinkRouterActivityController, url)
