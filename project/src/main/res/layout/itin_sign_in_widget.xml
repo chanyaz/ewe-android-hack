@@ -93,7 +93,8 @@
             android:background="@color/gray9" />
     </LinearLayout>
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/add_guest_itin_text_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hint_container"
