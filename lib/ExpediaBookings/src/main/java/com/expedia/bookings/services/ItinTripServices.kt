@@ -1,11 +1,10 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.ItinDetailsResponse
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.abacus.ItinTripDeserializer
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import org.joda.time.DateTime
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,8 +17,7 @@ open class ItinTripServices(endpoint: String, okHttpClient: OkHttpClient, interc
 
     val tripsApi: ItinTripApi by lazy {
         val gson = GsonBuilder()
-                .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
-                .registerTypeAdapter(ItinDetailsResponse::class.java, ItinTripDeserializer())
+                .registerTypeAdapter(AbstractItinDetailsResponse::class.java, ItinTripDeserializer())
                 .create()
 
         val adapter = Retrofit.Builder()
@@ -32,7 +30,7 @@ open class ItinTripServices(endpoint: String, okHttpClient: OkHttpClient, interc
         adapter.create(ItinTripApi::class.java)
     }
 
-    open fun getTripDetails(tripId: String, observer: Observer<ItinDetailsResponse>): Subscription {
+    open fun getTripDetails(tripId: String, observer: Observer<AbstractItinDetailsResponse>): Subscription {
         val subscription = tripsApi.tripDetails(tripId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
@@ -41,7 +39,7 @@ open class ItinTripServices(endpoint: String, okHttpClient: OkHttpClient, interc
         return subscription
     }
 
-    open fun getGuestTrip(guestEmail: String, tripId: String, observer: Observer<ItinDetailsResponse>): Subscription {
+    open fun getGuestTrip(guestEmail: String, tripId: String, observer: Observer<AbstractItinDetailsResponse>): Subscription {
         val subscription = tripsApi.guestTrip(tripId, guestEmail)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)

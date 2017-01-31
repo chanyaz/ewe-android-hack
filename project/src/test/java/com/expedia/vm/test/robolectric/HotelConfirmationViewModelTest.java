@@ -22,7 +22,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.services.CarServices;
-import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
@@ -33,9 +32,7 @@ import com.expedia.ui.FlightActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.google.gson.Gson;
 
-import rx.Observable;
 import rx.observers.TestSubscriber;
-import rx.subjects.BehaviorSubject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -58,8 +55,7 @@ public class HotelConfirmationViewModelTest {
 	@Before
 	public void before() {
 		Ui.getApplication(getContext()).defaultHotelComponents();
-		Observable<HotelCheckoutResponse> checkoutResponseObservable = BehaviorSubject.create();
-		vm = new HotelConfirmationViewModel(checkoutResponseObservable, getContext());
+		vm = new HotelConfirmationViewModel(getContext(), false);
 		shadowApplication = Shadows.shadowOf(getContext()).getShadowApplication();
 	}
 

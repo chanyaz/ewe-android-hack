@@ -1,6 +1,6 @@
 package com.expedia.bookings.services;
 
-import com.expedia.bookings.data.ItinDetailsResponse;
+import com.expedia.bookings.data.AbstractItinDetailsResponse;
 
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -10,12 +10,12 @@ import rx.Observable;
 public interface ItinTripApi {
 
 	@POST("/api/trips/{tripId}")
-	Observable<ItinDetailsResponse> tripDetails(
+	Observable<AbstractItinDetailsResponse> tripDetails(
 		@Path("tripId") String tripId
 	);
 
 	@POST("/api/trips/{tripId}?idtype=itineraryNumber")
-	Observable<ItinDetailsResponse> guestTrip(
+	Observable<AbstractItinDetailsResponse> guestTrip(
 		@Path("tripId") String tripId,
 		@Query("email") String guestEmail
 	);

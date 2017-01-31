@@ -1,5 +1,6 @@
 package com.expedia.bookings.unit;
 
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.services.ItinTripServices
@@ -19,29 +20,29 @@ class ItinTripServicesTest {
 	@Test
 	fun testTripDetailsNotAvailable() {
 		val itinDetailsResponse = ItinDetailsResponse()
-		assertNull(itinDetailsResponse.responseData)
+		assertNull(itinDetailsResponse.getResponseDataForItin())
 	}
 
 	@Test
 	fun testTripDetailsAvailable() {
-		val testObserver: TestSubscriber<ItinDetailsResponse> = TestSubscriber.create()
+		val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
 		serviceRule.services!!.getTripDetails("flight_trip_details", testObserver)
 
 		testObserver.awaitTerminalEvent()
 		testObserver.assertCompleted()
 		testObserver.assertValueCount(1)
-		assertEquals("53a6459c-822c-4425-9e14-3eea43f38a97", testObserver.onNextEvents[0].responseData?.tripId)
+		assertEquals("53a6459c-822c-4425-9e14-3eea43f38a97", testObserver.onNextEvents[0].getResponseDataForItin()?.tripId)
 	}
 
 	@Test
 	fun testHotelTripDetailsAvailable() {
-		val testObserver: TestSubscriber<ItinDetailsResponse> = TestSubscriber.create()
+		val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
 		serviceRule.services!!.getTripDetails("hotel_trip_details", testObserver)
 
 		testObserver.awaitTerminalEvent()
 		testObserver.assertCompleted()
 		testObserver.assertValueCount(1)
-		assertEquals("fb24d134-adbd-44f6-9904-48cfb33bbd50", testObserver.onNextEvents[0].responseData?.tripId)
+		assertEquals("fb24d134-adbd-44f6-9904-48cfb33bbd50", testObserver.onNextEvents[0].getResponseDataForItin()?.tripId)
 		assertTrue(testObserver.onNextEvents[0] is HotelItinDetailsResponse)
 	}
 
