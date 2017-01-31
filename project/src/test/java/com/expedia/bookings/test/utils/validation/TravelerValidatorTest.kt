@@ -393,6 +393,7 @@ class TravelerValidatorTest {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
+        Mockito.`when`(mockTraveler.gender).thenReturn(Traveler.Gender.MALE)
 
         return mockTraveler
     }

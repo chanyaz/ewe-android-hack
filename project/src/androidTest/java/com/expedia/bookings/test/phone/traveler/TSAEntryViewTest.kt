@@ -18,6 +18,8 @@ import com.mobiata.android.util.SettingUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -82,8 +84,119 @@ class TSAEntryViewTest {
 
             tsaVM.genderViewModel.errorSubject.onNext(false)
             assertEquals((genderEditText.parent as TextInputLayout).error, null)
-
         }
+    }
+
+    @Test
+    @Throws(Throwable::class)
+    fun testMaterialFormInvalidGenderOptions() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
+
+        uiThreadTestRule.runOnUiThread {
+            val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
+                    .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
+
+            val testTraveler = Traveler()
+            testTraveler.gender = null
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+
+            assertNull(tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+            assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
+            assertFalse(tsaEntryView.isValidGender())
+
+            testTraveler.gender = Traveler.Gender.OTHER
+            tsaEntryView.viewModel.genderViewModel.updateTravelerGender(testTraveler)
+
+            assertEquals(Traveler.Gender.OTHER, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+            assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
+            assertFalse(tsaEntryView.isValidGender())
+
+            testTraveler.gender = Traveler.Gender.GENDER
+            tsaEntryView.viewModel.genderViewModel.updateTravelerGender(testTraveler)
+
+            assertEquals(Traveler.Gender.GENDER, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+            assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
+            assertFalse(tsaEntryView.isValidGender())
+        }
+    }
+
+    @Test
+    @Throws(Throwable::class)
+    fun testMaterialFormValidGenderOptions() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
+
+        uiThreadTestRule.runOnUiThread {
+            val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
+                    .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
+            val testTraveler = Traveler()
+            testTraveler.gender = Traveler.Gender.MALE
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+
+            assertEquals(Traveler.Gender.MALE,tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+            assertTrue(tsaEntryView.isValidGender())
+            assertTrue(tsaEntryView.viewModel.genderViewModel.isValid())
+
+            testTraveler.gender = Traveler.Gender.FEMALE
+            tsaEntryView.viewModel.genderViewModel.updateTravelerGender(testTraveler)
+
+            assertEquals(Traveler.Gender.FEMALE, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+            assertTrue(tsaEntryView.viewModel.genderViewModel.isValid())
+            assertTrue(tsaEntryView.isValidGender())
+        }
+    }
+
+    @Test
+    fun testInvalidGenderOptions() {
+        tsaEntryView = activityTestRule.root as TSAEntryView
+        val testTraveler = Traveler()
+        testTraveler.gender = null
+        uiThreadTestRule.runOnUiThread {
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+        }
+
+        assertNull(tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+        assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
+        assertFalse(tsaEntryView.isValidGender())
+
+//        OTHER gets sent from desktop if user doesn't select a gender
+        testTraveler.gender = Traveler.Gender.OTHER
+        uiThreadTestRule.runOnUiThread {
+            tsaEntryView.viewModel.genderViewModel.updateTravelerGender(testTraveler)
+        }
+
+        assertEquals(Traveler.Gender.OTHER, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+        assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
+        assertFalse(tsaEntryView.isValidGender())
+
+        testTraveler.gender = Traveler.Gender.GENDER
+        uiThreadTestRule.runOnUiThread {
+            tsaEntryView.viewModel.genderViewModel.updateTravelerGender(testTraveler)
+        }
+
+        assertEquals(Traveler.Gender.GENDER, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+        assertFalse(tsaEntryView.viewModel.genderViewModel.isValid())
+        assertFalse(tsaEntryView.isValidGender())
+    }
+
+    @Test
+    fun testValidGenderOptions() {
+        tsaEntryView = activityTestRule.root as TSAEntryView
+        val testTraveler = Traveler()
+        testTraveler.gender = Traveler.Gender.MALE
+        uiThreadTestRule.runOnUiThread {
+            tsaEntryView.viewModel = TravelerTSAViewModel(testTraveler, activityTestRule.activity)
+        }
+
+        assertTrue(tsaEntryView.viewModel.genderViewModel.isValid())
+        assertEquals(Traveler.Gender.MALE, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
+
+        testTraveler.gender = Traveler.Gender.FEMALE
+        tsaEntryView.viewModel.genderViewModel.updateTravelerGender(testTraveler)
+
+        assertTrue(tsaEntryView.viewModel.genderViewModel.isValid())
+        assertEquals(Traveler.Gender.FEMALE, tsaEntryView.viewModel.genderViewModel.genderSubject.value)
     }
 
     @Test

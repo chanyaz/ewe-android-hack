@@ -36,11 +36,7 @@ class TravelerValidator {
     }
 
     fun hasValidGender(traveler: Traveler): Boolean {
-        if (traveler.gender == Traveler.Gender.GENDER) {
-            return false
-        } else {
-            return true
-        }
+        return traveler.gender == Traveler.Gender.FEMALE || traveler.gender == Traveler.Gender.MALE
     }
 
     fun isValidPhone(number: String?): Boolean {

@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
 
 class GenderViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
@@ -31,6 +32,6 @@ class GenderViewModel(var traveler: Traveler, val context: Context) : BaseTravel
     }
 
     override fun isValid(): Boolean {
-        return traveler.gender != Traveler.Gender.GENDER
+        return TravelerValidator().hasValidGender(traveler)
     }
 }
