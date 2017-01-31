@@ -408,7 +408,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
 			String template = mContext.getString(R.string.special_assistance_label_TEMPLATE);
-			String val = String.format(template, data.getAssistanceString(mContext));
+			String val = String.format(template, data.getAssistanceString(mContext, data.getAssistance()));
 			field.setText(val);
 		}
 	};

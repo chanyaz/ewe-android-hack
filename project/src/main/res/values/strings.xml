@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">Saving traveler information to your account…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Seating Preference</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">Seat Preference</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Special Assistance</string>
     <!-- Add Redress # -->

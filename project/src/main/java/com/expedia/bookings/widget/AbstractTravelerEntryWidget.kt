@@ -82,16 +82,24 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         nameEntryView.middleName.addOnFocusChangeListener(this)
         nameEntryView.lastName.addOnFocusChangeListener(this)
         emailEntryView.emailAddress.addOnFocusChangeListener(this)
-        phoneEntryView.phoneSpinner.isFocusable = true
-        phoneEntryView.phoneSpinner.isFocusableInTouchMode = true
-        phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
-            if(hasFocus){
-                Ui.hideKeyboard(this)
-                phoneEntryView.phoneSpinner.performClick()
-            }
-            onFocusChange(view, hasFocus)
-        }
         phoneEntryView.phoneNumber.addOnFocusChangeListener(this)
+        if (phoneEntryView.materialFormTestEnabled) {
+            phoneEntryView.phoneEditBox.setOnFocusChangeListener { view, hasFocus ->
+                if(hasFocus){
+                    Ui.hideKeyboard(this)
+                    phoneEntryView.phoneEditBox.performClick()
+                }
+                onFocusChange(view, hasFocus)
+            }
+        } else {
+            phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
+                if(hasFocus){
+                    Ui.hideKeyboard(this)
+                    phoneEntryView.phoneSpinner.performClick()
+                }
+                onFocusChange(view, hasFocus)
+            }
+        }
     }
 
     abstract fun inflateWidget()

@@ -400,6 +400,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.traveler_advanced_options_widget,
 		R.layout.spinner_traveler_entry_dropdown_2line_item,
 		R.layout.bundle_widget,
+		R.string.seat_preference,
+		R.layout.test_flight_advanced_options_entry_widget,
 		R.dimen.airlines_filter_height,
 		R.layout.labeled_checked_filter,
 		R.string.flight_duration_hour_short,
