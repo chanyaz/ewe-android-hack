@@ -17,22 +17,22 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.util.endlessObserver
-import com.expedia.util.setInverseVisibility
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.widget.PriceChangeWidget
-import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.bookings.widget.PriceChangeWidget
+import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
+import com.expedia.util.setInverseVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
@@ -378,6 +378,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
         checkoutButtonContainer.translationY = if (showCheckoutButton) 0f else checkoutButtonHeight
         val shouldShowSlider = !showCheckoutButton && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+                && checkoutPresenter.currentState == BaseCheckoutPresenter.CheckoutDefault::class.java.name
         bottomContainer.translationY = if (showCheckoutButton) checkoutPresenter.sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else checkoutPresenter.sliderHeight
         checkoutButton.isEnabled = showCheckoutButton
     }
