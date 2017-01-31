@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.TravelerButton
 import com.expedia.bookings.widget.shared.EntryFormToolbar
 import com.expedia.bookings.widget.traveler.EmailEntryView
@@ -23,7 +24,7 @@ import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
 class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs), TravelerButton.ITravelerButtonListener {
-    val toolbar: EntryFormToolbar by bindView(R.id.rail_traveler_toolbar)
+
     val travelerButton: TravelerButton by bindView(R.id.rail_traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val emailEntryView: EmailEntryView by bindView(R.id.email_entry_widget)
@@ -53,6 +54,8 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
     }
 
     var compositeSubscription: CompositeSubscription? = null
+
+    private val toolbar: EntryFormToolbar by bindView(R.id.rail_traveler_toolbar)
 
     init {
         View.inflate(context, R.layout.rail_traveler_entry_widget, this)
@@ -91,6 +94,10 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
                 compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
             }
         }
+    }
+
+    fun resetFocusToToolbarNavigationIcon() {
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
     }
 
     private fun isCompletelyFilled(): Boolean {

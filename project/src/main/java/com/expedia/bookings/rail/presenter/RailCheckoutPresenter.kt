@@ -27,6 +27,7 @@ import com.expedia.bookings.rail.widget.RailTicketDeliveryOverviewWidget
 import com.expedia.bookings.rail.widget.RailTravelerEntryWidget
 import com.expedia.bookings.rail.widget.TicketDeliveryMethod
 import com.expedia.bookings.tracking.RailTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.StrUtils
@@ -34,7 +35,6 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
-import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.AccountButton
 import com.expedia.bookings.widget.CheckoutLoginExtender
 import com.expedia.bookings.widget.CheckoutToolbar
@@ -414,7 +414,9 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         }
 
         override fun endTransition(forward: Boolean) {
-            if (!forward) {
+            if (forward) {
+                resetFocusToToolbarNavigationIcon()
+            } else {
                 transitionToCheckoutEnd()
                 Ui.hideKeyboard(paymentWidget)
                 paymentWidget.setFocusForView()
@@ -445,6 +447,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             if (forward) {
                 toolbar.visibility = View.GONE
                 travelerEntryWidget.visibility = View.VISIBLE
+                travelerEntryWidget.resetFocusToToolbarNavigationIcon()
             } else {
                 transitionToCheckoutEnd()
                 Ui.hideKeyboard(travelerEntryWidget)
@@ -471,12 +474,17 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 toolbar.visibility = View.GONE
                 paymentWidget.visibility = View.GONE
                 hideCheckoutStart()
+                ticketDeliveryEntryWidget.resetFocusToToolbarNavigationIcon()
             } else {
                 transitionToCheckoutEnd()
                 Ui.hideKeyboard(ticketDeliveryEntryWidget)
                 ticketDeliveryOverviewWidget.setFocusForView()
             }
         }
+    }
+
+    private fun resetFocusToToolbarNavigationIcon() {
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
     }
 
     private fun hideCheckoutStart() {
