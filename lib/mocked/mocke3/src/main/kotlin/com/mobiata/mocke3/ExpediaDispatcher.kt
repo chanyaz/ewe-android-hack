@@ -252,7 +252,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         val pckgStart = startOfTodayPacific.plusDays(35).withHourOfDay(4)
         val pckgEnd = startOfTodayPacific.plusDays(41).withHourOfDay(12)
         val pckgHotelCheckIn = startOfTodayPacific.plusDays(35).withHourOfDay(8).withMinuteOfHour(0)
-        val pckgHotelCheckOut = startOfTodayPacific.plusDays(40).withHourOfDay(2).withMinuteOfHour(0)
+        var pckgHotelCheckOut: DateTime
+        try {
+            pckgHotelCheckOut = startOfTodayPacific.plusDays(40).withHourOfDay(2).withMinuteOfHour(0)
+        } catch (e: IllegalArgumentException) {
+            pckgHotelCheckOut = startOfTodayPacific.plusDays(40).withHourOfDay(3).withMinuteOfHour(0)
+
+        }
         val pckgOutboundFlightDeparture = startOfTodayPacific.plusDays(35).withHourOfDay(4)
         val pckgOutboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(6).withMinuteOfHour(4)
         val pckgInboundFlightDeparture = startOfTodayPacific.plusDays(40).withHourOfDay(10)
@@ -394,7 +400,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         lastSignInEmail = params["email"] ?: lastSignInEmail
         params.put("email", lastSignInEmail)
         return if (lastSignInEmail.isNotEmpty()) {
-            makeResponse("api/user/sign-in/" + lastSignInEmail + ".json", params)
+            makeResponse("api/user/sign-in/$lastSignInEmail.json", params)
         } else {
             makeResponse("api/user/sign-in/qa-ehcc@mobiata.com.json", params)
         }
