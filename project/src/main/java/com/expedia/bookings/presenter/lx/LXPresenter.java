@@ -325,8 +325,8 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
-		AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
-		show(resultsPresenter, FLAG_CLEAR_TOP);
+//		AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar);
+//		show(resultsPresenter, FLAG_CLEAR_TOP);
 	}
 
 	@Subscribe

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -417,66 +418,74 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
-		OmnitureTracking.trackAppLXCategoryABTest();
-
-		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
-		if (event.lxSearchParams.getSearchType().equals(SearchType.EXPLICIT_SEARCH)) {
-			Events.post(new Events.LXShowLoadingAnimation());
-		}
-
-		setUserBucketedForCategoriesTest(Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
-
-		cleanup();
-		sortFilterWidget.bind(null);
-		sortFilterButton.setVisibility(View.GONE);
-		searchResultFilterObserver.searchType = event.lxSearchParams.getSearchType();
-
-		String filters = null;
-		boolean areExternalFiltersSupplied = false;
-		if (isGroundTransport) {
-			filters = GT_FILTERS;
-			areExternalFiltersSupplied = true;
-		}
-		else if (Strings.isNotEmpty(event.lxSearchParams.getFilters())) {
-			filters = event.lxSearchParams.getFilters();
-			areExternalFiltersSupplied = true;
-		}
-		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.getFilters())) {
-			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
-			themeResultsWidget.setVisibility(VISIBLE);
-			searchResultsWidget.setVisibility(GONE);
-			themeResultObserver.searchType = event.lxSearchParams.getSearchType();
-			themeResultObserver.widget = themeResultsWidget;
-			searchSubscription = lxServices.lxCategorySearch(event.lxSearchParams, themeResultObserver);
-			if (!themeResultsWidget.getThemePublishSubject().hasObservers()) {
-				themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
-			}
-			sortFilterButton.setFilterText(getResources().getString(R.string.sort));
-			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort));
-			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
-				event.lxSearchParams.getLocation());
-		}
-		else {
-			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
-			themeResultsWidget.setVisibility(GONE);
-			searchResultsWidget.setVisibility(VISIBLE);
-			searchResultObserver.searchType = event.lxSearchParams.getSearchType();
-			searchResultObserver.widget = searchResultsWidget;
-			searchResultFilterObserver.widget = searchResultsWidget;
-			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
-				areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
-				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver, lxFilterTextSearchEnabled);
-			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
-			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
-			setToolbarTitles(event.lxSearchParams.getLocation(),
-				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
-				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
-		}
-
-		if (areExternalFiltersSupplied) {
-			sortFilterWidget.setSelectedFilterCategories(filters);
-		}
+//		OmnitureTracking.trackAppLXCategoryABTest();
+//
+//		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
+//		if (event.lxSearchParams.getSearchType().equals(SearchType.EXPLICIT_SEARCH)) {
+//			Events.post(new Events.LXShowLoadingAnimation());
+//		}
+//
+//		setUserBucketedForCategoriesTest(Db.getAbacusResponse()
+//			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
+//
+//		cleanup();
+//		sortFilterWidget.bind(null);
+//		sortFilterButton.setVisibility(View.GONE);
+//		searchResultFilterObserver.searchType = event.lxSearchParams.getSearchType();
+//
+//		String filters = null;
+//		boolean areExternalFiltersSupplied = false;
+//		if (isGroundTransport) {
+//			filters = GT_FILTERS;
+//			areExternalFiltersSupplied = true;
+//		}
+//		else if (Strings.isNotEmpty(event.lxSearchParams.getFilters())) {
+//			filters = event.lxSearchParams.getFilters();
+//			areExternalFiltersSupplied = true;
+//		}
+//		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.getFilters())) {
+//			show(themeResultsWidget, FLAG_CLEAR_BACKSTACK);
+//			themeResultsWidget.setVisibility(VISIBLE);
+//			searchResultsWidget.setVisibility(GONE);
+//			themeResultObserver.searchType = event.lxSearchParams.getSearchType();
+//			themeResultObserver.widget = themeResultsWidget;
+//			searchSubscription = lxServices.lxCategorySearch(event.lxSearchParams, themeResultObserver);
+//			if (!themeResultsWidget.getThemePublishSubject().hasObservers()) {
+//				themeResultsWidget.getThemePublishSubject().subscribe(lxThemeSearchObserver);
+//			}
+//			sortFilterButton.setFilterText(getResources().getString(R.string.sort));
+//			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort));
+//			setToolbarTitles(getResources().getString(R.string.lx_select_a_category_title),
+//				event.lxSearchParams.getLocation());
+//		}
+//		else {
+//			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
+//			themeResultsWidget.setVisibility(GONE);
+//			searchResultsWidget.setVisibility(VISIBLE);
+//			searchResultObserver.searchType = event.lxSearchParams.getSearchType();
+//			searchResultObserver.widget = searchResultsWidget;
+//			searchResultFilterObserver.widget = searchResultsWidget;
+//			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
+//				areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
+//				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver, lxFilterTextSearchEnabled);
+//			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
+//			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
+//			setToolbarTitles(event.lxSearchParams.getLocation(),
+//				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
+//				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
+//		}
+//
+//		if (areExternalFiltersSupplied) {
+//			sortFilterWidget.setSelectedFilterCategories(filters);
+//		}
+//		showLegalPage(PointOfSale.getPointOfSale().getTermsAndConditionsUrl(), R.string.terms_and_conditions);
+//
+//		private void showLegalPage(String legalPageUrl, int titleResId) {
+			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+			builder.setInjectExpediaCookies(true);
+			builder.setTitle("WEB SRP");
+			builder.setUrl("https://www.expedia.com/things-to-do/search?location=Rome+(and+vicinity)%2C+Italy&startDate=2017-02-06&endDate=2017-02-14");
+			getContext().startActivity(builder.getIntent());
 	}
 
 	@Subscribe
