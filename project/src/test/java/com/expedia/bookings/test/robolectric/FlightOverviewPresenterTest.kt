@@ -73,12 +73,16 @@ class FlightOverviewPresenterTest {
         val freeCancelltionText = widget.flightSummary.findViewById(R.id.free_cancellation_text) as TextView
         val splitTicketBaggageFeeLinkContainer = widget.flightSummary.findViewById(R.id.split_ticket_info_container)
         val airlineFeeWarningText = widget.flightSummary.findViewById(R.id.airline_fee_warning_text) as TextView
+        widget.viewModel.airlineFeeWarningTextObservable.onNext("An airline fee, based on card type, may be added upon payment.")
         widget.viewModel.showFreeCancellationObservable.onNext(true)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(true)
         widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
+        assertEquals("An airline fee, based on card type, may be added upon payment.", airlineFeeWarningText.text)
         assertEquals(View.VISIBLE, freeCancelltionText.visibility)
         assertEquals(View.VISIBLE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
+        widget.viewModel.airlineFeeWarningTextObservable.onNext("An airline fee, based on card type, is added upon payment.")
+        assertEquals("An airline fee, based on card type, is added upon payment.", airlineFeeWarningText.text)
 
         widget.viewModel.showFreeCancellationObservable.onNext(false)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(false)

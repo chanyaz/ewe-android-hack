@@ -31,7 +31,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -286,19 +285,7 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, FlightSearchParams params) {
-		if (isUserBucketedForFlightTest()) {
 			goToFlights(context, true, null, 0, params);
-		}
-		else {
-			// Launch flight search
-			Db.getFlightSearch().setSearchParams(params);
-			if (params.isFilled()) {
-				NavUtils.goToFlightSearch(context);
-			}
-			else {
-				NavUtils.goToFlights(context, true);
-			}
-		}
 	}
 
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
@@ -313,19 +300,10 @@ public class NavUtils {
 		else {
 			sendKillActivityBroadcast(context);
 			Intent intent;
-			if (isUserBucketedForFlightTest()) {
-				intent = new Intent(context, FlightActivity.class);
-				if (flightSearchParams != null) {
-					Gson gson = FlightsV2DataUtil.generateGson();
-					intent.putExtra(Codes.SEARCH_PARAMS, gson.toJson(flightSearchParams));
-				}
-			}
-			else {
-				intent = new Intent(context, FlightSearchActivity.class);
-				if (usePresetSearchParams) {
-					intent.putExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, true);
-
-				}
+			intent = new Intent(context, FlightActivity.class);
+			if (flightSearchParams != null) {
+				Gson gson = FlightsV2DataUtil.generateGson();
+				intent.putExtra(Codes.SEARCH_PARAMS, gson.toJson(flightSearchParams));
 			}
 			intent.addFlags(flags);
 			startActivity(context, intent, animOptions);
@@ -552,10 +530,6 @@ public class NavUtils {
 		final PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
-	}
-
-	public static boolean isUserBucketedForFlightTest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
 	}
 
 	public static Intent getLaunchIntent(Context context) {

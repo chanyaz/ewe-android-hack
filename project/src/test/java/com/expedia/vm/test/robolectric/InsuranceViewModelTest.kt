@@ -4,14 +4,12 @@ import android.app.Activity
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripDetails
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.insurance.InsuranceSolicitationItem
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.InsuranceViewModel
 import org.junit.Before
 import org.junit.Test
@@ -68,7 +66,6 @@ class InsuranceViewModelTest {
 
     @Test
     fun widgetIsVisibleWhenInsuranceIsAvailableAndBucketed() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightInsurance)
         Robolectric.buildActivity(Activity::class.java).create().get().setTheme(R.style.NewLaunchTheme)
 
         val context = org.robolectric.RuntimeEnvironment.application
@@ -80,19 +77,6 @@ class InsuranceViewModelTest {
         widgetVisibilitySubscriber.assertValueCount(1)
         val widgetIsVisible = widgetVisibilitySubscriber.onNextEvents[0]
         assertTrue(widgetIsVisible)
-
-    }
-
-    @Test
-    fun widgetIsHiddenWhenInsuranceIsAvailableAndControl() {
-        val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
-        sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
-
-        sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))
-
-        widgetVisibilitySubscriber.assertValueCount(1)
-        val widgetIsHidden = widgetVisibilitySubscriber.onNextEvents[0]
-        assertFalse (widgetIsHidden)
 
     }
 

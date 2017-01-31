@@ -144,15 +144,6 @@
             android:layout="@layout/preference"
             android:title="Flights Show Roundtrip Message Under Price - 9636" />
 
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="12182"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Flight AB test - 12182" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -277,15 +268,6 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Car Insurance Included CKO - 7774" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="10212"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Material Flights Insurance - 10212" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

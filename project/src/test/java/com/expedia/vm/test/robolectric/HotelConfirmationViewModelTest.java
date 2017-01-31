@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
@@ -30,6 +29,7 @@ import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.ui.FlightActivity;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.google.gson.Gson;
 
@@ -138,8 +138,7 @@ public class HotelConfirmationViewModelTest {
 		vm.getAddFlightBtnObserver(getContext()).onNext(null);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
-		assertEquals(FlightSearchActivity.class.getName(), intent.getComponent().getClassName());
-		assertTrue(intent.getBooleanExtra(FlightSearchActivity.ARG_USE_PRESET_SEARCH_PARAMS, false));
+		assertEquals(FlightActivity.class.getName(), intent.getComponent().getClassName());
 	}
 
 	@Test

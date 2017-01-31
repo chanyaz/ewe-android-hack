@@ -13,8 +13,6 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
@@ -52,14 +50,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	public void runTest() throws Throwable {
 		SettingUtils.save(getActivity(), R.string.preference_universal_checkout_material_forms, true);
 		Method method = getClass().getMethod(getName(), (Class[]) null);
-		if (method.getName().equals("testNewFlightHappyPath") || method.getName().equals("testNewFlightHappyPathWithMaterialForms")) {
+		if (method.getName().equals("testNewFlightHappyPath") || method.getName()
+			.equals("testNewFlightHappyPathWithMaterialForms")) {
 			Intents.init();
 			intending(hasComponent(WebViewActivity.class.getName()))
 				.respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
-			bucketInsuranceTest(true);
-		}
-		else {
-			bucketInsuranceTest(false);
 		}
 		super.runTest();
 	}
@@ -464,17 +459,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertInsuranceTerms() {
 		intended(hasComponent(WebViewActivity.class.getName()));
-	}
-
-	private void bucketInsuranceTest(boolean bucket) {
-		if (bucket) {
-			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightInsurance,
-				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
-		}
-		else {
-			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightInsurance,
-				AbacusUtils.DefaultVariate.CONTROL.ordinal());
-		}
 	}
 
 	private void assertCheckoutOverviewForOneway() {
