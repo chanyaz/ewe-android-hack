@@ -24,6 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/sort_filter_padding_small"
-        app:rsb__activeColor="@color/packages_primary_color" />
+        app:rsb__activeColor="?attr/primary_color" />
 
 </LinearLayout>

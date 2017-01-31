@@ -29,7 +29,6 @@
         <item name="traveler_details_text">@string/checkout_hotelsv2_enter_guest_details_line1</item>
 
         <!-- needs to be updated for new variant -->
-        <item name="traveler_checkout_circle_drawable">@drawable/hotel_traveler_checkout_circle</item>
         <item name="skin_rippleDrawable">@drawable/old_hotel_ripple_button</item>
     </style>
 
@@ -63,6 +62,9 @@
         <item name="secondary_ripple_button_drawable">@drawable/hotel_select_room_button_selector</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/old_hotel_ripple_button</item>
 
+        <!-- Checkout -->
+        <item name="traveler_checkout_circle_drawable">@drawable/hotel_traveler_checkout_circle</item>
+
         <!-- Used for other styles -->
         <item name="hotel_toggle_background_selector_drawable">@drawable/old_hotel_toggle_background_selector</item>
         <item name="hotel_toggle_text_drawable">@drawable/hotel_toggle_text</item>
@@ -85,8 +87,8 @@
 
         <!-- Results -->
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_app</item>
-        <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
-        <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
+        <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip_blue_test</item>
+        <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue_test_pressed</item>
 
         <!-- InfoSite -->
         <item name="pay_now_later_selector">@drawable/new_pay_now_later_selector</item>
@@ -96,6 +98,9 @@
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
         <item name="secondary_ripple_button_drawable">@drawable/hotel_secondary_ripple_button</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_primary_ripple_button</item>
+
+        <!-- Checkout -->
+        <item name="traveler_checkout_circle_drawable">@drawable/new_traveler_checkout_circle</item>
 
         <!-- Used for other styles -->
         <item name="hotel_toggle_background_selector_drawable">@drawable/new_hotel_toggle_background</item>
