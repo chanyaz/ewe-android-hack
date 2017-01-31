@@ -239,7 +239,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             bundleOverviewHeader.nestedScrollView.visibility =  if (forward) GONE else VISIBLE
             bundleOverviewHeader.toolbar.subtitle = ""
             if (forward) {
-                checkoutPresenter.adjustScrollingSpace()
+                checkoutPresenter.adjustScrollingSpace(bottomContainer)
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
             } else {
                 trackShowBundleOverview()
@@ -421,7 +421,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
         val distance = if (!isSlideToPurchaseLayoutVisible) checkoutPresenter.slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
-            checkoutPresenter.adjustScrollingSpace()
+            checkoutPresenter.adjustScrollingSpace(bottomContainer)
             return
         }
         val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
@@ -438,7 +438,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
 
             override fun onAnimationEnd(p0: Animator?) {
-                checkoutPresenter.adjustScrollingSpace()
+                checkoutPresenter.adjustScrollingSpace(bottomContainer)
             }
         })
     }
