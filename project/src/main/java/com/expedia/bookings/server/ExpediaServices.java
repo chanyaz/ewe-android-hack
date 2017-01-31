@@ -55,7 +55,6 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -84,6 +83,7 @@ import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
@@ -102,7 +102,6 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
-
 import okhttp3.Call;
 import okhttp3.ConnectionSpec;
 import okhttp3.Cookie;
@@ -166,6 +165,9 @@ public class ExpediaServices implements DownloadListener {
 
 	@Inject
 	public PersistentCookieManager mCookieManager;
+
+	@Inject
+	public PersistentCookieManagerV2 mCookieManagerV2;
 
 	@Inject
 	public EndpointProvider mEndpointProvider;
@@ -244,7 +246,9 @@ public class ExpediaServices implements DownloadListener {
 
 	private static void removeUserLoginCookies(Context context, String[] userCookieNames) {
 		ExpediaServices services = new ExpediaServices(context);
+		String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
 		services.mCookieManager.removeNamedCookies(userCookieNames);
+		services.mCookieManagerV2.removeNamedCookies(endpointUrl, userCookieNames);
 	}
 
 	public static void removeUserCookieFromUserLoginCookies(Context context) {
@@ -260,6 +264,7 @@ public class ExpediaServices implements DownloadListener {
 	public void clearCookies() {
 		Log.d("Cookies: Clearing!");
 		mCookieManager.clear();
+		mCookieManagerV2.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

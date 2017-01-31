@@ -28,6 +28,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -141,7 +142,8 @@ public class WebViewFragment extends DialogFragment {
 		}
 
 		mLoadCookies = args.getBoolean(ARG_LOAD_EXPEDIA_COOKIES, false);
-		if (mLoadCookies) {
+		// TODO when removing feature toggle please remove usage of ARG_LOAD_EXPEDIA_COOKIES and loadCookies method.
+		if (mLoadCookies && !FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_new_cookies)) {
 			loadCookies();
 		}
 

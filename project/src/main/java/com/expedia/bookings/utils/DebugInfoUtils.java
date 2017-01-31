@@ -18,8 +18,8 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
-
 import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 
 public class DebugInfoUtils {
 
@@ -127,15 +127,22 @@ public class DebugInfoUtils {
 	}
 
 	public static String getMC1CookieStr(Context context) {
-		HashMap<String, HashMap<String, Cookie>> cookiesStore = ExpediaServices.getCookies(context);
-		if (cookiesStore != null) {
-			for (HashMap<String, Cookie> cookies : cookiesStore.values()) {
-				if (cookies.containsKey("MC1")) {
-					return cookies.get("MC1").value();
+		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
+			String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
+			HttpUrl url = HttpUrl.parse(endpointUrl);
+			return new ExpediaServices(context).mCookieManagerV2.getCookieValue(url, "MC1");
+		}
+		else {
+			HashMap<String, HashMap<String, Cookie>> cookiesStore = ExpediaServices.getCookies(context);
+			if (cookiesStore != null) {
+				for (HashMap<String, Cookie> cookies : cookiesStore.values()) {
+					if (cookies.containsKey("MC1")) {
+						return cookies.get("MC1").value();
+					}
 				}
 			}
+			return "";
 		}
-		return "";
 	}
 
 }
