@@ -14,8 +14,7 @@ object FlightServiceClassType {
         FIRST(R.string.cabin_code_first, "F")
     }
 
-
-    fun getCabinCode(seatClass: String): Int {
+    private fun getCabinCodeResourceId(seatClass: String): Int {
         when (seatClass) {
             "coach" -> return CabinCode.COACH.resId
             "premium coach" -> return CabinCode.PREMIUM_COACH.resId
@@ -25,10 +24,18 @@ object FlightServiceClassType {
         }
     }
 
+    fun getCabinCodeResourceIdForSRP(seatClass: String): Int {
+        if (seatClass == "premium coach") {
+            return R.string.cabin_code_premium_coach_abbreviated
+        } else {
+            return getCabinCodeResourceId(seatClass)
+        }
+    }
+
     @JvmStatic fun getSeatClassAndBookingCodeText(context: Context, segment: FlightLeg.FlightSegment): String {
         if (Strings.isNotEmpty(segment.seatClass) && Strings.isNotEmpty(segment.bookingCode)) {
             return Phrase.from(context.resources.getString(R.string.flight_seatclass_booking_code_TEMPLATE))
-                    .put("seat_class", context.resources.getString(getCabinCode(segment.seatClass)))
+                    .put("seat_class", context.resources.getString(getCabinCodeResourceId(segment.seatClass)))
                     .put("booking_code", segment.bookingCode)
                     .format().toString()
         } else {
