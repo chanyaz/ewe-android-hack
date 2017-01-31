@@ -36,6 +36,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -210,12 +211,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		return view;
 	}
 
+	public ItinSignInPresenter mItinSignInPresenter;
+
 	private void setSignInView(View view) {
 		View mEmptyView;
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
 			R.string.preference_itin_new_sign_in_screen)) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
-			mEmptyView = viewStub.inflate();
+			mItinSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
+			mEmptyView = mItinSignInPresenter;
 		}
 		else {
 			mEmptyView = Ui.findView(view, R.id.old_sign_in_view);

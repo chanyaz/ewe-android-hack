@@ -19,12 +19,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     }
 
     private val signInToAddGuestTransition = object : Transition(ItinSignInWidget::class.java, AddGuestItinWidget::class.java, DecelerateInterpolator(), 400) {
-        override fun startTransition(forward: Boolean) {
-            println("Supreeth ItinSignInPresenter signInToAddGuestTransition startTransition")
-        }
-
         override fun endTransition(forward: Boolean) {
-            println("Supreeth ItinSignInPresenter signInToAddGuestTransition endTransition")
             signInWidget.visibility = if (forward) View.GONE else View.VISIBLE
             addGuestItinWidget.visibility = if (forward) View.VISIBLE else View.GONE
         }
@@ -36,16 +31,8 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         addTransition(signInToAddGuestTransition)
         show(signInWidget)
         signInWidget.itinSignInViewModel.addGuestItinClickSubject.subscribe {
-            println("Supreeth ItinSignInPresenter signInWidget.itinSignInViewModel.addGuestItinClickSubject.subscribe")
+            show(signInWidget)
             show(addGuestItinWidget)
         }
-    }
-
-    override fun back(): Boolean {
-        if (addGuestItinWidget.visibility == View.VISIBLE) {
-            show(signInWidget)
-            return true
-        }
-        return super.back()
     }
 }
