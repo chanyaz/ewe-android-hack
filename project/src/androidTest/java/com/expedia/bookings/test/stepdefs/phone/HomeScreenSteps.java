@@ -1,11 +1,14 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
+
+import java.util.List;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-
 import static android.support.test.espresso.action.ViewActions.click;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
@@ -27,6 +30,20 @@ public class HomeScreenSteps {
 			NewLaunchScreen.flightLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
 		}
+	}
+
+	@And("^I bucket the following tests$")
+	public void bucketABTest(List<String> list) throws Throwable {
+		AbacusResponse abacusResponse = new AbacusResponse();
+		if (list.contains("RoundTripOnFlightsFSR")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage,
+				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		}
+		if (list.contains("UrgencyMessegingOnFSR")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightUrgencyMessage,
+				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		}
+		Db.setAbacusResponse(abacusResponse);
 	}
 }
 

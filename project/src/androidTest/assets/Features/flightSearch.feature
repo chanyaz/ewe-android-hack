@@ -43,7 +43,7 @@ Feature: Flights testing
     And calendar field exists for flights search form
 
   @Flights @SearchScreen
-  Scenario: Verifying if round trip fields exists
+  Scenario: Verifying if one way trip fields exist and are visible
     Given I launch the App
     And I launch "Flights" LOB
     When I select one way trip
@@ -51,7 +51,7 @@ Feature: Flights testing
     And calendar field exists for one way flights search form
     And arrival field exists for flights search form
 
-  @Flights @SearchScreen
+  @Flights @SearchScreen @WIP
   Scenario: Verifying data consistency through screens for round trip
     Given I launch the App
     And I launch "Flights" LOB
@@ -89,12 +89,10 @@ Feature: Flights testing
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
     And on inbound FSR the number of traveller are as user selected
-    Then calendar field exists for one way flights search form
 
 
   @Flights @SearchScreen
   Scenario Outline: Validating travellers form adults
-
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
@@ -121,7 +119,6 @@ Feature: Flights testing
 
   @Flights @SearchScreen
   Scenario Outline: Validating travellers form children
-
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
@@ -150,8 +147,11 @@ Feature: Flights testing
 
 
   @Flights @SearchScreen
-  Scenario Outline: Verifying data consistency through screens for round trip
+  Scenario Outline: Verifying UI elements and data on each flight cell of FSR
     Given I launch the App
+    And I bucket the following tests
+      | RoundTripOnFlightsFSR |
+      | UrgencyMessegingOnFSR |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
