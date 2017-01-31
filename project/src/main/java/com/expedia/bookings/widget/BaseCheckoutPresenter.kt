@@ -530,13 +530,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     /** Scrolling Space **/
 
-    fun adjustScrollingSpace() {
+    fun adjustScrollingSpace(bottomLayout: LinearLayout) {
         postDelayed({
             val contentViewLocation = IntArray(2)
             val bottomContainerLocation = IntArray(2)
             val scrollViewContainerLocation = IntArray(2)
             contentView.getLocationOnScreen(contentViewLocation)
             scrollView.getLocationOnScreen(scrollViewContainerLocation)
+            bottomLayout.getLocationOnScreen(bottomContainerLocation)
             val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height
             val bottomContainerTopPosition = bottomContainerLocation[1]
             val spaceHeight = Math.max(0, scrollViewContainerLocation[1] + scrollView.height - contentViewBottomPosition)
