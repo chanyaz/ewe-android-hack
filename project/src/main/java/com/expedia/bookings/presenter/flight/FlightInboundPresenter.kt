@@ -3,7 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 
 class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
 

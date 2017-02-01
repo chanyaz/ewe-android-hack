@@ -4,7 +4,7 @@ import com.expedia.bookings.utils.ClientLogConstants
 
 class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long = 0L, val processingTime: Long = 0L, val requestToUser: Long = 0L, val deviceType: String = ClientLogConstants.DEVICE_TYPE) {
 
-    class HotelResultBuilder {
+    class ResultBuilder {
         private var pageName: String? = null
         private var eventName: String? = null
         private var deviceName: String? = null
@@ -13,37 +13,37 @@ class ClientLog(val pageName: String, val eventName: String, val deviceName: Str
         private var processingTime: Long? = null
         private var requestToUser: Long? = null
 
-        fun pageName(page: String?): ClientLog.HotelResultBuilder {
+        fun pageName(page: String?): ClientLog.ResultBuilder {
             pageName = page
             return this
         }
 
-        fun eventName(event: String?): ClientLog.HotelResultBuilder {
+        fun eventName(event: String?): ClientLog.ResultBuilder {
             eventName = event
             return this
         }
 
-        fun deviceName(device: String?): ClientLog.HotelResultBuilder {
+        fun deviceName(device: String?): ClientLog.ResultBuilder {
             deviceName = device
             return this
         }
 
-        fun requestTime(time: Long?): ClientLog.HotelResultBuilder {
+        fun requestTime(time: Long?): ClientLog.ResultBuilder {
             requestTime = time
             return this
         }
 
-        fun responseTime(time: Long?): ClientLog.HotelResultBuilder {
+        fun responseTime(time: Long?): ClientLog.ResultBuilder {
             responseTime = time
             return this
         }
 
-        fun processingTime(time: Long?): ClientLog.HotelResultBuilder {
+        fun processingTime(time: Long?): ClientLog.ResultBuilder {
             processingTime = time
             return this
         }
 
-        fun requestToUser(time: Long?): ClientLog.HotelResultBuilder {
+        fun requestToUser(time: Long?): ClientLog.ResultBuilder {
             requestToUser = time
             return this
         }

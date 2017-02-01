@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import android.app.Application;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +50,7 @@ import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
@@ -567,25 +568,25 @@ public class TuneUtils {
 	}
 
 	public static void trackFlightV2OutBoundResults(
-		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
-		List<FlightLeg> flightLegList) {
+		FlightSearchTrackingData searchTrackingData) {
 		if (initialized) {
 			MATEvent event = new MATEvent("flight_outbound_result");
 			MATEventItem eventItem = new MATEventItem("flight_outbound_result_item");
-			eventItem.withAttribute2(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode)
-				.withAttribute3(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode);
+			eventItem.withAttribute2(searchTrackingData.getDepartureAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute3(searchTrackingData.getArrivalAirport().hierarchyInfo.airport.airportCode);
 
-			if (flightLegList != null && !flightLegList.isEmpty()) {
-				int propertiesCount = flightLegList.size();
+			if (searchTrackingData.getFlightLegList() != null && !searchTrackingData.getFlightLegList().isEmpty()) {
+				int propertiesCount = searchTrackingData.getFlightLegList().size();
 				StringBuilder sb = new StringBuilder();
 				if (propertiesCount >= 0) {
 					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
-						String carrier = flightLegList.get(i).segments.get(0).airlineCode;
-						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
-						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
-						String routeType = flightSearchParams.getReturnDate() != null ? "RT" : "OW";
-						String route = String.format("%s-%s", flightSearchParams.getDepartureAirport().gaiaId,
-							flightSearchParams.getArrivalAirport().gaiaId
+						FlightLeg flightLeg = searchTrackingData.getFlightLegList().get(i);
+						String carrier = flightLeg.segments.get(0).airlineCode;
+						String currency = flightLeg.packageOfferModel.price.packageTotalPrice.currencyCode;
+						String price = flightLeg.packageOfferModel.price.packageTotalPrice.amount.toString();
+						String routeType = searchTrackingData.getReturnDate() != null ? "RT" : "OW";
+						String route = String.format("%s-%s", searchTrackingData.getDepartureAirport().gaiaId,
+							searchTrackingData.getArrivalAirport().gaiaId
 						);
 
 						sb.append(
@@ -597,9 +598,9 @@ public class TuneUtils {
 				}
 				eventItem.withAttribute5(sb.toString());
 			}
-			Date departureDate = flightSearchParams.getDepartureDate().toDate();
-			if (flightSearchParams.getReturnDate() != null) {
-				Date returnDate = flightSearchParams.getReturnDate().toDate();
+			Date departureDate = searchTrackingData.getDepartureDate().toDate();
+			if (searchTrackingData.getReturnDate() != null) {
+				Date returnDate = searchTrackingData.getReturnDate().toDate();
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)

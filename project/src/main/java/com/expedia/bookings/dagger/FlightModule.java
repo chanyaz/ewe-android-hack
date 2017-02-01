@@ -7,6 +7,7 @@ import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.vm.FlightCheckoutViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.expedia.vm.flights.FlightCreateTripViewModel;
@@ -55,5 +56,11 @@ public final class FlightModule {
 	@FlightScope
 	PaymentViewModel providePaymentViewModel(Context context) {
 		return new PaymentViewModel(context);
+	}
+
+	@Provides
+	@FlightScope
+	FlightSearchTrackingDataBuilder provideFlightTrackingBuilder() {
+		return new FlightSearchTrackingDataBuilder();
 	}
 }

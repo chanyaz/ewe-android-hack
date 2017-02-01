@@ -34,6 +34,7 @@ import rx.Subscription
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -376,7 +377,7 @@ class FlightOffersViewModelTest {
     class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, interceptor, observeOn, subscribeOn) {
         var searchCount = 0
 
-        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>): Subscription {
+        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>, resultsResponseReceivedObservable: PublishSubject<Unit>?): Subscription {
             searchCount++
             observer.onError(IOException())
             return Mockito.mock(Subscription::class.java)

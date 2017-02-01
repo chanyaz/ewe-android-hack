@@ -12,7 +12,7 @@ import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.bookings.tracking.hotel.HotelClientLogTracker;
+import com.expedia.bookings.tracking.hotel.ClientLogTracker;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.vm.BucksViewModel;
@@ -97,8 +97,8 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	HotelClientLogTracker provideHotelClientLogTracker(ClientLogServices clientLogServices) {
-		return new HotelClientLogTracker(clientLogServices);
+	ClientLogTracker provideHotelClientLogTracker(ClientLogServices clientLogServices) {
+		return new ClientLogTracker(clientLogServices);
 	}
 
 	@Provides

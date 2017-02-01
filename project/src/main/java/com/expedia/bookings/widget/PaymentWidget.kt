@@ -29,7 +29,7 @@ import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking

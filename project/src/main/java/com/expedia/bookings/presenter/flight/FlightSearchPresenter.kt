@@ -13,23 +13,26 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
+import javax.inject.Inject
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).flightComponent().suggestionsService()
     }
+    lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
+        @Inject set
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -38,8 +41,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
-        searchButton.subscribeOnClick(vm.performSearchObserver)
-
+        searchButton.setOnClickListener {
+            searchTrackingBuilder.markSearchClicked()
+            vm.performSearchObserver.onNext(Unit)
+        }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
@@ -78,6 +83,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override val waitForOtherSuggestionListeners = 5L
 
     init {
+        Ui.getApplication(getContext()).flightComponent().inject(this)
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2
         showFlightOneWayRoundTripOptions = true

@@ -10,7 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable

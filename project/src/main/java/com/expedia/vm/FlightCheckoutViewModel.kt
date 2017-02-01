@@ -12,7 +12,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
