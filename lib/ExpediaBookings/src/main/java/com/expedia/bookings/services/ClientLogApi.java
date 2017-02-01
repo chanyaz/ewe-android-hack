@@ -19,10 +19,10 @@ public interface ClientLogApi {
 		@Query("eventName") String eventName,
 		@Query("domain") String domain,
 		@Query("device") String deviceName,
-		@Query("requestTime") long requestTime,
-		@Query("responseTime") long responseTime,
-		@Query("processingTime") long processingTime,
-		@Query("requestToUser") long requestToUser,
+		@Query("requestTime") Long requestTime,
+		@Query("responseTime") Long responseTime,
+		@Query("processingTime") Long processingTime,
+		@Query("requestToUser") Long requestToUser,
 		@Query("DeviceType") String deviceType);
 
 	@POST("/cl/data/app-impressions.json?batch=false")
