@@ -7,7 +7,6 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.vm.AbstractHotelFilterViewModel;
-import com.mobiata.android.fragment.AboutSectionFragment;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
@@ -64,8 +63,6 @@ public interface IProductFlavorFeatureConfiguration {
 	String getCopyrightLogoUrl(Context context);
 
 	boolean areSocialMediaMenuItemsInAboutEnabled();
-
-	AboutSectionFragment getAboutSectionFragment(Context context);
 
 	boolean isFacebookLoginIntegrationEnabled();
 

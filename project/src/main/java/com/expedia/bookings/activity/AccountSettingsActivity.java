@@ -68,7 +68,6 @@ public class AccountSettingsActivity extends TrackingAppCompatActivity implement
 	UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener,
 	GoogleApiClient.ConnectionCallbacks, CopyrightFragment.CopyrightFragmentListener {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
-	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
 	private static final String TAG_COPYRIGHT = "TAG_COPYRIGHT";
 	private static final String TAG_COMMUNICATE = "TAG_COMMUNICATE";
@@ -231,15 +230,6 @@ public class AccountSettingsActivity extends TrackingAppCompatActivity implement
 			builder.addRow(R.string.open_source_software_licenses, ROW_OPEN_SOURCE_LICENSES);
 			legalFragment = builder.build();
 			ft.add(R.id.section_legal, legalFragment, TAG_LEGAL);
-		}
-
-		// Apps also by us
-		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
-		if (alsoByFragment == null) {
-			alsoByFragment = ProductFlavorFeatureConfiguration.getInstance().getAboutSectionFragment(this);
-			if (alsoByFragment != null) {
-				ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
-			}
 		}
 
 

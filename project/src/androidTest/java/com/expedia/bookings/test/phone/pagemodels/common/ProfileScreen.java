@@ -60,7 +60,7 @@ public class ProfileScreen {
 		onView(withText(R.string.open_source_software_licenses)).perform(scrollTo(), click());
 	}
 
-	public static void clickMobiataLogo() {
+	public static void clickCopyrightLogo() {
 		onView(withId(R.id.logo)).perform(scrollTo(), click());
 	}
 
