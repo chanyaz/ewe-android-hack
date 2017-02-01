@@ -6,6 +6,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -63,7 +64,7 @@ public class BillingAddressScreen {
 	}
 
 	public static void typeTextPostalCode(String text, int parentId) {
-		postalCodeEditText(parentId).perform(typeText(text), closeSoftKeyboard());
+		postalCodeEditText(parentId).perform(scrollTo(), typeText(text), closeSoftKeyboard());
 	}
 
 	public static void clickNextButton() {
