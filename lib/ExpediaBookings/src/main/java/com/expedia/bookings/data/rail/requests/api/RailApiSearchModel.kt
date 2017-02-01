@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.rail.requests.api
 
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.rail.requests.MessageInfo
 import com.expedia.bookings.data.rail.requests.PointOfSaleKey
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
@@ -20,6 +21,7 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
     var clientCode = Constants.RAIL_CLIENT_CODE
     var searchCriteriaList: MutableList<OriginDestinationPair> = ArrayList()
     var passengerList: MutableList<RailPassenger> = ArrayList()
+    var messageInfo: MessageInfo? = null
 
     init {
         buildPassengerList(adults, children, youths, seniors)
@@ -93,7 +95,8 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
     companion object {
         fun fromSearchParams(request: RailSearchRequest): RailApiSearchModel {
             return RailApiSearchModel(request.origin!!, request.destination!!, request.departDate, request.returnDate,
-                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(), request.adults, request.children, request.youths, request.seniors, request.selectedRailCards)
+                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(),
+                    request.adults, request.children, request.youths, request.seniors, request.selectedRailCards)
 
         }
     }

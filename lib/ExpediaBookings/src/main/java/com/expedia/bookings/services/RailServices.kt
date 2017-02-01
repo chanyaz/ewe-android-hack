@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.rail.deserializers.RailCheckoutResponseDeserializer
+import com.expedia.bookings.data.rail.requests.MessageInfo
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.requests.RailCreateTripRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
@@ -20,9 +21,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import java.util.UUID
 import java.util.Collections
 
 open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+
+    // "Session" Good enough for MVP.
+    val userSession = UUID.randomUUID().toString().replace("-".toRegex(), "")
 
     var subscription: Subscription? = null
 
@@ -39,6 +44,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
     fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
         cancel()
+        params.messageInfo = generateMessageInfo()
         val subscription = railApi.railSearch(params)
                 .doOnNext(BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE)
                 .subscribeOn(subscribeOn)
@@ -80,7 +86,9 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
     fun railCreateTrip(railOfferTokens: List<String>, observer: Observer<RailCreateTripResponse>): Subscription {
         cancel()
-        val subscription = railApi.railCreateTrip(RailCreateTripRequest(railOfferTokens))
+        val request = RailCreateTripRequest(railOfferTokens)
+        request.messageInfo = generateMessageInfo()
+        val subscription = railApi.railCreateTrip(request)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
@@ -90,6 +98,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
     fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponseWrapper>): Subscription {
         cancel()
+        params.messageInfo = generateMessageInfo()
         val subscription = railApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
@@ -128,5 +137,10 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
         gsonBuilder.registerTypeAdapter(RailCheckoutResponseWrapper::class.java, RailCheckoutResponseDeserializer());
         val myGson = gsonBuilder.create();
         return GsonConverterFactory.create(myGson);
+    }
+
+    private fun generateMessageInfo() : MessageInfo {
+        val messageInfo = MessageInfo(userSession)
+        return messageInfo
     }
 }

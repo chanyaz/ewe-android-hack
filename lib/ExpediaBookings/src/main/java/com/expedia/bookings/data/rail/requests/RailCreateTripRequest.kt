@@ -7,4 +7,5 @@ class RailCreateTripRequest(val offerTokens: List<String>) {
     val pos = PointOfSaleKey()
     val locale = "en_GB"
     val clientCode = Constants.RAIL_CLIENT_CODE
+    var messageInfo: MessageInfo? = null
 }

@@ -6,6 +6,7 @@ class RailCheckoutParams(val travelers: List<Traveler>,
                          val tripDetails: TripDetails,
                          val paymentInfo: PaymentInfo,
                          val ticketDeliveryOption: TicketDeliveryOption) {
+    var messageInfo: MessageInfo? = null
 
     class Builder {
         private var travelers: List<Traveler> = emptyList()
