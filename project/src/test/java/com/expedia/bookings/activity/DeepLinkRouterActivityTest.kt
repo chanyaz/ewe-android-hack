@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,7 +39,7 @@ class DeepLinkRouterActivityTest {
 
         val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
-        expectedIntent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true)
+        expectedIntent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true)
         assertEquals(expectedIntent, nextStartedActivity)
     }
 
@@ -75,7 +74,7 @@ class DeepLinkRouterActivityTest {
     private fun assertPhoneLaunchActivityStarted(deepLinkRouterActivity: TestDeepLinkRouterActivity) {
         val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
-        expectedIntent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true)
+        expectedIntent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true)
         assertEquals(expectedIntent, nextStartedActivity)
     }
 

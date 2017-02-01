@@ -260,21 +260,6 @@
         <attr name="selected_state" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="PhoneLaunchButton">
-        <attr name="btn_text" format="string" />
-        <attr name="btn_text_size" format="string" />
-        <attr name="btn_bg" format="color"/>
-        <attr name="btn_icon" format="reference"/>
-        <!-- Minimum scale factor for icon -->
-        <attr name="icon_min_scale" format="float" />
-        <!-- Background card height for launch button -->
-        <attr name="bg_card_height" format="dimension" />
-        <!-- Background card top padding for launch button -->
-        <attr name="bg_icon_padding_top" format="dimension" />
-        <attr name="refernce_container_height" format="dimension" />
-        <attr name="five_lob_btn" format="boolean" />
-    </declare-styleable>
-
     <declare-styleable name="MessageProgressView">
         <attr name="line_color" format="color" />
         <attr name="background_tint" format="color" />

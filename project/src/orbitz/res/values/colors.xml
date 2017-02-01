@@ -7,7 +7,6 @@
     <color name="lob_btn_color">#004D7C</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
-    <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#8d1598</color>
     <color name="pay_now_earn_text_color">#8E0099</color>

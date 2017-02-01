@@ -122,16 +122,6 @@
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute" />
 
-        <!-- Phone launch -->
-
-        <activity
-            android:name="com.expedia.bookings.launch.activity.PhoneLaunchActivity"
-            android:launchMode="singleTop"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/LaunchTheme"
-            tools:ignore="UnusedAttribute" />
-
         <!-- Phone New launch -->
 
         <activity

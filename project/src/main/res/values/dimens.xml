@@ -17,33 +17,16 @@
 
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
-    <dimen name="launch_header_top_space">135dp</dimen>
-    <dimen name="launch_header_double_row_top_space">192dp</dimen>
-    <dimen name="launch_header_five_lob_top_space">198dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>
     <dimen name="launch_tile_hotel_sale_right_margin">12dp</dimen>
     <dimen name="launch_lob_height">103dp</dimen>
-    <dimen name="launch_lob_container_height">140dp</dimen>
-    <dimen name="launch_lob_reference_container_height">130dp</dimen>
-    <dimen name="launch_lob_squashed_height">80dp</dimen>
-    <dimen name="launch_lob_double_row_height">81dp</dimen>
-    <dimen name="launch_five_lob_double_row_height">87dp</dimen>
-    <dimen name="launch_lob_double_row_container_height">197dp</dimen>
-    <dimen name="launch_five_lob_double_row_container_height">203dp</dimen>
-    <dimen name="launch_lob_double_row_squashed_height">112dp</dimen>
-    <dimen name="launch_lob_btn_corner_radius">3dp</dimen>
-    <dimen name="launch_tile_margin_top">8dp</dimen>
     <dimen name="launch_tile_margin_bottom">2dp</dimen>
     <dimen name="launch_tile_margin_side">7dp</dimen>
     <dimen name="launch_tile_margin_middle">4dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
-    <dimen name="launch_lob_margin_left">10dp</dimen>
-    <dimen name="launch_lob_button_top_padding">5dp</dimen>
-    <dimen name="launch_five_lob_button_top_padding">8dp</dimen>
-    <dimen name="launch_lob_button_text_size">20sp</dimen>
-    <dimen name="launch_five_lob_button_text_size">16sp</dimen>
+    <dimen name="launch_tile_margin_top">8dp</dimen>
     <dimen name="launch_toolbar_elevation">10dp</dimen>
 
     <!-- Itinerary dimens -->
@@ -296,9 +279,6 @@
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
-
-    <!--Height of LOB box shadow height-->
-    <dimen name="shadow_height">5dp</dimen>
 
     <!-- Package Results -->
     <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>

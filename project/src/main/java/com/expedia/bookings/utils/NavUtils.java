@@ -35,9 +35,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.services.CarServices;
@@ -92,9 +90,8 @@ public class NavUtils {
 		else {
 			Intent intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
 			if (forceShowWaterfall) {
-				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+				intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_WATERFALL(), true);
 			}
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
@@ -110,11 +107,9 @@ public class NavUtils {
 		else {
 			intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
 			if (forceShowWaterfall) {
-				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+				intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_WATERFALL(), true);
 			}
-
 			sendKillActivityBroadcast(context);
 		}
 		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
@@ -162,7 +157,7 @@ public class NavUtils {
 		else {
 			intent = getLaunchIntent(context);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+			intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ITIN(), true);
 			context.startActivity(intent);
 		}
 	}
@@ -177,7 +172,7 @@ public class NavUtils {
 			intent = getLaunchIntent(context);
 		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, true);
+		intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ACCOUNT(), true);
 		builder.addNextIntent(intent);
 		builder.startActivities();
 		User.signIn((Activity) context, new Bundle());
@@ -564,11 +559,6 @@ public class NavUtils {
 	}
 
 	public static Intent getLaunchIntent(Context context) {
-		if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {
-			return new Intent(context, NewPhoneLaunchActivity.class);
-		}
-		else {
-			return new Intent(context, PhoneLaunchActivity.class);
-		}
+		return new Intent(context, NewPhoneLaunchActivity.class);
 	}
 }
