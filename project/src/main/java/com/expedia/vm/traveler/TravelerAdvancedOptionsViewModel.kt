@@ -1,7 +1,10 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
@@ -21,6 +24,8 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
     val travelerNumberSubject = BehaviorSubject.create<String>()
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
 
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->
         traveler.seatPreference = seatPref
@@ -44,7 +49,7 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
         } else {
             travelerNumberSubject.onNext("")
         }
-        seatPreferenceSubject.onNext(traveler.seatPreference)
         assistancePreferenceSubject.onNext(traveler.assistance)
+        seatPreferenceSubject.onNext(traveler.safeSeatPreference)
     }
 }

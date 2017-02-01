@@ -30,7 +30,7 @@ import kotlin.test.assertNotNull
 
 class PhoneEntryViewTest {
 
-    private val context = RuntimeEnvironment.application
+    private val context = RuntimeEnvironment.application.applicationContext
     private lateinit var widget: PhoneEntryView
     private val testCodeString = "355"
     private val testCountryName = "Albania"
@@ -57,7 +57,10 @@ class PhoneEntryViewTest {
 
         editBoxForDialog.performClick()
         val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-        assertDialogIsCorrect(testAlert, expectedTitle = "Country", numOfItems = 242 )
+        assertDialogIsCorrect(testAlert,
+                expectedTitle = "Country",
+                numOfItems = 242,
+                position = widget.phoneAdapter.currentPosition)
 
         testAlert.clickOnItem(0)
         assertWidgetIsCorrect(editBoxForDialog, "93")
@@ -90,9 +93,10 @@ class PhoneEntryViewTest {
         assertEquals("+$countryCode", editBoxForDialog.text.toString())
     }
 
-    private fun assertDialogIsCorrect(testAlertDialog: ShadowAlertDialog, expectedTitle: String, numOfItems: Int) {
+    private fun assertDialogIsCorrect(testAlertDialog: ShadowAlertDialog, expectedTitle: String, numOfItems: Int, position: Int) {
         assertNotNull(testAlertDialog)
         assertEquals(expectedTitle, testAlertDialog.title)
         assertEquals(numOfItems, testAlertDialog.items.size)
+        assertEquals(position, widget.phoneAdapter.getPositionFromName(widget.viewModel.phoneCountryNameSubject.value))
     }
 }

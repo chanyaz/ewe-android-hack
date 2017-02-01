@@ -5,6 +5,8 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 
 fun TextView.addErrorExclamation() {
@@ -20,4 +22,20 @@ fun TextView.addErrorExclamation() {
 fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
     val drawables = this.compoundDrawables
     this.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], newDrawableRight, drawables[3])
+}
+
+
+class TextViewExtensions{
+    companion object{
+        fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(tv.context, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms,
+                    R.string.preference_universal_checkout_material_forms)) {
+                var textColor = ContextCompat.getColor(tv.context, R.color.default_text_color)
+                if (currentPosition == position ) {
+                    textColor = ContextCompat.getColor(tv.context, Ui.obtainThemeResID(tv.context, R.attr.primary_color))
+                }
+                tv.setTextColor(textColor)
+            }
+        }
+    }
 }

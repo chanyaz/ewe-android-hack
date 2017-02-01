@@ -13,16 +13,21 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.widget.TextViewExtensions;
 import com.mobiata.android.util.Ui;
 
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
 	private final int mTextViewId;
 	private final int mDropdownResourceId;
-	private int selectedIndex;
+	private int mCurrentPosition;
 
-	public void setSelectedIndex(int position) {
-		selectedIndex = position;
+	public void setCurrentPosition(int position) {
+		mCurrentPosition = position;
+	}
+
+	public int getCurrentPosition() {
+		return mCurrentPosition;
 	}
 
 	class AssistanceSpinnerHelper {
@@ -98,6 +103,8 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setText(HtmlCompat.fromHtml(String.format(mFormatString, getItem(position))));
+		TextViewExtensions.Companion.setTextColorBasedOnPosition(tv, mCurrentPosition, position);
+
 		return retView;
 	}
 
@@ -138,7 +145,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 			tv2.setText("");
 		}
 
-		if (position == selectedIndex) {
+		if (position == mCurrentPosition) {
 			if (tv1 instanceof CheckedTextView) {
 				((CheckedTextView) tv1).setChecked(true);
 			}

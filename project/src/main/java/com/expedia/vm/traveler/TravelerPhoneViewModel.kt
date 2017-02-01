@@ -2,18 +2,21 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.data.Phone
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-open class TravelerPhoneViewModel(context: Context) {
+open class TravelerPhoneViewModel(val context: Context) {
 
     private var phone: Phone by Delegates.notNull()
     val phoneViewModel = PhoneViewModel(context)
     val phoneCountryCodeSubject = BehaviorSubject.create<String>()
+    val phoneCountryNameSubject = BehaviorSubject.create<String>()
 
     val countryNameObserver = endlessObserver<String> { countryName ->
         phone.countryName = countryName
+        phoneCountryNameSubject.onNext(countryName)
     }
 
     val countryCodeObserver = endlessObserver<Int> { countryCode ->
@@ -27,11 +30,20 @@ open class TravelerPhoneViewModel(context: Context) {
     fun updatePhone(phone: Phone) {
         this.phone = phone
         phoneCountryCodeSubject.onNext(phone.countryCode)
+        phoneCountryNameSubject.onNext(getCountryName(phone))
         phoneViewModel.textSubject.onNext(if (phone.number.isNullOrEmpty()) "" else phone.number)
     }
 
     open fun validate(): Boolean {
         val validPhone = phoneViewModel.validate()
         return validPhone
+    }
+
+    open fun getCountryName(phone:Phone) : String {
+        return if (phone.countryName.isNullOrEmpty()) {
+            context.getString(PointOfSale.getPointOfSale().countryNameResId)
+        } else {
+            phone.countryName
+        }
     }
 }

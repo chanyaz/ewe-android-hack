@@ -6,12 +6,11 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
@@ -56,6 +55,55 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         builder.create()
     }
 
+    val seatPreferenceAdapter: SeatPreferenceSpinnerAdapter by lazy {
+        val adapter = if (materialFormTestEnabled) {
+            SeatPreferenceSpinnerAdapter(context, R.layout.material_item)
+        } else {
+            SeatPreferenceSpinnerAdapter(context, R.layout.material_spinner_item)
+        }
+        adapter.setFormatString(context.getString(R.string.prefers_seat_colored_TEMPLATE2))
+        adapter
+    }
+
+    val seatPreferenceDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.resources.getString(R.string.seat_preference))
+
+        builder.setSingleChoiceItems(seatPreferenceAdapter, seatPreferenceAdapter.currentPosition) { dialog, position ->
+            viewModel.seatPreferenceObserver.onNext(seatPreferenceAdapter.getSeatPreference(position))
+            viewModel.seatPreferenceSubject.onNext(seatPreferenceAdapter.getSeatPreference(position))
+            dialog.dismiss()
+        }
+
+        val alert = builder.create()
+        alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
+        alert
+    }
+
+    val assistanceAdapter : AssistanceTypeSpinnerAdapter by lazy {
+        val adapter = if (materialFormTestEnabled) {
+            AssistanceTypeSpinnerAdapter(context, R.layout.material_item)
+        } else {
+            AssistanceTypeSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_traveler_entry_dropdown_2line_item)
+        }
+        adapter
+    }
+
+    val assistanceDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.resources.getString(R.string.special_assistance))
+
+        builder.setSingleChoiceItems(assistanceAdapter, assistanceAdapter.currentPosition) { dialog, position ->
+            viewModel.assistancePreferenceObserver.onNext(assistanceAdapter.getAssistanceType(position))
+            viewModel.assistancePreferenceSubject.onNext(assistanceAdapter.getAssistanceType(position))
+            dialog.dismiss()
+        }
+
+        val alert = builder.create()
+        alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
+        alert
+    }
+
     var viewModel: TravelerAdvancedOptionsViewModel by notNullAndObservable { vm ->
 
         if (PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
@@ -67,23 +115,24 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
 
         vm.seatPreferenceSubject.subscribe { seatPref ->
             if (materialFormTestEnabled) {
+                seatPreferenceAdapter.currentPosition = seatPreferenceAdapter.getSeatPreferencePosition(seatPref)
                 val seatStringTemplate = context.getString(R.string.prefers_seat_colored_TEMPLATE2)
                 seatPreferenceEditBox.setText(String.format(seatStringTemplate, Strings.capitalizeFirstLetter(seatPref.name)))
+                seatPreferenceEditBox.setTextColor(ContextCompat.getColor(context, R.color.checkout_traveler_birth_color))
             }
             else {
-                val seatAdapter = seatPreferenceSpinner.adapter as SeatPreferenceSpinnerAdapter
-                seatPreferenceSpinner.setSelection(seatAdapter.getSeatPreferencePosition(seatPref))
+                seatPreferenceSpinner.setSelection(seatPreferenceAdapter.getSeatPreferencePosition(seatPref))
             }
         }
 
         vm.assistancePreferenceSubject.subscribe { assist ->
             if (materialFormTestEnabled) {
-                val assistanceAdapter = AssistanceTypeSpinnerAdapter(context)
+                assistanceAdapter.currentPosition = assistanceAdapter.getAssistanceTypePosition(assist)
                 val assistanceString = assistanceAdapter.getItem(assistanceAdapter.getAssistanceTypePosition(assist))
                 assistancePreferenceEditBox.setText(assistanceString)
+                assistancePreferenceEditBox.setTextColor(ContextCompat.getColor(context, R.color.checkout_traveler_birth_color))
             }
             else {
-                val assistanceAdapter = assistancePreferenceSpinner.adapter as AssistanceTypeSpinnerAdapter
                 assistancePreferenceSpinner.setSelection(assistanceAdapter.getAssistanceTypePosition(assist))
             }
         }
@@ -119,17 +168,15 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
 
         if (materialFormTestEnabled) {
             assistancePreferenceEditBox.setOnClickListener {
-                showAssistanceTypeDialog()
+                assistanceDialog.show()
             }
             seatPreferenceEditBox.setOnClickListener {
-                showSeatPreferanceDialog()
+                seatPreferenceDialog.show()
             }
         } else {
-            assistancePreferenceSpinner.adapter = AssistanceTypeSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_traveler_entry_dropdown_2line_item)
+            assistancePreferenceSpinner.adapter = assistanceAdapter
             assistancePreferenceSpinner.onItemSelectedListener = AssistanceTypeSelectedListener()
 
-            val seatPreferenceAdapter = SeatPreferenceSpinnerAdapter(context, R.layout.material_spinner_item)
-            seatPreferenceAdapter.setFormatString(context.getString(R.string.prefers_seat_colored_TEMPLATE2))
             seatPreferenceSpinner.adapter = seatPreferenceAdapter
             seatPreferenceSpinner.onItemSelectedListener = SeatPreferenceItemSelectedListener()
         }
@@ -141,8 +188,8 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         }
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            val adapter = seatPreferenceSpinner.adapter as SeatPreferenceSpinnerAdapter
-            viewModel.seatPreferenceObserver.onNext(adapter.getSeatPreference(position))
+            seatPreferenceAdapter.currentPosition = position
+            viewModel.seatPreferenceObserver.onNext(seatPreferenceAdapter.getSeatPreference(position))
         }
     }
 
@@ -152,43 +199,8 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         }
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-            val adapter = assistancePreferenceSpinner.adapter as AssistanceTypeSpinnerAdapter
-            adapter.setSelectedIndex(position);
-            viewModel.assistancePreferenceObserver.onNext(adapter.getAssistanceType(position))
-        }
-    }
-
-    private fun showAssistanceTypeDialog() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(context.resources.getString(R.string.special_assistance))
-        val assistanceAdapter = AssistanceTypeSpinnerAdapter(context, R.layout.material_item)
-
-        builder.setAdapter(assistanceAdapter) { dialog, position ->
-            viewModel.assistancePreferenceSubject.onNext(assistanceAdapter.getAssistanceType(position))
+            assistanceAdapter.currentPosition = position
             viewModel.assistancePreferenceObserver.onNext(assistanceAdapter.getAssistanceType(position))
         }
-
-        val alert = builder.create()
-        alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
-        alert.show()
-    }
-
-    private fun showSeatPreferanceDialog() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(context.resources.getString(R.string.seat_preference))
-        val seatStringTemplate = context.getString(R.string.prefers_seat_colored_TEMPLATE2)
-        val preferenceArray = arrayOf(String.format(seatStringTemplate, context.getString(R.string.aisle)),
-                String.format(seatStringTemplate, context.getString(R.string.window)))
-
-        builder.setItems(preferenceArray) { dialog, position ->
-            val preference = if (position == 0) Traveler.SeatPreference.AISLE else Traveler.SeatPreference.WINDOW
-            viewModel.seatPreferenceObserver.onNext(preference)
-            viewModel.seatPreferenceSubject.onNext(preference)
-        }
-
-        val alert = builder.create()
-        alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
-        alert.show()
     }
 }
