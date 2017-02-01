@@ -50,6 +50,13 @@ object SearchScreen {
         searchAlertDialogDone().perform(click())
     }
 
+    @JvmStatic fun chooseDates(start: LocalDate, end: LocalDate?) {
+        calendar().perform(TabletViewActions.clickDates(start, end))
+    }
+    @JvmStatic fun validateDatesToolTip(firstLine: String, secondLine: String) {
+        calendar().perform(TabletViewActions.validateDatesTooltip(firstLine, secondLine))
+    }
+
     @JvmStatic fun searchAlertDialogDone(): ViewInteraction {
         return onView(withId(android.R.id.button1))
     }
@@ -94,6 +101,18 @@ object SearchScreen {
 
     @JvmStatic fun removeChildButton(): ViewInteraction {
         return onView(withId(R.id.children_minus))
+    }
+
+    @JvmStatic fun calendarSubtitle(): ViewInteraction {
+        return onView(withId(R.id.instructions))
+    }
+
+    @JvmStatic fun nextMonthButton(): ViewInteraction {
+        return onView(withId(R.id.next_month))
+    }
+
+    @JvmStatic fun previousMonthButton(): ViewInteraction {
+        return onView(withId(R.id.previous_month))
     }
 
     fun setGuests(adults: Int, children: Int) {

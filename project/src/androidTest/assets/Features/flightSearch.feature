@@ -42,7 +42,6 @@ Feature: Flights testing
     And arrival field exists for flights search form
     And calendar field exists for flights search form
 
-
   @Flights @SearchScreen
   Scenario: Verifying if round trip fields exists
     Given I launch the App
@@ -90,6 +89,7 @@ Feature: Flights testing
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
     And on inbound FSR the number of traveller are as user selected
+    Then calendar field exists for one way flights search form
 
 
   @Flights @SearchScreen
@@ -176,3 +176,94 @@ Feature: Flights testing
     Examples:
       | AirlineName    | price | duration | timing             | number |
       | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      |
+
+  @Flights @SearchScreen
+  Scenario: Calender validation - Calender widget is displayed after selecting Flight locations
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I enter source and destination for flights
+      | source                | SFO                                       |
+      | destination           | DEL                                       |
+      | source_suggest        | San Francisco, CA                     |
+      | destination_suggest   | Delhi, India (DEL - Indira Gandhi Intl.)  |
+    Then Validate that Calender widget is displayed: true
+    And Validate that Current Month calender is displayed
+    And Validate that Done button is disabled
+    And Validate that Previous month arrow is displayed: false
+
+  @Flights @SearchScreen
+  Scenario: Calender fields/text validation for Search Screen when no dates are selected and a Round trip.
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    And I Click on Select Dates button for flights
+    Then Validate that Calender widget is displayed: true
+    And Validate that Current Month calender is displayed
+    And Validate that Done button is disabled
+    And Validate that Previous month arrow is displayed: false
+    And Validate that Next month arrow is displayed: true
+    And Validate that "Select departure date" text below calender title is displayed
+
+  @Flights @SearchScreen
+  Scenario: Calender fields/text validation for Search Screen when selecting dates and a Round trip
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I Click on Select Dates button for flights
+    Then Validate that Calender widget is displayed: true
+    And I choose departure date for flights-roundtrip and validate the tool tip
+      | start_date | 5  |
+    And I choose return date for flights-roundtrip and validate the tool tip
+      | start_date | 5  |
+      | end_date   | 10 |
+    And Validate that Done button is enabled
+    And I Click on Done button
+    And Validate the selected date on calender button
+      | start_date | 5  |
+      | end_date   | 10 |
+
+  @Flights @SearchScreen
+  Scenario: Calender fields/text validation for Search Screen when a Round trip and selecting departure date only
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I Click on Select Dates button for flights
+    Then Validate that Calender widget is displayed: true
+    And I choose departure date for flights-roundtrip and validate the tool tip
+      | start_date | 5  |
+    And Validate that Done button is enabled
+    And I Click on Done button
+    And Validate the selected date on calender button
+      | start_date | 5  |
+
+  @Flights @SearchScreen
+  Scenario: Calender fields/text validation for Search Screen when selecting dates and a OneWay trip
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I Click on Select Dates button for flights
+    Then Validate that Calender widget is displayed: true
+    And I choose departure date for flights-oneway and validate the tool tip
+      | start_date | 5  |
+    And Validate that Done button is enabled
+    And I Click on Done button
+    And Validate the selected date on calender button
+      | start_date | 5  |
+      | isRoundTrip | false  |
+
+  @Flights @SearchScreen
+  Scenario: Previous/Next month button validation of Calender Widget
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I Click on Select Dates button for flights
+    Then Validate that Calender widget is displayed: true
+    Then I click on Next month button
+    Then Validate that next month calender is displayed
+    Then Validate that Previous month arrow is displayed: true
+    Then Validate that Next month arrow is displayed: true
+    Then I click on Previous month button
+    Then Validate that Current Month calender is displayed
+    Then Validate that Previous month arrow is displayed: false
+    Then Validate that Next month arrow is displayed: true
