@@ -82,6 +82,7 @@ public class FlightServicesTest {
 		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
 		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
+			.flightCabinClass("COACH")
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
@@ -99,6 +100,7 @@ public class FlightServicesTest {
 		FlightSearchResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals(5, response.getLegs().size());
 		Assert.assertEquals(3, response.getOffers().size());
+		Assert.assertEquals("coach", response.getOffers().get(0).offersSeatClassAndBookingCode.get(0).get(0).seatClass);
 		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.getLegs().get(0).segments.get(0).airlineLogoURL);
 	}
 

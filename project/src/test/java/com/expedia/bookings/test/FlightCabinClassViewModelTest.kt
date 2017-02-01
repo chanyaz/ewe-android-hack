@@ -1,0 +1,70 @@
+package com.expedia.bookings.test
+
+import android.app.Activity
+import android.view.LayoutInflater
+import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.presenter.flight.FlightSearchPresenter
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.FlightCabinClassPickerView
+import com.expedia.vm.flights.FlightCabinClassViewModel
+import com.mobiata.android.util.SettingUtils
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.Robolectric
+import rx.observers.TestSubscriber
+import kotlin.properties.Delegates
+import kotlin.test.assertEquals
+
+@RunWith(RobolectricRunner::class)
+class FlightCabinClassViewModelTest {
+
+    private var widget: FlightSearchPresenter by Delegates.notNull()
+    private var activity: Activity by Delegates.notNull()
+
+    var server: MockWebServer = MockWebServer()
+        @Rule get
+
+    @Before
+    fun before() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Packages)
+        Ui.getApplication(activity).defaultFlightComponents()
+        widget = LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+                null) as FlightSearchPresenter
+    }
+
+    @Test
+    fun testFlightCabinClass() {
+
+        SettingUtils.save(activity, R.string.preference_flight_premium_class, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
+
+        val flightCabinClassWidget = widget.flightCabinClassWidget
+        flightCabinClassWidget.performClick()
+        val view = flightCabinClassWidget.flightCabinClassDialogView
+
+        val flightCabinClassPickerView = view.findViewById(R.id.flight_class_view) as FlightCabinClassPickerView
+        flightCabinClassPickerView.businessClassRadioButton.performClick()
+        flightCabinClassPickerView.doneButton.performClick()
+
+        val flightCabinClassViewModel: FlightCabinClassViewModel = flightCabinClassWidget.flightCabinClassView.viewmodel
+        val flightSelectedCabinClassIdTestSubscriber = TestSubscriber<Int>()
+        flightCabinClassViewModel.flightSelectedCabinClassIdObservable.subscribe(flightSelectedCabinClassIdTestSubscriber)
+
+        assertEquals(FlightServiceClassType.CabinCode.BUSINESS, flightCabinClassViewModel.flightCabinClassObservable.value)
+
+        flightCabinClassWidget.performClick()
+        flightCabinClassPickerView.firstClassRadioButton.performClick()
+        flightCabinClassWidget.dialog.dismiss()
+        flightSelectedCabinClassIdTestSubscriber.assertValueCount(1)
+        flightSelectedCabinClassIdTestSubscriber.assertValue(flightCabinClassPickerView.getIdByClass(FlightServiceClassType.CabinCode.BUSINESS))
+    }
+
+}

@@ -476,6 +476,7 @@
     <color name="traveler_incomplete_text_color">@color/reddish_orange</color>
     <color name="packages_total_duration_text">@color/white_70</color>
     <color name="flights_error_message_infants">@color/orange_crush</color>
+    <color name="flights_cabin_class_radio_button_color">#6A6A6A</color>
 
     <!--Rail colors-->
     <color name="rail_primary_color">@color/exp_rail_navy</color>

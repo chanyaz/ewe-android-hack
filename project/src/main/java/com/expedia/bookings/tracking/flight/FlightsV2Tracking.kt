@@ -235,4 +235,8 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCheckoutPriceChange(diffPercentage)
     }
 
+    fun trackFlightCabinClassSelect(cabinClass: String) {
+        OmnitureTracking.trackFlightCabinClassSelect(cabinClass);
+    }
+
 }

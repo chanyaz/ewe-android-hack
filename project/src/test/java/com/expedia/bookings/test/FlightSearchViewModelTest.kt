@@ -2,6 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -260,6 +261,32 @@ class FlightSearchViewModelTest {
 
         sut.isInfantInLapObserver.onNext(false)
         assertFalse(sut.getParamsBuilder().build().infantSeatingInLap)
+    }
+
+    @Test
+    fun testFlightCabinClassObserver() {
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        val startDate = LocalDate()
+        val endDate = startDate.plusDays(3)
+        givenParamsHaveDates(startDate, endDate)
+
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.FIRST)
+        assertEquals(FlightServiceClassType.CabinCode.FIRST.name, sut.getParamsBuilder().build().flightCabinClass)
+
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.BUSINESS)
+        assertEquals(FlightServiceClassType.CabinCode.BUSINESS.name, sut.getParamsBuilder().build().flightCabinClass)
+
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.PREMIUM_COACH)
+        assertEquals(FlightServiceClassType.CabinCode.PREMIUM_COACH.name, sut.getParamsBuilder().build().flightCabinClass)
+
+        sut.flightCabinClassObserver.onNext(FlightServiceClassType.CabinCode.COACH)
+        assertEquals(FlightServiceClassType.CabinCode.COACH.name, sut.getParamsBuilder().build().flightCabinClass)
+
     }
 
     private fun givenValidStartAndEndDates() {

@@ -116,6 +116,6 @@ class SearchTrackingTest {
         if (isRoundTrip) {
             endDate = LocalDate().plusDays(3)
         }
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, startDate, endDate, 2, childList, false)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, startDate, endDate, 2, childList, false, null)
     }
 }

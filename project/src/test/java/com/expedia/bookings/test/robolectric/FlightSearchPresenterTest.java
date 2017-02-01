@@ -13,22 +13,31 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CalendarWidgetV2;
+import com.expedia.bookings.widget.FlightCabinClassPickerView;
+import com.expedia.bookings.widget.FlightCabinClassWidget;
 import com.expedia.bookings.widget.TravelerPickerView;
 import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
+import com.mobiata.android.util.SettingUtils;
+import com.squareup.phrase.Phrase;
 
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by vsuriyal on 12/30/16.
@@ -70,6 +79,7 @@ public class FlightSearchPresenterTest {
 		assertEquals(searchBtn.getVisibility(), View.VISIBLE);
 		RecyclerView suggestionList = (RecyclerView) widget.findViewById(R.id.suggestion_list);
 		assertEquals(suggestionList.getVisibility(), View.GONE);
+		testFlightCabinClassWidgetVisibility();
 	}
 
 	@Test
@@ -90,6 +100,17 @@ public class FlightSearchPresenterTest {
 			activity.getResources().getString(R.string.package_search_traveler_default_text));
 		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
 		assertEquals(searchBtn.getText().toString(), activity.getResources().getString(R.string.search));
+
+		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
+
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+
+		ViewStub flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
+		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
+		assertEquals(activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId()), flightCabinClassWidget.getText());
 	}
 
 
@@ -207,5 +228,70 @@ public class FlightSearchPresenterTest {
 
 		travelerCard.performClick();
 		assertEquals(2, travelerPicker.getChild1().getSelectedItemPosition());
+	}
+
+	private void testFlightCabinClassWidgetVisibility() {
+		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
+
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+
+		ViewStub flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
+		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
+		assertEquals(flightCabinClassWidget.getVisibility(), View.VISIBLE);
+
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+
+		flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
+		assertNotEquals(flightCabinClassStub.getVisibility(), View.VISIBLE);
+	}
+
+	@Test
+	public void testFlightCabinClassValue() {
+		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
+		String cabinClassCoachName =  activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
+		String cabinClassBusinessName = activity.getResources().getString(FlightServiceClassType.CabinCode.BUSINESS.getResId());
+
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+
+		FlightCabinClassWidget flightCabinClassWidget = widget.getFlightCabinClassWidget();
+		assertEquals(cabinClassCoachName, flightCabinClassWidget.getText());
+
+		flightCabinClassWidget.performClick();
+		View view = flightCabinClassWidget.getFlightCabinClassDialogView();
+
+		FlightCabinClassPickerView flightCabinClassPickerView = (FlightCabinClassPickerView) view.findViewById(R.id.flight_class_view);
+
+		assertEquals(flightCabinClassPickerView.getEconomyClassRadioButton().getId(), flightCabinClassPickerView.getRadioGroup().getCheckedRadioButtonId());
+
+		flightCabinClassPickerView.getBusinessClassRadioButton().performClick();
+
+		flightCabinClassPickerView.getDoneButton().performClick();
+		assertEquals(cabinClassBusinessName, flightCabinClassWidget.getText());
+		assertEquals(getCabinClassContentDescription(cabinClassBusinessName), flightCabinClassWidget.getContentDescription());
+
+		flightCabinClassWidget.performClick();
+		assertEquals(flightCabinClassPickerView.getBusinessClassRadioButton().getId(), flightCabinClassPickerView.getRadioGroup().getCheckedRadioButtonId());
+
+		flightCabinClassPickerView.getEconomyClassRadioButton().performClick();
+		flightCabinClassWidget.getDialog().dismiss();
+		assertEquals(cabinClassBusinessName, flightCabinClassWidget.getText());
+		assertEquals(getCabinClassContentDescription(cabinClassBusinessName), flightCabinClassWidget.getContentDescription());
+
+		flightCabinClassWidget.performClick();
+		assertEquals(flightCabinClassPickerView.getBusinessClassRadioButton().getId(), flightCabinClassPickerView.getRadioGroup().getCheckedRadioButtonId());
+	}
+
+	private String getCabinClassContentDescription(String cabinClassName) {
+		return Phrase.from(activity.getResources().getString(R.string.select_preferred_flight_class_cont_desc_TEMPLATE)).
+			put("seatingclass", cabinClassName).format().toString();
 	}
 }

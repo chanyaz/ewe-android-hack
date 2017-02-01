@@ -32,6 +32,7 @@ class FlightSearchTrackingDataBuilder : AbstractTrackingDataBuilder<FlightSearch
         trackingData.children = searchParams.children
         trackingData.guests = searchParams.guests
         trackingData.infantSeatingInLap = searchParams.infantSeatingInLap
+        trackingData.flightCabinClass = searchParams.flightCabinClass
     }
 
     private fun populateSearchResponseFields(flightLegs: List<FlightLeg>) {

@@ -4755,6 +4755,10 @@
         <item quantity="one">Number of travelers. Button. Opens dialog. {travelers} traveler</item>
         <item quantity="other">Number of travelers. Button. Opens dialog. {travelers} travelers</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">Select preferred class. Button. Opens dialog. Preferred class {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">Choose preferred class. Dialog</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
