@@ -928,7 +928,7 @@
     <!-- Description for infant travelers sitting in seats -->
     <string name="in_seats">Di Tempat Duduk</string>
     <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Preferensi Tempat Duduk untuk Anak di Bawah 2 Tahun</string>
+    <string name="infant_seating_preference">Preferensi Kursi untuk Anak di Bawah 2 Tahun</string>
     <!-- Description for infant seating preference message -->
     <string name="infants_seating_preference_description">Apakah balita (di bawah umur 2 tahun saat perjalanan) akan duduk dipangku atau di kursinya sendiri?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
@@ -2472,7 +2472,9 @@
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Menyimpan informasi traveler ke akun Anda…</string>
     <!-- Seating Preference -->
-    <string name="seating_preference">Preferensi Tempat Duduk</string>
+    <string name="seating_preference">Preferensi Kursi</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">Preferensi Kursi</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Bantuan Khusus</string>
     <!-- Add Redress # -->
@@ -4989,5 +4991,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Pilih jenis kelamin</string>
     <string name="passport_validation_error_message">Pilih negara sesuai paspor</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">Tambahkan perjalanan pesanan tamu Anda secara manual</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">Login untuk mengakses perjalanan Anda yang akan datang</string>
 
 </resources>

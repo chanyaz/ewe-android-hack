@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">Die Daten werden in Ihrem Konto gespeichert…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Bevorzugter Sitzplatz</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">Sitzplatzwunsch</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Besondere Betreuung</string>
     <!-- Add Redress # -->
@@ -4990,5 +4992,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Wählen Sie ein Geschlecht</string>
     <string name="passport_validation_error_message">Wählen Sie das Land des Reisepasses</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">Als Gast gebuchte Reise manuell hinzufügen</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">Melden Sie sich an, um auf Ihre bevorstehenden Reisen zuzugreifen.</string>
 
 </resources>
