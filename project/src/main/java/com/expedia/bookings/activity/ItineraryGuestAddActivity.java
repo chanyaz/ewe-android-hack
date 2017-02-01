@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import android.app.ActionBar;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
@@ -11,7 +12,7 @@ import com.expedia.bookings.fragment.ItinGuestAddFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 
-public class ItineraryGuestAddActivity extends TrackingFragmentActivity {
+public class ItineraryGuestAddActivity extends FragmentActivity {
 
 	public static final String ERROR_FETCHING_GUEST_ITINERARY = "ERROR_FETCHING_GUEST_ITINERARY";
 	public static final String ERROR_FETCHING_REGISTERED_USER_ITINERARY = "ERROR_FETCHING_REGISTERED_USER_ITINERARY";

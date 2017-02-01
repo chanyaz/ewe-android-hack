@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
 
-class PackageActivity : TrackingAbstractAppCompatActivity() {
+class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false
 
     val packagePresenter: PackagePresenter by lazy {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +17,7 @@ import com.mobiata.android.Log;
 
 // This is an activity whose sole purpose is to display the "Share" dialog fragment for
 // itin cards. It's being called from "share" actions on expanded notifications.
-public class StandaloneShareActivity extends TrackingFragmentActivity {
+public class StandaloneShareActivity extends FragmentActivity {
 
 	public static Intent createIntent(Context context, String uniqueId) {
 		Intent intent = new Intent(context, StandaloneShareActivity.class);

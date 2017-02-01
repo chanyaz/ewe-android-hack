@@ -2,20 +2,19 @@ package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
 import android.view.View
-import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.PaymentType
-import com.expedia.bookings.data.User
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.BaseApiResponse
+import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.Location
-import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -33,9 +32,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
-import com.expedia.bookings.utils.TuneUtils.context
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus

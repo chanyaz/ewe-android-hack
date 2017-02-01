@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -35,7 +36,7 @@ import com.mobiata.android.Log;
 /**
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
  */
-public class TabletCheckoutActivity extends TrackingFragmentActivity implements IBackManageable,
+public class TabletCheckoutActivity extends FragmentActivity implements IBackManageable,
 	ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {

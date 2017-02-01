@@ -8,7 +8,7 @@ import com.expedia.bookings.presenter.flight.FlightPresenter
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
 
-class FlightActivity : TrackingAbstractAppCompatActivity() {
+class FlightActivity : AbstractAppCompatActivity() {
     val flightsPresenter: FlightPresenter by lazy {
         findViewById(R.id.flight_presenter) as FlightPresenter
     }

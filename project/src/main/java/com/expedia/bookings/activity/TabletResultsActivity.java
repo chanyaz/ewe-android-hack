@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -79,7 +80,7 @@ import com.squareup.otto.Subscribe;
  * At the time of this writting (9/5/2013) this is also in control of background images, but hopefully this
  * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
  */
-public class TabletResultsActivity extends TrackingFragmentActivity implements IFragmentAvailabilityProvider,
+public class TabletResultsActivity extends FragmentActivity implements IFragmentAvailabilityProvider,
 	IStateProvider<ResultsState>, IMeasurementProvider, IBackManageable, IAcceptingListenersListener,
 	ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
 

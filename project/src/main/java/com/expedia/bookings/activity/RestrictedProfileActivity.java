@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 import com.squareup.phrase.Phrase;
 
-public class RestrictedProfileActivity extends TrackingFragmentActivity {
+public class RestrictedProfileActivity extends FragmentActivity {
 
 	public static Intent createIntent(Context context) {
 		Intent restrictedProfileIntent = new Intent(context, RestrictedProfileActivity.class);

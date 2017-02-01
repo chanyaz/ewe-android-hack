@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -34,7 +35,7 @@ import com.expedia.bookings.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class AccountLibActivity extends TrackingAppCompatActivity
+public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
 	private static final String ARG_BUNDLE = "ARG_BUNDLE";
 	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";

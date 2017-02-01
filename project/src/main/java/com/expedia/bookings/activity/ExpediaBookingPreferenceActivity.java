@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.BugShakerShim;
@@ -12,7 +13,7 @@ import com.expedia.ui.EBPreferencesFragment;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 
-public class ExpediaBookingPreferenceActivity extends TrackingAppCompatActivity {
+public class ExpediaBookingPreferenceActivity extends AppCompatActivity {
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

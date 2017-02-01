@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 
-public class FlightSearchOverlayActivity extends TrackingFragmentActivity implements FlightSearchParamsFragmentListener {
+public class FlightSearchOverlayActivity extends FragmentActivity implements FlightSearchParamsFragmentListener {
 
 	public static final String EXTRA_SEARCH_PARAMS = "EXTRA_SEARCH_PARAMS";
 
