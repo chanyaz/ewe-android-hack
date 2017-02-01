@@ -111,13 +111,14 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 	private void checkBundleOverviewFlightContentDescription(ViewInteraction view, String dateTime, String flightTo, boolean isInboundFlight, boolean isDisabled) {
 		String date = (dateTime != null) ? dateTime : isInboundFlight ? DateUtils.localDateToMMMd(LocalDate.now().plusDays(8)) : DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String previous = isInboundFlight ? "Outbound Flight" : "Hotel";
+		String whichWay = isInboundFlight ? "Inbound Flight" : "Outbound Flight";
 		if (isDisabled) {
 			view.check(matches(withContentDescription(
-				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button.")));
+				whichWay + " to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button.")));
 		}
 		else {
 			view.check(matches(withContentDescription(
-				"You have selected flight to " + flightTo + " on " + date + ", 1 Traveler. Button to expand flight details.")));
+				"You have selected " + whichWay + " to " + flightTo + " on " + date + ", 1 Traveler. Button to expand flight details.")));
 		}
 	}
 
