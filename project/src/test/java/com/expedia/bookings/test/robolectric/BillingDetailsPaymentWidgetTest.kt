@@ -24,6 +24,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -43,6 +44,7 @@ import kotlin.test.assertNull
 class BillingDetailsPaymentWidgetTest {
     lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
     lateinit private var activity: Activity
+    private var cardExpiry = DateTime.now().plusYears(1).toLocalDate()
 
     @Before
     fun before() {
@@ -73,7 +75,7 @@ class BillingDetailsPaymentWidgetTest {
         val info = BillingInfo()
         info.setNumberAndDetectType("345104799171123")
         info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = LocalDate(2017, 1, 1)
+        info.expirationDate = cardExpiry
         info.securityCode = "1234"
 
         val location = givenLocation()
@@ -82,7 +84,7 @@ class BillingDetailsPaymentWidgetTest {
 
         assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
-    
+
     @Test
     fun testFocusValidation() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
@@ -114,7 +116,7 @@ class BillingDetailsPaymentWidgetTest {
         val info = BillingInfo()
         info.setNumberAndDetectType("345104799171123")
         info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = LocalDate(2017, 1, 1)
+        info.expirationDate = cardExpiry
         info.securityCode = "123"
 
         val location = givenLocation()
@@ -151,7 +153,7 @@ class BillingDetailsPaymentWidgetTest {
         val info = BillingInfo()
         info.setNumberAndDetectType("4284306858654528")
         info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = LocalDate(2017, 1, 1)
+        info.expirationDate = cardExpiry
         info.securityCode = "1234"
 
         val location = givenLocation()
@@ -163,7 +165,6 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
-
 
     @Test
     fun testSecureCheckoutDisabled() {
@@ -293,7 +294,7 @@ class BillingDetailsPaymentWidgetTest {
 
         info.setNumberAndDetectType("345104799171123")
         info.nameOnCard = "Expedia Chicago"
-        info.expirationDate = LocalDate(2017, 1, 1)
+        info.expirationDate = cardExpiry
         info.securityCode = "1234"
 
         val location = givenLocation()
@@ -396,7 +397,7 @@ class BillingDetailsPaymentWidgetTest {
         assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
     }
 
-    private fun getUserWithStoredCard() : User {
+    private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
         val traveler = Traveler()
@@ -438,38 +439,38 @@ class BillingDetailsPaymentWidgetTest {
         Db.getTripBucket().add(trip)
     }
 
-	private fun getIncompleteCCBillingInfo(): BillingInfo {
-		val location = getLocation()
-		val billingInfo = BillingInfo()
-		billingInfo.email = "qa-ehcc@mobiata.com"
-		billingInfo.firstName = "JexperCC"
-		billingInfo.lastName = "MobiataTestaverde"
-		billingInfo.nameOnCard = "JexperCC MobiataTestaverde"
-		//Incomplete number
-		billingInfo.number = "411"
-		billingInfo.expirationDate = LocalDate.now().plusYears(1)
-		billingInfo.securityCode = "111"
-		billingInfo.telephone = "4155555555"
-		billingInfo.telephoneCountryCode = "1"
-		billingInfo.location = location
-		return billingInfo
-	}
+    private fun getIncompleteCCBillingInfo(): BillingInfo {
+        val location = getLocation()
+        val billingInfo = BillingInfo()
+        billingInfo.email = "qa-ehcc@mobiata.com"
+        billingInfo.firstName = "JexperCC"
+        billingInfo.lastName = "MobiataTestaverde"
+        billingInfo.nameOnCard = "JexperCC MobiataTestaverde"
+        //Incomplete number
+        billingInfo.number = "411"
+        billingInfo.expirationDate = LocalDate.now().plusYears(1)
+        billingInfo.securityCode = "111"
+        billingInfo.telephone = "4155555555"
+        billingInfo.telephoneCountryCode = "1"
+        billingInfo.location = location
+        return billingInfo
+    }
 
-	private fun getLocation(): Location {
-		val location = Location()
-		location.city = "San Francisco"
-		location.countryCode = "USA"
-		location.description = "Cool description"
-		location.addStreetAddressLine("114 Sansome St.")
-		location.postalCode = "94109"
-		location.stateCode = "CA"
-		location.latitude = 37.7833
-		location.longitude = 122.4167
-		location.destinationId = "SF"
-		return location
-	}
+    private fun getLocation(): Location {
+        val location = Location()
+        location.city = "San Francisco"
+        location.countryCode = "USA"
+        location.description = "Cool description"
+        location.addStreetAddressLine("114 Sansome St.")
+        location.postalCode = "94109"
+        location.stateCode = "CA"
+        location.latitude = 37.7833
+        location.longitude = 122.4167
+        location.destinationId = "SF"
+        return location
+    }
 
-    private fun getCompleteBillingInfo() : BillingInfo {
+    private fun getCompleteBillingInfo(): BillingInfo {
         val billingInfo = getIncompleteCCBillingInfo()
         billingInfo.setNumberAndDetectType("4111111111111111")
         return billingInfo
