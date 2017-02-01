@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">고객님 계정에 여행객 정보 저장 중…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">좌석 선호사항</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">좌석 선호 사항</string>
     <!-- Special Assistance -->
     <string name="special_assistance">특별 요청</string>
     <!-- Add Redress # -->
@@ -4538,7 +4540,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4989,5 +4991,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">성별을 선택해 주세요.</string>
     <string name="passport_validation_error_message">여권 국가를 선택해 주세요.</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">비회원으로 예약한 여행을 직접 추가하세요.</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">로그인하여 예정된 여행에 액세스하세요.</string>
 
 </resources>
