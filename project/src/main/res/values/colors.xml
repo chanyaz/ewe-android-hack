@@ -409,7 +409,6 @@
     <color name="acct__flavor_text">@color/white</color>
     <color name="acct__user_info_text_color">@color/white</color>
     <color name="toolbar_icon">@color/white</color>
-    <color name="acct_background_image_overlay">@color/exp_lob_overlay_blue</color>
 
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">@color/gray7</color>

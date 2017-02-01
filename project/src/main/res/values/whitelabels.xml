@@ -216,7 +216,6 @@
     <attr name="skin_lxUncheckedToggleTextColor" format="reference|color" />
     <attr name="skin_lxErrorDefaultDrawable" format="reference" />
     <attr name="skin_filterNumberBgDrawable" format="reference" />
-    <attr name="skin_accountCreationBackgroundDrawable" format="reference" />
     <attr name="skin_errorIndicationExclaimationDrawable" format="reference" />
 
     <attr name="skin_tripsTabText" format="reference|string" />

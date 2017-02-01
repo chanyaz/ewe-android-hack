@@ -115,7 +115,6 @@
         <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
-        <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_account_creation</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 

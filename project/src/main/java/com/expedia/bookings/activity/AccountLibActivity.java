@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -128,11 +127,11 @@ public class AccountLibActivity extends AppCompatActivity
 		accountView.setPadding(accountView.getPaddingLeft(), statusBarHeight, accountView.getPaddingRight(),
 			accountView.getPaddingBottom());
 
-		int backgroundDrawableResId = Ui.obtainThemeResID(this, R.attr.skin_accountCreationBackgroundDrawable);
-		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(
-			backgroundDrawableResId);
-
-		background.setColorFilter(ContextCompat.getColor(this, R.color.acct_background_image_overlay));
+		int backgroundDrawableResId = R.drawable.bg_account_creation;
+		new PicassoHelper.Builder(background)
+			.setPlaceholder(backgroundDrawableResId)
+			.build()
+			.load(backgroundDrawableResId);
 
 		Config config = Config.build()
 			.setService(ServicesUtil.generateAccountService(this))
