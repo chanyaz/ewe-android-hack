@@ -46,7 +46,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
-        mapViewModel.mapInitializedObservable.subscribe{
+        mapViewModel.mapInitializedObservable.subscribe {
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)

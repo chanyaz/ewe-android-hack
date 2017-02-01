@@ -77,12 +77,6 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
     }
 
-    private fun getHotelWithMarker(marker: MapItem?): Hotel {
-        val hotelId = marker?.hotel?.hotelId
-        val hotel = hotels.filter { it.hotelId == hotelId }.first()
-        return hotel
-    }
-
     fun getMapBounds(res: BaseApiResponse): LatLngBounds {
         val response = res as HotelSearchResponse
         val searchRegionId = response.searchRegionId
@@ -144,5 +138,11 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
         }
 
         return box.build()
+    }
+
+    private fun getHotelWithMarker(marker: MapItem?): Hotel {
+        val hotelId = marker?.hotel?.hotelId
+        val hotel = hotels.filter { it.hotelId == hotelId }.first()
+        return hotel
     }
 }

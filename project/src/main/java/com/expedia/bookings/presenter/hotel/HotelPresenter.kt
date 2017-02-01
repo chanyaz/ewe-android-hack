@@ -133,22 +133,22 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = resultsStub.inflate() as HotelResultsPresenter
         var resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
         resultsMapView.visibility = View.VISIBLE
-        removeView(resultsMapView);
+        removeView(resultsMapView)
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
         presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
 
-        presenter.viewmodel.searchingForHotelsDateTime.subscribe(){
+        presenter.viewmodel.searchingForHotelsDateTime.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
         }
         presenter.viewmodel.hotelResultsObservable.subscribe {
             searchTrackingBuilder.markResultsProcessed()
         }
-        presenter.viewmodel.resultsReceivedDateTimeObservable.subscribe() { dateTime ->
+        presenter.viewmodel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
             searchTrackingBuilder.markApiResponseReceived()
         }
-        presenter.adapter.allViewsLoadedTimeObservable.subscribe() {
+        presenter.adapter.allViewsLoadedTimeObservable.subscribe {
             searchTrackingBuilder.markResultsUsable()
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
@@ -160,13 +160,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
+        presenter.viewmodel.hotelResultsObservable.subscribe { hotelSearchResponse ->
             if (!isBucketedForPerceivedInstant()) {
                 searchTrackingBuilder.searchParams(hotelSearchParams)
                 searchTrackingBuilder.searchResponse(hotelSearchResponse)
             }
-        })
-        presenter.viewmodel.addHotelResultsObservable.subscribe({ hotelSearchResponse ->
+        }
+        presenter.viewmodel.addHotelResultsObservable.subscribe { hotelSearchResponse ->
             if (isBucketedForPerceivedInstant()) {
                 searchTrackingBuilder.searchParams(hotelSearchParams)
                 searchTrackingBuilder.searchResponse(hotelSearchResponse)
@@ -177,7 +177,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                     HotelTracking.trackHotelSearch(trackingData)
                 }
             }
-        })
+        }
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
         presenter
@@ -187,7 +187,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = detailsStub.inflate() as HotelDetailPresenter
         var detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
         detailsMapView.visibility = View.VISIBLE
-        removeView(detailsMapView);
+        removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
 
         presenter.hotelMapView.mapView = detailsMapView
