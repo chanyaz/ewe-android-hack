@@ -9,6 +9,7 @@ import com.expedia.bookings.data.RailLocation
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
 import com.expedia.bookings.widget.TicketDeliverySelectionStatus
 import com.expedia.bookings.widget.shared.EntryFormToolbar
@@ -20,7 +21,6 @@ import rx.subjects.PublishSubject
 
 class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    val toolbar: EntryFormToolbar by bindView(R.id.rail_ticket_delivery_toolbar)
     val stationContainer: RailTicketDeliveryOptionWidget by bindView(R.id.station_container)
     val mailDeliveryContainer: RailTicketDeliveryOptionWidget by bindView(R.id.mail_delivery_container)
     val mailShippingAddressContainer: View by bindView(R.id.mail_shipping_address_container)
@@ -73,6 +73,8 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Lin
         }
     }
 
+    private val toolbar: EntryFormToolbar by bindView(R.id.rail_ticket_delivery_toolbar)
+
     init {
         View.inflate(context, R.layout.ticket_delivery_entry_widget, this)
         toolbar.viewModel = toolbarViewModel
@@ -115,6 +117,10 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Lin
         } else {
             return viewModel.ticketDeliveryOption!!
         }
+    }
+
+    fun resetFocusToToolbarNavigationIcon() {
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
     }
 
     private fun toggleMailDelivery(alpha: Float, isEnabled: Boolean) {
