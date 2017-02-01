@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">お客様のアカウントに旅行者情報を保存中…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">座席希望</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">座席のご希望</string>
     <!-- Special Assistance -->
     <string name="special_assistance">スペシャル サポート</string>
     <!-- Add Redress # -->
@@ -3318,7 +3320,7 @@
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">申し訳ありません。この国はこのクーポン コードの対象外です。</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">申し訳ありません。最低宿泊日数以上の宿泊日数を選択してください。</string>
+    <string name="coupon_error_min_stay_not_met">申し訳ありません。最低宿泊数以上の宿泊数を選択してください。</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
     <string name="coupon_error_invalid_travel_dates">申し訳ありません。指定された日程ではこのクーポンをご利用いただけません。</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
@@ -4989,5 +4991,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">性別を選択してください</string>
     <string name="passport_validation_error_message">パスポートの発行国を選択してください</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">ゲストとして予約した旅行を手動で追加する</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">サインインして今後の旅行予定にアクセスする</string>
 
 </resources>

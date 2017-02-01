@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">正儲存旅客資料至您的帳戶…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">座位喜好</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">座位喜好</string>
     <!-- Special Assistance -->
     <string name="special_assistance">特別協助</string>
     <!-- Add Redress # -->
@@ -4989,5 +4991,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">請選擇性別</string>
     <string name="passport_validation_error_message">請選擇護照國家/地區</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">手動加入您以訪客身分預訂的行程</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">登入以查看您即將出發的行程</string>
 
 </resources>
