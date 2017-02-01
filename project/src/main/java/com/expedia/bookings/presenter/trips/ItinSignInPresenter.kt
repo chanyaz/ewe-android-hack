@@ -3,9 +3,9 @@ package com.expedia.bookings.presenter.trips
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.utils.bindView
 
 class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
@@ -18,11 +18,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
     }
 
-    private val signInToAddGuestTransition = object : Transition(ItinSignInWidget::class.java, AddGuestItinWidget::class.java, DecelerateInterpolator(), 400) {
-        override fun endTransition(forward: Boolean) {
-            signInWidget.visibility = if (forward) View.GONE else View.VISIBLE
-            addGuestItinWidget.visibility = if (forward) View.VISIBLE else View.GONE
-        }
+    private val signInToAddGuestTransition = object : VisibilityTransition(this, ItinSignInWidget::class.java, AddGuestItinWidget::class.java) {
     }
 
     init {
