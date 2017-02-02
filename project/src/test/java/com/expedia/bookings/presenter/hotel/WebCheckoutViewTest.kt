@@ -10,12 +10,16 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
@@ -28,6 +32,7 @@ class WebCheckoutViewTest {
     lateinit var hotelPresenter: HotelPresenter
     lateinit var activity: Activity
     lateinit var webCheckoutViewObservable: TestSubscriber<Unit>
+    var userAccountRefresherMock = Mockito.mock(UserAccountRefresher::class.java)
 
     @Before
     fun setup() {
@@ -87,15 +92,25 @@ class WebCheckoutViewTest {
     @Test
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestSubscriber<String>()
+        val fectchTripIDSubscriber = TestSubscriber<String>()
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(1)
         bookingTripIDSubscriber.assertValueCount(0)
+        fectchTripIDSubscriber.assertValueCount(0)
         val tripID = "testing-for-confirmation"
+        verify(userAccountRefresherMock, times(0)).forceAccountRefresh()
+
         hotelPresenter.webCheckoutView.onWebPageStarted(hotelPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL + "?tripid=$tripID", null)
+        verify(userAccountRefresherMock, times(1)).forceAccountRefresh()
         bookingTripIDSubscriber.assertValueCount(1)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        fectchTripIDSubscriber.assertValueCount(1)
+        fectchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
     }
 

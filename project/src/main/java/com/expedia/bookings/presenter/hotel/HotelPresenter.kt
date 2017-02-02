@@ -17,16 +17,16 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
@@ -118,23 +118,21 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val webCheckoutViewStub: ViewStub by bindView(R.id.web_checkout_view_stub)
     val webCheckoutView: WebCheckoutView by lazy {
         var webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
-        val webCheckoutViewViewModel = WebCheckoutViewViewModel()
-        webCheckoutView.setExitButtonOnClickListener(View.OnClickListener {
-            // TODO make signIn Call.
-            back()
-        })
-        webCheckoutViewViewModel.bookedTripIDObservable.subscribe { bookedTripID ->
-            // TODO make a signIn call.
-
-            itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
-
-        }
+        val webCheckoutViewViewModel = WebCheckoutViewViewModel(context)
         webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
         setUpCreateTripErrorHandling(webCheckoutViewViewModel.createTripViewModel)
-
         webCheckoutView.viewModel = webCheckoutViewViewModel
+
+        webCheckoutViewViewModel.closeView.subscribe {
+            back()
+        }
+        webCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
+            itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+        }
+
         webCheckoutView
     }
+    
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {

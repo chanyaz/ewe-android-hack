@@ -28,7 +28,7 @@ class WebCheckoutViewViewModelTest {
 
     @Before
     fun setup() {
-        webCheckoutViewViewModel = WebCheckoutViewViewModel()
+        webCheckoutViewViewModel = WebCheckoutViewViewModel(getContext())
         webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(servicesRule.services!!, null)
     }
 
