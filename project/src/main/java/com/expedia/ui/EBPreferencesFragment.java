@@ -1,5 +1,7 @@
 package com.expedia.ui;
 
+import java.io.IOException;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
@@ -20,7 +23,6 @@ import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import java.io.IOException;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
 
@@ -42,7 +44,8 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			apiPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					if ("Mock Mode".equals(newValue)) {
-						SettingUtils.save(getActivity(), getString(R.string.preference_which_api_to_use_key), "Mock Mode");
+						SettingUtils
+							.save(getActivity(), getString(R.string.preference_which_api_to_use_key), "Mock Mode");
 						restartApp();
 					}
 					return true;
@@ -91,11 +94,13 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 	private void restartApp() {
 		Intent mStartActivity = new Intent(getActivity(), RouterActivity.class);
 		int mPendingIntentId = 123456;
-		PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+		PendingIntent mPendingIntent = PendingIntent
+			.getActivity(getActivity(), mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager mgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
 		System.exit(0);
 	}
+
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
 		final ExpediaBookingPreferenceActivity activity = (ExpediaBookingPreferenceActivity) getActivity();

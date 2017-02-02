@@ -23,8 +23,9 @@ import okhttp3.OkHttpClient;
 public interface AppComponent {
 	void inject(ExpediaServices services);
 	void inject(UserAccountRefresher userAccountRefresher);
-	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
 	void inject(NewPhoneLaunchActivity activity);
+	void inject(AbacusHelperUtils.CookiesReferenceV2 cookiesReferenceV2);
+	void inject(AbacusHelperUtils.CookiesReferenceV1 cookiesReferenceV1);
 
 	Context appContext();
 	EndpointProvider endpointProvider();
