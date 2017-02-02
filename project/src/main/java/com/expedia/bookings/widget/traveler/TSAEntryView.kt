@@ -40,6 +40,15 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         dateOfBirth.viewModel = vm.dateOfBirthViewModel
         if (materialFormTestEnabled) {
             genderEditText?.viewModel = vm.genderViewModel
+            vm.genderViewModel.genderSubject.subscribe { gender ->
+                val adapter = GenderSpinnerAdapter(context)
+                val position = adapter.getGenderPosition(gender)
+                if (position == 0) {
+                    genderEditText?.setText("")
+                } else {
+                    genderEditText?.setText(adapter.getItem(position))
+                }
+            }
         } else {
             genderSpinner?.viewModel = vm.genderViewModel
             vm.genderViewModel.genderSubject.subscribe { gender ->
@@ -97,7 +106,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         val items = arrayOf(context.resources.getString(R.string.male), context.resources.getString(R.string.female))
 
         builder.setItems(items) { dialog, position ->
-            genderEditText?.setText(items[position])
             viewModel.genderViewModel.genderSubject.onNext(Traveler.Gender.valueOf(items[position].toUpperCase()))
             genderEditText?.viewModel?.errorSubject?.onNext(false)
         }

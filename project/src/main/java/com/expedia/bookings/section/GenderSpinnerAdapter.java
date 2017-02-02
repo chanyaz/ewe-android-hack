@@ -120,7 +120,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 
 	public int getGenderPosition(Gender gender) {
 		if (gender == null) {
-			return -1;
+			return 0;
 		}
 
 		for (int i = 0; i < mGenders.size(); i++) {
@@ -128,7 +128,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 				return i;
 			}
 		}
-		return -1;
+		return 0;
 	}
 
 	public void setErrorVisible(boolean hasError) {
