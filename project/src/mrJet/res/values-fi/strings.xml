@@ -43,8 +43,8 @@
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} MrJet Rewardseina</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} MrJet Rewardseina -painike</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Haluan ansaita {brand_reward_name_link}-etua välittömästi. Liittymällä ohjelmaan hyväksyn {terms_and_conditions}.</string>
 
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Sisäpiirihinnat</string>
 </resources>
