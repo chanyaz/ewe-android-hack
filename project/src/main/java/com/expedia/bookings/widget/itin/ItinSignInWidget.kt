@@ -9,9 +9,11 @@ import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribePorterDuffColorFilter
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
@@ -23,6 +25,7 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
     val addGuestItinTextButton: TextView by bindView(R.id.add_guest_itin_text_button)
     val statusText: TextView by bindView(R.id.status_text)
     val statusImage: ImageView by bindView(R.id.status_image)
+    val buttonImage: ImageView by bindView(R.id.exp_logo)
 
     val viewModel = ItinSignInViewModel(context)
 
@@ -40,11 +43,17 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
         addGuestItinTextButton.subscribeOnClick(viewModel.addGuestItinClickSubject)
 
         signInContainer.subscribeOnClick(viewModel.signInClickSubject)
+
         viewModel.statusTextColorSubject.subscribeTextColor(statusText)
         viewModel.statusImageVisibilitySubject.subscribeVisibility(statusImage)
         viewModel.statusTextSubject.subscribeText(statusText)
         viewModel.statusImageSubject.subscribeImageDrawable(statusImage)
+        viewModel.statusImageColorSubject.subscribePorterDuffColorFilter(statusImage)
+
         viewModel.updateButtonTextSubject.subscribeText(signInText)
         viewModel.updateButtonContentDescriptionSubject.subscribeContentDescription(signInText)
+        viewModel.updateButtonTextColorSubject.subscribeTextColor(signInText)
+        viewModel.updateButtonImageVisibilitySubject.subscribeVisibility(buttonImage)
+        viewModel.updateButtonColorSubject.subscribeBackgroundColor(signInContainer)
     }
 }

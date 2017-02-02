@@ -1,6 +1,7 @@
 package com.expedia.util
 
 import android.graphics.ColorMatrixColorFilter
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
@@ -211,6 +212,10 @@ fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(recyclerGall
 }
 
 fun Observable<ColorMatrixColorFilter?>.subscribeColorFilter(imageView: ImageView) {
+    this.subscribe { imageView.colorFilter = it }
+}
+
+fun Observable<PorterDuffColorFilter?>.subscribePorterDuffColorFilter(imageView: ImageView) {
     this.subscribe { imageView.colorFilter = it }
 }
 

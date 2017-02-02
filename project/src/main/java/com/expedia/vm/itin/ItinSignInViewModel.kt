@@ -2,6 +2,8 @@ package com.expedia.vm.itin
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.BuildConfig
@@ -21,12 +23,18 @@ class ItinSignInViewModel(val context: Context) {
 
 
     var addGuestItinClickSubject = PublishSubject.create<Unit>()
+
     val statusImageVisibilitySubject = PublishSubject.create<Boolean>()
     val statusTextSubject = PublishSubject.create<String>()
     val statusImageSubject = PublishSubject.create<Drawable>()
     val statusTextColorSubject = PublishSubject.create<Int>()
+    val statusImageColorSubject = PublishSubject.create<PorterDuffColorFilter>()
+
     val updateButtonTextSubject = PublishSubject.create<String>()
     val updateButtonContentDescriptionSubject = PublishSubject.create<String>()
+    val updateButtonTextColorSubject = PublishSubject.create<Int>()
+    val updateButtonImageVisibilitySubject = PublishSubject.create<Boolean>()
+    val updateButtonColorSubject = PublishSubject.create<Int>()
 
     var signInClickSubject = endlessObserver<Unit> {
         val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
@@ -86,14 +94,35 @@ class ItinSignInViewModel(val context: Context) {
     private fun updateMessageAndButton(messageText: String, buttonText: String, imageResId: Int) {
         statusImageVisibilitySubject.onNext(imageResId != 0)
         statusTextSubject.onNext(messageText)
-        if (imageResId != 0) {
-            statusImageSubject.onNext(ContextCompat.getDrawable(context, imageResId))
-            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.exp_action_required_red))
-        } else {
-            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray9))
-        }
         updateButtonTextSubject.onNext(buttonText)
         updateButtonContentDescriptionSubject.onNext(buttonText + " " + context.getString(R.string.accessibility_cont_desc_role_button))
+        warningStatusAttributes(messageText)
+        buttonAttributes(imageResId)
+    }
+
+    private fun buttonAttributes(imageResId: Int) {
+        if (imageResId != 0) {
+            statusImageSubject.onNext(ContextCompat.getDrawable(context, imageResId))
+            updateButtonTextColorSubject.onNext(ContextCompat.getColor(context, R.color.white))
+            updateButtonImageVisibilitySubject.onNext(false)
+            updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.exp_launch_blue))
+        } else {
+            updateButtonTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray9))
+            updateButtonImageVisibilitySubject.onNext(true)
+            updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.brand_secondary))
+        }
+    }
+
+    private fun warningStatusAttributes(messageText: String) {
+        if (messageText == context.getString(R.string.fetching_trips_error_connection)) {
+            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.exp_action_required_red))
+            val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.exp_action_required_red), PorterDuff.Mode.SRC_IN)
+            statusImageColorSubject.onNext(colorMatrix)
+        } else {
+            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray9))
+            val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.gray9), PorterDuff.Mode.SRC_IN)
+            statusImageColorSubject.onNext(colorMatrix)
+        }
     }
 
 }
