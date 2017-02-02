@@ -95,10 +95,6 @@ public class AccountLibActivity extends AppCompatActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
-		if (savedInstanceState == null) {
-			AdTracker.trackSignInUpStarted();
-		}
-
 		Config.InitialState startState = Config.InitialState.SignIn;
 
 		Intent intent = getIntent();
@@ -263,8 +259,6 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void userSucceededInCreatingAccount() {
 			OmnitureTracking.trackAccountCreateSuccess();
-			AdTracker.trackAccountCreated();
-			//Don't track the adtracker login here, as it happens once we fetch the profile
 		}
 
 		@Override

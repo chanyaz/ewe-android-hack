@@ -806,7 +806,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ResizeAnimator.setHeight(mDetailsCardView, expandedHeight);
 		onScroll(ItinListView.this, mDetailPosition, getChildCount(), mAdapter.getCount());
 		trackOmnitureItinExpanded(mDetailsCardView);
-		AdTracker.trackViewItinExpanded();
 	}
 
 	private void registerDataSetObserver() {

@@ -200,8 +200,6 @@ public class User implements JSONable {
 		performSignOutCleanupActions(context);
 		logger.addSplit("performSignOutCleanupActions");
 
-		AdTracker.trackLogout();
-
 		logger.dumpToLog();
 	}
 	

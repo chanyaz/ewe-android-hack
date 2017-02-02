@@ -35,28 +35,10 @@ public class AdTracker {
 		}
 	}
 
-	public static void trackFirstLaunch() {
-		// Other
-	}
-
-	public static void trackLaunch() {
-		// Other
-	}
-
 	public static void trackLogin() {
 		// Other
 		TuneUtils.trackLogin();
 	}
-
-	public static void trackLogout() { }
-
-	public static void trackSignInUpStarted() { }
-
-	public static void trackAccountCreated() { }
-
-	public static void trackViewItinList() { }
-
-	public static void trackViewItinExpanded() { }
 
 	public static void trackHotelBooked(String couponcode) {
 		// Values
@@ -115,8 +97,6 @@ public class AdTracker {
 			new FacebookEvents().trackFlightCheckout(Db.getTripBucket().getFlight());
 		}
 	}
-
-	public static void trackLXSearch(LxSearchParams lxSearchParams) { }
 
 	public static void trackLXSearchResults(LxSearchParams searchParams, LXSearchResponse searchResponse) {
 		TuneUtils.trackLXSearch(searchParams, searchResponse);
@@ -193,8 +173,6 @@ public class AdTracker {
 	public static void updatePOS() {
 		TuneUtils.updatePOS();
 	}
-
-	public static void trackCarSearch(CarSearchParam params) { }
 
 	public static void trackCarResult(CarSearch search, CarSearchParam params) {
 		TuneUtils.trackCarSearch(search, params);

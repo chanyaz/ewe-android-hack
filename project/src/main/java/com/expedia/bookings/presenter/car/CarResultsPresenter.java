@@ -288,7 +288,6 @@ public class CarResultsPresenter extends Presenter {
 		show(categories, FLAG_CLEAR_TOP);
 		bindFilter(carSearch);
 		OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
-		AdTracker.trackCarSearch(searchedParams);
 	}
 
 	private void bindFilter(CarSearch carSearch) {

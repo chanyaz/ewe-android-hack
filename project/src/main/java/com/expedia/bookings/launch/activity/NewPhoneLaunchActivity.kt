@@ -98,7 +98,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AdTracker.trackLaunch()
         Ui.getApplication(this).appComponent().inject(this)
 
         Ui.getApplication(this).defaultLaunchComponents()

@@ -454,7 +454,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		User.signOut(getActivity());
 
 		syncItinManager(true, false);
-		AdTracker.trackLogout();
 
 		updateLoginState();
 
@@ -666,7 +665,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				//we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
-					AdTracker.trackViewItinList();
 					OmnitureTracking.trackItin(getActivity());
 				}
 

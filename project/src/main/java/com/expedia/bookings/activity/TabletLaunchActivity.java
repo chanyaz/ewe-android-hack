@@ -61,7 +61,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tablet_launch);
-		AdTracker.trackLaunch();
 		debugMenu = DebugMenuFactory.newInstance(this, TabletPreferenceActivity.class);
 
 		mRootC = Ui.findView(this, R.id.root_layout);
