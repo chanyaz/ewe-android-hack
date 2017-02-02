@@ -32,7 +32,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     val tripObservable = BehaviorSubject.create<FlightTripResponse>()
     val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
     val widgetVisibilityAllowedObservable = BehaviorSubject.create<Boolean>()
-    val userBucketedForInsuranceTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
 
     // outputs
     val benefitsObservable = BehaviorSubject.create<Spanned>()
@@ -206,6 +205,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     }
 
     fun updateVisibility() {
-        widgetVisibilityObservable.onNext(userBucketedForInsuranceTest && canWidgetBeDisplayed && haveProduct)
+        widgetVisibilityObservable.onNext(canWidgetBeDisplayed && haveProduct)
     }
 }

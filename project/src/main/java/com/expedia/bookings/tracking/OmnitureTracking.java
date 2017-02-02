@@ -1901,7 +1901,6 @@ public class OmnitureTracking {
 
 		s.setAppState(FLIGHT_SEARCH);
 		s.setEvar(18, FLIGHT_SEARCH);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		s.track();
 	}
 
@@ -5568,10 +5567,6 @@ public class OmnitureTracking {
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
-		if (tripResponse.getSelectedInsuranceProduct() != null || !tripResponse.getAvailableInsuranceProducts()
-			.isEmpty()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
-		}
 
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
@@ -5620,7 +5615,6 @@ public class OmnitureTracking {
 		s.setAppState(FLIGHT_SEARCH_V2);
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_premium_class)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
 		}

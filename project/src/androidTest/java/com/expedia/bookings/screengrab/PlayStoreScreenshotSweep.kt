@@ -153,7 +153,6 @@ class PlayStoreScreenshotSweep {
     }
 
     private fun takeMaterialFlightScreenshotAndReturnToLaunchScreen(searchCriteria: FlightSearchCriteria) {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightTest, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
         onView(allOf(withText(LobInfo.FLIGHTS.labelRes), isCompletelyDisplayed())).perform(click())
 
         if (searchCriteria.isDropdownSearch) {

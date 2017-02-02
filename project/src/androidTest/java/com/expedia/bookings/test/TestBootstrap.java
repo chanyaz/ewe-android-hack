@@ -6,9 +6,7 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.RouterActivity;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.expedia.bookings.utils.ExpediaNetUtils;
@@ -28,11 +26,6 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	@Before("@Int")
 	public void setupForTestsOnIntegration() throws Exception {
 		Settings.setServer("Integration");
-	}
-
-	@Before("@Flights")
-	public void bucketUserForMaterialFlightsExperience() throws Exception {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightTest);
 	}
 
 	@Before

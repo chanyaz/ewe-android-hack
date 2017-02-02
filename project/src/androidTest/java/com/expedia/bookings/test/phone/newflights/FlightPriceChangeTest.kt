@@ -24,7 +24,6 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
     }
 
     override fun runTest() {
-        bucketInsuranceTest(false)
         super.runTest()
     }
 
@@ -55,8 +54,6 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
 
     @Test
     fun testCheckoutPriceChangeWithInsurance() {
-        bucketInsuranceTest(true)
-
         getToCheckoutOverview(PriceChangeType.CHECKOUT, false)
 
         assertInsuranceIsVisible()
@@ -116,10 +113,5 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
 
     private fun assertInsuranceIsVisible() {
         onView(withId(R.id.insurance_widget)).check(matches(isDisplayed()))
-    }
-
-    private fun bucketInsuranceTest(bucket: Boolean) {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightInsurance,
-                if (bucket) AbacusUtils.DefaultVariate.BUCKETED.ordinal else AbacusUtils.DefaultVariate.CONTROL.ordinal)
     }
 }
