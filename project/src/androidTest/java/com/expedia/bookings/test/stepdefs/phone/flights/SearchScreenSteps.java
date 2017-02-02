@@ -313,12 +313,12 @@ public class SearchScreenSteps {
 			.check(matches(withText(containsString(totalTravelers + " Traveler"))));
 	}
 
-	@Then("^I click on guest button")
+	@Then("^I click on guest button$")
 	public void clickOnGuestButton() throws Throwable {
 		SearchScreen.selectGuestsButton().perform(click());
 	}
 
-	@Then("^I increase the adult count to max")
+	@Then("^I increase the adult count to max$")
 	public void increaseAdultCount() throws Throwable {
 		SearchScreen.incrementAdultsButton();
 		onView(withId(R.id.adult)).check(matches(withText(containsString("Adults"))));
@@ -327,22 +327,22 @@ public class SearchScreenSteps {
 		}
 	}
 
-	@And("^I press done")
+	@And("^I press done$")
 	public void pressDone() throws Throwable {
 		onView(withId(android.R.id.button1)).perform(click());
 	}
 
-	@Then("^(\\d+) traveler count is as selected by user")
+	@Then("^(\\d+) traveler count is as selected by user$")
 	public void checkNumberOfTravellers(int number) throws Throwable {
 		onView(withId(R.id.traveler_card)).check(matches(withText(containsString(number + " Traveler"))));
 	}
 
-	@And("^reduce the travellers count")
+	@And("^reduce the travellers count$")
 	public void reduceNumberOfTraveler() throws Throwable {
 		SearchScreen.removeAdultsButton().perform(click());
 	}
 
-	@Then("^I increase the child count to max")
+	@Then("^I increase the child count to max$")
 	public void increaseChildCount() throws Throwable {
 		SearchScreen.incrementChildrenButton();
 		onView(withId(R.id.children)).check(matches(withText(containsString("1 Child"))));
@@ -352,7 +352,7 @@ public class SearchScreenSteps {
 		onView(withId(R.id.children)).check(matches(withText(containsString("Children"))));
 	}
 
-	@And("^equal number of age pickers are shown")
+	@And("^equal number of age pickers are shown$")
 	public void checkChildAgeRepresenter() throws Throwable {
 		onView(withId(R.id.child_spinner_1)).check(matches(isDisplayed()));
 		onView(withId(R.id.child_spinner_2)).check(matches(isDisplayed()));
@@ -360,7 +360,7 @@ public class SearchScreenSteps {
 		onView(withId(R.id.child_spinner_4)).check(matches(isDisplayed()));
 	}
 
-	@And("^the default age is 10 years")
+	@And("^the default age is 10 years$")
 	public void checkDefaultAge() throws Throwable {
 		onView(withParent(withId(R.id.child_spinner_1))).check(matches(withText(containsString("10 years old"))));
 		onView(withParent(withId(R.id.child_spinner_2))).check(matches(withText(containsString("10 years old"))));
@@ -368,12 +368,12 @@ public class SearchScreenSteps {
 		onView(withParent(withId(R.id.child_spinner_4))).check(matches(withText(containsString("10 years old"))));
 	}
 
-	@And("^Reduce the child count")
+	@And("^Reduce the child count$")
 	public void reduceChildCount() throws Throwable {
 		SearchScreen.removeChildButton().perform(click());
 	}
 
-	@And("^corresponding age picker is removed")
+	@And("^corresponding age picker is removed$")
 	public void checkAgeRepresnterVisibility() throws Throwable {
 		onView(withId(R.id.child_spinner_4)).check(matches(not(isDisplayed())));
 	}
@@ -413,7 +413,7 @@ public class SearchScreenSteps {
 			allOf(withId(resID), withText(containsString(text))))));
 	}
 
-	@And("^Name of airline is \"(.*?)\"")
+	@And("^Name of airline is \"(.*?)\"$")
 	public void checkAirlineName(String airline) throws Throwable {
 		checkString(R.id.airline_text_view, airline);
 	}
@@ -423,17 +423,17 @@ public class SearchScreenSteps {
 		checkString(R.id.price_text_view, String.valueOf(price));
 	}
 
-	@And("^Duration of the flight is \"(.*?)\"")
+	@And("^Duration of the flight is \"(.*?)\"$")
 	public void checkDuraionOfFlight(String duration) throws Throwable {
 		checkString(R.id.flight_duration_text_view, duration);
 	}
 
-	@And("^Timing of the flight is \"(.*?)\"")
+	@And("^Timing of the flight is \"(.*?)\"$")
 	public void checkTimingOfTheFlight(String timing) throws Throwable {
 		checkString(R.id.flight_time_detail_text_view, timing);
 	}
 
-	@And("^Number of stops are (\\d+)")
+	@And("^Number of stops are (\\d+)$")
 	public void numberOfStops(int stops) throws Throwable {
 		if (stops > 0) {
 			checkString(R.id.flight_duration_text_view, (String.valueOf(stops) + " Stop"));
