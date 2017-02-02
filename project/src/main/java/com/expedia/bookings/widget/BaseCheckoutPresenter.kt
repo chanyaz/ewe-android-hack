@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -337,10 +338,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     invalidPaymentTypeWarningTextView.text = invalidPaymentTypeWarning
                     if (visibility == View.VISIBLE && invalidPaymentTypeWarningTextView.visibility == View.GONE) {
                         invalidPaymentTypeWarningTextView.visibility = visibility
-                        AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
+                        if (!ExpediaBookingApp.isAutomation()) {
+                            AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
+                        }
                         toolbarDropShadow.visibility = visibility
                     } else if (visibility == View.GONE && invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
-                        AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
+                        if (!ExpediaBookingApp.isAutomation()) {
+                            AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
+                        }
                     }
                 }).subscribe()
 
