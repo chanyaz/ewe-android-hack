@@ -240,7 +240,7 @@
         android:id="@+id/text_layout"
         android:layout_width="match_parent"
         android:layout_height="47dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|right"
         android:orientation="horizontal"
         android:paddingBottom="2dp"
         android:paddingLeft="14dp"
@@ -281,7 +281,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:gravity="center_vertical|right"
             android:orientation="vertical">
 

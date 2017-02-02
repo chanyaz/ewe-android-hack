@@ -150,7 +150,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.mapLoyaltyMessageTextObservable.subscribeText(loyaltyMessage)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRecommend)
-            viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(hotelNoGuestRating)
+            viewModel.noGuestRatingVisibility.subscribeVisibility(hotelNoGuestRating)
 
             hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelPricePerNight.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
