@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">Gemmer oplysninger om rejsende på din konto…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Pladspræferencer</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">Foretrukken siddeplads</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Særlig assistance</string>
     <!-- Add Redress # -->
@@ -4989,5 +4991,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Vælg et køn</string>
     <string name="passport_validation_error_message">Vælg et land for dit pas</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">Tilføj din booking manuelt</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">Log på din konto for at få adgang til dine kommende rejser</string>
 
 </resources>

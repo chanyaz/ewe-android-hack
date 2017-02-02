@@ -2473,6 +2473,8 @@
     <string name="saving_traveler">Sauvegarde des informations sur le voyageur dans votre compte…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Préférence de siège</string>
+    <!-- Seat Preference -->
+    <string name="seat_preference">Préférence de siège</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Assistance spéciale</string>
     <!-- Add Redress # -->
@@ -4538,7 +4540,7 @@
     <string name="rail_station_info_TEMPLATE">de {departure} à {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4989,5 +4991,9 @@
     <!-- Checkout validation error message for gender -->
     <string name="gender_validation_error_message">Sélectionnez un sexe</string>
     <string name="passport_validation_error_message">Sélectionnez un pays du passeport</string>
+    <!-- Itin screen message for adding a guest trip-->
+    <string name="itin_sign_in_add_guest_trip_message">Ajoutez manuellement un voyage réservé en tant qu\&apos;invité</string>
+    <!-- Itin screen message for signing in-->
+    <string name="itin_sign_in_message">Connectez-vous pour accéder à vos voyages à venir</string>
 
 </resources>

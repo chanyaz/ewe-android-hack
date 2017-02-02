@@ -97,7 +97,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             if (forward) {
-                checkoutPresenter.adjustScrollingSpace()
+                checkoutPresenter.adjustScrollingSpace(checkoutPresenter.slideToPurchaseLayout)
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
                 if (checkoutPresenter.getCheckoutViewModel().isValidForBooking()) {
                     checkoutPresenter.trackShowSlideToPurchase()
