@@ -158,6 +158,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
+            if ((itinListFragment?.mItinSignInPresenter?.back() ?: false)) {
+                return
+            }
             if (itinListFragment?.isInDetailMode ?: false) {
                 itinListFragment?.hideDetails()
                 return

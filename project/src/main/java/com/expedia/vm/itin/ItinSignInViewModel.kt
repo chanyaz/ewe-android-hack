@@ -10,8 +10,12 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
+import rx.subjects.PublishSubject
 
 class ItinSignInViewModel(val context: Context) {
+
+    var addGuestItinClickSubject = PublishSubject.create<Unit>()
+
     var signInClickSubject = endlessObserver<Unit> {
         val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
         User.signIn(context as Activity, args)
