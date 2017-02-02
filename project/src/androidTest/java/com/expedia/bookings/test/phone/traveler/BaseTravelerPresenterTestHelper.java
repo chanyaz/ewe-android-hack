@@ -324,4 +324,24 @@ public class BaseTravelerPresenterTestHelper {
 		storedTraveler.setBirthDate(LocalDate.now().withYear(1991).withMonthOfYear(1).withDayOfMonth(27));
 		return storedTraveler;
 	}
+
+	protected void setTravelerViewModelForEmptyTravelers(final int travelerCount) throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(travelerCount);
+				testTravelersPresenter.setViewModel(mockViewModel);
+			}
+		});
+	}
+
+	protected void setTravelerViewModelForValidTravelers(final int travelerCount) throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelValidTravelers(travelerCount);
+				testTravelersPresenter.setViewModel(mockViewModel);
+			}
+		});
+	}
 }
