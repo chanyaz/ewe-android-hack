@@ -287,7 +287,7 @@ class HotelRoomRateView(context: Context, rowIndex: Int) : LinearLayout(context)
             row.isEnabled = false
 
             val infoIcon: Drawable = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
-            infoIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+            infoIcon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
             depositTermsButton.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
 
             depositTermsButton.visibility = if (showTerms) View.VISIBLE else View.GONE
