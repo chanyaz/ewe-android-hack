@@ -75,7 +75,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private TextView mStatusText;
 	private ImageView mStatusImage;
 	private Button mFindItineraryButton;
-
 	private boolean mAllowLoadItins = false;
 
 	private boolean mCurrentSyncHasErrors = false;
@@ -219,6 +218,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			R.string.preference_itin_new_sign_in_screen)) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mItinSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
+
+			mItinManager.addSyncListener(mItinSignInPresenter.getSyncListenerAdapter());
 			mEmptyView = mItinSignInPresenter;
 		}
 		else {
