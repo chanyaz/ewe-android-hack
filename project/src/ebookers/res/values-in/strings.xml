@@ -46,8 +46,6 @@
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan BONUS+ senilai {reward}</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Tombol login untuk mendapatkan BONUS+ senilai {reward}</string>
-    <!-- Account creation legal template excluding ebookers BONUS+ -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Saya ingin mendapatkan bonus langsung dengan {brand_reward_currency}. Dengan bergabung, saya menerima semua {terms_and_conditions}</string>
 
@@ -141,4 +139,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Harga Penerbangan + Hotel {price_per_person} per orang. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. Tombol untuk melihat Penerbangan + Hotel.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Menampilkan rincian Penerbangan + Hotel. Tombol untuk menutup.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

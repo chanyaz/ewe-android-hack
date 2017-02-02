@@ -46,8 +46,6 @@
     <string name="Sign_in_to_earn_TEMPLATE">Inicia sesión para acumular {reward} en BONUS+</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Botón para iniciar sesión y acumular {reward} en BONUS+</string>
-    <!-- Account creation legal template excluding ebookers BONUS+ -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Quiero acumular puntos de forma inmediata con {brand_reward_currency}. Al inscribirme, acepto todos los {terms_and_conditions}.</string>
 
@@ -141,4 +139,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del vuelo + hotel es {price_per_person} por persona. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. Botón para ver el vuelo + hotel.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del vuelo + hotel. Botón para cerrar.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Precios exclusivos</string>
 </resources>
