@@ -1224,6 +1224,8 @@
     <string name="sign_in_for_your_trips">Sign in for your trips</string>
     <!-- Button text to refresh your trips -->
     <string name="refresh_trips">Refresh Trips</string>
+    <!-- Button text to refresh your trips in new Itin Sign In -->
+    <string name="refresh_trips_new">Refresh your trips</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">We were unable to fetch your itineraries at this time. Please try again.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
