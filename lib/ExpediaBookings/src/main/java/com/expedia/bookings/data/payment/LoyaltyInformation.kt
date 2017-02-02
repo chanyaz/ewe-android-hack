@@ -15,10 +15,10 @@ data class LoyaltyInformation(
 
 data class LoyaltyBurnInfo(val type: LoyaltyType, val amount: Money)
 
-data class LoyaltyEarnInfo(val points__: PointsEarnInfo?, val price: PriceEarnInfo?) {
+data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo?) {
 
         fun loyaltyEarnInfoType(): LoyaltyEarnInfoType {
-                if (points__?.total != null) {
+                if (points?.total != null) {
                         return LoyaltyEarnInfoType.POINTS
                 } else if (price?.total?.amount != null) {
                         return LoyaltyEarnInfoType.MONEY
@@ -31,7 +31,7 @@ data class LoyaltyEarnInfo(val points__: PointsEarnInfo?, val price: PriceEarnIn
         fun getEarnMessagePointsOrPriceWithNonZeroValue(): String {
                 when (loyaltyEarnInfoType()) {
                         LoyaltyEarnInfoType.POINTS -> {
-                                if (points__?.total!! > 0) return points__?.total.toString() else return ""
+                                if (points?.total!! > 0) return points?.total.toString() else return ""
                         }
                         LoyaltyEarnInfoType.MONEY -> {
                                 if (price?.total?.getAmount()!! > BigDecimal.ZERO) return price?.total?.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)!! else return ""

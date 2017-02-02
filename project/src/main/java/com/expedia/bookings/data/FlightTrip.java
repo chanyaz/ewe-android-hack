@@ -788,7 +788,7 @@ public class FlightTrip implements JSONable {
 	}
 
 	private void addEarnInfo(JSONObject obj, LoyaltyEarnInfo loyaltyEarnInfo) throws JSONException {
-		PointsEarnInfo pointsEarnInfo = loyaltyEarnInfo.getPoints__();
+		PointsEarnInfo pointsEarnInfo = loyaltyEarnInfo.getPoints();
 		if (pointsEarnInfo != null) {
 			int totalPoints = pointsEarnInfo.getTotal();
 			obj.put(LOYALTY_TOTAL_POINTS, totalPoints);
