@@ -134,7 +134,7 @@ public class PointOfSale {
 	// Whether to show packages on this POS
 	private boolean mSupportsPackages;
 
-	// Whether to show packages on this POS
+	// Whether to show rails on this POS
 	private boolean mSupportsRails;
 
 	// Whether or not to use downloaded routes (for AirAsia) or not
