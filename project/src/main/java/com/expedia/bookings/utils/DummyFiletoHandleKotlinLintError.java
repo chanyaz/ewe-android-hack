@@ -850,6 +850,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_price_per_night_text_size,
 		R.string.nav_hotels,
 		R.string.nav_transport,
+		R.string.spinner_text_add_guest_trip,
 		R.string.shop,
 		R.dimen.launch_tile_margin_top,
 		R.layout.itin_sign_in_presenter,

@@ -8,6 +8,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
 class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
@@ -25,6 +26,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     }
 
     init {
+        Ui.getApplication(context).defaultTripComponents()
         View.inflate(context, R.layout.itin_sign_in_presenter, this)
         addDefaultTransition(defaultTransition)
         addTransition(signInToAddGuestTransition)
