@@ -192,7 +192,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         vm.carouselSwipedObservable.subscribe {
             selectMarker(it, true)
         }
-
     }
 
     private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
@@ -347,6 +346,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 filterView.viewmodel.doneObservable.onNext(Unit)
             }
         }
+
+        if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
+            clearMarkers(false)
+        }
+
         return super.back()
     }
 
@@ -439,7 +443,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun clusterMarkers() {
         clusterManager.cluster()
     }
-
 
     fun updateMarkers() {
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
@@ -1171,10 +1174,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
         if (havePermissionToAccessLocation(context)) {
             googleMap?.isMyLocationEnabled = forward
-        }
-        // Clear markers on going from results to search.
-        if (!forward && isSearchToResultsTransition) {
-            clearMarkers(false)
         }
     }
 
