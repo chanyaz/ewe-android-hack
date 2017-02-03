@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit
 
 import com.expedia.bookings.data.GaiaSuggestion
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.SuggestionV4Services
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -11,10 +12,13 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import rx.Observer
+import rx.observers.TestObserver
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class SuggestionV4ServicesTest {
 
@@ -68,6 +72,18 @@ class SuggestionV4ServicesTest {
         val suggestions = getGaiaNearbySuggestionLXFrench(1.0);
         assertEquals(1, suggestions.size)
         assertSuggestionsEqual(getLXGaiaSuggestionFrench(), suggestions.first())
+    }
+
+    @Test
+    fun testGetLxSuggestionsV4() {
+        val testObserver = TestSubscriber<List<SuggestionV4>>()
+        service?.getLxSuggestionsV4("lon","expedia.app.android.phone", testObserver, "en_US", true)
+
+        testObserver.awaitTerminalEvent()
+        testObserver.assertCompleted()
+        testObserver.assertValueCount(1)
+        val essSuggestions = testObserver.onNextEvents[0]
+        assertEquals(essSuggestions.get(0).regionNames.fullName, "San Francisco, CA, United States (SFO-San Francisco Intl.)")
     }
 
     @Test

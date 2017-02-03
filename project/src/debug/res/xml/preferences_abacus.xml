@@ -129,6 +129,14 @@
             android:layout="@layout/preference"
             android:title="LX Text Search Filter - 12689" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="13050"
+            android:layout="@layout/preference"
+            android:title="LX Disable POI Search - 13050" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -46,9 +46,12 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
         adapter.create<GaiaSuggestApi>(GaiaSuggestApi::class.java)
     }
 
-    fun getLxSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
-        val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or
-                SuggestionResultType.POINT_OF_INTEREST
+    fun getLxSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String, disablePOI: Boolean): Subscription {
+
+        var type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST
+        if (disablePOI) {
+            type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
+        }
 
         return suggestApi.suggestV4(query, locale, type, false, "ta_hierarchy", client, "ACTIVITIES", null)
                 .observeOn(observeOn)
