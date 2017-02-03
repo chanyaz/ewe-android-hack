@@ -33,8 +33,10 @@ public class PersistentCookieManagerTest {
 	private static final List<Cookie> REVIEWS_EXPEDIA_COOKIES = new ArrayList<>();
 	private static final List<Cookie> EXPIRED_COOKIES = new ArrayList<>();
 	private static final List<Cookie> LINFO_COOKIE = new ArrayList<>();
+	private static final List<Cookie> SOME_OTHER_SITE_COOKIES = new ArrayList<>();
 	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
 	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
+	private static final HttpUrl someOtherSite = HttpUrl.parse("https://someothersite.com");
 
 	static {
 		ArrayList<String> list = new ArrayList<>();
@@ -70,6 +72,12 @@ public class PersistentCookieManagerTest {
 		list.add("linfo=v.4,|0|0|255|1|0||||||||1033|0|0||0|0|0|-1|-1; Domain=.expedia.com; Path=/");
 		for (String string : list) {
 			LINFO_COOKIE.add(Cookie.parse(expedia, string));
+		}
+
+		list = new ArrayList<>();
+		list.add("MC1=GUID=notARealMC1Cookie; Domain=.someothersite.com; Path=/");
+		for (String string : list) {
+			SOME_OTHER_SITE_COOKIES.add(Cookie.parse(someOtherSite, string));
 		}
 	}
 
@@ -255,7 +263,15 @@ public class PersistentCookieManagerTest {
 		Assert.assertEquals(1, manager.getCookieStore().size());
 	}
 
-	public void expectMC1CookieValues(HashMap<String, Cookie> expediaCookies, String expectedDomain) {
+	@Test
+	public void getCorrectMC1CookieForDomain() throws Throwable {
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
+		manager.saveFromResponse(someOtherSite, SOME_OTHER_SITE_COOKIES);
+		expectCookie(expedia, "MC1", "GUID=4a7e5c02232b479aa4807d32c6b7129c");
+		expectCookie(someOtherSite, "MC1", "GUID=notARealMC1Cookie");
+	}
+
+	private void expectMC1CookieValues(HashMap<String, Cookie> expediaCookies, String expectedDomain) {
 		Cookie mc1Cookie = expediaCookies.get("MC1");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -265,7 +281,7 @@ public class PersistentCookieManagerTest {
 		Assert.assertTrue(Math.abs(calendar.getTimeInMillis() - mc1Cookie.expiresAt()) < 60000);
 	}
 
-	public void expectCookies(int num) {
+	private void expectCookies(int num) {
 		HashMap<String, HashMap<String, Cookie>> cookieStore = manager.getCookieStore();
 		java.util.Collection<HashMap<String, Cookie>> cookiesList = cookieStore.values();
 		List<Cookie> allCookies = new ArrayList<>();
@@ -275,7 +291,7 @@ public class PersistentCookieManagerTest {
 		Assert.assertEquals("cookies: " + Strings.toPrettyString(allCookies), num, allCookies.size());
 	}
 
-	public void expectCookie(final HttpUrl uri, final String name, final String value) throws Throwable {
+	private void expectCookie(final HttpUrl uri, final String name, final String value) throws Throwable {
 		List<Cookie> cookies = manager.loadForRequest(uri);
 		for (Cookie cookie : cookies) {
 			if (Strings.equals(name, cookie.name())) {
@@ -286,11 +302,11 @@ public class PersistentCookieManagerTest {
 		throw new RuntimeException("cookie not found");
 	}
 
-	public void expectNotExists(File file) {
+	private void expectNotExists(File file) {
 		Assert.assertTrue("Expected file to not exist", !file.exists());
 	}
 
-	public void expectExists(File file) {
+	private void expectExists(File file) {
 		Assert.assertTrue("Expected file to exist", file.exists());
 	}
 
