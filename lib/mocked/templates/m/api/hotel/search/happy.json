@@ -1449,6 +1449,65 @@
       "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
       "totalRecommendations": "0",
       "totalReviews": "100"
+    },
+    {
+      "address": "551 Cyril Magnin St PWP",
+      "airportCode": "SFO",
+      "city": "San Francisco",
+      "countryCode": "USA",
+      "distanceUnit": "Miles",
+      "hasFreeCancellation": true,
+      "highestSurveyPriceAsPrice": {
+        "amount": 249,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
+      "hotelGuestRating": "0.0",
+      "hotelId": "no_guest_review",
+      "hotelStarRating": "4.0",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+      "latitude": "37.78458",
+      "isHotelAvailable": true,
+      "localizedName": "no_guest_review",
+      "locationDescription": "Union Square - Convention Center",
+      "locationId": "800177",
+      "longitude": "-122.40854",
+      "lowRateInfo": {
+        "averageBaseRate": "109.00",
+        "averageRate": "109.00",
+        "currencyCode": "USD",
+        "discountPercent": 0,
+        "maxNightlyRate": "109.00",
+        "nightlyRateTotal": "109.00",
+        "nightlyRatesPerRoom": [
+          {
+            "baseRate": "109.00",
+            "promo": "false",
+            "rate": "109.00"
+          }
+        ],
+        "priceAdjustments": [],
+        "priceToShowUsers": "109",
+        "strikethroughPriceToShowUsers": "109",
+        "total": "109.00",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "109.00",
+        "userPriceType": "PerNightRateNoTaxes"
+      },
+      "name": "no_guest_review",
+      "postalCode": "94101",
+      "proximityDistanceInKiloMeters": "0.0",
+      "proximityDistanceInMiles": "0.0",
+      "roomsLeftAtThisRate": "40",
+      "shortDescription": "SHORT_DESCRIPTION",
+      "stateProvinceCode": "CA",
+      "supplierType": "MERCHANT",
+      "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+      "totalRecommendations": "0",
+      "totalReviews": "0"
     }
   ],
   "pageViewBeaconPixelUrl": "http://beam.hlserve.com/travel?action=pageview&programId=1&domain=wwwexpediacom.trunk.sb.karmalab.net&culture=en-US&publisher=expedia&pageName=Hotel-Search&rooms=1&destRegionId=178294&publisherUserGuid=19f89680a4744051a6007737f6b7da93&userIP=10.0.17.185&userAgent=Expedia%2F6742+CFNetwork%2F711.3.18+Darwin%2F14.0.0&checkIn=2015-05-25&checkOut=2015-05-26&hotelIds=106143,1543827,40865,804984,18155,24798,2432727,2455364,170878,200644,3910,1384631,1350864,104185,470892,98920,470830,23110,473095,3169,539487,794799,151076,281608,5205&adults=1&children=0&deviceType=App-Tablet&testVersion=5569.0%2C6560.2%2C6410.1",

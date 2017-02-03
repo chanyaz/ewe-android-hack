@@ -144,6 +144,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val userRatingBackgroundColorObservable = BehaviorSubject.create<Drawable>()
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
+    val ratingContainerVisibility = isUserRatingAvailableObservable.map { hasRating -> shouldShowRatingContainer(hasRating) }
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
     val ratingContainerBackground = isUserRatingAvailableObservable.map { ratingAvailable ->
         if (ratingAvailable) ContextCompat.getDrawable(context, R.drawable.gray_background_ripple)
@@ -625,5 +626,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         } else {
             priceToShowCustomerObservable.value + context.getString(R.string.per_night)
         }
+    }
+
+    private fun shouldShowRatingContainer(hasRating: Boolean): Boolean {
+        return hasRating || !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideNoReviewRating)
     }
 }

@@ -46,6 +46,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelPriceProminance = 12974;
 	public static final int EBAndroidAppFlightPremiumClass = 13035;
 	public static final int EBAndroidAppTripsNewSignInPage = 13023;
+	public static final int EBAndroidAppHotelHideNoReviewRating = 13079;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -102,6 +103,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelPriceProminance);
 		testIDs.add(EBAndroidAppFlightPremiumClass);
 		testIDs.add(EBAndroidAppTripsNewSignInPage);
+		testIDs.add(EBAndroidAppHotelHideNoReviewRating);
 		return testIDs;
 	}
 
