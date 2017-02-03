@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -34,13 +35,7 @@ public class AbacusHelperUtils {
 
 	public static void downloadBucket(Context context) {
 		AbacusServices abacus = Ui.getApplication(context).appComponent().abacus();
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(context), PointOfSale.getPointOfSale().getTpid(), 0);
-		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiments(AbacusUtils.getActiveTests());
-		}
-		else {
-			query.addExperiments(new ArrayList<Integer>());
-		}
+		AbacusEvaluateQuery query = getQuery(context);
 		abacus.downloadBucket(query, getAbacusSubscriber(context));
 	}
 
@@ -97,6 +92,28 @@ public class AbacusHelperUtils {
 
 		Log.v("AbacusData", Db.getAbacusResponse().toString());
 		Crashlytics.log(Db.getAbacusResponse().toString());
+	}
+
+	public static void downloadBucketWithWait(Context context, Observer<AbacusResponse> observer) {
+		AbacusServices abacus = Ui.getApplication(context).appComponent().abacus();
+		AbacusEvaluateQuery query = getQuery(context);
+		if (ExpediaBookingApp.isAutomation()) {
+			abacus.downloadBucket(query, observer, 0, TimeUnit.SECONDS);
+		}
+		else {
+			abacus.downloadBucket(query, observer);
+		}
+	}
+
+	private static AbacusEvaluateQuery getQuery(Context context) {
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(context), PointOfSale.getPointOfSale().getTpid(), 0);
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			query.addExperiments(AbacusUtils.getActiveTests());
+		}
+		else {
+			query.addExperiments(new ArrayList<Integer>());
+		}
+		return query;
 	}
 
 	public static synchronized String generateAbacusGuid(Context context) {
