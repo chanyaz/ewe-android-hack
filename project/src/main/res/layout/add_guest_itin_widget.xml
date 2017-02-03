@@ -17,9 +17,12 @@
             android:id="@+id/email_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:focusableInTouchMode="true"
+            app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/email_edit_text"
@@ -36,16 +39,18 @@
             android:id="@+id/itin_number_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-10dp"
             android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/itinerary_number"
-            android:focusableInTouchMode="true" >
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/itin_number_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:imeOptions="actionDone"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
@@ -54,11 +59,12 @@
             android:id="@+id/find_itinerary_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:gravity="center"
             android:text="@string/find_itinerary"
             android:textColor="@color/btn_find_color"
-            app:textStyle="medium"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:textStyle="medium" />
 
     </LinearLayout>
 
