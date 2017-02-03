@@ -31,6 +31,8 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
         inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
+        outboundFlightWidget.showFlightCabinClass = true
+        inboundFlightWidget.showFlightCabinClass = true
     }
 
     override fun onFinishInflate() {

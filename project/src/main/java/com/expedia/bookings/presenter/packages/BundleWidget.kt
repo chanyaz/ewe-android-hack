@@ -6,10 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.InboundFlightWidget
@@ -20,7 +17,6 @@ import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.BundleHotelViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
-import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
 class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {

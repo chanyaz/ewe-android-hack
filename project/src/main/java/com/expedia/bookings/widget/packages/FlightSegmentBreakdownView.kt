@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -55,7 +56,8 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         segmentDuration.contentDescription = FlightV2Utils.getFlightSegmentDurationContentDescription(context, breakdown.segment)
 
         val seatClassAndBookingCodeText = FlightServiceClassType.getSeatClassAndBookingCodeText(context, breakdown.segment)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode) &&
+        if ((Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode) ||
+                FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) &&
                 breakdown.showSeatClassAndBookingCode && Strings.isNotEmpty(seatClassAndBookingCodeText)) {
             seatClassAndBookingCode.visibility = VISIBLE
             seatClassAndBookingCode.text = seatClassAndBookingCodeText
