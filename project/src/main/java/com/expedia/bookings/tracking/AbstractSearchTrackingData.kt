@@ -1,13 +1,12 @@
 package com.expedia.bookings.tracking
 
+import com.expedia.bookings.tracking.hotel.PageUsableData
+
 open class AbstractSearchTrackingData {
     var performanceData = PerformanceData()
 
     class PerformanceData {
-        var timeToLoadUsable: String? = null
-
-        private val INVALID_TIME = -1L
-        private var searchClickedMillis = INVALID_TIME
+        private val pageUsableData = PageUsableData()
 
         var requestStartTime: Long? = null
         var responseReceivedTime: Long? = null
@@ -15,7 +14,7 @@ open class AbstractSearchTrackingData {
         var resultsUserActiveTime: Long? = null
 
         fun markSearchClicked(time: Long) {
-            searchClickedMillis = time
+            pageUsableData.markPageLoadStarted(time)
         }
 
         fun markSearchApiCallMade(time: Long) {
@@ -31,17 +30,12 @@ open class AbstractSearchTrackingData {
         }
 
         fun markResultsUsable(time: Long) {
-            setTimeToLoadUsable(time)
+            pageUsableData.markAllViewsLoaded(time)
             resultsUserActiveTime = time
         }
 
-        private fun setTimeToLoadUsable(resultsUserActiveMillis: Long) {
-            timeToLoadUsable = null
-            if (searchClickedMillis != INVALID_TIME && resultsUserActiveMillis != INVALID_TIME) {
-                val loadingTimeMillis = resultsUserActiveMillis - searchClickedMillis
-                val loadingTimeSecs: Float = loadingTimeMillis / 1000f
-                timeToLoadUsable = String.format("%.2f", loadingTimeSecs)
-            }
+        fun getPageLoadTime() : String? {
+            return pageUsableData.getLoadTimeInSeconds()
         }
     }
 }

@@ -103,6 +103,7 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
+import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
@@ -386,8 +387,9 @@ public class OmnitureTracking {
 		AbstractSearchTrackingData.PerformanceData performanceData, String eventString) {
 		StringBuilder eventStringBuilder = new StringBuilder();
 		eventStringBuilder.append(eventString);
-		if (performanceData.getTimeToLoadUsable() != null) {
-			eventStringBuilder.append(",event220,event221" + "=" + performanceData.getTimeToLoadUsable());
+		String loadTime = performanceData.getPageLoadTime();
+		if (loadTime != null) {
+			eventStringBuilder.append(",event220,event221" + "=" + loadTime);
 		}
 		s.setEvents(eventStringBuilder.toString());
 	}
@@ -571,7 +573,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
-		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
+		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut,
+		PageUsableData pageLoadTimeData) {
 
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
@@ -630,6 +633,14 @@ public class OmnitureTracking {
 				s.setEvents(event);
 			}
 		}
+
+		String pageUsable = pageLoadTimeData.getLoadTimeInSeconds();
+		if (pageUsable != null) {
+			String events = s.getEvents();
+			events += ",event220,event221" + "=" + pageUsable;
+			s.setEvents(events);
+		}
+
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRoomRateExpanded);
 		// Send the tracking data
 		s.track();
@@ -5751,7 +5762,8 @@ public class OmnitureTracking {
 		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_CHECKOUT_PRICE_CHANGE, "FLT|", "Flight Checkout");
 	}
 
-	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId, String lobForProp9, String linkName) {
+	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId,
+		String lobForProp9, String linkName) {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		s.setEvents("event62");
 		s.setProp(9, lobForProp9 + priceChangePercentage);

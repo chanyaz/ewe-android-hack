@@ -43,11 +43,11 @@ import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
@@ -64,10 +64,10 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.hotel.FavoriteButtonViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
-import com.expedia.vm.WebCheckoutViewViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import rx.Observer
@@ -107,7 +107,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
 
-    val searchStub:ViewStub by bindView(R.id.search_stub)
+    val searchStub: ViewStub by bindView(R.id.search_stub)
     val searchPresenter: HotelSearchPresenter by lazy {
         var presenter = searchStub.inflate() as HotelSearchPresenter
         presenter.searchViewModel = HotelSearchViewModel(context)
@@ -283,7 +283,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter
     }
 
-    private fun  setUpCreateTripErrorHandling(createTripViewModel: HotelCreateTripViewModel) {
+    private fun setUpCreateTripErrorHandling(createTripViewModel: HotelCreateTripViewModel) {
         createTripViewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         createTripViewModel.errorObservable.subscribe { show(errorPresenter) }
         createTripViewModel.noResponseObservable.subscribe {
@@ -346,6 +346,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = ProgressDialog(context)
     var viewModel: HotelPresenterViewModel by Delegates.notNull()
+
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
@@ -408,8 +409,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         // already running (and has state) in background
         if (!hasDefaultTransition()) {
             addDefaultTransition(defaultTransition)
-        }
-        else {
+        } else {
             Log.w("You can only set defaultTransition once. (default transition:" + getDefaultTransition() + ")")
         }
 
@@ -451,7 +451,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe{
+        errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
@@ -554,7 +554,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             searchPresenter.animationUpdate(f, !forward)
-            if(forward) {
+            if (forward) {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
             } else {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
@@ -579,8 +579,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun startTransition(forward: Boolean) {
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
-            }
-            else {
+            } else {
                 detailPresenter.hotelDetailView.refresh()
             }
             val parentHeight = height
@@ -702,8 +701,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
-            }
-            else {
+            } else {
                 HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
             }
         }
@@ -743,7 +741,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             searchPresenter.animationUpdate(f, !forward)
-            if(forward) {
+            if (forward) {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
             } else {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
@@ -758,7 +756,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.animationFinalize(forward)
         }
     }
-
 
 
     private val detailsToError = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java) {
@@ -840,6 +837,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
+        detailPresenter.hotelDetailView.viewmodel.hotelSelectedObservable.onNext(Unit)
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
         HotelTracking.trackHotelCarouselClick()
@@ -904,14 +902,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         show(searchPresenter)
     }
 
-    private fun isBucketedForPerceivedInstant() : Boolean {
+    private fun isBucketedForPerceivedInstant(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
     }
 
     private fun trackHotelDetail() {
-        val hotelOffersResponse = detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse
-        val hasEtpOffer = detailPresenter.hotelDetailView.viewmodel.hasEtpOffer(hotelOffersResponse)
-        val hotelSoldOut = detailPresenter.hotelDetailView.viewmodel.hotelSoldOut.value
-        detailPresenter.hotelDetailView.viewmodel.trackHotelDetailLoad(hotelOffersResponse, hotelSearchParams, hasEtpOffer, hotelSearchParams.suggestion.isCurrentLocationSearch, hotelSoldOut, viewModel.didLastCreateTripOrCheckoutResultInRoomSoldOut.value)
+        detailPresenter.hotelDetailView.viewmodel.trackHotelDetailLoad(viewModel.didLastCreateTripOrCheckoutResultInRoomSoldOut.value)
     }
 }
