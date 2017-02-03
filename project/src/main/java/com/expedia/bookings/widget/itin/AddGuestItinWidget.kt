@@ -10,6 +10,8 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeEnabled
+import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.itin.AddGuestItinViewModel
 
 class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
@@ -30,6 +32,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
                 addGuestFormFieldContainer.visibility = View.VISIBLE
             }
         }
+        vm.guestItinFetchButtonEnabledObservable.subscribeEnabled(findItinButton)
     }
 
     init {
@@ -44,7 +47,17 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
                 (view as EditText).hint = context.getString(R.string.itinerary_number_hint)
             } else {
                 (view as EditText).hint = ""
+                viewModel.itinNumberValidateObservable.onNext(itinNumberEditText.text.toString())
             }
         }
+
+        guestEmailEditText.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                viewModel.emailValidateObservable.onNext(guestEmailEditText.text.toString())
+            }
+        }
+
+        guestEmailEditText.subscribeMaterialFormsError(viewModel.hasEmailErrorObservable, R.string.email_validation_error_message)
+        itinNumberEditText.subscribeMaterialFormsError(viewModel.hasItinErrorObservable, R.string.itinerary_number_error_message)
     }
 }
