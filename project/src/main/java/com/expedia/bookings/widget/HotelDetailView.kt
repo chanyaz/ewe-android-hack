@@ -28,7 +28,10 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.animation.AnimationListenerAdapter
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.text.HtmlCompat
@@ -779,7 +782,18 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         val fadeInRoomsAnimation = AlphaAnimation(0f, 1f)
         fadeInRoomsAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
 
-        val animListener = object : Animation.AnimationListener {
+        fadeInRoomsAnimation.setAnimationListener(object : AnimationListenerAdapter() {
+            override fun onAnimationStart(animation: Animation?) {
+                if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRoomRateExpanded)) {
+                    hotelRoomRateViewModels.first().expandRoomObservable.onNext(Unit)
+                    hotelRoomRateViewModels.drop(1).forEach { vm -> vm.collapseRoomObservable.onNext(Unit) }
+                } else {
+                    hotelRoomRateViewModels.forEach { vm -> vm.expandRoomObservable.onNext(Unit) }
+                }
+            }
+        })
+
+        val fadeOutRoomListener = object : AnimationListenerAdapter() {
             override fun onAnimationEnd(p0: Animation?) {
                 recycleRoomImageViews()
                 roomContainer.removeAllViews()
@@ -787,27 +801,19 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     val roomOffer = if (payLater) room.payLaterOffer else room
                     val view = getHotelRoomRowView(roomResponseIndex, roomOffer, topValueAddList[roomResponseIndex])
                     addRoomRowToParent(view)
-                    hotelRoomRateViewModels.add(view.viewmodel)
+                    hotelRoomRateViewModels.add(view.viewModel)
                 }
-                viewmodel.lastExpandedRowObservable.onNext(-1)
+                viewmodel.lastExpandedRowIndexObservable.onNext(-1)
                 viewmodel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
                 roomContainer.startAnimation(fadeInRoomsAnimation)
 
                 //set focus on first room row for accessibility
                 (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
-                (roomContainer.getChildAt(0) as HotelRoomRateView).viewmodel.setViewRoomContentDescription
+                (roomContainer.getChildAt(0) as HotelRoomRateView).viewModel.setViewRoomContentDescription
                         .onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
             }
-
-            override fun onAnimationStart(p0: Animation?) {
-                //ignore
-            }
-
-            override fun onAnimationRepeat(p0: Animation?) {
-                //ignore
-            }
         }
-        return animListener
+        return fadeOutRoomListener
     }
 
     private fun recycleRoomImageViews() {
@@ -833,15 +839,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private fun getHotelRoomRowView(roomIndex: Int, roomResponse: HotelOffersResponse.HotelRoomResponse,
                                     uniqueValueAdd: String) : HotelRoomRateView {
         val hasETP = viewmodel.hasETPObservable.value
-        val view = HotelRoomRateView(context, roomIndex)
-        view.viewmodel = HotelRoomRateViewModel(context, viewmodel.hotelOffersResponse.hotelId,
+        val view = HotelRoomRateView(context)
+        view.viewModel = HotelRoomRateViewModel(context, viewmodel.hotelOffersResponse.hotelId,
                 roomResponse, uniqueValueAdd, roomIndex,
                 viewmodel.rowExpandingObservable, hasETP, viewmodel.getLOB())
         view.animateRoom.subscribe(rowAnimation)
-        view.viewmodel.depositTermsClickedObservable.subscribe {
+        view.viewModel.depositTermsClickedObservable.subscribe {
             viewmodel.depositInfoContainerClickObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelCountry, roomResponse))
         }
-        view.viewmodel.roomSelectedObservable.subscribe { roomPair ->
+        view.viewModel.roomSelectedObservable.subscribe { roomPair ->
             val (index, roomResponse) = roomPair
             viewmodel.roomSelectedSubject.onNext(roomResponse)
             viewmodel.selectedRoomIndex = index

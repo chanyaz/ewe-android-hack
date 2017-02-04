@@ -28,27 +28,27 @@ class HotelRoomRateViewTest {
 
     @Before fun before() {
         RuntimeEnvironment.application.setTheme(R.style.Theme_Hotels_Control)
-        hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application, 0)
+        hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application)
     }
 
     @Test
     fun soldOutRoomAutoCollapses() {
         givenHotelOffersResponse()
-        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), false, LineOfBusiness.HOTELS)
+        hotelRoomRateView.viewModel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), false, LineOfBusiness.HOTELS)
 
         assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(false, hotelRoomRateView.viewRoom.isChecked)
 
-        hotelRoomRateView.viewmodel.collapseRoomObservable.onNext(false)
+        hotelRoomRateView.viewModel.collapseRoomObservable.onNext(Unit)
 
-        hotelRoomRateView.viewmodel.expandedMeasurementsDone.onNext(Unit)
-        hotelRoomRateView.viewmodel.expandRoomObservable.onNext(false)
+        hotelRoomRateView.expandedMeasurementsDone = true
+        hotelRoomRateView.viewModel.expandRoomObservable.onNext(Unit)
 
         assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(true, hotelRoomRateView.viewRoom.isChecked)
 
         //Check the effects of selectedRoomSoldOut signal
-        hotelRoomRateView.viewmodel.roomSoldOut.onNext(true)
+        hotelRoomRateView.viewModel.roomSoldOut.onNext(true)
         assertEquals(false, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(false, hotelRoomRateView.viewRoom.isChecked)
         assertEquals("Sold Out", hotelRoomRateView.viewRoom.text)
