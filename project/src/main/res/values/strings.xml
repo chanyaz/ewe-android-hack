@@ -2421,6 +2421,8 @@
     <string name="no_thanks">No Thanks</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Advanced</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">Advanced (optional)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->

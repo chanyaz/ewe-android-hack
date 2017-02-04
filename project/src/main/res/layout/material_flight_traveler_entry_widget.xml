@@ -6,21 +6,22 @@
         android:id="@+id/root_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="9dp"
         android:focusableInTouchMode="true"
         android:focusable="true"
         android:descendantFocusability="beforeDescendants"
-        android:background="@drawable/card_background"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:padding="@dimen/checkout_form_padding">
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="9dp">
 
         <com.expedia.bookings.widget.TravelerButton
             android:id="@+id/traveler_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
-            android:gravity="center_vertical"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:gravity="center_vertical"/>
 
         <com.expedia.bookings.widget.traveler.NameEntryView
             android:id="@+id/name_entry_widget"
@@ -80,36 +81,7 @@
             android:id="@+id/traveler_advanced_options_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:paddingBottom="9dp"/>
 
-        <LinearLayout
-            android:id="@+id/traveler_advanced_options_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/dialog_button"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/traveler_advanced_options_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/advanced_options_text"
-                android:layout_gravity="center"
-                android:src="@drawable/read_more"
-                android:tint="?attr/primary_color" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/advanced_options_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:padding="10dp"
-                android:text="@string/advanced"
-                android:textAllCaps="true"
-                android:textColor="?attr/primary_color"
-                app:textStyle="medium" />
-
-        </LinearLayout>
     </LinearLayout>
 </merge>

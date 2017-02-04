@@ -39,8 +39,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
     val passportCountryEditBox: EditText by bindView(R.id.passport_country_btn)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
-    val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
-    val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
+    var advancedButton: LinearLayout ?= null
+    var advancedOptionsIcon: ImageView ?= null
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -106,14 +106,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     init {
-        tsaEntryView.dateOfBirth.addOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                Ui.hideKeyboard(this)
-                tsaEntryView.dateOfBirth.performClick()
-            }
-            onFocusChange(view, hasFocus)
-        })
-
+        setOnFocusChangeListenerForView(tsaEntryView.dateOfBirth)
         if (materialFormTestEnabled) {
             setOnFocusChangeListenerForView(passportCountryEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
@@ -134,29 +127,23 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        advancedButton.setOnClickListener {
-            if (advancedOptionsWidget.visibility == Presenter.GONE) {
-                showAdvancedOptions()
-            } else {
-                hideAdvancedOptions()
-            }
-        }
-
         if (materialFormTestEnabled) {
             passportCountryEditBox.setOnClickListener {
                 showCountryAlertDialog()
             }
-            tsaEntryView.genderEditText!!.addOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    Ui.hideKeyboard(this)
-                    tsaEntryView.genderEditText!!.performClick()
-                }
-                onFocusChange(view, hasFocus)
-            })
+            setOnFocusChangeListenerForView(tsaEntryView.genderEditText!!)
         } else {
             tsaEntryView.genderSpinner?.addOnFocusChangeListener(this)
+            advancedOptionsIcon = findViewById(R.id.traveler_advanced_options_icon) as ImageView
+            advancedButton = findViewById(R.id.traveler_advanced_options_button) as LinearLayout
+            advancedButton?.setOnClickListener {
+                if (advancedOptionsWidget.visibility == Presenter.GONE) {
+                    showAdvancedOptions()
+                } else {
+                    hideAdvancedOptions()
+                }
+            }
         }
-
     }
 
     private fun showCountryAlertDialog() {
@@ -236,7 +223,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun inflateWidget() {
-        View.inflate(context, R.layout.flight_traveler_entry_widget, this)
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+                AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)) {
+            View.inflate(context, R.layout.material_flight_traveler_entry_widget, this)
+        } else {
+            View.inflate(context, R.layout.flight_traveler_entry_widget, this)
+        }
     }
 
     private fun setOnFocusChangeListenerForView(view: View) {
