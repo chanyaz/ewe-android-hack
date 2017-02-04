@@ -168,6 +168,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             tsaEntryView.genderSpinner?.addOnFocusChangeListener(this)
         }
 
+        if (materialFormTestEnabled) {
+            advancedOptionsWidget.visibility = View.VISIBLE
+            advancedButton.visibility = View.GONE
+//            background = R.color.white
+        }
+
     }
 
     private fun showCountryAlertDialog() {
