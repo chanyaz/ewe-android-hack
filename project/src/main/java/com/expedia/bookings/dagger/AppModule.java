@@ -10,11 +10,15 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -26,9 +30,9 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -42,9 +46,11 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
+import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -211,10 +217,62 @@ public class AppModule {
 			client.connectionSpecs(Collections.singletonList(spec));
 		}
 		else {
-			client.sslSocketFactory(sslContext.getSocketFactory());
+			if (BuildConfig.DEBUG) {
+				try {
+					// Create a trust manager that does not validate certificate chains
+					final TrustManager[] trustAllCerts = new TrustManager[] {
+						new X509TrustManager() {
+							@Override
+							public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+							}
+
+							@Override
+							public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+							}
+
+							@Override
+							public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+								return new java.security.cert.X509Certificate[]{};
+							}
+						}
+					};
+
+					// Install the all-trusting trust manager
+					final SSLContext ssContext = SSLContext.getInstance("SSL");
+					ssContext.init(null, trustAllCerts, new java.security.SecureRandom());
+					// Create an ssl socket factory with our all-trusting manager
+					final SSLSocketFactory ssSocketFactory = ssContext.getSocketFactory();
+
+					client.sslSocketFactory(ssSocketFactory, (X509TrustManager) trustAllCerts[0]);
+					HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+						@Override
+						public boolean verify(String hostname, SSLSession session) {
+							return true;
+						}
+					};
+					client.hostnameVerifier(hostnameVerifier);
+
+					ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+						.cipherSuites( CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+										CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
+										CipherSuite.TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 )
+						.build();
+					//  DHE-RSA-AES256-SHA
+
+					client.connectionSpecs(Collections.singletonList(spec));
+				}
+				catch (Exception e) {
+					// do nothing
+					Log.d("", "This sucks. I got an exception", e);
+				}
+			}
 		}
+
+
 		if (BuildConfig.DEBUG) {
 			StethoShim.install(client);
+
+
 		}
 
 		return client.build();

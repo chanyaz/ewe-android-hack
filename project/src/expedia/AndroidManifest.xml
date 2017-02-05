@@ -90,7 +90,7 @@
                 <data android:host="70.42.224.37" />
 
                 <!-- Dev Server -->
-                <data android:host="wwwexpediacom.chelwebestr37.bgb.karmalab.net" />
+                <data android:host="wwwexpediacom.tharman.dev.sb.karmalab.net" />
 
                 <!-- Integration Server -->
                 <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
