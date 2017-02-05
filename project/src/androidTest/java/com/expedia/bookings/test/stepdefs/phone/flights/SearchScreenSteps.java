@@ -151,41 +151,6 @@ public class SearchScreenSteps {
 		SearchScreen.searchButton().perform(click());
 	}
 
-	@Then("^flights suggest typeAhead is not fired$")
-	public void verifySuggestionListEmpty() throws Throwable {
-		SearchScreen.suggestionList().check(matches(not(hasDescendant(withId(R.id.suggestion_text_container)))));
-	}
-
-	@Then("^flights suggest typeAhead is fired for \"(.*?)\"$")
-	public void verifySuggestionsForGivenQuery(String query) throws Throwable {
-		SearchScreen.searchEditText().check(matches(withText(query)));
-		if (query.equals("lon")) {
-			SearchScreen.suggestionList()
-				.check(matches(hasDescendant(withText("London, England, UK (LON - All Airports)"))));
-		}
-		else if (query.equals("lond")) {
-			SearchScreen.suggestionList()
-				.check(matches(hasDescendant(withText("San Francisco, CA (SFO-San Francisco Intl.)"))));
-		}
-	}
-
-	@Then("^flights suggest typeAhead is fired$")
-	public void checkTypeAheadFired() throws Throwable {
-		SearchScreen.waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
-		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.suggestion_text_container))));
-	}
-
-	@Then("^\"(.*?)\" is listed at the top of suggestion list as recent search$")
-	public void checkRecentSearchesSuggestionResults(String result) throws Throwable {
-		SearchScreen.suggestionList()
-			.check(matches(hasDescendant(withText(result))));
-	}
-
-	@And("^the results are listed in hierarchy$")
-	public void verifyHierarchicalSuggestion() throws Throwable {
-		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.hierarchy_imageview))));
-	}
-
 	@Then("^departure field exists for flights search form$")
 	public void checkDepartureField() throws Throwable {
 		SearchScreen.origin().check(matches(isDisplayed()));
@@ -375,71 +340,6 @@ public class SearchScreenSteps {
 	@And("^corresponding age picker is removed$")
 	public void checkAgeRepresnterVisibility() throws Throwable {
 		onView(withId(R.id.child_spinner_4)).check(matches(not(isDisplayed())));
-	}
-
-	@And("^Validate that flight time field is displayed: (true|false)$")
-	public void checkVisibilityFlightDuration(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.flight_time_detail_text_view, isDisplayed);
-	}
-
-	@And("^Validate that price field is displayed: (true|false)$")
-	public void checkVisibilityOfPrice(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.price_text_view, isDisplayed);
-	}
-
-	@And("^Validate that airline name field is displayed: (true|false)$")
-	public void checkVisibilityOfAirlineName(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.airline_text_view, isDisplayed);
-	}
-
-	@And("^Validate that flight duration field is displayed: (true|false)$")
-	public void checkVisibilityOfFlightDuration(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.flight_duration_text_view, isDisplayed);
-	}
-
-	@And("^Validate that round trip header is displayed: (true|false)$")
-	public void checkVisibilityOfRoundTripHeader(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.trip_type_text_view, isDisplayed);
-	}
-
-	private void validateFlightSRPListViewCellItemVisibility(int resId, boolean isDisplayed) {
-		onView(withId(R.id.list_view)).check(RecyclerViewAssertions.assertionOnItemAtPosition(2, hasDescendant(
-			allOf(withId(resId), (isDisplayed ? isDisplayed() : not(isDisplayed()))))));
-	}
-
-	private void checkString(int resID, String text) {
-		onView(withId(R.id.list_view)).check(RecyclerViewAssertions.assertionOnItemAtPosition(2, hasDescendant(
-			allOf(withId(resID), withText(containsString(text))))));
-	}
-
-	@And("^Name of airline is \"(.*?)\"$")
-	public void checkAirlineName(String airline) throws Throwable {
-		checkString(R.id.airline_text_view, airline);
-	}
-
-	@And("^Price of the flight is (\\d+)$")
-	public void checkPriceOfFlight(int price) throws Throwable {
-		checkString(R.id.price_text_view, String.valueOf(price));
-	}
-
-	@And("^Duration of the flight is \"(.*?)\"$")
-	public void checkDuraionOfFlight(String duration) throws Throwable {
-		checkString(R.id.flight_duration_text_view, duration);
-	}
-
-	@And("^Timing of the flight is \"(.*?)\"$")
-	public void checkTimingOfTheFlight(String timing) throws Throwable {
-		checkString(R.id.flight_time_detail_text_view, timing);
-	}
-
-	@And("^Number of stops are (\\d+)$")
-	public void numberOfStops(int stops) throws Throwable {
-		if (stops > 0) {
-			checkString(R.id.flight_duration_text_view, (String.valueOf(stops) + " Stop"));
-		}
-		else {
-			checkString(R.id.flight_duration_text_view, "Nonstop");
-		}
 	}
 
 	@Then("^Validate that Previous month arrow is displayed: (true|false)$")
