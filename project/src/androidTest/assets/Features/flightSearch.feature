@@ -1,7 +1,7 @@
 Feature: Flights Search
 
   @Flights @SearchScreen
-  Scenario: Verifying if round trip fields work
+  Scenario: Verifying if round trip search works
 
     Given I launch the App
     And I launch "Flights" LOB
@@ -17,8 +17,9 @@ Feature: Flights Search
     Then I can trigger flights search
 
 
+
   @Flights @SearchScreen
-  Scenario: Verifying if one way trip fields work
+  Scenario: Verifying if one way search works
 
     Given I launch the App
     And I launch "Flights" LOB
@@ -35,7 +36,7 @@ Feature: Flights Search
 
 
   @Flights @SearchScreen
-  Scenario: Verifying if round trip fields exist and are visible
+  Scenario: Verifying UI fields visibility on round trip search form
     Given I launch the App
     When I launch "Flights" LOB
     Then departure field exists for flights search form
@@ -43,7 +44,7 @@ Feature: Flights Search
     And calendar field exists for flights search form
 
   @Flights @SearchScreen
-  Scenario: Verifying if one way trip fields exist and are visible
+  Scenario: Verifying UI fields visibility on one way trip search form
     Given I launch the App
     And I launch "Flights" LOB
     When I select one way trip
@@ -93,7 +94,7 @@ Feature: Flights Search
     
 
   @Flights @SearchScreen
-  Scenario Outline: Validating travellers form adults
+  Scenario Outline: UI fields validation on travellers form adults
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
@@ -119,7 +120,7 @@ Feature: Flights Search
 
 
   @Flights @SearchScreen
-  Scenario Outline: Validating travellers form children
+  Scenario Outline: UI fields validation on travellers form children
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
@@ -154,7 +155,7 @@ Feature: Flights Search
     When I enter source and destination for flights
       | source                | SFO                                       |
       | destination           | DEL                                       |
-      | source_suggest        | San Francisco, CA                     |
+      | source_suggest        | San Francisco, CA                         |
       | destination_suggest   | Delhi, India (DEL - Indira Gandhi Intl.)  |
     Then Validate that Calender widget is displayed: true
     And Validate that Current Month calender is displayed

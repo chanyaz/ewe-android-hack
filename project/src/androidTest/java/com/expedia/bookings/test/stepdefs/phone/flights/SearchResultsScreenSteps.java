@@ -89,4 +89,9 @@ public class SearchResultsScreenSteps {
 		}
 	}
 
+	@And("^the currency symbol on FSR is \"(.*?)\"$")
+	public void checkCurrencyOnFSR(String currencySymbol) throws Throwable {
+		checkString(R.id.price_text_view, currencySymbol);
+	}
+
 }

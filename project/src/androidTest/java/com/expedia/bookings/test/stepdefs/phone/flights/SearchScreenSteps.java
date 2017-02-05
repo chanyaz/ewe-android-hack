@@ -11,7 +11,6 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
@@ -450,10 +449,5 @@ public class SearchScreenSteps {
 		Format dateFormatter = new SimpleDateFormat("MMMM yyyy", Locale.US);
 		String nextMonthYearStr = dateFormatter.format(LocalDate.now().plusMonths(1).toDate()).toString();
 		validateMonthYearOfCalender(nextMonthYearStr);
-	}
-
-	@And("^the currency symbol on FSR is \"(.*?)\"$")
-	public void checkCurrencyOnFSR(String currencySymbol) throws Throwable {
-		checkString(R.id.price_text_view, currencySymbol);
 	}
 }

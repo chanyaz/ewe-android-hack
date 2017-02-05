@@ -1,7 +1,7 @@
 Feature: Flights Search Results Screen Tests
 
-  @Flights @Search @WIP
-  Scenario: Verifying data consistency through screens for round trip
+  @Flights @Search @FlightResults @WIP
+  Scenario: Verifying data consistency through Search and FSR screens for round trip search
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
@@ -22,7 +22,7 @@ Feature: Flights Search Results Screen Tests
 
 
   @Flights @Search @FlightResults
-  Scenario: Verifying data consistency for one way trip
+  Scenario: Verifying data consistency for one way trip through Search and FSR screens
     Given I launch the App
     And I launch "Flights" LOB
     And I select one way trip
