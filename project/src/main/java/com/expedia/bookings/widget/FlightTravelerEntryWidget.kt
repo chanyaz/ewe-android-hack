@@ -253,6 +253,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun inflateWidget() {
-        View.inflate(context, R.layout.flight_traveler_entry_widget, this)
+        if (materialFormTestEnabled) {
+            View.inflate(context, R.layout.material_flight_traveler_entry_widget, this)
+        } else {
+            View.inflate(context, R.layout.flight_traveler_entry_widget, this)
+        }
     }
 }
