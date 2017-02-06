@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import com.expedia.bookings.services.ItinTripServices;
 import javax.inject.Named;
 import android.content.Context;
 
@@ -68,6 +69,13 @@ public final class HotelModule {
 	@HotelScope
 	PaymentModel<HotelCreateTripResponse> providePaymentModel(LoyaltyServices loyaltyServices) {
 		return new PaymentModel<>(loyaltyServices);
+	}
+
+	@Provides
+	@HotelScope
+	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

@@ -1,7 +1,7 @@
 package com.expedia.vm.itin
 
 import android.content.Context
-import com.expedia.bookings.data.ItinDetailsResponse
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.utils.Ui
 import rx.Observer
@@ -25,8 +25,8 @@ class AddGuestItinViewModel(val context: Context) {
         }
     }
 
-    fun makeGuestTripResponseObserver(): Observer<ItinDetailsResponse> {
-        return object : Observer<ItinDetailsResponse> {
+    fun makeGuestTripResponseObserver(): Observer<AbstractItinDetailsResponse> {
+        return object : Observer<AbstractItinDetailsResponse> {
             override fun onCompleted() {
                 showSearchDialogObservable.onNext(false)
             }
@@ -36,7 +36,7 @@ class AddGuestItinViewModel(val context: Context) {
                 showSearchDialogObservable.onNext(false)
             }
 
-            override fun onNext(t: ItinDetailsResponse?) {
+            override fun onNext(t: AbstractItinDetailsResponse?) {
             }
         }
 

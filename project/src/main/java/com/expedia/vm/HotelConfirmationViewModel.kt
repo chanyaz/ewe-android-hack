@@ -16,6 +16,7 @@ import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -35,15 +36,15 @@ import com.mobiata.android.SocialUtils
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelCheckoutResponse>, context: Context) {
+class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = false) {
 
     // output
     val itineraryNumber = BehaviorSubject.create<String>()
@@ -64,6 +65,8 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     val showFlightCrossSell = BehaviorSubject.create<Boolean>()
     val showCarCrossSell = BehaviorSubject.create<Boolean>()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
+    val checkoutResponseObservable = PublishSubject.create<HotelCheckoutResponse>()
+    val itinDetailsResponseObservable = PublishSubject.create<HotelItinDetailsResponse>()
 
     val showAddToCalendar = BehaviorSubject.create<Boolean>()
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
@@ -75,6 +78,15 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     init {
         Ui.getApplication(context).hotelComponent().inject(this)
 
+        if (isWebCheckout) {
+            setUpItinResponseSubscription(context)
+        } else {
+            setUpCheckoutResponseSubscription(context)
+        }
+
+    }
+
+    private fun setUpCheckoutResponseSubscription(context: Context) {
         checkoutResponseObservable.withLatestFrom(paymentModel.paymentSplits, { checkoutResponse, paymentSplits ->
             object {
                 val hotelCheckoutResponse = checkoutResponse
@@ -96,7 +108,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             val location = Location()
 
             itineraryNumber.onNext(itinNumber)
-            itineraryNumberLabel.onNext(context.resources.getString(com.expedia.bookings.R.string.successful_checkout_TEMPLATE, itinNumber))
+            itineraryNumberLabel.onNext(context.resources.getString(R.string.successful_checkout_TEMPLATE, itinNumber))
             checkInDate.onNext(checkInLocalDate)
             checkOutDate.onNext(checkOutLocalDate)
             formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
@@ -108,8 +120,8 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             addressLineOne.onNext(product.hotelAddress)
             addressLineTwo.onNext(context.resources.getString(R.string.stay_summary_TEMPLATE, product.hotelCity, product.hotelStateProvince))
             hotelCity.onNext(product.hotelCity)
-            addCarBtnText.onNext(context.resources.getString(com.expedia.bookings.R.string.rent_a_car_TEMPLATE, product.hotelCity))
-            addFlightBtnText.onNext(context.resources.getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
+            addCarBtnText.onNext(context.resources.getString(R.string.rent_a_car_TEMPLATE, product.hotelCity))
+            addFlightBtnText.onNext(context.resources.getString(R.string.flights_to_TEMPLATE, product.hotelCity))
             customerEmail.onNext(it.checkoutResponse.bookingResponse.email)
 
             // Adding the guest trip in itin
@@ -120,10 +132,10 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                 userAccountRefresher.forceAccountRefresh()
             }
             // disabled for now. See mingle: #5574
-//            val pointOfSale = PointOfSale.getPointOfSale(context)
-//            val showHotelCrossSell = pointOfSale.showHotelCrossSell()
-//            showFlightCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.FLIGHTS))
-//            showCarCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.CARS))
+    //            val pointOfSale = PointOfSale.getPointOfSale(context)
+    //            val showHotelCrossSell = pointOfSale.showHotelCrossSell()
+    //            showFlightCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.FLIGHTS))
+    //            showCarCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.CARS))
             showFlightCrossSell.onNext(false)
             showCarCrossSell.onNext(false)
 
@@ -140,11 +152,70 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             // LX Cross sell
             val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
-            addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
+            addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, product.hotelCity) else "")
 
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
+    }
 
+    private fun setUpItinResponseSubscription(context: Context) {
+        itinDetailsResponseObservable.subscribe { response ->
+            val hotel = response.responseData.hotels[0]
+            val checkInLocalDate = hotel.checkInDateTime!!.toLocalDate()
+            val checkOutLocalDate = hotel.checkOutDateTime!!.toLocalDate()
+            val itinNumber = response.responseData.tripNumber.toString()
+            val hotelPropertyInfo = hotel.hotelPropertyInfo
+            val photoThumbnailURL = hotelPropertyInfo.photoThumbnailURL
+            val hotelAddress = hotelPropertyInfo.address
+            checkInDate.onNext(checkInLocalDate)
+            checkOutDate.onNext(checkOutLocalDate)
+            formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
+
+            val location = Location()
+
+            itineraryNumber.onNext(itinNumber)
+            itineraryNumberLabel.onNext(context.resources.getString(R.string.successful_checkout_TEMPLATE, itinNumber))
+            checkInDate.onNext(checkInLocalDate)
+            checkOutDate.onNext(checkOutLocalDate)
+            formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
+
+            if (!Strings.isEmpty(photoThumbnailURL))
+                bigImageUrl.onNext(BuildConfig.MEDIA_URL + photoThumbnailURL)
+            else bigImageUrl.onNext("")
+            hotelName.onNext(hotelPropertyInfo.name)
+            addressLineOne.onNext(hotelAddress.addressLine1)
+            addressLineTwo.onNext(context.resources.getString(R.string.stay_summary_TEMPLATE, hotelAddress.city, hotelAddress.countrySubdivisionCode))
+            hotelCity.onNext(hotelAddress.city)
+            addCarBtnText.onNext(context.resources.getString(R.string.rent_a_car_TEMPLATE, hotelAddress.city))
+            addFlightBtnText.onNext(context.resources.getString(R.string.flights_to_TEMPLATE, hotelAddress.city))
+            val email = hotel.rooms[0].roomPreferences.primaryOccupant.email
+            customerEmail.onNext(email)
+
+            // Adding the guest trip in itin
+            if (!User.isLoggedIn(context)) {
+                ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
+            } else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
+                userAccountRefresher.forceAccountRefresh()
+            }
+            showFlightCrossSell.onNext(false)
+            showCarCrossSell.onNext(false)
+
+            showAddToCalendar.onNext(ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare())
+
+            location.city = hotelAddress.city
+            location.countryCode = hotelAddress.countryName
+            location.stateCode = hotelAddress.countrySubdivisionCode
+            location.addStreetAddressLine(hotelAddress.addressLine1)
+            hotelLocation.onNext(location)
+
+            val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
+                    && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
+            addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, hotelAddress.city) else "")
+
+            //TODO add tracking for web checkout to native confirmation
+
+            SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+        }
     }
 
     fun getAddLXBtnObserver(context: Context): Observer<Unit> {

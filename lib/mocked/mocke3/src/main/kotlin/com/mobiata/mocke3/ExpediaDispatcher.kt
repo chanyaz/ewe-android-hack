@@ -178,6 +178,18 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         val fileName = request.path.substring(startIndex, endIndex)
+
+        val pacificTimeZone = DateTimeZone.forID("America/Los_Angeles")
+        val easternTimeZone = DateTimeZone.forID("America/New_York")
+        val startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay()
+
+        val hotelCheckIn = startOfTodayPacific.plusDays(10).withHourOfDay(11).withMinuteOfHour(32)
+        val hotelCheckOut = startOfTodayPacific.plusDays(12).withHourOfDay(18).withMinuteOfHour(4)
+        params.put("hotelCheckInEpochSeconds", "" + hotelCheckIn.millis / 1000)
+        params.put("hotelCheckInTzOffset", "" + pacificTimeZone.getOffset(hotelCheckIn.millis) / 1000)
+        params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.millis / 1000)
+        params.put("hotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(hotelCheckOut.millis) / 1000)
+
         return makeResponse("/api/trips/" + fileName + ".json", params)
     }
 

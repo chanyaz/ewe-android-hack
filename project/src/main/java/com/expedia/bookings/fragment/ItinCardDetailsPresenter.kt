@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelItinDetailsResponse
-import com.expedia.bookings.data.ItinDetailsResponse
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.utils.Ui
@@ -26,15 +26,14 @@ class ItinCardDetailsPresenter(context: Context, attributeSet: AttributeSet) : P
     }
 
     fun getTripId(tripId: String) {
-        tripServices.getTripDetails(tripId, object : Observer<ItinDetailsResponse> {
+        tripServices.getTripDetails(tripId, object : Observer<AbstractItinDetailsResponse> {
             override fun onCompleted() {
 
             }
 
-            override fun onNext(t: ItinDetailsResponse) {
+            override fun onNext(t: AbstractItinDetailsResponse) {
                 val isHotel = t is HotelItinDetailsResponse
-                tripDetailText.text = t.responseData?.tripId + "isHotel:" + isHotel
-
+                tripDetailText.text = t.getResponseDataForItin()?.tripId + "isHotel:" + isHotel
             }
 
             override fun onError(e: Throwable?) {

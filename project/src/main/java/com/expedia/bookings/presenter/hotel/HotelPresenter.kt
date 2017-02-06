@@ -22,9 +22,11 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
@@ -34,6 +36,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.hotel.ClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
@@ -93,6 +96,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
 
+    lateinit var itinTripServices: ItinTripServices
+        @Inject set
+
     val userBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
     val eventName = if (userBucketedForTest) ClientLogConstants.PERCEIVED_INSTANT_SEARCH_RESULTS else ClientLogConstants.REGULAR_SEARCH_RESULTS
 
@@ -119,7 +125,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         })
         webCheckoutViewViewModel.bookedTripIDObservable.subscribe { bookedTripID ->
             // TODO make a signIn call.
-            // TODO make an itins call
+
+            itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
+
         }
         webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
         setUpCreateTripErrorHandling(webCheckoutViewViewModel.createTripViewModel)
@@ -229,7 +237,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
-        confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(presenter.hotelCheckoutViewModel.checkoutResponseObservable, context)
+        confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context)
+        presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(confirmationPresenter.hotelConfirmationViewModel.checkoutResponseObservable)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()
@@ -289,6 +298,26 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 show(detailPresenter)
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+    }
+
+    fun makeNewItinResponseObserver(): Observer<AbstractItinDetailsResponse> {
+        confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context, true)
+        return object : Observer<AbstractItinDetailsResponse> {
+            override fun onCompleted() {
+
+            }
+
+            override fun onNext(itinDetailsResponse: AbstractItinDetailsResponse) {
+                confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.onNext(itinDetailsResponse as HotelItinDetailsResponse)
+                show(confirmationPresenter, FLAG_CLEAR_BACKSTACK)
+            }
+
+            override fun onError(e: Throwable) {
+                //TODO handle error on fetching itin
+                Log.d("Error fetching itin:" + e.stackTrace)
+            }
+
         }
     }
 
@@ -404,6 +433,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(detailsToError)
         addTransition(checkoutToSearch)
         addTransition(detailsToWebCheckoutView)
+        addTransition(webCheckoutViewToConfirmation)
 
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
@@ -610,6 +640,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
             webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
             AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
+        }
+    }
+
+    private val webCheckoutViewToConfirmation = object : Transition(WebCheckoutView::class.java, HotelConfirmationPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                confirmationPresenter.visibility = View.VISIBLE
+                webCheckoutView.visibility = View.GONE
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(confirmationPresenter.toolbar, 300)
+            }
         }
     }
 

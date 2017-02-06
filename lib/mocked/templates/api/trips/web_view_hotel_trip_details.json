@@ -1,0 +1,391 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "448fa755-ff45-4416-a45d-5c985f66947d",
+    "webDetailsURL": "https://www.expedia.co.in/trips/7241053124635",
+    "tripNumber": 7241053124635,
+    "orderNumber": 8086022393099,
+    "title": "Hotel in South San Francisco",
+    "updateTripNameDescPathURL": "https://www.expedia.co.in/api/trips/448fa755-ff45-4416-a45d-5c985f66947d/updateTripNameDescription",
+    "startTime": {
+      "raw": "2017-02-10T15:00:00-08:00",
+      "localized": "Feb 10, 2017 3:00:00 PM",
+      "epochSeconds": 1486767600,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "10/02/2017",
+      "localizedMediumDate": "10 Feb",
+      "localizedFullDate": "Fri, 10 Feb",
+      "localizedLongDate": "10 Feb 2017",
+      "localizedShortTime": "15:00"
+    },
+    "endTime": {
+      "raw": "2017-02-11T11:00:00-08:00",
+      "localized": "Feb 11, 2017 11:00:00 AM",
+      "epochSeconds": 1486839600,
+      "timeZoneOffsetSeconds": -28800,
+      "localizedShortDate": "11/02/2017",
+      "localizedMediumDate": "11 Feb",
+      "localizedFullDate": "Sat, 11 Feb",
+      "localizedLongDate": "11 Feb 2017",
+      "localizedShortTime": "11:00"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-01-31T19:51:19Z",
+      "localized": "Jan 31, 2017 7:51:19 PM",
+      "epochSeconds": 1485892279,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 31 Jan",
+      "localizedMediumDate": "31 Jan 2017",
+      "localizedFullDate": "Tuesday, 31 January 2017",
+      "localizedLongDate": "31 January 2017",
+      "localizedShortTime": "19:51"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-01-31T19:52:05Z",
+      "localized": "Jan 31, 2017 7:52:05 PM",
+      "epochSeconds": 1485892325,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 31 Jan",
+      "localizedMediumDate": "31 Jan 2017",
+      "localizedFullDate": "Tuesday, 31 January 2017",
+      "localizedLongDate": "31 January 2017",
+      "localizedShortTime": "19:52"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-01-31T19:52:07Z",
+      "localized": "Jan 31, 2017 7:52:07 PM",
+      "epochSeconds": 1485892327,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Tue, 31 Jan",
+      "localizedMediumDate": "31 Jan 2017",
+      "localizedFullDate": "Tuesday, 31 January 2017",
+      "localizedLongDate": "31 January 2017",
+      "localizedShortTime": "19:52"
+    },
+    "ownerId": 34321144,
+    "bookingStatus": "BOOKED",
+    "sharableDetailsURL": "https://www.expedia.co.in/api/trips/shared/UDcSW5tl5mk-llB7VhHxrMCAkrjN_OG-vtAbfXhf8acYZBU3w9ICzp4cyz6WLLj4l0YwJFWH-4a4U9A7o3DuS2yk",
+    "customerSupport": {},
+    "isBookedUsingForeignCurrency": false,
+    "hotels": [
+      {
+        "uniqueID": "BE496C65-FDDE-428C-B739-2A1E436BA4E8_0",
+        "hotelId": "3308",
+        "checkInDateTime": {
+          "raw": "2017-02-10T15:00:00-08:00",
+          "localized": "Feb 10, 2017 3:00:00 PM",
+          "epochSeconds": 1486767600,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "10/02/2017",
+          "localizedMediumDate": "10 Feb",
+          "localizedFullDate": "Fri, 10 Feb",
+          "localizedLongDate": "10 Feb 2017",
+          "localizedShortTime": "15:00"
+        },
+        "checkOutDateTime": {
+          "raw": "2017-02-11T11:00:00-08:00",
+          "localized": "Feb 11, 2017 11:00:00 AM",
+          "epochSeconds": 1486839600,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "11/02/2017",
+          "localizedMediumDate": "11 Feb",
+          "localizedFullDate": "Sat, 11 Feb",
+          "localizedLongDate": "11 Feb 2017",
+          "localizedShortTime": "11:00"
+        },
+        "checkInDate": "2017-02-10T15:00:00-08:00",
+        "checkOutDate": "2017-02-11T11:00:00-08:00",
+        "checkInDateLocalized": "10 Feb 2017",
+        "checkOutDateLocalized": "11 Feb 2017",
+        "numberOfNights": 1,
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Booked",
+        "bookingStatusMessage": "Your reservation is booked. No need to call us to reconfirm this reservation.",
+        "inventoryType": "DIRECT_AGENCY",
+        "inventorySource": "INTERNAL",
+        "paymentModel": "HOTEL_COLLECT",
+        "inventoryVisibility": "VISIBLE",
+        "orderNumber": "8086022393099",
+        "state": "PRE_START_4",
+        "infositeURL": "http://www.expedia.co.in/itin.h3308.Hotel-Information?langid=2057",
+        "epcConversationURL": "http://www.expedia.co.in/createConversation/create/?bookingId=0&bookingItemId=786778686&itineraryId=7241053124635&checkinDate=02/10/2017&checkoutDate=02/11/2017&tpid=27&eapid=0&siteId=27&hotelId=3308&hotelName=CitiGarden Hotel&userTokenString=iylOY07L4FLmLMQYEg1yDemqH_JtOFaXiSqNe6ZYdkhmsRaWuUgSk9mdf-FvaYVtvdrRXcJKba-Y3eirIV6Jf2Fk5hjaFzAYK3DevjASDpX6FMjEO00tUe4VCj5ELFksInevg4Q",
+        "hotelPropertyInfo": {
+          "address": {
+            "addressLine1": "245 S Airport Blvd",
+            "city": "South San Francisco",
+            "countrySubdivisionCode": "CA",
+            "postalCode": "94080",
+            "countryCode": "USA",
+            "countryName": " United States of America",
+            "fullAddress": "245 S Airport Blvd, South San Francisco, CA, 94080 United States of America",
+            "airportCode": "SFO"
+          },
+          "name": "CitiGarden Hotel",
+          "starRating": "20",
+          "photoThumbnailURL": "/hotels/1000000/10000/3400/3308/3308_61_l.jpg",
+          "photoThumbnail500pixURL": "/hotels/1000000/10000/3400/3308/3308_61_y.jpg",
+          "photoThumbnail1000pixURL": "/hotels/1000000/10000/3400/3308/3308_61_z.jpg",
+          "localPhone": "1-650-589-7200",
+          "tollFreePhone": "1-800-452-3456",
+          "formattedPhoneNumbers": "Tel: 1 (650) 589-7200, Fax: 1 (650) 589-0191",
+          "checkInPolicies": [
+            "Check-in time starts at 3 PM",
+            "Minimum check-in age is 18"
+          ],
+          "checkInStartTimePolicy": {
+            "label": "Check-in time starts at",
+            "value": "3 PM"
+          },
+          "checkInEndTimePolicy": {},
+          "checkOutTimePolicy": {
+            "label": "Check-out time is",
+            "value": "11 AM"
+          },
+          "generalRules": [
+            "Cash not accepted",
+            "Check-out time is 11 AM",
+            "No rollaway/extra beds available",
+            "No cribs (infant beds) available"
+          ],
+          "restrictionPolicies": [
+            "No elevators",
+            "Noise-free rooms not guaranteed"
+          ],
+          "fees": [
+            "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul>                 <li>Refrigerator fee: USD 10.00 per night</li><li>In-room microwave fee: USD 10.00 per night</li>  </ul>",
+            "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+          ],
+          "mandatoryFees": [
+            "<p>You'll be asked to pay the following charges at the property:</p>",
+            "<ul><li>Deposit: USD 50.00 per night</li></ul>",
+            "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
+          ],
+          "specialCheckInInstructions": [
+            "24-hour airport shuttle service is available. Contact the property in advance to get details."
+          ],
+          "latitude": 37.64798,
+          "longitude": -122.40552,
+          "isVipAccess": false,
+          "googleMapsLink": "//maps.google.com?q=94080+South+San+Francisco,+245+S+Airport+Blvd+",
+          "regionId": "800127"
+        },
+        "totalPriceDetails": {
+          "primaryCurrencyCode": "USD",
+          "base": "106.00",
+          "baseFormatted": "US$106.00",
+          "baseWithAdjustmentForDRRRateDiscount": "95.40",
+          "baseWithAdjustmentForDRRRateDiscountFormatted": "US$95.40",
+          "taxesAndFees": "14.04",
+          "taxesAndFeesFormatted": "US$14.04",
+          "adjustmentForDRRRateDiscount": "-10.60",
+          "adjustmentForDRRRateDiscountFormatted": "-US$10.60",
+          "drrRateDiscountDescription": "Special deal: save 10%",
+          "subTotalBeforeCoupon": "109.44",
+          "subTotalBeforeCouponFormatted": "US$109.44",
+          "taxStatus": "ESTIMATED",
+          "total": "109.44",
+          "totalFormatted": "US$109.44",
+          "totalPOSCurrencyCode": "INR",
+          "totalPOS": "7436.17",
+          "totalPOSFormatted": "Rs.7,436.17",
+          "_exchangeRatePOSCyToUSD": 67.94750,
+          "_exchangeRateSupplierCyToUSD": 1.00000,
+          "hasFees": false,
+          "expediaChangeFee": "0",
+          "expediaChangeFeeFormatted": "US$0.00"
+        },
+        "rules": {
+          "cancelChangeRulesIntroduction": "If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.",
+          "cancelChangeRules": [
+            "Cancellations or changes made after 19:00 (Pacific Daylight Time (US & Canada); Tijuana) on 7 Feb 2017 or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation."
+          ],
+          "cancellationWindowTime": {
+            "raw": "2017-02-07T19:00:00-08:00",
+            "localized": "Feb 7, 2017 7:00:00 PM",
+            "epochSeconds": 1486522800,
+            "timeZoneOffsetSeconds": -28800,
+            "localizedShortDate": "Tue, 7 Feb",
+            "localizedMediumDate": "7 Feb 2017",
+            "localizedFullDate": "Tuesday, 7 February 2017",
+            "localizedLongDate": "7 February 2017",
+            "localizedShortTime": "19:00"
+          },
+          "opaqueRules": [],
+          "opaquePolicies": [],
+          "lateArrivalInstructions": "If a late check-in is planned, contact this property directly for their late check-in policy.",
+          "currencyDisclaimer": "Unless specified otherwise, <span class=\"rr-bold\">rates are quoted in </span><span class=\"rr-bold\" id=\"hotel_id-default-currency\">Indian rupees</span>.",
+          "extraGuestPolicies": [
+            "Availability of accommodation in the same property for extra guests is not guaranteed."
+          ],
+          "occupancyPolicies": [
+            "Base rate is for 2 guests.",
+            "If rates are listed below, they may be quoted in the currency of the country where the hotel is located.",
+            "This property considers guests of any age to be an adult."
+          ],
+          "paymentPolicies": [],
+          "roomRequestDisclaimer": "All special requests (such as in-room amenities, bed type, and smoking preference) are shared with the hotel, but requests are not guaranteed and may incur additional charges. We recommend you confirm them directly with the hotel before travel.",
+          "dualCurrencyText": "Rate quotes in INR are based on current exchange rates, which may vary at time of travel. Final payment will be settled in local currency directly with the hotel.",
+          "feesDisclaimer": "The list of fees presented may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+        },
+        "rooms": [
+          {
+            "uniqueID": "BE496C65-FDDE-428C-B739-2A1E436BA4E8_0_786778686",
+            "roomRatePlanDescription": "Queen Room with Parking Access - no parkNfly",
+            "roomTypeCode": "15661",
+            "ratePlanCode": "15661",
+            "bookingStatus": "BOOKED",
+            "drrRateDiscountDescription": "Special deal: save 10%",
+            "orderLineNumber": "dff17f63-a6db-4791-84ba-0959223c7e93",
+            "refundabilityStatus": "REFUNDABLE",
+            "availableOnAllDates": true,
+            "roomCancelLink": "https://www.expedia.co.in/hotel-cancel-details?tripid=448fa755-ff45-4416-a45d-5c985f66947d&ordernumber=8086022393099&orderlineguid=dff17f63-a6db-4791-84ba-0959223c7e93&roomNumber=0",
+            "roomChangeLink": "https://www.expedia.co.in/trips/448fa755-ff45-4416-a45d-5c985f66947d/ordernumber/8086022393099/orderlinenumber/dff17f63-a6db-4791-84ba-0959223c7e93/change",
+            "totalPriceDetails": {
+              "primaryCurrencyCode": "USD",
+              "base": "106.00",
+              "baseFormatted": "US$106.00",
+              "baseWithAdjustmentForDRRRateDiscount": "95.40",
+              "baseWithAdjustmentForDRRRateDiscountFormatted": "US$95.40",
+              "taxesAndFees": "14.04",
+              "taxesAndFeesFormatted": "US$14.04",
+              "adjustmentForDRRRateDiscount": "-10.60",
+              "adjustmentForDRRRateDiscountFormatted": "-US$10.60",
+              "subTotalBeforeCoupon": "109.44",
+              "subTotalBeforeCouponFormatted": "US$109.44",
+              "total": "109.44",
+              "totalFormatted": "US$109.44",
+              "totalPOSCurrencyCode": "INR",
+              "totalPOS": "7436.17",
+              "totalPOSFormatted": "Rs.7,436.17",
+              "_exchangeRatePOSCyToUSD": 67.94750,
+              "_exchangeRateSupplierCyToUSD": 1.00000,
+              "averagePricePerDay": "95.40",
+              "averagePricePerDayFormatted": "US$95.40",
+              "averageTaxPerDay": "14.04",
+              "averageTaxPerDayFormatted": "US$14.04",
+              "priceDetailsPerDay": [
+                {
+                  "day": {
+                    "raw": "2017-02-10T15:00:00-08:00",
+                    "localized": "Feb 10, 2017 3:00:00 PM",
+                    "epochSeconds": 1486767600,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "Fri, 10 Feb",
+                    "localizedMediumDate": "10 Feb 2017",
+                    "localizedFullDate": "Friday, 10 February 2017",
+                    "localizedLongDate": "10 February 2017",
+                    "localizedShortTime": "15:00"
+                  },
+                  "primaryCurrencyCode": "USD",
+                  "amount": "95.40",
+                  "amountFormatted": "US$95.40",
+                  "localizedDay": {
+                    "raw": "2017-02-10T15:00:00-08:00",
+                    "localized": "Feb 10, 2017 3:00:00 PM",
+                    "epochSeconds": 1486767600,
+                    "timeZoneOffsetSeconds": -28800,
+                    "localizedShortDate": "10/02/2017",
+                    "localizedMediumDate": "10 Feb",
+                    "localizedFullDate": "Fri, 10 Feb",
+                    "localizedLongDate": "10 Feb 2017",
+                    "localizedShortTime": "15:00"
+                  }
+                }
+              ],
+              "isSameRateForAllNights": true,
+              "expediaChangeFee": "0",
+              "expediaChangeFeeFormatted": "US$0.00"
+            },
+            "roomPreferences": {
+              "primaryOccupant": {
+                "firstName": "Abhinav",
+                "fullName": "Abhinav Tripathi",
+                "email": "abhithaparian@gmail.com",
+                "phone": "1-415-3019869"
+              },
+              "otherOccupantInfo": {
+                "adultCount": 2,
+                "childCount": 0,
+                "infantCount": 0,
+                "childAndInfantCount": 0,
+                "maxGuestCount": 0,
+                "childAndInfantAges": []
+              },
+              "occupantSelectedRoomOptions": {
+                "bedTypeName": "1 queen bed",
+                "smokingPreference": "NONSMOKING_ROOM",
+                "accessibilityOptions": [],
+                "hasExtraBedAdult": false,
+                "hasExtraBedChild": false,
+                "hasExtraBedInfant": false,
+                "isSmokingPreferenceSelected": true,
+                "isRoomOptionsAvailable": true
+              },
+              "availableRoomOptions": {
+                "bedTypes": [
+                  {
+                    "id": "15",
+                    "description": "1 queen bed",
+                    "selected": true
+                  }
+                ],
+                "isNewBedTypes": false,
+                "accessibilityOptions": [
+                  {
+                    "id": "2420",
+                    "description": "Accessible bathroom",
+                    "selected": false
+                  },
+                  {
+                    "id": "2421",
+                    "description": "Roll-in shower",
+                    "selected": false
+                  }
+                ],
+                "isSmokingRoomAvailable": false,
+                "isNonSmokingRoomAvailable": true
+              }
+            },
+            "amenities": [
+              "Free Parking",
+              "Free Airport Shuttle"
+            ],
+            "amenityIds": [
+              128,
+              32768
+            ],
+            "nonPricePromotionData": {},
+            "hotelRatePlan": {
+              "m_type": 524288
+            }
+          }
+        ],
+        "isFreeCancellationAvailable": false,
+        "paymentsAndCreditFees": {
+          "paymentsHotelFeesAndDepositsDisclaimer": "The below fees and deposits only apply if they are not included in your selected room rate.",
+          "noFeesStaticText": "The price above DOES NOT include any applicable hotel service fees, charges for optional incidentals (such as minibar snacks or telephone calls), or regulatory surcharges. The hotel will assess these fees, charges, and surcharges upon check-out.",
+          "isDirectAgency": true,
+          "isGDS": false,
+          "isFullyCancelled": false,
+          "isAnyRoomCancelled": false,
+          "isDepositRequired": false,
+          "isPaymentsCreditsVisible": false
+        }
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "INR",
+      "total": "7436.17",
+      "totalFormatted": "Rs.7,436.17"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false
+  }
+}
