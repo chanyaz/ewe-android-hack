@@ -32,7 +32,6 @@ class PackageInboundFlightWidgetTest {
     val testAirportCode = "ORD"
     val testFlightText = "(ORD) Chicago"
     val testTravelerInfoText = "Jun 29 at 9:00 am, 1 Traveler"
-    val testWhichWayInbound = "Inbound Flight"
     var testWidget: InboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
@@ -140,7 +139,6 @@ class PackageInboundFlightWidgetTest {
                 put("flight", testFlightText).
                 put("datetraveler", testTravelerInfoText).
                 put("expandstate", expandedState).
-                put("whichway", testWhichWayInbound).
                 format().toString()
 
         assertEquals(expectedText, testWidget.selectedCardContentDescription())
@@ -157,7 +155,6 @@ class PackageInboundFlightWidgetTest {
                 put("flight", testFlightText).
                 put("datetraveler", testTravelerInfoText).
                 put("expandstate", collapsedState).
-                put("whichway", testWhichWayInbound).
                 format().toString()
 
         assertEquals(expectedText, testWidget.selectedCardContentDescription())

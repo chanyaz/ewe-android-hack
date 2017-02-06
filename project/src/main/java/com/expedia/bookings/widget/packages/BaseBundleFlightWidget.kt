@@ -178,7 +178,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
-                .put("whichway", whichWayFlightString())
                 .format()
                 .toString()
     }
@@ -189,8 +188,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
-                .put("previous", if (isInboundFlight()) context.getString(R.string.select_flight_choose_outbound_cont_desc) else context.getString(R.string.select_flight_disabled_choose_hotel))
-                .put("whichway", whichWayFlightString())
+                .put("previous", if (isInboundFlight()) context.getString(R.string.select_flight_disabled_choose_outbound) else context.getString(R.string.select_flight_disabled_choose_hotel))
                 .format()
                 .toString()
     }
@@ -205,7 +203,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("date", DateUtils.localDateToMMMd(if (isInboundFlight()) searchParams.endDate else searchParams.startDate))
                 .put("travelers", StrUtils.formatTravelerString(context, searchParams.guests))
-                .put("whichway", whichWayFlightString())
                 .format()
                 .toString()
     }
@@ -216,14 +213,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
                 .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
                 .put("datetraveler", viewModel.travelInfoTextObservable.value)
-                .put("whichway", whichWayFlightString())
                 .put("expandstate", expandState)
                 .format()
                 .toString()
-    }
-
-    private fun whichWayFlightString(): String {
-        return if (isInboundFlight()) context.getString(R.string.select_flight_choose_inbound_cont_desc) else context.getString(R.string.select_flight_choose_outbound_cont_desc)
     }
 
     fun trackBundleOverviewFlightExpandClick() {
