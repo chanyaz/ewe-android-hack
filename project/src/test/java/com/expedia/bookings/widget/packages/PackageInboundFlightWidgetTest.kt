@@ -8,7 +8,9 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
@@ -167,6 +169,59 @@ class PackageInboundFlightWidgetTest {
 
         assertEquals(testFlightText, testWidget.flightCardText.text)
         assertEquals(testTravelerInfoText, testWidget.travelInfoText.text)
+    }
+
+    @Test
+    fun testLoadingContentDescription() {
+        testWidget.loadingStateObservable.onNext(true)
+
+        val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE).
+                put("flight", testFlightText).
+                put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(2))).
+                put("travelers", "1 Traveler").
+                format().toString()
+
+        assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
+    }
+
+    @Test
+    fun testLoadedContentDescription() {
+        testWidget.loadingStateObservable.onNext(false)
+
+        val expectedText = Phrase.from(activity, R.string.select_flight_cont_desc_TEMPLATE)
+                .put("flight", testFlightText)
+                .put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(2)))
+                .put("travelers", "1 Traveler")
+                .format()
+                .toString()
+
+        assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
+    }
+
+    @Test
+    fun testFlightExpandedWidgetContentDescription() {
+        testWidget.expandFlightDetails()
+        assertEquals(activity.getString(R.string.accessibility_cont_desc_role_button_collapse), testWidget.getFlightWidgetExpandedState())
+    }
+
+    @Test
+    fun testFlightCollapsedWidgetContentDescription() {
+        testWidget.collapseFlightDetails()
+        assertEquals(activity.getString(R.string.accessibility_cont_desc_role_button_expand), testWidget.getFlightWidgetExpandedState())
+    }
+
+    @Test
+    fun testBackPressExpanded(){
+        testWidget.expandFlightDetails()
+        testWidget.backButtonPressed()
+        assertEquals(testWidget.flightDetailsContainer.visibility, Presenter.GONE)
+    }
+
+    @Test
+    fun testBackPressCollapsed(){
+        testWidget.collapseFlightDetails()
+        testWidget.backButtonPressed()
+        assertEquals(testWidget.flightDetailsContainer.visibility, Presenter.GONE)
     }
 
     fun buildMockFlight() : FlightLeg {

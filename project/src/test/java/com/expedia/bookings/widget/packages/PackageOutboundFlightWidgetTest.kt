@@ -9,8 +9,10 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.packages.BundleFlightViewModel
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -29,6 +31,7 @@ class PackageOutboundFlightWidgetTest {
     var testFlight: FlightLeg by Delegates.notNull()
     val testRegionName = "Chicago"
     val testAirportCode = "ORD"
+    val testFlightText = "(" + testAirportCode + ") " + testRegionName
     var testWidget: OutboundFlightWidget by Delegates.notNull()
     var widgetVM: BundleFlightViewModel by Delegates.notNull()
 
@@ -87,6 +90,32 @@ class PackageOutboundFlightWidgetTest {
         val expectedFlightText = activity.getString(R.string.select_flight_to, StrUtils.formatCityName(testDestination))
         assertEquals(expectedFlightText, testWidget.flightCardText.text)
         assertEquals(View.VISIBLE, testWidget.travelInfoText.visibility)
+    }
+
+    @Test
+    fun testLoadingContentDescription() {
+        testWidget.loadingStateObservable.onNext(true)
+        val expectedText = Phrase.from(activity, R.string.select_flight_searching_cont_desc_TEMPLATE).
+                put("flight", testFlightText).
+                put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(1))).
+                put("travelers", "1 Traveler").
+                format().toString()
+
+        assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
+    }
+
+    @Test
+    fun testLoadedContentDescription() {
+        testWidget.loadingStateObservable.onNext(false)
+
+        val expectedText = Phrase.from(activity, R.string.select_flight_cont_desc_TEMPLATE)
+                .put("flight", testFlightText)
+                .put("date", DateUtils.localDateToMMMd(LocalDate.now().plusDays(1)))
+                .put("travelers", "1 Traveler")
+                .format()
+                .toString()
+
+        assertEquals(expectedText, testWidget.getRowInfoContainer().contentDescription)
     }
 
     private fun setUpParams() {
