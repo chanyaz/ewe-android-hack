@@ -215,7 +215,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private void setSignInView(View view) {
 		View mEmptyView;
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
-			R.string.preference_itin_new_sign_in_screen)) {
+			R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity())) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mItinSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 
