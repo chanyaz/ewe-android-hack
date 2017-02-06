@@ -117,6 +117,7 @@
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
     <string name="preference_flight_premium_class">preference_flight_premium_class</string>
+    <string name="preference_flight_byot">preference_flight_byot</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
     <string name="preference_enable_new_cookies">preference_enable_new_cookies</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>

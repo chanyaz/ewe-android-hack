@@ -225,7 +225,7 @@ class FlightOverviewPresenterTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = LocalDate().plusDays(3)
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null)
     }
 
     private fun getFlightCreateTripResponse(): FlightCreateTripResponse {
