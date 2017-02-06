@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.SeatPreference;
+import com.expedia.bookings.widget.TextViewExtensions;
 import com.mobiata.android.util.Ui;
 
 public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	Integer color;
+	private int mCurrentPosition;
+	private int mDropdownResourceId;
 
 	class SeatPreferenceSpinnerHelper {
 		SeatPreference mSeatPreference;
@@ -59,6 +62,7 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 
 	public SeatPreferenceSpinnerAdapter(Context context, int textViewId, int dropDownResource) {
 		super(context, textViewId);
+		mDropdownResourceId = dropDownResource;
 		setDropDownViewResource(dropDownResource);
 		fillSeatPreferences(context);
 	}
@@ -92,6 +96,30 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 				stringToSpan.toString().indexOf(item.toString()));
 		}
 		tv.setText(stringToSpan);
+		TextViewExtensions.Companion.setTextColorBasedOnPosition(tv, mCurrentPosition, position);
+
+		return retView;
+	}
+
+	@Override
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		View retView;
+		if (convertView == null) {
+			retView = Ui.inflate(mDropdownResourceId, parent, false);
+		}
+		else {
+			retView = convertView;
+		}
+
+		TextView tv = Ui.findView(retView, android.R.id.text1);
+		Context context = tv.getContext();
+		tv.setText(getItem(position));
+		int textColor = ContextCompat.getColor(context, R.color.default_text_color);
+		if (position == mCurrentPosition) {
+			textColor = ContextCompat.getColor(context, com.expedia.bookings.utils.Ui.obtainThemeResID(context, R.attr.primary_color));
+		}
+		tv.setTextColor(textColor);
+
 		return retView;
 	}
 
@@ -117,5 +145,13 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		mSeatPreferences = new ArrayList<SeatPreferenceSpinnerHelper>();
 		mSeatPreferences.add(new SeatPreferenceSpinnerHelper(SeatPreference.AISLE, res.getString(R.string.aisle)));
 		mSeatPreferences.add(new SeatPreferenceSpinnerHelper(SeatPreference.WINDOW, res.getString(R.string.window)));
+	}
+
+	public void setCurrentPosition(int position) {
+		mCurrentPosition = position;
+	}
+
+	public int getCurrentPosition() {
+		return mCurrentPosition;
 	}
 }

@@ -6,15 +6,23 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Strings;
+import com.mobiata.android.util.Ui;
 
 public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 	private static final Map<String, Integer> COUNTRY_CODES = new HashMap<String, Integer>();
 
 	private int[] mCountryPhoneCodes;
 	private String[] mCountryNames;
+	private int mCurrentPosition;
 
 	public TelephoneSpinnerAdapter(Context context) {
 		this(context, R.layout.simple_spinner_item);
@@ -47,8 +55,28 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 		return String.format(Locale.getDefault(), "%s (%d)", getCountryName(position), getCountryCode(position));
 	}
 
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		View retView = super.getView(position, convertView, parent);
+		TextView tv = Ui.findView(retView, android.R.id.text1);
+		CharSequence item = getItem(position);
+		Spannable stringToSpan = new SpannableString(String.format(getItem(position), item));
+		tv.setText(stringToSpan);
+		TextViewExtensions.Companion.setTextColorBasedOnPosition(tv, mCurrentPosition, position);
+
+		return retView;
+	}
+
 	public String getCountryName(int position) {
 		return mCountryNames[position];
+	}
+
+	public void setCurrentPosition(int position) {
+		mCurrentPosition = position;
+	}
+
+	public int getCurrentPosition() {
+		return mCurrentPosition;
 	}
 
 	public int getCountryCode(int position) {
@@ -61,6 +89,18 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 
 	public int getCountryCodeFromCountryName(String countryName) {
 		return COUNTRY_CODES.get(countryName);
+	}
+
+	public int getPositionFromName(String countryName) {
+		if (Strings.isEmpty(countryName)) {
+			return mCurrentPosition;
+		}
+		for (int i = 0; i < COUNTRY_CODES.size(); i++) {
+			if (getCountryName(i).equals(countryName)) {
+				return i;
+			}
+		}
+		return mCurrentPosition;
 	}
 
 	private void fillCountryCodes(Context context) {
