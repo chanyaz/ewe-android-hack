@@ -59,6 +59,7 @@ class FlightApiMockResponseGenerator() {
 
     enum class SearchResultsResponseType(val responseName: String) {
         HAPPY_ONE_WAY("happy_one_way"),
+        BYOT_ROUND_TRIP("byot_search"),
         HAPPY_ROUND_TRIP("happy_round_trip"),
         HAPPY_ROUND_TRIP_WITH_INSURANCE_AVAILABLE("happy_round_trip_with_insurance_available"),
         CREATE_TRIP_PRICE_CHANGE("create_trip_price_change")
@@ -66,6 +67,7 @@ class FlightApiMockResponseGenerator() {
 
     enum class SuggestionResponseType(val suggestionString: String) {
         HAPPY_PATH("happy"),
+        BYOT_ROUND_TRIP("byot_search"),
         PASSPORT_NEEDED("passport_needed"),
         MAY_CHARGE_OB_FEES("may_charge_ob_fees"),
         SEARCH_ERROR("search_error"),
@@ -112,13 +114,19 @@ class FlightApiMockResponseGenerator() {
 
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
+            val legNo = params["ul"]
 
             val fileName =
                     if (isReturnFlightSearch) {
-                        suggestionResponseType.suggestionString + "_round_trip"
+                        if (legNo != null && legNo.equals("0")) {
+                            suggestionResponseType.suggestionString + "_outbound"
+                        } else if (legNo != null && legNo.equals("1")) {
+                            suggestionResponseType.suggestionString + "_inbound"
+                        } else {
+                            suggestionResponseType.suggestionString + "_round_trip"
+                        }
                     } else {
                         suggestionResponseType.suggestionString + "_one_way"
-
                     }
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
