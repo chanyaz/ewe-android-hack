@@ -8,8 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/account_sign_in_container"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginBottom="64dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -19,15 +18,13 @@
             android:layout_height="18dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:scaleType="centerCrop"
-            android:tint="@color/exp_action_required_red"/>
+            android:scaleType="centerCrop" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/status_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/gray9"
             android:textSize="18sp"
             app:textStyle="normal" />
     </LinearLayout>
@@ -44,7 +41,6 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:minWidth="260dp"
-        app:cardBackgroundColor="@color/brand_secondary"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -56,13 +52,14 @@
 
             <ImageView
                 android:id="@+id/exp_logo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/login_text_view"
                 android:scaleType="center"
-                android:src="@drawable/checkout_logout_logo" />
+                android:src="@drawable/checkout_logout_logo"
+                android:visibility="gone"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/login_text_view"
@@ -71,7 +68,6 @@
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_vertical"
                 android:text="@string/sign_in"
-                android:textColor="@color/gray9"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -80,19 +76,20 @@
 
     <LinearLayout
         android:id="@+id/hint_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/account_sign_in_container"
+        android:layout_alignRight="@+id/account_sign_in_container"
         android:layout_centerInParent="true"
         android:layout_marginBottom="36dp"
         android:layout_marginTop="36dp"
-        android:orientation="horizontal"
-        android:padding="36dp">
+        android:orientation="horizontal">
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@color/gray9" />
 
@@ -102,13 +99,15 @@
             android:layout_gravity="center_vertical"
             android:text="@string/or"
             android:textColor="@color/gray6"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:background="@color/gray9" />
     </LinearLayout>
