@@ -4250,18 +4250,16 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Searching for hotels in {destination} from {startdate} to {enddate}, for {guests}. Please wait</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">You have selected hotel {hotel} from {startdate} to {enddate}, for {guests}. {expandstate} hotel details.</string>
-    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select Inbound Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
-    <string name="select_flight_cont_desc_TEMPLATE">Search completed. Select {whichway} to {flight} on {date} for {travelers}. Button</string>
-    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for Outbound Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
-    <string name="select_flight_searching_cont_desc_TEMPLATE">Searching for {whichway} to {flight} on {date} for {travelers}. Please wait</string>
-    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected Inbound Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">You have selected {whichway} to {flight} on {datetraveler}. {expandstate} flight details.</string>
-    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Inbound Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
-    <string name="select_flight_disabled_cont_desc_TEMPLATE">{whichway} to {flight} on {date} for {travelers}. Please select {previous} first. Button.</string>
-    <!-- Bundle Overview Flight card accessibility content description mentioning it's an outbound flight. From above ^ Example: You have selected Outbound Flight -->
-    <string name="select_flight_choose_outbound_cont_desc">Outbound Flight</string>
-    <!-- Bundle Overview Flight card accessibility content description mentioning it's an inbound flight. From above ^ Example: You have selected Inbound Flight -->
-    <string name="select_flight_choose_inbound_cont_desc">Inbound Flight</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">Search completed. Select a flight to {flight} on {date} for {travelers}. Button</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">Searching for a flight to {flight} on {date} for {travelers}. Please wait</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">You have selected flight to {flight} on {datetraveler}. {expandstate} flight details.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flight to {flight} on {date} for {travelers}. Please select {previous} first. Button.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">Outbound Flight</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
     <string name="select_flight_disabled_choose_hotel">Hotel</string>
 
