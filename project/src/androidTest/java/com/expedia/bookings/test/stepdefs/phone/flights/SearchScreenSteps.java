@@ -5,20 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-
 import org.joda.time.LocalDate;
-
+import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
-
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.BuildConfig;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -31,6 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.airportDropDownEntryWithAirportCode;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -44,11 +44,18 @@ public class SearchScreenSteps {
 
 	@When("^I enter source and destination for flights$")
 	public void enterSourceAndDestination(Map<String, String> parameters) throws Throwable {
-		SearchScreen.origin().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
-		SearchScreen.selectLocation(parameters.get("source_suggest"));
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-		SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		if (BuildConfig.FLAVOR.equalsIgnoreCase("airasiago")) {
+			selectSourceFromDropDown("DMK");
+			selectDestinationFromDropdown("HKG");
+
+		}
+		else {
+			SearchScreen.origin().perform(click());
+			SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
+			SearchScreen.selectLocation(parameters.get("source_suggest"));
+			SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
+			SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		}
 	}
 
 	@When("^I type \"(.*?)\" in the flights search box$")
@@ -60,6 +67,21 @@ public class SearchScreenSteps {
 	@When("^I type \"(.*?)\" in the flights destination search box$")
 	public void typeInDestinationSearchBox(String query) throws Throwable {
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+	}
+
+	@When("^I select source location from the dropdown as \"(.*?)\"$")
+	public void selectSourceFromDropDown(String location) throws Throwable {
+		SearchScreen.origin().perform(click());
+		onData(airportDropDownEntryWithAirportCode(location))
+			.inRoot(RootMatchers.isPlatformPopup()).perform(click());
+	}
+
+	@And("^I select destination from the dropdown as \"(.*?)\"$")
+	public void selectDestinationFromDropdown(String location) throws Throwable {
+		Common.delay(1);
+		SearchScreen.destination().perform(click());
+		onData(airportDropDownEntryWithAirportCode(location))
+			.inRoot(RootMatchers.isPlatformPopup()).perform(click());
 	}
 
 	@When("^I add \"(.*?)\" to the query in flights search box$")
@@ -263,12 +285,6 @@ public class SearchScreenSteps {
 			withText(containsString("Traveler")))).check(matches(withText(containsString(year))));
 	}
 
-	@Then("^I select first flight$")
-	public void selectFirstFlight() throws Throwable {
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
-		FlightsScreen.selectOutboundFlight().perform(click());
-	}
-
 	@And("^on outbound FSR the number of traveller are as user selected$")
 	public void verifyTravelersForOutbound() throws Throwable {
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
@@ -439,7 +455,7 @@ public class SearchScreenSteps {
 	}
 
 	@Then("^I click on Previous month button$")
-	public void clickPreviosMonthButton() throws Throwable {
+	public void clickPreviousMonthButton() throws Throwable {
 		SearchScreen.previousMonthButton().perform(click());
 
 	}

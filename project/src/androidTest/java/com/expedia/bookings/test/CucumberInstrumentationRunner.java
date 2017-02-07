@@ -2,7 +2,7 @@ package com.expedia.bookings.test;
 
 import android.os.Bundle;
 import android.support.test.runner.MonitoringInstrumentation;
-
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import cucumber.api.android.CucumberInstrumentationCore;
 
 public class CucumberInstrumentationRunner extends MonitoringInstrumentation {
@@ -12,6 +12,7 @@ public class CucumberInstrumentationRunner extends MonitoringInstrumentation {
 
 	@Override
 	public void onCreate(Bundle arguments) {
+		ExpediaBookingApp.setIsInstrumentation(true);
 		super.onCreate(arguments);
 
 		mInstrumentationCore.create(arguments);

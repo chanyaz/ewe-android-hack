@@ -3,10 +3,8 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;

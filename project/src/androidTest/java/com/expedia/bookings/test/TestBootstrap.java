@@ -28,6 +28,11 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		Settings.setServer("Integration");
 	}
 
+	@Before("@Prod")
+	public void setupForTestsOnProduction() throws Exception {
+		Settings.setServer("Production");
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();

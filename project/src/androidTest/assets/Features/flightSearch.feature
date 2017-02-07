@@ -1,7 +1,7 @@
 Feature: Flights Search
 
-  @Flights @SearchScreen
-  Scenario: Verifying if round trip search works
+  @Flights @SearchScreen @Prod
+  Scenario: Verifying if round trip International search works
 
     Given I launch the App
     And I launch "Flights" LOB
@@ -17,9 +17,8 @@ Feature: Flights Search
     Then I can trigger flights search
 
 
-
-  @Flights @SearchScreen
-  Scenario: Verifying if one way search works
+  @Flights @SearchScreen @Prod
+  Scenario: Verifying if one way International search works
 
     Given I launch the App
     And I launch "Flights" LOB
@@ -31,6 +30,33 @@ Feature: Flights Search
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
     And I pick departure date for flights
       | start_date | 5 |
+    And I change travellers count and press done
+    Then I can trigger flights search
+
+  @Flights @SearchScreen @Prod @EBOnly
+  Scenario: Verifying if round trip International search works for Indonesia
+
+    Given I launch the App
+    And I set the POS to "Indonesia"
+    And I launch "Flights" LOB
+    When I select source location from the dropdown as "BKK"
+    And I select destination from the dropdown as "HKG"
+    And I pick dates for flights
+      | start_date | 5  |
+      | end_date   | 10 |
+    And I change travellers count and press done
+    Then I can trigger flights search
+
+  @Flights @SearchScreen @Prod @EBonly
+  Scenario: Verifying if one-way trip International search works for Indonesia
+
+    Given I launch the App
+    And I set the POS to "Indonesia"
+    And I launch "Flights" LOB
+    When I select source location from the dropdown as "BKK"
+    And I select destination from the dropdown as "HKG"
+    And I pick departure date for flights
+      | start_date | 5  |
     And I change travellers count and press done
     Then I can trigger flights search
 
@@ -52,7 +78,6 @@ Feature: Flights Search
     And calendar field exists for one way flights search form
     And arrival field exists for flights search form
 
-<<<<<<< 811f9d4dc38c23ce656a4abaad98ab252ee27ee2
   @Flights @SearchScreen
   Scenario: Verifying data consistency through screens for round trip
     Given I launch the App
@@ -238,27 +263,3 @@ Feature: Flights Search
     Then Validate that Current Month calender is displayed
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
-
-
-  @Flights @SearchScreen @WIP
-  Scenario Outline: POS and locale combination
-    Given I launch the App
-    And I change the POS to "<POS>"
-    And I change the locale to "<LOCALE>"
-    And I launch "Flights" LOB
-    And I select one way trip
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 10                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
-    Then the currency symbol on FSR is "<symbol>"
-
-    Examples:
-    | POS | LOCALE | symbol |
-    | US  |   AU   |  US$   |
-    | US  |   US   |   $    |
