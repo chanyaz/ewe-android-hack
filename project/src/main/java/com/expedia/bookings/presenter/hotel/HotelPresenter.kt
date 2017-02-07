@@ -55,6 +55,7 @@ import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.WebCheckoutView
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
+import com.expedia.util.setInverseVisibility
 import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelConfirmationViewModel
@@ -422,16 +423,21 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(searchToResults)
         addTransition(searchToDetails)
         addTransition(resultsToDetail)
-        addTransition(detailsToCheckout)
-        addTransition(checkoutToConfirmation)
         addTransition(detailsToReview)
         addTransition(resultsToError)
         addTransition(searchToError)
-        addTransition(checkoutToError)
         addTransition(detailsToError)
-        addTransition(checkoutToSearch)
-        addTransition(detailsToWebCheckoutView)
-        addTransition(webCheckoutViewToConfirmation)
+
+        if (shouldUseWebCheckout(context)) {
+            addTransition(detailsToWebCheckoutView)
+            addTransition(webCheckoutViewToConfirmation)
+            addTransition(webCheckoutViewToError)
+        } else {
+            addTransition(detailsToCheckout)
+            addTransition(checkoutToConfirmation)
+            addTransition(checkoutToError)
+            addTransition(checkoutToSearch)
+        }
 
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
@@ -610,6 +616,27 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
+    private val webCheckoutViewToError = object : Presenter.Transition(WebCheckoutView::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            webCheckoutView.visibility = View.VISIBLE
+            errorPresenter.visibility = View.VISIBLE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            webCheckoutView.setInverseVisibility(forward)
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            errorPresenter.animationFinalize()
+        }
+    }
+
     private val checkoutToError = object : Presenter.Transition(HotelCheckoutPresenter::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
 
         override fun startTransition(forward: Boolean) {
@@ -634,6 +661,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val detailsToWebCheckoutView = object : Transition(HotelDetailPresenter::class.java, WebCheckoutView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            detailPresenter.setInverseVisibility(forward)
             webCheckoutView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
             webCheckoutView.visibility = if (forward) View.VISIBLE else View.GONE
             AccessibilityUtil.setFocusToToolbarNavigationIcon(webCheckoutView.toolbar)
