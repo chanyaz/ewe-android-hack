@@ -51,7 +51,7 @@ Feature: Flights testing
     And calendar field exists for one way flights search form
     And arrival field exists for flights search form
 
-  @Flights @SearchScreen @WIP
+  @Flights @SearchScreen
   Scenario: Verifying data consistency through screens for round trip
     Given I launch the App
     And I launch "Flights" LOB
@@ -267,3 +267,27 @@ Feature: Flights testing
     Then Validate that Current Month calender is displayed
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
+
+
+  @Flights @SearchScreen @WIP
+  Scenario Outline: POS and locale combination
+    Given I launch the App
+    And I change the POS to "<POS>"
+    And I change the locale to "<LOCALE>"
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    Then the currency symbol on FSR is "<symbol>"
+
+    Examples:
+    | POS | LOCALE | symbol |
+    | US  |   AU   |  US$   |
+    | US  |   US   |   $    |
