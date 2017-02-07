@@ -115,13 +115,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         })
 
         if (materialFormTestEnabled) {
-            passportCountryEditBox.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    Ui.hideKeyboard(this)
-                    passportCountryEditBox.performClick()
-                }
-                onFocusChange(view, hasFocus)
-            }
+            setOnFocusChangeListenerForView(passportCountryEditBox)
+            setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
+            setOnFocusChangeListenerForView(advancedOptionsWidget.assistancePreferenceEditBox)
         } else {
             val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
                     R.layout.material_spinner_item, R.layout.spinner_dropdown_item, true)
@@ -130,14 +126,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
             passportCountrySpinner.adapter = adapter
             passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
-
-            passportCountrySpinner.setOnFocusChangeListener { view, hasFocus ->
-                if (hasFocus) {
-                    Ui.hideKeyboard(this)
-                    passportCountrySpinner.performClick()
-                }
-                onFocusChange(view, hasFocus)
-            }
+            setOnFocusChangeListenerForView(passportCountrySpinner)
         }
         advancedOptionsWidget.redressNumber.addOnFocusChangeListener(this)
     }
@@ -248,5 +237,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     override fun inflateWidget() {
         View.inflate(context, R.layout.flight_traveler_entry_widget, this)
+    }
+
+    private fun setOnFocusChangeListenerForView(view: View) {
+        view.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                view.performClick()
+            }
+            onFocusChange(view, hasFocus)
+        }
     }
 }

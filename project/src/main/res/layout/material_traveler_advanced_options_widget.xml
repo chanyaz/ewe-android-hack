@@ -55,6 +55,8 @@
             android:drawableRight="@drawable/material_dropdown"
             android:hint="@string/special_assistance"
             android:textIsSelectable="true"
+            android:maxLines="1"
+            android:inputType="text"
             android:textSize="@dimen/traveler_input_text_size" />
 
     </android.support.design.widget.TextInputLayout>
@@ -73,6 +75,7 @@
             android:drawableRight="@drawable/material_dropdown"
             android:hint="@string/seating_preference"
             android:textIsSelectable="true"
+            android:maxLines="1"
             android:textSize="@dimen/traveler_input_text_size" />
 
     </android.support.design.widget.TextInputLayout>

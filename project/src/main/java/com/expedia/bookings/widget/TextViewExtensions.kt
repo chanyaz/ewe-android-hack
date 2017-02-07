@@ -25,8 +25,8 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
 }
 
 
-class TextViewExtensions{
-    companion object{
+class TextViewExtensions {
+    companion object {
         fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {
             if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(tv.context, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms,
                     R.string.preference_universal_checkout_material_forms)) {
