@@ -342,7 +342,7 @@ public class User implements JSONable {
 			Account[] accounts = manager.getAccountsByType(accountType);
 			if (accounts != null && accounts.length > 0) {
 				for (Account account : accounts) {
-					manager.removeAccount(account, null, null);
+					manager.removeAccountExplicitly(account);
 				}
 			}
 

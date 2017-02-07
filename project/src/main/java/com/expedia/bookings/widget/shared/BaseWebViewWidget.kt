@@ -56,7 +56,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         webView.settings.javaScriptEnabled = true
     }
 
-    var viewModel: WebViewViewModel by notNullAndObservable { vm ->
+    open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewURLObservable.subscribe { url ->
             webView.loadUrl(url)
         }
