@@ -292,6 +292,10 @@ public class TripParser {
 			if (!roomsJson.isNull(0)) {
 				JSONObject firstRoom = roomsJson.optJSONObject(0);
 				property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
+				boolean isNotMultiRoomBooking = roomsJson.length() == 1;
+				if (isNotMultiRoomBooking) {
+					property.setBookingChangeWebUrl(firstRoom.optString("roomChangeLinkForMobileWebView"));
+				}
 			}
 		}
 

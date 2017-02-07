@@ -2,6 +2,7 @@ package com.expedia.bookings.launch.activity
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -179,10 +180,18 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             if (resultCode == RESULT_OK && data != null) {
                 showFlightItinCheckinDialog(data)
             }
-        } else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
+        }
+        else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
+            }
+        }
+        else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
+
+                ItineraryManager.getInstance().deepRefreshTrip(tripId, true) // TODO - figure out how to show spinner on this refresh
             }
         }
     }

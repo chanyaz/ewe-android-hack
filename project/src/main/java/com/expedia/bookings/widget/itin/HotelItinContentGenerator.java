@@ -476,8 +476,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		if (showEditRoomOption) {
 
 			//Setting hasEditRoomOption to true till API is ready
-			boolean hasEditRoomOption = true;
-
+			boolean hasEditRoomOption = getItinCardData().getProperty().isBookingChangeAvailable();
 			if (hasEditRoomOption) {
 				setUpEditHotelRoomInfoButton(container);
 			}
@@ -523,25 +522,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		editHotelRoomInfo.setVisibility(View.VISIBLE);
 		editHotelRoomLineDividerView.setVisibility(View.VISIBLE);
 
-		//Launch mWeb until api is ready
-
 		editHotelRoomInfo.setOnClickListener(new OnClickListener() {
-			final String editHotelRoomInfoLink = "http://www.expedia.com";
-
 			public void onClick(View v) {
-				startWebActivityForEditHotelRoomInfo(editHotelRoomInfoLink);
+				String softChangeUrl = getItinCardData().getProperty().getBookingChangeWebUrl();
+				Intent webViewIntent =
+					buildWebViewIntent(R.string.trips_edit_room_info_web_view_title, softChangeUrl).getIntent();
+				webViewIntent.putExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID, getItinCardData().getTripNumber());
+				((Activity) getContext()).startActivityForResult(webViewIntent, Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE);
 			}
 		});
-	}
-
-	private void startWebActivityForEditHotelRoomInfo(String editHotelRoomInfoLink) {
-		WebViewActivity.IntentBuilder intentBuilder = buildWebViewIntent(
-			R.string.itin_card_edit_hotel_room_info, editHotelRoomInfoLink);
-
-		Intent intent = intentBuilder.getIntent();
-		intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
-		((Activity) getContext())
-			.startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
 	}
 
 	@Override

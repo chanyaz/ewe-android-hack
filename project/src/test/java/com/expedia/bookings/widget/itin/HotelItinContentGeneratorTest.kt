@@ -6,14 +6,17 @@ import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.junit.Assert
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -29,9 +32,41 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
+    fun hotelSoftChangeButtonOpensWebView() {
+        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+
+        val itinCardDataHotel = ItinCardDataHotelBuilder()
+                                .withBookingChangeUrl(getBookingChangeUrl())
+                                .build()
+        itinCardDataHotel.tripComponent.parentTrip.setIsShared(false)
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val container = FrameLayout(activity)
+        val detailsView = hotelItinGenerator.getDetailsView(null, container)
+
+        val editRoomInfoButton = detailsView.findViewById(R.id.edit_hotel_room_info)
+        editRoomInfoButton.performClick()
+
+        val shadowActivity = shadowOf(activity)
+        val nextStartedActivityForResult = shadowActivity.nextStartedActivityForResult
+        val intent = nextStartedActivityForResult.intent
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        val webViewTitle = intent.getStringExtra("ARG_TITLE")
+        val isWebViewSendingCookies = intent.getBooleanExtra("ARG_INJECT_EXPEDIA_COOKIES", false)
+        val tripNumberToRefresh = intent.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
+
+        assertEquals("com.expedia.bookings.activity.WebViewActivity", intent.component.className)
+        assertEquals(Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE, nextStartedActivityForResult.requestCode)
+        // note: WebViewActivity adds appvi param, hence contains() (not equals()) here
+        assertTrue(intentUrl.contains(getBookingChangeUrl()))
+        assertEquals("Edit Room Info", webViewTitle)
+        assertTrue(isWebViewSendingCookies)
+        assertEquals("1103274148635", tripNumberToRefresh)
+    }
+
+    @Test
     fun hotelSoftChangeButtonAvailable() {
         SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
-        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val itinCardDataHotel = ItinCardDataHotelBuilder().withBookingChangeUrl(getBookingChangeUrl()).build()
         itinCardDataHotel.tripComponent.parentTrip.setIsShared(false)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
         val container = FrameLayout(activity)
@@ -215,6 +250,13 @@ class HotelItinContentGeneratorTest {
                 happyItinCardDataHotel.getFormattedDetailsCheckOutDate(activity))
         val summaryText = getSummaryText(checkInTime, checkOutTime)
         Assert.assertEquals(summaryText, text)
+    }
+
+    private fun getBookingChangeUrl(): String {
+        return "https://www.expedia.com/trips/547796b5-7839-49d4-a10f-d860966a1396/" +
+                "ordernumber/8098107084358/" +
+                "orderlinenumber/32001010-8848-4389-956f-25b615826802" +
+                "/change?blockHardChange=true&mobileWebView=true"
     }
 
     private fun makeHotelItinGenerator(itinCardDataHotel: ItinCardDataHotel): HotelItinContentGenerator {
