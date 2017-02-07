@@ -5,21 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-
 import org.joda.time.LocalDate;
-
+import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
+import com.expedia.bookings.test.BuildConfig;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -32,6 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.airportDropDownEntryWithAirportCode;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -45,11 +44,18 @@ public class SearchScreenSteps {
 
 	@When("^I enter source and destination for flights$")
 	public void enterSourceAndDestination(Map<String, String> parameters) throws Throwable {
-		SearchScreen.origin().perform(click());
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
-		SearchScreen.selectLocation(parameters.get("source_suggest"));
-		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
-		SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		if (BuildConfig.FLAVOR.equalsIgnoreCase("airasiago")) {
+			selectSourceFromDropDown("DMK");
+			selectDestinationFromDropdown("HKG");
+
+		}
+		else {
+			SearchScreen.origin().perform(click());
+			SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
+			SearchScreen.selectLocation(parameters.get("source_suggest"));
+			SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
+			SearchScreen.selectLocation(parameters.get("destination_suggest"));
+		}
 	}
 
 	@When("^I type \"(.*?)\" in the flights search box$")
@@ -61,6 +67,21 @@ public class SearchScreenSteps {
 	@When("^I type \"(.*?)\" in the flights destination search box$")
 	public void typeInDestinationSearchBox(String query) throws Throwable {
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+	}
+
+	@When("^I select source location from the dropdown as \"(.*?)\"$")
+	public void selectSourceFromDropDown(String location) throws Throwable {
+		SearchScreen.origin().perform(click());
+		onData(airportDropDownEntryWithAirportCode(location))
+			.inRoot(RootMatchers.isPlatformPopup()).perform(click());
+	}
+
+	@And("^I select destination from the dropdown as \"(.*?)\"$")
+	public void selectDestinationFromDropdown(String location) throws Throwable {
+		Common.delay(1);
+		SearchScreen.destination().perform(click());
+		onData(airportDropDownEntryWithAirportCode(location))
+			.inRoot(RootMatchers.isPlatformPopup()).perform(click());
 	}
 
 	@When("^I add \"(.*?)\" to the query in flights search box$")
@@ -149,41 +170,6 @@ public class SearchScreenSteps {
 	@Then("^I can trigger flights search$")
 	public void searchClick() throws Throwable {
 		SearchScreen.searchButton().perform(click());
-	}
-
-	@Then("^flights suggest typeAhead is not fired$")
-	public void verifySuggestionListEmpty() throws Throwable {
-		SearchScreen.suggestionList().check(matches(not(hasDescendant(withId(R.id.suggestion_text_container)))));
-	}
-
-	@Then("^flights suggest typeAhead is fired for \"(.*?)\"$")
-	public void verifySuggestionsForGivenQuery(String query) throws Throwable {
-		SearchScreen.searchEditText().check(matches(withText(query)));
-		if (query.equals("lon")) {
-			SearchScreen.suggestionList()
-				.check(matches(hasDescendant(withText("London, England, UK (LON - All Airports)"))));
-		}
-		else if (query.equals("lond")) {
-			SearchScreen.suggestionList()
-				.check(matches(hasDescendant(withText("San Francisco, CA (SFO-San Francisco Intl.)"))));
-		}
-	}
-
-	@Then("^flights suggest typeAhead is fired$")
-	public void checkTypeAheadFired() throws Throwable {
-		SearchScreen.waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
-		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.suggestion_text_container))));
-	}
-
-	@Then("^\"(.*?)\" is listed at the top of suggestion list as recent search$")
-	public void checkRecentSearchesSuggestionResults(String result) throws Throwable {
-		SearchScreen.suggestionList()
-			.check(matches(hasDescendant(withText(result))));
-	}
-
-	@And("^the results are listed in hierarchy$")
-	public void verifyHierarchicalSuggestion() throws Throwable {
-		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.hierarchy_imageview))));
 	}
 
 	@Then("^departure field exists for flights search form$")
@@ -299,12 +285,6 @@ public class SearchScreenSteps {
 			withText(containsString("Traveler")))).check(matches(withText(containsString(year))));
 	}
 
-	@Then("^I select first flight$")
-	public void selectFirstFlight() throws Throwable {
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
-		FlightsScreen.selectOutboundFlight().perform(click());
-	}
-
 	@And("^on outbound FSR the number of traveller are as user selected$")
 	public void verifyTravelersForOutbound() throws Throwable {
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
@@ -375,71 +355,6 @@ public class SearchScreenSteps {
 	@And("^corresponding age picker is removed$")
 	public void checkAgeRepresnterVisibility() throws Throwable {
 		onView(withId(R.id.child_spinner_4)).check(matches(not(isDisplayed())));
-	}
-
-	@And("^Validate that flight time field is displayed: (true|false)$")
-	public void checkVisibilityFlightDuration(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.flight_time_detail_text_view, isDisplayed);
-	}
-
-	@And("^Validate that price field is displayed: (true|false)$")
-	public void checkVisibilityOfPrice(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.price_text_view, isDisplayed);
-	}
-
-	@And("^Validate that airline name field is displayed: (true|false)$")
-	public void checkVisibilityOfAirlineName(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.airline_text_view, isDisplayed);
-	}
-
-	@And("^Validate that flight duration field is displayed: (true|false)$")
-	public void checkVisibilityOfFlightDuration(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.flight_duration_text_view, isDisplayed);
-	}
-
-	@And("^Validate that round trip header is displayed: (true|false)$")
-	public void checkVisibilityOfRoundTripHeader(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.trip_type_text_view, isDisplayed);
-	}
-
-	private void validateFlightSRPListViewCellItemVisibility(int resId, boolean isDisplayed) {
-		onView(withId(R.id.list_view)).check(RecyclerViewAssertions.assertionOnItemAtPosition(2, hasDescendant(
-			allOf(withId(resId), (isDisplayed ? isDisplayed() : not(isDisplayed()))))));
-	}
-
-	private void checkString(int resID, String text) {
-		onView(withId(R.id.list_view)).check(RecyclerViewAssertions.assertionOnItemAtPosition(2, hasDescendant(
-			allOf(withId(resID), withText(containsString(text))))));
-	}
-
-	@And("^Name of airline is \"(.*?)\"$")
-	public void checkAirlineName(String airline) throws Throwable {
-		checkString(R.id.airline_text_view, airline);
-	}
-
-	@And("^Price of the flight is (\\d+)$")
-	public void checkPriceOfFlight(int price) throws Throwable {
-		checkString(R.id.price_text_view, String.valueOf(price));
-	}
-
-	@And("^Duration of the flight is \"(.*?)\"$")
-	public void checkDuraionOfFlight(String duration) throws Throwable {
-		checkString(R.id.flight_duration_text_view, duration);
-	}
-
-	@And("^Timing of the flight is \"(.*?)\"$")
-	public void checkTimingOfTheFlight(String timing) throws Throwable {
-		checkString(R.id.flight_time_detail_text_view, timing);
-	}
-
-	@And("^Number of stops are (\\d+)$")
-	public void numberOfStops(int stops) throws Throwable {
-		if (stops > 0) {
-			checkString(R.id.flight_duration_text_view, (String.valueOf(stops) + " Stop"));
-		}
-		else {
-			checkString(R.id.flight_duration_text_view, "Nonstop");
-		}
 	}
 
 	@Then("^Validate that Previous month arrow is displayed: (true|false)$")
@@ -540,7 +455,7 @@ public class SearchScreenSteps {
 	}
 
 	@Then("^I click on Previous month button$")
-	public void clickPreviosMonthButton() throws Throwable {
+	public void clickPreviousMonthButton() throws Throwable {
 		SearchScreen.previousMonthButton().perform(click());
 
 	}
@@ -550,10 +465,5 @@ public class SearchScreenSteps {
 		Format dateFormatter = new SimpleDateFormat("MMMM yyyy", Locale.US);
 		String nextMonthYearStr = dateFormatter.format(LocalDate.now().plusMonths(1).toDate()).toString();
 		validateMonthYearOfCalender(nextMonthYearStr);
-	}
-
-	@And("^the currency symbol on FSR is \"(.*?)\"$")
-	public void checkCurrencyOnFSR(String currencySymbol) throws Throwable {
-		checkString(R.id.price_text_view, currencySymbol);
 	}
 }

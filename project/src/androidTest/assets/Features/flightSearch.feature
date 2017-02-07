@@ -1,7 +1,7 @@
-Feature: Flights testing
+Feature: Flights Search
 
-  @Flights @SearchScreen
-  Scenario: Verifying if round trip fields work
+  @Flights @SearchScreen @Prod
+  Scenario: Verifying if round trip International search works
 
     Given I launch the App
     And I launch "Flights" LOB
@@ -17,8 +17,8 @@ Feature: Flights testing
     Then I can trigger flights search
 
 
-  @Flights @SearchScreen
-  Scenario: Verifying if one way trip fields work
+  @Flights @SearchScreen @Prod
+  Scenario: Verifying if one way International search works
 
     Given I launch the App
     And I launch "Flights" LOB
@@ -33,9 +33,36 @@ Feature: Flights testing
     And I change travellers count and press done
     Then I can trigger flights search
 
+  @Flights @SearchScreen @Prod @EBOnly
+  Scenario: Verifying if round trip International search works for Indonesia
+
+    Given I launch the App
+    And I set the POS to "Indonesia"
+    And I launch "Flights" LOB
+    When I select source location from the dropdown as "BKK"
+    And I select destination from the dropdown as "HKG"
+    And I pick dates for flights
+      | start_date | 5  |
+      | end_date   | 10 |
+    And I change travellers count and press done
+    Then I can trigger flights search
+
+  @Flights @SearchScreen @Prod @EBonly
+  Scenario: Verifying if one-way trip International search works for Indonesia
+
+    Given I launch the App
+    And I set the POS to "Indonesia"
+    And I launch "Flights" LOB
+    When I select source location from the dropdown as "BKK"
+    And I select destination from the dropdown as "HKG"
+    And I pick departure date for flights
+      | start_date | 5  |
+    And I change travellers count and press done
+    Then I can trigger flights search
+
 
   @Flights @SearchScreen
-  Scenario: Verifying if round trip fields exist and are visible
+  Scenario: Verifying UI fields visibility on round trip search form
     Given I launch the App
     When I launch "Flights" LOB
     Then departure field exists for flights search form
@@ -43,7 +70,7 @@ Feature: Flights testing
     And calendar field exists for flights search form
 
   @Flights @SearchScreen
-  Scenario: Verifying if one way trip fields exist and are visible
+  Scenario: Verifying UI fields visibility on one way trip search form
     Given I launch the App
     And I launch "Flights" LOB
     When I select one way trip
@@ -89,10 +116,10 @@ Feature: Flights testing
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
     And on inbound FSR the number of traveller are as user selected
-
+    
 
   @Flights @SearchScreen
-  Scenario Outline: Validating travellers form adults
+  Scenario Outline: UI fields validation on travellers form adults
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
@@ -118,7 +145,7 @@ Feature: Flights testing
 
 
   @Flights @SearchScreen
-  Scenario Outline: Validating travellers form children
+  Scenario Outline: UI fields validation on travellers form children
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
@@ -147,44 +174,13 @@ Feature: Flights testing
 
 
   @Flights @SearchScreen
-  Scenario Outline: Verifying UI elements and data on each flight cell of FSR
-    Given I launch the App
-    And I bucket the following tests
-      | RoundTripOnFlightsFSR |
-      | UrgencyMessegingOnFSR |
-    And I launch "Flights" LOB
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
-    Then Validate that flight time field is displayed: true
-    And Validate that price field is displayed: true
-    And Validate that airline name field is displayed: true
-    And Validate that flight duration field is displayed: true
-    And Validate that round trip header is displayed: true
-    And Name of airline is "<AirlineName>"
-    And Price of the flight is <price>
-    And Duration of the flight is "<duration>"
-    And Timing of the flight is "<timing>"
-    And Number of stops are <number>
-
-    Examples:
-      | AirlineName    | price | duration | timing             | number |
-      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      |
-
-  @Flights @SearchScreen
   Scenario: Calender validation - Calender widget is displayed after selecting Flight locations
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
       | source                | SFO                                       |
       | destination           | DEL                                       |
-      | source_suggest        | San Francisco, CA                     |
+      | source_suggest        | San Francisco, CA                         |
       | destination_suggest   | Delhi, India (DEL - Indira Gandhi Intl.)  |
     Then Validate that Calender widget is displayed: true
     And Validate that Current Month calender is displayed
@@ -267,27 +263,3 @@ Feature: Flights testing
     Then Validate that Current Month calender is displayed
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
-
-
-  @Flights @SearchScreen @WIP
-  Scenario Outline: POS and locale combination
-    Given I launch the App
-    And I change the POS to "<POS>"
-    And I change the locale to "<LOCALE>"
-    And I launch "Flights" LOB
-    And I select one way trip
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 10                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
-    Then the currency symbol on FSR is "<symbol>"
-
-    Examples:
-    | POS | LOCALE | symbol |
-    | US  |   AU   |  US$   |
-    | US  |   US   |   $    |
