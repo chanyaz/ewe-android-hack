@@ -63,6 +63,7 @@
             android:gravity="center"
             android:text="@string/find_itinerary"
             android:textColor="@color/btn_find_color"
+            android:background="@color/exp_launch_blue"
             android:textSize="14sp"
             app:textStyle="medium" />
 
