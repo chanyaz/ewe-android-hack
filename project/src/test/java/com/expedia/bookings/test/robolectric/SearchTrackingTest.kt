@@ -13,7 +13,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
 class SearchTrackingTest {
@@ -64,7 +63,7 @@ class SearchTrackingTest {
         sut.searchParams(setupFlightSearchParams(false))
         sut.searchResponse(emptyList())
         sut.markResultsUsable()
-        assertNotNull(sut.build().performanceData.timeToLoadUsable)
+        assertNotNull(sut.build().performanceData.getPageLoadTime())
     }
 
     private fun compareSearchParamsAndTrackingData(dummySearchParams: FlightSearchParams, isRoundTrip: Boolean) {

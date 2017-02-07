@@ -21,22 +21,21 @@ import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
-import com.expedia.util.getGuestRatingText
 import com.expedia.util.getGuestRatingBackground
+import com.expedia.util.getGuestRatingText
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
@@ -54,15 +53,13 @@ import kotlin.properties.Delegates
 abstract class BaseHotelDetailViewModel(val context: Context) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
-    val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
-
     abstract fun getLobPriceObservable(rate: HotelRate)
     abstract fun showHotelFavorite(): Boolean
-    abstract fun pricePerDescriptor() : String
-    abstract fun getFeeTypeText() : Int
-    abstract fun getResortFeeText() : Int
-    abstract fun showFeesIncludedNotIncluded() : Boolean
-    abstract fun showFeeType() : Boolean
+    abstract fun pricePerDescriptor(): String
+    abstract fun getFeeTypeText(): Int
+    abstract fun getResortFeeText(): Int
+    abstract fun showFeesIncludedNotIncluded(): Boolean
+    abstract fun showFeeType(): Boolean
     abstract fun getLOB(): LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
     abstract fun trackHotelResortFeeInfoClick()
@@ -71,22 +68,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     abstract fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean)
     abstract fun trackHotelViewBookClick()
     abstract fun trackHotelDetailMapViewClick()
-    abstract fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean)
+    abstract fun trackHotelDetailLoad(isRoomSoldOut: Boolean)
 
-    override fun onGalleryItemClicked(item: Any) {
-        galleryClickedSubject.onNext(Unit)
-    }
-
-    override fun onGalleryItemScrolled(position: Int) {
-        val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
-        if (havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
-            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
-        else
-            galleryItemChangeObservable.onNext(Pair(position, ""))
-    }
-
-    private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
-    private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
+    val roomSelectedSubject = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
     val hotelPriceContentDesc = PublishSubject.create<String>()
@@ -97,7 +81,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
-    var sectionBody: String by Delegates.notNull()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
@@ -169,11 +152,15 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
-    var isCurrentLocationSearch = false
     val scrollToRoom = PublishSubject.create<Unit>()
     val changeDates = PublishSubject.create<Unit>()
+    val hotelSelectedObservable = PublishSubject.create<Unit>()
+    private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
+    private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
 
+    var isCurrentLocationSearch = false
     var selectedRoomIndex = -1
+    var loadTimeData = PageUsableData()
 
     private var roomSubscriptions: CompositeSubscription? = null
 
@@ -300,9 +287,22 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             }
         }
 
+        hotelSelectedObservable.subscribe { loadTimeData.markPageLoadStarted(System.currentTimeMillis()) }
     }
 
-    private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>) : Boolean {
+    override fun onGalleryItemClicked(item: Any) {
+        galleryClickedSubject.onNext(Unit)
+    }
+
+    override fun onGalleryItemScrolled(position: Int) {
+        val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
+        if (havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
+            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
+        else
+            galleryItemChangeObservable.onNext(Pair(position, ""))
+    }
+
+    private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>): Boolean {
         var soldOutCount = 0
         for (vm in viewModels) {
             if (vm.roomSoldOut.value) soldOutCount++
@@ -311,7 +311,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     }
 
     fun addViewsAfterTransition() {
-
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
             roomResponseListObservable.onNext(Pair(hotelOffersResponse.hotelRoomResponse, uniqueValueAddForRooms))
@@ -320,7 +319,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         var listHotelInfo = ArrayList<HotelOffersResponse.HotelText>()
 
         //Set up entire text for hotel info
-        if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1 ) {
+        if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1) {
             for (index in 1..hotelOffersResponse.hotelOverviewText.size - 1) {
                 listHotelInfo.add(hotelOffersResponse.hotelOverviewText[index])
             }
@@ -393,7 +392,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             hotelResortFeeObservable.onNext(null)
             hotelResortFeeIncludedTextObservable.onNext(null)
         }
-        trackHotelDetailLoad(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
 
         if (getLOB() == LineOfBusiness.HOTELS) {
             showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
@@ -401,6 +399,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         } else {
             showBookByPhoneObservable.onNext(false)
         }
+
+        loadTimeData.markAllViewsLoaded(System.currentTimeMillis())
+        trackHotelDetailLoad(false)
     }
 
     fun hasEtpOffer(response: HotelOffersResponse): Boolean {
@@ -513,15 +514,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         hasETPObservable.onNext(hasETPOffer)
 
         if (offerResponse.firstHotelOverview != null) {
-            sectionBody = HtmlCompat.stripHtml(offerResponse.firstHotelOverview)
+            val sectionBody = HtmlCompat.stripHtml(offerResponse.firstHotelOverview)
             sectionBodyObservable.onNext(sectionBody)
         }
 
         hotelLatLngObservable.onNext(doubleArrayOf(offerResponse.latitude, offerResponse.longitude))
-
     }
 
-    private fun getGalleryUrls() : ArrayList<HotelMedia> {
+    private fun getGalleryUrls(): ArrayList<HotelMedia> {
         val galleryUrls = ArrayList<HotelMedia>()
 
         val images = Images.getHotelImages(hotelOffersResponse, R.drawable.room_fallback)
@@ -613,9 +613,9 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
                     .put("price", priceToShowCustomerObservable.value)
                     .format()
                     .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
-                        .put("percentage", discountPercentageObservable.value.first)
-                        .format()
-                        .toString()
+                    .put("percentage", discountPercentageObservable.value.first)
+                    .format()
+                    .toString()
         } else {
             priceToShowCustomerObservable.value + context.getString(R.string.per_night)
         }

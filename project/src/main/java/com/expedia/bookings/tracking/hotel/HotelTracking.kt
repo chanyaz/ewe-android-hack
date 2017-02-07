@@ -4,7 +4,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.FacebookEvents
@@ -33,7 +32,7 @@ open class HotelTracking {
         }
 
         fun trackHotelStoredCardSelect() {
-           OmnitureTracking.trackHotelV2StoredCardSelect()
+            OmnitureTracking.trackHotelV2StoredCardSelect()
         }
 
         fun trackPriceChange(priceChange: String) {
@@ -101,7 +100,7 @@ open class HotelTracking {
             OmnitureTracking.trackPayWithPointsError(error.errorMessage)
         }
 
-        fun trackSwPToggle(swpToggleState: Boolean){
+        fun trackSwPToggle(swpToggleState: Boolean) {
             OmnitureTracking.trackSwPToggle(swpToggleState)
         }
 
@@ -117,8 +116,11 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2RenovationInfo()
         }
 
-        fun trackPageLoadHotelInfosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean, isHotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
-            OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut)
+        fun trackPageLoadHotelInfosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams,
+                                       isETPEligible: Boolean, isCurrentLocationSearch: Boolean,
+                                       isHotelSoldOut: Boolean, isRoomSoldOut: Boolean,
+                                       pageLoadTime: PageUsableData) {
+            OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut, pageLoadTime)
             TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
             FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
         }
@@ -136,7 +138,7 @@ open class HotelTracking {
         }
 
         fun trackHotelFilterFavoriteClicked(checked: Boolean) {
-            val state = if(checked) "On" else "Off"
+            val state = if (checked) "On" else "Off"
             OmnitureTracking.trackLinkHotelV2FilterFavorite(state)
         }
 
@@ -224,7 +226,7 @@ open class HotelTracking {
         }
 
         fun trackHotelReviewsCategories(tabSelected: Int) {
-            val category = ( when (tabSelected) {
+            val category = (when (tabSelected) {
                 0 -> "Recent"
                 1 -> "Favorable"
                 2 -> "Critical"

@@ -7,7 +7,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.PackagesTracking
@@ -16,7 +15,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
-import rx.Observer
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 
@@ -35,7 +33,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
                     .format()
                     .toString())
             val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                    .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                    .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
                     .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
                     .format().toString()
             searchDatesObservable.onNext(dates)
@@ -66,7 +64,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         priceToShowCustomerObservable.onNext(rate.packagePricePerPerson.getFormattedMoney(Money.F_NO_DECIMAL))
     }
 
-    override fun showFeeType() : Boolean {
+    override fun showFeeType(): Boolean {
         return true
     }
 
@@ -74,15 +72,15 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         return false
     }
 
-    override fun getFeeTypeText() : Int {
+    override fun getFeeTypeText(): Int {
         return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_STATES) R.string.rate_per_night else R.string.total_fee
     }
 
-    override fun showFeesIncludedNotIncluded() : Boolean {
+    override fun showFeesIncludedNotIncluded(): Boolean {
         return false
     }
 
-    override fun getResortFeeText() : Int {
+    override fun getResortFeeText(): Int {
         return R.string.additional_fees_at_check_in
     }
 
@@ -118,7 +116,7 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         PackagesTracking().trackHotelViewBookClick()
     }
 
-    override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
+    override fun trackHotelDetailLoad(isRoomSoldOut: Boolean) {
         PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId)
     }
 }
