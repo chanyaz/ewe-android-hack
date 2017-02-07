@@ -35,7 +35,7 @@ if len(issues) > 0:
         htmlFile.write('<span class="tag">&lt;string name="</span>')
         htmlFile.write('<span class="key">{}</span>'.format(key[0]))
         htmlFile.write('<span class="tag">"></span>')
-        htmlFile.write('<span class="value">{}</span>'.format(stringValue[0]))
+        htmlFile.write('<span class="value">{}</span>'.format(stringValue[0].encode('utf-8')))
         htmlFile.write('<span class="tag">&lt;/string></span><br/>')
 else:
     htmlFile.write('<h1>All strings translated!</h1>')
