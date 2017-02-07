@@ -46,11 +46,8 @@ import static org.hamcrest.core.Is.is;
 public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
 
 	@Test
-	public void testMainTravelerMinAgeMessagingShows() {
-		boolean mainTravelerMinAge = true;
-		TravelersViewModel mockViewModel = getMockviewModel(mainTravelerMinAge);
-		testTravelersPresenter.setViewModel(mockViewModel);
-
+	public void testMainTravelerMinAgeMessagingShows() throws Throwable {
+		setViewModelForMiAge(true);
 		TextView mainTravelerMinAgeTextView =
 			testTravelersPresenter.getTravelerPickerWidget().getMainTravelerMinAgeTextView();
 		assertEquals(View.VISIBLE, mainTravelerMinAgeTextView.getVisibility());
@@ -80,11 +77,8 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testMainTravelerMinAgeMessagingHidden() {
-		boolean mainTravelerMinAge = false;
-		TravelersViewModel mockViewModel = getMockviewModel(mainTravelerMinAge);
-		testTravelersPresenter.setViewModel(mockViewModel);
-
+	public void testMainTravelerMinAgeMessagingHidden() throws Throwable {
+		setViewModelForMiAge(false);
 		TextView mainTravelerMinAgeTextView =
 			testTravelersPresenter.getTravelerPickerWidget().getMainTravelerMinAgeTextView();
 		assertEquals(View.GONE, mainTravelerMinAgeTextView.getVisibility());
@@ -381,5 +375,15 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, "");
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, "");
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, "");
+	}
+
+	private void setViewModelForMiAge(final boolean mainTravelerMinAge) throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				TravelersViewModel mockViewModel = getMockviewModel(mainTravelerMinAge);
+				testTravelersPresenter.setViewModel(mockViewModel);
+			}
+		});
 	}
 }
