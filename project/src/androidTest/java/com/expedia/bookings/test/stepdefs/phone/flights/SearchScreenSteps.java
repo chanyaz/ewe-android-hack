@@ -1,20 +1,19 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
+
+import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-
-import android.support.test.espresso.matcher.ViewMatchers;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -539,6 +538,7 @@ public class SearchScreenSteps {
 		SearchScreen.nextMonthButton().perform(click());
 
 	}
+
 	@Then("^I click on Previous month button$")
 	public void clickPreviosMonthButton() throws Throwable {
 		SearchScreen.previousMonthButton().perform(click());
@@ -550,5 +550,10 @@ public class SearchScreenSteps {
 		Format dateFormatter = new SimpleDateFormat("MMMM yyyy", Locale.US);
 		String nextMonthYearStr = dateFormatter.format(LocalDate.now().plusMonths(1).toDate()).toString();
 		validateMonthYearOfCalender(nextMonthYearStr);
+	}
+
+	@And("^the currency symbol on FSR is \"(.*?)\"$")
+	public void checkCurrencyOnFSR(String currencySymbol) throws Throwable {
+		checkString(R.id.price_text_view, currencySymbol);
 	}
 }
