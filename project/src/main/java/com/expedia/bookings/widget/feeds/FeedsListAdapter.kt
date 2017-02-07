@@ -7,15 +7,12 @@ import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.Shape
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateInterpolator
-import android.view.animation.BounceInterpolator
 import android.widget.LinearLayout
 import butterknife.ButterKnife
 import com.expedia.bookings.R
@@ -30,6 +27,8 @@ import com.expedia.bookings.widget.CollectionViewHolder
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
+import com.expedia.vm.GenericViewModel
+import com.expedia.vm.SignInPlaceHolderViewModel
 
 class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -57,8 +56,8 @@ class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.
 
     fun showFeeds() {
         val mockFeedsList =
-                listOf(FeedsListAdapter.IntroducingScratchpadViewModel("Introducing Scratchpad", "Save your searches for faster booking string TBD", "", "OK, I GOT IT"),
-                        FeedsListAdapter.PopularHotelsTonightViewModel("Popular Hotels Tonight", "Hotels nearby from $199", "SHOP NOW", ""),
+                listOf(IntroducingScratchpadViewModel("Introducing Scratchpad", "Save your searches for faster booking string TBD", "", "OK, I GOT IT"),
+                        PopularHotelsTonightViewModel("Popular Hotels Tonight", "Hotels nearby from $199", "SHOP NOW", ""),
                         FeedsListAdapter.HeadingViewModel("Flights"),
                         FeedsListAdapter.FlightSearchViewModel("SFO", "AUS", true, "2", "Mar 22 - Mar 23", "$42", "2m"),
                         FeedsListAdapter.FlightSearchViewModel("SFO", "AUS", true, "2", "Mar 22 - Mar 23", "$42", "2m"),
@@ -334,14 +333,7 @@ class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.
     }
 
     data class HeadingViewModel(val title: String)
-    interface GenericViewModel {
-        val firstLine: String
-        val secondLine: String
-        val buttonOneLabel: String
-        val buttonTwoLabel: String
-    }
     data class GenericPlaceholderViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
     data class PopularHotelsTonightViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
-    data class SignInPlaceHolderViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
     data class IntroducingScratchpadViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
 }

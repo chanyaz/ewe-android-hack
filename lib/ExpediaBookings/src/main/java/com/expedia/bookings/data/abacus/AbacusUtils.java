@@ -20,7 +20,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
 	public static final int EBAndroidAppFlightsNumberOfTicketsUrgencyTest = 9897;
 	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
-	public static final int EBAndroidAppShowSignInOnLaunch = 8687;
+	public static final int EBAndroidAppShowSignInFormOnLaunch = 8687;
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
@@ -50,6 +50,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelHideNoReviewRating = 13079;
 	public static final int EBAndroidAppHotelMemberPricingBadge = 13098;
 	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
+	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -80,7 +81,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
 		testIDs.add(EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
-		testIDs.add(EBAndroidAppShowSignInOnLaunch);
+		testIDs.add(EBAndroidAppShowSignInFormOnLaunch);
 		testIDs.add(EBAndroidAppLXRTROnSearchAndDetails);
 		testIDs.add(EBAndroidAppFeedsOnLaunch);
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
@@ -108,6 +109,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightPremiumClass);
 		testIDs.add(EBAndroidAppTripsNewSignInPage);
 		testIDs.add(EBAndroidAppHotelHideNoReviewRating);
+		testIDs.add(EBAndroidAppShowSignInCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelMemberPricingBadge);
 		return testIDs;
 	}

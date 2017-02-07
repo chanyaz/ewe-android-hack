@@ -33,7 +33,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	boolean loadSignInViewAbTest = false;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,17 +65,16 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		boolean userNotLoggedIn = !User.isLoggedIn(RouterActivity.this);
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(),
-			0);
-
-		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled() && loadSignInViewAbTest) {
-			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
-
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			if (loadSignInViewAbTest) {
+				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
+			}
+			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
 			.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
-
 	}
 
 	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new Observer<AbacusResponse>() {
@@ -100,7 +98,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		public void onNext(AbacusResponse abacusResponse) {
 			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch) && loadSignInViewAbTest) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch)
+				&& loadSignInViewAbTest) {
 				NavUtils.goToSignIn(RouterActivity.this);
 			}
 			else {

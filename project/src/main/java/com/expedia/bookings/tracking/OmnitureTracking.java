@@ -2449,6 +2449,14 @@ public class OmnitureTracking {
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
 
 	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
+	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
+
+
+	public static void trackLaunchSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SIGN_IN);
+		addStandardFields(s);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
 
 	// When a bottom tile is clicked – collection selection
 	public static void trackTabletLaunchTileSelect(String tileUniqueId) {
@@ -3724,8 +3732,9 @@ public class OmnitureTracking {
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
@@ -5889,8 +5898,9 @@ public class OmnitureTracking {
 		str += "|L";
 		str += childrenInLap;
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
-						str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass,
+			R.string.preference_flight_premium_class)) {
+			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
 		return str;
 	}

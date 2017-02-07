@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.app.Activity
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
@@ -15,7 +16,11 @@ import org.robolectric.Shadows.shadowOf
 class UserLoginTestUtil {
     companion object {
         fun setupUserAndMockLogin(user: User) {
-            val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+            setupUserAndMockLogin(user, getContext())
+        }
+
+        fun setupUserAndMockLogin(user: User, activity: Activity) {
+
             user.save(activity)
             Db.setUser(user)
 
@@ -36,6 +41,10 @@ class UserLoginTestUtil {
         }
         fun mockUser(): User {
             return this.mockUser(LoyaltyMembershipTier.TOP)
+        }
+
+        private fun getContext(): Activity {
+            return Robolectric.buildActivity(Activity::class.java).create().get()
         }
     }
 }
