@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
@@ -32,6 +33,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         getParamsBuilder().infantSeatingInLap(isInfantInLap)
+    }
+
+    val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
+        getParamsBuilder().flightCabinClass(cabinCode.name)
     }
 
     init {

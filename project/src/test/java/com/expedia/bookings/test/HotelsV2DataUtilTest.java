@@ -263,7 +263,7 @@ public class HotelsV2DataUtilTest {
 		LocalDate checkIn = new LocalDate().plusDays(2);
 		LocalDate checkOut = new LocalDate().plusDays(3);
 
-		return new FlightSearchParams(departureSuggestion, arrivalSuggestion, checkOut, checkIn, 2, childList, false);
+		return new FlightSearchParams(departureSuggestion, arrivalSuggestion, checkOut, checkIn, 2, childList, false, null);
 	}
 
 	private FlightLeg setupFlightLeg(String rawDate) {

@@ -14,6 +14,7 @@ class FlightSearchTrackingData: AbstractSearchTrackingData() {
     var children: List<Int> = emptyList()
     var guests: Int = children.size + adults
     var infantSeatingInLap: Boolean = false
+    var flightCabinClass: String? = null
 
     var resultsReturned = false
     var flightLegList: List<FlightLeg> = emptyList()

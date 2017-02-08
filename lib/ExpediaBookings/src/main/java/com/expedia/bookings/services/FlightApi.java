@@ -18,7 +18,7 @@ public interface FlightApi {
 	@FormUrlEncoded
 	@POST("/api/flight/search?maxOfferCount=1600&lccAndMerchantFareCheckoutAllowed=true")
 	Observable<FlightSearchResponse> flightSearch(
-			@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges);
+			@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges, @Query("cabinClassPreference") String cabinClass);
 
 	@FormUrlEncoded
 	@POST("/api/flight/trip/create?withInsurance=true")

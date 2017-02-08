@@ -861,6 +861,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.itin_sign_in_widget,
 		R.layout.itin_pos_header,
 		R.string.accessibility_cont_desc_pos_TEMPLATE,
-		R.layout.itin_pos_header_spinner
+		R.layout.itin_pos_header_spinner,
+		R.string.select_preferred_flight_class_cont_desc_TEMPLATE,
+		R.layout.widget_flight_cabin_class_search
 	};
 }

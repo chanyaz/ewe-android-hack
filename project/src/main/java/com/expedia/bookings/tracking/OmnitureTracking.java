@@ -1469,6 +1469,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String FLIGHT_SEARCH = "App.Flight.Search";
+	private static final String FLIGHT_SEATING_CLASS_SELECT = "App.Flight.DS.SeatingClass.";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -5769,8 +5770,12 @@ public class OmnitureTracking {
 		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_CHECKOUT_PRICE_CHANGE, "FLT|", "Flight Checkout");
 	}
 
-	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId,
-		String lobForProp9, String linkName) {
+	public static void trackFlightCabinClassSelect(String cabinClass) {
+		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_SEATING_CLASS_SELECT + cabinClass);
+		s.trackLink(null, "o", "Search Results Update", null, null);
+	}
+
+	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId, String lobForProp9, String linkName) {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		s.setEvents("event62");
 		s.setProp(9, lobForProp9 + priceChangePercentage);
