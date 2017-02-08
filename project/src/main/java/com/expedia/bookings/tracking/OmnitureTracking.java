@@ -71,6 +71,7 @@ import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
+import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
@@ -5701,7 +5702,12 @@ public class OmnitureTracking {
 
 		setDateValues(s, departureDate, returnDate);
 
-		s.setEvar(47, getFlightV2Evar47String(searchTrackingData));
+		String eVar47String = getFlightV2Evar47String(searchTrackingData);
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
+			eVar47String += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
+		}
+
+		s.setEvar(47, eVar47String);
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event54");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
