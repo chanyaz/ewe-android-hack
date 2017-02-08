@@ -917,16 +917,10 @@
     <string name="infants_in_laps">Trong lòng</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">Chỗ riêng</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">Trẻ sơ sinh dưới 2 tuổi</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Không đủ số người lớn (12 tuổi trở lên) để trẻ sơ sinh ngồi trong lòng. Trẻ sẽ cần chỗ ngồi riêng.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Chúng tôi chỉ có thể đặt chỗ trước cho tối đa 2 trẻ sơ sinh với mỗi khách trên 12 tuổi</string>
-    <!-- Description for infant travelers sitting in laps -->
-    <string name="in_laps">Ngồi trong lòng</string>
-    <!-- Description for infant travelers sitting in seats -->
-    <string name="in_seats">Chỗ ngồi riêng</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Chọn chỗ cho trẻ sơ sinh dưới 2 tuổi</string>
     <!-- Description for infant seating preference message -->
@@ -1833,10 +1827,6 @@
     <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
-    <!-- Label for Flight Search in task manager -->
-    <string name="Flights_TEMPLATE">Chuyến\nbay {brand}</string>
-    <!-- Label for flight search part of app -->
-    <string name="search_flights">Tìm chuyến bay</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Sân bay khởi hành</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -1845,26 +1835,8 @@
     <string name="loading_flights">Đang tải chuyến bay…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">Tìm chuyến bay từ 400+ hãng hàng không</string>
-    <!-- Label for screen that is doing searches -->
-    <string name="searching">Đang tìm…</string>
-    <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Không tìm thấy chuyến bay</string>
-    <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">Sân bay khởi hành không hợp lệ.</string>
-    <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">Sân bay đến không hợp lệ.</string>
-    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">Sân bay khởi hành và đến không hợp lệ.</string>
-    <!-- Error message when we find no flights because of invalid departure date -->
-    <string name="error_invalid_departure_date">Ngày khởi hành không hợp lệ.</string>
-    <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">Chi tiết</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Chọn</string>
-    <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Chuyến bay đi đến %s</string>
-    <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Chuyến bay về %s</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">Rất tiếc, chúng tôi không thể kết nối với máy chủ của {brand}. Vui lòng thử lại sau.</string>
     <!-- Sort by departure timelabel -->
@@ -1882,10 +1854,6 @@
         <item quantity="many">%s ngày</item>
         <item quantity="other">%s ngày</item>
     </plurals>
-    <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">Chọn chuyến bay đến %1$s</string>
-    <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">Chọn chuyến bay trở về %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Lỗi khi tải trang! Thông báo lỗi: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
@@ -1900,14 +1868,6 @@
     <string name="error_same_flight_departure_arrival">Sân bay khởi hành và đến phải khác nhau.</string>
 
     <!-- Flight search params fragment -->
-    <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">Chọn ngày khởi hành</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">%1$s (1 chiều)</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">%1$s đến %2$s</string>
-    <!-- Label for "sort" button -->
-    <string name="sort_flights">Sắp xếp chuyến bay</string>
     <!-- Edit search title -->
     <string name="edit_search">Thay đổi tìm kiếm</string>
     <!-- Action mode asking users to select dates -->
@@ -1933,24 +1893,8 @@
     <string name="recent">Gần đây</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Prompt for spinner dialog when selecting departure airport -->
-    <string name="prompt_departure_airport">Chọn sân bay khởi hành</string>
-    <!-- Prompt for spinner dialog when selecting arrival airport -->
-    <string name="prompt_arrival_airport">Chọn sân bay đến</string>
 
     <!-- Calendar instructions -->
-    <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Chạm để chọn &lt;b&gt;&lt;font color="#3b5998"&gt;ngày đi&lt;/font&gt;&lt;/b&gt;.</string>
-    <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Chạm một &lt;b&gt;&lt;font color="#3b5998"&gt;ngày về&lt;/font&gt;&lt;/b&gt;. (Tùy chọn)</string>
-    <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">Đã chọn ch.đi %1$d đêm.</string>
-    <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">Đã chọn ch.đi cùng ngày.</string>
-    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
-    <string name="calendar_tooltip_bottom_select_return_date">(Tùy chọn) Chọn ngày về</string>
-    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">Kéo ngày kết thúc để điều chỉnh</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
@@ -2028,8 +1972,6 @@
     <string name="flight_cabin_mixed_classes">Nhiều hạng</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
-    <!-- Button label for selecting flight -->
-    <string name="select_flight">Chọn chuyến bay</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">Khởi hành từ %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -2059,24 +2001,12 @@
     </plurals>
 
     <!-- Flight payment overview Activity -->
-    <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Thông tin thanh toán hiện tại</string>
-    <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Chọn phương thức thanh toán</string>
-    <!-- Select Payment -->
-    <string name="select_payment">Chọn phương thức thanh toán</string>
-    <!-- Select payment callout AB Test variate2 -->
-    <string name="select_payment_callout">Nhập chi tiết</string>
     <!-- Add new card -->
     <string name="add_new_card">Thêm thẻ mới</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Thẻ tín dụng/ghi nợ mới</string>
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">Thẻ tín dụng mới</string>
-    <!-- Overview button -->
-    <string name="overview_btn">Tổng quan</string>
-    <!-- Stored Payment label -->
-    <string name="stored_payment_label">Chọn phương thức thanh toán đã lưu</string>
     <!-- Payment Method -->
     <string name="payment_method">Chi tiết thanh toán</string>
     <!-- Billing Address -->
@@ -2101,8 +2031,6 @@
     <string name="debit_cards_not_accepted">Không chấp nhận thẻ ghi nợ.</string>
 
     <!-- Trip Overview Activity -->
-    <!-- Label for Overview activity in task manager -->
-    <string name="Overview">Tổng quan</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Tổng chuyến đi</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
@@ -2115,12 +2043,7 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Có thể áp dụng phí thanh toán và giao vé</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Bao gồm chuyến bay + khách sạn</string>
-    <!-- Includes taxes (but not necessarily fees) -->
-    <string name="includes_taxes">Gồm thuế</string>
-    <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: %2$s đến %3$s</string>
-    <!-- Number of traverlers template -->
-
+    <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d Khách</item>
         <item quantity="one">%1$d Khách</item>
@@ -2129,8 +2052,6 @@
         <item quantity="many">%1$d Khách</item>
         <item quantity="other">%1$d Khách</item>
     </plurals>
-    <!-- Checkout button text -->
-    <string name="checkout_btn">Thanh toán</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Đang kiểm tra thay đổi giá…</string>
     <!-- Price changed from -->
@@ -2153,8 +2074,6 @@
     <string name="hotel_card_not_supported_generic">Khách sạn không hỗ trợ thương hiệu thẻ tín dụng này.</string>
 
     <!-- Checkout Activity -->
-    <!-- Checkout Information label -->
-    <string name="checkout_information">Thông tin thanh toán</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">Quý vị có đồng ý mọi điều kiện được tóm tắt bên trên không?</string>
     <!-- I Accept button label -->
@@ -2224,8 +2143,6 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
     <!-- Pay later deposit amount -->
     <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
-    <!-- Flights AB Test Free Cancellation-->
-    <string name="ab_test_flights_free_cancellation">Hủy miễn phí trong vòng 24 giờ từ khi đặt</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Nhập thông tin khách</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2316,12 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Mã quốc gia</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">Sinh %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Sinh %1$s</string>
-    <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">%1$s hết hạn %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2353,8 +2266,6 @@
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
-    <!-- Single Line City State Zip -->
-    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
     <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
     <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
@@ -2462,8 +2373,6 @@
     <string name="country">Quốc gia</string>
     <!-- Passport country label -->
     <string name="passport_country">Quốc gia cấp hộ chiếu</string>
-    <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">Quốc gia cấp hộ chiếu / Gốc</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Số redress (nếu có)</string>
     <!-- traveler number hint -->
@@ -2491,35 +2400,20 @@
     <string name="none">Không</string>
 
     <!-- Traveler options activity -->
-    <!-- Select a traveler -->
-    <string name="select_a_traveler">Chọn khách</string>
-    <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Chọn khách khác</string>
-    <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Nhập thông tin khách mới</string>
     <!-- Edit current traveler details -->
     <string name="edit_guest_details">Chỉnh sửa thông tin khách</string>
-    <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">Nhập thông tin khách</string>
     <!-- Edit current traveler details from Error Screen -->
     <string name="edit_traveler_details">Chỉnh sửa thông tin khách</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Lỗi</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Chỗ ngồi ưa thích %1$s</string>
-    <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Chỗ ngồi ưa thích %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">Ưa thích: Chỗ ngồi %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Đang tải thông tin khách…</string>
-    <!-- Passport -->
-    <string name="passport">Hộ chiếu</string>
 
     <!-- Passport label -->
     <string name="passport_country_colon">Hộ chiếu:</string>
-
-    <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">Khách hiện tại - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2554,28 +2448,10 @@
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Hoàn tất đặt phòng</string>
-    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">Quý vị sẽ đi %s!</string>
-    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Lịch trình số %s đã được gửi tới</string>
-    <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">Tìm phòng</string>
-    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
-    <string name="add_to_your_trip">Thêm vào chuyến đi của quý vị</string>
-    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">Khách sạn tại %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
-    <string name="cars_in_TEMPLATE">Xe tại %s</string>
-    <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">Các thao tác khác</string>
-    <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Chia sẻ qua email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Thêm vào Lịch</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">Gọi bộ phận Hỗ trợ Khách hàng {brand}</string>
-    <!-- Add Insurance label -->
-    <string name="add_insurance">Bổ sung bảo hiểm</string>
     <!-- Insurance -->
     <string name="insurance">Bảo hiểm</string>
     <!-- Insurance label on itin section -->
@@ -2646,8 +2522,6 @@
     <string name="Airline_fee">Phí hãng hàng không</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Đã xóa bộ lọc</string>
-    <!-- split ticket rules header -->
-    <string name="split_ticket_important_flight_information_header">Thông tin quan trọng về chuyến bay</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">Chuyến bay của quý vị kết hợp từ hai vé một chiều, mỗi vé áp dụng điều khoản và giới hạn riêng.</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Chuyến bay của quý vị kết hợp từ hai vé một chiều, mỗi vé áp dụng điều khoản và giới hạn riêng.</string>
@@ -2657,8 +2531,6 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Chuyến bay &lt;a href=\"{departurelink}\"&gt;Khởi hành&lt;/a&gt; và &lt;a href=\"{returnlink}\"&gt;Trở về&lt;/a&gt; áp dụng phí hành lý riêng biệt</string>
     <!-- Flight dialog  errors -->
-    <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">Mã bảo mật không hợp lệ</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">Hủy</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -2735,8 +2607,6 @@
     <string name="card_ending_TEMPLATE">thẻ kết thúc bằng %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s có số cuối %2$s</string>
-    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
-    <string name="title_complete_booking">Hoàn tất việc đặt</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Chữ ký đã xác nhận</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
@@ -2786,8 +2656,6 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Kéo&lt;/b&gt; để kéo dài thời gian lưu trú của quý vị.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Hoàn tất</string>
-    <!-- Done button text in Confirmation screens -->
-    <string name="button_confirmation_done">Hoàn tất</string>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Chọn tuổi trẻ (%1$s - %2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -3971,36 +3839,14 @@
     <string name="display_favorable_reviews_cont_desc">Bấm để hiển thị nhận xét tích cực</string>
     <!-- Content description for action: Press to display critical reviews -->
     <string name="display_critical_reviews_cont_desc">Bấm để hiển thị nhận xét tiêu cực</string>
-    <!-- Flight Search -->
-    <!-- Content description for action: Press to clear selected dates -->
-    <string name="flights_clear_selected_dates_cont_desc">Bấm để xóa ngày đã chọn</string>
-    <!-- Content description for action: Press to edit number of travelers -->
-    <string name="flights_search_number_of_travelers_edit_cont_desc">Bấm để chỉnh sửa số khách</string>
     <!-- Flight Search Results - Flight Leg Selection -->
-    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="flight_leg_cancel_cont_desc">Xóa chuyến bay đã chọn và trở lại trang kết quả tìm kiếm chuyến bay</string>
-    <!-- Content description for action: Press to select this flight -->
-    <string name="flight_leg_select_flight_cont_desc">Bấm để chọn chuyến bay này</string>
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Bấm để đến trang thông tin phí hành lý</string>
-    <!-- Flight Search Results - Selection Overview -->
-    <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="flight_selection_cost_summary_cont_desc">Đến mục tóm tắt chi phí của chuyến bay đã chọn</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="checkout_cont_desc">Bấm để bắt đầu thanh toán</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Bấm để nhập mã coupon hoặc khuyến mãi</string>
-    <!-- Traveler Information screen -->
-    <!-- Content description for action: Press to enter a new traveler -->
-    <string name="traveler_enter_new_traveler_cont_desc">Bấm để thêm khách</string>
-    <!-- Content description for action: Press to edit traveler information -->
-    <string name="traveler_edit_traveler_information_cont_desc">Bấm để chỉnh sửa thông tin khách</string>
-    <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="traveler_edit_passport_country_cont_desc">Chỉnh sửa quốc gia cấp hộ chiếu của khách</string>
-    <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="traveler_information_done_cont_desc">Bấm để hoàn tất việc nhập thông tin khách</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="traveler_gender_edit_cont_desc">Bấm để chọn giới tính của khách</string>
@@ -4202,7 +4048,6 @@
     <string name="airline_fee_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy loại thẻ.</string>
     <string name="airline_charge_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy hình thức thanh toán.</string>
     <string name="airline_fee_notice_payment">Phí hãng hàng không tùy hình thức thanh toán</string>
-    <string name="airline_notice_fee_added">Sẽ thu bổ sung <u><b>phí hãng hàng không</b></u>, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
     <string name="airline_notice_fee_added_tablet">Sẽ thu bổ sung &lt;u&gt;&lt;b&gt;phí hãng hàng không&lt;/b&gt;&lt;/u&gt;, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
 
     <!-- French compliance warnings d/5810 -->

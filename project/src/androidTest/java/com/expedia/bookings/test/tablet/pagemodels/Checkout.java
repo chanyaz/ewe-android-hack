@@ -16,7 +16,6 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -144,9 +143,6 @@ public class Checkout {
 		onView(withId(R.id.remove_stored_card_button)).perform(click());
 	}
 
-	public static void clickOnStoredTravelerSpinnerButton() {
-		onView(allOf(withId(R.id.saved_traveler_fake_spinner), hasSibling(withChild(withId(R.id.display_full_name))))).perform(click());
-	}
 	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
 		onView(withText(cardname))
 			.inRoot(withDecorView(

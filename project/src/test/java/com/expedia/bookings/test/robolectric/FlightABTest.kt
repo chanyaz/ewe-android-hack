@@ -1,8 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import com.expedia.bookings.activity.FlightSearchActivity
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.ui.FlightActivity
 import org.junit.Before

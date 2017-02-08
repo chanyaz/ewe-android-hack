@@ -23,10 +23,7 @@ public class CardInfoScreen {
 	private static final int NAME_ON_CARD_EDIT_TEXT_ID = R.id.edit_name_on_card;
 	private static final int EMAIL_ADDRESS_EDIT_TEXT_ID = R.id.edit_email_address;
 	private static final int POSTAL_CODE_EDIT_TEXT_ID = R.id.edit_address_postal_code;
-	private static final int DONE_BUTTON_ID = R.id.menu_done;
-	private static final int NEXT_BUTTON_ID = R.id.menu_next;
 	private static final int MONTH_UP_BUTTON_ID = R.id.month_up;
-	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
 	private static final int CREDIT_CARD_CVV = R.id.edit_creditcard_cvv;
 	private static final int CARD_INFO_LABEL_ID = R.id.card_info_label;
@@ -49,14 +46,6 @@ public class CardInfoScreen {
 		return onView(withId(NAME_ON_CARD_EDIT_TEXT_ID));
 	}
 
-	public static ViewInteraction doneButton() {
-		return onView(withId(DONE_BUTTON_ID));
-	}
-
-	public static ViewInteraction noThanksButtonString() {
-		return onView(withText(R.string.no_thanks));
-	}
-
 	public static ViewInteraction emailEditText() {
 		return onView(withId(EMAIL_ADDRESS_EDIT_TEXT_ID));
 	}
@@ -70,20 +59,12 @@ public class CardInfoScreen {
 		return onView(withId(MONTH_UP_BUTTON_ID));
 	}
 
-	public static ViewInteraction monthDownButton() {
-		return onView(withId(MONTH_DOWN_BUTTON_ID));
-	}
-
 	public static ViewInteraction yearUpButton() {
 		return onView(withId(YEAR_UP_BUTTON_ID));
 	}
 
 	public static ViewInteraction setButton() {
 		return onView(withId(R.id.positive_button));
-	}
-
-	public static ViewInteraction nextButton() {
-		return onView(withId(NEXT_BUTTON_ID));
 	}
 
 	public static ViewInteraction cardInfoLabel() {
@@ -116,18 +97,9 @@ public class CardInfoScreen {
 		creditCardCvvEditText().perform(typeText(cvv), closeSoftKeyboard());
 	}
 
-
-	public static void clickOnDoneButton() {
-		doneButton().perform(click());
-	}
-
 	// Object interaction expiration date dialog
 	public static void clickMonthUpButton() {
 		monthUpButton().perform(click());
-	}
-
-	public static void clickMonthDownButton() {
-		monthDownButton().perform(click());
 	}
 
 	public static void clickYearUpButton() {
@@ -136,14 +108,6 @@ public class CardInfoScreen {
 
 	public static void clickSetButton() {
 		setButton().perform(click());
-	}
-
-	public static void clickNoThanksButton() {
-		noThanksButtonString().perform(click());
-	}
-
-	public static void clickNextButton() {
-		nextButton().perform(waitForViewToDisplay(), click());
 	}
 
 	public static void assertCardInfoLabelShown() {

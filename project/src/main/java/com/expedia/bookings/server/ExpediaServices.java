@@ -356,27 +356,6 @@ public class ExpediaServices implements DownloadListener {
 		return suggestionsGaiaNearby(latitude, longitude, SuggestionSort.DISTANCE, "hotels");
 	}
 
-	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort,
-		int suggestionResultType) {
-		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.NEARBY));
-
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		addCommonParams(params);
-
-		String sortCriteria = (sort == SuggestionSort.DISTANCE) ? "distance" : "popularity";
-		params.add(new BasicNameValuePair("sortcriteria", sortCriteria));
-
-		params.add(new BasicNameValuePair("regiontype", "" + suggestionResultType));
-		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
-		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
-		params.add(new BasicNameValuePair("maxradius", "150"));
-		params.add(new BasicNameValuePair("maxresults", "50"));
-		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
-
-		return doSuggestionRequest(url, params, false);
-	}
-
 	private SuggestionResponse suggestionsGaiaNearby(double latitude, double longitude, SuggestionSort sort,
 		String lob) {
 		String url = NetUtils.formatUrl(getGaiaNearbySuggestUrl());

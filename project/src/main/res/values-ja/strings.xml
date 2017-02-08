@@ -917,16 +917,10 @@
     <string name="infants_in_laps">膝抱き</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">座席</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">2 才未満の乳幼児</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">乳幼児を膝抱きできる大人 (12 歳以上) が規定人数に達していません。それぞれの座席が必要です。</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">12 歳以上の旅行者 1 名に対して予約可能な乳幼児の座席は、最大 2 席までです</string>
-    <!-- Description for infant travelers sitting in laps -->
-    <string name="in_laps">膝抱き</string>
-    <!-- Description for infant travelers sitting in seats -->
-    <string name="in_seats">座席利用</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">2 才未満のお子様の座席のご希望</string>
     <!-- Description for infant seating preference message -->
@@ -1833,10 +1827,6 @@
     <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
-    <!-- Label for Flight Search in task manager -->
-    <string name="Flights_TEMPLATE">{brand} 便のフライト</string>
-    <!-- Label for flight search part of app -->
-    <string name="search_flights">フライト検索</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">出発空港</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -1845,26 +1835,8 @@
     <string name="loading_flights">フライトを読み込み中…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">400 社以上の航空会社から希望のフライトを検索</string>
-    <!-- Label for screen that is doing searches -->
-    <string name="searching">検索中…</string>
-    <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">フライトが見つかりません</string>
-    <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">出発空港が確認できませんでした。</string>
-    <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">到着空港が確認できませんでした。</string>
-    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">出発および到着空港が確認できませんでした。</string>
-    <!-- Error message when we find no flights because of invalid departure date -->
-    <string name="error_invalid_departure_date">出発日が確認できませんでした。</string>
-    <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">詳細</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">選択</string>
-    <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">往路 (行き) 到着地 : %s</string>
-    <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">復路 (帰り) 到着地 : %s</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">申し訳ありません。{brand} のサーバーに接続できません。後ほど再度お試しください。</string>
     <!-- Sort by departure timelabel -->
@@ -1882,10 +1854,6 @@
         <item quantity="many">%s 日</item>
         <item quantity="other">%s 日</item>
     </plurals>
-    <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">%1$s へのフライトを選択</string>
-    <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">%1$s へ戻るフライトを選択</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">ページを読み込めません ! エラー メッセージ : %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
@@ -1900,14 +1868,6 @@
     <string name="error_same_flight_departure_arrival">出発と到着にはそれぞれ別の空港を指定してください。</string>
 
     <!-- Flight search params fragment -->
-    <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">往路 (行き) 出発日を選択する</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">%1$s (片道)</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">%1$s → %2$s</string>
-    <!-- Label for "sort" button -->
-    <string name="sort_flights">フライトを並べ替える</string>
     <!-- Edit search title -->
     <string name="edit_search">検索条件を変更する</string>
     <!-- Action mode asking users to select dates -->
@@ -1933,24 +1893,8 @@
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Prompt for spinner dialog when selecting departure airport -->
-    <string name="prompt_departure_airport">出発空港を選択</string>
-    <!-- Prompt for spinner dialog when selecting arrival airport -->
-    <string name="prompt_arrival_airport">到着空港を選択</string>
 
     <!-- Calendar instructions -->
-    <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">タップして&lt;b&gt;&lt;font color="#3b5998"&gt;往路 (行き) 出発日&lt;/font&gt;&lt;/b&gt;を選択してください。</string>
-    <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">タップして&lt;b&gt;&lt;font color="#3b5998"&gt;復路 (帰り) 出発日&lt;/font&gt;&lt;/b&gt;を選択してください。(オプション)</string>
-    <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">%1$d 泊の旅行が選択されました。</string>
-    <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">日帰り旅行が選択されました。</string>
-    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
-    <string name="calendar_tooltip_bottom_select_return_date">(オプション) 復路 (帰り) 出発日を選択</string>
-    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">復路 (帰り) 出発日を変更するには日付をドラッグ</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
@@ -2028,8 +1972,6 @@
     <string name="flight_cabin_mixed_classes">複数のクラス</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
-    <!-- Button label for selecting flight -->
-    <string name="select_flight">フライトを選択する</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">%s 出発</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -2059,24 +2001,12 @@
     </plurals>
 
     <!-- Flight payment overview Activity -->
-    <!-- Edit current payment -->
-    <string name="edit_current_payment_details">現在のお支払い情報</string>
-    <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">お支払い方法を選択する</string>
-    <!-- Select Payment -->
-    <string name="select_payment">お支払い方法を選択する</string>
-    <!-- Select payment callout AB Test variate2 -->
-    <string name="select_payment_callout">詳細を入力</string>
     <!-- Add new card -->
     <string name="add_new_card">新しいカードを追加する</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">新しいデビット / クレジットカード</string>
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">新しいクレジットカード</string>
-    <!-- Overview button -->
-    <string name="overview_btn">概要</string>
-    <!-- Stored Payment label -->
-    <string name="stored_payment_label">保存されたお支払い方法を選択する</string>
     <!-- Payment Method -->
     <string name="payment_method">支払い情報の詳細</string>
     <!-- Billing Address -->
@@ -2101,8 +2031,6 @@
     <string name="debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
 
     <!-- Trip Overview Activity -->
-    <!-- Label for Overview activity in task manager -->
-    <string name="Overview">概要</string>
     <!-- Trip total price label -->
     <string name="total_price_label">旅行の合計料金</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
@@ -2115,12 +2043,7 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">支払い手数料およびチケット配送料が加算される場合があります</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">航空券 + ホテルを含む</string>
-    <!-- Includes taxes (but not necessarily fees) -->
-    <string name="includes_taxes">(税込み)</string>
-    <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s : %2$s ～ %3$s</string>
-    <!-- Number of traverlers template -->
-
+    <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">旅行者 %1$d 名</item>
         <item quantity="one">旅行者 %1$d 名</item>
@@ -2129,8 +2052,6 @@
         <item quantity="many">旅行者 %1$d 名</item>
         <item quantity="other">旅行者 %1$d 名</item>
     </plurals>
-    <!-- Checkout button text -->
-    <string name="checkout_btn">購入手続き</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">料金の変更を確認中…</string>
     <!-- Price changed from -->
@@ -2153,8 +2074,6 @@
     <string name="hotel_card_not_supported_generic">このホテルでは、こちらの発行元のクレジットカードはご利用いただけません。</string>
 
     <!-- Checkout Activity -->
-    <!-- Checkout Information label -->
-    <string name="checkout_information">お支払い情報</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">上記の全条項に同意しますか ?</string>
     <!-- I Accept button label -->
@@ -2224,8 +2143,6 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。残額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Pay later deposit amount -->
     <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
-    <!-- Flights AB Test Free Cancellation-->
-    <string name="ab_test_flights_free_cancellation">予約後 24 時間以内ならキャンセル手数料無料 !</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">旅行者情報を入力</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2316,12 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">国番号</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">生年月日 : %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">生年月日 : %1$s</string>
-    <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">%1$s 有効期限 %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2353,8 +2266,6 @@
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
-    <!-- Single Line City State Zip -->
-    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
     <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
     <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
@@ -2462,8 +2373,6 @@
     <string name="country">国名</string>
     <!-- Passport country label -->
     <string name="passport_country">パスポートの発行国</string>
-    <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">パスポートの発行国 / 出身国</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">リドレスナンバー (該当する場合)</string>
     <!-- traveler number hint -->
@@ -2491,35 +2400,20 @@
     <string name="none">なし</string>
 
     <!-- Traveler options activity -->
-    <!-- Select a traveler -->
-    <string name="select_a_traveler">旅行者を選択</string>
-    <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">別の旅行者を選択</string>
-    <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">新しい旅行者を入力</string>
     <!-- Edit current traveler details -->
     <string name="edit_guest_details">旅行者の詳細を変更</string>
-    <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">旅行者情報を変更</string>
     <!-- Edit current traveler details from Error Screen -->
     <string name="edit_traveler_details">旅行者情報を編集</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">エラー</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">希望の座席 : %1$s</string>
-    <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">希望の座席 : %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">希望 : %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">旅行者情報を読み込んでいます…</string>
-    <!-- Passport -->
-    <string name="passport">パスポート</string>
 
     <!-- Passport label -->
     <string name="passport_country_colon">パスポート :</string>
-
-    <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">現在の旅行者 - %1$s%2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2554,28 +2448,10 @@
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">予約が完了しました</string>
-    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">%s への旅をお楽しみください !</string>
-    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">旅程番号 %s の送信先 :</string>
-    <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">客室を予約する</string>
-    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
-    <string name="add_to_your_trip">旅行に追加する</string>
-    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">%sのホテル</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
-    <string name="cars_in_TEMPLATE">%sのレンタカー</string>
-    <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">その他のアクション</string>
-    <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Eメールでシェア</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">カレンダーに追加</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">{brand} カスタマー サポートに電話する</string>
-    <!-- Add Insurance label -->
-    <string name="add_insurance">保険を追加する</string>
     <!-- Insurance -->
     <string name="insurance">保険</string>
     <!-- Insurance label on itin section -->
@@ -2646,8 +2522,6 @@
     <string name="Airline_fee">航空会社の手数料</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">フィルター解除済み</string>
-    <!-- split ticket rules header -->
-    <string name="split_ticket_important_flight_information_header">重要なフライト情報</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">航空券の料金は、片道フライト 2 件の合計となります。それぞれの運賃には、航空会社の規則および制限事項が適用されます。</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">航空券の料金は、片道フライト 2 件の合計となります。それぞれの運賃には、航空会社の規則および制限事項が適用されます。</string>
@@ -2657,8 +2531,6 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;往路 (行き) 便&lt;/a&gt;および&lt;a href=\"{returnlink}\"&gt;復路 (帰り) 便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
     <!-- Flight dialog  errors -->
-    <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">無効なセキュリティコード</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">キャンセル</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -2735,8 +2607,6 @@
     <string name="card_ending_TEMPLATE">末尾が %s のクレジットカード</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">カード番号末尾が %2$s の %1$s</string>
-    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
-    <string name="title_complete_booking">予約を完了する</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">お客様の署名</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
@@ -2786,8 +2656,6 @@
     <string name="drag_to_extend_your_stay">滞在期間を延長するには日付を&lt;b&gt;ドラッグ&lt;/b&gt;</string>
     <!-- Child age dialog button -->
     <string name="button_done">完了</string>
-    <!-- Done button text in Confirmation screens -->
-    <string name="button_confirmation_done">完了</string>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">お子様の年齢を選択 (%1$s ～ %2$s 歳)</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -3971,36 +3839,14 @@
     <string name="display_favorable_reviews_cont_desc">タップしてポジティブなレビューを表示</string>
     <!-- Content description for action: Press to display critical reviews -->
     <string name="display_critical_reviews_cont_desc">タップしてネガティブなレビューを表示</string>
-    <!-- Flight Search -->
-    <!-- Content description for action: Press to clear selected dates -->
-    <string name="flights_clear_selected_dates_cont_desc">タップして選択した日付をクリア</string>
-    <!-- Content description for action: Press to edit number of travelers -->
-    <string name="flights_search_number_of_travelers_edit_cont_desc">タップして旅行者の数を編集</string>
     <!-- Flight Search Results - Flight Leg Selection -->
-    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="flight_leg_cancel_cont_desc">フライト選択をキャンセルして、フライト検索結果に戻る</string>
-    <!-- Content description for action: Press to select this flight -->
-    <string name="flight_leg_select_flight_cont_desc">タップしてこのフライトを選択</string>
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">タップして手荷物料金情報を表示</string>
-    <!-- Flight Search Results - Selection Overview -->
-    <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="flight_selection_cost_summary_cont_desc">料金の概要にアクセスしてフライト選択を表示</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="checkout_cont_desc">タップして購入手続き</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">タップしてクーポンあるいはプロモーション コードを入力</string>
-    <!-- Traveler Information screen -->
-    <!-- Content description for action: Press to enter a new traveler -->
-    <string name="traveler_enter_new_traveler_cont_desc">タップして新しい旅行者を入力</string>
-    <!-- Content description for action: Press to edit traveler information -->
-    <string name="traveler_edit_traveler_information_cont_desc">タップして旅行者情報を編集</string>
-    <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="traveler_edit_passport_country_cont_desc">旅行者のパスポートの発行国を編集</string>
-    <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="traveler_information_done_cont_desc">タップして旅行者情報の入力を終了</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="traveler_gender_edit_cont_desc">タップして旅行者の性別を選択</string>
@@ -4202,7 +4048,6 @@
     <string name="airline_fee_notice">航空会社の手数料 (カードの種類によって異なる) が追加されます。</string>
     <string name="airline_charge_notice">支払い方法に応じて、航空会社から手数料が課金されます。</string>
     <string name="airline_fee_notice_payment">お支払い方法に応じて、航空会社の手数料が追加されます</string>
-    <string name="airline_notice_fee_added"><u><b>航空会社の手数料</b></u> (カードの種類によって異なる) が追加されます。これらの手数料が合計料金に追加されます。</string>
     <string name="airline_notice_fee_added_tablet">&lt;u&gt;&lt;b&gt;航空会社の手数料&lt;/b&gt;&lt;/u&gt; (カードの種類によって異なる) が追加されます。これらの手数料が合計料金に追加されます。</string>
 
     <!-- French compliance warnings d/5810 -->

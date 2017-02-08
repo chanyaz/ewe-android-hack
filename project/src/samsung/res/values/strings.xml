@@ -12,5 +12,7 @@
     <string name="search_activities">Search activities</string>
     <!-- Airport code and name (code - name) -->
     <string name="airport_code_name_TEMPLATE">{code} - {name}</string>
+    <!-- Label for flight search part of app -->
+    <string name="search_flights">Search Flights</string>
 
 </resources>

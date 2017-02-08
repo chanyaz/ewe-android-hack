@@ -332,30 +332,6 @@ public final class ViewActions {
 		return new NestedTextView(index, value);
 	}
 
-	// View action to get traveler container with info entered on checkout
-
-	public static ViewAction getPopulatedTravelerViewLayout(final int index, final AtomicReference<String> value) {
-		return new ViewAction() {
-
-			@Override
-			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				View travlerAtIndexView = ((ViewGroup) view).getChildAt(index);
-				TextView textView = (TextView) travlerAtIndexView.findViewById(R.id.display_full_name);
-				value.set(textView.getText().toString());
-			}
-
-			@Override
-			public String getDescription() {
-				return "Get the empty travelers container text on checkout";
-			}
-		};
-	}
-
 	//View Action to get the count of list view items
 
 	public static ViewAction getCount(final AtomicReference<Integer> count) {
