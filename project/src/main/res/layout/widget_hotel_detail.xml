@@ -638,7 +638,7 @@
                     android:id="@+id/room_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/common_amenities_divider"></TableLayout>
+                    android:layout_below="@+id/common_amenities_divider"/>
 
                 <TableLayout
                     android:id="@+id/property_info_container"

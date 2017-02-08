@@ -383,17 +383,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	private static void setEventsForSearchTracking(ADMS_Measurement s,
-		AbstractSearchTrackingData.PerformanceData performanceData, String eventString) {
-		StringBuilder eventStringBuilder = new StringBuilder();
-		eventStringBuilder.append(eventString);
-		String loadTime = performanceData.getPageLoadTime();
-		if (loadTime != null) {
-			eventStringBuilder.append(",event220,event221" + "=" + loadTime);
-		}
-		s.setEvents(eventStringBuilder.toString());
-	}
-
 	public static void trackHotelV2NoResult() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_NO_RESULT + "\" pageLoad...");
 
@@ -634,12 +623,7 @@ public class OmnitureTracking {
 			}
 		}
 
-		String pageUsable = pageLoadTimeData.getLoadTimeInSeconds();
-		if (pageUsable != null) {
-			String events = s.getEvents();
-			events += ",event220,event221" + "=" + pageUsable;
-			s.setEvents(events);
-		}
+		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRoomRateExpanded);
 		// Send the tracking data
@@ -819,7 +803,9 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadHotelV2CheckoutInfo(
 		HotelCreateTripResponse trip,
-		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+		com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
+		PageUsableData pageUsableData) {
+
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging);
@@ -837,14 +823,17 @@ public class OmnitureTracking {
 				.getOmnitureEventValue(OmnitureEventName.REWARD_APPLIED_PERCENTAGE_TEMPLATE);
 			s.setEvar(53, String.format(Locale.getDefault(), rewardAppliedPercentage, percentagePaidWithPoints));
 		}
+
 		s.setEvents(events.toString());
+
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
+
 		addHotelV2RegionId(s, searchParams);
 
 		HotelCreateTripResponse.HotelProductResponse hotelProductResponse = trip.newHotelProductResponse;
 		String supplierType = hotelProductResponse.hotelRoomResponse.supplierType;
 		int numOfNights = JodaUtils.daysBetween(searchParams.getCheckIn(), searchParams.getCheckOut());
 		String price = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total + "";
-
 
 		if (TextUtils.isEmpty(supplierType)) {
 			supplierType = "";
@@ -886,7 +875,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
 		s.track();
-
 	}
 
 	public static void trackHotelV2StoredCardSelect() {
@@ -1083,6 +1071,38 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
 	}
 
+	private static void addPageLoadTimeTrackingEvents(ADMS_Measurement s, PageUsableData pageLoadTimeData) {
+		if (pageLoadTimeData == null) {
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder(s.getEvents());
+		appendPageLoadTimeEvents(sb, pageLoadTimeData.getLoadTimeInSeconds());
+		if (sb.length() > 0) {
+			s.setEvents(sb.toString());
+		}
+	}
+
+	private static void setEventsForSearchTracking(ADMS_Measurement s,
+		AbstractSearchTrackingData.PerformanceData performanceData, String eventString) {
+		StringBuilder eventStringBuilder = new StringBuilder();
+		eventStringBuilder.append(eventString);
+
+		appendPageLoadTimeEvents(eventStringBuilder, performanceData.getPageLoadTime());
+
+		if (eventStringBuilder.length() > 0) {
+			s.setEvents(eventStringBuilder.toString());
+		}
+	}
+
+	private static void appendPageLoadTimeEvents(StringBuilder eventStringBuilder, String pageLoadTimeString) {
+		if (!TextUtils.isEmpty(pageLoadTimeString)) {
+			if (eventStringBuilder.length() > 0) {
+				eventStringBuilder.append(",");
+			}
+			eventStringBuilder.append("event220,event221=").append(pageLoadTimeString);
+		}
+	}
 
 	private static void addHotelV2Products(ADMS_Measurement s, HotelOffersResponse.HotelRoomResponse hotelRoomResponse,
 		String hotelId) {
@@ -5775,7 +5795,8 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Update", null, null);
 	}
 
-	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId, String lobForProp9, String linkName) {
+	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId,
+		String lobForProp9, String linkName) {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		s.setEvents("event62");
 		s.setProp(9, lobForProp9 + priceChangePercentage);
