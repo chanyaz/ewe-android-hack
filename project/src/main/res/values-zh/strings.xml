@@ -110,9 +110,9 @@
     <!-- Car bags text-->
     <string name="car_bags_text">行李</string>
     <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">自动挡</string>
+    <string name="car_auto_tran_text">自动挡档</string>
     <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">手动挡</string>
+    <string name="car_man_tran_text">手动挡档</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -245,7 +245,7 @@
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">使用积分和 {carddescription} 付款</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_tap_to_edit">点击编辑</string>
+    <string name="checkout_tap_to_edit">轻触屏幕，进行编辑</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_payment_options">信用卡，积分付款</string>
     <!--Text for selected card -->
@@ -396,7 +396,7 @@
     <string name="ticket_type_military">军人</string>
     <string name="ticket_type_student">学生</string>
     <string name="ticket_type_sedan">四门轿车</string>
-    <string name="ticket_type_minivan">面包车</string>
+    <string name="ticket_type_minivan">商务车</string>
     <string name="ticket_type_water_taxi">水上出租车</string>
     <string name="ticket_type_suv">SUV</string>
     <string name="ticket_type_executive_car">行政级轿车</string>
@@ -404,7 +404,7 @@
     <string name="ticket_type_limousine">豪华轿车</string>
     <string name="ticket_type_towncar">城市型车</string>
     <string name="ticket_type_vehicle_parking_spot">停车位</string>
-    <string name="ticket_type_book">书</string>
+    <string name="ticket_type_book">本</string>
     <string name="ticket_type_guide">指南</string>
     <string name="ticket_type_travel_card">旅游卡</string>
     <string name="ticket_type_boat">船</string>
@@ -412,7 +412,7 @@
     <string name="ticket_type_ceremony">典礼</string>
     <string name="ticket_type_calling_card">电话卡</string>
     <string name="ticket_type_pass">通行证</string>
-    <string name="ticket_type_minibus">小巴</string>
+    <string name="ticket_type_minibus">迷你巴士</string>
     <string name="ticket_type_helicopter">直升飞机</string>
     <string name="ticket_type_device">设备</string>
     <string name="ticket_type_room">房间</string>
@@ -480,8 +480,8 @@
         <item quantity="other">%1$s 辆四门轿车</item>
     </plurals>
     <plurals name="ticket_type_minivan_TEMPLATE">
-        <item quantity="one">%1$s 辆面包车</item>
-        <item quantity="other">%1$s 辆面包车</item>
+        <item quantity="one">%1$s 辆商务车</item>
+        <item quantity="other">%1$s 辆商务车</item>
     </plurals>
     <plurals name="ticket_type_water_taxi_TEMPLATE">
         <item quantity="one">%1$s 辆水上出租车</item>
@@ -512,8 +512,8 @@
         <item quantity="other">%1$s 个停车位</item>
     </plurals>
     <plurals name="ticket_type_book_TEMPLATE">
-        <item quantity="one">%1$s 本书</item>
-        <item quantity="other">%1$s 本书</item>
+        <item quantity="one">%1$s 本</item>
+        <item quantity="other">%1$s 本</item>
     </plurals>
     <plurals name="ticket_type_guide_TEMPLATE">
         <item quantity="one">%1$s 本指南</item>
@@ -544,8 +544,8 @@
         <item quantity="other">%1$s 张通行证</item>
     </plurals>
     <plurals name="ticket_type_minibus_TEMPLATE">
-        <item quantity="one">%1$s 辆小巴</item>
-        <item quantity="other">%1$s 辆小巴</item>
+        <item quantity="one">%1$s 辆迷你巴士</item>
+        <item quantity="other">%1$s 辆迷你巴士</item>
     </plurals>
     <plurals name="ticket_type_helicopter_TEMPLATE">
         <item quantity="one">%1$s 架直升机</item>
@@ -633,7 +633,7 @@
     <string name="per_ticket_type_military">每位军人</string>
     <string name="per_ticket_type_student">每名学生</string>
     <string name="per_ticket_type_sedan">每辆轿车</string>
-    <string name="per_ticket_type_minivan">每辆面包车</string>
+    <string name="per_ticket_type_minivan">每辆商务车</string>
     <string name="per_ticket_type_water_taxi">每辆水上出租车</string>
     <string name="per_ticket_type_suv">每辆 SUV</string>
     <string name="per_ticket_type_executive_car">每辆行政级轿车</string>
@@ -641,7 +641,7 @@
     <string name="per_ticket_type_limousine">每辆豪华轿车</string>
     <string name="per_ticket_type_towncar">每辆城市型车</string>
     <string name="per_ticket_type_vehicle_parking_spot">每个停车位</string>
-    <string name="per_ticket_type_book">每本书</string>
+    <string name="per_ticket_type_book">每本</string>
     <string name="per_ticket_type_guide">每份指南</string>
     <string name="per_ticket_type_travel_card">每张旅游卡</string>
     <string name="per_ticket_type_boat">每艘船</string>
@@ -649,7 +649,7 @@
     <string name="per_ticket_type_ceremony">每次典礼</string>
     <string name="per_ticket_type_calling_card">每张电话卡</string>
     <string name="per_ticket_type_pass">每张通行证</string>
-    <string name="per_ticket_type_minibus">每辆小巴</string>
+    <string name="per_ticket_type_minibus">每辆迷你巴士</string>
     <string name="per_ticket_type_helicopter">每架直升飞机</string>
     <string name="per_ticket_type_device">每台设备</string>
     <string name="per_ticket_type_room">每个房间</string>
@@ -1051,16 +1051,8 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">酒店</string>
-    <string name="nav_hotels_cont_desc">酒店按钮</string>
-    <!-- Cars -->
-    <string name="nav_cars">租车</string>
-    <string name="nav_cars_cont_desc">租车按钮</string>
-    <!-- Activities -->
-    <string name="nav_lx">活动</string>
-    <string name="nav_lx_cont_desc">活动按钮</string>
     <!-- Ground Transport -->
     <string name="nav_transport">交通服务</string>
-    <string name="nav_transport_cont_desc">交通服务按钮</string>
     <!-- Packages -->
     <string name="nav_packages">组合优惠</string>
     <!-- Rail -->
@@ -1210,8 +1202,6 @@
     <string name="find_guest_itinerary">查找以访客身份预订的行程</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">输入行程单信息</string>
-    <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">查找行程编号</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 行程编号</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1234,6 +1224,8 @@
     <string name="sign_in_for_your_trips">登录查看您的旅行信息</string>
     <!-- Button text to refresh your trips -->
     <string name="refresh_trips">刷新行程</string>
+    <!-- Button text to refresh your trips in new Itin Sign In -->
+    <string name="refresh_trips_new">刷新您的行程</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">我们暂时无法获取您的行程信息。请再试一次。</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1547,7 +1539,7 @@
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
-    <string name="car_type_recreational_vehicle">休旅车</string>
+    <string name="car_type_recreational_vehicle">露营车</string>
     <string name="car_type_convertible">敞篷车</string>
     <string name="car_type_sports_car">跑车</string>
     <string name="car_type_suv">SUV</string>
@@ -1610,7 +1602,7 @@
     <string name="itin_card_details_check_out">退房</string>
     <string name="itin_card_details_address">地址</string>
     <string name="itin_card_details_local_phone">当地电话</string>
-    <string name="itin_card_details_room_type">客房类型</string>
+    <string name="itin_card_details_room_type">房型</string>
     <string name="itin_card_details_non_price_promotion_includes">包含</string>
     <string name="itin_card_details_bed_type">床铺类型</string>
     <string name="toast_copied_to_clipboard">已复制到剪切板。</string>
@@ -1797,7 +1789,6 @@
     <string name="outbound_label">出发</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航班</string>
-    <string name="flights_title_cont_desc">航班按钮</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">付款费用信息</string>
     <!-- Flights Free Cancellation messaging -->
@@ -2073,7 +2064,7 @@
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">新的借记卡或信用卡</string>
     <!-- New Credit card toolbar title shown on payment form -->
-    <string name="new_credit_card">新的借记卡</string>
+    <string name="new_credit_card">新的信用卡</string>
     <!-- Overview button -->
     <string name="overview_btn">概要</string>
     <!-- Stored Payment label -->
@@ -2250,7 +2241,7 @@
     <!-- Cost Summary -->
     <string name="cost_summary">费用摘要</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">税款与服务费</string>
+    <string name="taxes_and_airline_fees">税费</string>
     <!-- Taxes without airline fees -->
     <string name="taxes_without_airline_fees">税款</string>
     <!-- Expedia booking fee -->
@@ -2723,7 +2714,7 @@
     <string name="nine">9</string>
     <string name="zero">0</string>
     <!-- The verb "book" as in to make a booking for a hotel room -->
-    <string name="book">书</string>
+    <string name="book">本</string>
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
@@ -2956,7 +2947,7 @@
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">没有网络连接</string>
     <!-- The label for deposit terms button -->
-    <string name="deposit_terms">押金规定</string>
+    <string name="deposit_terms">订金规定</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2998,7 +2989,7 @@
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">没有提供便利设施</string>
+    <string name="AmenityNone">没有提供服务设施</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">商务中心</string>
     <!-- Fitness center amenity -->
@@ -3046,7 +3037,7 @@
     <!-- Braille or raised signage amenity -->
     <string name="AmenityBrailleSignage">盲文标志</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">机场接送</string>
+    <string name="AmenityFreeAirportShuttle">机场班车</string>
     <!-- Indoor pool amenity -->
     <string name="AmenityPoolIndoor">室内泳池</string>
     <!-- Outdoor pool amenity -->
@@ -3062,7 +3053,7 @@
     <!-- Free breakfast -->
     <string name="FilterFreeBreakfast">免费早餐</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">免费机场接送</string>
+    <string name="FilterFreeAirportShuttle">免费机场班车</string>
 
 
     <!-- User Reviews list strings -->
@@ -3132,7 +3123,7 @@
     <!-- ETP pay later deposit info message -->
     <string name="etp_pay_later_deposit_text">您的押金不会超过预订的总金额。</string>
     <string name="no_charge_text_TEMPLATE">{brand} 不会向您收费。</string>
-    <string name="deposit_info_text">押金担保</string>
+    <string name="deposit_info_text">订金担保</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3206,7 +3197,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
-    <string name="book_room_button_text">预订</string>
+    <string name="book_room_button_text">本</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">装修通知</string>
     <!-- This property is undergoing renovations -->
@@ -3251,7 +3242,7 @@
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
-    <string name="taxes_and_fees">税款与服务费</string>
+    <string name="taxes_and_fees">税费</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">已包含</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4037,9 +4028,9 @@
         <item quantity="other">{rating} 星</item>
     </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
-    <string name="cars_filter_transmission_manual_button_cont_desc">手动挡</string>
-    <string name="cars_filter_transmission_automatic_button_cont_desc">自动挡</string>
-    <string name="cars_filter_transmission_all_button_cont_desc">全部换挡方式</string>
+    <string name="cars_filter_transmission_manual_button_cont_desc">手动档</string>
+    <string name="cars_filter_transmission_automatic_button_cont_desc">自动档</string>
+    <string name="cars_filter_transmission_all_button_cont_desc">全部换档方式</string>
 
     <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
     <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}，{make}，预订按钮</string>
@@ -4290,7 +4281,7 @@
     <string name="error_package_destination_resolution_message_TEMPLATE">找不到名为{destination}的目的地</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
-        <item quantity="zero">直飞</item>
+        <item quantity="zero">不经停</item>
         <item quantity="one">1 次经停</item>
         <item quantity="two">2 次以上经停</item>
         <item quantity="other">2 次以上经停</item>
@@ -4303,7 +4294,7 @@
     <string name="start_over">重新开始</string>
 
     <!-- Flight Nonstop description -->
-    <string name="flight_nonstop_description">直飞</string>
+    <string name="flight_nonstop_description">不经停</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -4435,7 +4426,7 @@
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
     <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
     <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} 到 ({arrivalairportcode}) {arrivalcity}</string>
-    <string name="package_flight_overview_layover_in_TEMPLATE">在 ({airportcode}) {city}中转</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">在 ({airportcode}) {city}中途停留</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">总时长：{duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
@@ -4637,7 +4628,7 @@
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">酒店 + 机票</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
-    <string name="cost_summary_breakdown_taxes_fees">税款与服务费</string>
+    <string name="cost_summary_breakdown_taxes_fees">税费</string>
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">含税费 ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
@@ -4825,7 +4816,7 @@
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">您需要购买行程保险的 3 个原因</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
-    <string name="insurance_remove_error">很抱歉，我们无法添加旅行保障。请再试一次。</string>
+    <string name="insurance_remove_error">很抱歉，我们无法删除旅行保障。请再试一次。</string>
     <!-- Status displayed in a modal dialog while insurance is being removed -->
     <string name="insurance_removing">正在删除旅行保障…</string>
     <!-- Label of link to insurance terms and conditions -->
@@ -4993,6 +4984,8 @@
     <string name="passport_validation_error_message">选择护照国家/地区</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">手动添加您使用访客帐户预订的行程</string>
+    <!-- Progress dialog text while searching for a guest trip -->
+    <string name="spinner_text_add_guest_trip">正在搜索您的行程…</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">登录以查看您的近期行程</string>
 

@@ -1051,16 +1051,8 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">Hoteles</string>
-    <string name="nav_hotels_cont_desc">Botón de hoteles</string>
-    <!-- Cars -->
-    <string name="nav_cars">Autos</string>
-    <string name="nav_cars_cont_desc">Botón de autos</string>
-    <!-- Activities -->
-    <string name="nav_lx">Actividades</string>
-    <string name="nav_lx_cont_desc">Botón de actividades</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transporte</string>
-    <string name="nav_transport_cont_desc">Botón de transporte</string>
     <!-- Packages -->
     <string name="nav_packages">Ofertas de paquete</string>
     <!-- Rail -->
@@ -1210,8 +1202,6 @@
     <string name="find_guest_itinerary">Buscar un itinerario como invitado</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Ingresa los detalles del itinerario</string>
-    <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">Buscar un no. de itinerario</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">Núm. de itinerario de {brand}</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1233,7 +1223,9 @@
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Inicia sesión para tus viajes</string>
     <!-- Button text to refresh your trips -->
-    <string name="refresh_trips">Actualizar los resultados</string>
+    <string name="refresh_trips">Actualizar viajes</string>
+    <!-- Button text to refresh your trips in new Itin Sign In -->
+    <string name="refresh_trips_new">Actualizar tus viajes</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">No pudimos encontrar tus itinerarios. Inténtalo de nuevo.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1797,7 +1789,6 @@
     <string name="outbound_label">Vuelta</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vuelos</string>
-    <string name="flights_title_cont_desc">Botón de vuelos</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Información de cargos por pago</string>
     <!-- Flights Free Cancellation messaging -->
@@ -4993,6 +4984,8 @@
     <string name="passport_validation_error_message">Selecciona el país que figura en el pasaporte</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">Agrega manualmente tu viaje reservado como invitado</string>
+    <!-- Progress dialog text while searching for a guest trip -->
+    <string name="spinner_text_add_guest_trip">Buscando tu viaje…</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Inicia sesión para acceder a tus próximos viajes</string>
 

@@ -1051,16 +1051,8 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">ホテル</string>
-    <string name="nav_hotels_cont_desc">ホテル ボタン</string>
-    <!-- Cars -->
-    <string name="nav_cars">レンタカー</string>
-    <string name="nav_cars_cont_desc">レンタカー ボタン</string>
-    <!-- Activities -->
-    <string name="nav_lx">現地ツアー</string>
-    <string name="nav_lx_cont_desc">現地ツアー ボタン</string>
     <!-- Ground Transport -->
     <string name="nav_transport">交通手段</string>
-    <string name="nav_transport_cont_desc">交通手段 ボタン</string>
     <!-- Packages -->
     <string name="nav_packages">お得なツアー (航空券 + ホテル)</string>
     <!-- Rail -->
@@ -1210,8 +1202,6 @@
     <string name="find_guest_itinerary">ゲスト旅程の検索</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">旅程情報を入力してください</string>
-    <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">旅程番号を検索する</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 旅程番号</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1234,6 +1224,8 @@
     <string name="sign_in_for_your_trips">サインインして予約を確認してください</string>
     <!-- Button text to refresh your trips -->
     <string name="refresh_trips">旅程を更新</string>
+    <!-- Button text to refresh your trips in new Itin Sign In -->
+    <string name="refresh_trips_new">旅行を読み込む</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">現在、旅程を取得できません。もう一度お試しください。</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1797,7 +1789,6 @@
     <string name="outbound_label">往路 (行き)</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航空券</string>
-    <string name="flights_title_cont_desc">フライト ボタン</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">お支払い料金情報</string>
     <!-- Flights Free Cancellation messaging -->
@@ -4993,6 +4984,8 @@
     <string name="passport_validation_error_message">パスポートの発行国を選択してください</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">ゲストとして予約した旅行を手動で追加する</string>
+    <!-- Progress dialog text while searching for a guest trip -->
+    <string name="spinner_text_add_guest_trip">旅行を検索中 …</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">サインインして今後の旅行予定にアクセスする</string>
 
