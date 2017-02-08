@@ -35,6 +35,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 
 	@Before
 	public void setUp() throws Exception {
+		Settings.setMockModeEndPoint();
 		super.setUp();
 		mActivity = getActivity();
 		assertNotNull(mActivity);

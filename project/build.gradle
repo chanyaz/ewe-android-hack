@@ -139,6 +139,7 @@ dependencies {
     androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
     androidTestCompile 'info.cukes:cucumber-android:1.2.0@jar'
     androidTestCompile 'info.cukes:cucumber-picocontainer:1.2.0'
+    androidTestCompile 'info.cukes:cucumber-html:0.2.3'
     androidTestCompile "tools.fastlane:screengrab:0.5.5"
     androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
 }
@@ -196,8 +197,12 @@ android {
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
 
-        //Set testRunnerPackage to com.expedia.bookings.test.CucumberInstrumentationRunner to run cucumber tests
         def testRunnerPackage = "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
+
+        //Set testRunnerPackage to com.expedia.bookings.test.CucumberInstrumentationRunner to run cucumber tests
+        if (project.ext.has("cucumberInstrumentation")) {
+            testRunnerPackage = "com.expedia.bookings.test.CucumberInstrumentationRunner"
+        }
 
         testInstrumentationRunner testRunnerPackage
         manifestPlaceholders = [instrumentationRunnerPath : testRunnerPackage]
