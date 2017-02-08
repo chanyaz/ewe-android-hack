@@ -1,9 +1,11 @@
 package com.expedia.bookings.data
 
 import org.joda.time.DateTime
+import java.util.ArrayList
 
 abstract class AbstractItinDetailsResponse {
     var responseType: String? = null
+    var errors: ArrayList<ApiError> = ArrayList()
 
     open class ResponseData {
         var levelOfDetail: String? = null

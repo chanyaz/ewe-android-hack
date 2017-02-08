@@ -122,6 +122,7 @@ public class ApiError extends RuntimeException {
 	public int diagnosticId;
 	public ErrorInfo errorInfo;
 	public String regionId;
+	public String message;
 
 	public ApiError(Code code) {
 		super(code.name());

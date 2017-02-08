@@ -5,7 +5,8 @@
     <LinearLayout
         android:id="@+id/outer_container"
         style="@style/MarginPoint"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="8dp"
@@ -59,11 +60,11 @@
             android:id="@+id/find_itinerary_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/exp_launch_blue"
             android:enabled="false"
             android:gravity="center"
             android:text="@string/find_itinerary"
             android:textColor="@color/btn_find_color"
-            android:background="@color/exp_launch_blue"
             android:textSize="14sp"
             app:textStyle="medium" />
 
@@ -95,5 +96,19 @@
             android:layout_margin="30dp"
             android:gravity="center_horizontal" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/unable_to_find_itin_error_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:background="@color/itin_unable_to_find_error_color"
+        android:gravity="center"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
 </merge>

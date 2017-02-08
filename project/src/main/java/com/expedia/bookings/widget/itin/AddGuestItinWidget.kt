@@ -9,12 +9,16 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeMaterialFormsError
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.itin.AddGuestItinViewModel
+import com.mobiata.android.util.Ui
 
 class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
@@ -23,6 +27,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     val guestEmailEditText: EditText by bindView(R.id.email_edit_text)
     val loadingContainer: LinearLayout by bindView(R.id.loading_container)
     val addGuestFormFieldContainer: LinearLayout by bindView(R.id.outer_container)
+    val unableToFindItinErrorText: TextView by bindView(R.id.unable_to_find_itin_error_message)
 
     var viewModel: AddGuestItinViewModel by notNullAndObservable { vm ->
         vm.showSearchDialogObservable.subscribe { show ->
@@ -33,12 +38,16 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
                 loadingContainer.visibility = View.GONE
                 addGuestFormFieldContainer.visibility = View.VISIBLE
             }
+            Ui.hideKeyboard(this)
         }
         vm.guestItinFetchButtonEnabledObservable.subscribeEnabled(findItinButton)
+        vm.showErrorObservable.subscribeVisibility(unableToFindItinErrorText)
+        vm.showErrorMessageObservable.subscribeText(unableToFindItinErrorText)
     }
 
     init {
         View.inflate(context, R.layout.add_guest_itin_widget, this)
+        orientation = VERTICAL
         viewModel = AddGuestItinViewModel(context)
         findItinButton.setOnClickListener {
             viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))

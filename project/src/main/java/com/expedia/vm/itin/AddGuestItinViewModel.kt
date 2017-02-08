@@ -1,11 +1,16 @@
 package com.expedia.vm.itin
 
 import android.content.Context
-import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.R
+import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.utils.Ui
+import com.google.gson.Gson
 import com.mobiata.android.validation.ValidationError
+import com.squareup.phrase.Phrase
+import retrofit2.adapter.rxjava.HttpException
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -23,6 +28,8 @@ class AddGuestItinViewModel(val context: Context) {
     val itinNumberValidateObservable = PublishSubject.create<String>()
     val hasItinErrorObservable = BehaviorSubject.create<Boolean>()
     val guestItinFetchButtonEnabledObservable = PublishSubject.create<Boolean>()
+    val showErrorObservable = PublishSubject.create<Boolean>()
+    val showErrorMessageObservable = PublishSubject.create<String>()
 
     lateinit var tripServices: ItinTripServices
         @Inject set
@@ -47,21 +54,39 @@ class AddGuestItinViewModel(val context: Context) {
 
         Observable.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { hasEmailError, hasItinError ->
             guestItinFetchButtonEnabledObservable.onNext(!hasEmailError && !hasItinError)
+            showErrorObservable.onNext(false)
         }).subscribe()
     }
 
-    fun makeGuestTripResponseObserver(): Observer<AbstractItinDetailsResponse> {
-        return object : Observer<AbstractItinDetailsResponse> {
+    fun makeGuestTripResponseObserver(): Observer<ItinDetailsResponse> {
+        return object : Observer<ItinDetailsResponse> {
             override fun onCompleted() {
                 showSearchDialogObservable.onNext(false)
             }
 
-            override fun onError(e: Throwable?) {
-                e?.printStackTrace()
+            override fun onError(errorThrowable: Throwable?) {
+                var errorString = (errorThrowable as HttpException).response().errorBody().string()
+                var isNotAuthenticated = errorString.contains("Not authenticated")
                 showSearchDialogObservable.onNext(false)
+                if (errorThrowable is HttpException) {
+                    val gson = Gson()
+                    val response = gson.fromJson(errorString, ItinDetailsResponse::class.java)
+                    if (response?.errors?.size!! > 0) {
+                        showErrorObservable.onNext(true)
+                        showErrorMessageObservable.onNext(
+                                if (isNotAuthenticated)
+                                    Phrase.from(context.getString(R.string.unable_to_find_registered_user_itinerary_template))
+                                            .put("brand", BuildConfig.brand).format().toString()
+                                else
+                                    context.getString(R.string.unable_to_find_guest_itinerary))
+                    }
+                }
+                else {
+                    errorThrowable?.printStackTrace()
+                }
             }
 
-            override fun onNext(t: AbstractItinDetailsResponse?) {
+            override fun onNext(response: ItinDetailsResponse?) {
             }
         }
     }

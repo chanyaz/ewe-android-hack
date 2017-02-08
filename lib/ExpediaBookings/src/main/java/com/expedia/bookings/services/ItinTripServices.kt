@@ -1,6 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.data.abacus.ItinTripDeserializer
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
@@ -39,7 +40,7 @@ open class ItinTripServices(endpoint: String, okHttpClient: OkHttpClient, interc
         return subscription
     }
 
-    open fun getGuestTrip(guestEmail: String, tripId: String, observer: Observer<AbstractItinDetailsResponse>): Subscription {
+    open fun getGuestTrip(guestEmail: String, tripId: String, observer: Observer<ItinDetailsResponse>): Subscription {
         val subscription = tripsApi.guestTrip(tripId, guestEmail)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
