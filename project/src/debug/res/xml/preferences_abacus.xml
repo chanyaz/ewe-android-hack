@@ -80,10 +80,19 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
+            android:key="13098"
+            android:layout="@layout/preference"
+            android:title="Hotel Member Pricing Badge Color Test - 13098" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
             android:key="13079"
             android:layout="@layout/preference"
             android:title="Hotel Hide Review and Rating When no Reviews- 13079" />
-            
+
     </PreferenceCategory>
 
     <PreferenceCategory

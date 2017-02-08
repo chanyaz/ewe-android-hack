@@ -863,6 +863,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.accessibility_cont_desc_pos_TEMPLATE,
 		R.layout.itin_pos_header_spinner,
 		R.string.select_preferred_flight_class_cont_desc_TEMPLATE,
-		R.layout.widget_flight_cabin_class_search
+		R.layout.widget_flight_cabin_class_search,
+		R.color.hotel_member_pricing_color_test,
+		R.drawable.ic_hotel_member_test
 	};
 }
