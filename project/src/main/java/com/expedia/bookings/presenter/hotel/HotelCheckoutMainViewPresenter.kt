@@ -23,6 +23,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -54,6 +55,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     val couponCardView = CouponWidget(context, attr)
     var hasDiscount = false
     val backPressedAfterUserWithEffectiveSwPAvailableSignedOut = PublishSubject.create<Unit>()
+    val  pageUsableData = PageUsableData()
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
@@ -213,11 +215,12 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()
-        HotelTracking.trackPageLoadHotelCheckoutInfo(trip, hotelSearchParams)
-
+        pageUsableData.markAllViewsLoaded(System.currentTimeMillis())
         if (trip.guestUserPromoEmailOptInStatus != null) {
             emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
         }
+        HotelTracking.trackPageLoadHotelCheckoutInfo(trip, hotelSearchParams, pageUsableData)
+
     }
 
     override fun showProgress(show: Boolean) {
@@ -273,5 +276,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
     override fun getAccessibilityTextForPurchaseButton(): String {
         return resources.getString(R.string.accessibility_purchase_button)
+    }
+
+    fun markRoomSelected() {
+        pageUsableData.markPageLoadStarted(System.currentTimeMillis())
     }
 }

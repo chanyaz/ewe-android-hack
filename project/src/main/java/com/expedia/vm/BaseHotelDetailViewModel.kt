@@ -160,7 +160,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     var isCurrentLocationSearch = false
     var selectedRoomIndex = -1
-    var loadTimeData = PageUsableData()
+    val loadTimeData = PageUsableData()
 
     private var roomSubscriptions: CompositeSubscription? = null
 

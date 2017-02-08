@@ -235,8 +235,8 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2ReviewsCategories(category)
         }
 
-        fun trackPageLoadHotelCheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams) {
-            OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams)
+        fun trackPageLoadHotelCheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams, pageUsableData: PageUsableData) {
+            OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams, pageUsableData)
             val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
             LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse, searchParams.guests)
             TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)

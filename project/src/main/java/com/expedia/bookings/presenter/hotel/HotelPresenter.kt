@@ -350,7 +350,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
         hotelDetailViewModel = HotelDetailViewModel(context)
+
         hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
+            checkoutPresenter.hotelCheckoutWidget.markRoomSelected()
             if (shouldUseWebCheckout(context)) {
                 val webCheckoutViewModel = webCheckoutView.viewModel as WebCheckoutViewViewModel
                 webCheckoutViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)

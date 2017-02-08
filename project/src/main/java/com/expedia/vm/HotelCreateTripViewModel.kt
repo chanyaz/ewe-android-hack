@@ -1,12 +1,12 @@
 package com.expedia.vm
 
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
@@ -31,11 +31,11 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
 
     open fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
         return object : Observer<HotelCreateTripResponse> {
-            override fun onNext(t: HotelCreateTripResponse) {
-                if (t.hasErrors()) {
-                    if (t.firstError.errorInfo.field == "productKey") {
+            override fun onNext(response: HotelCreateTripResponse) {
+                if (response.hasErrors()) {
+                    if (response.firstError.errorInfo.field == "productKey") {
                         errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
-                    } else if (t.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                    } else if (response.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
                         errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
                     } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
@@ -43,10 +43,10 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
                 } else {
                     // TODO: Move away from using DB. observers should react on fresh createTrip response
                     Db.getTripBucket().clearHotelV2()
-                    Db.getTripBucket().add(TripBucketItemHotelV2(t))
+                    Db.getTripBucket().add(TripBucketItemHotelV2(response))
                     // TODO: populate hotelCreateTripResponseData with response data
-                    tripResponseObservable.onNext(t)
-                    paymentModel?.createTripSubject?.onNext(t)
+                    tripResponseObservable.onNext(response)
+                    paymentModel?.createTripSubject?.onNext(response)
                 }
             }
 
