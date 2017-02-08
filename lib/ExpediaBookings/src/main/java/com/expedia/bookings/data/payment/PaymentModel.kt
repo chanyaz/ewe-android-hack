@@ -5,11 +5,12 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.services.LoyaltyServices
 import rx.Observable
-import rx.Observer
-import rx.Subscriber
+import io.reactivex.Observer
+//import rx.Subscriber
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import org.reactivestreams.Subscriber
 import java.math.BigDecimal
 
 class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
@@ -28,7 +29,7 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val burnAmountToPointsApiError = PublishSubject.create<ApiError>()
 
     private fun makeCalculatePointsApiResponseObserver(): Observer<CalculatePointsResponse> {
-        return object : Subscriber<CalculatePointsResponse>() {
+        return object : Observer<CalculatePointsResponse>() {
             override fun onError(apiError: Throwable?) {
                 if (!this.isUnsubscribed) {
                     burnAmountToPointsApiError.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
@@ -43,7 +44,11 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
                 }
             }
 
-            override fun onCompleted() {
+            override fun onComplete() {
+            }
+
+            override fun onSubscribe(Disposable d){
+
             }
         }
     }
