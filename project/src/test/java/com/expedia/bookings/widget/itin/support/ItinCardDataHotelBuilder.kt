@@ -15,6 +15,7 @@ class ItinCardDataHotelBuilder {
     private var isSharedItin = false
     private var checkInDate: DateTime = DateTime.now().plusDays(2)
     private var checkOutDate: DateTime? = checkInDate.plusDays(3)
+    private var bookingChangeUrl = ""
 
     fun build(): ItinCardDataHotel {
         val itinCardDataHotel = makeHotel()
@@ -28,7 +29,16 @@ class ItinCardDataHotelBuilder {
         tripHotel.startDate = checkInDate
         tripHotel.endDate = checkOutDate
 
+        if (bookingChangeUrl.isNotEmpty()) {
+            itinCardDataHotel.property.bookingChangeWebUrl = bookingChangeUrl
+        }
+
         return itinCardDataHotel
+    }
+
+    fun withBookingChangeUrl(url: String): ItinCardDataHotelBuilder {
+        bookingChangeUrl = url
+        return this
     }
 
     fun withUpgradeableRoom(): ItinCardDataHotelBuilder {

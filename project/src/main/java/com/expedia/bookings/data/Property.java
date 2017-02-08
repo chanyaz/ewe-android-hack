@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -141,13 +142,24 @@ public class Property implements JSONable {
 	private boolean mIsETPHotel;
 
 	private String mRoomCancelLink;
+	private String mBookingChangeWebUrl;
 
 	public void setRoomCancelLink(String roomCancelLink) {
 		this.mRoomCancelLink = roomCancelLink;
 	}
+	public void setBookingChangeWebUrl(String mBookingChangeWebUrl) {
+		this.mBookingChangeWebUrl = mBookingChangeWebUrl;
+	}
+
+	public boolean isBookingChangeAvailable() {
+		return Strings.isNotEmpty(mBookingChangeWebUrl);
+	}
 
 	public String getRoomCancelLink() {
 		return mRoomCancelLink;
+	}
+	public String getBookingChangeWebUrl() {
+		return mBookingChangeWebUrl;
 	}
 
 	public boolean isETPHotel() {
@@ -705,6 +717,7 @@ public class Property implements JSONable {
 			obj.putOpt("omnitureAdDisplayedUrl", mOmnitureAdDisplayedUrl);
 			obj.putOpt("isETPHotel", mIsETPHotel);
 			obj.putOpt("mRoomCancelLink", mRoomCancelLink);
+			obj.putOpt("mBookingChangeWebUrl", mBookingChangeWebUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -757,6 +770,7 @@ public class Property implements JSONable {
 		mOmnitureAdDisplayedUrl = obj.optString("omnitureAdDisplayedUrl", null);
 		mIsETPHotel = obj.optBoolean("isETPHotel", false);
 		mRoomCancelLink = obj.optString("mRoomCancelLink", "");
+		mBookingChangeWebUrl = obj.optString("mBookingChangeWebUrl", "");
 		return true;
 	}
 
