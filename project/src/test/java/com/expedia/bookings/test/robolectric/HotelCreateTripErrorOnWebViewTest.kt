@@ -3,41 +3,33 @@ package com.expedia.bookings.presenter.hotel
 import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.test.robolectric.RoboTestHelper.assertVisible
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.WebCheckoutViewViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
-import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
-class HotelConfirmationPresenterTest {
-    var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
-        @Rule get
-
+class HotelCreateTripErrorOnWebViewTest {
 
     lateinit var hotelPresenter: HotelPresenter
     lateinit var activity: Activity
@@ -67,18 +59,27 @@ class HotelConfirmationPresenterTest {
     }
 
     @Test
-    fun testConfirmationScreenPopulatedByItinsCall() {
-        val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
-        val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
-        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.subscribe(testObserver)
-        serviceRule.services!!.getTripDetails("web_view_hotel_trip_details", makeItinResponseObserver)
-        testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        assertEquals("CitiGarden Hotel", hotelPresenter.confirmationPresenter.hotelNameTextView.text)
-        assertEquals("Feb 10 – 11, 2017", hotelPresenter.confirmationPresenter.checkInOutDateTextView.text)
-        assertEquals("245 S Airport Blvd", hotelPresenter.confirmationPresenter.addressL1TextView.text)
-        assertEquals("South San Francisco, CA", hotelPresenter.confirmationPresenter.addressL2TextView.text)
-        assertEquals("Itinerary #7241053124635", hotelPresenter.confirmationPresenter.itinNumberTextView.text)
-        assertEquals("abhithaparian@gmail.com", hotelPresenter.confirmationPresenter.sendToEmailTextView.text)
+    fun testCreateTripErrorProductExpiry() {
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
+        assertVisible(hotelPresenter.errorPresenter)
+        assertEquals("Search Again", hotelPresenter.errorPresenter.errorButton.text)
+        assertEquals("We're really sorry, your hold on this room has expired", hotelPresenter.errorPresenter.errorText.text)
+    }
+
+    @Test
+    fun testCreateTripErrorRoomUnavailable() {
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+        assertVisible(hotelPresenter.errorPresenter)
+        assertEquals("Select another room", hotelPresenter.errorPresenter.errorButton.text)
+        assertEquals("This room is sold out.", hotelPresenter.errorPresenter.errorText.text)
+    }
+
+    @Test
+    fun testCreateTripErrorUnknownError() {
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        assertVisible(hotelPresenter.errorPresenter)
+        assertEquals("Retry", hotelPresenter.errorPresenter.errorButton.text)
+        assertEquals("Sorry, we could not connect to Expedia's servers.  Please try again later.", hotelPresenter.errorPresenter.errorText.text)
     }
 
     private fun selectHotelRoom() {

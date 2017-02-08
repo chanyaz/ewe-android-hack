@@ -39,12 +39,6 @@ class WebCheckoutViewTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Control)
         Ui.getApplication(activity).defaultHotelComponents()
-        hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
-        hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
-        hotelPresenter.show(hotelPresenter.detailPresenter)
-        webCheckoutViewObservable = TestSubscriber<Unit>()
-        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
-
     }
 
     private fun getDummyHotelSearchParams(): HotelSearchParams {
@@ -61,6 +55,7 @@ class WebCheckoutViewTest {
     fun webCheckoutUsed() {
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(1)
     }
@@ -69,6 +64,7 @@ class WebCheckoutViewTest {
     fun webCheckoutNotUsedOnUnsupportedPOS() {
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(false)
+        setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(0)
     }
@@ -77,6 +73,7 @@ class WebCheckoutViewTest {
     fun webCheckoutNotUsedWithFeatureToggleOff() {
         featureToggleWebCheckout(false)
         setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(0)
     }
@@ -85,6 +82,7 @@ class WebCheckoutViewTest {
     fun webCheckoutNotUsedOnUnsupportedPOSAndFeatureToggleOff() {
         featureToggleWebCheckout(false)
         setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(0)
     }
@@ -95,6 +93,7 @@ class WebCheckoutViewTest {
         val fectchTripIDSubscriber = TestSubscriber<String>()
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fetchItinObservable.subscribe(fectchTripIDSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
@@ -137,6 +136,14 @@ class WebCheckoutViewTest {
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = ""
         return suggestion
+    }
+
+    private fun setUpTestToStartAtDetailsScreen(){
+        hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
+        hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
+        hotelPresenter.show(hotelPresenter.detailPresenter)
+        webCheckoutViewObservable = TestSubscriber<Unit>()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.subscribe(webCheckoutViewObservable)
     }
     
 }
