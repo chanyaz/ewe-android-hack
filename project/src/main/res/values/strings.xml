@@ -4984,8 +4984,10 @@
     <string name="passport_validation_error_message">Select a passport country</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">Manually add your guest booked trip</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">Searching for your trip …</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(in your confirmation email)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">Enter valid itinerary number, minimum 11</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
 
