@@ -14,6 +14,7 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public List<Hotel> hotelList = new ArrayList<>();
 	public List<Neighborhood> allNeighborhoodsInSearchRegion = new ArrayList<>();
 	public Map<String, AmenityOptions> amenityFilterOptions = new HashMap<>();
+	public String searchRegionCity = "";
 	public String searchRegionId = "";
 	public List<PriceOption> priceOptions = new ArrayList<>();
 	public boolean hasLoyaltyInformation;

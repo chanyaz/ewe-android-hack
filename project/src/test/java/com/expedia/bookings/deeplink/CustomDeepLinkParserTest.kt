@@ -22,7 +22,11 @@ class CustomDeepLinkParserTest {
         var output = parser.parseDeepLink(data)
         Assert.assertTrue(output is HotelDeepLink)
 
-        data = data.buildUpon().appendQueryParameter("location", "Las%20Vegas,%20NV").build()
+        data = data.buildUpon().appendQueryParameter("location", "ID6059241").build()
+        output = parser.parseDeepLink(data) as HotelDeepLink
+        Assert.assertEquals("6059241", output.regionId)
+
+        data = Uri.parse("expda://hotelSearch").buildUpon().appendQueryParameter("location", "Las%20Vegas,%20NV").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
         Assert.assertEquals("Las%20Vegas,%20NV", output.location)
 

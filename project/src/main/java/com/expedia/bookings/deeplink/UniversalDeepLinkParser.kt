@@ -54,9 +54,7 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "endDate", DateTimeFormat.forPattern("MM/dd/yyyy"))
         hotelDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "adults")
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sort")
-        if (queryParameterNames.contains("regionId")) {
-            hotelDeepLink.location = StringBuilder("ID").append(data.getQueryParameter("regionId")).toString()
-        }
+        hotelDeepLink.regionId = getQueryParameterIfExists(data, queryParameterNames, "regionId")
 
         return hotelDeepLink
     }

@@ -30,7 +30,7 @@ public interface HotelApi {
 
 	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&pageIndex=0&enableSponsoredListings=true&forceV2Search=true")
 	Observable<HotelSearchResponse> search(
-		@Query("regionId") String gaiaId,
+		@Query("regionId") String regionId,
 		@Query("latitude") Double lat,
 		@Query("longitude") Double lng,
 		@Query("checkInDate") String checkIn,

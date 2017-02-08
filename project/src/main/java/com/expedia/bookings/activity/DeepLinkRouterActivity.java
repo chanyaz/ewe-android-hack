@@ -322,9 +322,17 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 				Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.getRegionId());
 			}
+			else if (deepLink.getRegionId() != null) {
+				hotelSearchParams.setSearchType(SearchType.CITY);
+				hotelSearchParams.setRegionId(deepLink.getRegionId());
+				hotelSearchParams.setQuery("", false);
+
+				Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getRegionId());
+			}
 			else if (deepLink.getLocation() != null) {
 				hotelSearchParams.setSearchType(SearchType.CITY);
 				hotelSearchParams.setQuery(deepLink.getLocation());
+
 				Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getQuery());
 			}
 
