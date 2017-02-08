@@ -52,5 +52,5 @@ public class Constants {
 
 	public static final double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
 
-	public static final String DEEPLINK_KEYWORD = "deeplink";
+	public static final String DEEPLINK_KEYWORD = "/mobile/deeplink";
 }

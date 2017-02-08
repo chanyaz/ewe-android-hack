@@ -4,28 +4,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.net.Uri;
 
-import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.cars.CarSearchParam;
-import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.RentalFareBreakdownType;
 import com.expedia.bookings.data.cars.Transmission;
+import com.expedia.bookings.deeplink.CarDeepLink;
 import com.expedia.bookings.services.CarServices;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -261,12 +260,15 @@ public class CarDataUtils {
 			.origin(originSuggestion).build();
 	}
 
-	public static CarSearchParam fromDeepLink(Uri data, Set<String> queryData) {
-		String pickupLocation = getQueryParameterIfExists(data, queryData, "pickupLocation");
-		String pickupLocationLatStr = getQueryParameterIfExists(data, queryData, "pickupLocationLat");
-		String pickupLocationLngStr = getQueryParameterIfExists(data, queryData, "pickupLocationLng");
+	public static CarSearchParam fromDeepLink(CarDeepLink carDeepLink) {
+		String pickupLocation = carDeepLink.getPickupLocation();
+		String pickupLocationLatStr = carDeepLink.getPickupLocationLat();
+		String pickupLocationLngStr = carDeepLink.getPickupLocationLng();
 		LatLong pickupLocationLatLng = LatLong.fromLatLngStrings(pickupLocationLatStr, pickupLocationLngStr);
-		String originDescription = getQueryParameterIfExists(data, queryData, "originDescription");
+		String originDescription = carDeepLink.getOriginDescription();
+		if (carDeepLink.getOriginDescription() == null) {
+			originDescription = pickupLocation;
+		}
 		SuggestionV4 originSuggestion;
 
 		//Input Validation
@@ -279,13 +281,10 @@ public class CarDataUtils {
 			originSuggestion = getSuggestionFromLocation(pickupLocation, pickupLocationLatLng, originDescription);
 		}
 
-		String pickupDateTimeStr = getQueryParameterIfExists(data, queryData, "pickupDateTime");
-		String dropoffDateTimeStr = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
-
 		// DateTime Sanity - In case the date time passed from the outside world is in a garbled format,
 		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
-		DateTime startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTimeStr, DateTime.now());
-		DateTime endDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTimeStr, startDateTime.plusDays(3));
+		DateTime startDateTime = carDeepLink.getPickupDateTime();
+		DateTime endDateTime = carDeepLink.getDropoffDateTime();
 
 		return (CarSearchParam) new CarSearchParam.Builder().pickupLocationLatLng(pickupLocationLatLng)
 			.startDateTime(startDateTime).endDateTime(endDateTime).origin(originSuggestion).build();
@@ -341,13 +340,6 @@ public class CarDataUtils {
 			}
 		}
 
-		return null;
-	}
-
-	private static String getQueryParameterIfExists(Uri uri, Set<String> queryData, String paramKey) {
-		if (queryData.contains(paramKey)) {
-			return uri.getQueryParameter(paramKey);
-		}
 		return null;
 	}
 
