@@ -2,6 +2,8 @@ package com.expedia.bookings.presenter.trips
 
 import android.content.Context
 import android.support.design.widget.TextInputEditText
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
@@ -51,11 +53,37 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             }
         }
 
+        itinNumberEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.itinNumberValidateObservable.onNext(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
         guestEmailEditText.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 viewModel.emailValidateObservable.onNext(guestEmailEditText.text.toString())
             }
         }
+
+        guestEmailEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.emailValidateObservable.onNext(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
 
         guestEmailEditText.subscribeMaterialFormsError(viewModel.hasEmailErrorObservable, R.string.email_validation_error_message)
         itinNumberEditText.subscribeMaterialFormsError(viewModel.hasItinErrorObservable, R.string.itinerary_number_error_message)
