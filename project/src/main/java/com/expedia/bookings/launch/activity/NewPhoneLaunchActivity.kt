@@ -187,6 +187,12 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
         }
+        else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
+            if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
+                val tripId = data.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
+                ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
+            }
+        }
         else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)

@@ -371,24 +371,24 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade) && !isSharedItin();
 		if (showRoomUpgradeButton) {
 			//hasUpgradeAvailable set to true until API is ready
-			boolean hasUpgradeAvailable = true;
+			boolean hasUpgradeAvailable = itinCardData.hasRoomUpgradeOffers();
 			hotelUpgradeText.setVisibility(hasUpgradeAvailable ? View.VISIBLE : View.GONE);
 			AccessibilityUtil.appendRoleContDesc(hotelUpgradeText, hotelUpgradeText.getText().toString(), R.string.accessibility_cont_desc_role_button);
 
 			if (hasUpgradeAvailable) {
 				//add null check if necessary!
 				//roomUpgradeLink stubbed until API is ready
-				final String roomUpgradeLink = "http://www.expedia.com";
+				final String roomUpgradeLink = itinCardData.getProperty().getRoomUpgradeWebViewUrl();
 				hotelUpgradeText.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						WebViewActivity.IntentBuilder intentBuilder =
-							buildWebViewIntent(R.string.trips_upgrade_hotel_button_label_cont_desc, roomUpgradeLink);
+							buildWebViewIntent(R.string.trips_upgrade_hotel_button_label_cont_desc, roomUpgradeLink).setRoomUpgradeType();
 
 						Intent intent = intentBuilder.getIntent();
 						//Stubbed using cancel room data until API is ready
-						intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
-						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+						intent.putExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID, getItinCardData().getTripNumber());
+						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE);
 					}
 				});
 			}

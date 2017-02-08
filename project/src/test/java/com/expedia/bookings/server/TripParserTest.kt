@@ -14,7 +14,20 @@ import kotlin.test.assertEquals
 import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
-class TripsParserTest {
+class TripParserTest {
+
+    val roomUpgradeOfferApiUrl = "https://localhost/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
+    val roomUpgradeWebViewLink = "https://localhost/hotelUpgrades/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/c65fb5fb-489a-4fa8-a007-715b946d3b04/1/upgradeDeals?mcicid=App.Itinerary.Hotel.Upgrade&mobileWebView=true"
+
+    @Test
+    fun roomUpgradePropertiesParsed() {
+        val tripParser = TripParser()
+        val hotelTripJson = getHotelTripJson(withUpgradeOffer = true)
+        val parsedHotelTrip = tripParser.parseTrip(hotelTripJson).tripComponents[0] as TripHotel
+
+        assertEquals(roomUpgradeOfferApiUrl, parsedHotelTrip.property.roomUpgradeOffersApiUrl)
+        assertEquals(roomUpgradeWebViewLink, parsedHotelTrip.property.roomUpgradeWebViewUrl)
+    }
 
     @Test
     fun iso8601Parsing() {
@@ -35,20 +48,6 @@ class TripsParserTest {
         catch (e: Exception) {
             fail("Oops, we shouldn't have ended up here")
         }
-    }
-
-    private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {
-        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
-        val jsonObject = JSONObject(data)
-        val hotelTripJsonObj = jsonObject.getJSONObject("responseData")
-
-        hotelTripJsonObj.put("checkInDate", checkInDate)
-        hotelTripJsonObj.put("checkOutDate", checkOutDate)
-
-        hotelTripJsonObj.remove("checkInDateTime")
-        hotelTripJsonObj.remove("checkOutDateTime")
-
-        return hotelTripJsonObj
     }
 
     @Test
@@ -115,5 +114,32 @@ class TripsParserTest {
         assertEquals("8AEE006B-E82D-40C1-A77D-5063EF3D47A9_0_224793_224797", activity.id)
         assertEquals("Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center", activity.title)
         assertEquals(0, activity.guestCount)
+    }
+
+    private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {
+        val hotelTripJsonObj = getHotelTripJson()
+
+        hotelTripJsonObj.put("checkInDate", checkInDate)
+        hotelTripJsonObj.put("checkOutDate", checkOutDate)
+
+        hotelTripJsonObj.remove("checkInDateTime")
+        hotelTripJsonObj.remove("checkOutDateTime")
+
+        return hotelTripJsonObj
+    }
+
+    private fun getHotelTripJson(withUpgradeOffer: Boolean = false): JSONObject {
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val responseData = jsonObject.getJSONObject("responseData")
+        val hotel = responseData.getJSONArray("hotels").getJSONObject(0)
+        val rooms = hotel.getJSONArray("rooms")
+        val firstRoom = rooms.getJSONObject(0)
+        if (withUpgradeOffer) {
+            firstRoom.put("roomUpgradeOfferApiUrl", roomUpgradeOfferApiUrl)
+            firstRoom.put("roomUpgradeLink", roomUpgradeWebViewLink)
+        }
+
+        return responseData
     }
 }

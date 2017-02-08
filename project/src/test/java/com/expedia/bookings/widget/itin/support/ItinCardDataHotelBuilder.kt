@@ -16,6 +16,8 @@ class ItinCardDataHotelBuilder {
     private var checkInDate: DateTime = DateTime.now().plusDays(2)
     private var checkOutDate: DateTime? = checkInDate.plusDays(3)
     private var bookingChangeUrl = ""
+    private var roomUpgradeApiUrl = ""
+    private var roomUpgradeWebUrl = ""
 
     fun build(): ItinCardDataHotel {
         val itinCardDataHotel = makeHotel()
@@ -23,6 +25,9 @@ class ItinCardDataHotelBuilder {
 
         itinCardDataHotel.property.setIsVipAccess(vipEnabled)
         parentTrip.setIsTripUpgradable(upgradeableRoom)
+        parentTrip.setIsShared(isSharedItin)
+        itinCardDataHotel.property.roomUpgradeOffersApiUrl = roomUpgradeApiUrl
+        itinCardDataHotel.property.roomUpgradeWebViewUrl = roomUpgradeWebUrl
         parentTrip.setIsShared(isSharedItin)
 
         val tripHotel = itinCardDataHotel.tripComponent
@@ -38,6 +43,16 @@ class ItinCardDataHotelBuilder {
 
     fun withBookingChangeUrl(url: String): ItinCardDataHotelBuilder {
         bookingChangeUrl = url
+        return this
+    }
+
+    fun withRoomUpgradeApiUrl(url: String): ItinCardDataHotelBuilder {
+        roomUpgradeApiUrl = url
+        return this
+    }
+
+    fun withRoomUpgradeWebUrl(url: String): ItinCardDataHotelBuilder {
+        roomUpgradeWebUrl = url
         return this
     }
 
