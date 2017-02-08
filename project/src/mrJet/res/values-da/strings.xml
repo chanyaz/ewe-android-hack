@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">Samlet beløb, der skal betales til MrJet i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle MrJets hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?’ nedenfor.</string>
+    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle MrJets hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?\&apos; nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløb, der skal betales til MrJet i dag</string>
@@ -43,10 +43,10 @@
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Log på for at optjene MrJet Rewards svarende til {reward}</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knap til at logge på og optjene MrJet Rewards svarende til {reward}</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Jeg vil optjene rejsefordele med {brand_reward_name_link}. Ved at tilmelde mig  accepterer jeg alle {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Jeg vil optjene rejsefordele med {brand_reward_name_link}. Ved at tilmelde mig accepterer jeg alle {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Betaler med MrJet Rewards</string>
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

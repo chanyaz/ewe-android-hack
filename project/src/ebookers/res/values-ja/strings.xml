@@ -26,7 +26,7 @@
 
     <!-- Missing strings for ebookers from Expedia-->
     <string name="tell_a_friend_body_ebookers">こんにちは。\n \niPhone と Android スマートフォン用の ebookers ホテル予約アプリがオススメです。無料でダウンロードできて、世界中 14 万軒以上ものホテルを検索、予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。</string>
-    <string name="cd_log_in_email_edit_text_ebookers">ebookers アカウントの電子メールアドレスを入力</string>
+    <string name="cd_log_in_email_edit_text_ebookers">ebookers アカウントの Eメールアドレスを入力</string>
     <string name="tell_a_friend_subject_ebookers">ebookers のホテルを読み込んでいます</string>
     <string name="cd_log_in_password_edit_text_ebookers">ebookers アカウントのパスワードを入力</string>
     <string name="cd_launch_open_eb_info_screen_ebookers">ebookers 予約情報画面を開く</string>
@@ -46,8 +46,6 @@
     <string name="Sign_in_to_earn_TEMPLATE">サインインして BONUS+ で {reward} 獲得</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして BONUS+ で {reward} 獲得するボタン</string>
-    <!-- Account creation legal template excluding ebookers BONUS+ -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">今すぐ {brand_reward_currency} を獲得 !  入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
 
@@ -141,4 +139,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">航空券 + ホテルの料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。航空券 + ホテルを表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">航空券 + ホテル詳細を表示中。閉じるボタン。</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

@@ -7,4 +7,6 @@
     <string name="acct_Welcome_to_LastMinute">歡迎使用 Lastminute</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_LastMinute_account_already_exists">此電郵地址已登記 LM AU &amp; NZ 帳戶</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Sneaky Saver</string>
 </resources>
