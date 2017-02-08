@@ -291,7 +291,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isAbacusTestEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override

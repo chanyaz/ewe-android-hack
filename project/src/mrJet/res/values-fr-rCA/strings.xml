@@ -7,7 +7,7 @@
     <string name="cd_checkout_log_in_with_mrjet">Appuyez pour ouvrir une session sur votre compte MrJet</string>
 
     <string name="contact_mrjet">Communiquer avec MrJet</string>
-    <string name="mrjet_info_url">https://www.MrJet.com/</string>
+    <string name="mrjet_info_url">http://www.MrJet.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_mrjet">Voulez-vous vraiment vous déconnecter de votre compte MrJet?</string>
@@ -16,37 +16,37 @@
     <string name="contact_mrjet_email_subject">Soutien pour les réservations MrJet</string>
 
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_mrjet">Désolé, la chambre sélectionnée n’est plus disponible sur MrJet.</string>
+    <string name="error_room_is_now_sold_out_mrjet">Désolé, la chambre sélectionnée n\&apos;est plus disponible sur MrJet.</string>
     <!--A message stating this hotel is Not currently available on MrJet -->
     <string name="not_currently_available_mrjet">Non disponible présentement sur MrJet</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from MrJet Nov. 3-4" -->
     <string name="not_currently_available_mrjet_TEMPLATE">Non disponible sur MrJet les %s</string>
 
     <!-- Missing strings for MrJet from Expedia-->
-    <string name="tell_a_friend_body_mrjet">Bonjour,\n\nJetez un coup d’œil à l’application MrJet Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C’est la façon la plus simple de réserver une chambre à partir de votre téléphone.</string>
-    <string name="cd_log_in_email_edit_text_mrjet">Entrez l’adresse courriel du compte MrJet</string>
+    <string name="tell_a_friend_body_mrjet">Bonjour,\n\nJetez un coup d\&apos;œil à l\&apos;application MrJet Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C\&apos;est la façon la plus simple de réserver une chambre à partir de votre téléphone.</string>
+    <string name="cd_log_in_email_edit_text_mrjet">Entrez l\&apos;adresse courriel du compte MrJet</string>
     <string name="tell_a_friend_subject_mrjet">MrJet Hotels</string>
     <string name="cd_log_in_password_edit_text_mrjet">Entrez le mot de passe du compte MrJet</string>
-    <string name="cd_launch_open_eb_info_screen_mrjet">Ouvrez l’écran d’information Réservations MrJet</string>
+    <string name="cd_launch_open_eb_info_screen_mrjet">Ouvrez l\&apos;écran d\&apos;information Réservations MrJet</string>
     <string name="loading_mrjet_account">Chargement du compte MrJet</string>
     <string name="mrjet_password_hint">Mot de passe MrJet</string>
     <string name="dialog_message_launch_mrjet_mobile_site">Lancer le site Web MrJet mobile?</string>
     <!-- MrJet App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Montant total dû à MrJet aujourd’hui :</string>
+    <string name="total_due_to_our_brand_today">Montant total dû à MrJet aujourd\&apos;hui :</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vous devez créer un nouvel identifiant international vous donnant accès à tous les sites MrJet.&lt;br&gt;Veuillez réinitialiser votre mot de passe à l’aide du lien « Oublié votre mot de passe? » ci-dessous.</string>
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant international vous donnant accès à tous les sites MrJet.&lt;br&gt;Veuillez réinitialiser votre mot de passe à l\&apos;aide du lien « Vous avez oublié votre mot de passe? » ci-dessous.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Montant dû à MrJet aujourd’hui</string>
+    <string name="total_due_today">Montant dû à MrJet aujourd\&apos;hui</string>
 
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Ouvrez une session pour obtenir {reward} en MrJet Rewards</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Bouton Ouvrez une session pour obtenir {reward} en MRJet Rewards</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Je souhaite obtenir instantanément des récompenses avec {brand_reward_name_link}. Par mon inscription, j’accepte toutes les {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Je souhaite obtenir instantanément des récompenses avec {brand_reward_name_link}. Par mon inscription, j\&apos;accepte toutes les {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Paiement en MrJet Rewards</string>
@@ -64,7 +64,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Les hôtels VIP offrent le surclassement sans frais en catégorie supérieure aux membres or et platine ainsi que de nombreux autres avantages, selon la disponibilité à l’arrivée.</string>
+    <string name="vip_access_message">Les hôtels VIP offrent le surclassement sans frais en catégorie supérieure aux membres or et platine ainsi que de nombreux autres avantages, selon la disponibilité à l\&apos;arrivée.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Seulement les hôtels VIP</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>
