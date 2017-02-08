@@ -75,6 +75,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private TextView mStatusText;
 	private ImageView mStatusImage;
 	private Button mFindItineraryButton;
+	public ItinSignInPresenter mSignInPresenter;
+
 	private boolean mAllowLoadItins = false;
 
 	private boolean mCurrentSyncHasErrors = false;
@@ -210,17 +212,14 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		return view;
 	}
 
-	public ItinSignInPresenter mItinSignInPresenter;
-
 	private void setSignInView(View view) {
 		View mEmptyView;
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
 			R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity())) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
-			mItinSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
-
-			mItinManager.addSyncListener(mItinSignInPresenter.getSyncListenerAdapter());
-			mEmptyView = mItinSignInPresenter;
+			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
+			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
+			mEmptyView = mSignInPresenter;
 		}
 		else {
 			mEmptyView = Ui.findView(view, R.id.old_sign_in_view);
@@ -681,6 +680,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		super.setUserVisibleHint(visible);
 		if (visible) {
 			showUserReview();
+			if (isResumed()) {
+				if (mSignInPresenter != null) {
+					mSignInPresenter.getSignInWidget().getSignInToolbar().setCurrentPOS();
+				}
+			}
 		}
 	}
 

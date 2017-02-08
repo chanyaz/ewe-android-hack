@@ -12,6 +12,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeImageDrawable
+import com.expedia.bookings.widget.itin.ItinPOSHeader
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribePorterDuffColorFilter
 import com.expedia.util.subscribeText
@@ -27,12 +28,13 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
     val statusImage: ImageView by bindView(R.id.status_image)
     val buttonImage: ImageView by bindView(R.id.exp_logo)
 
+    val signInToolbar: ItinPOSHeader by bindView(R.id.sign_in_toolbar)
+
     val viewModel = ItinSignInViewModel(context)
 
     init {
         View.inflate(context, R.layout.itin_sign_in_widget, this)
     }
-
 
     override fun onFinishInflate() {
         super.onFinishInflate()

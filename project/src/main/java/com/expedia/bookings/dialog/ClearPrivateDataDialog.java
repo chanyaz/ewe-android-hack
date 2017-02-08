@@ -13,10 +13,17 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 
 public class ClearPrivateDataDialog extends DialogFragment {
+	private ClearPrivateDataDialogListener listener;
 
 	public interface ClearPrivateDataDialogListener {
 		void onPrivateDataCleared();
+		void onDialogCancel();
 	}
+
+	public void setListener(ClearPrivateDataDialogListener listener) {
+		this.listener = listener;
+	}
+
 
 	@NonNull
 	@Override
@@ -35,6 +42,9 @@ public class ClearPrivateDataDialog extends DialogFragment {
 			public void onClick(DialogInterface dialog, int which) {
 				ClearPrivateDataUtil.clear(getActivity());
 
+				if (listener != null ) {
+					listener.onPrivateDataCleared();
+				}
 				if (getActivity() instanceof ClearPrivateDataDialogListener) {
 					((ClearPrivateDataDialogListener) getActivity()).onPrivateDataCleared();
 				}
@@ -44,6 +54,9 @@ public class ClearPrivateDataDialog extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dismiss();
+				if (listener != null) {
+					listener.onDialogCancel();
+				}
 			}
 		});
 
