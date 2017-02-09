@@ -2,6 +2,7 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import android.view.View
+import android.widget.CheckedTextView
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TravelerPickerView
@@ -155,6 +156,28 @@ class TravelerPickerViewTest {
 
         decrementChild(4)
         assertFalse(isChildDecrementButtonEnabled())
+    }
+
+    @Test
+    fun testChildAgeListText() {
+        incrementChild(1)
+        assertEquals(18, travelerPicker.child1.adapter.count)
+
+        for (i in 17..0) {
+            val expectedText = getExpectedChildAgeText(i)
+            val actualText = (travelerPicker.child1.adapter.getDropDownView(i, null, travelerPicker.child1) as CheckedTextView).text
+            assertEquals(expectedText, actualText)
+        }
+
+    }
+
+    fun getExpectedChildAgeText(number: Int): String {
+        if (number == 0)
+            return "Less than 1 year old"
+        else if (number == 1)
+            return "1 year old"
+        else
+            return (number.toString() + " years old")
     }
 
     fun incrementAdult(count: Int) {
