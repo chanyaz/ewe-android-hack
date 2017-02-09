@@ -6,11 +6,15 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.packages.PackageScreen
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import org.joda.time.LocalDate
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
 class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
 
@@ -37,6 +41,25 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
 
         PackageScreen.clickPaymentInfo()
         assertPaymentInfoCleared()
+    }
+
+    @Test
+    fun testPaymentInfoCCVClear() {
+        flightSearchAndGoToCheckout()
+        CheckoutViewModel.signInOnCheckout()
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
+
+        PackageScreen.clickPaymentInfo()
+        PaymentOptionsScreen.openCardPaymentSection()
+        fillPaymentInfo()
+
+        CheckoutViewModel.clickPaymentInfo()
+        CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
+
+        PaymentOptionsScreen.assertCardSelectionMatches("Saved Expired Credit Card", 1)
+        Common.pressBack()
+        CheckoutViewModel.performSlideToPurchase()
+        EspressoUtils.assertViewIsDisplayed(R.id.cvv)
     }
 
     @Test
