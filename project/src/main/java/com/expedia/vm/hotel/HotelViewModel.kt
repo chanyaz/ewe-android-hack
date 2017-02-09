@@ -13,7 +13,6 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
-import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.HotelUtils
@@ -25,7 +24,6 @@ import com.expedia.bookings.widget.priceFormatter
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 
 open class HotelViewModel(private val context: Context) {
     val resources = context.resources
@@ -70,6 +68,7 @@ open class HotelViewModel(private val context: Context) {
     }
     val urgencyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val urgencyMessageBoxObservable = BehaviorSubject.create<String>()
+    val urgencyMessageTextColorObservable = BehaviorSubject.create<Int>()
     val urgencyMessageBackgroundObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { ContextCompat.getColor(context, it!!.backgroundColorId) }
     val urgencyIconObservable = highestPriorityUrgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
     val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
@@ -159,10 +158,18 @@ open class HotelViewModel(private val context: Context) {
         }.subscribe(soldOutUrgency)
 
         if (hasMemberDeal(hotel)) {
-            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
-                    resources.getString(R.string.member_pricing)))
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelMemberPricingBadge)) {
+                memberDealUrgency.onNext(HotelViewModel.UrgencyMessage(R.drawable.ic_hotel_member_test, R.color.hotel_member_pricing_color_test,
+                        resources.getString(R.string.member_pricing)))
+                urgencyMessageTextColorObservable.onNext(ContextCompat.getColor(context, R.color.hotel_member_pricing_color))
+            } else {
+                memberDealUrgency.onNext(HotelViewModel.UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
+                        resources.getString(R.string.member_pricing)))
+                urgencyMessageTextColorObservable.onNext(ContextCompat.getColor(context, R.color.white))
+            }
         } else {
             memberDealUrgency.onNext(null)
+            urgencyMessageTextColorObservable.onNext(ContextCompat.getColor(context, R.color.white))
         }
 
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
