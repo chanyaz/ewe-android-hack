@@ -278,7 +278,7 @@ class HotelDetailsTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.SAMSUNG))
     fun testOnlyMobileExclusive() {
         val hotel = makeHotel()
         hotel.currentAllotment = "0"

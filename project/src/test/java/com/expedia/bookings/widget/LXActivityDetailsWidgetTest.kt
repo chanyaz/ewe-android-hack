@@ -8,8 +8,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.google.gson.GsonBuilder
@@ -26,7 +24,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class LXActivityDetailsWidgetTest {
     private var details: LXActivityDetailsWidget by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()

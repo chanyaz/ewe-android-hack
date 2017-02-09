@@ -8,8 +8,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -54,7 +52,6 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutUsed() {
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
@@ -64,7 +61,6 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOS() {
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(false)
@@ -74,7 +70,6 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedWithFeatureToggleOff() {
         featureToggleWebCheckout(false)
         setPOSWithWebCheckoutEnabled(true)
@@ -84,7 +79,6 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOSAndFeatureToggleOff() {
         featureToggleWebCheckout(false)
         setPOSWithWebCheckoutEnabled(true)
@@ -94,7 +88,6 @@ class WebCheckoutViewTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestSubscriber<String>()
         val fectchTripIDSubscriber = TestSubscriber<String>()

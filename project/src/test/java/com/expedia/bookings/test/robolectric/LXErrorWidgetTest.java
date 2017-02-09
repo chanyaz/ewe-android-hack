@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ApiError;
-import com.expedia.bookings.test.MultiBrand;
-import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.widget.LXErrorWidget;
 
 import static org.junit.Assert.assertEquals;
@@ -73,7 +71,6 @@ public class LXErrorWidgetTest {
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void testNoSearchResults() {
 		ApiError lxApiError = new ApiError(ApiError.Code.LX_SEARCH_NO_RESULTS);
 

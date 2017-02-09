@@ -13,8 +13,6 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
@@ -112,9 +110,7 @@ class PackageHotelCellTest {
         Assert.assertEquals(View.VISIBLE, packageHotelHolder.urgencyIcon.visibility)
     }
 
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testUrgencyMessageMobileExclusive() {
+    @Test fun testUrgencyMessageMobileExclusive() {
         val hotel = makeHotel()
         givenHotelMobileExclusive(hotel)
 

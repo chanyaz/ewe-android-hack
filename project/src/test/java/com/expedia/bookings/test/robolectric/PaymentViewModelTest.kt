@@ -26,8 +26,6 @@ import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.trips.TripBucketItemTransport
 import com.expedia.bookings.services.LoyaltyServices
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
@@ -245,7 +243,6 @@ class PaymentViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTileWithtPWP() {
         viewModel.isRedeemable.onNext(true)
 
@@ -266,7 +263,6 @@ class PaymentViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTileWhenPwpGetsOff() {
         viewModel.isRedeemable.onNext(true)
 

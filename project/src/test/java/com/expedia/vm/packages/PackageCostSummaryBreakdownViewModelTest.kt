@@ -8,9 +8,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.FontCache
@@ -27,7 +25,6 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class PackageCostSummaryBreakdownViewModelTest {
     val packageServiceRule = ServicesRule(PackageServices::class.java)
         @Rule get
