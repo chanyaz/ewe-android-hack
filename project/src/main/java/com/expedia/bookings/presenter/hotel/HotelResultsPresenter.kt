@@ -14,6 +14,7 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -22,21 +23,27 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.hotel.HotelListAdapter
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
+import rx.Observer
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
 
-    override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+    val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val searchMenu: MenuItem by lazy {
         val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
         searchMenu
+    }
+
+    val filterCountObserver: Observer<Int> = endlessObserver { numberOfFilters ->
+        filterBtnWithCountWidget.showNumberOfFilters(numberOfFilters)
     }
 
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
@@ -56,14 +63,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.addHotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
-            if (shouldShowHotelFilterProminenceTest && isFilterInNavBar()) {
-                filterBtnWithCountWidget.visibility = View.INVISIBLE
-                filterMenuItem.isVisible = true
-            }
-            else {
-                filterBtnWithCountWidget.visibility = View.VISIBLE
-            }
-
+            filterBtnWithCountWidget.visibility = View.VISIBLE
             filterBtnWithCountWidget.translationY = 0f
         }
         vm.mapResultsObservable.subscribe(listResultsObserver)
@@ -123,7 +123,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener({ view ->
             fab.isEnabled = false
-            animateMapCarouselVisibility(false)
+            animateMapCarouselOut()
             clearMarkers()
             hideSearchThisArea()
             doAreaSearch()
@@ -133,11 +133,14 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         searchMenu.isVisible = true
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
+        sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())
         filterBtnWithCountWidget.setOnClickListener {
+            previousWasList = currentState == ResultsList::class.java.name
             showWithTracking(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
+        filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
     }
 
     override fun inflate() {
@@ -149,6 +152,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             viewmodel.unsubscribeSearchResponse()
         }
         return super.back()
+    }
+
+    override fun showLoading() {
+        super.showLoading()
+        filterBtnWithCountWidget?.visibility = View.GONE
     }
 
     override fun doAreaSearch() {
