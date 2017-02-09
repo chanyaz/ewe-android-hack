@@ -518,7 +518,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                 if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false && ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
                     val loyaltyMonetaryValue = userLoyaltyInfo?.loyaltyMonetaryValue
                     currencyTextView.text = loyaltyMonetaryValue?.currency
-                    setupCountryView(secondRowContainer.findViewById(R.id.country) as TextView)
+                    setupCountryView(secondRowContainer.findViewById(R.id.country) as TextView, secondRowContainer.findViewById(R.id.flagView) as ImageView)
                     if (Strings.isNotEmpty(loyaltyMonetaryValue?.currency)) {
                         pointsMonetaryValueTextView.text = loyaltyMonetaryValue?.formattedMoney
                     }
@@ -528,7 +528,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     rowDivider2.visibility = View.VISIBLE
                     firstRowCountry.visibility = View.GONE
                 } else {
-                    setupCountryView(firstRowCountry.findViewById(R.id.country) as TextView)
+                    setupCountryView(firstRowCountry.findViewById(R.id.country) as TextView, firstRowCountry.findViewById(R.id.flagView) as ImageView)
                     secondRowContainer.visibility = View.GONE
                     pointsMonetaryValueTextView.visibility = View.GONE
                     pointsMonetaryValueLabel.visibility = View.GONE
@@ -559,13 +559,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
     }
 
-    private fun setupCountryView(countryTextView: TextView) {
+    private fun setupCountryView(countryTextView: TextView, flagIconView: ImageView) {
         val pos = PointOfSale.getPointOfSale()
         countryTextView.text = pos.threeLetterCountryCode
-        val flag = LayerDrawable(arrayOf(ContextCompat.getDrawable(context, pos.countryFlagResId), ContextCompat.getDrawable(context, R.drawable.fg_flag_circle)))
-        countryTextView.setCompoundDrawablesWithIntrinsicBounds(flag, null, null, null)
+        flagIconView.setImageResource(pos.countryFlagResId)
     }
-
 
     interface AccountFragmentListener {
         fun onAccountFragmentAttached(frag: AccountSettingsFragment)
