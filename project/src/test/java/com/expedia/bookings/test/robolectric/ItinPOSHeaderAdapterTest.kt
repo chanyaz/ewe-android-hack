@@ -36,7 +36,7 @@ class ItinPOSHeaderAdapterTest {
 
         assertEquals("USA", currentPOS)
         assertEquals("expedia.com", currentPOSUrl)
-        assertEquals("USA POS", header.spinner.contentDescription)
+        assertEquals("Country United States", header.spinner.selectedView.contentDescription)
     }
 
     @Test
@@ -47,10 +47,11 @@ class ItinPOSHeaderAdapterTest {
 
         val currentPOS = pos.threeLetterCountryCode
         val currentPOSUrl = header.posText.text
+        header.setCurrentPOS()
 
         assertEquals("AUS", currentPOS)
         assertEquals("expedia.com.au", currentPOSUrl)
-        assertEquals("AUS POS", header.spinner.contentDescription)
+        assertEquals("Country Australia", header.spinner.selectedView.contentDescription)
     }
 
     @Test
