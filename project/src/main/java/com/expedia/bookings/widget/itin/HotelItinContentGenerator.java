@@ -524,6 +524,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		editHotelRoomInfo.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				OmnitureTracking.trackItinEditRoomInfoWebViewOpen();
 				String softChangeUrl = getItinCardData().getProperty().getBookingChangeWebUrl();
 				Intent webViewIntent =
 					buildWebViewIntent(R.string.trips_edit_room_info_web_view_title, softChangeUrl).getIntent();

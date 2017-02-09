@@ -3049,6 +3049,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_GALLERY_OPEN = "App.Itinerary.Hotel.Photos";
 	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
 	private static final String ITIN_CHANGE_POSA = "App.Itinerary.POSa";
+	private static final String ITIN_HOTEL_INFO_EDIT_ROOM = "App.Itinerary.Hotel.Info.EditRoom";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -3068,8 +3069,16 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItinChangePOS() {
-		Log.d(TAG, "Tracking \"" + ITIN_CHANGE_POSA + "\" click...");
-		ADMS_Measurement s = createTrackLinkEvent(ITIN_CHANGE_POSA);
+		trackItineraryClickAction(ITIN_CHANGE_POSA);
+	}
+
+	public static void trackItinEditRoomInfoWebViewOpen() {
+		trackItineraryClickAction(ITIN_HOTEL_INFO_EDIT_ROOM);
+	}
+
+	private static void trackItineraryClickAction(String trackingId) {
+		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(trackingId);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
