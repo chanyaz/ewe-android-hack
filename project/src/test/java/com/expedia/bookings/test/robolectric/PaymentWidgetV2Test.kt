@@ -97,7 +97,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTile() {
         sut.validateAndBind()
         //For Paying With Points Only

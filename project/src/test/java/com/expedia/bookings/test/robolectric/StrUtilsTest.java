@@ -22,6 +22,8 @@ import com.expedia.bookings.data.GaiaSuggestion.LocalizedName;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
@@ -110,6 +112,7 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void testLoyaltyLegalTextContent() {
 
 		SpannableStringBuilder legalText = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
@@ -119,6 +122,7 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void testLoyaltyLegalTextSpans() {
 		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
 

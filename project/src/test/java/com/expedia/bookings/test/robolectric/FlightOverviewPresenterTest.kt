@@ -16,6 +16,8 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.DateFormatUtils
@@ -146,6 +148,7 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testResetCheckout() {
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
         Db.loadTripBucket(context)

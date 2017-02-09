@@ -81,6 +81,7 @@ class ItinSignInViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun notLoggedInMessageState() {
         sut.statusTextSubject.subscribe(statusTextTestSubscriber)
         sut.updateButtonTextSubject.subscribe(buttonTextTestSubscriber)
