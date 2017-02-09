@@ -64,7 +64,6 @@ class AbstractFlightOverviewViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testEarnMessage() {
         setFlightOverviewModel(false)
         val showEarnMessageTestSubscriber = TestSubscriber<Boolean>()

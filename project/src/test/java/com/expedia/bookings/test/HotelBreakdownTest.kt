@@ -43,8 +43,7 @@ class HotelBreakdownTest {
         vm = HotelBreakDownViewModel(context, hotelCheckoutSummaryViewModel)
     }
 
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakdownForUserWithNoRewardPoints() {
         givenHappyCreateTripResponse()
 
@@ -65,7 +64,6 @@ class HotelBreakdownTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakdownForUserWithRedeemablePoints() {
         givenLoggedInUserWithEnoughRedeemablePointsResponse()
 

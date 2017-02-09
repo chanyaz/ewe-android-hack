@@ -31,7 +31,6 @@ class HotelItinCardTest {
     lateinit private var sut: HotelItinCard
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun vipLabelText() {
         createSystemUnderTest()
         assertEquals("+VIP", getVipLabelTextView().text)

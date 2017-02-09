@@ -24,8 +24,6 @@ import com.expedia.bookings.data.lx.LXRedemptionType;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.test.MultiBrand;
-import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.widget.LXOfferDescription;
 import com.expedia.bookings.widget.LXTicketPicker;
@@ -38,7 +36,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricRunner.class)
-@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 public class LXTicketSelectionWidgetTest {
 	private LXTicketSelectionWidget widget;
 	private Activity activity;

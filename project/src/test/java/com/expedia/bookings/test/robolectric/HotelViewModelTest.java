@@ -15,7 +15,6 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -26,10 +25,8 @@ import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
-import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
@@ -42,7 +39,6 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
-import com.mobiata.android.util.SettingUtils;
 
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
@@ -455,21 +451,6 @@ public class HotelViewModelTest {
 		assertTrue((Boolean) topAmenityTestSubscriber.getOnNextEvents().get(0));
 	}
 
-	@Test
-	@RunForBrands( brands = { MultiBrand.ORBITZ })
-	public void testEarnMessgingVisibility() {
-		setPOS(PointOfSaleId.ORBITZ);
-		TestSubscriber<Boolean> subscriber = new TestSubscriber<Boolean>();
-
-		Money base = new Money("11.03", "USD");
-		Money bonus = new Money("00.00", "USD");
-		Money total = new Money("11.03", "USD");
-		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, new PriceEarnInfo(base, bonus, total)), false);
-		setupSystemUnderTest();
-		vm.getEarnMessagingVisibilityObservable().subscribe(subscriber);
-		assertEquals(true, subscriber.getOnNextEvents().get(0) );
-	}
-
 	private void givenSoldOutHotel() {
 		hotel.isSoldOut = true;
 	}
@@ -521,11 +502,6 @@ public class HotelViewModelTest {
 		user.setPrimaryTraveler(traveler);
 		user.getPrimaryTraveler().setLoyaltyMembershipTier(LoyaltyMembershipTier.TOP);
 		return user;
-	}
-
-	private void setPOS(PointOfSaleId pos) {
-		SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.getId() + "");
-		PointOfSale.onPointOfSaleChanged(getContext());
 	}
 
 }

@@ -52,7 +52,7 @@ class PackageConfirmationViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun pkgLoyaltyPoints(){
         UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         assertTrue(User.isLoggedIn(activity))
@@ -66,7 +66,6 @@ class PackageConfirmationViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun zeroPkgLoyaltyPoints(){
         UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         assertTrue(User.isLoggedIn(activity))

@@ -13,8 +13,6 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
@@ -37,7 +35,6 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class LxCheckoutErrorTests {

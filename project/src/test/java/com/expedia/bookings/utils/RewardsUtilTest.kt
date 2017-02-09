@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
-import com.expedia.bookings.test.MultiBrand
-import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
@@ -41,7 +39,6 @@ class RewardsUtilTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBuildRewardText(){
         val userPoints = "100.55"
         val rewardText = util.buildRewardText(context, userPoints, givenFeatureConfig(false))
