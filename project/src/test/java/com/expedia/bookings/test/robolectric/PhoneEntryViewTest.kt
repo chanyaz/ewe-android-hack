@@ -127,6 +127,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedIfOverFiveNumbers() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(context).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
@@ -190,6 +191,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedWhenStartsWithOneOverFiveNumbers() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(context).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
@@ -219,6 +221,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberNotFormattedIfNotUsPos() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         SettingUtils.save(context, R.string.PointOfSaleKey, PointOfSaleId.MEXICO.id.toString())

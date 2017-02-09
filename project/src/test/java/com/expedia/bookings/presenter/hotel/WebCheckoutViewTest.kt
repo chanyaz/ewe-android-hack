@@ -121,6 +121,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewRefreshUserOnBackPress() {
         val closeViewSubscriber = TestSubscriber<Unit>()
         featureToggleWebCheckout(true)
@@ -140,6 +141,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewClearsPageGoingBack() {
         val closeViewSubscriber = TestSubscriber<Unit>()
         val urlSubscriber = TestSubscriber<String>()

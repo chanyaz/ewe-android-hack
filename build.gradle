@@ -82,8 +82,7 @@ subprojects {
     }
 
     tasks.withType(Test) {
-        // parallelizing to 2 processes seems to give ~20% speed boost
-        maxParallelForks = 2
+        maxParallelForks = 1
         // need more memory for unittests due to issue with Robolectric 1.3: https://github.com/robolectric/robolectric/issues/1700
         jvmArgs '-XX:MaxPermSize=512m'
         testLogging {
