@@ -190,7 +190,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.millis / 1000)
         params.put("hotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(hotelCheckOut.millis) / 1000)
 
-        return makeResponse("/api/trips/" + fileName + ".json", params)
+        var responseCode = 200
+        when(fileName) {
+            "error_trip_response" -> responseCode = 403
+            "error_bad_request_trip_response" -> responseCode = 400
+        }
+
+        return makeResponse("/api/trips/$fileName.json", params, responseCode)
     }
 
     private fun dispatchTrip(request: RecordedRequest): MockResponse {
@@ -427,8 +433,8 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         return makeResponse("api/user/profile/user_profile_" + params["tuid"] + ".json")
     }
 
-    private fun makeResponse(fileName: String, params: Map<String, String>? = null): MockResponse {
-        return makeResponse(fileName, params, fileOpener)
+    private fun makeResponse(fileName: String, params: Map<String, String>? = null, responseCode: Int = 200): MockResponse {
+        return makeResponse(fileName, params, fileOpener, responseCode)
     }
 
     private fun dispatchTravelAd(endPoint: String): MockResponse {

@@ -3,6 +3,7 @@ package com.expedia.vm.itin
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.services.ItinTripServices
@@ -58,23 +59,22 @@ class AddGuestItinViewModel(val context: Context) {
         }).subscribe()
     }
 
-    fun makeGuestTripResponseObserver(): Observer<ItinDetailsResponse> {
-        return object : Observer<ItinDetailsResponse> {
+    fun makeGuestTripResponseObserver(): Observer<AbstractItinDetailsResponse> {
+        return object : Observer<AbstractItinDetailsResponse> {
             override fun onCompleted() {
                 showSearchDialogObservable.onNext(false)
             }
 
             override fun onError(errorThrowable: Throwable?) {
-                var errorString = (errorThrowable as HttpException).response().errorBody().string()
-                var isNotAuthenticated = errorString.contains("Not authenticated")
                 showSearchDialogObservable.onNext(false)
                 if (errorThrowable is HttpException) {
+                    var errorString = errorThrowable.response().errorBody().string()
                     val gson = Gson()
                     val response = gson.fromJson(errorString, ItinDetailsResponse::class.java)
                     if (response?.errors?.size!! > 0) {
                         showErrorObservable.onNext(true)
                         showErrorMessageObservable.onNext(
-                                if (isNotAuthenticated)
+                                if (response.errors[0].isNotAuthenticatedError)
                                     Phrase.from(context.getString(R.string.unable_to_find_registered_user_itinerary_template))
                                             .put("brand", BuildConfig.brand).format().toString()
                                 else
@@ -86,7 +86,7 @@ class AddGuestItinViewModel(val context: Context) {
                 }
             }
 
-            override fun onNext(response: ItinDetailsResponse?) {
+            override fun onNext(response: AbstractItinDetailsResponse?) {
             }
         }
     }
