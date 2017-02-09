@@ -35,14 +35,14 @@ class UniversalDeepLinkParserTest() {
         Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
-        Assert.assertEquals("ID6059241", output.location)
+        Assert.assertEquals("6059241", output.regionId)
 
         data = data.buildUpon().appendQueryParameter("sort", "deals").build()
         output = parser.parseDeepLink(data) as HotelDeepLink
         Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
-        Assert.assertEquals("ID6059241", output.location)
+        Assert.assertEquals("6059241", output.regionId)
         Assert.assertEquals("deals", output.sortType)
 
         data = data.buildUpon().appendQueryParameter("adults", "2").build()
@@ -50,7 +50,7 @@ class UniversalDeepLinkParserTest() {
         Assert.assertTrue(output is HotelDeepLink)
         Assert.assertEquals(LocalDate(2017, 5, 31), output.checkInDate)
         Assert.assertEquals(LocalDate(2017, 6, 6), output.checkOutDate)
-        Assert.assertEquals("ID6059241", output.location)
+        Assert.assertEquals("6059241", output.regionId)
         Assert.assertEquals("deals", output.sortType)
         Assert.assertEquals(2, output.numAdults)
 

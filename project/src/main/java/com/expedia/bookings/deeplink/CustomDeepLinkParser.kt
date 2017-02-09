@@ -7,8 +7,11 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.net.URLDecoder
 import java.util.Locale
+import java.util.regex.Pattern
 
 class CustomDeepLinkParser: DeepLinkParser() {
+
+    private val locationId = Pattern.compile("^(ID)?([0-9]+)")
 
      fun parseCustomDeepLink(data: Uri): DeepLink {
         val routingDestination = data.host.toLowerCase(Locale.US)
@@ -31,7 +34,17 @@ class CustomDeepLinkParser: DeepLinkParser() {
         val hotelDeepLink = HotelDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
-        hotelDeepLink.location = getQueryParameterIfExists(data, queryParameterNames, "location")
+        var location = getQueryParameterIfExists(data, queryParameterNames, "location")
+        if (location != null) {
+            val matcher = locationId.matcher(location)
+            if (matcher.find()) {
+                hotelDeepLink.regionId = matcher.group(2)
+            }
+            else {
+                hotelDeepLink.location = location
+            }
+        }
+
         hotelDeepLink.hotelId = getQueryParameterIfExists(data, queryParameterNames, "hotelId")
         hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkInDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
         hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "checkOutDate", DateTimeFormat.forPattern("yyyy-MM-dd"))

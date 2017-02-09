@@ -124,6 +124,10 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     }
 
     private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isInitial: Boolean) {
+        if (titleSubject.value == null || (titleSubject.value != null && titleSubject.value.isEmpty())) {
+            titleSubject.onNext(hotelSearchResponse.searchRegionCity)
+        }
+
         if (hotelSearchResponse.hasErrors()) {
             errorObservable.onNext(hotelSearchResponse.firstError)
         } else if (hotelSearchResponse.hotelList.isEmpty()) {

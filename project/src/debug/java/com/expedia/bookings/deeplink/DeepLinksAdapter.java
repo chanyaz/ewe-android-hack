@@ -106,6 +106,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 		new DeepLinkSection("Universal Links", R.color.hotels_primary_color),
 		new DeepLink("Current Location Search", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
+		new DeepLink("Location Search with Location ID", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916"),
 		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?startDate=12/27/2018&endDate=01/03/2019&adults=3"),
 		new DeepLink("Hotel Future Dates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=02/12/2017&endDate=02/15/2017"),
 
