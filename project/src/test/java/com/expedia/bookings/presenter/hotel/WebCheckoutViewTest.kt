@@ -102,10 +102,10 @@ class WebCheckoutViewTest {
         bookingTripIDSubscriber.assertValueCount(0)
         fectchTripIDSubscriber.assertValueCount(0)
         val tripID = "testing-for-confirmation"
-        verify(userAccountRefresherMock, times(0)).forceAccountRefresh()
+        verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
 
         hotelPresenter.webCheckoutView.onWebPageStarted(hotelPresenter.webCheckoutView.webView, PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL + "?tripid=$tripID", null)
-        verify(userAccountRefresherMock, times(1)).forceAccountRefresh()
+        verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
         bookingTripIDSubscriber.assertValueCount(1)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
         fectchTripIDSubscriber.assertValueCount(1)

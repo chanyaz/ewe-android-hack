@@ -187,10 +187,14 @@ public class User implements JSONable {
 	 * @param context
 	 */
 	public static void signOut(Context context) {
+		signOut(context, true);
+	}
+
+	public static void signOut(Context context, boolean clearCookies) {
 		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.signOut");
 
 		//Do the actual sign out
-		performSignOutCriticalActions(context);
+		performSignOutCriticalActions(context, clearCookies);
 		logger.addSplit("performSignOutCriticalActions");
 
 		//perform the rest of the clean up.
@@ -201,13 +205,14 @@ public class User implements JSONable {
 
 		logger.dumpToLog();
 	}
-
+	
 	/**
 	 * Clear all User state that indicates the user is in some way logged in.
 	 *
 	 * @param context
+	 * @param clearCookies
 	 */
-	private static void performSignOutCriticalActions(Context context) {
+	private static void performSignOutCriticalActions(Context context, boolean clearCookies) {
 		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performCriticalSignOutActions");
 
 		// Delete User (after this point User.isSignedIn will return false)
@@ -222,9 +227,11 @@ public class User implements JSONable {
 		Db.setUser(null);
 		logger.addSplit("Db.setUser(null)");
 
-		//Remove the login cookies
-		ExpediaServices.removeUserLoginCookies(context);
-		logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
+		if (clearCookies) {
+			//Remove the login cookies
+			ExpediaServices.removeUserLoginCookies(context);
+			logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
+		}
 
 		//Facebook log out
 		AccountService.facebookLogOut();
@@ -338,23 +345,37 @@ public class User implements JSONable {
 			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
 			AccountManager manager = AccountManager.get(context);
 
+			boolean accountAlreadyExists = false;
+
 			//We are adding a new user to account manager, so we clobber ALL old accountmanager expedia accounts.
 			Account[] accounts = manager.getAccountsByType(accountType);
 			if (accounts != null && accounts.length > 0) {
 				for (Account account : accounts) {
-					manager.removeAccountExplicitly(account);
+					if (isItThisUsersAccount(usr, account)) {
+						accountAlreadyExists = true;
+					}
+					else {
+						manager.removeAccount(account, null, null);
+					}
 				}
 			}
 
 			//Add the new account
-			final Account account = new Account(usr.getPrimaryTraveler().getEmail(), accountType);
-			manager.addAccountExplicitly(account, usr.getTuidString(), null);
-			manager.setAuthToken(account, tokenType, usr.getTuidString());
+			if (!accountAlreadyExists) {
+				final Account account = new Account(usr.getPrimaryTraveler().getEmail(), accountType);
+				manager.addAccountExplicitly(account, usr.getTuidString(), null);
+				manager.setAuthToken(account, tokenType, usr.getTuidString());
+				//Set data syncing enabled/disabled
+				String contentAuthority = context.getString(R.string.authority_account_sync);
+				ContentResolver.setSyncAutomatically(account, contentAuthority, false);
+			}
 
-			//Set data syncing enabled/disabled
-			String contentAuthority = context.getString(R.string.authority_account_sync);
-			ContentResolver.setSyncAutomatically(account, contentAuthority, false);
+
 		}
+	}
+
+	private static boolean isItThisUsersAccount(User user, Account account) {
+		return account.name.equals(user.getPrimaryTraveler().getEmail());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
