@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
+import com.squareup.phrase.Phrase
 
 
 class ItinPOSHeaderAdapter(val context: Context) : BaseAdapter() {
@@ -36,6 +37,7 @@ class ItinPOSHeaderAdapter(val context: Context) : BaseAdapter() {
 
         icon.setImageResource(pointOfSales.get(position).countryFlagResId)
         names.text = pointOfSales.get(position).threeLetterCountryCode
+        view.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_pos_TEMPLATE).put("country_name", getCountryName(position)).format().toString()
         return view
     }
 
@@ -63,5 +65,10 @@ class ItinPOSHeaderAdapter(val context: Context) : BaseAdapter() {
             }
         }
         return -1
+    }
+
+    fun getCountryName(position: Int): String {
+        val countryName = context.getString(pointOfSales.get(position).countryNameResId)
+        return countryName
     }
 }

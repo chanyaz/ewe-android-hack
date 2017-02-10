@@ -15,7 +15,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 import com.mobiata.android.util.SettingUtils
-import com.squareup.phrase.Phrase
 
 class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 
@@ -57,19 +56,15 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         position = adapter.findPOSIndex(PointOfSale.getPointOfSale().pointOfSaleId.id)
         lastPosition = position
         posText.text = adapter.pointOfSales[position].url
-        val posName = adapter.pointOfSales[position].threeLetterCountryCode
         setPOSAdapterPosition(lastPosition)
-        spinner.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_pos_TEMPLATE).put("pos", posName).format().toString()
     }
 
     override fun onPrivateDataCleared() {
         lastPosition = position
         posText.text = adapter.pointOfSales[position].url
-        val posName = adapter.pointOfSales[position].threeLetterCountryCode
         SettingUtils.save(context, R.string.PointOfSaleKey, Integer.toString(adapter.pointOfSales[position].pointOfSaleId.id))
         PointOfSale.onPointOfSaleChanged(context)
         Events.post(Events.PhoneLaunchOnPOSChange())
-        spinner.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_pos_TEMPLATE).put("pos", posName).format().toString()
     }
 
     override fun onDialogCancel() {
