@@ -97,7 +97,7 @@ public class StoredCreditCardList extends LinearLayout {
 		if (mStoredCardList == null) {
 			return;
 		}
-		for (int i = 0; i < mStoredCardList.getCount(); i++) {
+		for (int i = 0; i < mStoredCardList.getChildCount(); i++) {
 			ContactDetailsCompletenessStatusImageView statusIcon = (ContactDetailsCompletenessStatusImageView) mStoredCardList
 				.getChildAt(i).findViewById(R.id.card_info_status_icon);
 			statusIcon.setStatus(
