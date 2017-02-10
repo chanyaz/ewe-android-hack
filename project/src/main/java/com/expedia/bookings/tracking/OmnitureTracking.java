@@ -5702,12 +5702,7 @@ public class OmnitureTracking {
 
 		setDateValues(s, departureDate, returnDate);
 
-		String eVar47String = getFlightV2Evar47String(searchTrackingData);
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
-			eVar47String += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
-		}
-
-		s.setEvar(47, eVar47String);
+		s.setEvar(47, getFlightV2Evar47String(searchTrackingData));
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event54");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
@@ -5892,6 +5887,9 @@ public class OmnitureTracking {
 		str += "|L";
 		str += childrenInLap;
 
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
+						str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
+		}
 		return str;
 	}
 

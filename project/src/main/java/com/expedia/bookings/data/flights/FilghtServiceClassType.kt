@@ -42,7 +42,7 @@ object FlightServiceClassType {
             FlightServiceClassType.CabinCode.PREMIUM_COACH.name -> return FlightServiceClassType.CabinCode.PREMIUM_COACH.trackCode
             FlightServiceClassType.CabinCode.BUSINESS.name -> return FlightServiceClassType.CabinCode.BUSINESS.trackCode
             FlightServiceClassType.CabinCode.FIRST.name -> return FlightServiceClassType.CabinCode.FIRST.trackCode
-            else -> return FlightServiceClassType.CabinCode.COACH.trackCode
+            else -> throw RuntimeException("Ran into unknown cabin code: " + mCabinClassPreference)
         }
     }
 }
