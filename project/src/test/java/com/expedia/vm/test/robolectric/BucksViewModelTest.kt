@@ -104,7 +104,7 @@ class BucksViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun userToggleBucksSwitch() {
         bucksViewModel.bucksOpted.onNext(false)
 

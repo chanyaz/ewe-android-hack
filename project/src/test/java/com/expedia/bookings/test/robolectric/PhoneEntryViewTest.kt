@@ -6,6 +6,8 @@ import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -67,6 +69,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPointOfSaleCountryCodeUsedIfNoneProvided() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(context).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView

@@ -8,6 +8,8 @@ import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -24,6 +26,7 @@ import org.robolectric.util.ActivityController
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class DeepLinkRouterActivityTest {
 
     val context: Context = RuntimeEnvironment.application

@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.PayLaterInfoWidget
 import com.expedia.bookings.widget.TextView
 import org.junit.Test
@@ -17,6 +19,7 @@ import kotlin.test.assertEquals
 
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class PayLaterInfoWidgetTest {
     private var widget: PayLaterInfoWidget by Delegates.notNull()
 
