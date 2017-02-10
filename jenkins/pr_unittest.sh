@@ -31,7 +31,7 @@ function setUpForPythonScripts() {
 
     # exit if finds 'needs-human' label
     python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
-    prLabeledAsNeedsHumanStatus=0
+    prLabeledAsNeedsHumanStatus=$?
     if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
        echo "PR is labeled needs-human, so exiting..."
        exit 1
