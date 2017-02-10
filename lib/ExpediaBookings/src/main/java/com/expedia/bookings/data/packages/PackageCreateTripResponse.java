@@ -25,7 +25,7 @@ public class PackageCreateTripResponse extends TripResponse {
 		if (oldPackageDetails == null) {
 			return null;
 		}
-		return oldPackageDetails.pricing.packageTotal;
+		return oldPackageDetails.pricing.bundleTotal != null ? oldPackageDetails.pricing.bundleTotal : oldPackageDetails.pricing.packageTotal;
 	}
 
 	public static class PackageDetails {
