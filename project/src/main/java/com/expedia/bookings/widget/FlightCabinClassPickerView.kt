@@ -3,7 +3,6 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -19,7 +18,6 @@ class FlightCabinClassPickerView(context: Context, attrs: AttributeSet) : Linear
     val businessClassRadioButton: RadioButton by bindView(R.id.business_class)
     val premiumEcoClassRadioButton: RadioButton by bindView(R.id.premium_economy)
     val economyClassRadioButton: RadioButton by bindView(R.id.economy_class)
-    val doneButton: Button by bindView(R.id.done_button)
 
     var viewmodel = FlightCabinClassViewModel()
 

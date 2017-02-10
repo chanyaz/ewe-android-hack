@@ -1,6 +1,7 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -52,7 +53,7 @@ class FlightCabinClassViewModelTest {
 
         val flightCabinClassPickerView = view.findViewById(R.id.flight_class_view) as FlightCabinClassPickerView
         flightCabinClassPickerView.businessClassRadioButton.performClick()
-        flightCabinClassPickerView.doneButton.performClick()
+        flightCabinClassWidget.dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick()
 
         val flightCabinClassViewModel: FlightCabinClassViewModel = flightCabinClassWidget.flightCabinClassView.viewmodel
         val flightSelectedCabinClassIdTestSubscriber = TestSubscriber<Int>()

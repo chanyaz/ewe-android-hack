@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -274,7 +275,7 @@ public class FlightSearchPresenterTest {
 
 		flightCabinClassPickerView.getBusinessClassRadioButton().performClick();
 
-		flightCabinClassPickerView.getDoneButton().performClick();
+		flightCabinClassWidget.getDialog().getButton(AlertDialog.BUTTON_POSITIVE).performClick();
 		assertEquals(cabinClassBusinessName, flightCabinClassWidget.getText());
 		assertEquals(getCabinClassContentDescription(cabinClassBusinessName), flightCabinClassWidget.getContentDescription());
 

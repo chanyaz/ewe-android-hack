@@ -50,6 +50,7 @@
                 android:id="@+id/economy_class"
                 android:layout_marginLeft="23dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
                 android:textSize="16sp"
                 android:paddingLeft="10dp"
                 android:text="@string/cabin_code_coach"
@@ -59,19 +60,6 @@
                 android:layout_width="match_parent"/>
 
         </RadioGroup>
-
-        <Button
-            android:id="@+id/done_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/done"
-            android:textAllCaps="true"
-            android:textSize="16sp"
-            android:background="@android:color/transparent"
-            android:textColor="@color/flight_primary_color"
-            android:layout_gravity="end"
-            android:layout_marginBottom="20dp">
-        </Button>
     </LinearLayout>
 
 
