@@ -44,6 +44,9 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.hotel.animation.HorizontalTranslateTransition
+import com.expedia.bookings.hotel.animation.VerticalFadeTransition
+import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -156,6 +159,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var mapItems = arrayListOf<MapItem>()
     private val ANIMATION_DURATION_FILTER = 500
     var hotels = emptyList<Hotel>()
+
+    private var toolbarTitleTransition: VerticalTranslateTransition? = null
+    private var subTitleTransition: VerticalFadeTransition? = null
+    private var sortFilterButtonTransition: VerticalTranslateTransition? = null
+    private var mapCarouselTransition: HorizontalTranslateTransition? = null
 
     val hotelFavoriteChangeObserver = endlessObserver<Pair<String, Boolean>> { hotelIdAndFavorite ->
         val hotelId = hotelIdAndFavorite.first
@@ -465,7 +473,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         addDefaultTransition(defaultTransition)
-        addTransition(fabTransition)
+        addTransition(mapToResultsTransition)
         addTransition(listFilterTransition)
         addTransition(mapFilterTransition)
 
@@ -524,6 +532,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
 
         inflateAndSetupToolbarMenu()
+        if (filterBtnWithCountWidget != null) {
+            sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget!!, 0, filterHeight.toInt())
+        }
+
         filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
         filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
         filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
@@ -814,236 +826,207 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private val fabTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, LinearInterpolator(), 750) {
+    private val mapToResultsTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, LinearInterpolator(), 750) {
+        var firstStepTransitionTime = .33f
 
-        private val listTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), duration * 2 / 3) {
-
-            var fabShouldVisiblyMove: Boolean = true
-            var mapTranslationStart: Float = 0f
-            var initialListTranslation: Int = 0
-            var toolbarTextOrigin: Float = 0f
-            var toolbarTextGoal: Float = 0f
-            var filterViewOrigin: Float = 0f
-            var filterViewGoal: Float = 0f
-            var startingFabTranslation: Float = 0f
-            var finalFabTranslation: Float = 0f
-
-            override fun startTransition(forward: Boolean) {
-                super.startTransition(forward)
-                toolbarTextOrigin = toolbarTitle.translationY
-                //Map pin will always be selected for non-clustering behavior eventually
-                val isMapPinSelected = mapItems.filter { it.isSelected }.isEmpty()
-
-                if (forward) {
-                    toolbarTextGoal = 0f //
-                } else {
-                    toolbarTextGoal = toolbarSubtitleTop.toFloat()
-                    googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                }
-                val start = if (filterBtnWithCountWidget != null ) 0f else filterHeight
-                filterViewGoal = if (forward) start else filterBtnWithCountWidget?.height?.toFloat() ?: 0f
-
-                recyclerView.visibility = View.VISIBLE
-                previousWasList = forward
-                fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
-                initialListTranslation = if (recyclerView.layoutManager.findFirstVisibleItemPosition() == 0) recyclerView.getChildAt(1)?.top ?: 0 else 0
-                if (forward) {
-                    //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
-                    // user with an unnecessary icon swap
-                    if (fabShouldVisiblyMove) {
-                        (fab.drawable as? TransitionDrawable)?.reverseTransition(duration)
-                    } else {
-                        resetListOffset()
-
-                        //Let's start hiding the fab
-                        getFabAnimOut().start()
-                    }
-                } else {
-                    mapTranslationStart = mapView.translationY
-                    if (fabShouldVisiblyMove) {
-                        (fab.drawable as? TransitionDrawable)?.startTransition(duration)
-                    } else {
-                        //Since we're not moving it manually, let's jump it to where it belongs,
-                        // and let's get it showing the right thing
-                        if (isMapPinSelected) {
-                            fab.translationY = -(mapCarouselContainer.height - filterHeight)
-                        } else {
-                            fab.translationY = filterHeight
-                        }
-                        (fab.drawable as? TransitionDrawable)?.startTransition(0)
-                        fab.visibility = View.VISIBLE
-                        getFabAnimIn().start()
-                    }
-                }
-                startingFabTranslation = fab.translationY
-                if (forward) {
-                    finalFabTranslation = 0f
-                } else {
-                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
-                }
-                hideBundlePriceOverview(!forward)
-                toolbarTitle.translationY = 0f
-                toolbarSubtitle.translationY = 0f
-                updateFilterButtonText(forward)
-                showSearchMenu.onNext(forward)
-                showMenuItem(forward)
-            }
-
-            override fun updateTransition(f: Float, forward: Boolean) {
-                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f)
-                recyclerView.translationY = hotelListDistance
-                navIcon.parameter = if (forward) Math.abs(1 - f) else f
-                if (forward) {
-                    mapView.translationY = f * -halfway
-                } else {
-                    mapView.translationY = (1 - f) * mapTranslationStart
-                }
-
-                if (fabShouldVisiblyMove) {
-                    fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
-                }
-                //Title transition
-                val toolbarYTransStep = toolbarTextOrigin + (f * (toolbarTextGoal - toolbarTextOrigin))
-                toolbarTitle.translationY = toolbarYTransStep
-                toolbarSubtitle.translationY = toolbarYTransStep
-                toolbarSubtitle.alpha = if (forward) f else (1 - f)
-                adjustGoogleMapLogo()
-                //Filter transition
-                filterBtnWithCountWidget?.translationY = filterViewOrigin + (f * (filterViewGoal - filterViewOrigin))
-            }
-
-            override fun endTransition(forward: Boolean) {
-                navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
-                recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
-
-                mapCarouselContainer.visibility = if (forward) {
-                    View.INVISIBLE
-                } else {
-                    if (mapItems.filter { it.isSelected }.isEmpty()) {
-                        animateMapCarouselVisibility(false)
-                        View.INVISIBLE
-                    } else {
-                        View.VISIBLE
-                    }
-                }
-
-                if (forward) {
-                    if (!fabShouldVisiblyMove) {
-                        fab.translationY = 0f
-                        (fab.drawable as? TransitionDrawable)?.reverseTransition(0)
-                        fab.visibility = View.INVISIBLE
-                    }
-                    recyclerView.translationY = 0f
-                    mapView.translationY = -halfway.toFloat()
-                    adjustGoogleMapLogo()
-                    filterBtnWithCountWidget?.translationY = 0f
-                    if (ExpediaBookingApp.isDeviceShitty()) {
-                        lazyLoadMapAndMarkers()
-                    }
-                } else {
-                    mapView.translationY = 0f
-                    recyclerView.translationY = screenHeight.toFloat()
-                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
-                    filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
-                    if (ExpediaBookingApp.isDeviceShitty()) {
-                        googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                        createMarkers()
-                    }
-                }
-                fab.translationY = finalFabTranslation
-            }
-        }
-
-        private val carouselTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), duration / 3) {
-
-            override fun startTransition(forward: Boolean) {
-                if (mapItems.filter { it.isSelected }.isEmpty()) {
-                    mapCarouselContainer.translationX = screenWidth
-                    mapCarouselContainer.visibility = View.INVISIBLE
-                } else {
-                    mapCarouselContainer.visibility = View.VISIBLE
-                    animateFab(true)
-                }
-                if (forward) {
-                    mapCarouselContainer.translationX = 0f
-                    hideSearchThisArea()
-                } else {
-                    mapCarouselContainer.translationX = screenWidth
-                }
-                updateFilterButtonText(forward)
-                showMenuItem(forward)
-            }
-
-            override fun updateTransition(f: Float, forward: Boolean) {
-                mapCarouselContainer.translationX = (if (forward) f else 1 - f) * screenWidth
-            }
-
-            override fun endTransition(forward: Boolean) {
-                if (forward) {
-                    mapCarouselContainer.translationX = screenWidth
-                    mapCarouselContainer.visibility = View.INVISIBLE
-                } else {
-                    mapCarouselContainer.translationX = 0f
-                }
-            }
-        }
-
-        var secondTransitionStartTime = .33f
-        var currentTransition = 0
+        var firstTransition : Presenter.Transition? = null
+        var secondTransition : Presenter.Transition? = null
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            setupToolbarMeasurements()
-            currentTransition = 0
             mapTransitionRunning = true
 
+            setupToolbarMeasurements()
 
             if (forward) {
-                //Let's be explicit despite it being the default
-                secondTransitionStartTime = .33f
-                carouselTransition.startTransition(forward)
+                firstStepTransitionTime = .33f
+                firstTransition = carouselTransition
+                secondTransition = listTransition
+                hideSearchThisArea()
             } else {
-                secondTransitionStartTime = .66f
-                listTransition.startTransition(forward)
+                firstStepTransitionTime = .66f
+                firstTransition = listTransition
+                secondTransition = carouselTransition
             }
+            firstTransition?.startTransition(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
-            if (forward) {
-                if (f < secondTransitionStartTime) {
-                    carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation(f / secondTransitionStartTime), forward)
-                } else {
-                    if (currentTransition == 0) {
-                        currentTransition = 1
-                        carouselTransition.endTransition(forward)
-                        listTransition.startTransition(forward)
-                    }
-                    listTransition.updateTransition(listTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
-                }
+            if (f < firstStepTransitionTime) {
+                val acceleratedTransitionTime = f / firstStepTransitionTime
+                firstTransition?.updateTransition(firstTransition?.interpolator?.getInterpolation(acceleratedTransitionTime)!!, forward)
             } else {
-                if (f < secondTransitionStartTime) {
-                    listTransition.updateTransition(listTransition.interpolator.getInterpolation(f / secondTransitionStartTime), forward)
-                } else {
-                    if (currentTransition == 0) {
-                        currentTransition = 1
-                        listTransition.endTransition(forward)
-                        carouselTransition.startTransition(forward)
-                    }
-                    carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
-                }
+                firstTransition?.endTransition(forward)
+                secondTransition?.startTransition(forward)
+                val acceleratedTransitionTime = (f - firstStepTransitionTime) / (1 - firstStepTransitionTime)
+                secondTransition?.updateTransition(secondTransition!!.interpolator.getInterpolation(acceleratedTransitionTime), forward)
             }
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            secondTransition?.endTransition(forward)
+            mapTransitionRunning = false
+        }
+    }
+
+    private val carouselTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), 750 / 3) {
+        override fun startTransition(forward: Boolean) {
+            mapCarouselTransition = HorizontalTranslateTransition(mapCarouselContainer, 0, screenWidth.toInt())
+            if (mapItems.filter { it.isSelected }.isEmpty()) {
+                mapCarouselContainer.visibility = View.INVISIBLE
+            } else {
+                mapCarouselContainer.visibility = View.VISIBLE
+                animateFab(true)
+            }
+            if (forward) {
+                mapCarouselTransition?.toOrigin()
+            } else {
+                mapCarouselTransition?.toTarget()
+            }
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            if (forward) {
+                mapCarouselTransition?.toTarget(f)
+            } else {
+                mapCarouselTransition?.toOrigin(f)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                mapCarouselTransition?.toTarget()
+                mapCarouselContainer.visibility = View.INVISIBLE
+            } else {
+                mapCarouselTransition?.toOrigin()
+            }
+        }
+    }
+
+    private val listTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), 750 * 2 / 3) {
+
+        var fabShouldVisiblyMove: Boolean = true
+        var mapTranslationStart: Float = 0f
+        var initialListTranslation: Int = 0
+        var startingFabTranslation: Float = 0f
+        var finalFabTranslation: Float = 0f
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            //Map pin will always be selected for non-clustering behavior eventually
+            val isMapPinSelected = mapItems.filter { it.isSelected }.isEmpty()
+
+            recyclerView.visibility = View.VISIBLE
+            previousWasList = forward
+            fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
+            initialListTranslation = if (recyclerView.layoutManager.findFirstVisibleItemPosition() == 0) recyclerView.getChildAt(1)?.top ?: 0 else 0
+            if (forward) {
+                //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
+                // user with an unnecessary icon swap
+                if (fabShouldVisiblyMove) {
+                    (fab.drawable as? TransitionDrawable)?.reverseTransition(duration)
+                } else {
+                    resetListOffset()
+
+                    //Let's start hiding the fab
+                    getFabAnimOut().start()
+                }
+            } else {
+                googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                mapTranslationStart = mapView.translationY
+                if (fabShouldVisiblyMove) {
+                    (fab.drawable as? TransitionDrawable)?.startTransition(duration)
+                } else {
+                    //Since we're not moving it manually, let's jump it to where it belongs,
+                    // and let's get it showing the right thing
+                    if (isMapPinSelected) {
+                        fab.translationY = -(mapCarouselContainer.height - filterHeight)
+                    } else {
+                        fab.translationY = filterHeight
+                    }
+                    (fab.drawable as? TransitionDrawable)?.startTransition(0)
+                    fab.visibility = View.VISIBLE
+                    getFabAnimIn().start()
+                }
+            }
+            startingFabTranslation = fab.translationY
+            if (forward) {
+                finalFabTranslation = 0f
+            } else {
+                finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
+            }
+            hideBundlePriceOverview(!forward)
+            updateFilterButtonText(forward)
+            showSearchMenu.onNext(forward)
+            showMenuItem(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f)
+            recyclerView.translationY = hotelListDistance
+            navIcon.parameter = if (forward) Math.abs(1 - f) else f
+            if (forward) {
+                mapView.translationY = f * -halfway
+            } else {
+                mapView.translationY = (1 - f) * mapTranslationStart
+            }
+
+            if (fabShouldVisiblyMove) {
+                fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
+            }
+            if (forward) {
+                toolbarTitleTransition?.toOrigin(f)
+                subTitleTransition?.fadeIn(f)
+                sortFilterButtonTransition?.toOrigin(f)
+            } else {
+                toolbarTitleTransition?.toTarget(f)
+                subTitleTransition?.fadeOut(f)
+                sortFilterButtonTransition?.toTarget(f)
+            }
+            adjustGoogleMapLogo()
+        }
+
+        override fun endTransition(forward: Boolean) {
+            navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
+            recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
+
+            mapCarouselContainer.visibility = if (forward) {
+                View.INVISIBLE
+            } else {
+                if (mapItems.filter { it.isSelected }.isEmpty()) {
+                    animateMapCarouselVisibility(false)
+                    View.INVISIBLE
+                } else {
+                    View.VISIBLE
+                }
+            }
 
             if (forward) {
-                listTransition.endTransition(forward)
+                if (!fabShouldVisiblyMove) {
+                    fab.translationY = 0f
+                    (fab.drawable as? TransitionDrawable)?.reverseTransition(0)
+                    fab.visibility = View.INVISIBLE
+                }
+                recyclerView.translationY = 0f
+                mapView.translationY = -halfway.toFloat()
+                adjustGoogleMapLogo()
+                filterBtnWithCountWidget?.translationY = 0f
+                if (ExpediaBookingApp.isDeviceShitty()) {
+                    lazyLoadMapAndMarkers()
+                }
             } else {
-                carouselTransition.endTransition(forward)
+                mapView.translationY = 0f
+                recyclerView.translationY = screenHeight.toFloat()
+                googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
+                filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
+                if (ExpediaBookingApp.isDeviceShitty()) {
+                    googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                    createMarkers()
+                }
             }
-            mapTransitionRunning = false
+            fab.translationY = finalFabTranslation
         }
     }
 
@@ -1144,16 +1127,17 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var yTranslationRecyclerTempBackground = 0f
     var yTranslationRecyclerView = 0f
-    var toolbarTitleTop = 0
-    var toolbarSubtitleTop = 0
 
     fun setupToolbarMeasurements() {
         if (yTranslationRecyclerTempBackground == 0f && recyclerView.getChildAt(1) != null) {
             yTranslationRecyclerTempBackground = (recyclerView.getChildAt(0).height + recyclerView.getChildAt(0).top + toolbar.height).toFloat()
             yTranslationRecyclerView = (recyclerView.getChildAt(0).height + recyclerView.getChildAt(0).top).toFloat()
             recyclerTempBackground.translationY = yTranslationRecyclerTempBackground
-            toolbarTitleTop = (toolbarTitle.bottom - toolbarTitle.top) / 2
-            toolbarSubtitleTop = (toolbarSubtitle.bottom - toolbarSubtitle.top) / 2
+
+            toolbarTitleTransition = VerticalTranslateTransition(toolbarTitle, toolbarTitle.top,
+                    (toolbarSubtitle.bottom - toolbarSubtitle.top) / 2)
+
+            subTitleTransition = VerticalFadeTransition(toolbarSubtitle, 0, (toolbarSubtitle.bottom - toolbarSubtitle.top))
         }
     }
 
@@ -1165,8 +1149,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
         navIcon.parameter = factor
-        toolbarTitle.translationY = factor * toolbarTitleTop
-        toolbarSubtitle.translationY = factor * toolbarSubtitleTop
     }
 
     fun animationFinalize(forward: Boolean, isSearchToResultsTransition: Boolean = false) {
