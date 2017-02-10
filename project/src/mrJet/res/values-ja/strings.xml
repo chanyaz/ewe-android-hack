@@ -24,7 +24,7 @@
 
     <!-- Missing strings for MrJet from Expedia-->
     <string name="tell_a_friend_body_mrjet">こんにちは。\n \niPhone と Android スマートフォン用の MrJet ホテル予約アプリがオススメです。無料でダウンロードできて、世界中 14 万軒以上ものホテルを検索、予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。</string>
-    <string name="cd_log_in_email_edit_text_mrjet">MrJet アカウントの電子メールアドレスを入力</string>
+    <string name="cd_log_in_email_edit_text_mrjet">MrJet アカウントの Eメールアドレスを入力</string>
     <string name="tell_a_friend_subject_mrjet">MrJet のホテル</string>
     <string name="cd_log_in_password_edit_text_mrjet">MrJet アカウントのパスワードを入力</string>
     <string name="cd_launch_open_eb_info_screen_mrjet">MrJet 予約情報画面を開く</string>
@@ -43,8 +43,8 @@
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">サインインして MrJet Rewards で {reward} 獲得</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして MrJet Rewards で {reward} 獲得ボタン</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">今すぐ {brand_reward_name_link} を獲得 !  入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
 
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

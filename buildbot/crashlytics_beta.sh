@@ -22,8 +22,11 @@ if [ -e "$CHANGE_LOG_FILE" ] ; then
 fi
 
 if [ -z "${TARGET}" ] ; then
-    echo "Must supply TARGET so we can figure out which flavor to upload"
-    exit 1
+    TARGET=${1}
+    if [ -z "$TARGET" ] ; then
+        echo "Must supply TARGET so we can figure out which flavor to upload"
+        exit 1
+    fi
 fi
 echo "TARGET=$TARGET"
 
@@ -35,9 +38,14 @@ echo "BUILD_VARIANT=$BUILD_VARIANT"
 TERM=dumb
 
 if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
-    ./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}"
-else
+    APPLICATION_ID_SUFFIX=${2}
+fi
+
+
+if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
     ./gradlew "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}"
+else
+    ./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}${BUILD_VARIANT}"
 fi
 
 RESULT=$?

@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">오늘 MrJet에 결제할 총 금액:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">모든 MrJet 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 ’비밀번호를 잊으셨나요?’ 링크를 이용해 비밀번호를 재설정해 주세요.</string>
+    <string name="login_reset_password">모든 MrJet 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 \&apos;비밀번호를 잊으셨나요?\&apos; 링크를 이용해 비밀번호를 재설정해 주세요.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">오늘 MrJet에 결제할 금액</string>
@@ -43,8 +43,8 @@
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 {reward}의 MrJet Rewards를 적립하세요.</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">로그인하고 {reward}의 MrJet Rewards를 적립하는 버튼입니다.</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name_link} 혜택을 바로 적립하겠습니다. 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

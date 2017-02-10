@@ -7,7 +7,7 @@
     <string name="cd_checkout_log_in_with_mrjet">Klik untuk login ke akun MrJet Anda</string>
 
     <string name="contact_mrjet">Hubungi MrJet</string>
-    <string name="mrjet_info_url">http://www.MrJet.com/</string>
+    <string name="mrjet_info_url">https://www.MrJet.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_mrjet">Yakin mau keluar dari akun MrJet Anda?</string>
@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Dibayar ke MrJet Hari Ini:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs MrJet.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs MrJet.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Dibayar ke MrJet Hari Ini:</string>
@@ -43,8 +43,8 @@
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan MrJet Rewards senilai {reward}</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Tombol Login untuk mendapatkan MrJet Rewards {reward}</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Saya ingin mendapatkan bonus langsung dengan {brand_reward_name_link}. Dengan bergabung, saya menerima semua {terms_and_conditions}</string>
 
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

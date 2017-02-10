@@ -23,7 +23,7 @@
     <string name="not_currently_available_mrjet_TEMPLATE">Ikke tilgjengelig på MrJet %s</string>
 
     <!-- Missing strings for MrJet from Expedia-->
-    <string name="tell_a_friend_body_mrjet">Hei!\n\nPrøv MrJet Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
+    <string name="tell_a_friend_body_mrjet">Hei!\n\nPrøv MrJet Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
     <string name="cd_log_in_email_edit_text_mrjet">Angi e-postadressen for MrJet-kontoen</string>
     <string name="tell_a_friend_subject_mrjet">MrJet Hotels</string>
     <string name="cd_log_in_password_edit_text_mrjet">Angi passordet for MrJet-kontoen</string>
@@ -35,7 +35,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe MrJet at the time of reservation-->
     <string name="total_due_to_our_brand_today">Beløp som må betales til MrJet i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle MrJets nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på ‘Glemt passordet ditt?’ nedenfor.</string>
+    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle MrJets nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på ‘Glemt passordet ditt?\&apos; nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløp som må betales til MrJet i dag:</string>
@@ -43,8 +43,8 @@
     <!-- Account Creation Strings -->
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards -->
     <string name="Sign_in_to_earn_TEMPLATE">Logg på for å tjene {reward} i MrJet Rewards</string>
-    <!-- Account creation legal template excluding MrJet Rewards -->
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in MrJet Rewards button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knapp for å logge på for å tjene {reward} i MrJet Rewards</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">Jeg vil gjerne tjene bonus umiddelbart med {brand_reward_name_link}. Ved å bli med godkjenner jeg alle {terms_and_conditions}.</string>
 
@@ -120,5 +120,6 @@
     <string name="rewards_middle_tier_customer_support">@string/customer_support</string>
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>
