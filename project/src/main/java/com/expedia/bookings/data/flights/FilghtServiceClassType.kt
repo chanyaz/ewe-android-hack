@@ -7,11 +7,11 @@ import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 
 object FlightServiceClassType {
-    enum class CabinCode constructor(@StringRes val resId: Int) {
-        COACH(R.string.cabin_code_coach),
-        PREMIUM_COACH(R.string.cabin_code_premium_coach),
-        BUSINESS(R.string.cabin_code_business),
-        FIRST(R.string.cabin_code_first)
+    enum class CabinCode constructor(@StringRes val resId: Int, val trackCode : String) {
+        COACH(R.string.cabin_code_coach,"E"),
+        PREMIUM_COACH(R.string.cabin_code_premium_coach, "P"),
+        BUSINESS(R.string.cabin_code_business, "B"),
+        FIRST(R.string.cabin_code_first, "F")
     }
 
 
@@ -33,6 +33,16 @@ object FlightServiceClassType {
                     .format().toString()
         } else {
             return "";
+        }
+    }
+
+    @JvmStatic fun getCabinClassTrackCode(mCabinClassPreference: String): String {
+        when (mCabinClassPreference) {
+            FlightServiceClassType.CabinCode.COACH.name -> return FlightServiceClassType.CabinCode.COACH.trackCode
+            FlightServiceClassType.CabinCode.PREMIUM_COACH.name -> return FlightServiceClassType.CabinCode.PREMIUM_COACH.trackCode
+            FlightServiceClassType.CabinCode.BUSINESS.name -> return FlightServiceClassType.CabinCode.BUSINESS.trackCode
+            FlightServiceClassType.CabinCode.FIRST.name -> return FlightServiceClassType.CabinCode.FIRST.trackCode
+            else -> throw RuntimeException("Ran into unknown cabin code: " + mCabinClassPreference)
         }
     }
 }
