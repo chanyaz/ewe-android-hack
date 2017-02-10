@@ -70,17 +70,14 @@ public class UserAccountRefresher {
 						if (isUserFacebookSessionActive()) {
 							forceAccountRefresh();
 						}
-						else if (results.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.NOT_AUTHENTICATED) {
-							doLogout();
+						else if (isAuthenticationError(results)) {
+							logOut(true);
 						}
 					}
 				}
 				else {
 					// Update our existing saved data
-					User user = results.getUser();
-					user.save(context);
-					Db.setUser(user);
-					userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
+					onSuccessfulUserAuthentication(results);
 				}
 			}
 
@@ -89,6 +86,10 @@ public class UserAccountRefresher {
 			}
 		}
 	};
+
+	private boolean isAuthenticationError(SignInResponse results) {
+		return results.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.NOT_AUTHENTICATED;
+	}
 
 	public void ensureAccountIsRefreshed() {
 		int userRefreshIntervalThreshold = context.getResources().getInteger(R.integer.account_sync_interval_ms);
@@ -121,8 +122,47 @@ public class UserAccountRefresher {
 		}
 	}
 
-	private void doLogout() {
-		User.signOut(context);
+	public void forceAccountRefreshForWebView() {
+		Log.d("Refreshing user profile from webview...");
+		mLastRefreshedUserTimeMillis = System.currentTimeMillis();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(keyRefreshUser)) {
+			bd.startDownload(keyRefreshUser, mRefreshUserDownload, mRefreshUserCallbackForWebView);
+		}
+	}
+
+	private final BackgroundDownloader.OnDownloadComplete<SignInResponse> mRefreshUserCallbackForWebView = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse results) {
+			if (results != null) {
+				if (results.hasErrors()) {
+					//The refresh failed, so we just log them out. They can always try to login again.
+					if (User.isLoggedIn(context)) {
+						if (isAuthenticationError(results)) {
+							logOut(false);
+						}
+					}
+				}
+				else {
+					onSuccessfulUserAuthentication(results);
+				}
+			}
+			if (userAccountRefreshListener != null) {
+				userAccountRefreshListener.onUserAccountRefreshed();
+			}
+		}
+	};
+
+	private void onSuccessfulUserAuthentication(SignInResponse results) {
+		// Update our existing saved data
+		User user = results.getUser();
+		user.save(context);
+		Db.setUser(user);
+		userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
+	}
+
+	private void logOut(boolean clearCookies) {
+		User.signOut(context, clearCookies);
 		BackgroundDownloader.getInstance().cancelDownload(keyRefreshUser);
 		mLastRefreshedUserTimeMillis = 0L;
 		Events.post(new Events.SignOut());
@@ -156,7 +196,7 @@ public class UserAccountRefresher {
 					}
 					else {
 						if (User.isLoggedIn(context)) {
-							doLogout();
+							logOut(true);
 						}
 						failure();
 					}

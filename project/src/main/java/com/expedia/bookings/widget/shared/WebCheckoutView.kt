@@ -18,11 +18,11 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         super.viewModel = vm
         vm as WebCheckoutViewViewModel
         vm.bookedTripIDObservable.subscribe {
-            vm.userAccountRefresher.forceAccountRefresh()
+            vm.userAccountRefresher.forceAccountRefreshForWebView()
         }
 
         this.setExitButtonOnClickListener(View.OnClickListener {
-            vm.userAccountRefresher.forceAccountRefresh()
+            vm.userAccountRefresher.forceAccountRefreshForWebView()
             vm.closeView.onNext(Unit)
         })
 
