@@ -21,6 +21,8 @@ import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.SearchType
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
@@ -42,6 +44,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class LXResultsPresenterTest {
     var lxResultsPresenter by Delegates.notNull<LXResultsPresenter>()
 

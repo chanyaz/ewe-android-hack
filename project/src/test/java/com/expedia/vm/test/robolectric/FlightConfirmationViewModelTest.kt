@@ -48,7 +48,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun flightConfirmationViewModelTest() {
         val expiresInFuture = DateTime.now().plusDays(50).toString()
         val response = getCheckoutResponse(expiresInFuture)

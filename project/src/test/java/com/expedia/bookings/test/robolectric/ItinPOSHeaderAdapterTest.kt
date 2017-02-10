@@ -2,7 +2,9 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.itin.ItinPOSHeader
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +30,7 @@ class ItinPOSHeaderAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun currentPOSIsDisplayed() {
         pos = PointOfSale.getPointOfSale()
 
@@ -40,6 +43,7 @@ class ItinPOSHeaderAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun changePOSDisplayedOnTripsHeader() {
         header.position = 1
         header.onPrivateDataCleared()
@@ -55,6 +59,7 @@ class ItinPOSHeaderAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun posNotUpdatedOnDialogCancel() {
         header.position = 1
         header.onDialogCancel()

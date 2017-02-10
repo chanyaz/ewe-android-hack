@@ -4,6 +4,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCreateTripViewModel
@@ -33,6 +35,7 @@ class WebCheckoutViewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testWebViewURLObservable() {
         SettingUtils.save(getContext(), "point_of_sale_key", PointOfSaleId.INDIA.id.toString())
         PointOfSale.onPointOfSaleChanged(getContext())
