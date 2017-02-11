@@ -29,6 +29,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
+	private static final String ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING = "ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
 
 
@@ -80,6 +81,11 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 		public IntentBuilder setRoomCancelType() {
 			mIntent.putExtra(ARG_RETURN_FROM_CANCEL_ROOM_BOOKING, true);
+			return this;
+		}
+
+		public IntentBuilder setRoomSoftChange() {
+			mIntent.putExtra(ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING, true);
 			return this;
 		}
 
@@ -142,6 +148,10 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			setResult(RESULT_OK, resultIntent);
 		}
 		else if (extras.getBoolean(ARG_RETURN_FROM_CANCEL_ROOM_BOOKING)) {
+			Intent resultIntent = new Intent(intent);
+			setResult(RESULT_OK, resultIntent);
+		}
+		else if (extras.getBoolean(ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING)) {
 			Intent resultIntent = new Intent(intent);
 			setResult(RESULT_OK, resultIntent);
 		}

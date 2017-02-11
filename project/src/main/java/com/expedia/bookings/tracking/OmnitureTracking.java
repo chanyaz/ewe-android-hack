@@ -3231,6 +3231,8 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
 		s.setEvents("event63");
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView);
 		s.track();
 	}
 

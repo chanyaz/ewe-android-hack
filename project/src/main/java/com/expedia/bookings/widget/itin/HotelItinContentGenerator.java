@@ -29,6 +29,7 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
@@ -470,11 +471,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			cancelHotelRoomButton(container);
 		}
 
-		boolean showEditRoomOption =
-			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_hotel_itin_soft_change_button)
-				&& !isSharedItin();
-		if (showEditRoomOption) {
+		boolean showEditRoomOption = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(),
+			AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView,
+			R.string.preference_hotel_itin_soft_change_button) && !isSharedItin();
 
+		if (showEditRoomOption) {
 			//Setting hasEditRoomOption to true till API is ready
 			boolean hasEditRoomOption = getItinCardData().getProperty().isBookingChangeAvailable();
 			if (hasEditRoomOption) {
@@ -527,7 +528,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				OmnitureTracking.trackItinEditRoomInfoWebViewOpen();
 				String softChangeUrl = getItinCardData().getProperty().getBookingChangeWebUrl();
 				Intent webViewIntent =
-					buildWebViewIntent(R.string.trips_edit_room_info_web_view_title, softChangeUrl).getIntent();
+					buildWebViewIntent(R.string.trips_edit_room_info_web_view_title, softChangeUrl).setRoomSoftChange().getIntent();
 				webViewIntent.putExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID, getItinCardData().getTripNumber());
 				((Activity) getContext()).startActivityForResult(webViewIntent, Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE);
 			}
