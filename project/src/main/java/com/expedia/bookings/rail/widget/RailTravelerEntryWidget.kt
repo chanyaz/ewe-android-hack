@@ -32,7 +32,7 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
 
     val travelerCompleteSubject = PublishSubject.create<Unit>()
 
-    val formFilledSubscriber = endlessObserver<String>() {
+    val formFilledSubscriber = endlessObserver<String> {
         toolbarViewModel.formFilledIn.onNext(isCompletelyFilled())
     }
 

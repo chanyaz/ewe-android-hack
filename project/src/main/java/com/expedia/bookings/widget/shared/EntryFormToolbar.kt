@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.EntryFormToolbarViewModel
@@ -55,6 +56,6 @@ class EntryFormToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context
 
     private fun updateMenuTitle(titleId: Int, contDescId: Int) {
         menuItem.title = context.getString(titleId)
-        menuItem.actionView?.contentDescription = context.getString(contDescId)
+        AccessibilityUtil.setMenuItemContentDescription(this, context.getString(contDescId))
     }
 }
