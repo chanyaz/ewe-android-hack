@@ -48,12 +48,6 @@
                 <data android:pathPrefix="/activitySearch"/>
                 <data android:pathPrefix="/m/trips/shared"/>
                 <data android:pathPrefix="/mobile/deeplink"/>
-                <data android:pathPrefix="/mobile/deeplink/trips"/>
-                <data android:pathPrefix="/mobile/deeplink/Hotel-Search"/>
-                <data android:pathPrefix="/mobile/deeplink/Flights-Search"/>
-                <data android:pathPrefix="/mobile/deeplink/carsearch"/>
-                <data android:pathPrefix="/mobile/deeplink/things-to-do/search"/>
-                <data android:pathPrefix="/mobile/deeplink/user/signin"/>
                 <data android:host="www.expedia.com" />
                 <data android:host="www.expedia.com.ar" />
                 <data android:host="www.expedia.at" />

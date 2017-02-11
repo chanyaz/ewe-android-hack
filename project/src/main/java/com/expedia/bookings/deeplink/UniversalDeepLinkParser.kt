@@ -1,13 +1,18 @@
 package com.expedia.bookings.deeplink
 
 import android.net.Uri
+import com.expedia.bookings.data.ChildTraveler
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.GuestsPickerUtils
 import com.expedia.bookings.utils.StrUtils
+import com.mobiata.android.Log
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.net.URLDecoder
+import java.util.ArrayList
+import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 
@@ -16,8 +21,9 @@ class UniversalDeepLinkParser: DeepLinkParser() {
     private val LEG_PATTERN = Pattern.compile("from:(.+),to:(.+),departure:(.+)")
     private val AIRPORT_CODE = Pattern.compile("[^A-Z]?([A-Z]{3})[^A-Z]?")
     private val DATETIME = Pattern.compile("([^T]+)T?")
-    private val NUM_ADULTS = Pattern.compile("adults:([0-9])+,")
+    private val NUM_ADULTS = Pattern.compile("adults:([0-9]+),")
     private val TIME = Pattern.compile("([0-9]{1,2})([0-9]{2})(AM|PM)")
+    private val HOTEL_INFO_SITE = Pattern.compile("^([^\\.]+)\\.h(\\d+)\\.hotel-information")
 
      fun parseUniversalDeepLink(data: Uri): DeepLink {
         var routingDestination: String = ""
@@ -32,7 +38,10 @@ class UniversalDeepLinkParser: DeepLinkParser() {
              routingDestination = data.path.substring(data.path.indexOf("mobile/deeplink") + "mobile/deeplink".length)
                      .toLowerCase(Locale.US)
         }
-
+        val matcher = HOTEL_INFO_SITE.matcher(routingDestination)
+        if (matcher.find()) {
+            return parseHotelInfoSiteUniversalDeepLink(data, matcher.group(2))
+        }
         when(routingDestination) {
             "/hotel-search" -> return parseHotelUniversalDeepLink(data)
             "/flights-search" -> return parseFlightUniversalDeepLink(data)
@@ -44,6 +53,26 @@ class UniversalDeepLinkParser: DeepLinkParser() {
             "/trips" -> return TripDeepLink()
             else -> return HomeDeepLink()
         }
+    }
+
+    private fun parseHotelInfoSiteUniversalDeepLink(data: Uri, hotelId: String): HotelDeepLink {
+        val hotelDeepLink = HotelDeepLink()
+        val queryParameterNames = StrUtils.getQueryParameterNames(data)
+
+        hotelDeepLink.hotelId = hotelId
+        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkin", DateTimeFormat.forPattern("MM/dd/yyyy"))
+        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkout", DateTimeFormat.forPattern("MM/dd/yyyy"))
+        if (queryParameterNames.contains("rm1")) {
+            val passengers = data.getQueryParameter("rm1").split(":".toRegex(), 2)
+            if (passengers.size > 0) {
+                hotelDeepLink.numAdults = Integer.parseInt(passengers[0].substring(1, passengers[0].length))
+                if (passengers.size > 1) {
+                    hotelDeepLink.children = parseChildAges(passengers[1], hotelDeepLink.numAdults)
+                }
+            }
+        }
+
+        return hotelDeepLink
     }
 
     private fun parseHotelUniversalDeepLink(data: Uri): HotelDeepLink {
@@ -184,5 +213,34 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         val shortUrlDeepLink = ShortUrlDeepLink()
         shortUrlDeepLink.shortUrl = data.toString()
         return shortUrlDeepLink
+    }
+
+    private fun parseChildAges(childAgesStr: String, numAdults: Int): List<ChildTraveler>? {
+        val childAgesArr = childAgesStr.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val maxChildren = GuestsPickerUtils.getMaxChildren(numAdults)
+        val children = ArrayList<ChildTraveler>()
+        try {
+            var a = 0
+            while (a < childAgesArr.size && children.size < maxChildren) {
+                val childAge = Integer.parseInt(childAgesArr[a].substring(1, childAgesArr[a].length))
+                if (childAge < GuestsPickerUtils.MIN_CHILD_AGE) {
+                    Log.w(TAG, "Child age (" + childAge + ") less than that of a child, not adding: "
+                            + childAge)
+                } else if (childAge > GuestsPickerUtils.MAX_CHILD_AGE) {
+                    Log.w(TAG, "Child age ($childAge) not an actual child, ignoring: $childAge")
+                } else {
+                    children.add(ChildTraveler(childAge, false))
+                }
+                a++
+            }
+            if (children.size > 0) {
+                Log.d(TAG,
+                        "Setting children ages: " + Arrays.toString(children.toTypedArray()))
+                return children
+            }
+        } catch (e: NumberFormatException) {
+            Log.w(TAG, "Could not parse childAges: " + childAgesStr, e)
+        }
+        return null
     }
 }
