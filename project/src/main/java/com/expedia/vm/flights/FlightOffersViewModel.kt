@@ -52,7 +52,7 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
             searchingForFlightDateTime.onNext(Unit)
-            flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
+            flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), null)
         }
         cancelSearchObservable.subscribe {
             flightSearchSubscription?.unsubscribe()
@@ -209,38 +209,46 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
     private fun makeResultsObserver(): Observer<FlightSearchResponse> {
 
         return object: Observer<FlightSearchResponse> {
-
-            override fun onNext(response: FlightSearchResponse) {
-                if (response.hasErrors()) {
-                    errorObservable.onNext(response.firstError)
-                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
-                    errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
-                } else {
-                    val obFeeDetailsUrl =
-                            if (getAirlineChargesPaymentFees()) {
-                                PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
-                            } else {
-                                response.obFeesDetails
-                            }
-                    obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
-                    createFlightMap(response)
-                }
+            override fun onCompleted() {
             }
 
-            override fun onError(e: Throwable) {
-                if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
-                    }
-                    val cancelFun = fun() {
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
-                }
+            override fun onError(e: Throwable?) {
             }
 
-            override fun onCompleted() {}
+            override fun onNext(t: FlightSearchResponse?) {
+            }
+
+//            override fun onNext(response: FlightSearchResponse) {
+//                if (response.hasErrors()) {
+//                    errorObservable.onNext(response.firstError)
+//                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
+//                    errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
+//                } else {
+//                    val obFeeDetailsUrl =
+//                            if (getAirlineChargesPaymentFees()) {
+//                                PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
+//                            } else {
+//                                response.obFeesDetails
+//                            }
+//                    obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+//                    createFlightMap(response)
+//                }
+//            }
+//
+//            override fun onError(e: Throwable) {
+//                if (RetrofitUtils.isNetworkError(e)) {
+//                    val retryFun = fun() {
+//                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
+//                    }
+//                    val cancelFun = fun() {
+//                        noNetworkObservable.onNext(Unit)
+//                    }
+//                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+//                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
+//                }
+//            }
+//
+//            override fun onCompleted() {}
         }
     }
 }

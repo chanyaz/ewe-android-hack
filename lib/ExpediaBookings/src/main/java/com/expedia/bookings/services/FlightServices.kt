@@ -48,13 +48,17 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
 
     // open so we can use Mockito to mock FlightServices
     open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
-                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
+                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null, isTrue: Boolean? = true): Subscription {
         searchRequestSubscription?.unsubscribe()
 
         searchRequestSubscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass)
                 .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }
+                .subscribeOn(subscribeOn).doOnNext {
+
+            if (isTrue!!) {
+                flightSearch(params, observer, null, false)
+            }
+        }
                 .doOnNext { response ->
                     if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return@doOnNext
                     response.legs.forEach { leg ->
