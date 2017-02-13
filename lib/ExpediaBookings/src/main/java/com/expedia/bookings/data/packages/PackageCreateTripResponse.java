@@ -76,6 +76,9 @@ public class PackageCreateTripResponse extends TripResponse {
 
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
+		if (packageDetails.pricing.bundleTotal != null) {
+			return packageDetails.pricing.bundleTotal;
+		}
 		if (totalPriceIncludingFees != null) {
 			return totalPriceIncludingFees;
 		}
