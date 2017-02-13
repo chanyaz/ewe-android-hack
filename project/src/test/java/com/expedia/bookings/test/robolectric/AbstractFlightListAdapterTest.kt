@@ -254,7 +254,8 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
-        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money()
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.formattedWholePrice = "$200"
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
         val earnInfo = PointsEarnInfo(100, 100, 100)
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(earnInfo, null), false)
