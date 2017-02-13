@@ -1,0 +1,10 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "errors": [
+    {
+      "errorCode": 400,
+      "message": "Unable to Retrieve Trip Summary: StatusCode: 400, StatusMessage: MessageGuid=0f70988d-2e0e-475c-9f95-771abdb9dd3f TransactionGuid=b2e9d718-625d-4c00-9c59-1c7a82667a97\n\nexpedia.e3.ews.core.trip.service.validation.ValidationException - \n(Field: TripNumber Checksum, Value: '722506170612323', Error: mismatch) \n\n"
+    }
+  ]
+}

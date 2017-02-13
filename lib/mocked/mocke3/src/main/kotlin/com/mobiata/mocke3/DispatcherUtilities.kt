@@ -64,7 +64,7 @@ fun make404(): MockResponse {
     return MockResponse().setResponseCode(404)
 }
 
-fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: FileOpener): MockResponse {
+fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: FileOpener, responseCode: Int = 200): MockResponse {
     var path = filePath
     // Handle all FileOpener implementations
     if (path.startsWith("/")) {
@@ -90,6 +90,7 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
         }
         resp.setBody(body)
         resp.setHeader("Content-Type", "application/json")
+        resp.setResponseCode(responseCode)
     } catch (e: Exception) {
         e.printStackTrace()
         resp.setResponseCode(404)
