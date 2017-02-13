@@ -13,6 +13,8 @@ public class DummyFiletoHandleKotlinLintError {
 	 */
 	private static final int[] USED_RESOURCES = {
 		R.layout.widget_new_phone_launch,
+		R.string.flight_cabin_mixed_classes,
+		R.string.flight_cabin_class_for_two_segment_TEMPLATE,
 		R.drawable.hotel_suggest,
 		R.drawable.airport_suggest,
 		R.drawable.room_fallback,
@@ -865,6 +867,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.select_preferred_flight_class_cont_desc_TEMPLATE,
 		R.layout.widget_flight_cabin_class_search,
 		R.color.hotel_member_pricing_color_test,
-		R.drawable.ic_hotel_member_test
+		R.drawable.ic_hotel_member_test,
+		R.string.cabin_code_premium_coach_abbreviated,
+		R.string.flight_detail_cabin_class_desc_TEMPLATE
 	};
 }

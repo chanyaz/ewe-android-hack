@@ -137,7 +137,7 @@ public class FlightSearchParams implements JSONable {
 		FlightSearchParams other = (FlightSearchParams) o;
 
 		return this.mAdults == other.mAdults && this.mChildren.equals(other.mChildren)
-				&& this.mQueryLegs.equals(other.mQueryLegs);
+			&& this.mQueryLegs.equals(other.mQueryLegs);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -320,5 +320,4 @@ public class FlightSearchParams implements JSONable {
 		mDestinationId = obj.optInt("destinationId");
 		return true;
 	}
-
 }

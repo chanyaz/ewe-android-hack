@@ -2,10 +2,10 @@ package com.expedia.bookings.utils
 
 import android.app.Activity
 import android.content.res.Resources
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.test.robolectric.RoboTestHelper
+import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import org.junit.Before
@@ -145,7 +145,7 @@ class FlightV2UtilsTest {
         assertEquals("Total Duration: 2 hour 20 minutes • 939 miles", variantString)
     }
 
-    fun buildTestFlightLeg() : FlightLeg {
+    fun buildTestFlightLeg(): FlightLeg {
         val mockLeg = FlightLeg()
         mockLeg.departureDateTimeISO = testDepartTime
         mockLeg.arrivalDateTimeISO = testArrivalTime
@@ -156,5 +156,69 @@ class FlightV2UtilsTest {
         val mockFlightSegment = FlightLeg.FlightSegment()
         testFlightLeg.flightSegments = arrayListOf<FlightLeg.FlightSegment>()
         testFlightLeg.flightSegments.add(0, mockFlightSegment)
+    }
+
+    @Test
+    fun testGetFlightCabinPreferenceWithSingleSegment() {
+        testFlightLeg.packageOfferModel = PackageOfferModel()
+        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(1)
+        assertEquals("Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    @Test
+    fun testGetFlightCabinPreferenceWithTwoSegments() {
+        testFlightLeg.packageOfferModel = PackageOfferModel()
+        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
+        assertEquals("Economy + Prem. Eco.", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    @Test
+    fun testGetFlightCabinPreferenceWithThreeSegments() {
+        testFlightLeg.packageOfferModel = PackageOfferModel()
+        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(3)
+        assertEquals("Mixed classes", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    @Test
+    fun testIsAllFlightCabinPreferencesSame() {
+        testFlightLeg.packageOfferModel = PackageOfferModel()
+        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(4)
+        assertEquals("Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    @Test
+    fun testGetFlightCabinPreferenceWithNoSegments() {
+        testFlightLeg.packageOfferModel = PackageOfferModel()
+        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(0)
+        assertEquals("", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {
+        val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()
+        when (numberOfObjects) {
+            1 -> seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+            2 -> {
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("premium coach"))
+            }
+            3 -> {
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("premium coach"))
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("business"))
+            }
+            4 -> { // kept all segments same to check if Economy is returned as expected output
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+                seatClassAndBookingCodeList.add(buildTestSeatClassAndBookingCode("coach"))
+            }
+        }
+        return seatClassAndBookingCodeList
+    }
+
+    fun buildTestSeatClassAndBookingCode(seatClass: String): FlightTripDetails.SeatClassAndBookingCode {
+        val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
+        seatClassAndBookingCode.seatClass = seatClass
+        return seatClassAndBookingCode
     }
 }

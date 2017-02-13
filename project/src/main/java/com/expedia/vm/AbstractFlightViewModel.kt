@@ -3,7 +3,6 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
@@ -18,10 +17,12 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
     val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
-    var seatsLeft = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
+    var seatsLeftUrgencyMessage = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
+    var flightCabinPreferences = FlightV2Utils.getFlightCabinPreferences(context, flightLeg)
 
     abstract fun price(): String
-    abstract fun getUrgencyMessageVisibilty(): Boolean
+    abstract fun getUrgencyMessageVisibility(seatsLeft: String): Boolean
+    abstract fun getFlightCabinPreferenceVisibility(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
     abstract fun getRoundTripMessageVisibilty(): Boolean
 
@@ -39,7 +40,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
                 .put("stops", flightLeg.stopCount)
                 .format()
                 .toString())
-        if(flightSegments != null){
+        if (flightSegments != null) {
             for (segment in flightSegments) {
                 result.append(Phrase.from(context, R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE).
                         put("departureairport", segment.departureAirportCode).
@@ -53,7 +54,11 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
                 }
             }
         }
-        if (getUrgencyMessageVisibilty()) {
+        if (getFlightCabinPreferenceVisibility()) {
+            result.append(Phrase.from(context, R.string.flight_detail_cabin_class_desc_TEMPLATE).
+                    put("class", flightCabinPreferences).format().toString())
+        }
+        if (getUrgencyMessageVisibility(seatsLeftUrgencyMessage)) {
             val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
             result.append(Phrase.from(context.resources.getQuantityString(R.plurals.flight_detail_urgency_message_cont_desc_TEMPLATE, seatsLeft))
                     .put("seatsleft", seatsLeft).format().toString())

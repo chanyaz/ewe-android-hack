@@ -3,10 +3,12 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
@@ -17,6 +19,7 @@ import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.flights.FlightViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -98,14 +101,14 @@ class AbstractFlightListAdapterTest {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
         createTestFlightListAdapter()
 
-        //When seatsLeft are less than 6
+        //When seatsLeftUrgencyMessage are less than 6
         createFlightLegWithUrgencyMessage(4)
         var flightViewHolder = bindFlightViewHolderAndModel()
 
         assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.VISIBLE)
         assertEquals(flightViewHolder.urgencyMessageTextView.text, "4 left at this price")
 
-        //When seatsLeft are more than 6
+        //When seatsLeftUrgencyMessage are more than 6
         createFlightLegWithUrgencyMessage(8)
         flightViewHolder = bindFlightViewHolderAndModel()
         assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
@@ -119,6 +122,36 @@ class AbstractFlightListAdapterTest {
         val flightViewHolder = bindFlightViewHolderAndModel()
 
         assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
+    }
+
+    @Test
+    fun testFlightCabinCodeVisibilityWhenBucketedForABTest() {
+        SettingUtils.save(context, R.string.preference_flight_premium_class, true)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
+        createTestFlightListAdapter()
+        createFlightClass(true)
+
+        var flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightCabinCodeTextView.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCabinCodeTextView.text, "Prem. Eco.")
+
+        // Does not have Flight Class
+        createFlightClass(false)
+        flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightCabinCodeTextView.visibility, View.GONE)
+    }
+
+    @Test
+    fun testFlightCabinCodeVisibilityWhenNotBucketedForABTest() {
+        createTestFlightListAdapter()
+        SettingUtils.save(context, R.string.preference_flight_premium_class, true)
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
+
+        // Has Flight Class
+        createFlightClass(true)
+
+        var flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightCabinCodeTextView.visibility, View.GONE)
     }
 
     @Test
@@ -311,6 +344,17 @@ class AbstractFlightListAdapterTest {
         airlineSegment.layoverDurationHours = 0
         airlineSegment.layoverDurationMinutes = 0
         return airlineSegment
+    }
+
+    private fun createFlightClass(hasFlightClass : Boolean) {
+        createFlightLegWithThreeAirlines()
+        val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()
+        if (hasFlightClass) {
+            val seatClassAndBookingCode = FlightTripDetails().SeatClassAndBookingCode()
+            seatClassAndBookingCode.seatClass = "premium coach"
+            seatClassAndBookingCodeList.add(seatClassAndBookingCode)
+        }
+        flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = seatClassAndBookingCodeList
     }
 
     private fun createFlightViewHolder(): AbstractFlightListAdapter.FlightViewHolder {
