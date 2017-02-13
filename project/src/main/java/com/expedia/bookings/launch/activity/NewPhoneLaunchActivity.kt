@@ -191,6 +191,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
+                itinListFragment?.showDeepRefreshLoadingView(true)
             }
         }
         else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
