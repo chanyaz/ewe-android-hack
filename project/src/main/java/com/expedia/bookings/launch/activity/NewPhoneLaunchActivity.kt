@@ -190,8 +190,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
-
-                ItineraryManager.getInstance().deepRefreshTrip(tripId, true) // TODO - figure out how to show spinner on this refresh
+                ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
         }
     }

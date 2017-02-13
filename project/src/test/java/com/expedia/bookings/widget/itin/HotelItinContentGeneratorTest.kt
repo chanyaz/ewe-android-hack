@@ -4,8 +4,10 @@ import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
@@ -34,6 +36,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun hotelSoftChangeButtonOpensWebView() {
         SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder()
                                 .withBookingChangeUrl(getBookingChangeUrl())
@@ -53,6 +56,7 @@ class HotelItinContentGeneratorTest {
         val webViewTitle = intent.getStringExtra("ARG_TITLE")
         val isWebViewSendingCookies = intent.getBooleanExtra("ARG_INJECT_EXPEDIA_COOKIES", false)
         val tripNumberToRefresh = intent.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
+        val resultExtra = intent.getBooleanExtra("ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING", false)
 
         assertEquals("com.expedia.bookings.activity.WebViewActivity", intent.component.className)
         assertEquals(Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE, nextStartedActivityForResult.requestCode)
@@ -61,11 +65,14 @@ class HotelItinContentGeneratorTest {
         assertEquals("Edit Room Info", webViewTitle)
         assertTrue(isWebViewSendingCookies)
         assertEquals("1103274148635", tripNumberToRefresh)
+        assertTrue(resultExtra)
     }
 
     @Test
     fun hotelSoftChangeButtonAvailable() {
         SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
+
         val itinCardDataHotel = ItinCardDataHotelBuilder().withBookingChangeUrl(getBookingChangeUrl()).build()
         itinCardDataHotel.tripComponent.parentTrip.setIsShared(false)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -73,6 +80,19 @@ class HotelItinContentGeneratorTest {
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
 
         assertEquals(View.VISIBLE, detailsView.findViewById(R.id.edit_hotel_room_info).visibility)
+    }
+
+    @Test
+    fun hotelSoftChangeButtonGoneAbTestOff() {
+        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
+
+        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val container = FrameLayout(activity)
+        val detailsView = hotelItinGenerator.getDetailsView(null, container)
+
+        assertEquals(View.GONE, detailsView.findViewById(R.id.edit_hotel_room_info).visibility)
     }
 
     @Test
