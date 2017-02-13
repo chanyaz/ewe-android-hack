@@ -23,7 +23,6 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
 
         this.setExitButtonOnClickListener(View.OnClickListener {
             vm.userAccountRefresher.forceAccountRefreshForWebView()
-            vm.closeView.onNext(Unit)
         })
 
     }
