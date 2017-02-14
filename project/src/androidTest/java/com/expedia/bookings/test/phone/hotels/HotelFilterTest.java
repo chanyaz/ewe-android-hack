@@ -80,6 +80,7 @@ public class HotelFilterTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		sortFilter();
 		assertResultsViewVisibility(false);
+		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
 		onView(withId(R.id.rating_one_background)).perform(click());
@@ -92,6 +93,7 @@ public class HotelFilterTest extends HotelTestCase {
 		doneButton().perform(click());
 		HotelScreen.waitForResultsLoaded();
 		assertResultsViewVisibility(true);
+		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
 		Common.delay(2);
 		//from map to filter, return to result map
@@ -144,6 +146,5 @@ public class HotelFilterTest extends HotelTestCase {
 		onView(withId(R.id.list_view)).check(matches(withEffectiveVisibility(visibility)));
 		onView(withId(R.id.hotel_results_toolbar)).check(matches(withEffectiveVisibility(visibility)));
 		onView(withId(R.id.map_view)).check(matches(withEffectiveVisibility(visibility)));
-		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(visibility)));
 	}
 }

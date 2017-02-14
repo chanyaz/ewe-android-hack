@@ -141,7 +141,6 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.loyaltyAvailabilityObservable.subscribe { isVisible ->
                 loyaltyMessageContainer.visibility =
                         if (isVisible) View.VISIBLE
-                        else if (lineOfBusiness == LineOfBusiness.HOTELS) View.INVISIBLE
                         else View.GONE
                 shadowOnLoyaltyMessageContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
                 shadowOnHotelCell.visibility = if (!isVisible && lineOfBusiness == LineOfBusiness.HOTELS) View.VISIBLE else View.GONE
