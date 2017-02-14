@@ -3017,6 +3017,7 @@ public class OmnitureTracking {
 
 	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
 	private static final String ITIN_FIND = "App.Itinerary.Find";
+	private static final String ITIN_FIND_GUEST = "App.Itinerary.Find.Guest";
 	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
@@ -3089,6 +3090,10 @@ public class OmnitureTracking {
 
 	public static void trackFindItin() {
 		internalTrackPageLoadEventStandard(ITIN_FIND);
+	}
+
+	public static void trackFindGuestItin() {
+		internalTrackPageLoadEventStandard(ITIN_FIND_GUEST);
 	}
 
 	/**

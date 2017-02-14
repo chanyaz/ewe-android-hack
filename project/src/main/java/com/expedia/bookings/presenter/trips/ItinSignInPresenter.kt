@@ -8,6 +8,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
@@ -34,6 +35,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
             show(signInWidget)
             show(addGuestItinWidget)
+            OmnitureTracking.trackFindGuestItin()
         }
     }
 

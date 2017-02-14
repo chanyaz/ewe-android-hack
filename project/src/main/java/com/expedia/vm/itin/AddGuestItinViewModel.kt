@@ -7,6 +7,7 @@ import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ItinDetailsResponse
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.google.gson.Gson
 import com.mobiata.android.validation.ValidationError
@@ -72,6 +73,7 @@ class AddGuestItinViewModel(val context: Context) {
                     val gson = Gson()
                     val response = gson.fromJson(errorString, ItinDetailsResponse::class.java)
                     if (response?.errors?.size!! > 0) {
+                        OmnitureTracking.trackItinError()
                         showErrorObservable.onNext(true)
                         showErrorMessageObservable.onNext(
                                 if (response.errors[0].isNotAuthenticatedError)
