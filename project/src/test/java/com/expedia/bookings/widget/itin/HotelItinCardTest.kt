@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
+import com.expedia.bookings.data.Property
+import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.RoomUpgradeOffersService
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -15,18 +18,34 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
+import com.mobiata.mocke3.ExpediaDispatcher
+import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
+import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
+import java.io.File
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelItinCardTest {
 
+    val server = MockWebServer()
+        @Rule get
+
+    lateinit private var roomUpgradeService: RoomUpgradeOffersService
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+    val portNumber = server.port
+    val url = "http://localhost:$portNumber/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
 
     lateinit private var sut: HotelItinCard
 
@@ -79,9 +98,21 @@ class HotelItinCardTest {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
+        itinCardData.property.setRoomUpgradeOfferType(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
         sut.bind(itinCardData)
 
         assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
+    }
+
+    @Test
+    fun roomUpgradeBannerGoneNoOffers() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
+        itinCardData.property.setRoomUpgradeOfferType(Property.RoomUpgradeType.NO_UPGRADE_OFFERS)
+        sut.bind(itinCardData)
+
+        assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
     @Test
@@ -90,7 +121,6 @@ class HotelItinCardTest {
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
         sut.bind(itinCardData)
-
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
@@ -106,6 +136,59 @@ class HotelItinCardTest {
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
+    @Test
+    fun roomUpgradeBannerGoneInDetails() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
+        itinCardData.property.setRoomUpgradeOfferType(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
+        sut.bind(itinCardData)
+        sut.expand(false)
+
+        assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
+        assertEquals(View.VISIBLE, getUpgradeButton().visibility)
+    }
+
+    @Test
+    fun roomFetchOffersObserver() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        setupRoomUpgradeService()
+        createSystemUnderTest()
+        sut.roomUpgradeService = roomUpgradeService
+        val testSubscriber = TestSubscriber<Property.RoomUpgradeType>()
+        sut.mRoomUpgradeOffersSubject.subscribe(testSubscriber)
+        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().withRoomUpgradeApiUrl(url).build()
+        sut.bind(itinCardData)
+
+        testSubscriber.requestMore(100L)
+        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
+
+        assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
+    }
+
+    @Test
+    fun roomFetchOffersErrorObserver() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        setupRoomUpgradeService()
+        createSystemUnderTest()
+        sut.roomUpgradeService = roomUpgradeService
+
+        val testSubscriber = TestSubscriber<Property.RoomUpgradeType>()
+        sut.mRoomUpgradeOffersSubject.subscribe(testSubscriber)
+        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().withRoomUpgradeApiUrl("https:://www.notarealurl.com").build()
+        sut.bind(itinCardData)
+
+        testSubscriber.requestMore(100L)
+        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(Property.RoomUpgradeType.NO_UPGRADE_OFFERS)
+
+        assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
+    }
+
+
     private fun givenPointOfSaleVipSupportDisabled() {
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_vipaccess_disabled.json")
     }
@@ -117,6 +200,11 @@ class HotelItinCardTest {
 
     private fun getUpgradeBannerTextView(): TextView {
         val upgradeBanner = sut.findViewById(R.id.room_upgrade_available_banner) as TextView
+        return upgradeBanner
+    }
+
+    private fun getUpgradeButton(): TextView {
+        val upgradeBanner = sut.findViewById(R.id.room_upgrade_button) as TextView
         return upgradeBanner
     }
 
@@ -138,5 +226,18 @@ class HotelItinCardTest {
     private fun createUser(loyaltyMembershipTier: LoyaltyMembershipTier) {
         val goldCustomer = UserLoginTestUtil.mockUser(loyaltyMembershipTier)
         UserLoginTestUtil.setupUserAndMockLogin(goldCustomer)
+    }
+
+    private fun setupRoomUpgradeService() {
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
+
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        val interceptor = MockInterceptor()
+        roomUpgradeService = RoomUpgradeOffersService("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 }

@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
@@ -30,6 +31,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING = "ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING";
+	private static final String ARG_RETURN_FROM_ROOM_UPGRADE = "ARG_RETURN_FROM_ROOM_UPGRADE";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
 
 
@@ -84,8 +86,14 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			return this;
 		}
 
+
 		public IntentBuilder setRoomSoftChange() {
 			mIntent.putExtra(ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING, true);
+			return this;
+		}
+
+		public IntentBuilder setRoomUpgradeType() {
+			mIntent.putExtra(ARG_RETURN_FROM_ROOM_UPGRADE, true);
 			return this;
 		}
 
@@ -152,6 +160,10 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			setResult(RESULT_OK, resultIntent);
 		}
 		else if (extras.getBoolean(ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING)) {
+			Intent resultIntent = new Intent(intent);
+			setResult(RESULT_OK, resultIntent);
+		}
+		else if (extras.getBoolean(ARG_RETURN_FROM_ROOM_UPGRADE)) {
 			Intent resultIntent = new Intent(intent);
 			setResult(RESULT_OK, resultIntent);
 		}
