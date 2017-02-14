@@ -113,6 +113,25 @@ class WebCheckoutViewTest {
         bookingTripIDSubscriber.assertValue(tripID)
     }
 
+    @Test
+    fun webViewRefreshUserOnBackPress() {
+        val closeViewSubscriber = TestSubscriber<Unit>()
+        featureToggleWebCheckout(true)
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(1)
+        closeViewSubscriber.assertValueCount(0)
+        verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
+
+        hotelPresenter.webCheckoutView.back()
+        verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        closeViewSubscriber.assertValueCount(1)
+    }
+
     private fun selectHotelRoom() {
         val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
         hotelPresenter.hotelDetailViewModel.roomSelectedSubject.onNext(hotelRoomResponse)

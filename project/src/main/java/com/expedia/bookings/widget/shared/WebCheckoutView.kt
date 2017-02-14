@@ -26,6 +26,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         })
 
     }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         toolbar.title = context.getString(R.string.secure_checkout)
@@ -37,6 +38,10 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
             view.stopLoading()
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
         }
+    }
+
+    fun back() {
+        (viewModel as WebCheckoutViewViewModel).userAccountRefresher.forceAccountRefreshForWebView()
     }
 
 }

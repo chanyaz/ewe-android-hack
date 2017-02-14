@@ -125,7 +125,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         webCheckoutView.viewModel = webCheckoutViewViewModel
 
         webCheckoutViewViewModel.closeView.subscribe {
-            back()
+            super.back()
         }
         webCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
             itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
@@ -917,6 +917,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     override fun back(): Boolean {
+        if (currentState == WebCheckoutView::class.java.name) {
+            webCheckoutView.back()
+            return true
+        }
         if (searchPresenter.back()) {
             return true
         }
