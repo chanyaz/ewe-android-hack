@@ -274,7 +274,7 @@
 
     <!-- Dimensions for hotel filter -->
     <dimen name="hotel_neighborhood_height">40dp</dimen>
-    <dimen name="airlines_filter_height">45dp</dimen>
+    <dimen name="hotel_sort_filter_padding">16dp</dimen>
 
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
@@ -373,6 +373,9 @@
     <dimen name="sort_filter_padding_normal">16dp</dimen>
     <dimen name="sort_filter_padding_checkmarks">10dp</dimen>
     <dimen name="sort_filter_padding_dropdowns">13dp</dimen>
+
+    <!-- Flight Filter Sort -->
+    <dimen name="airlines_filter_height">45dp</dimen>
 
     <!-- Account Screen -->
     <dimen name="about_row_title_text_size">14sp</dimen>

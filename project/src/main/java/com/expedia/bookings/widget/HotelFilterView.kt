@@ -53,6 +53,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
     val optionLabel: TextView by bindView(R.id.option_label)
     val filterFavoriteContainer: View by bindView(R.id.filter_favorite_container)
+    val starRatingContainer: View by bindView(R.id.star_rating_container)
+    val starRatingBar: TextView by bindView(R.id.star_rating_bar)
     val filterStarOne: ImageButton by bindView(R.id.filter_hotel_star_rating_one)
     val filterStarTwo: ImageButton by bindView(R.id.filter_hotel_star_rating_two)
     val filterStarThree: ImageButton by bindView(R.id.filter_hotel_star_rating_three)
@@ -83,6 +85,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         button
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
+    val priceContainer: View by bindView(R.id.price_container)
     val priceRangeBar: FilterRangeSeekBar by bindView(R.id.price_range_bar)
     val priceRangeContainer: View by bindView(R.id.price_range_container)
     val priceHeader: View by bindView(R.id.price)
@@ -142,9 +145,9 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     var viewmodel: AbstractHotelFilterViewModel by notNullAndObservable { vm ->
 
-       doneButton.subscribeOnClick(vm.doneObservable)
-        vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeContainer)
-        vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
+        doneButton.subscribeOnClick(vm.doneObservable)
+        vm.priceRangeContainerObservable.subscribeVisibility(priceRangeContainer)
+        vm.priceRangeContainerObservable.subscribeVisibility(priceHeader)
         filterVipContainer.setOnClickListener {
             clearHotelNameFocus()
             filterHotelVip.isChecked = !filterHotelVip.isChecked
@@ -235,8 +238,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                         vm.priceRangeChangedObserver.onNext(priceRange.update(priceStartCurrentProgress, progress))
                     }
                 }
-            }
-            else {
+            } else {
                 priceRangeBar.upperLimit = priceRange.notches
                 priceRangeMinText.text = priceRange.defaultMinPriceText
                 priceRangeMaxText.text = priceRange.defaultMaxPriceText
@@ -353,7 +355,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.neighborhoodListObservable.subscribe { list ->
             neighborhoodContainer.removeAllViews()
-            if (list != null && list.size > 1) {
+            if (list != null && list.size > 1 && vm.isClientSideFiltering()) {
                 neighborhoodLabel.visibility = View.VISIBLE
                 if (list.size > 4) {
                     neighborhoodMoreLessView.visibility = View.VISIBLE
@@ -375,9 +377,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObservable)
 
-        vm.sortContainerObservable.subscribe { showSort ->
-            sortContainer.visibility = if (showSort) View.VISIBLE else View.GONE
-        }
+        vm.sortContainerVisibilityObservable.subscribeVisibility(sortContainer)
 
         vm.neighborhoodExpandObservable.subscribe { isSectionExpanded ->
             if (isSectionExpanded) {
@@ -401,6 +401,16 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
         }
 
+        //TODO server side filters WIP - this is temporary, will be added back soon
+        vm.clientSideFilterObservable.subscribe { clientFilter ->
+            if (!clientFilter) {
+                starRatingBar.visibility = View.GONE
+                starRatingContainer.visibility = View.GONE
+                priceContainer.visibility = View.GONE
+                optionLabel.visibility = View.GONE
+                filterVipContainer.visibility = View.GONE
+            }
+        }
 
         vm.amenityOptionsObservable.subscribe { map ->
             val amenityMap: Map<FilterAmenity, Int> = FilterAmenity.amenityFilterToShow(map)
@@ -445,8 +455,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         super.onFinishInflate()
         if (AccessibilityUtil.isTalkBackEnabled(context)) {
             a11yPriceRangeStub.inflate()
-        }
-        else {
+        } else {
             priceRangeStub.inflate()
         }
     }

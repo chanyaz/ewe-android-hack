@@ -7,7 +7,6 @@ import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.FilterAmenity
@@ -41,6 +40,13 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
     val sortByObservable = PublishSubject.create<Sort>()
     val sortSpinnerObservable = PublishSubject.create<Sort>()
     val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
+    val clientSideFilterObservable = BehaviorSubject.create<Boolean>()
+    val sortContainerVisibilityObservable = sortContainerObservable.withLatestFrom(clientSideFilterObservable, { showSort, clientSide ->
+        showSort && clientSide
+    })
+    val priceRangeContainerObservable = priceRangeContainerVisibility.withLatestFrom(clientSideFilterObservable, { showPriceRange, clientSide ->
+        showPriceRange && clientSide
+    })
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
@@ -104,30 +110,32 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
     private var isNeighborhoodExpanded = false
 
     private val sortObserver = endlessObserver<Sort> { sort ->
-        if (sort != previousSortType) {
-            previousSortType = sort
-            val hotels: List<Hotel> = filteredResponse.hotelList
+        //TODO server side filters WIP - extract out to client side filter vm
+        if (isClientSideFiltering()) {
+            if (sort != previousSortType) {
+                previousSortType = sort
+                val hotels: List<Hotel> = filteredResponse.hotelList
 
-            when (sort) {
-                Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
-                Sort.PRICE -> Collections.sort(hotels, price_comparator)
-                Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
-                Sort.DEALS -> Collections.sort(hotels, deals_comparator)
-                Sort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
-                Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
+                when (sort) {
+                    Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
+                    Sort.PRICE -> Collections.sort(hotels, price_comparator)
+                    Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
+                    Sort.DEALS -> Collections.sort(hotels, deals_comparator)
+                    Sort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
+                    Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
+                }
+                setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
+
+                val sortByString: String = Strings.capitalizeFirstLetter(sort.toString())
+                trackHotelSortBy(sortByString)
             }
-            setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
 
-            val sortByString: String = Strings.capitalizeFirstLetter(sort.toString())
-            trackHotelSortBy(sortByString)
-
-        }
-
-        if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
-            filteredResponse.isFilteredResponse = true
-            filterObservable.onNext(filteredResponse)
-        } else {
-            filteredZeroResultObservable.onNext(Unit)
+            if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
+                filteredResponse.isFilteredResponse = true
+                filterObservable.onNext(filteredResponse)
+            } else {
+                filteredZeroResultObservable.onNext(Unit)
+            }
         }
     }
 
@@ -148,15 +156,19 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
             sendNewPriceRange()
         }
 
+        clientSideFilterObservable.onNext(isClientSideFiltering())
     }
 
     fun handleFiltering() {
-        setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) })
-        val filterCount = userFilterChoices.filterCount()
-        val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
-        updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
-        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
-        filterCountObservable.onNext(filterCount)
+        //TODO WIP extract out to client side filter
+        if (isClientSideFiltering()) {
+            setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) })
+            val filterCount = userFilterChoices.filterCount()
+            val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
+            updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
+            doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
+            filterCountObservable.onNext(filterCount)
+        }
     }
 
     private fun setFilteredHotelListAndRetainLoyaltyInformation(hotelList: List<Hotel>) {
@@ -350,10 +362,6 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
         setFilteredHotelListAndRetainLoyaltyInformation(ArrayList(response.hotelList))
         filteredResponse.userPriceType = response.userPriceType
-        //hide amenities
-        //if (response.amenityFilterOptions != null) {
-        //  amenityOptionsObservable.onNext(response.amenityFilterOptions)
-        //}
 
         sendNewPriceRange()
         isNeighborhoodExpanded = false
@@ -488,5 +496,6 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
     abstract fun trackHotelRefineRating(rating: String)
     abstract fun sortItemToRemove(): Sort
     abstract fun showHotelFavorite(): Boolean
+    abstract fun isClientSideFiltering(): Boolean
 }
 
