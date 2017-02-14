@@ -31,7 +31,9 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject)
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        flightOfferViewModel.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
+        overviewPresenter.showPaymentFeesObservable.subscribe {
+            paymentFeeInfoWebView.viewModel.webViewURLObservable.onNext(flightOfferViewModel.obFeeDetailsUrlObservable.value)
+        }
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
         flightOfferViewModel.searchParamsObservable.subscribe {
             resultsPresenter.setLoadingState()
