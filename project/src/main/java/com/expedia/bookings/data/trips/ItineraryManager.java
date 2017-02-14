@@ -191,6 +191,17 @@ public class ItineraryManager implements JSONable {
 		return mItinCardDatas;
 	}
 
+	public String getDeepLinkItinIdByTripNumber(String tripNumber) {
+		if (!TextUtils.isEmpty(tripNumber)) {
+			for (int i = 0; i < mItinCardDatas.size(); i++) {
+				if (tripNumber.equals(mItinCardDatas.get(i).getTripComponent().getParentPackage().getParentTrip().getTripNumber())) {
+					return mItinCardDatas.get(i).getId();
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Get a TripComponent object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as

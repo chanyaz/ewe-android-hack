@@ -90,7 +90,7 @@ public class NavUtils {
 			Intent intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			if (forceShowWaterfall) {
-				intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_WATERFALL(), true);
+				intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 			}
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
@@ -107,7 +107,7 @@ public class NavUtils {
 			intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			if (forceShowWaterfall) {
-				intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_WATERFALL(), true);
+				intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 			}
 			sendKillActivityBroadcast(context);
 		}
@@ -141,6 +141,10 @@ public class NavUtils {
 	}
 
 	public static void goToItin(Context context) {
+		goToItin(context, null);
+	}
+
+	public static void goToItin(Context context, String itinId) {
 		Intent intent;
 		if (ExpediaBookingApp.useTabletInterface(context)) {
 			TaskStackBuilder builder = TaskStackBuilder.create(context);
@@ -156,7 +160,10 @@ public class NavUtils {
 		else {
 			intent = getLaunchIntent(context);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ITIN(), true);
+			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+			if (itinId != null) {
+				intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_ID, itinId);
+			}
 			context.startActivity(intent);
 		}
 	}
@@ -171,7 +178,7 @@ public class NavUtils {
 			intent = getLaunchIntent(context);
 		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ACCOUNT(), true);
+		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, true);
 		builder.addNextIntent(intent);
 		builder.startActivities();
 		User.signIn((Activity) context, new Bundle());

@@ -141,6 +141,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
+        if (intent.hasExtra(ARG_ITIN_ID)) {
+            jumpToItinId = intent.getStringExtra(ARG_ITIN_ID)
+            intent.removeExtra(ARG_ITIN_ID)
+        }
+
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
             gotoWaterfall()
         } else if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
@@ -311,7 +316,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 supportInvalidateOptionsMenu()
             }
         }
-
         if (jumpToItinId != null) {
             itinListFragment?.showItinCard(jumpToItinId, false)
             jumpToItinId = null
@@ -329,7 +333,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         return (BuildConfig.DEBUG &&
                 SettingUtils.get(this@NewPhoneLaunchActivity, this@NewPhoneLaunchActivity.getString(R.string.preference_launch_screen_overflow), false))
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (shouldShowOverFlowMenu()) {
@@ -552,10 +555,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     companion object {
-        @JvmStatic val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
-        @JvmStatic val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
-        @JvmStatic val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
-        @JvmStatic val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
+        @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
+        @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
+        @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
+        @JvmField val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
+        @JvmField val ARG_ITIN_ID = "ARG_ITIN_ID"
 
         /** Create intent to open this activity and jump straight to a particular itin item.
          */

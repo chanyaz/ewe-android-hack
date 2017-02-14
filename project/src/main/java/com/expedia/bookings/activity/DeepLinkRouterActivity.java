@@ -127,7 +127,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish = true;
 		}
 		else if (deepLink instanceof TripDeepLink) {
-			NavUtils.goToItin(this);
+			handleTrip((TripDeepLink) deepLink);
 			finish = true;
 		}
 		else if (deepLink instanceof SharedItineraryDeepLink) {
@@ -456,6 +456,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private void goFetchSharedItin(String sharableUrl) {
 		getItineraryManagerInstance().fetchSharedItin(sharableUrl);
 		NavUtils.goToItin(this);
+	}
+
+	private void handleTrip(TripDeepLink tripDeepLink) {
+		String itinId = getItineraryManagerInstance().getDeepLinkItinIdByTripNumber(tripDeepLink.getItinNum());
+		NavUtils.goToItin(this, itinId);
 	}
 
 	@VisibleForTesting

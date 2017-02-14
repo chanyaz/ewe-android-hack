@@ -103,7 +103,7 @@ class DeepLinkRouterActivityTest {
         setIntentOnActivity(deepLinkRouterActivityController, sharedItinUrl)
         deepLinkRouterActivityController.setup()
         Mockito.verify(mockItineraryManager).fetchSharedItin(Mockito.eq(sharedItinUrl))
-        assertPhoneLaunchActivityStarted(deepLinkRouterActivity)
+        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity)
     }
 
     @Test
@@ -118,7 +118,23 @@ class DeepLinkRouterActivityTest {
         setIntentOnActivity(deepLinkRouterActivityController, shortUrl)
         deepLinkRouterActivityController.setup()
         Mockito.verify(mockItineraryManager).fetchSharedItin(Mockito.eq(sharedItinUrl))
-        assertPhoneLaunchActivityStarted(deepLinkRouterActivity)
+        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity)
+    }
+
+    @Test
+    fun tripDeepLink() {
+        val deepLinkRouterActivityController = createSystemUnderTest()
+        val mockItineraryManager = createMockItineraryManager()
+        val deepLinkRouterActivity = deepLinkRouterActivityController.get()
+
+        deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
+
+        val tripUrl = "expda://trips?itinNum=7238447666975"
+
+        setIntentOnActivity(deepLinkRouterActivityController, tripUrl)
+        deepLinkRouterActivityController.setup()
+        Mockito.verify(mockItineraryManager).getDeepLinkItinIdByTripNumber(Mockito.eq("7238447666975"))
+        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity)
     }
 
     private fun getDeepLinkRouterActivity(deepLinkUrl : String): TestDeepLinkRouterActivity {
@@ -133,7 +149,7 @@ class DeepLinkRouterActivityTest {
         return deepLinkRouterActivity
     }
 
-    private fun assertPhoneLaunchActivityStarted(deepLinkRouterActivity: TestDeepLinkRouterActivity) {
+    private fun assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity: TestDeepLinkRouterActivity) {
         val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
         expectedIntent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true)

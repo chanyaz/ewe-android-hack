@@ -23,9 +23,27 @@ class UniversalDeepLinkParser: DeepLinkParser() {
     private val DATETIME = Pattern.compile("([^T]+)T?")
     private val NUM_ADULTS = Pattern.compile("adults:([0-9]+),")
     private val TIME = Pattern.compile("([0-9]{1,2})([0-9]{2})(AM|PM)")
-    private val HOTEL_INFO_SITE = Pattern.compile("^([^\\.]+)\\.h(\\d+)\\.hotel-information")
+    private val HOTEL_INFO_SITE = Pattern.compile("/[^\\.]+\\.h(\\d+)\\.hotel-information")
+    private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
 
      fun parseUniversalDeepLink(data: Uri): DeepLink {
+        var routingDestination = getRoutingDestination(data)
+        when(routingDestination) {
+            "/hotel-search" -> return parseHotelUniversalDeepLink(data)
+            "hotel-infosite" -> return parseHotelInfoSiteUniversalDeepLink(data)
+            "/flights-search" -> return parseFlightUniversalDeepLink(data)
+            "/carsearch" -> return parseCarUniversalDeepLink(data)
+            "/things-to-do/search" -> return parseActivityUniversalDeepLink(data)
+            "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
+            "shorturl" -> return parseShortUrlDeepLink(data)
+            "/user/signin" -> return SignInDeepLink()
+            "/trips" -> return parseTripUniversalDeepLink(data)
+            else ->
+                return HomeDeepLink()
+        }
+    }
+
+    private fun getRoutingDestination(data: Uri): String {
         var routingDestination: String = ""
 
         if (data.path.contains("m/trips/shared")) {
@@ -35,31 +53,25 @@ class UniversalDeepLinkParser: DeepLinkParser() {
             routingDestination = "shorturl"
         }
         else if (data.path.contains("mobile/deeplink")) {
-             routingDestination = data.path.substring(data.path.indexOf("mobile/deeplink") + "mobile/deeplink".length)
-                     .toLowerCase(Locale.US)
+            routingDestination = data.path.substring(data.path.indexOf("mobile/deeplink") + "mobile/deeplink".length)
+                    .toLowerCase(Locale.US)
+            if (HOTEL_INFO_SITE.matcher(routingDestination).find()) {
+                routingDestination = "hotel-infosite"
+            } else if (TRIPS_ITIN_NUM.matcher(routingDestination).find()) {
+                routingDestination = "/trips"
+            }
         }
-        val matcher = HOTEL_INFO_SITE.matcher(routingDestination)
-        if (matcher.find()) {
-            return parseHotelInfoSiteUniversalDeepLink(data, matcher.group(2))
-        }
-        when(routingDestination) {
-            "/hotel-search" -> return parseHotelUniversalDeepLink(data)
-            "/flights-search" -> return parseFlightUniversalDeepLink(data)
-            "/carsearch" -> return parseCarUniversalDeepLink(data)
-            "/things-to-do/search" -> return parseActivityUniversalDeepLink(data)
-            "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
-            "shorturl" -> return parseShortUrlDeepLink(data)
-            "/user/signin" -> return SignInDeepLink()
-            "/trips" -> return TripDeepLink()
-            else -> return HomeDeepLink()
-        }
+
+        return routingDestination
     }
 
-    private fun parseHotelInfoSiteUniversalDeepLink(data: Uri, hotelId: String): HotelDeepLink {
+    private fun parseHotelInfoSiteUniversalDeepLink(data: Uri): HotelDeepLink {
         val hotelDeepLink = HotelDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
-
-        hotelDeepLink.hotelId = hotelId
+        var matcher = HOTEL_INFO_SITE.matcher(data.path.toLowerCase())
+        if (matcher.find()) {
+            hotelDeepLink.hotelId = matcher.group(1)
+        }
         hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkin", DateTimeFormat.forPattern("MM/dd/yyyy"))
         hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkout", DateTimeFormat.forPattern("MM/dd/yyyy"))
         if (queryParameterNames.contains("rm1")) {
@@ -242,5 +254,14 @@ class UniversalDeepLinkParser: DeepLinkParser() {
             Log.w(TAG, "Could not parse childAges: " + childAgesStr, e)
         }
         return null
+    }
+
+    private fun parseTripUniversalDeepLink(data: Uri): TripDeepLink {
+        val tripDeepLink = TripDeepLink()
+        val matcher = TRIPS_ITIN_NUM.matcher(data.path.toLowerCase())
+        if (matcher.find()) {
+            tripDeepLink.itinNum = matcher.group(1)
+        }
+        return tripDeepLink
     }
 }

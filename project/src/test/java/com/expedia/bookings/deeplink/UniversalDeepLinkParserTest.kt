@@ -189,9 +189,14 @@ class UniversalDeepLinkParserTest() {
 
     @Test
     fun tripUniversalLinkParsing() {
-        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips")
-        val output = parser.parseDeepLink(data)
+        var data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips")
+        var output = parser.parseDeepLink(data)
         Assert.assertTrue(output is TripDeepLink)
+
+        data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips/7238447666975")
+        output = parser.parseDeepLink(data) as TripDeepLink
+        Assert.assertTrue(output is TripDeepLink)
+        Assert.assertEquals("7238447666975", output.itinNum)
     }
 
     @Test
