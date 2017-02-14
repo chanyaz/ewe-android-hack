@@ -5,8 +5,10 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateUtils
@@ -16,8 +18,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import rx.Observable
 import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -60,7 +66,6 @@ class HotelResultsViewModelTest {
         additionalResultsSubscriber.assertValueCount(1)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, AbacusUtils.DefaultVariate.CONTROL.ordinal)
     }
-
 
     @Test
     fun happySearch() {
@@ -147,6 +152,58 @@ class HotelResultsViewModelTest {
         testSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertNoTerminalEvent()
+    }
+
+    @Test
+    fun testMockitoMockSearchCall() {
+        val searchResponseObservable = BehaviorSubject.create<HotelSearchResponse>()
+        val viewModel = makeHotelResultsViewModelWithSearchResponseObservable(searchResponseObservable)
+
+        val testSubscriber = TestSubscriber<HotelSearchResponse>()
+        viewModel.hotelResultsObservable.subscribe(testSubscriber)
+
+        viewModel.paramsSubject.onNext(makeHappyParams())
+
+        testSubscriber.assertValueCount(0)
+
+        searchResponseObservable.onNext(makeDummyHotelSearchResponse())
+
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testUnsubscribeSearchResponse() {
+        val searchResponseObservable = BehaviorSubject.create<HotelSearchResponse>()
+        val viewModel = makeHotelResultsViewModelWithSearchResponseObservable(searchResponseObservable)
+
+        val testSubscriber = TestSubscriber<HotelSearchResponse>()
+        viewModel.hotelResultsObservable.subscribe(testSubscriber)
+
+        viewModel.paramsSubject.onNext(makeHappyParams())
+        viewModel.unsubscribeSearchResponse()
+
+        searchResponseObservable.onNext(makeDummyHotelSearchResponse())
+
+        testSubscriber.assertValueCount(0)
+    }
+
+    private fun <T> anyObject(): T {
+        return Mockito.anyObject<T>()
+    }
+
+    private fun makeDummyHotelSearchResponse(): HotelSearchResponse {
+        val hotelResponse = HotelSearchResponse()
+        val hotelArray = ArrayList<Hotel>()
+        val hotel = Hotel()
+        hotelArray.add(hotel)
+        hotelResponse.hotelList = hotelArray
+        return hotelResponse
+    }
+
+    private fun makeHotelResultsViewModelWithSearchResponseObservable(returnObservable: Observable<HotelSearchResponse>): HotelResultsViewModel {
+        val mockService = Mockito.mock(HotelServices::class.java)
+        Mockito.`when`(mockService.search(anyObject(), Mockito.anyInt(), anyObject())).thenReturn(returnObservable)
+        return HotelResultsViewModel(context, mockService, LineOfBusiness.HOTELS)
     }
 
     private fun makeHappyParams(): HotelSearchParams {

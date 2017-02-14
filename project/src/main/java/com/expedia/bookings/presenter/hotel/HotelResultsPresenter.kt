@@ -15,6 +15,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
@@ -141,6 +142,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_results, this)
+    }
+
+    override fun back(): Boolean {
+        if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
+            viewmodel.unsubscribeSearchResponse()
+        }
+        return super.back()
     }
 
     override fun doAreaSearch() {
