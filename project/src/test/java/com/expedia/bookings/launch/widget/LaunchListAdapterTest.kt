@@ -246,6 +246,17 @@ class LaunchListAdapterTest {
         assertEquals(expectedCount, sut.itemCount)
     }
 
+    @Test
+    fun itemCount_NoInternetConnection() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
+        createSystemUnderTest(showLobView = true)
+        userHasNoInternetConnection(false)
+
+        val expectedCount = 1
+        assertEquals(expectedCount, sut.itemCount)
+    }
+
     private fun assertViewHolderIsFullSpan(position: Int) {
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
@@ -274,6 +285,10 @@ class LaunchListAdapterTest {
         val headerTitle = "Loading..."
         val loadingListOfNumbers = listOf(1, 2, 3, 4, 5)
         sut.setListData(loadingListOfNumbers, headerTitle)
+    }
+
+    private fun userHasNoInternetConnection(isOnline: Boolean) {
+        sut.onHasInternetConnectionChange(isOnline)
     }
 
     private fun givenWeHaveStaffPicks(numberOfStaffPicks: Int = 5) {

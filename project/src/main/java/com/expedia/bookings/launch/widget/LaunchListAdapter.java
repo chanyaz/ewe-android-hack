@@ -332,6 +332,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemCount() {
+		if (showOnlyLOBView) {
+			return 1;
+		}
 		return getFixedItemCount() + listData.size();
 	}
 
@@ -348,7 +351,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			fixedCount = getCollectionStateOrder().size() - 1;
 		}
 
-		if (userBucketedForSignIn(context) && isCustomerLoggedIn()) {
+		if (userBucketedForSignIn(context) && isCustomerLoggedIn() && !showOnlyLOBView) {
 			fixedCount--;
 		}
 
@@ -415,8 +418,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForSignIn(Context context) {
-		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-			R.string.preference_show_sign_in_on_launch_screen);
+		return FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
+				R.string.preference_show_sign_in_on_launch_screen);
 
 	}
 }
