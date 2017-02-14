@@ -243,6 +243,7 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
         val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
         val compounds = this.compoundDrawables
         this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
+        (this.parent as TextInputLayout).isErrorEnabled = hasError
 
         if (hasError) {
             (this.parent as TextInputLayout).error = errorMessage

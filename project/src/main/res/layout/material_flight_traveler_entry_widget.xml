@@ -19,27 +19,23 @@
             android:id="@+id/traveler_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
             android:visibility="gone"
             android:gravity="center_vertical"/>
 
         <com.expedia.bookings.widget.traveler.NameEntryView
             android:id="@+id/name_entry_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+            android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.traveler.EmailEntryView
             android:id="@+id/email_entry_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+            android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.traveler.PhoneEntryView
             android:id="@+id/phone_entry_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+            android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.traveler.TSAEntryView
             android:id="@+id/tsa_entry_widget"
@@ -81,6 +77,7 @@
             android:id="@+id/traveler_advanced_options_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="12dp"
             android:paddingBottom="9dp"/>
 
     </LinearLayout>
