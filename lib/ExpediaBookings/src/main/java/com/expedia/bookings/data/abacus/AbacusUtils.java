@@ -50,6 +50,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelHideNoReviewRating = 13079;
 	public static final int EBAndroidAppHotelMemberPricingBadge = 13098;
 	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
+	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -109,6 +110,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppTripsNewSignInPage);
 		testIDs.add(EBAndroidAppHotelHideNoReviewRating);
 		testIDs.add(EBAndroidAppHotelMemberPricingBadge);
+		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
 		return testIDs;
 	}
 
