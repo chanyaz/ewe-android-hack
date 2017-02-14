@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
@@ -36,21 +37,29 @@ public class LaunchListWidget extends RecyclerView {
 		typedArray.recycle();
 	}
 
+	public void notifyDataSetChanged() {
+		adapter.notifyDataSetChanged();
+	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
-			StaggeredGridLayoutManager.VERTICAL);
+		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
-		adapter = new LaunchListAdapter(header, showLobHeader);
+		adapter = new LaunchListAdapter(getContext(), header, showLobHeader);
 		setAdapter(adapter);
 		addItemDecoration(new LaunchListDividerDecoration(getContext(), showLobHeader));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+	}
+
+	@NonNull
+	public StaggeredGridLayoutManager makeLayoutManager() {
+		return new StaggeredGridLayoutManager(2,
+				StaggeredGridLayoutManager.VERTICAL);
 	}
 
 	public void setHeaderPaddingTop(float paddingTop) {

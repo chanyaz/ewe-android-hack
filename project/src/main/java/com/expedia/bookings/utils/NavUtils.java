@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +10,9 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import com.expedia.account.Config;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
@@ -45,9 +45,10 @@ import com.expedia.ui.PackageActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
 
+import java.util.List;
+
 /**
  * Utilities for navigating the app (between Activities)
- *
  */
 public class NavUtils {
 
@@ -71,7 +72,7 @@ public class NavUtils {
 		}
 		else {
 			// Future thought: Should we be showing a toast at all and let app handle it?
-				Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}
@@ -161,7 +162,17 @@ public class NavUtils {
 		}
 	}
 
+	public static void goToAccount(Activity activity) {
+		Bundle args = AccountLibActivity
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null);
+		User.signIn(activity, args);
+	}
+
 	public static void goToSignIn(Context context) {
+		goToSignIn(context, true);
+	}
+
+	public static void goToSignIn(Context context, Boolean showAccount) {
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
 		if (ExpediaBookingApp.useTabletInterface(context)) {
@@ -171,7 +182,7 @@ public class NavUtils {
 			intent = getLaunchIntent(context);
 		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ACCOUNT(), true);
+		intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ACCOUNT(), showAccount);
 		builder.addNextIntent(intent);
 		builder.startActivities();
 		User.signIn((Activity) context, new Bundle());
@@ -213,7 +224,8 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToHotelsV2(Context context, com.expedia.bookings.data.hotels.HotelSearchParams params, Bundle animOptions, int flags) {
+	public static void goToHotelsV2(Context context, com.expedia.bookings.data.hotels.HotelSearchParams params,
+		Bundle animOptions, int flags) {
 		sendKillActivityBroadcast(context);
 
 		Intent intent = new Intent();
@@ -285,7 +297,7 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, FlightSearchParams params) {
-			goToFlights(context, true, null, 0, params);
+		goToFlights(context, true, null, 0, params);
 	}
 
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
@@ -316,7 +328,8 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey, int flags) {
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey,
+		int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
@@ -339,7 +352,7 @@ public class NavUtils {
 		if (searchParams != null) {
 			Gson gson = CarServices.generateGson();
 			intent.putExtra("carSearchParams", gson.toJson(searchParams));
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS,true);
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 		}
 
 		if ((flags & FLAG_OPEN_SEARCH) != 0) {
@@ -436,6 +449,7 @@ public class NavUtils {
 
 	/**
 	 * Helper method for determining whether or not to skip launch and start EH tablet
+	 *
 	 * @param context
 	 * @return true if EHTablet should be (and has been) launched
 	 */
@@ -450,6 +464,7 @@ public class NavUtils {
 
 	/**
 	 * Builds the intent for starting EhTablet
+	 *
 	 * @return Intent for going to EHTablet start screen, or null if not valid for this device
 	 */
 	private static Intent generateStartEHTabletIntent(Context context) {
@@ -481,26 +496,26 @@ public class NavUtils {
 	 * Intent.FLAG_ACTIVITY_CLEAR_TASK that we'd otherwise want to use in some cases,
 	 * like when we open a hotel details from the widget. Call this method when you want
 	 * to clear the task.
-	 *
+	 * <p>
 	 * Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
 	 * intent to guarantee the backstack is actually erased.
-	 *
+	 * <p>
 	 * <pre class="prettyprint">
 	 * public class MyActivity extends Activity {
-	 *     // To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
-	 *     private ActivityKillReceiver mKillReceiver;
-	 *
-	 *     protected void onCreate(Bundle savedInstanceState) {
-	 *         super.onCreate(savedInstanceState);
-	 *         mKillReceiver = new ActivityKillReceiver(this);
-	 *         mKillReceiver.onCreate();
-	 *     }
-	 *
-	 *     protected void onDestroy();
-	 *         if (mKillReceiver != null) {
-	 *             mKillReceiver.onDestroy();
-	 *         }
-	 *     }
+	 * // To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
+	 * private ActivityKillReceiver mKillReceiver;
+	 * <p>
+	 * protected void onCreate(Bundle savedInstanceState) {
+	 * super.onCreate(savedInstanceState);
+	 * mKillReceiver = new ActivityKillReceiver(this);
+	 * mKillReceiver.onCreate();
+	 * }
+	 * <p>
+	 * protected void onDestroy();
+	 * if (mKillReceiver != null) {
+	 * mKillReceiver.onDestroy();
+	 * }
+	 * }
 	 * }
 	 * </pre>
 	 *
@@ -514,17 +529,16 @@ public class NavUtils {
 
 	/**
 	 * Inspired by http://android-developers.blogspot.com/2009/01/can-i-use-this-intent.html
-	 *
+	 * <p>
 	 * Indicates whether the specified action can be used as an intent. This
 	 * method queries the package manager for installed packages that can
 	 * respond to an intent with the specified action. If no suitable package is
 	 * found, this method returns false.
 	 *
 	 * @param context The application's environment.
-	 * @param intent The Intent action to check for availability.
-	 *
+	 * @param intent  The Intent action to check for availability.
 	 * @return True if an Intent with the specified action can be sent and
-	 *         responded to, false otherwise.
+	 * responded to, false otherwise.
 	 */
 	public static boolean isIntentAvailable(Context context, Intent intent) {
 		final PackageManager packageManager = context.getPackageManager();
