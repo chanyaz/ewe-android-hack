@@ -324,8 +324,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun setupKeyboardListeners() {
-        paymentLayoutListener = makeKeyboardListener(scrollView)
-        travelerLayoutListener = makeKeyboardListener(travelersPresenter.travelerEntryWidget, toolbarHeight * 2)
+        paymentLayoutListener = makeKeyboardListener(scrollView, 0)
+        travelerLayoutListener = makeKeyboardListener(travelersPresenter.travelerEntryWidget, 0)
     }
 
     private fun setUpErrorMessaging() {
@@ -517,7 +517,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             val location = IntArray(2)
             scrollView.getLocationOnScreen(location)
             val lp = scrollView.layoutParams
-            val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - offset
+            val newHeight = windowVisibleDisplayFrameRect.bottom - location[1] - offset
 
             if (lp.height != newHeight) {
                 lp.height = newHeight
