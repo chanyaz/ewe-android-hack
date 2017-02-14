@@ -11,10 +11,12 @@ import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -32,6 +34,7 @@ import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.hotel.HotelServerFilterViewModel
+import com.expedia.vm.hotel.UrgencyViewModel
 import rx.Observer
 import javax.inject.Inject
 
@@ -52,6 +55,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
 
+    lateinit var urgencyServices: UrgencyServices
+        @Inject set
+
+    lateinit var urgencyViewModel: UrgencyViewModel
+
     init {
         showSearchMenu.subscribe { searchMenu.isVisible = it }
     }
@@ -61,6 +69,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
+
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_urgency_hotel_results)) {
+            vm.hotelResultsObservable.subscribe { response ->
+                urgencyViewModel.fetchCompressionScore(response.searchRegionId,
+                        vm.paramsSubject.value.checkIn, vm.paramsSubject.value.checkOut)
+            }
+        }
         vm.addHotelResultsObservable.subscribe(addListResultsObserver)
 
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
@@ -113,6 +128,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
+        urgencyViewModel = UrgencyViewModel(urgencyServices)
+
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_urgency_hotel_results)) {
+            urgencyViewModel.percentSoldOutScoreSubject.subscribe { score ->
+                // TODO mingle card #9768
+                Toast.makeText(context, "Urgency: $score", Toast.LENGTH_LONG).show()
+            }
+        }
+
         searchMenu.setOnMenuItemClickListener({
             searchOverlaySubject.onNext(Unit)
             true
