@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements CookieJa
 			.registerTypeAdapter(Cookie.class, cookieTypeAdapter)
 			.registerTypeAdapter(HttpCookie.class, httpCookieTypeAdapter)
 			.create();
+		this.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		loadAndDelete();
 	}
 
