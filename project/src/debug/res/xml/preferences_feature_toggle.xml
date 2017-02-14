@@ -83,12 +83,6 @@
             android:title="Enable Hotel Upgrade Feature" />
 
         <CheckBoxPreference
-            android:key="@string/preference_hotel_itin_soft_change_button"
-            android:layout="@layout/preference"
-            android:summary="Hotel Itinerary Soft Change."
-            android:title="Enable Hotel Itin Soft Change Button" />
-
-        <CheckBoxPreference
             android:key="@string/preference_itin_card_detail"
             android:layout="@layout/preference"
             android:summary="Itinerary card detail view"
