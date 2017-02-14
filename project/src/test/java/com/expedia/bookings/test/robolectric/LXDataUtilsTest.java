@@ -180,7 +180,7 @@ public class LXDataUtilsTest {
 	}
 
 	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
-		DeepLinkParser deepLinkParser = new DeepLinkParser();
+		DeepLinkParser deepLinkParser = new DeepLinkParser(RuntimeEnvironment.application.getAssets());
 		DeepLink deepLink = deepLinkParser.parseDeepLink(Uri.parse(expectedURL));
 		return LXDataUtils.buildLXSearchParamsFromDeeplink((ActivityDeepLink) deepLink);
 	}

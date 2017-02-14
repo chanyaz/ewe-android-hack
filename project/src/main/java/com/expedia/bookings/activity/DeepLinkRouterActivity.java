@@ -80,7 +80,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private boolean mIsCurrentLocationSearch;
 	private HotelSearchParams hotelSearchParams;
 	ClientLogServices clientLogServices;
-	private DeepLinkParser deepLinkParser = new DeepLinkParser();
+	private DeepLinkParser deepLinkParser = null;
 
 	Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
 
@@ -106,6 +106,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		deepLinkParser = new DeepLinkParser(this.getAssets());
+
 		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
 		}

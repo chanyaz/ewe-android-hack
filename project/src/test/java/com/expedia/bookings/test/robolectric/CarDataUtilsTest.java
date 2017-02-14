@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RuntimeEnvironment;
 
 import android.net.Uri;
 
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(RobolectricRunner.class)
 public class CarDataUtilsTest {
 
-	DeepLinkParser deepLinkParser = new DeepLinkParser();
+	DeepLinkParser deepLinkParser = new DeepLinkParser(RuntimeEnvironment.application.getAssets());
 
 	@Test
 	public void testGetInfoCount() {
