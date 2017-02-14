@@ -48,6 +48,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
+import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
@@ -119,7 +120,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-
 import kotlin.NotImplementedError;
 
 /**
@@ -992,9 +992,67 @@ public class OmnitureTracking {
 		if (isLXEnabled) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		}
+	}
+
+	public static void trackHotelV2PurchaseFromWebView(HotelItinDetailsResponse hotelItinDetailsResponse) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
+		HotelItinDetailsResponse response = hotelItinDetailsResponse;
+		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
+		// Product details
+		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
+		LocalDate checkInDate = new LocalDate(
+			hotelItinDetailsResponse.responseData.getHotels().get(0).checkInDateTime.toLocalDate());
+		LocalDate checkOutDate = new LocalDate(
+			hotelItinDetailsResponse.responseData.getHotels().get(0).checkOutDateTime.toLocalDate());
+		String checkIn = dtf.print(checkInDate);
+		String checkOut = dtf.print(checkOutDate);
+		s.setEvar(30, "Hotel:" + checkIn + "-" + checkOut + ":N");
+
+		s.setProp(72, hotelItinDetailsResponse.responseData.getOrderNumber().toString());
+		s.setProp(2, "hotels");
+		s.setPurchaseID("onum" + hotelItinDetailsResponse.responseData.getOrderNumber().toString());
+
+		s.setEvar(2, "D=c2");
+
+		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
+
+		String totalCost = hotelItinDetailsResponse.responseData.getTotalTripPrice().getTotalFormatted();
+
+		String supplierType = hotelItinDetailsResponse.responseData.getHotels().get(0).getInventoryType();
+		if (Strings.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
+		s.setProducts(getHotelProductString(hotelItinDetailsResponse.responseData.getHotels().get(0).getHotelId(),
+			numNights, totalCost, properCaseSupplierType));
+
+		// Currency code
+		s.setCurrencyCode(hotelItinDetailsResponse.responseData.getHotels().get(0).getTotalPriceDetails().primaryCurrencyCode);
+
+		// LX Cross sell
+		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
+		if (isLXEnabled) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
+		}
 
 		// Send the tracking data
 		s.track();
+	}
+
+	public static String getHotelProductString(String hotelId, int numNights,
+		String totalCost, String properCaseSupplierType) {
+		if (hotelId == null) {
+			hotelId = "";
+		}
+		if (totalCost == null) {
+			totalCost = "";
+		}
+		String products = "Hotel;" + properCaseSupplierType + " Hotel:"
+			+ hotelId;
+
+		products += ";" + numNights + ";" + totalCost;
+		return products;
 	}
 
 	private static String getPercentageOfAmountPaidWithPoints(int percentagePaidWithPoints) {
