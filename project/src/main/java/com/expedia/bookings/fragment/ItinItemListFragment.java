@@ -49,6 +49,9 @@ import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 
+import rx.functions.Action1;
+import rx.subjects.BehaviorSubject;
+
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	ItinerarySyncListener {
 
@@ -97,6 +100,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		FAILURE,
 		NONE
 	}
+
+	public BehaviorSubject<Boolean> toolBarVisibilitySubject = BehaviorSubject.create();
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
@@ -219,6 +224,14 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
+			mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
+				new Action1<Boolean>() {
+					@Override
+					public void call(Boolean show) {
+						toolBarVisibilitySubject.onNext(show);
+						Ui.hideKeyboard(getActivity());
+					}
+				});
 			mEmptyView = mSignInPresenter;
 		}
 		else {

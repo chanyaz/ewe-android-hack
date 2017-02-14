@@ -36,6 +36,8 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             show(signInWidget)
             show(addGuestItinWidget)
             OmnitureTracking.trackFindGuestItin()
+            addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(false)
+            addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
         }
     }
 
