@@ -863,6 +863,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.preference_date_last_review_prompt_shown,
 		R.layout.itin_sign_in_widget,
 		R.layout.itin_pos_header,
+		R.string.find_guest_itinerary_title,
 		R.string.accessibility_cont_desc_pos_TEMPLATE,
 		R.layout.itin_pos_header_spinner,
 		R.string.select_preferred_flight_class_cont_desc_TEMPLATE,

@@ -1,7 +1,9 @@
 package com.expedia.bookings.presenter.trips
 
+import android.app.Activity
 import android.content.Context
 import android.support.design.widget.TextInputEditText
+import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -28,6 +30,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     val loadingContainer: LinearLayout by bindView(R.id.loading_container)
     val addGuestFormFieldContainer: LinearLayout by bindView(R.id.outer_container)
     val unableToFindItinErrorText: TextView by bindView(R.id.unable_to_find_itin_error_message)
+    val toolbar: Toolbar by bindView(R.id.toolbar)
 
     var viewModel: AddGuestItinViewModel by notNullAndObservable { vm ->
         vm.showSearchDialogObservable.subscribe { show ->
@@ -43,6 +46,10 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         vm.guestItinFetchButtonEnabledObservable.subscribeEnabled(findItinButton)
         vm.showErrorObservable.subscribeVisibility(unableToFindItinErrorText)
         vm.showErrorMessageObservable.subscribeText(unableToFindItinErrorText)
+        vm.emailFieldFocusObservable.subscribe {
+            guestEmailEditText.requestFocus()
+            Ui.showKeyboard(guestEmailEditText, null)
+        }
     }
 
     init {
@@ -96,5 +103,15 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
 
         guestEmailEditText.subscribeMaterialFormsError(viewModel.hasEmailErrorObservable, R.string.email_validation_error_message)
         itinNumberEditText.subscribeMaterialFormsError(viewModel.hasItinErrorObservable, R.string.itinerary_number_error_message)
+
+        toolbar.setNavigationOnClickListener {
+            viewModel.toolBarVisibilityObservable.onNext(true)
+            (context as Activity).onBackPressed()
+        }
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        toolbar.setTitle(R.string.find_guest_itinerary_title)
     }
 }

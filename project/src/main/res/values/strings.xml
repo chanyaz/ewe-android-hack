@@ -5005,8 +5005,10 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(in your confirmation email)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">Enter valid itinerary number, minimum 11</string>
+    <string name="itinerary_number_error_message">Enter valid itinerary number</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
 
 </resources>

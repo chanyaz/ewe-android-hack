@@ -157,6 +157,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
             if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
+                showHideToolBar(true)
                 return
             }
             if (itinListFragment?.isInDetailMode ?: false) {
@@ -477,6 +478,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             itinListFragment?.showItinCard(jumpToItinId, false)
             jumpToItinId = null
         }
+        itinListFragment?.toolBarVisibilitySubject?.subscribe { show ->
+            showHideToolBar(show)
+            Ui.hideKeyboard(this)
+        }
+    }
+
+    fun showHideToolBar(show: Boolean) {
+        toolBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
 

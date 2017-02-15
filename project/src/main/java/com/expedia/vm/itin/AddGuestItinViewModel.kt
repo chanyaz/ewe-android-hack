@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class AddGuestItinViewModel(val context: Context) {
 
-    val ITIN_NUMBER_MIN_LENGTH = 11
+    val ITIN_NUMBER_MIN_LENGTH = 9
 
     val showSearchDialogObservable = PublishSubject.create<Boolean>()
     val performGuestTripSearch = PublishSubject.create<Pair<String, String>>()
@@ -32,6 +32,8 @@ class AddGuestItinViewModel(val context: Context) {
     val guestItinFetchButtonEnabledObservable = PublishSubject.create<Boolean>()
     val showErrorObservable = PublishSubject.create<Boolean>()
     val showErrorMessageObservable = PublishSubject.create<String>()
+    val toolBarVisibilityObservable = PublishSubject.create<Boolean>()
+    val emailFieldFocusObservable = PublishSubject.create<Unit>()
 
     lateinit var tripServices: ItinTripServices
         @Inject set
