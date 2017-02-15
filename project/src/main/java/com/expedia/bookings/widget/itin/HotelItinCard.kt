@@ -51,7 +51,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
     override fun bind(itinCardData: ItinCardDataHotel) {
         super.bind(itinCardData)
         setupIsVipHotelTextView(itinCardData)
-        if (!itinCardData.hasFetchedUpgradeOffers() && itinCardData.property.roomUpgradeOffersApiUrl != null) {
+        if (!itinCardData.hasFetchedUpgradeOffers() && isRoomUpgradable()) {
             mRoomUpgradeAvailableBanner.visibility = View.GONE
             roomUpgradeService.fetchOffers(itinCardData.property.roomUpgradeOffersApiUrl, makeOffersObservable())
         } else {
@@ -89,14 +89,15 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
 
     private fun setupRoomUpgradeBanner() {
         val itinCardData = mItinContentGenerator.itinCardData as ItinCardDataHotel
+        mRoomUpgradeAvailableBanner.visibility = if (itinCardData.hasRoomUpgradeOffers()) View.VISIBLE else View.GONE
+    }
+
+    private fun isRoomUpgradable(): Boolean {
+        val itinCardData = mItinContentGenerator.itinCardData as ItinCardDataHotel
         val isFeatureOn = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_itin_hotel_upgrade)
-        val isTripUpgradeable = itinCardData.tripComponent.parentTrip.isTripUpgradable
-        val isRoomUpgradable = isFeatureOn && isTripUpgradeable && !itinCardData.isSharedItin
-        if (!isRoomUpgradable) {
-            mRoomUpgradeAvailableBanner.visibility = View.GONE
-        } else {
-            mRoomUpgradeAvailableBanner.visibility = if (itinCardData.hasRoomUpgradeOffers()) View.VISIBLE else View.GONE
-        }
+        val hasRoomOffersApi = itinCardData.property.roomUpgradeOffersApiUrl != null
+        val isRoomUpgradable = isFeatureOn && !itinCardData.isSharedItin && hasRoomOffersApi
+        return isRoomUpgradable
     }
 
     private fun makeOffersObservable() : Observer<RoomUpgradeOffersResponse> {

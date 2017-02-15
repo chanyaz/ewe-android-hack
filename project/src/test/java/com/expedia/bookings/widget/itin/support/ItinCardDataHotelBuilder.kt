@@ -56,7 +56,7 @@ class ItinCardDataHotelBuilder {
         return this
     }
 
-    fun withUpgradeableRoom(): ItinCardDataHotelBuilder {
+    fun withTripUpgradeableFlagTrue(): ItinCardDataHotelBuilder {
         upgradeableRoom = true
         return this
     }

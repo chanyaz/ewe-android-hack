@@ -41,6 +41,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
@@ -78,6 +79,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ImageView mStatusImage;
 	private Button mFindItineraryButton;
 	public ItinSignInPresenter mSignInPresenter;
+	private FrameLayout mDeepRefreshLoadingView;
 
 	private boolean mAllowLoadItins = false;
 
@@ -145,6 +147,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mRoot = Ui.findView(view, R.id.outer_container);
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
+		mDeepRefreshLoadingView = Ui.findView(view, R.id.deep_refresh_loading_layout);
 
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
@@ -567,6 +570,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onTripUpdated(Trip trip) {
 		OmnitureTracking.trackItinAdd(trip);
+		showDeepRefreshLoadingView(false);
 	}
 
 	@Override
@@ -582,7 +586,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripUpdateFailed(Trip trip) {
-		// Do nothing
+		showDeepRefreshLoadingView(false);
 	}
 
 	@Override
@@ -706,5 +710,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			}
 			ratingDialog.show();
 		}
+	}
+
+	public void showDeepRefreshLoadingView(boolean show) {
+		mDeepRefreshLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
 	}
 }
