@@ -1307,6 +1307,8 @@
     <string name="trips_expand_button_label_cont_desc">Painike, jonka avulla näet lisätietoja matkasta</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">Korota hotellihuoneen huoneluokkaa</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">Muokkaa huonetietoja</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotellin vahvistusnumero</string>
     <!-- Passengers Label -->
@@ -2016,10 +2018,16 @@
     <string name="cabin_code_coach">Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium economy</string>
+    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
+    <string name="cabin_code_premium_coach_abbreviated">Prem. eco.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">1. luokka</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">Sekalaiset lentoluokat</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">Valitse lento</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -4753,6 +4761,12 @@
         <item quantity="one">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustaja</item>
         <item quantity="other">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustajaa</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">Valitse haluttu lentoluokka. Painike. Avaa ponnahdusikkunan. Haluttu lentoluokka {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">Valitse haluttu lentoluokka. Ponnahdusikkuna</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">Haluttu lentoluokka {class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
@@ -4889,6 +4903,8 @@
     <string name="hotel_expanded_room_select_cont_desc">Valitse huone</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">poistettu käytöstä</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">Maa {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}</string>
@@ -4984,8 +5000,10 @@
     <string name="passport_validation_error_message">Valitse passin maa</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">Lisää vierailijana tekemäsi varaus manuaalisesti</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">Matkaasi etsitään…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(vahvistussähköpostissa)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">Anna voimassa oleva matkasuunnitelman numero, jossa on väh. 11 numeroa</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Kirjaudu sisään nähdäksesi tulevat matkasi</string>
 
