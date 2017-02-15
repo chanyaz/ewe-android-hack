@@ -95,9 +95,8 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
     private fun isRoomUpgradable(): Boolean {
         val itinCardData = mItinContentGenerator.itinCardData as ItinCardDataHotel
         val isFeatureOn = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_itin_hotel_upgrade)
-        val isTripUpgradeable = itinCardData.tripComponent.parentTrip.isTripUpgradable
         val hasRoomOffersApi = itinCardData.property.roomUpgradeOffersApiUrl != null
-        val isRoomUpgradable = isFeatureOn && isTripUpgradeable && !itinCardData.isSharedItin && hasRoomOffersApi
+        val isRoomUpgradable = isFeatureOn && !itinCardData.isSharedItin && hasRoomOffersApi
         return isRoomUpgradable
     }
 

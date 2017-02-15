@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget.itin;
+package com.expedia.bookings.widget.itin
 
 import android.app.Activity
 import android.view.LayoutInflater
@@ -97,8 +97,8 @@ class HotelItinCardTest {
     fun roomUpgradeBannerVisible() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
-        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
-        itinCardData.property.setRoomUpgradeOfferType(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
+        itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
         sut.bind(itinCardData)
 
         assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
@@ -108,8 +108,8 @@ class HotelItinCardTest {
     fun roomUpgradeBannerGoneNoOffers() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
-        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
-        itinCardData.property.setRoomUpgradeOfferType(Property.RoomUpgradeType.NO_UPGRADE_OFFERS)
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
+        itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.NO_UPGRADE_OFFERS
         sut.bind(itinCardData)
 
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
@@ -119,7 +119,7 @@ class HotelItinCardTest {
     fun roomUpgradeBannerGoneFeatureOff() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
         createSystemUnderTest()
-        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         sut.bind(itinCardData)
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
@@ -128,9 +128,7 @@ class HotelItinCardTest {
     fun roomUpgradeBannerGoneForSharedItin() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
-        val itinCardData = ItinCardDataHotelBuilder()
-                            .withUpgradeableRoom()
-                            .isSharedItin(true).build()
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).isSharedItin(true).build()
         sut.bind(itinCardData)
 
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
@@ -140,8 +138,8 @@ class HotelItinCardTest {
     fun roomUpgradeBannerGoneInDetails() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
-        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
-        itinCardData.property.setRoomUpgradeOfferType(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
+        itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
         sut.bind(itinCardData)
         sut.expand(false)
 
@@ -157,7 +155,7 @@ class HotelItinCardTest {
         sut.roomUpgradeService = roomUpgradeService
         val testSubscriber = TestSubscriber<Property.RoomUpgradeType>()
         sut.mRoomUpgradeOffersSubject.subscribe(testSubscriber)
-        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().withRoomUpgradeApiUrl(url).build()
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         sut.bind(itinCardData)
 
         testSubscriber.requestMore(100L)
@@ -177,7 +175,7 @@ class HotelItinCardTest {
 
         val testSubscriber = TestSubscriber<Property.RoomUpgradeType>()
         sut.mRoomUpgradeOffersSubject.subscribe(testSubscriber)
-        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().withRoomUpgradeApiUrl("https:://www.notarealurl.com").build()
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl("https:://www.notarealurl.com").build()
         sut.bind(itinCardData)
 
         testSubscriber.requestMore(100L)
@@ -188,6 +186,16 @@ class HotelItinCardTest {
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
+    @Test
+    fun roomUpgradeUnavailableNoRoomOfferApiLink() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        createSystemUnderTest()
+
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl("").build()
+        sut.bind(itinCardData)
+
+        assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
+    }
 
     private fun givenPointOfSaleVipSupportDisabled() {
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_vipaccess_disabled.json")

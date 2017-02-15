@@ -74,7 +74,7 @@ class HotelItinContentGeneratorTest {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false)
-                .withUpgradeableRoom().withRoomUpgradeWebUrl(getRoomUpgradeWebUrl())
+                .withRoomUpgradeWebUrl(getRoomUpgradeWebUrl())
                 .build()
         itinCardDataHotel.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
