@@ -392,7 +392,6 @@
     <color name="lx_offer_date_ripple_color">#a25d24</color>
 
     <color name="checkout_login_button_color">#836B11</color>
-    <color name="leanplum_dialog_button_color">#fc2176</color>
 
     <color name="gt_primary_color">@color/exp_gt_red</color>
     <color name="gt_unchecked_toggle_text_color">#E98DA7</color>

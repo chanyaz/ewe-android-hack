@@ -141,11 +141,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isLeanPlumEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isTuneEnabled() {
 		return false;
 	}

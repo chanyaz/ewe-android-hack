@@ -45,7 +45,6 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -288,7 +287,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
 		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
-			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
 

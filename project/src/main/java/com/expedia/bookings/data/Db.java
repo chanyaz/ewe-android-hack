@@ -23,7 +23,6 @@ import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -547,7 +546,6 @@ public class Db {
 			}
 		}, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
 		boolean isAirAttachQualified = hasTrip ? sDb.mTripBucket.isUserAirAttachQualified() : false;
-		LeanPlumUtils.updateAirAttachState(isAirAttachQualified);
 		return hasTrip;
 	}
 

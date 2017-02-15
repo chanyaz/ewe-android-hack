@@ -27,7 +27,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -449,10 +448,8 @@ public class TripBucket implements JSONable {
 		if (mAirAttach == null || !mAirAttach.isAirAttachQualified() || mAirAttach.getExpirationDate()
 			.isBefore(airAttach.getExpirationDate())) {
 			mAirAttach = airAttach;
-			LeanPlumUtils.updateAirAttachState(true);
 			return true;
 		}
-		LeanPlumUtils.updateAirAttachState(mAirAttach.isAirAttachQualified());
 		return false;
 	}
 

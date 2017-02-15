@@ -16,13 +16,6 @@
     <string name="tune_sdk_app_advertiser_id">189060</string>
     <string name="tune_sdk_app_conversion_key">8f7dc538871c8297bf3e2d9485856044</string>
 
-    <!-- Lean Plum SDK -->
-    <string name="lean_plum_sdk_dev_appid">app_MhVolAISGoI7lm0l8Edo9WPMP76HJbm6WxDfc6ozcQk</string>
-    <string name="lean_plum_sdk_dev_key">dev_VqYZP50ZwgFNedZD4wxQOLH5qOHD2MiUmrKX1oKQTDw</string>
-
-    <string name="lean_plum_sdk_prod_appid">app_SJoOsLZYYbd4S6vlrYOxudwsMpa4YYk5dok4yDUlWCw</string>
-    <string name="lean_plum_sdk_prod_key">prod_fkwhC04Y1oMBwUxkgQQAsASDaTnTASMqFAsGUoctG10</string>
-
     <!-- Brand reward name -->
     <string name="brand_reward_name">CheapCash</string>
 

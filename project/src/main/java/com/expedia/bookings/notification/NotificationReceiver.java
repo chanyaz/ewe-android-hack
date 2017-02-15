@@ -38,7 +38,6 @@ import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.LeanPlumFlags;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.mobiata.android.Log;
@@ -114,8 +113,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		//Check leanplum A/B test is still on or not
-		if (notification.getUniqueId().contains("flightshare") && !LeanPlumFlags.mShowShareFlightNotification) {
+		// The app previously handled flightshare notifications. They *shouldn't* come in anymore but leaving
+		// this for now to ensure we ignore them if we somehow receive one. This can likely be removed in the future
+		// once it's certain we won't receive this type of notification.
+		if (notification.getUniqueId().contains("flightshare")) {
 			notification.setStatus(StatusType.EXPIRED);
 			notification.save();
 

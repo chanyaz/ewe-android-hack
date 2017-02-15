@@ -38,7 +38,6 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.fragment.ItinCardDetailsActivity;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
@@ -807,7 +806,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ResizeAnimator.setHeight(mDetailsCardView, expandedHeight);
 		onScroll(ItinListView.this, mDetailPosition, getChildCount(), mAdapter.getCount());
 		trackOmnitureItinExpanded(mDetailsCardView);
-		AdTracker.trackViewItinExpanded();
 	}
 
 	private void registerDataSetObserver() {
