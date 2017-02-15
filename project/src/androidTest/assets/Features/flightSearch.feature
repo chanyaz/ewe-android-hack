@@ -15,6 +15,7 @@ Feature: Flights Search
       | end_date   | 10 |
     And I change travellers count and press done
     Then I can trigger flights search
+    And I see the Flight Search results
 
 
   @Flights @SearchScreen @Prod
@@ -32,6 +33,7 @@ Feature: Flights Search
       | start_date | 5 |
     And I change travellers count and press done
     Then I can trigger flights search
+    And I see the Flight Search results
 
   @Flights @SearchScreen @Prod @EBOnly
   Scenario: Verifying if round trip International search works for Indonesia
@@ -189,7 +191,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when no dates are selected and a Round trip.
-
     Given I launch the App
     And I launch "Flights" LOB
     And I Click on Select Dates button for flights
@@ -202,7 +203,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when selecting dates and a Round trip
-
     Given I launch the App
     And I launch "Flights" LOB
     When I Click on Select Dates button for flights
@@ -220,7 +220,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when a Round trip and selecting departure date only
-
     Given I launch the App
     And I launch "Flights" LOB
     When I Click on Select Dates button for flights
@@ -234,7 +233,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when selecting dates and a OneWay trip
-
     Given I launch the App
     And I launch "Flights" LOB
     And I select one way trip
@@ -250,7 +248,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Previous/Next month button validation of Calender Widget
-
     Given I launch the App
     And I launch "Flights" LOB
     When I Click on Select Dates button for flights
@@ -263,3 +260,32 @@ Feature: Flights Search
     Then Validate that Current Month calender is displayed
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
+
+  @Flights @SearchScreen @Prod @WIP2
+  Scenario: Verify search form retains detaild of last search at re-search from FSR
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 2                                        |
+      | child               | 2                                        |
+    And I click on search icon to go to search form
+    Then search criteria is retained on the search form
+    When I trigger flight search again with following parameters
+      | source              | LON                                      |
+      | destination         | MAD                                      |
+      | source_suggest      | London, England, UK (LON - All Airports) |
+      | destination_suggest | Madrid, Spain (MAD - All Airports)       |
+      | start_date          | 7                                        |
+      | end_date            | 11                                       |
+      | adults              | 3                                        |
+      | child               | 3                                        |
+    Then I see the Flight Search results
+    And on FSR the destination is "Madrid"
+    And on FSR the date is as user selected
+    And on inbound FSR the number of traveller are as user selected

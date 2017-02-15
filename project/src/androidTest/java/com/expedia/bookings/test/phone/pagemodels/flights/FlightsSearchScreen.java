@@ -106,6 +106,20 @@ public class FlightsSearchScreen {
 		return stringValue;
 	}
 
+	public static String getAdultTravelerNumberText() {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(withId(R.id.adult)).perform(getString(value));
+		String stringValue = value.get();
+		return stringValue;
+	}
+
+	public static String getChildTravelerNumberText() {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(withId(R.id.children)).perform(getString(value));
+		String stringValue = value.get();
+		return stringValue;
+	}
+
 	public static void checkHint(String hintText) {
 		selectDepartureButton().check(matches(withHint(hintText)));
 	}

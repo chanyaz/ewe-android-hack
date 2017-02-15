@@ -1,16 +1,24 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.util.concurrent.TimeUnit;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -92,4 +100,21 @@ public class SearchResultsScreenSteps {
 		checkString(R.id.price_text_view, currencySymbol);
 	}
 
+	@Then("^I click on search icon to go to search form$")
+	public void clickOnSearchIcon() throws Throwable {
+		onView(withId(R.id.sort_filter_button)).perform(waitFor(isCompletelyDisplayed(), 20, TimeUnit.SECONDS));
+		onView(withId(R.id.menu_search)).perform(click());
+	}
+
+	@Then("^I see the Flight Search results$")
+	public void checkTheResults() throws Throwable {
+		onView(withId(R.id.list_view)).check(matches(isDisplayed()));
+		onView(withId(R.id.sort_filter_button)).perform(waitFor(isCompletelyDisplayed(), 20, TimeUnit.SECONDS));
+	}
+
+	@Then("^on FSR the destination is \"(.*?)\"$")
+	public void verifyDestination(String destination) throws Throwable {
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Select flight to"))))
+			.check(matches(withText(containsString(destination))));
+	}
 }
