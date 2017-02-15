@@ -35,7 +35,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
 	public static final int EBAndroidAppLXFilterSearch = 12689;
 	public static final int EBAndroidAppLXDisablePOISearch = 13050;
-	public static final int EBAndroidAppTripsUserReviews = 12794;
+	public static final int EBAndroidAppTripsUserReviews = 13257;
 	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;

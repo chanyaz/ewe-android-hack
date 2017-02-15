@@ -10,6 +10,8 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -39,10 +41,42 @@ public class ItinListFragmentTest {
 	@Test
 	public void testReviewPromptOnlyShowsOnce() {
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
+		listFragment.showUserReview();
+
+		AlertDialog alertDialog = ShadowAlertDialog.getLatestAlertDialog();
+		assertEquals(true, alertDialog.isShowing());
+	}
+
+	@Test
+	public void testReviewPromptText() {
+		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
+		listFragment.showUserReview();
+
+		AlertDialog alertDialog = ShadowAlertDialog.getLatestAlertDialog();
+		assertEquals(true, alertDialog.isShowing());
+		assertEquals("How was your experience?", getDialogText(alertDialog, R.id.title_text));
+		assertEquals("Review", getDialogText(alertDialog, R.id.review_btn));
+		assertEquals("Send Feedback", getDialogText(alertDialog, R.id.feedback_btn));
+		assertEquals("No, thanks", getDialogText(alertDialog, R.id.no_btn));
+	}
+
+	@Test
+	public void testReviewPromptTextBucketed() {
+		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		listFragment.showUserReview();
 
 		AlertDialog alertDialog = ShadowAlertDialog.getLatestAlertDialog();
 		assertEquals(true, alertDialog.isShowing());
+		assertEquals("Love Our App?", getDialogText(alertDialog, R.id.title_text));
+		assertEquals("Rate App", getDialogText(alertDialog, R.id.review_btn));
+		assertEquals("Email App Support", getDialogText(alertDialog, R.id.feedback_btn));
+		assertEquals("No Thanks", getDialogText(alertDialog, R.id.no_btn));
+	}
+
+	@NonNull
+	private String getDialogText(AlertDialog alertDialog, int id) {
+		return ((TextView) alertDialog.findViewById(id)).getText().toString();
 	}
 }
