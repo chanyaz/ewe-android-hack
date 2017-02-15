@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking.hotel
 
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -288,6 +289,10 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalAppliedRewardCurrency)
             TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
             FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)
+        }
+
+        fun trackHotelPurchaseFromWebView(hotelItinDetailsResponse: HotelItinDetailsResponse) {
+            OmnitureTracking.trackHotelV2PurchaseFromWebView(hotelItinDetailsResponse)
         }
 
         fun trackHotelConfirmationCalendar() {
