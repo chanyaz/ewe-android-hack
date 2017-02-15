@@ -111,6 +111,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelHideNoReviewRating);
 		testIDs.add(EBAndroidAppShowSignInCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelMemberPricingBadge);
+		testIDs.add(EBAndroidAppTripsHotelSoftChangeWebView);
 		return testIDs;
 	}
 
