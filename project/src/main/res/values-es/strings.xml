@@ -1307,6 +1307,8 @@
     <string name="trips_expand_button_label_cont_desc">Botón para ampliar el viaje</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">Obtener ascenso de categoría de habitación</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">Editar información de la habitación</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Código de confirmación del hotel</string>
     <!-- Passengers Label -->
@@ -2016,12 +2018,18 @@
     <string name="cabin_code_coach">Económica</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Económica Premium</string>
+    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
+    <string name="cabin_code_premium_coach_abbreviated">Eco. Prem.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Ejecutiva</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">Primera clase</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">Diferentes clases</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
-    <string name="select_flight">Seleccionar el vuelo</string>
+    <string name="select_flight">Seleccionar vuelo</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">Origen %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -4753,6 +4761,12 @@
         <item quantity="one">Cantidad de pasajeros. Botón. Abre el cuadro de diálogo. {travelers} pasajero</item>
         <item quantity="other">Cantidad de pasajeros. Botón. Abre el cuadro de diálogo. {travelers} pasajeros</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">Seleccionar clase de preferencia. Botón. Abre el cuadro de diálogo. Clase de preferencia {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">Seleccionar clase de preferencia. Cuadro de diálogo</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">Clase de preferencia: {class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">Del {startdate} al {enddate}</string>
@@ -4889,6 +4903,8 @@
     <string name="hotel_expanded_room_select_cont_desc">Seleccionar habitación</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">deshabilitada</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">País: {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">El precio es {activity_price}</string>
@@ -4984,8 +5000,10 @@
     <string name="passport_validation_error_message">Selecciona el país que figura en el pasaporte</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">Agrega manualmente tu viaje reservado como invitado</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">Buscando tu viaje…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(en tu correo electrónico de confirmación)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">Ingresa un número de itinerario válido de 11 dígitos como mínimo</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Inicia sesión para acceder a tus próximos viajes</string>
 

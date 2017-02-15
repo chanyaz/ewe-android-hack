@@ -1307,6 +1307,8 @@
     <string name="trips_expand_button_label_cont_desc">여행을 확장하려면 버튼을 탭하세요</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">호텔 객실 업그레이드</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">객실 정보 수정</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">호텔 확인 코드</string>
     <!-- Passengers Label -->
@@ -2016,10 +2018,16 @@
     <string name="cabin_code_coach">이코노미석</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">프리미엄 이코노미석</string>
+    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
+    <string name="cabin_code_premium_coach_abbreviated">프리.이코.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">비즈니스석</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">일등석</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">혼합 좌석 등급</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">항공편 선택</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -4531,7 +4539,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4710,7 +4718,7 @@
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}. 호텔 및 항공 포함\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점.  \u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">고객 평점 5점 만점 중 {guestrating}점인 {hotel}\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
@@ -4722,9 +4730,9 @@
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 할인 정상가\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
-    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">정상가 {strikethroughprice}, 현재 할인가 {price}.  \u0020</string>
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">정상가 {strikethroughprice}, 현재 할인가 {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
-    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">원래 가격 {percentage} 할인.  \u0020</string>
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">원래 가격 {percentage} 할인.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">믿을 수 없는 특가 상품 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
@@ -4747,12 +4755,18 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">여행 날짜 선택. 버튼. 대화상자 열림</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">가격 {price}.  \u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">가격 {price}.\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
-        <item quantity="one">여행객 수. 버튼. 대화상자 열림 여행객 {travelers}명</item>
-        <item quantity="other">여행객 수. 버튼. 대화상자 열림 여행객 {travelers}명</item>
+        <item quantity="one">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
+        <item quantity="other">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">선호 등급 선택. 버튼. 대화상자 열림. 선호 등급 {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">선호 등급 선택. 대화상자</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">선호 등급 {class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} -&gt; {enddate}</string>
@@ -4889,6 +4903,8 @@
     <string name="hotel_expanded_room_select_cont_desc">객실 선택</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">지원 불가</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">국가 {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다.</string>
@@ -4984,8 +5000,10 @@
     <string name="passport_validation_error_message">여권 국가를 선택해 주세요.</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">비회원으로 예약한 여행을 직접 추가하세요.</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">고객님의 여행을 검색 중입니다…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(확인 이메일에 있음)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">유효한 일정 번호를 입력해 주세요. 최소 11자리입니다.</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">로그인하여 예정된 여행에 액세스하세요.</string>
 

@@ -1307,6 +1307,8 @@
     <string name="trips_expand_button_label_cont_desc">展開行程按鈕</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">升級酒店客房</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">更改客房資料</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">酒店確認碼</string>
     <!-- Passengers Label -->
@@ -2016,10 +2018,16 @@
     <string name="cabin_code_coach">經濟艙</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">特等經濟艙</string>
+    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
+    <string name="cabin_code_premium_coach_abbreviated">特選經濟艙</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">商務艙</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">頭等艙</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">多種艙等</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">選擇航班</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -4753,6 +4761,12 @@
         <item quantity="one">旅客人數。按鈕。打開對話框。{travelers} 位旅客</item>
         <item quantity="other">旅客人數。按鈕。打開對話框。{travelers} 位旅客</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">選擇首選艙等按鈕。打開對話框。首選艙等 {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">選擇首選艙等。對話框</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">首選艙等{class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate}至 {enddate}</string>
@@ -4889,6 +4903,8 @@
     <string name="hotel_expanded_room_select_cont_desc">選擇客房</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">已停用</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">國家/地區{country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">價格為 {activity_price}</string>
@@ -4984,8 +5000,10 @@
     <string name="passport_validation_error_message">請選擇護照國家/地區</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">手動加入您以訪客身分預訂的行程</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">正在搜尋您的行程…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(請參閱確認電郵)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">請輸入有效的行程編號 (最少 11 個數目字)</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">登入以查看您即將出發的行程</string>
 
