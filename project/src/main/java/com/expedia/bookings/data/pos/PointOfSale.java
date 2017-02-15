@@ -192,6 +192,8 @@ public class PointOfSale {
 
 	private boolean mShouldShowKnownTravelerNumber;
 
+	private boolean mShouldFormatTravelerPhoneNumber;
+
 	private boolean mRequiresHotelPostalCode;
 
 	private boolean isPwPEnabledForHotels;
@@ -878,6 +880,10 @@ public class PointOfSale {
 		return mShouldShowKnownTravelerNumber;
 	}
 
+	public Boolean shouldFormatTravelerPhoneNumber() {
+		return mShouldFormatTravelerPhoneNumber;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1305,6 +1311,7 @@ public class PointOfSale {
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
 		pos.mShouldShowKnownTravelerNumber = data.optBoolean("shouldShowKnownTravelerNumber", false);
+		pos.mShouldFormatTravelerPhoneNumber = data.optBoolean("shouldFormatTravelerPhoneNumber", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

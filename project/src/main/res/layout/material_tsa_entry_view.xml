@@ -8,8 +8,7 @@
         android:id="@+id/edit_birth_date_text_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:errorEnabled="true">
+        android:layout_weight="1">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_birth_date_text_btn"
@@ -29,8 +28,7 @@
         android:id="@+id/edit_gender_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:errorEnabled="true">
+        android:layout_weight="1">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_gender_btn"
