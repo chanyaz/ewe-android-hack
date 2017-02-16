@@ -45,59 +45,21 @@ import static java.util.Collections.emptyList;
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
+	public static class HeaderViewModel {
+
+	}
+
 	enum LaunchListViewsEnum {
+		LOADING_VIEW,
 		LOB_VIEW,
+		SIGN_IN_VIEW,
+		POPULAR_HOTELS,
 		HEADER_VIEW,
 		HOTEL_VIEW,
-		COLLECTION_VIEW,
-		LOADING_VIEW,
-		SIGN_IN_VIEW
+		COLLECTION_VIEW
 	}
 
-	private List<LaunchListViewsEnum> getHotelsStateOrder() {
-		if (userBucketedForSignIn(context)) {
-			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
-				LaunchListViewsEnum.SIGN_IN_VIEW,
-				LaunchListViewsEnum.HEADER_VIEW,
-				LaunchListViewsEnum.HOTEL_VIEW));
-		}
-		else {
-			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
-				LaunchListViewsEnum.HEADER_VIEW,
-				LaunchListViewsEnum.HOTEL_VIEW));
-		}
-	}
-
-	private List<LaunchListViewsEnum> getCollectionStateOrder() {
-		if (userBucketedForSignIn(context)) {
-			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
-				LaunchListViewsEnum.SIGN_IN_VIEW,
-				LaunchListViewsEnum.HEADER_VIEW,
-				LaunchListViewsEnum.COLLECTION_VIEW));
-		}
-		else {
-			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
-				LaunchListViewsEnum.HEADER_VIEW,
-				LaunchListViewsEnum.COLLECTION_VIEW));
-
-		}
-	}
-
-	private List<LaunchListViewsEnum> getLoadingStateOrder() {
-		if (userBucketedForSignIn(context)) {
-			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
-				LaunchListViewsEnum.SIGN_IN_VIEW,
-				LaunchListViewsEnum.HEADER_VIEW,
-				LaunchListViewsEnum.LOADING_VIEW));
-		}
-		else {
-			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
-				LaunchListViewsEnum.HEADER_VIEW,
-				LaunchListViewsEnum.LOADING_VIEW));
-		}
-	}
-
-	private List<?> listData = emptyList();
+	private ArrayList<Object> listData = new ArrayList<>();
 
 	private Context context;
 	private ViewGroup parentView;
@@ -105,8 +67,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private TextView seeAllButton;
 	private TextView launchListTitle;
 	private LaunchLobHeaderViewHolder lobViewHolder;
-
-
+	private int offset;
 	// 0 means we are in old launch screen and 1 means we are in new search screen we want to add lob
 	public int headerPosition = 0;
 
@@ -188,6 +149,33 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			itemViewType == LaunchListViewsEnum.LOB_VIEW.ordinal() ||
 			itemViewType == LaunchListViewsEnum.SIGN_IN_VIEW.ordinal();
 
+		if (getListDataTypeClass(position) == Hotel.class) {
+			headerView.setOnClickListener(seeAllClickListener);
+		}
+		else if (BuildConfig.DEBUG && Db.getMemoryTestActive()) {
+			headerView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Events.post(new Events.MemoryTestImpetus());
+				}
+			});
+		}
+
+		// NOTE: All the code below is for staggered views.
+		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
+			.getLayoutParams();
+		int actualPosition = position - offset;
+
+		if (actualPosition % 5 == 0 || isFullSpanView) {
+			layoutParams.setFullSpan(true);
+			fullWidthTile = true;
+		}
+		else {
+			fullWidthTile = false;
+			layoutParams.setFullSpan(false);
+		}
+
+		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth() / 2;
 		if (itemViewType == LaunchListViewsEnum.LOB_VIEW.ordinal()) {
 			NewLaunchLobWidget lobWidget = ((LaunchLobHeaderViewHolder) holder).getLobWidget();
 			lobWidget
@@ -201,48 +189,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (itemViewType == LaunchListViewsEnum.LOADING_VIEW.ordinal()) {
 			((LaunchLoadingViewHolder) holder).bind();
 		}
-
-		if (isFullSpanView) {
-			StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
-				.getLayoutParams();
-			layoutParams.setFullSpan(true);
-			return;
-		}
-
-		// TODO - test moving this block into more appropriate home (e.g. setListDataType)
-		// based on list data setting click listener on header
-		if (getListDataTypeClass() == Hotel.class) {
-			headerView.setOnClickListener(seeAllClickListener);
-		}
-		else if (BuildConfig.DEBUG && Db.getMemoryTestActive()) {
-			headerView.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Events.post(new Events.MemoryTestImpetus());
-				}
-			});
-		}
-
-		// NOTE: All the code below is for staggered views.
-		// TODO - move this out into own function
-
-		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
-			.getLayoutParams();
-		int actualPosition = position - getFixedItemCount();
-
-		if (actualPosition % 5 == 0) {
-			layoutParams.setFullSpan(true);
-			fullWidthTile = true;
-		}
-		else {
-			fullWidthTile = false;
-			layoutParams.setFullSpan(false);
-		}
-
-		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth() / 2;
-
-		if (itemViewType == LaunchListViewsEnum.HOTEL_VIEW.ordinal()) {
-			Hotel hotel = (Hotel) listData.get(actualPosition);
+		else if (itemViewType == LaunchListViewsEnum.HOTEL_VIEW.ordinal()) {
+			Hotel hotel = (Hotel) listData.get(position);
 
 			final String url = Images.getNearbyHotelImage(hotel);
 			HeaderBitmapDrawable drawable = Images
@@ -253,7 +201,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((HotelViewHolder) holder).bindListData(hotel, fullWidthTile, hotelSelectedSubject);
 		}
 		else if (itemViewType == LaunchListViewsEnum.COLLECTION_VIEW.ordinal()) {
-			CollectionLocation location = (CollectionLocation) listData.get(actualPosition);
+			CollectionLocation location = (CollectionLocation) listData.get(position);
 
 			final String url = Images.getCollectionImageUrl(location, width / 2);
 			HeaderBitmapDrawable drawable = Images
@@ -281,37 +229,23 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public int getItemViewType(int position) {
+		Object object = listData.get(position);
 
-		Class<?> listDataTypeClass = getListDataTypeClass();
-		boolean showSignInView = showSignInCard();
-
-		boolean isLoadingView = listDataTypeClass == Integer.class;
-		if (isLoadingView) {
-			List<LaunchListViewsEnum> viewOrder = getLoadingStateOrder();
-			if (!showSignInView) {
-				viewOrder = getCollectionWithoutSignInView(getLoadingStateOrder());
-			}
-			return getViewOrder(position, viewOrder);
+		if (object.getClass() == Integer.class) {
+			return LaunchListViewsEnum.LOADING_VIEW.ordinal();
+		} else if (object.getClass() == Hotel.class) {
+			return LaunchListViewsEnum.HOTEL_VIEW.ordinal();
+		} else if (object.getClass() == CollectionLocation.class) {
+			return LaunchListViewsEnum.COLLECTION_VIEW.ordinal();
+		} else if (object.getClass() == HeaderViewModel.class) {
+			return LaunchListViewsEnum.HEADER_VIEW.ordinal();
+		} else if (object.getClass() == SignInPlaceHolderViewModel.class) {
+			return LaunchListViewsEnum.SIGN_IN_VIEW.ordinal();
+		} else if (object.getClass() == NewLaunchLobViewModel.class) {
+			return LaunchListViewsEnum.LOB_VIEW.ordinal();
+		} else {
+			return -1;
 		}
-
-		boolean isHotelView = listDataTypeClass == Hotel.class;
-		if (isHotelView) {
-			List<LaunchListViewsEnum> viewOrder = getHotelsStateOrder();
-			if (!showSignInView) {
-				viewOrder = getCollectionWithoutSignInView(getHotelsStateOrder());
-			}
-			return getViewOrder(position, viewOrder);
-		}
-
-		boolean isCollectionView = listDataTypeClass == CollectionLocation.class;
-		if (isCollectionView) {
-			List<LaunchListViewsEnum> viewOrder = getCollectionStateOrder();
-			if (!showSignInView) {
-				viewOrder = getCollectionWithoutSignInView(getCollectionStateOrder());
-			}
-			return getViewOrder(position, viewOrder);
-		}
-		return -1;
 	}
 
 	@Override
@@ -319,27 +253,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showOnlyLOBView) {
 			return 1;
 		}
-		return getFixedItemCount() + listData.size();
+		return listData.size();
 	}
 
-	public int getPositionForViewType(LaunchListViewsEnum viewType) {
-		Class<?> listDataTypeClass = getListDataTypeClass();
-		boolean isHotelView = listDataTypeClass == Hotel.class;
-		boolean isCollectionView = listDataTypeClass == CollectionLocation.class;
-
-		List<LaunchListViewsEnum> viewOrder = emptyList();
-		if (isCollectionView) {
-			viewOrder = getCollectionStateOrder();
-		}
-		else if (isHotelView) {
-			viewOrder = getHotelsStateOrder();
-		}
-
-		return viewOrder.indexOf(viewType);
+	public void setListData(ArrayList<Object> listData, String headerTitle) {
+		setButtonLoadingState(listData, headerTitle);
+		this.listData = listData;
 	}
 
-	public void setListData(List<?> listData, String headerTitle) {
-
+	private void setButtonLoadingState(ArrayList<Object> listData, String headerTitle) {
 		Class clz = listData.get(0).getClass();
 		launchListTitle.setText(headerTitle);
 		if (clz == Integer.class) {
@@ -354,8 +276,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			seeAllButton.setVisibility(View.GONE);
 			loadingState = false;
 		}
-
-		this.listData = listData;
 	}
 
 	public void onPOSChange() {
@@ -368,50 +288,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		notifyDataSetChanged();
 	}
 
-	private int getViewOrder(int position, List<LaunchListViewsEnum> viewOrder) {
-		int lastIndex = viewOrder.size() - 1;
-		if (position < lastIndex) {
-			return viewOrder.get(position).ordinal();
-		}
-		else {
-			return viewOrder.get(lastIndex).ordinal();
-		}
-	}
-
-	private Class<?> getListDataTypeClass() {
-		if (listData.isEmpty()) {
-			// default to: loading state
-			return Integer.class;
-		}
-		return listData.get(0).getClass();
-	}
-
-	public int getFixedItemCount() {
-		Class<?> dataTypeClass = getListDataTypeClass();
-		int fixedCount = 0;
-		if (dataTypeClass == Integer.class) { // loading
-			fixedCount = getLoadingStateOrder().size() - 1;
-		}
-		else if (dataTypeClass == Hotel.class) { // hotel collection
-			fixedCount = getHotelsStateOrder().size() - 1;
-		}
-		else if (dataTypeClass == CollectionLocation.class) { // staff picks
-			fixedCount = getCollectionStateOrder().size() - 1;
-		}
-
-		if (userBucketedForSignIn(context) && isCustomerLoggedIn() && !showOnlyLOBView) {
-			fixedCount--;
-		}
-
-		return fixedCount;
-	}
-
-	public boolean showSignInCard() {
-		return userBucketedForSignIn(context) && !isCustomerLoggedIn();
-	}
-
-	private boolean isCustomerLoggedIn() {
-		return User.isLoggedIn(context);
+	private Class<?> getListDataTypeClass(int position) {
+		return listData.get(position).getClass();
 	}
 
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
@@ -431,17 +309,16 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			.putOptional("brand", BuildConfig.brand).format().toString();
 	}
 
-	private SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
+	public SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
 		return new SignInPlaceHolderViewModel(getBrandForSignInView(),
 			context.getString(R.string.earn_rewards_and_unlock_deals),
 			context.getString(R.string.sign_in),
 			context.getString(R.string.Create_Account));
 	}
 
-	private boolean userBucketedForSignIn(Context context) {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-				R.string.preference_show_sign_in_on_launch_screen);
-
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
+
 }
+
