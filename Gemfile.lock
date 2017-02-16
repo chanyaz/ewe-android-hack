@@ -59,6 +59,7 @@ GEM
       xcodeproj (>= 0.20, < 2.0.0)
       xcpretty (>= 0.2.4, < 1.0.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-automated_test_emulator_run (1.3.1)
     gh_inspector (1.0.3)
     google-api-client (0.9.20)
       addressable (~> 2.3)
@@ -142,6 +143,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane
+  fastlane-plugin-automated_test_emulator_run
 
 BUNDLED WITH
-   1.13.6
+   1.14.3

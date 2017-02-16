@@ -8,6 +8,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withParent
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import org.hamcrest.Matchers.allOf
 import java.util.concurrent.TimeUnit
@@ -28,11 +29,13 @@ object NewLaunchScreen {
     }
 
     @JvmStatic fun activitiesLaunchButton(): ViewInteraction {
+        Common.delay(1)
         waitForLOBHeaderToBeDisplayed()
         return onView(allOf<View>(withText("Things to Do"), isCompletelyDisplayed()))
     }
 
     @JvmStatic fun carsLaunchButton(): ViewInteraction {
+        Common.delay(1)
         waitForLOBHeaderToBeDisplayed()
         return onView(allOf<View>(withText("Car Rentals"), isCompletelyDisplayed()))
     }
