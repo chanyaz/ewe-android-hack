@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -95,7 +96,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override fun inflate() {
         View.inflate(context, R.layout.widget_base_flight_search, this)
         toolBarTitle.text = context.resources.getText(R.string.flights_title)
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
             flightCabinClassCardView.visibility = View.VISIBLE
         }
     }

@@ -120,6 +120,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import kotlin.NotImplementedError;
 
 /**
@@ -1028,7 +1029,8 @@ public class OmnitureTracking {
 			numNights, totalCost, properCaseSupplierType));
 
 		// Currency code
-		s.setCurrencyCode(hotelItinDetailsResponse.responseData.getHotels().get(0).getTotalPriceDetails().primaryCurrencyCode);
+		s.setCurrencyCode(
+			hotelItinDetailsResponse.responseData.getHotels().get(0).getTotalPriceDetails().primaryCurrencyCode);
 
 		// LX Cross sell
 		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
@@ -5705,9 +5707,9 @@ public class OmnitureTracking {
 		s.setAppState(FLIGHT_SEARCH_V2);
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_premium_class)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
-		}
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
+
 		s.track();
 	}
 
@@ -5925,8 +5927,7 @@ public class OmnitureTracking {
 		str += "|L";
 		str += childrenInLap;
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass,
-			R.string.preference_flight_premium_class)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
 			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
 		return str;

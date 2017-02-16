@@ -169,7 +169,7 @@ class FlightV2UtilsTest {
     fun testGetFlightCabinPreferenceWithTwoSegments() {
         testFlightLeg.packageOfferModel = PackageOfferModel()
         testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
-        assertEquals("Economy + Prem. Eco.", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+        assertEquals("Economy + Premium Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     @Test

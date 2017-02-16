@@ -12,7 +12,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightCabinClassPickerView
 import com.expedia.vm.flights.FlightCabinClassViewModel
-import com.mobiata.android.util.SettingUtils
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Rule
@@ -43,8 +42,6 @@ class FlightCabinClassViewModelTest {
 
     @Test
     fun testFlightCabinClass() {
-
-        SettingUtils.save(activity, R.string.preference_flight_premium_class, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
 
         val flightCabinClassWidget = widget.flightCabinClassWidget

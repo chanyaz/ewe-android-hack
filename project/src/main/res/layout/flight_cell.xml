@@ -160,9 +160,10 @@
                     style="@style/Core.Text.Default.LightColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:visibility="gone"
-                    tools:text="Flight Class Text"
+                    tools:text="Flight Cabin Class text: this message is to test the max length of string"
                     tools:visibility="visible" />
             </LinearLayout>
 
