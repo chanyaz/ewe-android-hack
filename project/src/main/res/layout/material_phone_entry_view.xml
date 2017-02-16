@@ -31,8 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:focusableInTouchMode="true"
-        android:focusable="true"
-        app:errorEnabled="true">
+        android:focusable="true">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_phone_number"

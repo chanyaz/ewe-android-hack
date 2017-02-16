@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.traveler
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.telephony.PhoneNumberUtils
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
@@ -77,6 +78,13 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
             }
             vm.phoneCountryNameSubject.subscribe { name ->
                 phoneAdapter.currentPosition = phoneAdapter.getPositionFromName(name)
+            }
+            if (PointOfSale.getPointOfSale().shouldFormatTravelerPhoneNumber()) {
+                phoneNumber.viewModel.textSubject.subscribe { number ->
+                    phoneNumber.setText(PhoneNumberUtils.formatNumber(number))
+                    val selection = phoneNumber.text?.length ?: 0
+                    phoneNumber.setSelection(selection)
+                }
             }
         } else {
             phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()

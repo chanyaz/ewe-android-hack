@@ -61,8 +61,7 @@
             android:id="@+id/passport_country_layout_btn"
             android:layout_width="match_parent"
             android:visibility="gone"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/passport_country_btn"
