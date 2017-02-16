@@ -57,6 +57,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         orientation = VERTICAL
         viewModel = AddGuestItinViewModel(context)
         findItinButton.setOnClickListener {
+            Ui.hideKeyboard(this)
             viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))
         }
 

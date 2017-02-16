@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -48,6 +49,8 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
+import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
@@ -221,8 +224,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private void setSignInView(View view) {
 		View mEmptyView;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
-			R.string.preference_itin_new_sign_in_screen) && !ExpediaBookingApp.useTabletInterface()) {
+		if (isNewSignInScreen()) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
@@ -362,20 +364,42 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mAllowLoadItins = false;
 	}
 
+	private boolean isNewSignInScreen() {
+		return
+			FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
+				R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity());
+	}
+
 	public synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		if (isFetchGuestItinFailure) {
 			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_GUEST_ITINERARY);
 		}
-		OmnitureTracking.trackFindItin();
-		startActivity(intent);
+		if (isNewSignInScreen() && isFetchGuestItinFailure) {
+			if (mSignInPresenter != null) {
+				mSignInPresenter.showAddGuestItinScreenWithError(getString(R.string.unable_to_find_guest_itinerary));
+			}
+		}
+		else {
+			OmnitureTracking.trackFindItin();
+			startActivity(intent);
+		}
 	}
 
 	public synchronized void startAddRegisteredUserItinActivity() {
-		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
-		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
-		OmnitureTracking.trackFindItin();
-		startActivity(intent);
+		if (isNewSignInScreen()) {
+			if (mSignInPresenter != null) {
+				mSignInPresenter.showAddGuestItinScreenWithError(
+					Phrase.from(getString(R.string.unable_to_find_registered_user_itinerary_template))
+						.put("brand", BuildConfig.brand).format().toString());
+			}
+		}
+		else {
+			Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
+			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
+			OmnitureTracking.trackFindItin();
+			startActivity(intent);
+		}
 	}
 
 	public synchronized void startLoginActivity() {
