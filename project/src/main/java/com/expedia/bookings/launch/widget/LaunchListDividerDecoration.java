@@ -45,22 +45,23 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		LaunchListAdapter adapter = (LaunchListAdapter) parent.getAdapter();
 
 		int recyclerViewChildIndex = parent.getChildAdapterPosition(view);
+		int actualPosition = parent.getChildAdapterPosition(view) - adapter.getOffset();
 		int itemViewType = adapter.getItemViewType(recyclerViewChildIndex);
 
-		boolean isLobButtonsView = itemViewType== LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal();
-		boolean isSignInCard = itemViewType == LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal();
+		boolean isLobButtonsView = itemViewType == LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal();
+		boolean isStatic = LaunchListAdapter.isStaticCard(itemViewType);
 
 		if (isLobButtonsView) {
 			outRect.left = 0;
 			outRect.right = 0;
 		}
 		// Big guys (0, 5, 10, etc)
-		else if (recyclerViewChildIndex % 5 == 0 || isSignInCard) {
+		else if (actualPosition % 5 == 0 || isStatic) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
 		}
 		// Right column (2, 4, 7, 9, etc)
-		else if ((recyclerViewChildIndex % 5) % 2 == 0) {
+		else if ((actualPosition % 5) % 2 == 0) {
 			outRect.left = mMiddle / 2;
 			outRect.right = mRight;
 		}

@@ -95,7 +95,7 @@ public class AbacusServicesTest {
 		assertEquals(1, responseV2.variateForTest(3243));
 		assertEquals("", responseV2.getAnalyticsString(9999));
 		assertNull(responseV2.testForKey(9999));
-		assertEquals(AbacusUtils.DefaultVariate.CONTROL.ordinal(), responseV2.variateForTest(9999));
+		assertEquals(AbacusUtils.DefaultVariant.CONTROL.ordinal(), responseV2.variateForTest(9999));
 	}
 
 	@Test

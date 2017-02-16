@@ -21,19 +21,21 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.bookings.widget.PopularHotelsTonightCard
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import java.util.ArrayList
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
 class LaunchListAdapterTest {
 
     lateinit private var sut: LaunchListAdapter
@@ -54,10 +56,9 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingHotels() {
-        val showLobView = true
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView)
+        createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
 
@@ -75,11 +76,98 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    fun getItemViewType_ShowingPopularHotelsAndSignInCard() {
+        
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
+        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
+        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+        createSystemUnderTest()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, fifthPosition)
+    }
+
+    @Test
+    fun getItemViewType_ShowingPopularHotels() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
+        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+        createSystemUnderTest()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+
+        val thirdPosition = sut.getItemViewType(1)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(2)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, fifthPosition)
+    }
+
+    @Test
+    fun getItemViewType_ShowingPopularHotelsWithVariant1() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
+                AbacusUtils.TripsPopularHotelsVariant.VARIANT1.ordinal)
+        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val recyclerView = RecyclerView(context)
+        recyclerView.layoutManager = layoutManager
+        createSystemUnderTest()
+        recyclerView.adapter = sut
+        givenWeHaveCurrentLocationAndHotels()
+
+        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal) as PopularHotelsTonightCard
+        sut.onBindViewHolder(viewHolder, 1)
+
+        assertEquals("Find Hotels Near You", viewHolder.firstLineTextView.text.toString())
+        assertEquals("Popular Hotels Tonight", viewHolder.secondLineTextView.text.toString())
+    }
+
+    @Test
+    fun getItemViewType_ShowingPopularHotelsWithVariant2() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
+                AbacusUtils.TripsPopularHotelsVariant.VARIANT2.ordinal)
+
+        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val recyclerView = RecyclerView(context)
+        recyclerView.layoutManager = layoutManager
+        createSystemUnderTest()
+        recyclerView.adapter = sut
+        givenWeHaveCurrentLocationAndHotels()
+
+        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal) as PopularHotelsTonightCard
+        sut.onBindViewHolder(viewHolder, 1)
+
+        assertEquals("Popular Hotels Tonight", viewHolder.firstLineTextView.text.toString())
+        assertEquals("Find Hotels Near You", viewHolder.secondLineTextView.text.toString())
+    }
+
+    @Test
     fun getItemViewType_ShowingLobView_ShowingHotels_NoAB_NoFeature() {
-        val showLobView = true
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, false)
-        createSystemUnderTest(showLobView)
+        createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
 
@@ -95,12 +183,11 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingHotels_CustomerSignedIn() {
-        val showLobView = true
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView)
-        givenWeHaveCurrentLocationAndHotels()
+        createSystemUnderTest()
         givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
@@ -117,18 +204,18 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingHotels_ShowSignInAfterSignOut() {
-        val showLobView = true
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView)
+        createSystemUnderTest()
+        givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
 
-        givenCustomerSignedIn()
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, sut.getItemViewType(0))
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, sut.getItemViewType(1))
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, sut.getItemViewType(2))
 
         givenCustomerSignedOut()
+        givenWeHaveCurrentLocationAndHotels()
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, sut.getItemViewType(0))
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, sut.getItemViewType(1))
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, sut.getItemViewType(2))
@@ -137,10 +224,9 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingCollectionView() {
-        val showLobView = true
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView)
+        createSystemUnderTest()
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
@@ -158,12 +244,11 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingCollectionView_CustomerSignedIn() {
-        val showLobView = true
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView)
-        givenWeHaveStaffPicks()
+        createSystemUnderTest()
         givenCustomerSignedIn()
+        givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
@@ -177,10 +262,10 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingLoadingState() {
-        val showLobView = true
+        
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView)
+        createSystemUnderTest()
         givenWeHaveALoadingState()
 
         val firstPosition = sut.getItemViewType(0)
@@ -193,7 +278,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, thirdPosition)
 
         // 2..100 should be loading view as we're in a loading state
-        val fourthPosition = sut.getItemViewType(100)
+        val fourthPosition = sut.getItemViewType(4)
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOADING_VIEW.ordinal, fourthPosition)
     }
 
@@ -201,7 +286,7 @@ class LaunchListAdapterTest {
     fun onBindViewHolder_FullWidthViews() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView = true)
+        createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels = 6)
 
         assertViewHolderIsFullSpan(0) // lob view
@@ -221,7 +306,7 @@ class LaunchListAdapterTest {
     fun itemCount_hotelStateOrder_signedIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView = true)
+        createSystemUnderTest()
         val numberOfHotels = 5
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels)
@@ -236,7 +321,7 @@ class LaunchListAdapterTest {
     fun itemCount_collectionStateOrder_signedIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView = true)
+        createSystemUnderTest()
         val numberOfStaffPicks = 5
         givenCustomerSignedIn()
         givenWeHaveStaffPicks(numberOfStaffPicks)
@@ -250,7 +335,7 @@ class LaunchListAdapterTest {
     fun itemCount_NoInternetConnection() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
-        createSystemUnderTest(showLobView = true)
+        createSystemUnderTest()
         userHasNoInternetConnection(false)
 
         val expectedCount = 1
@@ -283,7 +368,7 @@ class LaunchListAdapterTest {
 
     private fun givenWeHaveALoadingState() {
         val headerTitle = "Loading..."
-        val loadingListOfNumbers = listOf(1, 2, 3, 4, 5)
+        val loadingListOfNumbers = arrayListOf<Any>(1, 2, 3, 4, 5)
         sut.setListData(loadingListOfNumbers, headerTitle)
     }
 
@@ -292,7 +377,7 @@ class LaunchListAdapterTest {
     }
 
     private fun givenWeHaveStaffPicks(numberOfStaffPicks: Int = 5) {
-        val collectionList = ArrayList<CollectionLocation>()
+        val collectionList = ArrayList<Any>()
         val headerTitle = "Staff picks"
         var i = 0
         while (i < numberOfStaffPicks) {
@@ -305,7 +390,7 @@ class LaunchListAdapterTest {
     private fun givenWeHaveCurrentLocationAndHotels(numberOfHotels: Int = 5) {
         // show hotels
         val headerTitle = "Recommended Hotels"
-        val hotelsList = ArrayList<Hotel>()
+        val hotelsList = ArrayList<Any>()
         var i = 0
         while (i < numberOfHotels) {
             hotelsList.add(createMockHotel())
@@ -343,8 +428,8 @@ class LaunchListAdapterTest {
         return hotel
     }
 
-    private fun createSystemUnderTest(showLobView: Boolean) {
-        sut = LaunchListAdapter(context, headerView, showLobView)
+    private fun createSystemUnderTest() {
+        sut = LaunchListAdapter(context, headerView)
         sut.onCreateViewHolder(parentView, 0)
     }
 

@@ -64,7 +64,7 @@ class HotelResultsViewModelTest {
         additionalResultsSubscriber.assertNoTerminalEvent()
         additionalResultsSubscriber.assertNoErrors()
         additionalResultsSubscriber.assertValueCount(1)
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, AbacusUtils.DefaultVariate.CONTROL.ordinal)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, AbacusUtils.DefaultVariant.CONTROL.ordinal)
     }
 
     @Test

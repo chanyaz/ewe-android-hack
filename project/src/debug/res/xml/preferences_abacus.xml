@@ -289,6 +289,15 @@
             android:layout="@layout/preference"
             android:title="Show Sign In card on Launch screen - 13191"/>
 
+        <ListPreference
+            android:entries="@array/abacus_popular_hotel_choices"
+            android:entryValues="@array/abacus_popular_hotel_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13314"
+            android:layout="@layout/preference"
+            android:title="Show Popular Hotels Tonight card on Launch screen - 13314"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

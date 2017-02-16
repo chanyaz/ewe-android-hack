@@ -15,14 +15,8 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.collections.CollectionLocation;
-import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -44,7 +38,7 @@ public class LaunchListWidget extends RecyclerView {
 	}
 
 	public void notifyDataSetChanged() {
-		adapter.notifyDataSetChanged();
+		adapter.updateState();
 	}
 
 	@Override
@@ -56,7 +50,7 @@ public class LaunchListWidget extends RecyclerView {
 		setLayoutManager(layoutManager);
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
-		adapter = new LaunchListAdapter(getContext(), header, showLobHeader);
+		adapter = new LaunchListAdapter(getContext(), header);
 		setAdapter(adapter);
 		addItemDecoration(new LaunchListDividerDecoration(getContext()));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
@@ -87,15 +81,12 @@ public class LaunchListWidget extends RecyclerView {
 		Events.unregister(this);
 		super.onDetachedFromWindow();
 	}
-
-
+	
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		Db.setLaunchListHotelData(event.topHotels);
-		ArrayList<Object> items = putHeaderItemsIntoList(event.topHotels);
-		adapter.setListData(items, headerTitle);
-		adapter.notifyDataSetChanged();
+		adapter.setListData(event.topHotels, headerTitle);
 	}
 
 	@Subscribe
@@ -107,32 +98,17 @@ public class LaunchListWidget extends RecyclerView {
 			event.collection.locations = event.collection.locations
 				.subList(0, ProductFlavorFeatureConfiguration.getInstance().getCollectionCount());
 		}
-		ArrayList<Object> items = putHeaderItemsIntoList(event.collection.locations);
-		adapter.setListData(items, headerTitle);
-		adapter.notifyDataSetChanged();
-	}
-
-	private ArrayList<Object> putHeaderItemsIntoList(List<?> objects) {
-		ArrayList<Object> items = new ArrayList<Object>();
-		items.add(new NewLaunchLobViewModel(getContext(), null, null));
-		items.add(new LaunchListAdapter.HeaderViewModel());
-		if (showSignInCard()) {
-			items.add(adapter.makeSignInPlaceholderViewModel());
-		}
-		adapter.setOffset(items.size());
-		items.addAll(new ArrayList<Object>(objects));
-		return items;
+		adapter.setListData(event.collection.locations, headerTitle);
 	}
 
 	public void showListLoadingAnimation() {
-		ArrayList<Object> elements = createDummyListForAnimation();
+		List<Object> elements = createDummyListForAnimation();
 		String headerTitle = getResources().getString(R.string.loading_header);
 		adapter.setListData(elements, headerTitle);
-		adapter.notifyDataSetChanged();
 	}
 
 	// Create list to show cards for loading animation
-	public ArrayList<Object> createDummyListForAnimation() {
+	public List<Object> createDummyListForAnimation() {
 		ArrayList<Object> elements = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
 			elements.add(0);
@@ -147,16 +123,5 @@ public class LaunchListWidget extends RecyclerView {
 
 	public void onHasInternetConnectionChange(boolean enabled) {
 		adapter.onHasInternetConnectionChange(enabled);
-	}
-
-	public boolean showSignInCard() {
-		return userBucketedForSignIn(getContext()) && !User.isLoggedIn(getContext());
-	}
-
-	private boolean userBucketedForSignIn(Context context) {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-				R.string.preference_show_sign_in_on_launch_screen);
-
 	}
 }

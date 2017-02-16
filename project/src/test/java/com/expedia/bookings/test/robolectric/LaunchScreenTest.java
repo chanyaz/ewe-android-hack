@@ -18,12 +18,12 @@ import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
+import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
-import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.mobiata.android.util.SettingUtils;
 
 import static org.junit.Assert.assertEquals;
@@ -35,6 +35,7 @@ public class LaunchScreenTest {
 	private Hotel hotelNoRating = new Hotel();
 	@Before
 	public void before() {
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		HotelRate rate = new HotelRate();
 		rate.averageRate = 1;
 		rate.surchargeTotal = 1;
@@ -155,9 +156,6 @@ public class LaunchScreenTest {
 		launchListWidget.showListLoadingAnimation();
 
 		List<Hotel> hotels = new ArrayList<>();
-		hotels.add(hotel);
-		hotels.add(hotel);
-		hotels.add(hotel);
 		hotels.add(hotel);
 		Events.LaunchHotelSearchResponse event = new Events.LaunchHotelSearchResponse(hotels);
 		launchListWidget.onNearbyHotelsSearchResults(event);

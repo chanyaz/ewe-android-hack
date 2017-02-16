@@ -6,8 +6,10 @@ import butterknife.ButterKnife
 import com.expedia.bookings.R
 import com.expedia.bookings.data.collections.CollectionLocation
 import com.expedia.bookings.widget.CollectionViewHolder
+import com.expedia.bookings.widget.PopularHotelsTonightCard
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.feeds.FeedsListAdapter
+import com.expedia.vm.PopularHotelsTonightViewModel
 import com.expedia.vm.SignInPlaceHolderViewModel
 import org.junit.Before
 import org.junit.Test
@@ -36,7 +38,7 @@ class FeedsListAdapterTest {
                         Pair(FeedsListAdapter.HeadingViewModel::class.java, FeedsListAdapter.FeedTypes.HEADING_VIEW_HOLDER),
                         Pair(SignInPlaceHolderViewModel::class.java, FeedsListAdapter.FeedTypes.SIGNIN_PLACEHOLDER_VIEW_HOLDER),
                         Pair(FeedsListAdapter.GenericPlaceholderViewModel::class.java, FeedsListAdapter.FeedTypes.GENERIC_PLACEHOLDER_VIEW_HOLDER),
-                        Pair(FeedsListAdapter.PopularHotelsTonightViewModel::class.java, FeedsListAdapter.FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER))
+                        Pair(PopularHotelsTonightViewModel::class.java, FeedsListAdapter.FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER))
 
         givenFeedListWithMockData()
 
@@ -54,7 +56,7 @@ class FeedsListAdapterTest {
                 mapOf<FeedsListAdapter.FeedTypes, Any>(
                         Pair(FeedsListAdapter.FeedTypes.COLLECTION_VIEW_HOLDER, CollectionViewHolder::class.java),
                         Pair(FeedsListAdapter.FeedTypes.FLIGHT_SEARCH_HOLDER, FeedsListAdapter.FlightSearchCardHolder::class.java),
-                        Pair(FeedsListAdapter.FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER, FeedsListAdapter.PopularHotelsTonightCard::class.java),
+                        Pair(FeedsListAdapter.FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER, PopularHotelsTonightCard::class.java),
                         Pair(FeedsListAdapter.FeedTypes.SIGNIN_PLACEHOLDER_VIEW_HOLDER, FeedsListAdapter.SignInPlaceholderCard::class.java))
 
         for (feedType in expectedViewHolderForFeedTypeMap.keys) {
@@ -142,7 +144,7 @@ class FeedsListAdapterTest {
         val firstLine = "first line"
         val secondLine = "second line"
 
-        sut.feedList = listOf(FeedsListAdapter.PopularHotelsTonightViewModel(firstLine, secondLine, "", ""))
+        sut.feedList = listOf(PopularHotelsTonightViewModel(0, firstLine, secondLine))
         val popularHotelsTonightHolder = sut.createViewHolder(LinearLayout(context), FeedsListAdapter.FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER.ordinal)
         val viewModelPosition = 0
 
@@ -152,7 +154,7 @@ class FeedsListAdapterTest {
     }
 
     private fun givenFeedListWithMockData() {
-        val testViewModels = listOf(FeedsListAdapter.PopularHotelsTonightViewModel("", "", "", ""),
+        val testViewModels = listOf(PopularHotelsTonightViewModel(0, "", ""),
                 FeedsListAdapter.GenericPlaceholderViewModel("line 1", "line 2", "", ""),
                 SignInPlaceHolderViewModel("", "", "", ""),
                 FeedsListAdapter.HeadingViewModel(""),

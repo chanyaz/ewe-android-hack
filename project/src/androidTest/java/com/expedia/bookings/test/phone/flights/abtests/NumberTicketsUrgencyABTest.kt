@@ -14,7 +14,7 @@ import org.junit.Test
 class NumberTicketsUrgencyABTest : FlightTestCase() {
 
     override fun runTest() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         super.runTest()
     }
 
