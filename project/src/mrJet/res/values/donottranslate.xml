@@ -25,5 +25,7 @@
     <string name="lean_plum_sdk_prod_appid">app_CbvfsE7SIsC7fRau8eHQDhbOxzty7l5vmnOcKFR5i0s</string>
     <string name="lean_plum_sdk_prod_key">prod_OUkgf7BD5AtJ40DF62YVyBT6FHrtlATTFq4JA18aRrA</string>
 
+    <!-- Brand reward currency -->
+    <string name="brand_reward_currency">MrJet Rewards</string>
 
 </resources>

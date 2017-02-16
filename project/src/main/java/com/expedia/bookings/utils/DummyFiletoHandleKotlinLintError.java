@@ -493,6 +493,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.dim_background,
 		R.string.earn_points_TEMPLATE,
 		R.string.earn_amount_TEMPLATE,
+		R.string.earn_amount_flight_TEMPLATE,
 		R.string.you_are_using_bucks_TEMPLATE,
 		R.string.payment_through_card_and_bucks_TEMPLATE,
 		R.layout.bucks_widget,

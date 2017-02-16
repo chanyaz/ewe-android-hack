@@ -26,4 +26,7 @@
     <!-- Brand reward name -->
     <string name="brand_reward_name">CheapCash</string>
 
+    <!-- Brand reward currency -->
+    <string name="brand_reward_currency">CheapCash</string>
+
 </resources>
