@@ -5,6 +5,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.ItinDetailsResponse
+import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -34,6 +35,7 @@ class AddGuestItinViewModel(val context: Context) {
     val showErrorMessageObservable = PublishSubject.create<String>()
     val toolBarVisibilityObservable = PublishSubject.create<Boolean>()
     val emailFieldFocusObservable = PublishSubject.create<Unit>()
+    val showItinFetchProgressObservable = PublishSubject.create<Boolean>()
 
     lateinit var tripServices: ItinTripServices
         @Inject set
@@ -42,8 +44,8 @@ class AddGuestItinViewModel(val context: Context) {
         Ui.getApplication(context).tripComponent().inject(this)
 
         performGuestTripSearch.subscribe { guestEmailItinNumPair ->
-            showSearchDialogObservable.onNext(true)
-            tripServices.getGuestTrip(guestEmailItinNumPair.first, guestEmailItinNumPair.second, makeGuestTripResponseObserver())
+            showItinFetchProgressObservable.onNext(true)
+            ItineraryManager.getInstance().addGuestTrip(guestEmailItinNumPair.first, guestEmailItinNumPair.second)
         }
 
         emailValidateObservable.subscribe { email ->
