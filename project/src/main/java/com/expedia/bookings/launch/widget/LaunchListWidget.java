@@ -52,7 +52,7 @@ public class LaunchListWidget extends RecyclerView {
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
 		adapter = new LaunchListAdapter(getContext(), header, showLobHeader);
 		setAdapter(adapter);
-		addItemDecoration(new LaunchListDividerDecoration(getContext(), showLobHeader));
+		addItemDecoration(new LaunchListDividerDecoration(getContext()));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 	}
 
