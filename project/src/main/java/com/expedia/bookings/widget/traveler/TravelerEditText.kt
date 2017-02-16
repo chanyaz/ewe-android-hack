@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.traveler
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
@@ -32,6 +33,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     private var textChangedSubscription: Subscription? = null
     private var errorSubscription: Subscription? = null
     private var onFocusChangeListeners = ArrayList<OnFocusChangeListener>()
+
 
     var viewModel: BaseTravelerValidatorViewModel by notNullAndObservable {
         viewModel.textSubject.subscribeEditText(this)
@@ -98,7 +100,10 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
         val text = this.text?.toString()
-        val hint = this.hint?.toString()
+        var hint = this.hint?.toString()
+        if (Strings.isEmpty(hint)) {
+            hint = (this.parent as? TextInputLayout)?.hint.toString()
+        }
         val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
             this.contentDescription.toString()
         } else ""
