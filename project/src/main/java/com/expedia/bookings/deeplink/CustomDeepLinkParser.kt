@@ -24,7 +24,7 @@ class CustomDeepLinkParser: DeepLinkParser() {
             "activitysearch" -> return parseActivityCustomDeepLink(data)
             "addshareditinerary" -> return parseSharedItineraryCustomDeepLink(data)
             "signin" -> return SignInDeepLink()
-            "trips" -> return TripDeepLink()
+            "trips" -> return parseTripCustomDeepLink(data)
             "showtrips" -> return TripDeepLink()
             "supportemail" -> return SupportEmailDeepLink()
             "forcebucket" -> return parseForceBucketDeepLink(data)
@@ -145,5 +145,14 @@ class CustomDeepLinkParser: DeepLinkParser() {
             Log.w(TAG, "Could not parse childAges: " + childAgesStr, e)
         }
         return null
+    }
+
+    private fun parseTripCustomDeepLink(data: Uri): TripDeepLink {
+        val tripDeepLink = TripDeepLink()
+        val queryParameterNames = StrUtils.getQueryParameterNames(data)
+
+        tripDeepLink.itinNum = getQueryParameterIfExists(data, queryParameterNames, "itinNum")
+
+        return tripDeepLink
     }
 }
