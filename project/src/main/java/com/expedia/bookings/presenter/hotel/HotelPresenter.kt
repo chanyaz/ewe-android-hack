@@ -125,6 +125,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         webCheckoutView.viewModel = webCheckoutViewViewModel
 
         webCheckoutViewViewModel.closeView.subscribe {
+            webCheckoutViewViewModel.webViewURLObservable.onNext("about:blank")
             super.back()
         }
         webCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->

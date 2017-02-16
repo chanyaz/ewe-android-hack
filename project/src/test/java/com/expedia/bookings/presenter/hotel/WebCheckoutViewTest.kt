@@ -132,6 +132,25 @@ class WebCheckoutViewTest {
         closeViewSubscriber.assertValueCount(1)
     }
 
+    @Test
+    fun webViewClearsPageGoingBack() {
+        val closeViewSubscriber = TestSubscriber<Unit>()
+        val urlSubscriber = TestSubscriber<String>()
+        featureToggleWebCheckout(true)
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).webViewURLObservable.subscribe(urlSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
+        hotelPresenter.webCheckoutView.back()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+
+        closeViewSubscriber.assertValueCount(1)
+        urlSubscriber.assertValueCount(1)
+        urlSubscriber.assertValue("about:blank")
+    }
+
     private fun selectHotelRoom() {
         val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
         hotelPresenter.hotelDetailViewModel.roomSelectedSubject.onNext(hotelRoomResponse)
