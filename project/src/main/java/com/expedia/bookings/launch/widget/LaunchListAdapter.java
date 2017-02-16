@@ -40,6 +40,8 @@ import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
+import static java.util.Collections.emptyList;
+
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
@@ -95,7 +97,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 	}
 
-	private List<?> listData = Collections.emptyList();
+	private List<?> listData = emptyList();
 
 	private Context context;
 	private ViewGroup parentView;
@@ -281,7 +283,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public int getItemViewType(int position) {
 
 		Class<?> listDataTypeClass = getListDataTypeClass();
-		boolean showSignInView = !isCustomerLoggedIn();
+		boolean showSignInView = showSignInCard();
 
 		boolean isLoadingView = listDataTypeClass == Integer.class;
 		if (isLoadingView) {
@@ -312,24 +314,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return -1;
 	}
 
-	private int getViewOrder(int position, List<LaunchListViewsEnum> viewOrder) {
-		int lastIndex = viewOrder.size() - 1;
-		if (position < lastIndex) {
-			return viewOrder.get(position).ordinal();
-		}
-		else {
-			return viewOrder.get(lastIndex).ordinal();
-		}
-	}
-
-	private Class<?> getListDataTypeClass() {
-		if (listData.isEmpty()) {
-			// default to: loading state
-			return Integer.class;
-		}
-		return listData.get(0).getClass();
-	}
-
 	@Override
 	public int getItemCount() {
 		if (showOnlyLOBView) {
@@ -338,24 +322,20 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return getFixedItemCount() + listData.size();
 	}
 
-	private int getFixedItemCount() {
-		Class<?> dataTypeClass = getListDataTypeClass();
-		int fixedCount = 0;
-		if (dataTypeClass == Integer.class) { // loading
-			fixedCount = getLoadingStateOrder().size() - 1;
+	public int getPositionForViewType(LaunchListViewsEnum viewType) {
+		Class<?> listDataTypeClass = getListDataTypeClass();
+		boolean isHotelView = listDataTypeClass == Hotel.class;
+		boolean isCollectionView = listDataTypeClass == CollectionLocation.class;
+
+		List<LaunchListViewsEnum> viewOrder = emptyList();
+		if (isCollectionView) {
+			viewOrder = getCollectionStateOrder();
 		}
-		else if (dataTypeClass == Hotel.class) { // hotel collection
-			fixedCount = getHotelsStateOrder().size() - 1;
-		}
-		else if (dataTypeClass == CollectionLocation.class) { // staff picks
-			fixedCount = getCollectionStateOrder().size() - 1;
+		else if (isHotelView) {
+			viewOrder = getHotelsStateOrder();
 		}
 
-		if (userBucketedForSignIn(context) && isCustomerLoggedIn() && !showOnlyLOBView) {
-			fixedCount--;
-		}
-
-		return fixedCount;
+		return viewOrder.indexOf(viewType);
 	}
 
 	public void setListData(List<?> listData, String headerTitle) {
@@ -378,6 +358,62 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		this.listData = listData;
 	}
 
+	public void onPOSChange() {
+		posSubject.onNext(Unit.INSTANCE);
+	}
+
+	public void onHasInternetConnectionChange(boolean enabled) {
+		showOnlyLOBView = !enabled;
+		hasInternetConnectionChangeSubject.onNext(enabled);
+		notifyDataSetChanged();
+	}
+
+	private int getViewOrder(int position, List<LaunchListViewsEnum> viewOrder) {
+		int lastIndex = viewOrder.size() - 1;
+		if (position < lastIndex) {
+			return viewOrder.get(position).ordinal();
+		}
+		else {
+			return viewOrder.get(lastIndex).ordinal();
+		}
+	}
+
+	private Class<?> getListDataTypeClass() {
+		if (listData.isEmpty()) {
+			// default to: loading state
+			return Integer.class;
+		}
+		return listData.get(0).getClass();
+	}
+
+	public int getFixedItemCount() {
+		Class<?> dataTypeClass = getListDataTypeClass();
+		int fixedCount = 0;
+		if (dataTypeClass == Integer.class) { // loading
+			fixedCount = getLoadingStateOrder().size() - 1;
+		}
+		else if (dataTypeClass == Hotel.class) { // hotel collection
+			fixedCount = getHotelsStateOrder().size() - 1;
+		}
+		else if (dataTypeClass == CollectionLocation.class) { // staff picks
+			fixedCount = getCollectionStateOrder().size() - 1;
+		}
+
+		if (userBucketedForSignIn(context) && isCustomerLoggedIn() && !showOnlyLOBView) {
+			fixedCount--;
+		}
+
+		return fixedCount;
+	}
+
+	public boolean showSignInCard() {
+		return userBucketedForSignIn(context) && !isCustomerLoggedIn();
+	}
+
+	private boolean isCustomerLoggedIn() {
+		return User.isLoggedIn(context);
+	}
+
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -390,17 +426,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 	};
 
-	public void onPOSChange() {
-		posSubject.onNext(Unit.INSTANCE);
-	}
-
-
-	public void onHasInternetConnectionChange(boolean enabled) {
-		showOnlyLOBView = !enabled;
-		hasInternetConnectionChangeSubject.onNext(enabled);
-		notifyDataSetChanged();
-	}
-
 	private String getBrandForSignInView() {
 		return Phrase.from(context, R.string.shop_as_a_member_TEMPLATE)
 			.putOptional("brand", BuildConfig.brand).format().toString();
@@ -411,10 +436,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.earn_rewards_and_unlock_deals),
 			context.getString(R.string.sign_in),
 			context.getString(R.string.Create_Account));
-	}
-
-	private boolean isCustomerLoggedIn() {
-		return User.isLoggedIn(context);
 	}
 
 	private boolean userBucketedForSignIn(Context context) {

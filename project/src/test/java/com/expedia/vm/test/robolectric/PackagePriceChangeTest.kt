@@ -192,10 +192,9 @@ class PackagePriceChangeTest {
     }
 
     private fun assertPriceChangeWidgetIsCorrect(newPrice: Money, oldPrice: Money, priceChangeText: String) {
-        assertEquals(oldPrice.amount, overview.priceChangeWidget.viewmodel.originalPrice.value.amount)
-        assertEquals(newPrice.amount, overview.priceChangeWidget.viewmodel.newPrice.value.amount)
+        assertEquals(newPrice, overview.priceChangeWidget.viewmodel.newPrice.value)
+        assertEquals(oldPrice, overview.priceChangeWidget.viewmodel.originalPrice.value)
         assertEquals(priceChangeText, overview.priceChangeWidget.viewmodel.priceChangeText.value)
-        assertEquals(newPrice.formattedMoneyFromAmountAndCurrencyCode, overview.totalPriceWidget.viewModel.totalPriceObservable.value)
     }
 
     private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null): PackageCreateTripResponse? {
@@ -224,6 +223,7 @@ class PackagePriceChangeTest {
 
         trip.packageDetails = packageDetails
         trip.oldPackageDetails = oldPackageDetails
+        trip.totalPriceIncludingFees = newBundleTotal ?: newTotal
         return trip
     }
 
