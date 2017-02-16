@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -78,6 +79,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val filledInCardStatus: ContactDetailsCompletenessStatusImageView by bindView(R.id.filled_in_card_status)
     val spacerAboveFilledInCardDetailsMiniView: View by bindView(R.id.spacer_above_filled_in_card_details_mini_view)
     val pwpSmallIcon: ImageView? by bindOptionalView(R.id.pwp_small_icon)
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
 
     val filledIn = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
@@ -566,6 +569,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 showMaskedCreditCardNumber()
                 filledIn.onNext(isCompletelyFilled())
             }
+            viewmodel.updateBackgroundColor.onNext(forward)
             viewmodel.showingPaymentForm.onNext(forward)
         }
     }
@@ -594,6 +598,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
+            viewmodel.updateBackgroundColor.onNext(forward)
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(!forward)
         }
     }

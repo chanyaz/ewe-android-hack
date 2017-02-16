@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 class LineOfBusinessExtensions {
     companion object {
         fun isUniversalCheckout(lob: LineOfBusiness, context: Context): Boolean {
-            return lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES || (isLXUniversalCheckout(context) && lob == LineOfBusiness.LX)
+            return lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.RAILS || (isLXUniversalCheckout(context) && lob == LineOfBusiness.LX)
         }
 
         private fun isLXUniversalCheckout(context: Context): Boolean {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -32,12 +34,14 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.vm.packages.BundleOverviewViewModel
+import com.mobiata.android.util.SettingUtils
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -53,6 +57,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
