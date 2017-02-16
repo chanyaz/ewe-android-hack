@@ -69,7 +69,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.AbstractHotelFilterViewModel
+import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -163,7 +163,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val hotelFavoriteChangeObserver = endlessObserver<Pair<String, Boolean>> { hotelIdAndFavorite ->
         val hotelId = hotelIdAndFavorite.first
-        val mapItem = mapItems.filter { it.hotel.hotelId.equals(hotelId)}
+        val mapItem = mapItems.filter { it.hotel.hotelId.equals(hotelId) }
         if (mapItem.isNotEmpty()) {
             val firstMapItem = mapItem.first()
             val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
@@ -356,7 +356,26 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         recyclerView.adapter = adapter
         filterView.viewmodel = createFilterViewModel()
-        filterView.viewmodel.filterObservable.subscribe(filterObserver)
+
+        if (filterView.viewmodel.isClientSideFiltering()) {
+            filterView.viewmodel.filterObservable.subscribe(filterObserver)
+        } else {
+            filterView.viewmodel.filterByParamsObservable.subscribe { params ->
+                if (previousWasList) {
+                    showLoading()
+                    show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+                } else {
+                    show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+                    fab.isEnabled = false
+                    clearMarkers()
+                    loadingOverlay?.animate(true)
+                    loadingOverlay?.visibility = View.VISIBLE
+                }
+
+                viewmodel.filterParamsSubject.onNext(params)
+            }
+        }
+
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
@@ -484,8 +503,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
             filterMenuItem.isVisible = true
-        }
-        else {
+        } else {
             filterMenuItem.isVisible = false
         }
 
@@ -770,8 +788,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val mapToResultsTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, LinearInterpolator(), 750) {
         var firstStepTransitionTime = .33f
 
-        var firstTransition : Presenter.Transition? = null
-        var secondTransition : Presenter.Transition? = null
+        var firstTransition: Presenter.Transition? = null
+        var secondTransition: Presenter.Transition? = null
 
         var secondTransitionStarted = false
 
@@ -986,8 +1004,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterScreenShown = forward
             if (forward) {
                 fab.visibility = View.GONE
-            }
-            else {
+            } else {
                 recyclerView.visibility = View.VISIBLE
                 toolbar.visibility = View.VISIBLE
                 mapView.visibility = View.VISIBLE
@@ -1206,7 +1223,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()
-    abstract fun createFilterViewModel(): AbstractHotelFilterViewModel
+    abstract fun createFilterViewModel(): BaseHotelFilterViewModel
     abstract fun trackSearchMap()
     abstract fun trackMapToList()
     abstract fun trackCarouselScroll()

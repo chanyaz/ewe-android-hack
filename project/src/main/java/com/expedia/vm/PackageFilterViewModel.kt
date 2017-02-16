@@ -1,35 +1,14 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.tracking.PackagesFilterTracker
+import com.expedia.bookings.tracking.hotel.FilterTracker
 
-class PackageFilterViewModel(context: Context) : AbstractHotelFilterViewModel(context) {
-    override fun trackHotelSortBy(sortBy: String) {
-        PackagesTracking().trackHotelSortBy(sortBy)
-    }
+class PackageFilterViewModel(context: Context) : HotelClientFilterViewModel(context) {
 
-    override fun trackHotelFilterVIP(vipOnly: Boolean) {
-        PackagesTracking().trackHotelFilterVIP(vipOnly)
-    }
-
-    override fun trackHotelFilterPriceSlider() {
-        PackagesTracking().trackHotelFilterPriceSlider()
-    }
-
-    override fun trackHotelFilterByName() {
-        PackagesTracking().trackHotelFilterByName()
-    }
-
-    override fun trackClearFilter() {
-        PackagesTracking().trackHotelClearFilter()
-    }
-
-    override fun trackHotelFilterNeighbourhood() {
-        PackagesTracking().trackHotelFilterNeighbourhood()
-    }
-
-    override fun trackHotelRefineRating(rating: String) {
-        PackagesTracking().trackHotelRefineRating(rating)
+    override fun createFilterTracker(): FilterTracker {
+        return PackagesFilterTracker()
     }
 
     override fun sortItemToRemove(): Sort {
@@ -38,9 +17,5 @@ class PackageFilterViewModel(context: Context) : AbstractHotelFilterViewModel(co
 
     override fun showHotelFavorite(): Boolean {
         return false
-    }
-
-    override fun isClientSideFiltering(): Boolean {
-        return true
     }
 }

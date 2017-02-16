@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.View
 import android.widget.ArrayAdapter
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -14,8 +15,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.model.UserLoginStateChangedModel
-import com.expedia.vm.AbstractHotelFilterViewModel.Sort
-import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.HotelClientFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -65,12 +65,12 @@ class HotelFilterViewTest {
     }
 
     @Test
-    fun testSortByDistanceIsRemovedForNonCurrentLocationSearch(){
+    fun testSortByDistanceIsRemovedForNonCurrentLocationSearch() {
         initViewModel()
         hotelFilterView.sortByObserver.onNext(false)
-        val enumOfSortingList= listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
+        val enumOfSortingList = listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
         val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
-        assertEquals(expectedEnumOfSortingLists,enumOfSortingList)
+        assertEquals(expectedEnumOfSortingLists, enumOfSortingList)
     }
 
     @Test
@@ -81,14 +81,14 @@ class HotelFilterViewTest {
     }
 
     @Test
-    fun testSortByDealsIsRemovedForSwP(){
+    fun testSortByDealsIsRemovedForSwP() {
         initViewModel()
         hotelFilterView.shopWithPointsViewModel?.swpEffectiveAvailability?.onNext(true)
         hotelFilterView.sortByObserver.onNext(false)
-        val enumOfSortingList= listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.RATING).toCollection(ArrayList<Sort>())
+        val enumOfSortingList = listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.RATING).toCollection(ArrayList<Sort>())
         val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
 
-        assertEquals(expectedEnumOfSortingLists,enumOfSortingList)
+        assertEquals(expectedEnumOfSortingLists, enumOfSortingList)
     }
 
     private fun setPOS(pos: PointOfSaleId) {
@@ -98,7 +98,7 @@ class HotelFilterViewTest {
 
     private fun initViewModel() {
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
-        hotelFilterView.viewmodel = HotelFilterViewModel(activity)
+        hotelFilterView.viewmodel = HotelClientFilterViewModel(activity)
         hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
         hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
@@ -106,8 +106,8 @@ class HotelFilterViewTest {
 
     fun getItems(adapter: ArrayAdapter<Sort>): ArrayList<Sort> {
         val array: ArrayList<Sort> = arrayListOf()
-        for(i in 1 .. adapter.count )
-            array.add(adapter.getItem(i-1))
+        for (i in 1..adapter.count)
+            array.add(adapter.getItem(i - 1))
         return array
     }
 }

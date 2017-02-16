@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.AbstractHotelFilterViewModel
+import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import rx.Observer
 import kotlin.properties.Delegates
 
@@ -19,17 +19,17 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
     val neighborhoodCheckBox: CheckBox by bindView(R.id.neighborhood_check_box)
 
     var neighborhood: Neighborhood ?= null
-    var hotelFilterViewModel: AbstractHotelFilterViewModel by Delegates.notNull()
+    var hotelFilterViewModel: BaseHotelFilterViewModel by Delegates.notNull()
 
     val checkObserver : Observer<Unit> = endlessObserver {
         neighborhoodCheckBox.isChecked = !neighborhoodCheckBox.isChecked
         hotelFilterViewModel.selectNeighborhood.onNext(neighborhoodName.text.toString())
         if (neighborhoodCheckBox.isChecked) {
-            hotelFilterViewModel.trackHotelFilterNeighbourhood()
+            hotelFilterViewModel.trackHotelFilterNeighborhood()
         }
     }
 
-    fun bind(neighborhood: Neighborhood, vm: AbstractHotelFilterViewModel) {
+    fun bind(neighborhood: Neighborhood, vm: BaseHotelFilterViewModel) {
         this.hotelFilterViewModel = vm
         this.neighborhood = neighborhood
         neighborhoodName.text = neighborhood.name

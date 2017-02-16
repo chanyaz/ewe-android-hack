@@ -1,7 +1,6 @@
 package com.expedia.bookings.deeplink
 
 import com.expedia.bookings.data.ChildTraveler
-import com.expedia.vm.AbstractHotelFilterViewModel
 import org.joda.time.LocalDate
 
 class HotelDeepLink: DeepLink() {

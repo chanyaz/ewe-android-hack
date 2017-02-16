@@ -58,7 +58,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 		val regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
 
 		return hotelApi.search(regionId, lat, lng,
-				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString(), numberOfResults)
+				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString(), numberOfResults, params.getFiltersQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext{
