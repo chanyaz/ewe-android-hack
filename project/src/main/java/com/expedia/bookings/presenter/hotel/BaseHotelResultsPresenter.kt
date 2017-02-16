@@ -328,9 +328,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             } else {
                 filterView.viewmodel.doneObservable.onNext(Unit)
             }
-        }
-
-        if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
+        } else if (ResultsList().javaClass.name == currentState) {
             clearMarkers(false)
         }
 
