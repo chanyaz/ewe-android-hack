@@ -55,7 +55,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private List<LaunchListViewsEnum> getHotelsStateOrder() {
-		if (userBucketedForSignIn(context)) {
+		if (userBucketedForSignIn()) {
 			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
 				LaunchListViewsEnum.SIGN_IN_VIEW,
 				LaunchListViewsEnum.HEADER_VIEW,
@@ -69,7 +69,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private List<LaunchListViewsEnum> getCollectionStateOrder() {
-		if (userBucketedForSignIn(context)) {
+		if (userBucketedForSignIn()) {
 			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
 				LaunchListViewsEnum.SIGN_IN_VIEW,
 				LaunchListViewsEnum.HEADER_VIEW,
@@ -84,7 +84,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private List<LaunchListViewsEnum> getLoadingStateOrder() {
-		if (userBucketedForSignIn(context)) {
+		if (userBucketedForSignIn()) {
 			return Collections.unmodifiableList(Arrays.asList(LaunchListViewsEnum.LOB_VIEW,
 				LaunchListViewsEnum.SIGN_IN_VIEW,
 				LaunchListViewsEnum.HEADER_VIEW,
@@ -399,7 +399,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			fixedCount = getCollectionStateOrder().size() - 1;
 		}
 
-		if (userBucketedForSignIn(context) && isCustomerLoggedIn() && !showOnlyLOBView) {
+		if (userBucketedForSignIn() && isCustomerLoggedIn() && !showOnlyLOBView) {
 			fixedCount--;
 		}
 
@@ -407,7 +407,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	public boolean showSignInCard() {
-		return userBucketedForSignIn(context) && !isCustomerLoggedIn();
+		return userBucketedForSignIn() && !isCustomerLoggedIn();
 	}
 
 	private boolean isCustomerLoggedIn() {
@@ -438,10 +438,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.Create_Account));
 	}
 
-	private boolean userBucketedForSignIn(Context context) {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-				R.string.preference_show_sign_in_on_launch_screen);
+	private boolean userBucketedForSignIn() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 
 	}
 }

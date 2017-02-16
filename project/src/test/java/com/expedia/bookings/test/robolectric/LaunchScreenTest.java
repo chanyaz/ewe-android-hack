@@ -76,7 +76,6 @@ public class LaunchScreenTest {
 	public void testListDisplaysCollectionWithTestsOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		SettingUtils.save(activity, R.string.preference_show_sign_in_on_launch_screen, true);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -125,7 +124,6 @@ public class LaunchScreenTest {
 	public void testListDisplaysHotelsWithTestsOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		SettingUtils.save(activity, R.string.preference_show_sign_in_on_launch_screen, true);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -172,7 +170,6 @@ public class LaunchScreenTest {
 	public void testZeroRatingWithTestsOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		SettingUtils.save(activity, R.string.preference_show_sign_in_on_launch_screen, true);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
