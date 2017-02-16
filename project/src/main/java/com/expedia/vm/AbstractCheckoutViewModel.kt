@@ -1,33 +1,21 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.SpannedString
-import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.CardFeeResponse
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.services.CardFeeService
-import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
-import com.squareup.phrase.Phrase
-import rx.Observable
-import rx.Observer
+import com.expedia.bookings.activity.ExpediaBookingApp
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -99,7 +87,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     abstract fun injectComponents()
     abstract fun getTripId() : String
 
-    open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
+    open protected fun getScheduler(): Scheduler = if (ExpediaBookingApp.isRobolectric()) Schedulers.immediate() else AndroidSchedulers.mainThread()
 
     fun isValidForBooking() : Boolean {
         return builder.hasValidTravelerAndBillingInfo()

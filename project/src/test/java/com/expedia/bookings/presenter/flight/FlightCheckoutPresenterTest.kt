@@ -1,13 +1,17 @@
 package com.expedia.bookings.presenter.flight
 
 import android.support.v4.app.FragmentActivity
+import android.text.Spanned
+import android.text.SpannedString
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
+import com.expedia.testutils.Assert.assertViewIsNotVisible
 import com.expedia.testutils.Assert.assertViewIsVisible
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import org.junit.Before
@@ -17,10 +21,11 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
+import rx.observers.TestSubscriber
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner :: class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class))
@@ -67,6 +72,35 @@ class FlightCheckoutPresenterTest {
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
         checkoutPresenter.travelerSummaryCardView.findViewById(R.id.traveler_default_state).performClick()
         assertEquals(FlightTravelersPresenter::class.java.name, checkoutPresenter.currentState)
+    }
+
+    @Test
+    fun showCardFeeWarnings(){
+        checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.onNext(SpannedString("ABCDEFG"))
+        assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
+        assertEquals("ABCDEFG",checkoutPresenter.cardFeeWarningTextView.text.toString())
+
+        var testSubscriber = TestSubscriber<Spanned>()
+        checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
+        checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(100))
+        testSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        assertEquals("The airline charges a processing fee of $100 for using this card (cost included in the trip total).", checkoutPresenter.cardFeeWarningTextView.text.toString())
+        assertEquals("Airline processing fee for this card: $100", checkoutPresenter.cardProcessingFeeTextView.text.toString())
+        assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
+
+        testSubscriber = TestSubscriber<Spanned>()
+        checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
+        checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
+        testSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        assertEquals("",checkoutPresenter.cardFeeWarningTextView.text.toString())
+        assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
+
+    }
+
+    private fun getMoney(moneyValue: Int): Money {
+        val money = Money(moneyValue, "USD")
+        money.formattedPrice = "$"+moneyValue
+        return money
     }
 
 }
