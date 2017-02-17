@@ -5760,10 +5760,11 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackResultInBoundFlights() {
+	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_IN);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
+		setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
 		s.track();
 	}
 

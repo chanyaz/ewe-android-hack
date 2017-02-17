@@ -132,12 +132,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
         }
-        presenter.flightOfferViewModel.searchingForFlightDateTime.subscribe {
-            searchTrackingBuilder.markSearchApiCallMade()
-        }
-        presenter.flightOfferViewModel.resultsReceivedDateTimeObservable.subscribe {
-            searchTrackingBuilder.markApiResponseReceived()
-        }
         presenter.flightOfferViewModel.outboundResultsObservable.subscribe {
             searchTrackingBuilder.markResultsProcessed()
             searchTrackingBuilder.searchResponse(it)
@@ -152,6 +146,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
                 FlightsV2Tracking.trackResultOutBoundFlights(trackingData)
+            }
+        }
+        if (isByotEnabled) {
+            presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe {
+                searchTrackingBuilder.markSearchClicked()
+                searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
             }
         }
         presenter
@@ -173,6 +173,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             true
         })
         presenter.setupComplete()
+        if (isByotEnabled) {
+            presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
+                searchTrackingBuilder.markResultsProcessed()
+                searchTrackingBuilder.searchResponse(it)
+            }
+
+            (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
+                searchTrackingBuilder.markResultsUsable()
+                if (searchTrackingBuilder.isWorkComplete()) {
+                    val trackingData = searchTrackingBuilder.build()
+                    FlightsV2Tracking.trackResultInBoundFlights(trackingData)
+                }
+            }
+        }
         presenter
     }
 
@@ -319,7 +333,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         viewModel.inboundResultsObservable.subscribe {
-            inboundPresenter.trackFlightResultsLoad()
+            if(!isByotEnabled) {
+                searchTrackingBuilder.searchResponse(it)
+                inboundPresenter.trackFlightResultsLoad()
+            }
             announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
                     .put("city", viewModel.searchParamsObservable.value.departureAirport?.regionNames?.shortName)
                     .format().toString())
@@ -331,6 +348,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         viewModel.noNetworkObservable.subscribe {
             show(searchPresenter)
+        }
+        viewModel.searchingForFlightDateTime.subscribe {
+            searchTrackingBuilder.markSearchApiCallMade()
+        }
+        viewModel.resultsReceivedDateTimeObservable.subscribe {
+            searchTrackingBuilder.markApiResponseReceived()
         }
         viewModel
     }
