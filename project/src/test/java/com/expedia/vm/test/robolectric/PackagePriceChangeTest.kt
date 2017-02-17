@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.vm.packages.BundleOverviewViewModel
+import junit.framework.Assert.assertNull
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -35,7 +36,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
-import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -154,11 +154,47 @@ class PackagePriceChangeTest {
         assertPriceChangeWidgetIsCorrect(highPackageTotal, lowPackageTotal, "Price changed from $900")
     }
 
+    @Test
+    fun testCheckoutPriceChangeDoesNotCrashWithoutOldPackageOffer(){
+        val priceChangeSubscriber = TestSubscriber<Boolean>()
+        val oldMoneySubscriber = TestSubscriber<Money>()
+        val priceChangeTextSubscriber = TestSubscriber<String>()
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.priceChangeWidget.viewmodel.originalPrice.subscribe(oldMoneySubscriber)
+        overview.priceChangeWidget.viewmodel.priceChangeText.subscribe(priceChangeTextSubscriber)
+
+        val responseWithoutOldPackageOffer = getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal)
+        responseWithoutOldPackageOffer?.oldPackageDetails = null
+        checkout.getCheckoutViewModel().checkoutPriceChangeObservable.onNext(responseWithoutOldPackageOffer)
+
+        priceChangeSubscriber.assertValueCount(1)
+        priceChangeSubscriber.assertValue(true)
+        assertNull(oldMoneySubscriber.onNextEvents[0])
+        priceChangeTextSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testCreateTripPriceChangeDoesNotCrashWithoutOldPackageOffer(){
+        val priceChangeSubscriber = TestSubscriber<Boolean>()
+        val oldMoneySubscriber = TestSubscriber<Money>()
+        val priceChangeTextSubscriber = TestSubscriber<String>()
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.priceChangeWidget.viewmodel.originalPrice.subscribe(oldMoneySubscriber)
+        overview.priceChangeWidget.viewmodel.priceChangeText.subscribe(priceChangeTextSubscriber)
+
+        val responseWithoutOldPackageOffer = getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal)
+        responseWithoutOldPackageOffer?.oldPackageDetails = null
+        checkout.getCreateTripViewModel().createTripResponseObservable.onNext(responseWithoutOldPackageOffer)
+
+        priceChangeSubscriber.assertValueCount(0)
+        assertNull(oldMoneySubscriber.onNextEvents[0])
+        priceChangeTextSubscriber.assertNoValues()
+    }
+
     private fun assertPriceChangeWidgetIsCorrect(newPrice: Money, oldPrice: Money, priceChangeText: String) {
-        assertEquals(oldPrice.amount, overview.priceChangeWidget.viewmodel.originalPrice.value.amount)
-        assertEquals(newPrice.amount, overview.priceChangeWidget.viewmodel.newPrice.value.amount)
+        assertEquals(newPrice, overview.priceChangeWidget.viewmodel.newPrice.value)
+        assertEquals(oldPrice, overview.priceChangeWidget.viewmodel.originalPrice.value)
         assertEquals(priceChangeText, overview.priceChangeWidget.viewmodel.priceChangeText.value)
-        assertEquals(newPrice.formattedMoneyFromAmountAndCurrencyCode, overview.totalPriceWidget.viewModel.totalPriceObservable.value)
     }
 
     private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null): PackageCreateTripResponse? {
@@ -187,6 +223,7 @@ class PackagePriceChangeTest {
 
         trip.packageDetails = packageDetails
         trip.oldPackageDetails = oldPackageDetails
+        trip.totalPriceIncludingFees = newBundleTotal ?: newTotal
         return trip
     }
 

@@ -28,8 +28,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
-import com.expedia.bookings.launch.widget.LaunchListAdapter
-import com.expedia.bookings.launch.widget.LaunchListWidget
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
@@ -485,5 +483,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         override fun onSingleTapUp(e: MotionEvent?): Boolean {
             return handleBackOrDarkViewClick()
         }
+    }
+
+    fun refreshState() {
+        launchListWidget.notifyDataSetChanged()
     }
 }

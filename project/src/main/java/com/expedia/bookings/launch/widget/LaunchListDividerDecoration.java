@@ -28,17 +28,13 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 	int mLeft;
 	int mRight;
 	int mMiddle;
-	int headerCount = 1;
 
-	public LaunchListDividerDecoration(Context context, boolean isLobViewAdded) {
+	public LaunchListDividerDecoration(Context context) {
 		mTop = 0;
 		mLeft = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
 		mMiddle = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_middle);
 		mBottom = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_bottom);
 		mRight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
-		if (isLobViewAdded) {
-			headerCount = 2;
-		}
 	}
 
 	@Override
@@ -46,19 +42,27 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		outRect.top = mTop;
 		outRect.bottom = mBottom;
 
-		int pos = parent.getChildAdapterPosition(view) - headerCount;
-		// when we have 2 headers one for lob and another one staff picks or near by hotel header
-		if (pos == -2) {
+		LaunchListAdapter adapter = (LaunchListAdapter) parent.getAdapter();
+
+		int recyclerViewChildIndex = parent.getChildAdapterPosition(view);
+
+		int dynamicCardsIndex = recyclerViewChildIndex - adapter.getFixedItemCount();
+		int lobViewPosition = adapter.getPositionForViewType(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW);
+		boolean isLobButtonsView = (lobViewPosition != -1 && recyclerViewChildIndex == lobViewPosition);
+		int signInCardPosition = adapter.getPositionForViewType(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW);
+		boolean isSignInCard = signInCardPosition != -1 && adapter.showSignInCard();
+
+		if (isLobButtonsView) {
 			outRect.left = 0;
 			outRect.right = 0;
 		}
 		// Big guys (0, 5, 10, etc)
-		else if (pos % 5 == 0) {
+		else if (dynamicCardsIndex % 5 == 0 || isSignInCard) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
 		}
 		// Right column (2, 4, 7, 9, etc)
-		else if ((pos % 5) % 2 == 0) {
+		else if ((dynamicCardsIndex % 5) % 2 == 0) {
 			outRect.left = mMiddle / 2;
 			outRect.right = mRight;
 		}

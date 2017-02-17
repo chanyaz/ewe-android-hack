@@ -195,7 +195,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             vm.animateInSlideToPurchaseObservable.onNext(true)
             getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
-            trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice()))
+            val oldPrice = response.getOldPrice()
+            if (oldPrice != null) {
+                trackCheckoutPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
+            }
             handleCheckoutPriceChange(response)
         }
         vm.noNetworkObservable.subscribe {
@@ -238,9 +241,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.createTripResponseObservable.safeSubscribe { response ->
             getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
-            if (hasPriceChange(response)) {
-                trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response.newPrice()))
-                if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, response.getOldPrice()!!.amount)) {
+            val oldPrice = response!!.getOldPrice()
+            if (oldPrice != null) {
+                trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
+                if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
                     if (shouldShowAlertForCreateTripPriceChange(response)) {
                         vm.priceChangeAlertPriceObservable.onNext(response)
                         return@safeSubscribe
