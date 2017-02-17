@@ -301,7 +301,7 @@
 
         <activity
             android:name="com.expedia.bookings.rail.activity.RailActivity"
-            android:label="Rail"
+            android:label="Trains"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
