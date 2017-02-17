@@ -27,7 +27,7 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     }
 
     private fun getBundleLabelText(selectedFlight: FlightLeg): String {
-        return selectedFlight.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
+        return selectedFlight.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, true) ?: ""
     }
 
     init {
