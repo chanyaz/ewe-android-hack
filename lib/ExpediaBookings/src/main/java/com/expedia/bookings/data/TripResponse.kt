@@ -119,7 +119,7 @@ abstract class TripResponse : BaseApiResponse() {
         }
     }
 
-    fun newPrice(): Money {
+    open fun newPrice(): Money {
          return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
     }
 }
