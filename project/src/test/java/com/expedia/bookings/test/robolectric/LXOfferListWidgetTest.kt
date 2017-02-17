@@ -10,6 +10,8 @@ import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.lx.LXTicketType
 import com.expedia.bookings.data.lx.Offer
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.LXOffersListWidget
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate
@@ -25,6 +27,7 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class LXOfferListWidgetTest {
     private var widget: LXOffersListWidget by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()

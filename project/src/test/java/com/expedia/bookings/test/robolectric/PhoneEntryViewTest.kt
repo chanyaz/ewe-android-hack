@@ -8,6 +8,8 @@ import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -71,6 +73,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPointOfSaleCountryCodeUsedIfNoneProvided() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(context).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
@@ -124,6 +127,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedIfOverFiveNumbers() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(context).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
@@ -187,6 +191,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberFormattedWhenStartsWithOneOverFiveNumbers() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(context).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
@@ -216,6 +221,7 @@ class PhoneEntryViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMaterialPhoneNumberNotFormattedIfNotUsPos() {
         SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
         SettingUtils.save(context, R.string.PointOfSaleKey, PointOfSaleId.MEXICO.id.toString())

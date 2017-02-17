@@ -305,7 +305,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
 
-		if (BugShakerShim.isBugShakerEnabled(getBaseContext())) {
+		if (BugShakerShim.isBugShakerEnabled(this)) {
 			BugShakerShim.startNewBugShaker(this);
 		}
 	}
