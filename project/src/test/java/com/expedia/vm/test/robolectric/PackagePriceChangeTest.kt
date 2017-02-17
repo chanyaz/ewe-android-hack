@@ -109,6 +109,36 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    fun testCreateTripPriceChangeIncreasedWithoutCardFee() {
+        val newBundleTotal = Money(1000, "USD")
+        val newPackageTotal = Money(900, "USD")
+        val oldBundleTotal = Money(950,"USD")
+        val oldPackageTotal = Money(850, "USD")
+
+        checkout.getCreateTripViewModel().createTripResponseObservable
+                .onNext(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false))
+
+        priceChangeSubscriber.assertValueCount(1)
+        priceChangeSubscriber.assertValue(true)
+        assertPriceChangeWidgetIsCorrect(newBundleTotal, oldBundleTotal, "Price changed from $950")
+    }
+
+    @Test
+    fun testCreateTripPriceChangeDecreasedWithoutCardFee() {
+        val newBundleTotal = Money(1000, "USD")
+        val newPackageTotal = Money(900, "USD")
+        val oldBundleTotal = Money(1050,"USD")
+        val oldPackageTotal = Money(1000, "USD")
+
+        checkout.getCreateTripViewModel().createTripResponseObservable
+                .onNext(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false))
+
+        priceChangeSubscriber.assertValueCount(1)
+        priceChangeSubscriber.assertValue(true)
+        assertPriceChangeWidgetIsCorrect(newBundleTotal, oldBundleTotal, "Price dropped from $1,050")
+    }
+
+    @Test
     fun testCreateTripPriceChangeWithoutBundleTotalsPriceIncreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
@@ -192,12 +222,12 @@ class PackagePriceChangeTest {
     }
 
     private fun assertPriceChangeWidgetIsCorrect(newPrice: Money, oldPrice: Money, priceChangeText: String) {
-        assertEquals(newPrice, overview.priceChangeWidget.viewmodel.newPrice.value)
-        assertEquals(oldPrice, overview.priceChangeWidget.viewmodel.originalPrice.value)
+        assertEquals(oldPrice.amount, overview.priceChangeWidget.viewmodel.originalPrice.value.amount)
+        assertEquals(newPrice.amount, overview.priceChangeWidget.viewmodel.newPrice.value.amount)
         assertEquals(priceChangeText, overview.priceChangeWidget.viewmodel.priceChangeText.value)
+        assertEquals(newPrice.formattedMoneyFromAmountAndCurrencyCode, overview.totalPriceWidget.viewModel.totalPriceObservable.value)
     }
-
-    private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null): PackageCreateTripResponse? {
+    private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null, withCardFee: Boolean = true): PackageCreateTripResponse? {
         val trip = PackageCreateTripResponse()
         val packageDetails = PackageCreateTripResponse.PackageDetails()
         val oldPackageDetails = PackageCreateTripResponse.PackageDetails()
@@ -223,7 +253,9 @@ class PackagePriceChangeTest {
 
         trip.packageDetails = packageDetails
         trip.oldPackageDetails = oldPackageDetails
-        trip.totalPriceIncludingFees = newBundleTotal ?: newTotal
+        if (withCardFee) {
+            trip.totalPriceIncludingFees = newBundleTotal ?: newTotal
+        }
         return trip
     }
 
