@@ -19,6 +19,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -55,6 +56,8 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
+import rx.Observer;
+
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
  * easier to just route through one Activity rather than try to handle it
@@ -77,6 +80,25 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	ClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = new DeepLinkParser();
 
+	Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
+
+		@Override
+		public void onCompleted() {
+			handleDeeplink();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			AbacusHelperUtils.updateAbacus(new AbacusResponse(), DeepLinkRouterActivity.this);
+			handleDeeplink();
+		}
+
+		@Override
+		public void onNext(AbacusResponse abacusResponse) {
+			AbacusHelperUtils.updateAbacus(abacusResponse, DeepLinkRouterActivity.this);
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,7 +106,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			User.loadUser(this, this);
 		}
 		else {
-			handleDeeplink();
+			AbacusHelperUtils.downloadBucketWithWait(this, evaluateAbTests);
 		}
 	}
 

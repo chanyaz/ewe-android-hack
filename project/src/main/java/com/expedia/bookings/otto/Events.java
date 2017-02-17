@@ -781,6 +781,9 @@ public class Events {
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
+			if (filters == null) {
+				filters = "";
+			}
 			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).filters(
 					filters).location(locationName).startDate(startDate).endDate(endDate).build();

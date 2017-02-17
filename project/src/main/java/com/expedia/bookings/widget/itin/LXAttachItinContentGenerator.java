@@ -5,7 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -29,8 +31,14 @@ public class LXAttachItinContentGenerator extends ItinButtonContentGenerator<Iti
 		return new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				NavUtils.goToActivities(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()),
-					NavUtils.FLAG_OPEN_SEARCH);
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP)) {
+					NavUtils.goToActivities(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()),
+							NavUtils.FLAG_OPEN_RESULTS);
+				}
+				else {
+					NavUtils.goToActivities(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()),
+							NavUtils.FLAG_OPEN_SEARCH);
+				}
 				OmnitureTracking.trackAddLxItin();
 			}
 		};

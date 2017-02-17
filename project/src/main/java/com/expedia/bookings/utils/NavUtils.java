@@ -31,6 +31,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -398,12 +399,14 @@ public class NavUtils {
 				intent.putExtra("activityId", searchParams.getActivityId());
 				intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true);
 			}
-			else if (searchParams.getFilters().isEmpty()) {
-				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
-			}
 			else {
-				intent.putExtra("filters", searchParams.getFilters());
-				intent.putExtra(Codes.FROM_DEEPLINK, true);
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.getFilters().isEmpty()) {
+					intent.putExtra("filters", searchParams.getFilters());
+					intent.putExtra(Codes.FROM_DEEPLINK, true);
+				}
+				else {
+					intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+				}
 			}
 		}
 
