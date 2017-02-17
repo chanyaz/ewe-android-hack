@@ -5008,5 +5008,7 @@
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Fetching your trips…</string>
 
 </resources>

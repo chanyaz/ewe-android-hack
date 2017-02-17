@@ -221,6 +221,10 @@
         <item name="android:indeterminateOnly">true</item>
     </style>
 
+    <style name="ProgressBar.AddGuestItin2" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+
     <style name="RatingBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:thumb">@null</item>
