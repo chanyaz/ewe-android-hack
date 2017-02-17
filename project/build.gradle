@@ -210,9 +210,6 @@ android {
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
         buildConfigField "boolean", "IS_SCREENSHOT_BUILD", project.hasProperty("SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
-
-        // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
-        resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
     }
 
     productFlavors {
@@ -228,6 +225,8 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
+            resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
         }
 
         ebookers {
@@ -242,6 +241,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "de", "en_GB", "fi", "fr"
         }
 
         voyages {
@@ -256,6 +256,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "fr"
         }
 
         travelocity {
@@ -270,6 +271,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en_CA", "fr", "fr_CA"
         }
 
         airAsiaGo {
@@ -284,6 +286,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "th", "zh", "zh_HK", "in"
         }
 
         wotif {
@@ -298,6 +301,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         lastMinute {
@@ -312,6 +316,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         samsung {
@@ -326,6 +331,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "ko", "fr", "fr_CA", "en_CA"
         }
 
         orbitz {
@@ -340,6 +346,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         cheapTickets {
@@ -354,6 +361,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         mrJet {
@@ -368,6 +376,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "sv"
         }
     }
 
