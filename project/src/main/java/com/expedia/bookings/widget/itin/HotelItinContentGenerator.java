@@ -26,6 +26,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestionV4;
@@ -471,9 +472,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			cancelHotelRoomButton(container);
 		}
 
-		boolean showEditRoomOption = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(),
-			AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView,
-			R.string.preference_hotel_itin_soft_change_button) && !isSharedItin();
+		boolean showEditRoomOption =
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView) && !isSharedItin();
 
 		if (showEditRoomOption) {
 			//Setting hasEditRoomOption to true till API is ready

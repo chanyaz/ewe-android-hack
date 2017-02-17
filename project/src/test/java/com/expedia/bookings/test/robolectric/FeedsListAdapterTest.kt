@@ -8,6 +8,7 @@ import com.expedia.bookings.data.collections.CollectionLocation
 import com.expedia.bookings.widget.CollectionViewHolder
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.feeds.FeedsListAdapter
+import com.expedia.vm.SignInPlaceHolderViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +34,7 @@ class FeedsListAdapterTest {
                         Pair(FeedsListAdapter.FlightSearchViewModel::class.java, FeedsListAdapter.FeedTypes.FLIGHT_SEARCH_HOLDER),
                         Pair(CollectionLocation::class.java, FeedsListAdapter.FeedTypes.COLLECTION_VIEW_HOLDER),
                         Pair(FeedsListAdapter.HeadingViewModel::class.java, FeedsListAdapter.FeedTypes.HEADING_VIEW_HOLDER),
-                        Pair(FeedsListAdapter.SignInPlaceHolderViewModel::class.java, FeedsListAdapter.FeedTypes.SIGNIN_PLACEHOLDER_VIEW_HOLDER),
+                        Pair(SignInPlaceHolderViewModel::class.java, FeedsListAdapter.FeedTypes.SIGNIN_PLACEHOLDER_VIEW_HOLDER),
                         Pair(FeedsListAdapter.GenericPlaceholderViewModel::class.java, FeedsListAdapter.FeedTypes.GENERIC_PLACEHOLDER_VIEW_HOLDER),
                         Pair(FeedsListAdapter.PopularHotelsTonightViewModel::class.java, FeedsListAdapter.FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER))
 
@@ -107,12 +108,12 @@ class FeedsListAdapterTest {
 
     @Test
     fun onBindViewHolderSignInViewModel() {
-        val firstLine = "firstLine"
-        val secondLine = "secondLine"
+        val firstLine = "firstLineSubject"
+        val secondLine = "secondLineSubject"
         val buttonOneLabel = "buttonOne"
         val buttonTwoLabel = "buttonTwo"
 
-        sut.feedList = listOf(FeedsListAdapter.SignInPlaceHolderViewModel(firstLine, secondLine, buttonOneLabel, buttonTwoLabel))
+        sut.feedList = listOf(SignInPlaceHolderViewModel(firstLine, secondLine, buttonOneLabel, buttonTwoLabel))
         val signInViewHolder = sut.createViewHolder(LinearLayout(context), FeedsListAdapter.FeedTypes.SIGNIN_PLACEHOLDER_VIEW_HOLDER.ordinal)
         val viewModelPosition = 0
 
@@ -153,7 +154,7 @@ class FeedsListAdapterTest {
     private fun givenFeedListWithMockData() {
         val testViewModels = listOf(FeedsListAdapter.PopularHotelsTonightViewModel("", "", "", ""),
                 FeedsListAdapter.GenericPlaceholderViewModel("line 1", "line 2", "", ""),
-                FeedsListAdapter.SignInPlaceHolderViewModel("", "", "", ""),
+                SignInPlaceHolderViewModel("", "", "", ""),
                 FeedsListAdapter.HeadingViewModel(""),
                 FeedsListAdapter.FlightSearchViewModel("", "", false, "", "", "", ""),
                 CollectionLocation())

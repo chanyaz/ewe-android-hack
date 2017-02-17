@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Sign in with {brand} button</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} Expedia+ points</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} Expedia+ points button</string>
     <!-- or -->
     <string name="or">or</string>
+    <!--Create Account -->
+    <string name="Create_Account">CREATE AN ACCOUNT</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">Earn rewards and unlock exclusive deals</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -2189,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} points for this booking!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">You are a valued member!</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">Shop as an {brand} member!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} points for this trip!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -3264,7 +3270,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">SIGN IN</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Signing in…</string>
     <!-- Label for sign out confirmation -->

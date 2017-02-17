@@ -67,6 +67,7 @@
     <color name="exp_launch_packages_blue">#43A2E0</color>
     <color name="exp_launch_rail_teal">#2BB07F</color>
     <color name="exp_launch_dark_teal">#3E6A85</color> <!-- TODO wtf to call this color -->
+    <color name="exp_launch_secondary">#005199</color>
 
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
     <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->

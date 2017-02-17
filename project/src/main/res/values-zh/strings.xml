@@ -62,9 +62,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">每天</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">报价使用的是%s。</string>
+    <string name="cars_checkout_breakdown_us_text">标价使用的是%s。</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">报价使用的是%1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
+    <string name="cars_checkout_breakdown_non_us_text">标价使用的是%1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">每周</string>
     <!-- Cars weekly price templates-->
@@ -110,9 +110,9 @@
     <!-- Car bags text-->
     <string name="car_bags_text">行李</string>
     <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">自动挡档</string>
+    <string name="car_auto_tran_text">自动档</string>
     <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">手动挡档</string>
+    <string name="car_man_tran_text">手动档</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -311,7 +311,7 @@
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">选择日期</string>
     <!-- Select Start date - used for the LX Calendar. -->
-    <string name="select_start_date">选择开始日期</string>
+    <string name="select_start_date">选择出发日期</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晚酒店</string>
     <!-- Missing flight info message -->
@@ -378,7 +378,7 @@
     <!-- LX checkout cost breakdown for alert button -->
     <string name="lx_cost_breakdown_button_text">完成</string>
     <!-- LX checkout price breakdown for POS same as pickup location templates-->
-    <string name="lx_checkout_breakdown_price_disclaimer_text">报价使用的是%s。</string>
+    <string name="lx_checkout_breakdown_price_disclaimer_text">标价使用的是%s。</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">总价</string>
     <!-- Text for error toolbar-->
@@ -1307,6 +1307,8 @@
     <string name="trips_expand_button_label_cont_desc">展开行程按钮</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">升级酒店客房</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">编辑客房信息</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">酒店确认代码</string>
     <!-- Passengers Label -->
@@ -2015,11 +2017,17 @@
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">经济型</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">高级经济舱</string>
+    <string name="cabin_code_premium_coach">高端经济舱</string>
+    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
+    <string name="cabin_code_premium_coach_abbreviated">高端经济舱</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">商务舱</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">头等舱</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">不同舱位</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">选择航班</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -2453,23 +2461,23 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">护照签发国家 / 原籍</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">核查备案号（如适用）</string>
+    <string name="only_if_applicable">身份纠正识别号（如适用）</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">已知旅客编号</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">这是政府签发的、用于 TSA 预检的号码。</string>
     <!-- redress number info msg -->
-    <string name="redress_number_msg">核查备案号是 TSA 发出的唯一编号，目的是帮助 TSA 避免发生观察名单误认并验证您的身份。</string>
+    <string name="redress_number_msg">身份纠正识别号是 TSA 发出的唯一编号，目的是帮助 TSA 避免发生观察名单误认并验证您的身份。</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">正在将旅客信息保存到您的帐户…</string>
     <!-- Seating Preference -->
-    <string name="seating_preference">座位喜好</string>
+    <string name="seating_preference">座位要求</string>
     <!-- Seat Preference -->
     <string name="seat_preference">座位要求</string>
     <!-- Special Assistance -->
     <string name="special_assistance">特殊帮助</string>
     <!-- Add Redress # -->
-    <string name="add_redress_num">添加 Redress #</string>
+    <string name="add_redress_num">添加身份纠正识别号</string>
 
     <!-- Entered invalid birthdate dialog -->
     <string name="invalid_birthdate_message">您输入的年龄与您搜索的旅客的年龄不符。请更新信息，然后再尝试付款。</string>
@@ -3121,7 +3129,7 @@
     <string name="etp_pay_now_cancellation_text">在酒店的取消截止日期之前都可以免费取消。</string>
 
     <!-- ETP pay later deposit info message -->
-    <string name="etp_pay_later_deposit_text">您的押金不会超过预订的总金额。</string>
+    <string name="etp_pay_later_deposit_text">您的订金不会超过预订的总金额。</string>
     <string name="no_charge_text_TEMPLATE">{brand} 不会向您收费。</string>
     <string name="deposit_info_text">订金担保</string>
 
@@ -4753,6 +4761,12 @@
         <item quantity="one">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
         <item quantity="other">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">选择需要的等级。按钮。打开对话框。需要的等级：{seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">选择需要的等级。对话框</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">需要的等级：{class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} 至 {enddate}</string>
@@ -4782,7 +4796,7 @@
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">选择第 {seniornumber} 名老人的年龄。</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
-    <string name="packages_search_datepicker_announce_accessibility_start_date">选择您的开始日期。</string>
+    <string name="packages_search_datepicker_announce_accessibility_start_date">选择您的出发日期。</string>
     <!--Announce for choosing end date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_end_date">选择您的结束日期。</string>
     <!--Packages accessibility flight search filter-->
@@ -4889,6 +4903,8 @@
     <string name="hotel_expanded_room_select_cont_desc">选择客房</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">已禁用</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">国家/地区{country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">价格为 {activity_price}</string>
@@ -4984,9 +5000,11 @@
     <string name="passport_validation_error_message">选择护照国家/地区</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">手动添加您使用访客帐户预订的行程</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">正在搜索您的行程…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">（参见您的确认邮件）</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">请输入有效的行程单号，至少 11 位</string>
     <!-- Itin screen message for signing in-->
-    <string name="itin_sign_in_message">登录以查看您的近期行程</string>
+    <string name="itin_sign_in_message">登录帐户，查看近期行程</string>
 
 </resources>

@@ -59,8 +59,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
             }
             if (packageDetails.pricing.hasResortFee()) {
                 // Total Due Today  $900
-                val totalPrice = createTrip.totalPriceIncludingFees ?: createTrip.packageDetails.pricing.packageTotal
-                breakdowns.add(makeTotalDueTodayRow(totalPrice.formattedMoneyFromAmountAndCurrencyCode, PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
+                breakdowns.add(makeTotalDueTodayRow(createTrip.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedPrice, PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
             }
 
             if (packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {

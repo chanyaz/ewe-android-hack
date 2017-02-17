@@ -36,7 +36,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonOpensWebView() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder()
@@ -103,7 +102,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonAvailable() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().withBookingChangeUrl(getBookingChangeUrl()).build()
@@ -117,7 +115,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonGoneAbTestOff() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
@@ -129,19 +126,8 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
-    fun hotelSoftChangeButtonGoneFeatureOff() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, false)
-        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
-        val container = FrameLayout(activity)
-        val detailsView = hotelItinGenerator.getDetailsView(null, container)
-
-        assertEquals(View.GONE, detailsView.findViewById(R.id.edit_hotel_room_info).visibility)
-    }
-
-    @Test
     fun hotelSoftChangeButtonGoneForSharedItin() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(true).build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
