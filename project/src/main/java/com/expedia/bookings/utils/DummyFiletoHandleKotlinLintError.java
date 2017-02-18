@@ -874,6 +874,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.cabin_code_premium_coach_abbreviated,
 		R.string.flight_detail_cabin_class_desc_TEMPLATE,
 		R.array.flags,
-		R.dimen.itin_pos_header_flag_icon
+		R.dimen.itin_pos_header_flag_icon,
+		R.string.dialog_app_rating_title_alt,
+		R.string.dialog_app_rating_review_button_alt,
+		R.string.dialog_app_rating_feedback_button_alt,
+		R.string.dialog_app_rating_no_button_alt
 	};
 }
