@@ -20,7 +20,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-class AddGuestItinViewModel(val context: Context) {
+open class AddGuestItinViewModel(val context: Context) {
 
     val ITIN_NUMBER_MIN_LENGTH = 9
 
@@ -42,7 +42,7 @@ class AddGuestItinViewModel(val context: Context) {
 
     init {
         Ui.getApplication(context).tripComponent().inject(this)
-
+        ItineraryManager.getInstance().addSyncListener(createSyncAdapter())
         performGuestTripSearch.subscribe { guestEmailItinNumPair ->
             showItinFetchProgressObservable.onNext(Unit)
             ItineraryManager.getInstance().addGuestTrip(guestEmailItinNumPair.first, guestEmailItinNumPair.second)
@@ -63,6 +63,21 @@ class AddGuestItinViewModel(val context: Context) {
             showErrorObservable.onNext(false)
         }).subscribe()
     }
+
+
+    inner class createSyncAdapter() : ItineraryManager.ItinerarySyncAdapter() {
+        override fun onTripFailedFetchingGuestItinerary() {
+            showErrorObservable.onNext(true)
+            showErrorMessageObservable.onNext(context.getString(R.string.unable_to_find_guest_itinerary))
+        }
+
+        override fun onTripFailedFetchingRegisteredUserItinerary() {
+            showErrorObservable.onNext(true)
+            showErrorMessageObservable.onNext(Phrase.from(context.getString(R.string.unable_to_find_registered_user_itinerary_template))
+                    .put("brand", BuildConfig.brand).format().toString())
+        }
+    }
+
 
     fun makeGuestTripResponseObserver(): Observer<AbstractItinDetailsResponse> {
         return object : Observer<AbstractItinDetailsResponse> {
@@ -86,8 +101,7 @@ class AddGuestItinViewModel(val context: Context) {
                                 else
                                     context.getString(R.string.unable_to_find_guest_itinerary))
                     }
-                }
-                else {
+                } else {
                     errorThrowable?.printStackTrace()
                 }
             }
@@ -95,5 +109,9 @@ class AddGuestItinViewModel(val context: Context) {
             override fun onNext(response: AbstractItinDetailsResponse?) {
             }
         }
+    }
+
+    open fun getItinManager(): ItineraryManager {
+       return ItineraryManager.getInstance()
     }
 }

@@ -200,7 +200,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         var responseCode = 200
         when(fileName) {
             "error_trip_response" -> responseCode = 403
-            "error_bad_request_trip_response" -> responseCode = 400
+            "error_bad_request_trip_response" -> responseCode = 403
         }
 
         return makeResponse("/api/trips/$fileName.json", params, responseCode)

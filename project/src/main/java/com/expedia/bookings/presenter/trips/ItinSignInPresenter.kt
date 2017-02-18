@@ -50,12 +50,6 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
     }
 
-    fun showAddGuestItinScreenWithError(errorMessage: String) {
-        showAddGuestItinScreen()
-        addGuestItinWidget.viewModel.showErrorObservable.onNext(true)
-        addGuestItinWidget.viewModel.showErrorMessageObservable.onNext(errorMessage)
-    }
-
     fun showAddGuestItinScreen() {
         if (currentState == null) {
             show(signInWidget)
@@ -81,6 +75,14 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             if (trips?.size == 0 && currentState != addGuestItinWidget.javaClass.name){
                 show(signInWidget, Presenter.FLAG_CLEAR_TOP)
             }
+        }
+
+        override fun onTripFailedFetchingGuestItinerary() {
+            showAddGuestItinScreen()
+        }
+
+        override fun onTripFailedFetchingRegisteredUserItinerary() {
+            showAddGuestItinScreen()
         }
     }
 }

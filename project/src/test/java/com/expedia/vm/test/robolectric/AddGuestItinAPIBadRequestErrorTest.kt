@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
-class AddGuestItinAPIErrorTest {
+class AddGuestItinAPIBadRequestErrorTest {
     private val context = RuntimeEnvironment.application
 
     lateinit private var sut: TestAddGuestItinViewModel
@@ -43,14 +43,14 @@ class AddGuestItinAPIErrorTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun notAuthenticatedGuestItinError() {
+    fun badGuestItinRequestError() {
         val showErrorMessageSubscriber = TestSubscriber<String>()
         val showSearchDialogSubscriber = TestSubscriber<Unit>()
 
         sut.showItinFetchProgressObservable.subscribe(showSearchDialogSubscriber)
         sut.showErrorMessageObservable.subscribe(showErrorMessageSubscriber)
 
-        sut.performGuestTripSearch.onNext(Pair("trip_error@mobiata.com", "error_trip_response"))
+        sut.performGuestTripSearch.onNext(Pair("trip_error@mobiata.com", "error_bad_request_trip_response"))
 
         showSearchDialogSubscriber.requestMore(100L)
         showSearchDialogSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
@@ -59,7 +59,7 @@ class AddGuestItinAPIErrorTest {
 
         showErrorMessageSubscriber.requestMore(100L)
         showErrorMessageSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        showErrorMessageSubscriber.assertValue("This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.")
+        showErrorMessageSubscriber.assertValue("Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.")
     }
 
     class TestAddGuestItinViewModel(context: Context) : AddGuestItinViewModel(context) {

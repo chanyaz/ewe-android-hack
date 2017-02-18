@@ -23,7 +23,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -50,7 +49,6 @@ import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
-import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
 import rx.functions.Action1;
@@ -386,31 +384,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		if (isFetchGuestItinFailure) {
 			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_GUEST_ITINERARY);
 		}
-		if (isNewSignInScreen() && isFetchGuestItinFailure) {
-			if (mSignInPresenter != null) {
-				mSignInPresenter.showAddGuestItinScreenWithError(getString(R.string.unable_to_find_guest_itinerary));
-			}
-		}
-		else {
-			OmnitureTracking.trackFindItin();
-			startActivity(intent);
-		}
+		OmnitureTracking.trackFindItin();
+		startActivity(intent);
 	}
 
 	public synchronized void startAddRegisteredUserItinActivity() {
-		if (isNewSignInScreen()) {
-			if (mSignInPresenter != null) {
-				mSignInPresenter.showAddGuestItinScreenWithError(
-					Phrase.from(getString(R.string.unable_to_find_registered_user_itinerary_template))
-						.put("brand", BuildConfig.brand).format().toString());
-			}
-		}
-		else {
-			Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
-			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
-			OmnitureTracking.trackFindItin();
-			startActivity(intent);
-		}
+
+		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
+		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
+		OmnitureTracking.trackFindItin();
+		startActivity(intent);
 	}
 
 	public synchronized void startLoginActivity() {
