@@ -423,4 +423,7 @@
     <dimen name="hotel_price_per_night_prominent_text_size">19sp</dimen>
     <dimen name="hotel_price_per_night_text_size">15sp</dimen>
 
+    <!-- Itin pos header dropdown -->
+    <dimen name="itin_pos_header_flag_icon">14dp</dimen>
+
 </resources>

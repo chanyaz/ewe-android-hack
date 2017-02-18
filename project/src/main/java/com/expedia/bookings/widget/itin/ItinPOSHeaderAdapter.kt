@@ -16,9 +16,17 @@ import com.squareup.phrase.Phrase
 class ItinPOSHeaderAdapter(val context: Context) : BaseAdapter() {
 
     var pointOfSales = createPOSList()
+    val flagsArray = context.resources.obtainTypedArray(R.array.flags)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = inflateView(position, R.color.white)
+        val icon = view.findViewById(R.id.imageView) as ImageView
+
+        var iconParams = icon.layoutParams
+        iconParams.height = context.resources.getDimension(R.dimen.itin_pos_header_flag_icon).toInt()
+        iconParams.width = context.resources.getDimension(R.dimen.itin_pos_header_flag_icon).toInt()
+        icon.layoutParams = iconParams
+
         return view
     }
 
@@ -27,16 +35,17 @@ class ItinPOSHeaderAdapter(val context: Context) : BaseAdapter() {
         return view
     }
 
-    fun inflateView(position: Int, color: Int) : View {
+    private fun inflateView(position: Int, color: Int): View {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.itin_pos_header_spinner, null)
-
         val icon = view.findViewById(R.id.imageView) as ImageView
         val names = view.findViewById(R.id.textView) as TextView
-        names.setTextColor(ContextCompat.getColor(context, color))
 
-        icon.setImageResource(pointOfSales.get(position).countryFlagResId)
+        names.setTextColor(ContextCompat.getColor(context, color))
         names.text = pointOfSales.get(position).threeLetterCountryCode
+        icon.setImageDrawable(flagsArray.getDrawable(position))
+
+
         view.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_pos_TEMPLATE).put("country_name", getCountryName(position)).format().toString()
         return view
     }
