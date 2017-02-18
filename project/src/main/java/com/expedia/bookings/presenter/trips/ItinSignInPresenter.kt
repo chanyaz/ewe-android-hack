@@ -45,6 +45,9 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             show(itinFetchProgressWidget)
             addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
         }
+        signInWidget.viewModel.syncItinManagerSubject.subscribe {
+            show(itinFetchProgressWidget)
+        }
     }
 
     fun showAddGuestItinScreenWithError(errorMessage: String) {

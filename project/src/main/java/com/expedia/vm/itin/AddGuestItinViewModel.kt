@@ -35,7 +35,7 @@ class AddGuestItinViewModel(val context: Context) {
     val showErrorMessageObservable = PublishSubject.create<String>()
     val toolBarVisibilityObservable = PublishSubject.create<Boolean>()
     val emailFieldFocusObservable = PublishSubject.create<Unit>()
-    val showItinFetchProgressObservable = PublishSubject.create<Boolean>()
+    val showItinFetchProgressObservable = PublishSubject.create<Unit>()
 
     lateinit var tripServices: ItinTripServices
         @Inject set
@@ -44,7 +44,7 @@ class AddGuestItinViewModel(val context: Context) {
         Ui.getApplication(context).tripComponent().inject(this)
 
         performGuestTripSearch.subscribe { guestEmailItinNumPair ->
-            showItinFetchProgressObservable.onNext(true)
+            showItinFetchProgressObservable.onNext(Unit)
             ItineraryManager.getInstance().addGuestTrip(guestEmailItinNumPair.first, guestEmailItinNumPair.second)
         }
 

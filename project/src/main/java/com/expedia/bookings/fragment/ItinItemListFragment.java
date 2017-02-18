@@ -52,6 +52,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
+import kotlin.Unit;
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
 
@@ -236,6 +237,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 						Ui.hideKeyboard(getActivity());
 					}
 				});
+			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
+				new Action1<Unit>() {
+					@Override
+					public void call(Unit unit) {
+						syncItinManager(true, true);
+					}
+				});
 			mEmptyView = mSignInPresenter;
 		}
 		else {
@@ -338,6 +346,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
+		if (isNewSignInScreen() && isLoading) {
+			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
+		}
 	}
 
 	public boolean isLoading() {
