@@ -8,6 +8,7 @@ import cucumber.api.java.en.Then;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -37,5 +38,11 @@ public class SearchResultsScreenSteps {
 	@And("^Validate that flight search results are displayed$")
 	public void validateThatFlightSearchResultsDisplyed() throws Throwable {
 		onView(withId(R.id.list_view)).check(matches(isDisplayed()));
+	}
+
+	@Then("^I click on search icon to go to search form$")
+	public void clickOnSearchIcon() throws Throwable {
+		onView(withId(R.id.sort_filter_button)).perform(waitFor(isCompletelyDisplayed(), 20, TimeUnit.SECONDS));
+		onView(withId(R.id.menu_search)).perform(click());
 	}
 }

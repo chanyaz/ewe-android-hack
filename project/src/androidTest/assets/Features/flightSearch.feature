@@ -229,7 +229,7 @@ Feature: Flights Search
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
 
-  @Flights @SearchScreen @Prod @WIP2
+  @Flights @SearchScreen @Prod
   Scenario: Verify search form retains detaild of last search at re-search from FSR
     Given I launch the App
     And I launch "Flights" LOB
@@ -257,4 +257,4 @@ Feature: Flights Search
     And Validate that flight search results are displayed
     And on FSR the destination is "Madrid"
     And on FSR the date is as user selected
-    And on inbound FSR the number of traveller are as user selected
+    And on outbound FSR the number of traveller are as user selected

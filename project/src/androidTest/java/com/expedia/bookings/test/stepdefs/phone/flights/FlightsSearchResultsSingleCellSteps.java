@@ -5,6 +5,7 @@ import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import cucumber.api.java.en.And;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -14,73 +15,75 @@ import static org.hamcrest.Matchers.not;
 
 
 public class FlightsSearchResultsSingleCellSteps {
-	@And("^Validate that flight time field is displayed: (true|false)$")
-	public void checkVisibilityFlightDuration(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.flight_time_detail_text_view, isDisplayed);
+
+	@And("^Validate that flight time field at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
+	public void checkVisibilityFlightDuration(int cellNumber,boolean isDisplayed, boolean outbound) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.flight_time_detail_text_view, isDisplayed,outbound);
 	}
 
-	@And("^Validate that price field is displayed: (true|false)$")
-	public void checkVisibilityOfPrice(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.price_text_view, isDisplayed);
+	@And("^Validate that price field at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
+	public void checkVisibilityOfPrice(int cellNumber,boolean isDisplayed, boolean outbound) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.price_text_view, isDisplayed,outbound);
 	}
 
-	@And("^Validate that airline name field is displayed: (true|false)$")
-	public void checkVisibilityOfAirlineName(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.airline_text_view, isDisplayed);
+	@And("^Validate that airline name field at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
+	public void checkVisibilityOfAirlineName(int cellNumber,boolean isDisplayed, boolean outbound) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.airline_text_view, isDisplayed,outbound);
 	}
 
-	@And("^Validate that flight duration field is displayed: (true|false)$")
-	public void checkVisibilityOfFlightDuration(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.flight_duration_text_view, isDisplayed);
+	@And("^Validate that flight duration field at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
+	public void checkVisibilityOfFlightDuration(int cellNumber,boolean isDisplayed, boolean outbound) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.flight_duration_text_view, isDisplayed,outbound);
 	}
 
-	@And("^Validate that round trip header is displayed: (true|false)$")
-	public void checkVisibilityOfRoundTripHeader(boolean isDisplayed) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(R.id.trip_type_text_view, isDisplayed);
+	@And("^Validate that round trip header at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
+	public void checkVisibilityOfRoundTripHeader(int cellNumber,boolean isDisplayed, boolean outbound) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.trip_type_text_view, isDisplayed,outbound);
 	}
 
-	private void validateFlightSRPListViewCellItemVisibility(int resId, boolean isDisplayed) {
-		onView(withId(R.id.list_view)).check(RecyclerViewAssertions.assertionOnItemAtPosition(2, hasDescendant(
+	private void validateFlightSRPListViewCellItemVisibility(int cellNumber,int resId, boolean isDisplayed,boolean outBound) {
+		onView(allOf(withId(R.id.list_view),(outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound))))).check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
 			allOf(withId(resId), (isDisplayed ? isDisplayed() : not(isDisplayed()))))));
 	}
 
-	private void checkString(int resID, String text) {
-		onView(withId(R.id.list_view)).check(RecyclerViewAssertions.assertionOnItemAtPosition(2, hasDescendant(
+	private void checkString(int cellNumber,int resID, String text,boolean outBound) {
+		onView(allOf(withId(R.id.list_view),(outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound))))).check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
 			allOf(withId(resID), withText(containsString(text))))));
 	}
 
-	@And("^Name of airline is \"(.*?)\"$")
-	public void checkAirlineName(String airline) throws Throwable {
-		checkString(R.id.airline_text_view, airline);
+	@And("^Name of airline at cell (\\d+) is \"(.*?)\" and isOutBound : (true|false)$")
+	public void checkAirlineName(int cellNumber,String airline, boolean outbound) throws Throwable {
+		checkString(cellNumber,R.id.airline_text_view, airline,outbound);
 	}
 
-	@And("^Price of the flight is (\\d+)$")
-	public void checkPriceOfFlight(int price) throws Throwable {
-		checkString(R.id.price_text_view, String.valueOf(price));
+	@And("^Price of the flight at cell (\\d+) is (\\d+) and isOutBound : (true|false)$")
+	public void checkPriceOfFlight(int cellNumber,int price, boolean outbound) throws Throwable {
+		checkString(cellNumber,R.id.price_text_view, String.valueOf(price),outbound);
 	}
 
-	@And("^Duration of the flight is \"(.*?)\"$")
-	public void checkDuraionOfFlight(String duration) throws Throwable {
-		checkString(R.id.flight_duration_text_view, duration);
+	@And("^Duration of the flight at cell (\\d+) is \"(.*?)\" and isOutBound : (true|false)$")
+	public void checkDuraionOfFlight(int cellNumber,String duration, boolean outbound) throws Throwable {
+		checkString(cellNumber,R.id.flight_duration_text_view, duration,outbound);
 	}
 
-	@And("^Timing of the flight is \"(.*?)\"$")
-	public void checkTimingOfTheFlight(String timing) throws Throwable {
-		checkString(R.id.flight_time_detail_text_view, timing);
+	@And("^Timing of the flight at cell (\\d+) is \"(.*?)\" and isOutBound : (true|false)$")
+	public void checkTimingOfTheFlight(int cellNumber,String timing, boolean outbound) throws Throwable {
+		checkString(cellNumber,R.id.flight_time_detail_text_view, timing,outbound);
 	}
 
-	@And("^Number of stops are (\\d+)$")
-	public void numberOfStops(int stops) throws Throwable {
+	@And("^Number of stops at cell (\\d+) are (\\d+) and isOutBound : (true|false)$")
+	public void numberOfStops(int cellNumber,int stops, boolean outbound) throws Throwable {
 		if (stops > 0) {
-			checkString(R.id.flight_duration_text_view, (String.valueOf(stops) + " Stop"));
+			checkString(cellNumber,R.id.flight_duration_text_view, (String.valueOf(stops) + " Stop"),outbound);
 		}
 		else {
-			checkString(R.id.flight_duration_text_view, "Nonstop");
+			checkString(cellNumber,R.id.flight_duration_text_view, "Nonstop",outbound);
 		}
 	}
 
-	@And("^the currency symbol on FSR is \"(.*?)\"$")
-	public void checkCurrencyOnFSR(String currencySymbol) throws Throwable {
-		checkString(R.id.price_text_view, currencySymbol);
+	@And("^the currency symbol at cell (\\d+) on FSR is \"(.*?)\" and isOutBound : (true|false)$")
+	public void checkCurrencyOnFSR(int cellNumber,String currencySymbol, boolean outbound) throws Throwable {
+		checkString(cellNumber,R.id.price_text_view, currencySymbol,outbound);
 	}
 }
+

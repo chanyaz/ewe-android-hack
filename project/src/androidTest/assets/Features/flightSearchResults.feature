@@ -61,20 +61,20 @@ Feature: Flights Search Results Screen Tests
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    Then Validate that flight time field is displayed: true
-    And Validate that price field is displayed: true
-    And Validate that airline name field is displayed: true
-    And Validate that flight duration field is displayed: true
-    And Validate that round trip header is displayed: true
-    And Name of airline is "<AirlineName>"
-    And Price of the flight is <price>
-    And Duration of the flight is "<duration>"
-    And Timing of the flight is "<timing>"
-    And Number of stops are <number>
+    Then Validate that flight time field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that flight duration field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that round trip header at cell <cellNumber> is displayed: true and isOutBound : true
+    And Name of airline at cell <cellNumber> is "<AirlineName>" and isOutBound : true
+    And Price of the flight at cell <cellNumber> is <price> and isOutBound : true
+    And Duration of the flight at cell <cellNumber> is "<duration>" and isOutBound : true
+    And Timing of the flight at cell <cellNumber> is "<timing>" and isOutBound : true
+    And Number of stops at cell <cellNumber> are <number> and isOutBound : true
 
     Examples:
-      | AirlineName    | price | duration | timing             | number |
-      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      |
+      | AirlineName    | price | duration | timing             | number | cellNumber |
+      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      | 2          |
 
 
   @Flights @SearchScreen @CALocale @Prod
@@ -91,11 +91,9 @@ Feature: Flights Search Results Screen Tests
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And Validate that flight search results are displayed
-    Then the currency symbol on FSR is "US$"
+    Then the currency symbol at cell 2 on FSR is "US$" and isOutBound : true
 
-
-  @Flights @SearchScreen @CALocale @Prod
+  @Flights @SearchScreen @CALocale @Prod @WIP
   Scenario: POS and locale combination
     Given I launch the App
     And I set the POS to "Canada"
@@ -111,4 +109,37 @@ Feature: Flights Search Results Screen Tests
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    Then the currency symbol on FSR is "$"
+    Then the currency symbol at cell 2 on FSR is "$" and isOutBound : true
+
+  @Flights @Search @FlightResults
+  Scenario Outline: Data consistency between Outbound and Inbound FSR and cell UI validations
+    Given I launch the App
+    And I bucket the following tests
+      | RoundTripOnFlightsFSR |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I select first flight
+    Then Validate that flight time field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that flight duration field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that round trip header at cell <cellNumber> is displayed: true and isOutBound : false
+    And Name of airline at cell <cellNumber> is "<AirlineName>" and isOutBound : false
+    And Price of the flight at cell <cellNumber> is <price> and isOutBound : false
+    And Duration of the flight at cell <cellNumber> is "<duration>" and isOutBound : false
+    And Timing of the flight at cell <cellNumber> is "<timing>" and isOutBound : false
+    And Number of stops at cell <cellNumber> are <number> and isOutBound : false
+
+    Examples:
+      | AirlineName       | price | duration | timing             | number | cellNumber |
+      | American Airlines | 696   | 2h 35m   | 5:40 pm - 8:15 pm  | 0      | 1          |
+
