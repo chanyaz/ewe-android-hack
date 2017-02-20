@@ -504,7 +504,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            searchPresenter.showSuggestionState(selectOrigin = false)
+            if(!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch)) {
+                searchPresenter.showSuggestionState(selectOrigin = false)
+            }
             HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }

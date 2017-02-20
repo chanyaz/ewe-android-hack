@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
@@ -41,8 +43,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             updateDestinationText(locationText)
-            if (this.visibility == VISIBLE && vm.startDate() == null) {
-                calendarWidgetV2.showCalendarDialog()
+            if(!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch)) {
+                if (this.visibility == VISIBLE && vm.startDate() == null) {
+                    calendarWidgetV2.showCalendarDialog()
+                }
             }
         }
         vm.errorNoDestinationObservable.subscribe {
