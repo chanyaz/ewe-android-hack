@@ -31,8 +31,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
+import org.robolectric.shadows.ShadowView
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -166,5 +168,17 @@ class AccountButtonTest {
         val noReward = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS_V2)
         assertNull(noReward)
 
+    }
+
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.MRJET, MultiBrand.EBOOKERS))
+    fun testSignInBackgroundWithNoRewards() {
+        val isTablet = false
+        Db.getTripBucket().clear()
+
+        accountButton.bind(false, false, null, LineOfBusiness.HOTELS)
+        val loginContainer = accountButton.findViewById(R.id.account_login_container);
+        val shadowDrawable = Shadows.shadowOf(loginContainer.background);
+
+        assertEquals(R.drawable.material_cko_acct_btn_bg, shadowDrawable.createdFromResId)
     }
 }
