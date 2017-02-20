@@ -594,7 +594,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onTripFailedFetchingGuestItinerary() {
 		boolean isFetchGuestItinFailure = true;
-		startAddGuestItinActivity(isFetchGuestItinFailure);
+		if (!isNewSignInScreen()) {
+			startAddGuestItinActivity(isFetchGuestItinFailure);
+		}
 	}
 
 	@Override
