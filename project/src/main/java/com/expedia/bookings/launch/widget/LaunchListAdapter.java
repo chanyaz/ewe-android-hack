@@ -390,7 +390,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private static class HeaderViewModel {
-
 	}
 
 	public int getOffset() {
