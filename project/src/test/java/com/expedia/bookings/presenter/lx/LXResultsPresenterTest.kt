@@ -115,7 +115,7 @@ class LXResultsPresenterTest {
         val sortText = toolbarSortFilter.getChildAt(0) as TextView
         val filterText = lxResultsPresenter.findViewById(R.id.filter_text) as TextView
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariate.BUCKETED)
+        lxCategoriesABTest(AbacusUtils.DefaultVariant.BUCKETED)
         buildSearchParams()
         assertEquals(View.VISIBLE, themeResultsWidget.visibility)
         assertEquals(View.GONE, searchResultsWidget.visibility)
@@ -129,7 +129,7 @@ class LXResultsPresenterTest {
         assertNotNull(lxResultsPresenter.searchSubscription)
         assertEquals(false, lxResultsPresenter.searchSubscription.isUnsubscribed)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariate.CONTROL)
+        lxCategoriesABTest(AbacusUtils.DefaultVariant.CONTROL)
 
     }
 
@@ -212,17 +212,17 @@ class LXResultsPresenterTest {
         assertEquals(View.GONE, themeResultsWidget.visibility)
         assertEquals(View.VISIBLE, searchResultsWidget.visibility)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariate.BUCKETED)
+        lxCategoriesABTest(AbacusUtils.DefaultVariant.BUCKETED)
         lxResultsPresenter.setUserBucketedForCategoriesTest(true)
 
         Events.post(Events.LXShowLoadingAnimation())
         assertEquals(View.VISIBLE, themeResultsWidget.visibility)
         assertEquals(View.GONE, searchResultsWidget.visibility)
 
-        lxCategoriesABTest(AbacusUtils.DefaultVariate.CONTROL)
+        lxCategoriesABTest(AbacusUtils.DefaultVariant.CONTROL)
     }
 
-    private fun lxCategoriesABTest(defaultVariate: AbacusUtils.DefaultVariate) {
+    private fun lxCategoriesABTest(defaultVariate: AbacusUtils.DefaultVariant) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXCategoryABTest,
                 defaultVariate.ordinal)

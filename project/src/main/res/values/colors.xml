@@ -155,7 +155,7 @@
     <color name="hotel_member_pricing_color_test">#FFC60B</color>
     <color name="hotel_sold_out_color">@color/gray6</color>
     <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
-    <color name="hotel_earn_message_text_color">#c4204b</color>
+    <color name="hotel_earn_message_text_color">@color/gray6</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>
@@ -433,7 +433,7 @@
     <color name="hotelsv2_coupon_applied_color">@color/defaultTextColor</color>
 
     <!-- Signed in user tier colors -->
-    <color name="sign_in_user_base_tier">#0085c9</color>
+    <color name="sign_in_user_base_tier">#085ba5</color>
     <color name="sign_in_user_middle_tier">#808080</color>
     <color name="sign_in_user_top_tier">#e7b40d</color>
 
@@ -514,7 +514,7 @@
     <color name="search_origin_dest_divider">@color/gray3</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">@color/gray6</color>
-    <color name="search_suggestion_hint_v2">@color/gray6_65</color>
+    <color name="search_suggestion_hint_v2">@color/gray6</color>
     <color name="search_autocomplete_text">@color/gray6</color>
     <color name="traveler_picker_main_text">@color/gray8</color>
     <color name="traveler_picker_secondary_text">@color/gray6</color>

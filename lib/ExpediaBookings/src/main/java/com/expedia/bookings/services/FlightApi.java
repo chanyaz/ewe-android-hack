@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightSearchResponse;
 
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -18,7 +19,9 @@ public interface FlightApi {
 	@FormUrlEncoded
 	@POST("/api/flight/search?maxOfferCount=1600&lccAndMerchantFareCheckoutAllowed=true")
 	Observable<FlightSearchResponse> flightSearch(
-			@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges, @Query("cabinClassPreference") String cabinClass);
+		@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges,
+		@Query("cabinClassPreference") String cabinClass, @Field("ul") Integer legNo,
+		@Field("fl0") String selectedOutboundId);
 
 	@FormUrlEncoded
 	@POST("/api/flight/trip/create?withInsurance=true")

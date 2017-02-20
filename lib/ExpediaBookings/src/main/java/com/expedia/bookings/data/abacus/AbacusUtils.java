@@ -38,12 +38,13 @@ public class AbacusUtils {
 	public static final int EBAndroidAppTripsUserReviews = 13257;
 	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
+	public static final int EBAndroidAppFlightByotSearch = 13202;
 	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
 	public static final int EBAndroidAppHotelColorSwitch = 13247;
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
 	public static final int EBAndroidAppMaterialFlightDistanceOnDetails = 12766;
 	public static final int EBAndroidAppHotelImageLoadLatency = 12908;
-	public static final int EBAndroidAppHotelPriceProminance = 12974;
+	public static final int EBAndroidAppHotelPriceProminence = 12974;
 	public static final int EBAndroidAppFlightPremiumClass = 13035;
 	public static final int EBAndroidAppTripsNewSignInPage = 13023;
 	public static final int EBAndroidAppHotelHideNoReviewRating = 13079;
@@ -53,24 +54,19 @@ public class AbacusUtils {
 	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
+	public static final int EBAndroidAppShowCarWebView = 12913;
+	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
-	public enum DefaultVariate {
+	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
 	}
 
-	public enum HotelSuperlativeReviewsVariate {
+	public enum TripsPopularHotelsVariant {
 		CONTROL,
-		WITH_COLOR_NO_SUPERLATIVES,
-		NO_COLOR_WITH_SUPERLATIVES,
-		WITH_COLOR_WITH_SUPERLATIVES
-	}
-
-	public enum HotelFilterProminenceVariate {
-		CONTROL,
-		NEVER_HIDE_SORT_FILTER,
-		FILTER_IN_NAV_BAR
+		VARIANT1,
+		VARIANT2
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -106,16 +102,19 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
 		testIDs.add(EBAndroidAppMaterialFlightDistanceOnDetails);
 		testIDs.add(EBAndroidAppHotelImageLoadLatency);
-		testIDs.add(EBAndroidAppHotelPriceProminance);
+		testIDs.add(EBAndroidAppHotelPriceProminence);
 		testIDs.add(EBAndroidAppFlightPremiumClass);
 		testIDs.add(EBAndroidAppTripsNewSignInPage);
 		testIDs.add(EBAndroidAppHotelHideNoReviewRating);
+		testIDs.add(EBAndroidAppFlightByotSearch);
 		testIDs.add(EBAndroidAppShowSignInCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelMemberPricingBadge);
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
 		testIDs.add(EBAndroidAppTripsHotelSoftChangeWebView);
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
+		testIDs.add(EBAndroidAppShowCarWebView);
+		testIDs.add(EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		return testIDs;
 	}
 

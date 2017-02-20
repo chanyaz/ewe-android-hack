@@ -46,7 +46,7 @@ class NewLaunchLobWidgetTest {
         checkLOBsAvailable()
         for (pos in PointOfSale.getAllPointsOfSale(getContext())) {
             SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.pointOfSaleId.id.toString())
-            newLaunchLobWidget.viewModel.posChangeSubject.onNext(Unit)
+            newLaunchLobWidget.viewModel.posChangeSubject?.onNext(Unit)
             checkLOBsAvailable()
         }
     }

@@ -118,7 +118,6 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
                 seatPreferenceAdapter.currentPosition = seatPreferenceAdapter.getSeatPreferencePosition(seatPref)
                 val seatStringTemplate = context.getString(R.string.prefers_seat_colored_TEMPLATE2)
                 seatPreferenceEditBox.setText(String.format(seatStringTemplate, Strings.capitalizeFirstLetter(seatPref.name)))
-                seatPreferenceEditBox.setTextColor(ContextCompat.getColor(context, R.color.checkout_traveler_birth_color))
             }
             else {
                 seatPreferenceSpinner.setSelection(seatPreferenceAdapter.getSeatPreferencePosition(seatPref))
@@ -130,7 +129,6 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
                 assistanceAdapter.currentPosition = assistanceAdapter.getAssistanceTypePosition(assist)
                 val assistanceString = assistanceAdapter.getItem(assistanceAdapter.getAssistanceTypePosition(assist))
                 assistancePreferenceEditBox.setText(assistanceString)
-                assistancePreferenceEditBox.setTextColor(ContextCompat.getColor(context, R.color.checkout_traveler_birth_color))
             }
             else {
                 assistancePreferenceSpinner.setSelection(assistanceAdapter.getAssistanceTypePosition(assist))

@@ -110,9 +110,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="4dp"
         android:src="@drawable/ic_transition_map_list_fab"
-        android:background="?attr/primary_color"/>
+        android:background="?attr/primary_color"
+        app:useCompatPadding="true" />
 
     <com.expedia.bookings.widget.HotelFilterView
         android:id="@+id/filter_view"

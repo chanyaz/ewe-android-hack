@@ -878,6 +878,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.dialog_app_rating_review_button_alt,
 		R.string.dialog_app_rating_feedback_button_alt,
 		R.string.dialog_app_rating_no_button_alt,
-		R.string.flight_detail_cabin_class_desc_TEMPLATE
+		R.string.flight_detail_cabin_class_desc_TEMPLATE,
+		R.bool.force_hotel_loyalty_earn_message
 	};
 }

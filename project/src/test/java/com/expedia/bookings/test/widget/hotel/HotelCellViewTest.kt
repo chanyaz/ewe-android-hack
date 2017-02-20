@@ -21,13 +21,12 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
-import com.expedia.vm.hotel.HotelViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +40,7 @@ import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
-class HotelCellViewFavoriteTest {
+class HotelCellViewTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
@@ -146,11 +145,16 @@ class HotelCellViewFavoriteTest {
     }
 
     @Test fun testEarnMessaging() {
+        SettingUtils.save(getContext(), R.string.preference_enable_hotel_loyalty_earn_message, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
+
         val hotel = makeHotel()
+        givenHotelWithFreeCancellation(hotel)
+
         PointOfSaleTestConfiguration.configurePointOfSale(getContext(), "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
-        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
+
         hotelViewHolder.bindHotelData(hotel)
-        Assert.assertEquals(View.GONE, hotelViewHolder.topAmenityTitle.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.topAmenityTitle.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
     }
 
@@ -203,5 +207,9 @@ class HotelCellViewFavoriteTest {
 
     private fun givenHotelWithFewRoomsLeft(hotel: Hotel) {
         hotel.roomsLeftAtThisRate = 3
+    }
+
+    private fun givenHotelWithFreeCancellation(hotel: Hotel) {
+        hotel.hasFreeCancellation = true
     }
 }

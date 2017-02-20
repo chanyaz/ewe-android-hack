@@ -137,6 +137,9 @@ public class PointOfSale {
 	// Whether to show rails on this POS
 	private boolean mSupportsRails;
 
+	// Whether to show Cars WebView on this POS
+	private boolean mSupportsCarsWebView;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -200,6 +203,7 @@ public class PointOfSale {
 
 	private boolean isSWPEnabledForHotels;
 	private boolean isEarnMessageEnabledForHotels;
+	private boolean isEarnMessageEnabledForHotelsV2;
 	private boolean isEarnMessageEnabledForFlights;
 	private boolean isEarnMessageEnabledForPackages;
 
@@ -660,6 +664,10 @@ public class PointOfSale {
 		return mShowFlightsFreeCancellation;
 	}
 
+	public boolean supportsCarsWebView() {
+		return mSupportsCarsWebView;
+	}
+
 	/**
 	 * Helper method to determine if flights are enabled and if we need to even
 	 * kick off a flight search - TABLETS ONLY.
@@ -861,7 +869,7 @@ public class PointOfSale {
 	}
 
 	public boolean isEarnMessageEnabledForHotels() {
-		return isEarnMessageEnabledForHotels;
+		return isEarnMessageEnabledForHotels || isEarnMessageEnabledForHotelsV2;
 	}
 
 	public boolean isEarnMessageEnabledForFlights() {
@@ -1279,6 +1287,7 @@ public class PointOfSale {
 		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
+		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
@@ -1304,6 +1313,7 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForPackages = data.optBoolean("earnMessageEnabled:packages", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
+		pos.isEarnMessageEnabledForHotelsV2 = data.optBoolean("earnMessageEnabledV2:hotels", false);
 		pos.shouldShowWebCheckout = data.optBoolean("shouldShowWebCheckout", false);
 		pos.hotelsWebCheckoutURL = data.optString("webCheckoutURL:hotels");
 		pos.hotelsWebBookingConfirmationURL = data.optString("webBookingConfirmationURL:hotels");

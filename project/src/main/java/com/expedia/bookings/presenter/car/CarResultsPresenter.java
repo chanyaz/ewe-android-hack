@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,6 +113,7 @@ public class CarResultsPresenter extends Presenter {
 	private int searchTop;
 	private CarSearch filteredSearch = new CarSearch();
 	PublishSubject filterDonePublishSubject = PublishSubject.create();
+	PublishSubject locationDescriptionSubject = PublishSubject.create();
 
 	@Override
 	protected void onFinishInflate() {
@@ -470,7 +472,14 @@ public class CarResultsPresenter extends Presenter {
 		if (searchedParams != null) {
 			String dateTimeRange = DateFormatUtils.formatStartEndDateTimeRange(getContext(), searchedParams.getStartDateTime(),
 				searchedParams.getEndDateTime(), false);
-			toolBarDetailText.setText(searchedParams.getOriginDescription());
+			if (!TextUtils.isEmpty(searchedParams.getOriginDescription())) {
+				toolBarDetailText.setText(searchedParams.getOriginDescription());
+			}
+			else if (unfilteredSearch.categories != null && unfilteredSearch.categories.size() > 0 && unfilteredSearch.categories.get(0).offers.size() > 0) {
+				String locationDescription = unfilteredSearch.categories.get(0).offers.get(0).pickUpLocation.locationDescription;
+				toolBarDetailText.setText(locationDescription);
+				locationDescriptionSubject.onNext(locationDescription);
+			}
 			toolBarSubtitleText.setText(dateTimeRange);
 		}
 	}
