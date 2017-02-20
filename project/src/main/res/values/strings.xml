@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">Prem. Eco.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->

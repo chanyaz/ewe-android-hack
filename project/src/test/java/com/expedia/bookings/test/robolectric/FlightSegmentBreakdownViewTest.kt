@@ -9,7 +9,6 @@ import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,14 +40,12 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     fun testSeatClassAndBookingCodeViewForFlightPremiumAbacusTest() {
-        SettingUtils.save(getContext(), R.string.preference_flight_premium_class, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
         seatClassAndBookingCodeTestCases()
     }
 
     @Test
     fun testSeatClassAndBookingCodeViewForAllAbacusTest() {
-        SettingUtils.save(getContext(), R.string.preference_flight_premium_class, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode, AbacusUtils.EBAndroidAppFlightPremiumClass)
         seatClassAndBookingCodeTestCases();
     }
@@ -86,7 +83,6 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     fun testSeatClassAndBookingCodeViewVisibilityForFlightPremiumAbacusTest() {
-        SettingUtils.save(getContext(), R.string.preference_flight_premium_class, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
@@ -100,7 +96,6 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     fun testSeatClassAndBookingCodeViewVisibilityForAllActiveAbacusTest() {
-        SettingUtils.save(getContext(), R.string.preference_flight_premium_class, true)
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
@@ -109,7 +104,6 @@ class FlightSegmentBreakdownViewTest {
 
     @Test
     fun testSeatClassAndBookingCodeViewVisibilityForAllInActiveAbacusTest() {
-        SettingUtils.save(getContext(), R.string.preference_flight_premium_class, true)
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")

@@ -32,7 +32,6 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import rx.observers.TestSubscriber;
@@ -102,7 +101,6 @@ public class FlightSearchPresenterTest {
 		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
 		assertEquals(searchBtn.getText().toString(), activity.getResources().getString(R.string.search));
 
-		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 
 		Ui.getApplication(activity).defaultFlightComponents();
@@ -232,12 +230,10 @@ public class FlightSearchPresenterTest {
 	}
 
 	private void testFlightCabinClassWidgetVisibility() {
-		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 
 		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
 
 		ViewStub flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
 		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
@@ -254,7 +250,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testFlightCabinClassValue() {
-		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 		String cabinClassCoachName =  activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
 		String cabinClassBusinessName = activity.getResources().getString(FlightServiceClassType.CabinCode.BUSINESS.getResId());

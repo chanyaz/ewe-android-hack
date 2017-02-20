@@ -14,21 +14,13 @@ object FlightServiceClassType {
         FIRST(R.string.cabin_code_first, "F")
     }
 
-    private fun getCabinCodeResourceId(seatClass: String): Int {
+    fun getCabinCodeResourceId(seatClass: String): Int {
         when (seatClass) {
             "coach" -> return CabinCode.COACH.resId
             "premium coach" -> return CabinCode.PREMIUM_COACH.resId
             "business" -> return CabinCode.BUSINESS.resId
             "first" -> return CabinCode.FIRST.resId
             else -> throw RuntimeException("Ran into unknown cabin code: " + seatClass)
-        }
-    }
-
-    fun getCabinCodeResourceIdForSRP(seatClass: String): Int {
-        if (seatClass == "premium coach") {
-            return R.string.cabin_code_premium_coach_abbreviated
-        } else {
-            return getCabinCodeResourceId(seatClass)
         }
     }
 

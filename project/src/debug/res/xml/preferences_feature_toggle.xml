@@ -76,18 +76,6 @@
             android:layout="@layout/preference"
             android:summary="Enable 3DS payment webview checkout"
             android:title="Enable 3DS payment" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Material Flight Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_flight_premium_class"
-            android:layout="@layout/preference"
-            android:summary="Show Flight Premium Class"
-            android:title="Show Flight Premium Class" />
     </PreferenceCategory>
 
     <PreferenceCategory
