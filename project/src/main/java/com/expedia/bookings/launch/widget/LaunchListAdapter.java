@@ -20,7 +20,6 @@ import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.widget.CollectionViewHolder;
@@ -439,9 +438,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForSignIn(Context context) {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-				R.string.preference_show_sign_in_on_launch_screen);
-
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 	}
 }

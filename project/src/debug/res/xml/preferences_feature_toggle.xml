@@ -11,12 +11,6 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_show_sign_in_on_launch_screen"
-            android:layout="@layout/preference"
-            android:summary="Show sign in card to guest users on launch screen"
-            android:title="Enable Sign In Card on Launch Screen" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
