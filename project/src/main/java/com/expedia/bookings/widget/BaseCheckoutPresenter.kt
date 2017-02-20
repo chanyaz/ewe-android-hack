@@ -20,10 +20,10 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
@@ -41,11 +41,11 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.unsubscribeOnClick
 import com.expedia.util.safeSubscribe
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeText
 import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
@@ -465,7 +465,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
     }
 
-    /** Slide to book **/
+    /** Slide to purchase **/
     override fun onSlideStart() {
     }
 
