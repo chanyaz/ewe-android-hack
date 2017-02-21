@@ -18,12 +18,14 @@ import android.view.ViewGroup;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -40,9 +42,11 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
+import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsHelperKt;
 import com.expedia.vm.ActiveItinViewModel;
+import com.expedia.vm.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -56,6 +60,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
+			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 		    || itemViewKey == LaunchDataItem.ACTIVE_ITIN_VIEW
 			|| itemViewKey == LaunchDataItem.POPULAR_HOTELS
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
@@ -125,6 +130,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
 			return new SignInPlaceholderCard(view, context);
 		}
+		else if (viewType == LaunchDataItem.AIR_ATTACH_VIEW) {
+			View view = LayoutInflater.from(context).inflate(R.layout.launch_screen_air_attach_card, parent, false);
+			return new LaunchScreenAirAttachCard(view);
+		}
 		else if (viewType == LaunchDataItem.POPULAR_HOTELS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			BigImageLaunchViewModel vm = getPopularHotelViewModel();
@@ -188,6 +197,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
+		}
+		else if (holder instanceof LaunchScreenAirAttachCard) {
+			Trip recentUpcomingFlightTrip = TripUtils.getRecentUpcomingFlightTrip(ItineraryManager.getInstance().getTrips());
+			TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
+			HotelSearchParams hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
+			String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
+
+			LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView, recentUpcomingFlightTrip, hotelSearchParams, cityName);
+			((LaunchScreenAirAttachCard) holder).bind(viewModel);
 		}
 		else if (holder instanceof ActiveItinLaunchCard) {
 			((ActiveItinLaunchCard) holder).bind(" ", makeActiveItinViewModel());
@@ -269,6 +287,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		if (showActiveItin()) {
 			items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
+		}
+		if (showAirAttachMessage()) {
+			items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
 		}
 		if (showMemberDeal()) {
 			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
@@ -395,6 +416,16 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return userBucketedForSignIn(context) && !User.isLoggedIn(context);
 	}
 
+	private boolean showAirAttachMessage() {
+		return userBucketedForAirAttach(context) && User.isLoggedIn(context)
+			&& isUserAirAttachQualified();
+	}
+
+	@VisibleForTesting
+	public boolean isUserAirAttachQualified() {
+		return Db.getTripBucket().isUserAirAttachQualified();
+	}
+
 	private boolean showActiveItin() {
 		return userBucketedForActiveItin() && customerHasTripsInNextTwoWeeks();
 	}
@@ -406,6 +437,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private boolean userBucketedForSignIn(Context context) {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 	}
+
+	private boolean userBucketedForAirAttach(Context context) {
+		return FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen,
+				R.string.preference_show_air_attach_message_on_launch_screen);
+	}
+
 
 	private boolean showMemberDeal() {
 		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen) && User.isLoggedIn(context);

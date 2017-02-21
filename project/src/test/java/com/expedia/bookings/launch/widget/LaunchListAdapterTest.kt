@@ -61,6 +61,7 @@ class LaunchListAdapterTest {
         AbacusTestUtils.resetABTests()
 
         SettingUtils.save(context, R.string.preference_active_itin_on_launch, false)
+        SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, false)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, false)
     }
 
@@ -112,6 +113,34 @@ class LaunchListAdapterTest {
 
         val thirdPosition = sut.getItemViewType(2)
         assertEquals(LaunchDataItem.ACTIVE_ITIN_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = sut.getItemViewType(5)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+    }
+
+    @Test
+    fun itemViewPosition_showing_hotels_airAttach_memberDeals_popularHotels() {
+        givenPopularHotelsCardEnabled()
+        givenAirAttachCardEnabled()
+        givenMemberDealsCardEnabled()
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
         assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
@@ -286,6 +315,31 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    fun getItemViewType_ShowingHotels_CustomerSignedIn_ActiveItin_AirAttach() {
+        givenAirAttachCardEnabled()
+        givenSignInCardEnabled()
+        givenActiveItinCardEnabled()
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.ACTIVE_ITIN_VIEW, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+    }
+
+    @Test
     fun getItemViewType_ShowingHotels_ShowSignInAfterSignOut() {
         givenSignInCardEnabled()
 
@@ -410,6 +464,51 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         assertTrue(sut.isStaticCardAlreadyShown(LaunchDataItem.ACTIVE_ITIN_VIEW))
+    }
+
+    @Test
+    fun getItemViewType_ShowingAirAttach() {
+        givenAirAttachCardEnabled()
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveStaffPicks()
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+    }
+
+    @Test
+    fun getItemViewType_ShowingLobView_ShowingPopularHotels_AirAttach() {
+        givenAirAttachCardEnabled()
+        givenPopularHotelsCardEnabled()
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
@@ -590,9 +689,19 @@ class LaunchListAdapterTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, 1)
     }
 
+    private fun givenAirAttachCardEnabled() {
+        SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, true)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen, 1)
+    }
+
     class TestLaunchListAdapter(context: Context?, header: View?, var hasTripsInTwoWeeks: Boolean = true) : LaunchListAdapter(context, header) {
         override fun customerHasTripsInNextTwoWeeks(): Boolean {
             return hasTripsInTwoWeeks
         }
+
+        override fun isUserAirAttachQualified(): Boolean {
+            return true
+        }
     }
+
 }

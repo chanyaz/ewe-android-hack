@@ -18,6 +18,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
@@ -25,6 +26,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.requestLocationPermission
 import com.mobiata.android.Log
@@ -69,6 +71,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
     override fun onResume() {
         super.onResume()
+        newPhoneLaunchWidget.refreshState()
         Events.register(this)
         Events.post(Events.PhoneLaunchOnResume())
         val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -106,7 +109,12 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     private fun signalAirAttachState() {
-        newPhoneLaunchWidget.showAirAttachBanner.onNext(Db.getTripBucket().isUserAirAttachQualified)
+        if (!FeatureToggleUtil
+                .isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen,
+                        R.string.preference_show_air_attach_message_on_launch_screen)) {
+            newPhoneLaunchWidget.showAirAttachBanner.onNext(Db.getTripBucket().isUserAirAttachQualified)
+        }
+
     }
 
     override fun onPause() {

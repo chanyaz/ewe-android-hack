@@ -2698,6 +2698,8 @@ public class OmnitureTracking {
 	private static final String AIR_ATTACH_PHONE_BANNER = "Launch Screen";
 	private static final String AIR_ATTACH_PHONE_BANNER_REF = "App.LS.AttachEligible";
 	private static final String AIR_ATTACH_PHONE_BANNER_CLICK = "App.LS.AttachHotel";
+	private static final String AIR_ATTACH_PHONE_LAUNCH_SCREEN = "App Landing";
+	private static final String AIR_ATTACH_PHONE_LAUNCH_SCREEN_CLICK = "App.LS.Attach.Hotel";
 
 	public static void trackAirAttachItinCrossSell() {
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -2718,6 +2720,14 @@ public class OmnitureTracking {
 		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_CLICK);
 		s.setProp(16, AIR_ATTACH_PHONE_BANNER_CLICK);
 		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
+	}
+
+	public static void trackPhoneAirAttachLaunchScreenClick() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(12, "Launch.Attach.Hotel");
+		s.setEvar(28, AIR_ATTACH_PHONE_LAUNCH_SCREEN_CLICK);
+		s.setProp(16, AIR_ATTACH_PHONE_LAUNCH_SCREEN_CLICK);
+		s.trackLink(null, "o", AIR_ATTACH_PHONE_LAUNCH_SCREEN, null, null);
 	}
 
 	public static void trackAddAirAttachHotel() {

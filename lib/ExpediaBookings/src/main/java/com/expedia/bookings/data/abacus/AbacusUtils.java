@@ -58,6 +58,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
 	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
+	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
 	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
 	public static final int ExpediaAndroidAppPhablet = 13350;
 	public static final int EBAndroidAppShowCarWebView = 12913;
@@ -77,6 +78,12 @@ public class AbacusUtils {
 		CONTROL,
 		VARIANT1,
 		VARIANT2
+	}
+
+	public enum LaunchScreenAirAttachVariant {
+		CONTROL,
+		UP_TO_XX_PERCENT_OFF,
+		BECAUSE_YOU_BOOKED_A_FLIGHT
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -121,6 +128,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelHideNoReviewRating);
 		testIDs.add(EBAndroidAppFlightByotSearch);
 		testIDs.add(EBAndroidAppShowSignInCardOnLaunchScreen);
+		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelMemberPricingBadge);
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
 		testIDs.add(EBAndroidAppHotelUrgencyMessage);
@@ -135,6 +143,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLaunchShowActiveItinCard);
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
 		testIDs.add(EBAndroidAppHotelResultsSortFaq);
+
 		return testIDs;
 	}
 
