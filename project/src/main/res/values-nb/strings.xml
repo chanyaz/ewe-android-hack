@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Logg på med {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Knapp for pålogging med {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Logg på for å samle {reward} poeng med Expedia+</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knapp for å logge på for å samle {reward} poeng med Expedia+</string>
     <!-- or -->
     <string name="or">eller</string>
+    <!--Create Account -->
+    <string name="Create_Account">OPPRETT KONTO</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">Samle poeng og få eksklusive tilbud</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Innsjekking tilgjengelig</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">Del flyvningen din</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">La andre få oppdateringer mens du reiser.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flyvning til %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">Oppdater reisene</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">Oppdater reisene dine</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">Oppdaterer reisen din …</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">Det er ikke mulig å hente informasjon om reiserutene dine for øyeblikket. Prøv på nytt.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -2191,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">Du vil tjene {reward_currency} poeng for denne reisen!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">Vi setter pris på deg som medlem!</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">Handle som medlem av {brand}!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du vil tjene {reward_currency} poeng for denne reisen!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2421,6 +2425,8 @@
     <string name="no_thanks">Nei, takk</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Avansert</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">Avansert (valgfritt)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -3264,7 +3270,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Konto</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">Logg på</string>
+    <string name="sign_in">LOGGER PÅ</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Logger på…</string>
     <!-- Label for sign out confirmation -->
@@ -5003,8 +5009,10 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(i e-postbekreftelsen din)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">Angi gyldig reiserutenummer, minst elleve sifre</string>
+    <string name="itinerary_number_error_message">Angi gyldig reiserutenummer</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Logg på for tilgang til kommende reiser</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">Finn en reise bestilt som gjest</string>
 
 </resources>
