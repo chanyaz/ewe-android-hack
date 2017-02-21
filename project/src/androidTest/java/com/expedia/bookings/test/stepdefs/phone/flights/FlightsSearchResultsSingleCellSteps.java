@@ -2,12 +2,18 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
+import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
+
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -84,6 +90,26 @@ public class FlightsSearchResultsSingleCellSteps {
 	@And("^the currency symbol at cell (\\d+) on FSR is \"(.*?)\" and isOutBound : (true|false)$")
 	public void checkCurrencyOnFSR(int cellNumber,String currencySymbol, boolean outbound) throws Throwable {
 		checkString(cellNumber,R.id.price_text_view, currencySymbol,outbound);
+	}
+
+	@Then("^Validate that on the selected outbound docked view Flight label is displayed$")
+	public void validateOutboundFlightLabel() throws Throwable {
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+	}
+
+	@And("^Validate that on the selected outbound docked view Flight Airline name is displayed$")
+	public void validateOutboundFlightAirlinename() throws Throwable {
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip");
+	}
+
+	@And("Validate that on the selected outbound docked view Airline time is displayed$")
+	public void validateOutboundFlightAirlinetime() throws Throwable {
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("21:00 - 23:00 (2h 0m)");
+	}
+
+	@And("^Validate the toolbar header text on the selected outbound docked view$")
+	public void validatetoolbarheadertext() throws Throwable {
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText("Select return flight"))).check(matches(isDisplayed()));
 	}
 }
 
