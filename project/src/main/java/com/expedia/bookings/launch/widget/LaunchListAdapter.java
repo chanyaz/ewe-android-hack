@@ -23,11 +23,13 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.widget.AirAttachLaunchViewHolder;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.SignInPlaceholderCard;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.vm.AirAttachPlaceHolderViewModel;
 import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -171,6 +173,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
 			return new SignInPlaceholderCard(view, context);
 		}
+		else if (viewType == LaunchListViewsEnum.AIR_ATTACH_VIEW.ordinal()) {
+			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
+			return new AirAttachLaunchViewHolder(view, context);
+		}
 		else if (viewType == LaunchListViewsEnum.COLLECTION_VIEW.ordinal()) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_collection_list_card, parent, false);
@@ -197,6 +203,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		else if (itemViewType == LaunchListViewsEnum.SIGN_IN_VIEW.ordinal()) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
+
+		}
+		else if (itemViewType == LaunchListViewsEnum.AIR_ATTACH_VIEW.ordinal()) {
+			((AirAttachLaunchViewHolder) holder).bind(makeAirAttachPlaceholderViewModel());
 
 		}
 		else if (itemViewType == LaunchListViewsEnum.LOADING_VIEW.ordinal()) {
@@ -435,6 +445,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private SignInPlaceHolderViewModel makeSignInPlaceholderViewModel() {
 		return new SignInPlaceHolderViewModel(getBrandForSignInView(),
 			context.getString(R.string.earn_rewards_and_unlock_deals),
+			context.getString(R.string.sign_in),
+			context.getString(R.string.Create_Account));
+	}
+
+	private AirAttachPlaceHolderViewModel makeAirAttachPlaceholderViewModel() {
+		return new AirAttachPlaceHolderViewModel("Upto 55% off Hotels",
+			"Save on a hotel because you booked a flight",
 			context.getString(R.string.sign_in),
 			context.getString(R.string.Create_Account));
 	}
