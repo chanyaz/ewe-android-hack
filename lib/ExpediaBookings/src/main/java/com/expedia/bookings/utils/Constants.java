@@ -56,4 +56,11 @@ public class Constants {
 	public static final double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
 
 	public static final String DEEPLINK_KEYWORD = "/mobile/deeplink";
+
+	// Member Only Deals
+	public static final String MOD_SITE_ID = "3";
+	public static final String MOD_PRODUCT_TYPE = "Hotel";
+	public static final String MOD_GROUP_BY = "destination";
+	public static final int MOD_DESTINATION_LIMIT = 10;
+	public static final String MOD_CLIENT_ID = "demo";
 }

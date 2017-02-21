@@ -1,0 +1,481 @@
+{
+   "offerInfo":{
+      "siteID":"3",
+      "language":"en_GB",
+      "currency":"GBP"
+   },
+   "userInfo":{
+      "persona":{
+         "personaType":"OTHERS"
+      },
+      "userId":"smart-offer-service"
+   },
+   "debugInformation":{
+      "activityId":"f7361d46-5142-4916-9669-752a06f666e1"
+   },
+   "destinations":[
+      {
+         "destinationInfo":{
+            "regionID":"179992",
+            "longName":"Barcelona (and vicinity), Spain",
+            "city":"Barcelona",
+            "nonLocalizedCity":"Barcelona",
+            "country":"Spain"
+         },
+         "hotelPricingSummary":{
+            "averageDiscount":54.0,
+            "maxDiscount":54.0,
+            "averagePrice":67.18,
+            "totalNumberOfOffers":1
+         },
+         "hotels":[
+            {
+               "offerDateRange":{
+                  "travelStartDate":[
+                     2017,
+                     3,
+                     9
+                  ],
+                  "travelEndDate":[
+                     2017,
+                     3,
+                     10
+                  ]
+               },
+               "destination":{
+                  "regionID":"179992",
+                  "associatedMultiCityRegionId":"179992",
+                  "longName":"Barcelona (and vicinity), Spain",
+                  "shortName":"Barcelona",
+                  "country":"Spain",
+                  "city":"Barcelona",
+                  "tla":"BCN",
+                  "nonLocalizedCity":"Barcelona"
+               },
+               "offerMarkers":[
+                  "HIGHEST_STAR_RATING",
+                  "LEADIN_PRICE",
+                  "HIGHEST_GUEST_RATING",
+                  "HIGHEST_DISCOUNT"
+               ],
+               "hotelInfo":{
+                  "hotelId":"799763",
+                  "hotelName":"Hotel Barcelona Universal",
+                  "localizedHotelName":"Hotel Barcelona Universal",
+                  "hotelStreetAddress":"Del Paral.lel, Del 76-78",
+                  "hotelCity":"Barcelona",
+                  "hotelProvince":"Barcelona",
+                  "hotelCountryCode":"ESP",
+                  "hotelLatitude":41.374992,
+                  "hotelLongitude":2.168422,
+                  "neighborhoodId":"6046263",
+                  "neighborhoodName":"El Raval",
+                  "hotelStarRating":"4.0",
+                  "hotelGuestReviewRating":4.353034019470215,
+                  "hotelReviewTotal":6600,
+                  "travelStartDate":"09/03/2017",
+                  "travelEndDate":"10/03/2017",
+                  "hotelImageUrl":"http://images.trvl-media.com/hotels/1000000/800000/799800/799763/799763_144_l.jpg",
+                  "isOfficialRating":true
+               },
+               "hotelPricingInfo":{
+                  "totalPriceValue":67.18,
+                  "crossOutPriceValue":146.05,
+                  "percentSavings":54.0,
+                  "drr":false
+               },
+               "hotelUrls":{
+                  "hotelInfositeUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fpubspec%2Fscripts%2Feap.asp%3FGOTO%3DHOTDETAILS%26OutDate%3D10%2F03%2F2017%26HotelID%3D799763%26InDate%3D09%2F03%2F2017%26mctc%3D2",
+                  "hotelSearchResultUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fgo%3Ftype%3DHotel-Search%26startDate%3D09%2F03%2F2017%26mctc%3D2%26regionId%3D179992%26endDate%3D10%2F03%2F2017"
+               }
+            }
+         ]
+      },
+      {
+         "destinationInfo":{
+            "regionID":"179899",
+            "longName":"Rome (and vicinity), Italy",
+            "city":"Rome",
+            "nonLocalizedCity":"Rome",
+            "country":"Italy"
+         },
+         "hotelPricingSummary":{
+            "averageDiscount":70.0,
+            "maxDiscount":70.0,
+            "averagePrice":44.32,
+            "totalNumberOfOffers":1
+         },
+         "hotels":[
+            {
+               "offerDateRange":{
+                  "travelStartDate":[
+                     2017,
+                     2,
+                     26
+                  ],
+                  "travelEndDate":[
+                     2017,
+                     2,
+                     27
+                  ]
+               },
+               "destination":{
+                  "regionID":"179899",
+                  "associatedMultiCityRegionId":"179899",
+                  "longName":"Rome (and vicinity), Italy",
+                  "shortName":"Rome",
+                  "country":"Italy",
+                  "city":"Rome",
+                  "tla":"ROM",
+                  "nonLocalizedCity":"Rome"
+               },
+               "offerMarkers":[
+                  "HIGHEST_STAR_RATING",
+                  "LEADIN_PRICE",
+                  "HIGHEST_GUEST_RATING",
+                  "HIGHEST_DISCOUNT"
+               ],
+               "hotelInfo":{
+                  "hotelId":"1147188",
+                  "hotelName":"Euro House Inn Airport Hotel & Residence",
+                  "localizedHotelName":"Euro House Inn Airport Hotel & Residence",
+                  "hotelStreetAddress":"Via della Scafa 422",
+                  "hotelCity":"Fiumicino",
+                  "hotelProvince":"RM",
+                  "hotelCountryCode":"ITA",
+                  "hotelLatitude":41.756135,
+                  "hotelLongitude":12.274078,
+                  "neighborhoodId":"6051983",
+                  "neighborhoodName":"Fiumicino Airport (FCO)",
+                  "hotelStarRating":"4.0",
+                  "hotelGuestReviewRating":3.7964205741882324,
+                  "hotelReviewTotal":447,
+                  "travelStartDate":"26/02/2017",
+                  "travelEndDate":"27/02/2017",
+                  "hotelImageUrl":"http://images.trvl-media.com/hotels/2000000/1150000/1147200/1147188/1147188_398_l.jpg",
+                  "isOfficialRating":true
+               },
+               "hotelPricingInfo":{
+                  "totalPriceValue":44.32,
+                  "crossOutPriceValue":147.73,
+                  "percentSavings":70.0,
+                  "drr":false
+               },
+               "hotelUrls":{
+                  "hotelInfositeUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fpubspec%2Fscripts%2Feap.asp%3FGOTO%3DHOTDETAILS%26OutDate%3D27%2F02%2F2017%26HotelID%3D1147188%26InDate%3D26%2F02%2F2017%26mctc%3D2",
+                  "hotelSearchResultUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fgo%3Ftype%3DHotel-Search%26startDate%3D26%2F02%2F2017%26mctc%3D2%26regionId%3D179899%26endDate%3D27%2F02%2F2017"
+               }
+            }
+         ]
+      },
+      {
+         "destinationInfo":{
+            "regionID":"178305",
+            "longName":"San Francisco (and vicinity), California, United States of America",
+            "city":"San Francisco",
+            "nonLocalizedCity":"San Francisco",
+            "province":"California",
+            "country":"United States of America"
+         },
+         "hotelPricingSummary":{
+            "averageDiscount":60.72,
+            "maxDiscount":60.72,
+            "averagePrice":107.85,
+            "totalNumberOfOffers":1
+         },
+         "hotels":[
+            {
+               "offerDateRange":{
+                  "travelStartDate":[
+                     2017,
+                     2,
+                     24
+                  ],
+                  "travelEndDate":[
+                     2017,
+                     2,
+                     25
+                  ]
+               },
+               "destination":{
+                  "regionID":"178305",
+                  "associatedMultiCityRegionId":"178305",
+                  "longName":"San Francisco (and vicinity), California, United States of America",
+                  "shortName":"San Francisco",
+                  "country":"United States of America",
+                  "province":"California",
+                  "city":"San Francisco",
+                  "tla":"QSF",
+                  "nonLocalizedCity":"San Francisco"
+               },
+               "offerMarkers":[
+                  "HIGHEST_STAR_RATING",
+                  "LEADIN_PRICE",
+                  "HIGHEST_GUEST_RATING",
+                  "HIGHEST_DISCOUNT"
+               ],
+               "hotelInfo":{
+                  "hotelId":"12671293",
+                  "hotelName":"Calista Organic Hotel",
+                  "localizedHotelName":"Calista Organic Hotel",
+                  "hotelStreetAddress":"1485 Bush Street",
+                  "hotelCity":"San Francisco",
+                  "hotelProvince":"CA",
+                  "hotelCountryCode":"USA",
+                  "hotelLatitude":37.788547,
+                  "hotelLongitude":-122.421629,
+                  "neighborhoodId":"6005901",
+                  "neighborhoodName":"Civic Center",
+                  "hotelStarRating":"3.0",
+                  "hotelGuestReviewRating":3.5673980712890625,
+                  "hotelReviewTotal":319,
+                  "travelStartDate":"24/02/2017",
+                  "travelEndDate":"25/02/2017",
+                  "hotelImageUrl":"http://images.trvl-media.com/hotels/13000000/12680000/12671300/12671293/bbfe5c2f_l.jpg",
+                  "isOfficialRating":false
+               },
+               "hotelPricingInfo":{
+                  "totalPriceValue":107.85,
+                  "crossOutPriceValue":274.54,
+                  "percentSavings":60.72,
+                  "drr":false
+               },
+               "hotelUrls":{
+                  "hotelInfositeUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fpubspec%2Fscripts%2Feap.asp%3FGOTO%3DHOTDETAILS%26OutDate%3D25%2F02%2F2017%26HotelID%3D12671293%26InDate%3D24%2F02%2F2017%26mctc%3D2",
+                  "hotelSearchResultUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fgo%3Ftype%3DHotel-Search%26startDate%3D24%2F02%2F2017%26mctc%3D2%26regionId%3D178305%26endDate%3D25%2F02%2F2017"
+               }
+            }
+         ]
+      },
+      {
+         "destinationInfo":{
+            "regionID":"179900",
+            "longName":"Tokyo (and vicinity), Japan",
+            "city":"Tokyo",
+            "nonLocalizedCity":"Tokyo",
+            "country":"Japan"
+         },
+         "hotelPricingSummary":{
+            "averageDiscount":50.77,
+            "maxDiscount":50.77,
+            "averagePrice":68.34,
+            "totalNumberOfOffers":1
+         },
+         "hotels":[
+            {
+               "offerDateRange":{
+                  "travelStartDate":[
+                     2017,
+                     2,
+                     26
+                  ],
+                  "travelEndDate":[
+                     2017,
+                     2,
+                     27
+                  ]
+               },
+               "destination":{
+                  "regionID":"179900",
+                  "associatedMultiCityRegionId":"179900",
+                  "longName":"Tokyo (and vicinity), Japan",
+                  "shortName":"Tokyo",
+                  "country":"Japan",
+                  "city":"Tokyo",
+                  "tla":"TYO",
+                  "nonLocalizedCity":"Tokyo"
+               },
+               "offerMarkers":[
+                  "HIGHEST_STAR_RATING",
+                  "LEADIN_PRICE",
+                  "HIGHEST_GUEST_RATING",
+                  "HIGHEST_DISCOUNT"
+               ],
+               "hotelInfo":{
+                  "hotelId":"4718991",
+                  "hotelName":"Sotetsu Fresa Inn Tokyo Kyobashi",
+                  "localizedHotelName":"Sotetsu Fresa Inn Tokyo Kyobashi",
+                  "hotelStreetAddress":"2-11-1 Kyobashi",
+                  "hotelCity":"Tokyo",
+                  "hotelProvince":"Tokyo-to",
+                  "hotelCountryCode":"JPN",
+                  "hotelLatitude":35.676526,
+                  "hotelLongitude":139.771728,
+                  "neighborhoodId":"6048241",
+                  "neighborhoodName":"Nihonbashi",
+                  "hotelStarRating":"3.0",
+                  "hotelGuestReviewRating":4.113272190093994,
+                  "hotelReviewTotal":746,
+                  "travelStartDate":"26/02/2017",
+                  "travelEndDate":"27/02/2017",
+                  "hotelImageUrl":"http://images.trvl-media.com/hotels/5000000/4720000/4719000/4718991/4718991_3_l.jpg",
+                  "isOfficialRating":false
+               },
+               "hotelPricingInfo":{
+                  "totalPriceValue":68.34,
+                  "crossOutPriceValue":138.81,
+                  "percentSavings":50.77,
+                  "drr":false
+               },
+               "hotelUrls":{
+                  "hotelInfositeUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fpubspec%2Fscripts%2Feap.asp%3FGOTO%3DHOTDETAILS%26OutDate%3D27%2F02%2F2017%26HotelID%3D4718991%26InDate%3D26%2F02%2F2017%26mctc%3D2",
+                  "hotelSearchResultUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fgo%3Ftype%3DHotel-Search%26startDate%3D26%2F02%2F2017%26mctc%3D2%26regionId%3D179900%26endDate%3D27%2F02%2F2017"
+               }
+            }
+         ]
+      },
+      {
+         "destinationInfo":{
+            "regionID":"178267",
+            "longName":"Istanbul (and vicinity), Turkey",
+            "city":"Istanbul",
+            "nonLocalizedCity":"Istanbul",
+            "country":"Turkey"
+         },
+         "hotelPricingSummary":{
+            "averageDiscount":50.0,
+            "maxDiscount":50.0,
+            "averagePrice":33.81,
+            "totalNumberOfOffers":1
+         },
+         "hotels":[
+            {
+               "offerDateRange":{
+                  "travelStartDate":[
+                     2017,
+                     2,
+                     26
+                  ],
+                  "travelEndDate":[
+                     2017,
+                     2,
+                     27
+                  ]
+               },
+               "destination":{
+                  "regionID":"178267",
+                  "associatedMultiCityRegionId":"178267",
+                  "longName":"Istanbul (and vicinity), Turkey",
+                  "shortName":"Istanbul",
+                  "country":"Turkey",
+                  "city":"Istanbul",
+                  "tla":"IST",
+                  "nonLocalizedCity":"Istanbul"
+               },
+               "offerMarkers":[
+                  "LEADIN_PRICE",
+                  "HIGHEST_GUEST_RATING",
+                  "HIGHEST_DISCOUNT"
+               ],
+               "hotelInfo":{
+                  "hotelId":"9677143",
+                  "hotelName":"Hotel Next2",
+                  "localizedHotelName":"Hotel Next2",
+                  "hotelStreetAddress":"Kuloglu Mah. Turnacibasi Caddesi",
+                  "hotelCity":"Istanbul",
+                  "hotelProvince":"Istanbul",
+                  "hotelCountryCode":"TUR",
+                  "hotelLatitude":41.033864,
+                  "hotelLongitude":28.981,
+                  "neighborhoodId":"6054812",
+                  "neighborhoodName":"Taksim",
+                  "hotelStarRating":"0.0",
+                  "hotelGuestReviewRating":4.405405521392822,
+                  "hotelReviewTotal":37,
+                  "travelStartDate":"26/02/2017",
+                  "travelEndDate":"27/02/2017",
+                  "hotelImageUrl":"http://images.trvl-media.com/hotels/10000000/9680000/9677200/9677143/9677143_28_l.jpg",
+                  "isOfficialRating":false
+               },
+               "hotelPricingInfo":{
+                  "totalPriceValue":33.81,
+                  "crossOutPriceValue":67.62,
+                  "percentSavings":50.0,
+                  "drr":false
+               },
+               "hotelUrls":{
+                  "hotelInfositeUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fpubspec%2Fscripts%2Feap.asp%3FGOTO%3DHOTDETAILS%26OutDate%3D27%2F02%2F2017%26HotelID%3D9677143%26InDate%3D26%2F02%2F2017%26mctc%3D2",
+                  "hotelSearchResultUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fgo%3Ftype%3DHotel-Search%26startDate%3D26%2F02%2F2017%26mctc%3D2%26regionId%3D178267%26endDate%3D27%2F02%2F2017"
+               }
+            }
+         ]
+      },
+      {
+         "destinationInfo":{
+            "regionID":"6046820",
+            "longName":"Cape Town (and vicinity), South Africa",
+            "city":"Cape Town",
+            "nonLocalizedCity":"Cape Town",
+            "country":"South Africa"
+         },
+         "hotelPricingSummary":{
+            "averageDiscount":50.0,
+            "maxDiscount":50.0,
+            "averagePrice":202.62,
+            "totalNumberOfOffers":3
+         },
+         "hotels":[
+            {
+               "offerDateRange":{
+                  "travelStartDate":[
+                     2017,
+                     3,
+                     1
+                  ],
+                  "travelEndDate":[
+                     2017,
+                     3,
+                     2
+                  ]
+               },
+               "destination":{
+                  "regionID":"6046820",
+                  "associatedMultiCityRegionId":"6046820",
+                  "longName":"Cape Town (and vicinity), South Africa",
+                  "shortName":"Cape Town",
+                  "country":"South Africa",
+                  "city":"Cape Town",
+                  "tla":"CPT",
+                  "nonLocalizedCity":"Cape Town"
+               },
+               "offerMarkers":[
+                  "HIGHEST_STAR_RATING",
+                  "LEADIN_PRICE",
+                  "HIGHEST_GUEST_RATING",
+                  "HIGHEST_DISCOUNT"
+               ],
+               "hotelInfo":{
+                  "hotelId":"3775529",
+                  "hotelName":"The Last Word Franschhoek",
+                  "localizedHotelName":"The Last Word Franschhoek",
+                  "hotelStreetAddress":"68 Huguenot Street",
+                  "hotelCity":"Franschhoek",
+                  "hotelProvince":"Western Cape",
+                  "hotelCountryCode":"ZAF",
+                  "hotelLatitude":-33.90446,
+                  "hotelLongitude":19.11575,
+                  "neighborhoodId":"6197584",
+                  "neighborhoodName":"Franschhoek",
+                  "hotelStarRating":"5.0",
+                  "hotelGuestReviewRating":4.866665840148926,
+                  "hotelReviewTotal":30,
+                  "travelStartDate":"01/03/2017",
+                  "travelEndDate":"02/03/2017",
+                  "hotelImageUrl":"http://images.trvl-media.com/hotels/4000000/3780000/3775600/3775529/3775529_38_l.jpg",
+                  "isOfficialRating":true
+               },
+               "hotelPricingInfo":{
+                  "totalPriceValue":196.91,
+                  "crossOutPriceValue":393.82,
+                  "percentSavings":50.0,
+                  "drr":false
+               },
+               "hotelUrls":{
+                  "hotelInfositeUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fpubspec%2Fscripts%2Feap.asp%3FGOTO%3DHOTDETAILS%26OutDate%3D02%2F03%2F2017%26HotelID%3D3775529%26InDate%3D01%2F03%2F2017%26mctc%3D2",
+                  "hotelSearchResultUrl":"http%3A%2F%2Fwww.expedia.co.uk%2Fgo%3Ftype%3DHotel-Search%26startDate%3D01%2F03%2F2017%26mctc%3D2%26regionId%3D6046820%26endDate%3D02%2F03%2F2017"
+               }
+            }
+         ]
+      }
+   ]
+}

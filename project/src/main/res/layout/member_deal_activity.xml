@@ -17,8 +17,9 @@
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance"/>
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/member_deals_status_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="SKELETOR approves"/>
+        android:text="Loading data..."/>
 </LinearLayout>
