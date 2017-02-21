@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -39,6 +40,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.testrule.ServicesRule;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
@@ -437,9 +439,12 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void sponsoredPriorityOverEarnMessaging() {
+	public void bothSponsoredEarnMessagingShow() {
 		givenIsSponsoredListing(true);
 		setupSystemUnderTest();
+
+		SettingUtils.save(getContext(), R.string.preference_enable_hotel_loyalty_earn_message, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
 
 		PointOfSaleTestConfiguration
 			.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json", false);
@@ -448,7 +453,7 @@ public class HotelViewModelTest {
 
 		TestSubscriber earnMessageTestSubscriber = TestSubscriber.create();
 		vm.getEarnMessagingVisibilityObservable().subscribe(earnMessageTestSubscriber);
-		assertFalse((Boolean) earnMessageTestSubscriber.getOnNextEvents().get(0));
+		assertTrue((Boolean) earnMessageTestSubscriber.getOnNextEvents().get(0));
 
 		TestSubscriber topAmenityTestSubscriber = TestSubscriber.create();
 		vm.getTopAmenityVisibilityObservable().subscribe(topAmenityTestSubscriber);

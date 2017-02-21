@@ -15,6 +15,7 @@ import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
@@ -79,15 +80,13 @@ open class HotelViewModel(private val context: Context) {
     val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>()
     val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>()
     val earnMessagingObservable = BehaviorSubject.create<String>()
-    val earnMessagingVisibilityObservable = Observable.combineLatest(hotelObservable, earnMessagingObservable, { hotel, earnMessaging ->
-        !hotel.isSponsoredListing && earnMessaging.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
+    val earnMessagingVisibilityObservable = Observable.combineLatest(hotelObservable, earnMessagingObservable, { hotel, earnMessage ->
+        shouldShowEarnMessage(hotel, earnMessage)
     })
     val topAmenityTitleObservable = BehaviorSubject.create<String>()
-    val topAmenityVisibilityObservable = Observable.combineLatest(hotelObservable, earnMessagingVisibilityObservable, { hotel, earnMessagingVisible ->
-        hotel.isSponsoredListing || !earnMessagingVisible
-    }).zipWith(topAmenityTitleObservable, { earnMessagingEnabled, topAmenityTitle ->
-        earnMessagingEnabled && topAmenityTitle.isNotBlank()
-    })
+    val topAmenityVisibilityObservable = topAmenityTitleObservable.map { topAmenityTitle ->
+        topAmenityTitle.isNotBlank()
+    }
 
     val hotelStarRatingObservable = BehaviorSubject.create<Float>()
     val hotelStarRatingContentDescriptionObservable = BehaviorSubject.create<String>()
@@ -118,9 +117,7 @@ open class HotelViewModel(private val context: Context) {
 
         airAttachWithDiscountLabelVisibilityObservable.onNext((hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailabilityObservable.value)
         airAttachIconWithoutDiscountLabelVisibility.onNext((hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailabilityObservable.value)
-        earnMessagingObservable.onNext((if (hotel.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages)
-            hotel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context)
-            else hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context)) ?: "")
+        earnMessagingObservable.onNext(getEarnMessagingString(hotel))
         topAmenityTitleObservable.onNext(getTopAmenityTitle(hotel, resources))
 
         hotelStarRatingObservable.onNext(hotel.hotelStarRating)
@@ -203,15 +200,19 @@ open class HotelViewModel(private val context: Context) {
 
         hotelStarRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt()))
 
-        val shouldShowHotelProminencePrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceProminance)
+        val shouldShowHotelProminencePrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceProminence)
         pricePerNightFontSizeObservable.onNext(getPricePerNightTextSize(shouldShowHotelProminencePrice))
         pricePerNightColorObservable.onNext(ContextCompat.getColor(context, getPricePerNightTextColor(hotel, shouldShowHotelProminencePrice)))
     }
 
     private fun getTopAmenityTitle(hotel: Hotel, resources: Resources): String {
-        if (hotel.isSponsoredListing) return resources.getString(R.string.sponsored)
-        else if (hotel.isShowEtpChoice) return resources.getString(R.string.book_now_pay_later)
-        else if (hotel.hasFreeCancellation) return resources.getString(R.string.free_cancellation)
+        if (hotel.isSponsoredListing) {
+            return resources.getString(R.string.sponsored)
+        } else if (hotel.isShowEtpChoice) {
+            return resources.getString(R.string.book_now_pay_later)
+        } else if (hotel.hasFreeCancellation) {
+            return resources.getString(R.string.free_cancellation)
+        }
         else return ""
     }
 
@@ -302,7 +303,23 @@ open class HotelViewModel(private val context: Context) {
         return R.color.hotel_cell_gray_text
     }
 
+    private fun getEarnMessagingString(hotel: Hotel): String {
+        if (hotel.isPackage) {
+            return hotel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
+        }
+        return hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
+    }
+
     private fun shouldShowNoGuestRating(hasRating: Boolean): Boolean {
         return !hasRating && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideNoReviewRating)
+    }
+
+    private fun shouldShowEarnMessage(hotel: Hotel, earnMessage: String): Boolean {
+        val userBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage, R.string.preference_enable_hotel_loyalty_earn_message)
+        val forceShow = resources.getBoolean(R.bool.force_hotel_loyalty_earn_message)
+        val validMessage = earnMessage.isNotBlank()
+        val enabledForPOS = (hotel.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) || PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
+
+        return (forceShow || userBucketed) && validMessage && enabledForPOS
     }
 }

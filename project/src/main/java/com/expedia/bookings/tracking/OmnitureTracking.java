@@ -376,7 +376,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceProminance);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceProminence);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelImageLoadLatency);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideNoReviewRating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMemberPricingBadge);
