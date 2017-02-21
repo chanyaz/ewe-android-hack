@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Login dengan {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Tombol login dengan {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan {reward} poin Expedia+</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Tombol login untuk mendapatkan poin {reward} Expedia+</string>
     <!-- or -->
     <string name="or">atau</string>
+    <!--Create Account -->
+    <string name="Create_Account">BUAT AKUN</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">Dapatkan reward dan buka promo eksklusif</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in tersedia</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">Bagi penerbangan Anda</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">Kirimkan live update kepada orang lain selama Anda di perjalanan.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">Penerbangan %1$s ke %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">Segarkan Perjalanan</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">Perbarui tampilan</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">Memperbarui perjalanan Anda…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">Kami tidak dapat menampilkan itinerary Anda saat ini. Silakan coba lagi.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -2191,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">Anda akan mendapat {reward_currency} poin dari pemesanan ini!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">Anda member kami!</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">Pesan sebagai member {brand}!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Anda akan mendapatkan {reward_currency} poin dari perjalanan ini!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2421,6 +2425,8 @@
     <string name="no_thanks">Tidak, Terima Kasih</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Lanjutan</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">Lanjutan (opsional)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -3264,7 +3270,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Akun</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">Masuk</string>
+    <string name="sign_in">LOGIN</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Sedang login…</string>
     <!-- Label for sign out confirmation -->
@@ -5003,8 +5009,10 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(di email konfirmasi Anda)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">Masukkan nomor itinerary yang valid, minimal 11</string>
+    <string name="itinerary_number_error_message">Masukkan nomor itinerary yang valid</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Login untuk mengakses perjalanan Anda yang akan datang</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">Cari Perjalanan yang Dipesan Tamu</string>
 
 </resources>
