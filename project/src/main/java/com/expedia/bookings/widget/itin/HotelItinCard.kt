@@ -67,7 +67,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
         super.finishExpand()
     }
 
-    override fun collapse(animate: Boolean): AnimatorSet {
+    override fun collapse(animate: Boolean): AnimatorSet? {
         setupRoomUpgradeBanner()
         return super.collapse(animate)
     }
