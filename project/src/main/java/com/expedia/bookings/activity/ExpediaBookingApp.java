@@ -1,5 +1,9 @@
 package com.expedia.bookings.activity;
 
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +12,8 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
+
+import net.danlew.android.joda.JodaTimeAndroid;
 
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
@@ -52,6 +58,7 @@ import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
@@ -65,14 +72,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
 import io.fabric.sdk.android.Fabric;
-
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Locale;
-
-import net.danlew.android.joda.JodaTimeAndroid;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -135,6 +135,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
+		FeatureToggleUtil.enableFeatureOnDebugBuild(this, R.string.preference_enable_new_cookies);
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
