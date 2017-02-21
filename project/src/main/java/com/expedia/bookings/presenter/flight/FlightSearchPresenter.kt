@@ -19,6 +19,7 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -45,6 +46,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         }
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                searchButton.isEnabled = enable
+            }
         }
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()

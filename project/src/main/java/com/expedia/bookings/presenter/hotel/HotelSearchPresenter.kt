@@ -118,9 +118,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         val service = Ui.getApplication(context).hotelComponent().suggestionsService()
         suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            searchButton.isEnabled = false
-        }
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {

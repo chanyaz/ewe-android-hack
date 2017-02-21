@@ -151,6 +151,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         destinationCardView.setOnClickListener(locationClickListener(isCustomerSelectingOrigin = false))
         searchLocationEditText?.setOnQueryTextListener(listener)
         AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 300)
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            searchButton.isEnabled = false
+        }
     }
 
     protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {

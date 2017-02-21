@@ -169,9 +169,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             searchPresenter.originCardView.performClick()
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                searchPresenter.searchButton.isEnabled = false
-            }
             trackSearchPageLoad()
         }
     }
