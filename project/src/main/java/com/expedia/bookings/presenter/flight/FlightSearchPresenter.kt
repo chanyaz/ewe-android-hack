@@ -17,7 +17,6 @@ import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -60,10 +59,22 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
         vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
         vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
-        vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
+        vm.formattedOriginObservable.subscribe { text ->
+            originCardView.setText(text)
+            originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
+                    .put("from_destination", text)
+                    .format().toString()
+        }
         vm.formattedDestinationObservable.subscribe {
             text ->
             destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
+            destinationCardView.contentDescription =
+                    if (text.isNotEmpty())
+                        Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
+                                .put("to_destination", text)
+                                .format().toString()
+                    else
+                        context.resources.getString(R.string.fly_to_hint)
             if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty()) {
                 calendarWidgetV2.showCalendarDialog()
             }
