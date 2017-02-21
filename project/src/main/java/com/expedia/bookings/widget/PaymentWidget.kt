@@ -24,6 +24,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
@@ -42,7 +43,7 @@ import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -69,7 +70,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val cardInfoIcon: ImageView by bindView(R.id.card_info_icon)
     val cardInfoName: TextView by bindView(R.id.card_info_name)
     val cardInfoExpiration: TextView by bindView(R.id.card_info_expiration)
-    val expirationDate: AccessibleTextViewForSpinner by bindView(R.id.edit_creditcard_exp_text_btn)
+    val expirationDate: AccessibleEditTextForSpinner by bindView(R.id.edit_creditcard_exp_text_btn)
     val paymentStatusIcon: ContactDetailsCompletenessStatusImageView by bindView(R.id.card_info_status_icon)
     val storedCreditCardList: StoredCreditCardList by bindView(R.id.stored_creditcard_list)
     val invalidPaymentContainer: ViewGroup by bindView(R.id.invalid_payment_container)
@@ -127,8 +128,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
             storedCreditCardList.setLineOfBusiness(lob)
-            if (lob == LineOfBusiness.HOTELS) {
+            if (lob == LineOfBusiness.HOTELS && !materialFormTestEnabled) {
                 creditCardNumber.setHint(R.string.credit_debit_card_hint)
+            }
+            if (lob.isMaterialFormEnabled(context)) {
+                sectionBillingInfo.setMaterialErrorStrings()
+                sectionLocation.setMaterialErrorStrings()
             }
         }
 
@@ -202,7 +207,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
-            creditCardNumber.setHint(R.string.credit_debit_card_hint)
+            if (!materialFormTestEnabled) {
+                creditCardNumber.setHint(R.string.credit_debit_card_hint)
+            }
         }
     }
 
@@ -571,7 +578,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 showMaskedCreditCardNumber()
                 filledIn.onNext(isCompletelyFilled())
             }
-            if (materialFormTestEnabled) viewmodel.updateBackgroundColor.onNext(forward)
+            if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             viewmodel.showingPaymentForm.onNext(forward)
         }
     }
@@ -600,7 +607,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
-            if (materialFormTestEnabled) viewmodel.updateBackgroundColor.onNext(forward)
+            if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(!forward)
         }
     }
