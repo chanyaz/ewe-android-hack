@@ -678,7 +678,7 @@ public class SectionLocation extends LinearLayout
 					else {
 						if (materialFormTestEnabled) {
 							mStateLayout.setHint(getContext().getString(R.string.address_county_hint));
-							mValidState.setErrorString(R.string.error_enter_a_valid_province);
+							mValidState.setErrorString(R.string.error_enter_a_valid_province_state_country);
 						} else {
 							mEditAddressState.mField.setHint(R.string.address_county_hint);
 						}
