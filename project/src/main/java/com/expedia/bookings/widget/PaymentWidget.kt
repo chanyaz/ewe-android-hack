@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
@@ -125,7 +126,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
             storedCreditCardList.setLineOfBusiness(lob)
-            if (lob == LineOfBusiness.HOTELS) {
+            if (lob == LineOfBusiness.HOTELS && !materialFormTestEnabled) {
                 creditCardNumber.setHint(R.string.credit_debit_card_hint)
             }
         }
@@ -200,7 +201,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
-            creditCardNumber.setHint(R.string.credit_debit_card_hint)
+            if (!materialFormTestEnabled) {
+                creditCardNumber.setHint(R.string.credit_debit_card_hint)
+            }
+
         }
     }
 

@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.support.design.widget.TextInputLayout
 import android.view.LayoutInflater
+import android.widget.EditText
 import butterknife.ButterKnife
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
@@ -12,8 +14,10 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.test.MultiBrand
@@ -21,9 +25,11 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -37,6 +43,8 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import java.util.ArrayList
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
@@ -50,6 +58,8 @@ class BillingDetailsPaymentWidgetTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, false)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
     }
@@ -397,6 +407,131 @@ class BillingDetailsPaymentWidgetTest {
         assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
     }
 
+    @Test
+    fun testMaterialBillingCardValidation() {
+        givenMaterialPaymentBillingWidget()
+        val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
+
+        validateInvalidBillingInfo()
+        assertErrorState(creditCardLayout, "Enter a valid card number")
+    }
+
+    @Test
+    fun testMaterialBillingExpirationValidation() {
+        givenMaterialPaymentBillingWidget()
+        val expirationLayout = billingDetailsPaymentWidget.expirationDate.parent as TextInputLayout
+
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(expirationLayout, "Expiration Date")
+
+        validateInvalidBillingInfo()
+
+        assertErrorState(expirationLayout, "Enter a valid month and year")
+    }
+
+    @Test
+    fun testMaterialBillingCvvValidation() {
+        givenMaterialPaymentBillingWidget()
+        val cvvLayout = billingDetailsPaymentWidget.creditCardCvv.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(cvvLayout, "CVV")
+
+        validateInvalidBillingInfo()
+        assertErrorState(cvvLayout, "Enter a valid CVV number")
+    }
+
+    @Test
+    fun testMaterialBillingNameValidation() {
+        givenMaterialPaymentBillingWidget()
+        val nameLayout = billingDetailsPaymentWidget.creditCardName.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(nameLayout, "Cardholder name")
+
+        validateInvalidBillingInfo()
+        assertErrorState(nameLayout, "Enter name as it appears on the card")
+    }
+
+    @Test
+    fun testMaterialBillingAddressValidation() {
+        givenMaterialPaymentBillingWidget()
+        val addressLayout = billingDetailsPaymentWidget.addressLineOne.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(addressLayout, "Address line 1")
+
+        validateInvalidBillingInfo()
+        assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)")
+    }
+
+    @Test
+    fun testMaterialBillingCityValidation() {
+        givenMaterialPaymentBillingWidget()
+        val cityLayout = billingDetailsPaymentWidget.addressCity.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(cityLayout, "City")
+
+        validateInvalidBillingInfo()
+        assertErrorState(cityLayout, "Enter a valid city")
+    }
+
+    @Test
+    fun testMaterialBillingStateValidation() {
+        givenMaterialPaymentBillingWidget()
+        val stateLayout = billingDetailsPaymentWidget.addressState.parent as TextInputLayout
+//        Only US & CA POS require state
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("MEX")
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(stateLayout, "County/State/Province")
+
+        validateInvalidBillingInfo()
+        assertValidState(stateLayout, "County/State/Province")
+
+        billingDetailsPaymentWidget.sectionLocation.resetValidation()
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
+        assertValidState(stateLayout, "State")
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertErrorState(stateLayout, "Enter a valid state")
+
+        billingDetailsPaymentWidget.sectionLocation.resetValidation()
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
+        assertValidState(stateLayout, "Province")
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertErrorState(stateLayout, "Enter a valid province")
+    }
+
+    @Test
+    fun testMaterialBillingCountryValidation() {
+        givenMaterialPaymentBillingWidget()
+        val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(countryLayout, "Country")
+
+        validateInvalidBillingInfo()
+        assertErrorState(countryLayout, "Select a billing country")
+    }
+
+    @Test
+    fun testMaterialBillingZipValidation() {
+        givenMaterialPaymentBillingWidget()
+        val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertValidState(postalLayout, "Zip Code")
+
+        validateInvalidBillingInfo()
+
+        assertErrorState(postalLayout, "Enter a valid zip code")
+
+        billingDetailsPaymentWidget.sectionLocation.resetValidation()
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("FRA")
+        assertValidState(postalLayout, "Postal Code")
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertErrorState(postalLayout, "Enter a valid postal code")
+    }
+
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -474,5 +609,33 @@ class BillingDetailsPaymentWidgetTest {
         val billingInfo = getIncompleteCCBillingInfo()
         billingInfo.setNumberAndDetectType("4111111111111111")
         return billingInfo
+    }
+
+    private fun givenMaterialPaymentBillingWidget() {
+        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, true)
+        billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
+        billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+    }
+
+    private fun assertValidState(layout: TextInputLayout, hint: String?) {
+        assertFalse(layout.isErrorEnabled)
+        assertNull(layout.error)
+        assertEquals(hint, layout.hint)
+    }
+
+    private fun assertErrorState(layout: TextInputLayout, errorString: String) {
+        assertTrue(layout.isErrorEnabled)
+        assertEquals(errorString, layout.error)
+    }
+
+    private fun validateInvalidBillingInfo() {
+        val incompleteCCNumberInfo = BillingInfo(getCompleteBillingInfo())
+        incompleteCCNumberInfo.location = Location()
+        incompleteCCNumberInfo.expirationDate = LocalDate.now().minusMonths(1)
+        incompleteCCNumberInfo.securityCode = ""
+        incompleteCCNumberInfo.nameOnCard = ""
+        billingDetailsPaymentWidget.sectionLocation.bind(incompleteCCNumberInfo.location)
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
     }
 }

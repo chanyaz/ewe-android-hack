@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/material_edit_address_line_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.widget.accessibility.AccessibleEditText
+            android:id="@+id/edit_address_line_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/address_line_one_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textPostalAddress|textCapWords"
+            android:maxLength="@integer/max_billing_address_length"
+            android:maxLines="1"
+            android:nextFocusForward="@+id/edit_address_city"
+            android:paddingBottom="11dp"
+            android:textSize="@dimen/traveler_input_text_size" />
+    </android.support.design.widget.TextInputLayout >
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/material_edit_address_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.expedia.bookings.widget.accessibility.AccessibleEditText
+            android:id="@+id/edit_address_line_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+            android:hint="@string/address_line_two_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textPostalAddress|textCapWords"
+            android:nextFocusForward="@id/edit_address_city"
+            android:paddingBottom="11dp"
+            android:maxLength="@integer/max_billing_address_length"
+            android:maxLines="1"
+            android:textSize="@dimen/traveler_input_text_size" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/material_address_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.expedia.bookings.widget.accessibility.AccessibleEditText
+                    android:id="@id/edit_address_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/address_city_hint"
+                    android:inputType="textCapWords"
+                    android:nextFocusForward="@+id/edit_address_state"
+                    android:paddingBottom="11dp"
+                    android:maxLines="1"
+                    android:textSize="@dimen/traveler_input_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/material_country_spinner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/material_edit_country_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:drawableRight="@drawable/material_dropdown"
+                    android:hint="@string/country"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/traveler_input_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/material_edit_address_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address_state_hint">
+
+                <com.expedia.bookings.widget.accessibility.AccessibleEditText
+                    android:id="@id/edit_address_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapCharacters"
+                    android:nextFocusForward="@+id/edit_address_postal_code"
+                    android:maxLength="@integer/max_billing_address_length"
+                    android:maxLines="1"
+                    android:textSize="@dimen/traveler_input_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/material_edit_address_postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address_zip_code_hint">
+
+                <com.expedia.bookings.widget.accessibility.AccessibleEditText
+                    android:id="@id/edit_address_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:minHeight="40dp"
+
+                    android:nextFocusForward="@id/edit_creditcard_number"
+                    android:maxLines="1"
+                    android:textSize="@dimen/traveler_input_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- This empty view fixes a scrolling bug on older versions of android -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/checkout_form_bottom_spacer_margin" />
+
+</com.expedia.bookings.section.SectionLocation>

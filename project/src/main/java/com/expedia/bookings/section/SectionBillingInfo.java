@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
@@ -32,7 +34,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -42,6 +43,7 @@ import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
@@ -58,6 +60,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	SectionFieldList<BillingInfo> mFields = new SectionFieldList<>();
 
 	private final static DateTimeFormatter MONTHYEAR_FORMATTER = DateTimeFormat.forPattern("MM/yy");
+	public boolean materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(),
+		AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms);
 
 	Context mContext;
 
@@ -94,6 +98,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayLccFeeWarning);
 		mFields.add(this.mDisplayLccFeeDivider);
 		mFields.add(this.mDisplayCreditCardSecurityCode);
+
+//		error strings for fields that are required
+		if (materialFormTestEnabled) {
+			mValidCCNum.setErrorString(R.string.error_enter_a_valid_card_number);
+			mValidNameOnCard.setErrorString(R.string.error_enter_a_valid_card_name);
+			mValidExpiration.setErrorString(R.string.error_enter_a_valid_month_and_year);
+			mValidSecurityCode.setErrorString(R.string.error_enter_valid_cvv);
+		}
 
 		//Validation indicator fields
 		mFields.add(mValidMaskedCCNum);

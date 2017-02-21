@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.widget.TextView
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -35,6 +36,19 @@ class TextViewExtensions {
                     textColor = ContextCompat.getColor(tv.context, Ui.obtainThemeResID(tv.context, R.attr.primary_color))
                 }
                 tv.setTextColor(textColor)
+            }
+        }
+
+        @JvmOverloads
+        fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String) {
+            val compounds = this.compoundDrawables
+            this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3])
+            (this.parent as TextInputLayout).isErrorEnabled = !isValid
+
+            if (!isValid) {
+                (this.parent as TextInputLayout).error = errorMessage
+            } else {
+                (this.parent as TextInputLayout).error = null
             }
         }
     }

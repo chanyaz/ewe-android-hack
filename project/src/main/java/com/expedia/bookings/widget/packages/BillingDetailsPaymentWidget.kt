@@ -4,7 +4,11 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.support.design.widget.TextInputLayout
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.View
+import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
@@ -13,6 +17,10 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
+import com.expedia.bookings.section.CountrySpinnerAdapter
+import com.expedia.bookings.utils.Ui
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
 import com.expedia.vm.PaymentViewModel
@@ -26,6 +34,9 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val addressCity: AccessibleEditText by bindView(R.id.edit_address_city)
     val addressState: AccessibleEditText by bindView(R.id.edit_address_state)
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
+    var maskedCreditLayout: TextInputLayout ?= null
+    var defaultCreditCardNumberLayout: TextInputLayout ?= null
+    var editCountryEditText: EditText?= null
 
     val creditCardFeesView = CreditCardFeesView(context, null)
     val dialog: AlertDialog by lazy {
@@ -44,6 +55,9 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         creditCardFeeDisclaimer.setOnClickListener {
             dialog.show()
         }
+        if (materialFormTestEnabled) {
+            setupMaterialForm()
+        }
     }
 
     override fun onFinishInflate() {
@@ -56,8 +70,18 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         maskedCreditCard.cardNumberTextSubject.subscribe { text ->
             creditCardNumber.setText(text)
             creditCardNumber.setSelection(text.length)
-            creditCardNumber.visibility = VISIBLE
-            maskedCreditCard.visibility = GONE
+            if (materialFormTestEnabled) {
+                defaultCreditCardNumberLayout?.visibility = VISIBLE
+                maskedCreditLayout?.visibility = GONE
+            } else {
+                creditCardNumber.visibility = VISIBLE
+                maskedCreditCard.visibility = GONE
+            }
+
+        }
+        if (materialFormTestEnabled)  {
+            maskedCreditLayout?.visibility = View.GONE
+            defaultCreditCardNumberLayout?.hint = context.getString(R.string.credit_debit_card_hint)
         }
         val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
         if (isExtraPaddingRequired) {
@@ -76,8 +100,8 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             addVisibilitySubscription(addressLineOne.subscribeTextChange(formFilledSubscriber))
             addVisibilitySubscription(addressCity.subscribeTextChange(formFilledSubscriber))
             addVisibilitySubscription(addressState.subscribeTextChange(formFilledSubscriber))
-            addVisibilitySubscription(sectionLocation.countrySubject.subscribe(formFilledSubscriber))
-            sectionLocation.countrySubject.subscribe { sectionLocation.resetValidation(R.id.edit_address_state, true) }
+            addVisibilitySubscription(sectionLocation.billingCountryCodeSubject.subscribe(formFilledSubscriber))
+            sectionLocation.billingCountryCodeSubject.subscribe { sectionLocation.resetValidation(R.id.edit_address_state, true) }
         }
     }
 
@@ -117,9 +141,66 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         maskedCreditCard.visibility = if (isCreditCardNumberEmpty) GONE else VISIBLE
         creditCardNumber.visibility = if (isCreditCardNumberEmpty) VISIBLE else GONE
         if (!isCreditCardNumberEmpty) maskedCreditCard.showMaskedNumber(creditCardNumber.toFormattedString())
+        if (materialFormTestEnabled) {
+            maskedCreditLayout?.setInverseVisibility(isCreditCardNumberEmpty)
+            defaultCreditCardNumberLayout?.setInverseVisibility(!isCreditCardNumberEmpty)
+        }
     }
 
     @Subscribe fun onAppBackgroundedResumed(@Suppress("UNUSED_PARAMETER") event: Events.AppBackgroundedOnResume) {
         showMaskedCreditCardNumber()
+    }
+
+    private fun setupMaterialForm() {
+        maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
+        defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
+        editCountryEditText = findViewById(R.id.material_edit_country_button) as EditText
+
+        editCountryEditText?.setOnClickListener{
+            showCountryDialog()
+        }
+        editCountryEditText?.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                editCountryEditText?.performClick()
+            }
+            onFocusChange(view, hasFocus)
+        }
+
+        editCountryEditText?.subscribeMaterialFormsError(sectionLocation.billingCountryErrorSubject.map { it }, R.string.error_select_a_billing_country)
+
+        sectionLocation.billingCountryCodeSubject.subscribe { countryCode ->
+            if (countryCode.isNullOrEmpty()) {
+                editCountryEditText?.setText("")
+            } else {
+                val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(countryCode)
+                val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
+                editCountryEditText?.setText(countryName)
+                sectionLocation.billingCountryErrorSubject.onNext(false)
+                sectionLocation.rebindCountryDependantFields()
+                sectionLocation.updateCountryDependantValidation()
+                sectionLocation.updateStateFieldBasedOnBillingCountry(countryCode)
+            }
+        }
+    }
+
+    private fun showCountryDialog() {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(context.resources.getString(R.string.passport_country))
+            val adapter = sectionLocation.materialCountryAdapter
+            val position = if (sectionLocation.billingCountryCodeSubject.value.isNullOrBlank()) {
+                adapter.defaultLocalePosition
+            } else {
+                adapter.getPositionByCountryThreeLetterCode(sectionLocation.billingCountryCodeSubject.value)
+            }
+
+            builder.setSingleChoiceItems(adapter, position) { dialog, position ->
+                sectionLocation.billingCountryCodeSubject.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+                dialog.dismiss()
+            }
+
+            val alert = builder.create()
+            alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
+            alert.show()
     }
 }
