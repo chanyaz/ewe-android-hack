@@ -117,6 +117,7 @@
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
     <string name="preference_show_sign_in_on_launch_screen">preference_show_sign_in_on_launch_screen</string>
+    <string name="preference_show_air_attach_on_launch_screen">preference_show_air_attach_on_launch_screen</string>
     <string name="preference_enable_new_cookies">preference_enable_new_cookies</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
 

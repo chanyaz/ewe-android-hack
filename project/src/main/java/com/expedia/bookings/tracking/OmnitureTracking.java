@@ -3765,6 +3765,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachCardOnLaunchScreen);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();

@@ -71,6 +71,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 			}
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
+			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachCardOnLaunchScreen);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

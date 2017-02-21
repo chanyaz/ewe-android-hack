@@ -51,7 +51,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		HOTEL_VIEW,
 		COLLECTION_VIEW,
 		LOADING_VIEW,
-		SIGN_IN_VIEW
+		SIGN_IN_VIEW,
+		AIR_ATTACH_VIEW
 	}
 
 	private List<LaunchListViewsEnum> getHotelsStateOrder() {
@@ -442,6 +443,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return FeatureToggleUtil
 			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
 				R.string.preference_show_sign_in_on_launch_screen);
+
+	}
+
+	private boolean userBucketedForAirAttach(Context context) {
+		return FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowAirAttachCardOnLaunchScreen,
+				R.string.preference_show_air_attach_on_launch_screen);
 
 	}
 }
