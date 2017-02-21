@@ -109,7 +109,13 @@ public class FlightsSearchResultsSingleCellSteps {
 
 	@And("^Validate the toolbar header text on the selected outbound docked view$")
 	public void validatetoolbarheadertext() throws Throwable {
-		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText("Select return flight"))).check(matches(isDisplayed()));
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText("Select return flight")))
+			.check(matches(isDisplayed()));
+	}
+
+	@Then("^urgency message on cell (\\d+) isDisplayed : (true|false)$")
+	public void lookForUrgencyMessage(int cellNumber, boolean isDisplayed) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.urgency_message,isDisplayed,true);
 	}
 }
 

@@ -113,6 +113,7 @@ Feature: Flights Search Results
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
+    And Validate that flight search results are displayed
     And I select first flight
     Then Validate that flight time field at cell <cellNumber> is displayed: true and isOutBound : false
     And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : false
@@ -147,5 +148,66 @@ Feature: Flights Search Results
     And I select first flight
     Then Validate that on the selected outbound docked view Flight label is displayed
     And Validate that on the selected outbound docked view Flight Airline name is displayed
-    And Validate that on the selected outbound docked view Airline time is displayed
     And Validate the toolbar header text on the selected outbound docked view
+
+
+  @Flights @Search @FlightResults
+  Scenario: Validate urgency message is displayed when seats left is less than 6
+    Given I launch the App
+    And I bucket the following tests
+      | UrgencyMessegingOnFSR |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    Then urgency message on cell 1 isDisplayed : true
+
+
+
+  @Flights @Search @FlightResults
+  Scenario: Validate urgency message is not displayed when seats left is greater than 6
+    Given I launch the App
+    And I bucket the following tests
+      | UrgencyMessegingOnFSR |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    Then urgency message on cell 2 isDisplayed : false
+
+
+  @Flights @Search @FlightResults
+  Scenario: Verify roundtrip messaging not shown for one way trip
+    Given I launch the App
+    And I bucket the following tests
+      | RoundTripOnFlightsFSR |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    And Validate that round trip header at cell 1 is displayed: false and isOutBound : true
