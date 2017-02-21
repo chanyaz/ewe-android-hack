@@ -18,6 +18,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    val HEADER_CLASS = "site-header-primary"
+    val FACEBOOK_LOGIN_CLASS = "facebook-login-pane"
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
@@ -29,6 +32,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageFinished(view: WebView, url: String) {
+            preventLoadingOfDivClass(HEADER_CLASS)
+            preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
             toggleLoading(false)
         }
 
@@ -40,6 +45,10 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             super.onReceivedError(view, request, error)
             toggleLoading(false)
         }
+    }
+
+    private fun preventLoadingOfDivClass(className: String) {
+        webView.loadUrl("javascript:(function() { document.getElementsByClassName('$className')[0].style.display=\"none\"; })()");
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
