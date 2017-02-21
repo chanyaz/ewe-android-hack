@@ -587,7 +587,9 @@ public class SectionLocation extends LinearLayout
 				Location location = this.getData();
 				PointOfSaleId posId = PointOfSale.getPointOfSale().getPointOfSaleId();
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
-				if (materialFormTestEnabled) mPostalLayout = (TextInputLayout) findViewById(R.id.material_edit_address_postal_code);
+				if (materialFormTestEnabled) {
+					mPostalLayout = (TextInputLayout) findViewById(R.id.material_edit_address_postal_code);
+				}
 				int postalHintId = R.string.address_postal_code_hint;
 				if ((location != null && location.getCountryCode() != null
 					&& location.getCountryCode().equalsIgnoreCase("USA"))
@@ -656,7 +658,9 @@ public class SectionLocation extends LinearLayout
 				if (mEditAddressState.mField != null) {
 					String countryCode = getData().getCountryCode();
 					countrySubject.onNext(countryCode);
-					if (materialFormTestEnabled) mStateLayout = (TextInputLayout) findViewById(R.id.material_editAddress_state);
+					if (materialFormTestEnabled) {
+						mStateLayout = (TextInputLayout) findViewById(R.id.material_editAddress_state);
+					}
 					if (countryCode.equals(mCountriesWithStates.get(0))) {
 						if (materialFormTestEnabled) {
 							mStateLayout.setHint(getContext().getString(R.string.address_state_hint));
@@ -670,7 +674,8 @@ public class SectionLocation extends LinearLayout
 						if (materialFormTestEnabled) {
 							mStateLayout.setHint(getContext().getString(R.string.address_province_hint));
 							mValidState.setErrorString(R.string.address_province_hint);
-						} else {
+						}
+						else {
 							mEditAddressState.mField.setHint(R.string.address_province_hint);
 						}
 						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
@@ -679,7 +684,8 @@ public class SectionLocation extends LinearLayout
 						if (materialFormTestEnabled) {
 							mStateLayout.setHint(getContext().getString(R.string.address_county_hint));
 							mValidState.setErrorString(R.string.error_enter_a_valid_province_state_country);
-						} else {
+						}
+						else {
 							mEditAddressState.mField.setHint(R.string.address_county_hint);
 						}
 						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT);
