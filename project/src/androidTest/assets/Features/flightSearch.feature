@@ -242,6 +242,7 @@ Feature: Flights Search
       | end_date            | 10                                       |
       | adults              | 2                                        |
       | child               | 2                                        |
+    And I wait for results to load
     And I click on search icon to go to search form
     Then search criteria is retained on the search form
     When I trigger flight search again with following parameters
