@@ -30,4 +30,8 @@ class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightVi
     override fun getRoundTripMessageVisibilty(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
     }
+
+    override fun isShowingFlightPriceDifference(): Boolean {
+        return false
+    }
 }
