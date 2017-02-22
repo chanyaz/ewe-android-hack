@@ -118,7 +118,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             guestRating.background = getGuestRatingBackground(itemView.context)
             guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
-        viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
         viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
         viewModel.hotelStrikeThroughPriceFormatted.subscribeText(strikeThroughPricePerNight)
         viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(strikeThroughPricePerNight)
