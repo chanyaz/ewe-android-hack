@@ -108,6 +108,17 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
 
+    val bookingSuccessDialog: android.app.AlertDialog by lazy {
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.booking_successful))
+        builder.setMessage(context.getString(R.string.check_your_email_for_itin))
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+            (context as Activity).finish()
+            dialog.dismiss()
+        })
+        builder.create()
+    }
+
     val searchStub: ViewStub by bindView(R.id.search_stub)
     val searchPresenter: HotelSearchPresenter by lazy {
         var presenter = searchStub.inflate() as HotelSearchPresenter
@@ -314,8 +325,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
 
             override fun onError(e: Throwable) {
-                //TODO handle error on fetching itin
                 Log.d("Error fetching itin:" + e.stackTrace)
+                bookingSuccessDialog.show()
             }
 
         }
