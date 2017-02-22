@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Slide to book</string>
+    <string name="lx_slider_text">Slide to purchase</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Enter contact details</string>
     <!-- LX search error -->
@@ -2162,9 +2162,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">slide to book hotel</string>
+    <string name="slide_to_book_hotel">slide to purchase hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">slide to book flight</string>
+    <string name="slide_to_book_flight">slide to purchase flight</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -4380,7 +4380,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Slide to book</string>
+    <string name="slide_to_book_text">Slide to purchase</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} Points</string>
