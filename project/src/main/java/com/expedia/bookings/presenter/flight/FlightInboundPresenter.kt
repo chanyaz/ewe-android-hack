@@ -5,10 +5,21 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.Ui
+import javax.inject.Inject
 
 class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
+
+
+    lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
+        @Inject set
+
+    init {
+        Ui.getApplication(context).flightComponent().inject(this)
+    }
 
     override fun back(): Boolean {
         flightOfferViewModel.cancelInboundSearchObservable.onNext(Unit)
@@ -41,8 +52,8 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
     }
 
     override fun trackFlightResultsLoad() {
-        val flightLegs = flightOfferViewModel.inboundResultsObservable.value
-        FlightsV2Tracking.trackResultInBoundFlights(Db.getFlightSearchParams(), flightLegs)
+        val trackingData = searchTrackingBuilder.build()
+        FlightsV2Tracking.trackResultInBoundFlights(trackingData)
     }
 
 }
