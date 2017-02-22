@@ -200,7 +200,7 @@ class AbstractFlightListAdapterTest {
         assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
         assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
         // This will be tested for MB against different currency eg Orbucks
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.text, "Earn $50 in ")
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.text, "Earn $50")
     }
 
     @Test
