@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">{brand} 계정으로 로그인</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">{brand} 계정으로 로그인 버튼</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 Expedia+ {reward}포인트를 적립하세요.</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">로그인하고 Expedia+ {reward}포인트를 적립하는 버튼</string>
     <!-- or -->
     <string name="or">또는</string>
+    <!--Create Account -->
+    <string name="Create_Account">회원가입</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">포인트를 적립하고 회원 한정 특가도 열어보세요.</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">탑승 수속 가능</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">항공편 공유</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">여행 중 실시간 업데이트를 제공하실 수 있어요.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$s행 %1$s 항공편</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">여행 새로고침</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">여행 새로고침하기</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">여행 새로고치는 중…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">지금 고객님의 여행 일정을 가져올 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1870,7 +1872,7 @@
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">도착 시간</string>
     <!-- Sort by duration label -->
-    <string name="sort_description_duration">비행시간</string>
+    <string name="sort_description_duration">소요 시간</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
         <item quantity="zero">%s일</item>
@@ -2191,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">이 예약으로 {reward_currency}포인트가 적립됩니다!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">고객님은 저희 소중한 회원이십니다!</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">{brand} 회원으로 예약!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">이 여행에 대해 {reward_currency}포인트가 적립됩니다!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2421,6 +2425,8 @@
     <string name="no_thanks">나중에 하기</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">고급 옵션</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">추가 사항(선택 사항)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -4382,7 +4388,7 @@
     <string name="confirmation_reward_points_TEMPLATE">{brand_reward_name} {rewardpoints}포인트</string>
 
     <!-- Flight Duration filter label-->
-    <string name="flight_duration_label">비행시간</string>
+    <string name="flight_duration_label">소요 시간</string>
     <string name="flight_duration_hour_short">시간</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">출발 시간</string>
@@ -4438,7 +4444,7 @@
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
-    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">총 비행 시간: {duration} • {distance}{distanceunit}</string>
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">총 소요 시간: {duration} • {distance}{distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">일정 번호 {itinerary}: {email} 주소로 전송됨</string>
@@ -4539,7 +4545,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4714,7 +4720,7 @@
     <!--Packages search accessibility -->
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 비행 시간은 {hours} {minutes}이며, {stops}번 경유 포함입니다.\u0020</string>
+    <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유 포함입니다.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}. 호텔 및 항공 포함\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -5003,8 +5009,10 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(확인 이메일에 있음)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">유효한 일정 번호를 입력해 주세요. 최소 11자리입니다.</string>
+    <string name="itinerary_number_error_message">유효한 일정 번호를 입력해 주세요.</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">로그인하여 예정된 여행에 액세스하세요.</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">비회원 예약 여행 찾기</string>
 
 </resources>
