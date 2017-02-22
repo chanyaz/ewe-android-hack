@@ -272,7 +272,7 @@ class HotelFilterViewModelTest {
     fun filterFavorite() {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelFavoriteTest,
-                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         Db.setAbacusResponse(abacusResponse)
         val ogResponse = fakeFilteredResponse()
         val hotel = ogResponse.hotelList[0]

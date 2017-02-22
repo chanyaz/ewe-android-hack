@@ -5020,5 +5020,9 @@
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Popular Hotels Tonight</string>
 
 </resources>

@@ -45,24 +45,23 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		LaunchListAdapter adapter = (LaunchListAdapter) parent.getAdapter();
 
 		int recyclerViewChildIndex = parent.getChildAdapterPosition(view);
+		int actualPosition = parent.getChildAdapterPosition(view) - adapter.getOffset();
+		int itemViewType = adapter.getItemViewType(recyclerViewChildIndex);
 
-		int dynamicCardsIndex = recyclerViewChildIndex - adapter.getFixedItemCount();
-		int lobViewPosition = adapter.getPositionForViewType(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW);
-		boolean isLobButtonsView = (lobViewPosition != -1 && recyclerViewChildIndex == lobViewPosition);
-		int signInCardPosition = adapter.getPositionForViewType(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW);
-		boolean isSignInCard = signInCardPosition != -1 && adapter.showSignInCard();
+		boolean isLobButtonsView = itemViewType == LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal();
+		boolean isStatic = LaunchListAdapter.isStaticCard(itemViewType);
 
 		if (isLobButtonsView) {
 			outRect.left = 0;
 			outRect.right = 0;
 		}
 		// Big guys (0, 5, 10, etc)
-		else if (dynamicCardsIndex % 5 == 0 || isSignInCard) {
+		else if (actualPosition % 5 == 0 || isStatic) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
 		}
 		// Right column (2, 4, 7, 9, etc)
-		else if ((dynamicCardsIndex % 5) % 2 == 0) {
+		else if ((actualPosition % 5) % 2 == 0) {
 			outRect.left = mMiddle / 2;
 			outRect.right = mRight;
 		}

@@ -239,7 +239,7 @@ public class FlightSearchPresenterTest {
 		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
 		assertEquals(flightCabinClassWidget.getVisibility(), View.VISIBLE);
 
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);

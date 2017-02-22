@@ -26,8 +26,10 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CollectionViewHolder
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.OptimizedImageView
+import com.expedia.bookings.widget.PopularHotelsTonightCard
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.GenericViewModel
+import com.expedia.vm.PopularHotelsTonightViewModel
 import com.expedia.vm.SignInPlaceHolderViewModel
 
 class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -57,7 +59,7 @@ class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.
     fun showFeeds() {
         val mockFeedsList =
                 listOf(IntroducingScratchpadViewModel("Introducing Scratchpad", "Save your searches for faster booking string TBD", "", "OK, I GOT IT"),
-                        PopularHotelsTonightViewModel("Popular Hotels Tonight", "Hotels nearby from $199", "SHOP NOW", ""),
+                        PopularHotelsTonightViewModel(R.drawable.popular_hotel_stock_image, "Popular Hotels Tonight", "Hotels nearby from $199"),
                         FeedsListAdapter.HeadingViewModel("Flights"),
                         FeedsListAdapter.FlightSearchViewModel("SFO", "AUS", true, "2", "Mar 22 - Mar 23", "$42", "2m"),
                         FeedsListAdapter.FlightSearchViewModel("SFO", "AUS", true, "2", "Mar 22 - Mar 23", "$42", "2m"),
@@ -110,7 +112,7 @@ class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.
             }
 
             FeedTypes.POPULAR_HOTELSTONIGHT_VIEW_HOLDER.ordinal -> {
-                val viewModel = feedList[position] as GenericViewModel
+                val viewModel = feedList[position] as PopularHotelsTonightViewModel
                 (holder as PopularHotelsTonightCard).bind(viewModel)
             }
 
@@ -249,21 +251,7 @@ class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    class PopularHotelsTonightCard(itemView: View, context: Context): RecyclerView.ViewHolder(itemView) {
-        val backgroundImage: OptimizedImageView by bindView(R.id.background_image)
-        val firstLineTextView: TextView by bindView(R.id.first_line)
-        val secondLineTextView: TextView by bindView(R.id.second_line)
 
-        init {
-            val animOptions = AnimUtils.createActivityScaleBundle(itemView)
-            itemView.setOnClickListener { NavUtils.goToHotels(context, animOptions) }
-        }
-
-        fun bind(vm: GenericViewModel) {
-            firstLineTextView.text = vm.firstLine
-            secondLineTextView.text = vm.secondLine
-        }
-    }
 
     class IntroducingScratchpadCard(itemView: View, context: Context): AbstractGenericPlaceholderCard(itemView, context, R.drawable.scratchpad_intro_placeholder) {
         lateinit private var dismissClickListener: DismissClickListener
@@ -334,6 +322,5 @@ class FeedsListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.
 
     data class HeadingViewModel(val title: String)
     data class GenericPlaceholderViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
-    data class PopularHotelsTonightViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
     data class IntroducingScratchpadViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
 }
