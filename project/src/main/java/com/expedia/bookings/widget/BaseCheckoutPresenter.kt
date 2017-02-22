@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
@@ -36,6 +37,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -101,6 +103,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
+    val materialPaymentViewStub: ViewStub by bindView(R.id.material_payment_view_stub)
     val travelersPresenterStub: ViewStub by bindView(R.id.traveler_presenter_stub)
     val space: Space by bindView(R.id.scrollview_space)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
@@ -117,9 +120,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
     val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
 
     val paymentWidget: PaymentWidget by lazy {
-        val presenter = paymentViewStub.inflate() as PaymentWidget
+        val presenter = if (materialFormTestEnabled)  {
+            materialPaymentViewStub.inflate() as PaymentWidget
+        } else {
+            paymentViewStub.inflate() as PaymentWidget
+        }
         presenter
     }
 
@@ -135,6 +144,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         paymentWidget.viewmodel = getPaymentWidgetViewModel()
         paymentWidget.viewmodel.paymentTypeWarningHandledByCkoView.onNext(true)
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
+        if (materialFormTestEnabled) {
+            paymentWidget.viewmodel.updateBackgroundColor.subscribe { forward ->
+                val color = ContextCompat.getColor(context, if (forward) R.color.white else R.color.gray1)
+                scrollView.setBackgroundColor(color)
+            }
+        }
     }
 
     val travelerSummaryCard: TravelerSummaryCard by lazy {
@@ -401,6 +416,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
+            paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
         } else {
             val lp = space.layoutParams
             lp.height = 0
