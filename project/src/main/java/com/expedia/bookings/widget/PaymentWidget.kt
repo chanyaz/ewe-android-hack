@@ -335,6 +335,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         sectionLocation.bind(location)
         sectionBillingInfo.resetValidation()
         sectionLocation.resetValidation()
+        if (materialFormTestEnabled) sectionLocation.countrySubject.onNext(null)
     }
 
     fun selectFirstAvailableCard() {

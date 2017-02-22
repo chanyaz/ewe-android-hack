@@ -5,8 +5,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.support.design.widget.TextInputLayout
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
@@ -15,10 +17,14 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
+import com.expedia.bookings.section.CountrySpinnerAdapter
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
 import com.expedia.vm.PaymentViewModel
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.squareup.otto.Subscribe
 
 class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
@@ -31,6 +37,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
     var maskedCreditLayout: TextInputLayout ?= null
     var defaultCreditCardNumberLayout: TextInputLayout ?= null
+    var editCountryEditText: EditText?= null
 
     val creditCardFeesView = CreditCardFeesView(context, null)
     val dialog: AlertDialog by lazy {
@@ -50,8 +57,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             dialog.show()
         }
         if (materialFormTestEnabled) {
-            maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
-            defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
+            setupMaterialSpecificUi()
         }
     }
 
@@ -143,5 +149,52 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
 
     @Subscribe fun onAppBackgroundedResumed(@Suppress("UNUSED_PARAMETER") event: Events.AppBackgroundedOnResume) {
         showMaskedCreditCardNumber()
+    }
+
+    private fun setupMaterialSpecificUi() {
+        maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
+        defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
+        editCountryEditText = findViewById(R.id.material_edit_country_button) as EditText
+        editCountryEditText?.setOnClickListener{
+            showCountryDialog()
+        }
+        editCountryEditText?.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                editCountryEditText?.performClick()
+            }
+            onFocusChange(view, hasFocus)
+        }
+//            need to find the right observer to subscribe to, if not use the other method being use for other billing payment fields
+//            editCountryEditText?.subscribeMaterialFormsError((sectionLocation.countrySubject., R.string.error_select_a_billing_country)
+        sectionLocation.countrySubject.subscribe { countryName ->
+            if (countryName != null) {
+                val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(countryName as String )
+                editCountryEditText?.setText(sectionLocation.materialCountryAdapter.getItem(countryPosition))
+            } else {
+                editCountryEditText?.setText("")
+            }
+
+        }
+    }
+
+    private fun showCountryDialog() {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(context.resources.getString(R.string.passport_country))
+            val adapter = sectionLocation.materialCountryAdapter
+            val position = if (sectionLocation.countrySubject.value == null) {
+                adapter.defaultLocalePosition
+            } else {
+                adapter.getPositionByCountryThreeLetterCode(sectionLocation.countrySubject.value)
+            }
+
+            builder.setSingleChoiceItems(adapter, position) { dialog, position ->
+                sectionLocation.countrySubject.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+                dialog.dismiss()
+            }
+
+            val alert = builder.create()
+            alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
+            alert.show()
     }
 }

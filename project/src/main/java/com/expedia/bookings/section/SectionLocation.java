@@ -1,7 +1,5 @@
 package com.expedia.bookings.section;
 
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +26,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption;
@@ -54,12 +54,11 @@ public class SectionLocation extends LinearLayout
 	Location mLocation;
 	Context mContext;
 	LineOfBusiness mLineOfBusiness;
-	public BehaviorSubject countrySubject = BehaviorSubject.create();
+	public BehaviorSubject<String> countrySubject = BehaviorSubject.create();
 	public boolean materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(),
 		AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms);
-	TextInputLayout mStateLayout = null;
-	TextInputLayout mPostalLayout = null;
-	TextInputLayout mCountryLayout = null;
+	public CountrySpinnerAdapter materialCountryAdapter =  new CountrySpinnerAdapter(getContext(), CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+		R.layout.material_item);
 
 	public SectionLocation(Context context) {
 		super(context);
@@ -105,7 +104,9 @@ public class SectionLocation extends LinearLayout
 		mFields.add(mEditAddressCity);
 		mFields.add(mEditAddressState);
 		mFields.add(mEditAddressPostalCode);
-		mFields.add(mEditCountrySpinner);
+		if (!materialFormTestEnabled) {
+			mFields.add(mEditCountrySpinner);
+		}
 		mFields.add(mEditDeliveryOptionSpinner);
 	}
 
@@ -185,9 +186,19 @@ public class SectionLocation extends LinearLayout
 		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 			return true;
 		}
-		CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
-		String selectedCountryCode = countryAdapter
-			.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER);
+		CountrySpinnerAdapter countryAdapter = materialFormTestEnabled ?  materialCountryAdapter: (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
+		String selectedCountryCode;
+		if (materialFormTestEnabled) {
+			if (countrySubject.getValue() == null) {
+				selectedCountryCode = countryAdapter
+					.getItemValue(countryAdapter.getDefaultLocalePosition(), CountryDisplayType.THREE_LETTER);
+			} else {
+				selectedCountryCode = (String)countrySubject.getValue();
+			}
+		} else {
+			selectedCountryCode = countryAdapter
+				.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER);
+		}
 		return mCountriesWithStates.contains(selectedCountryCode);
 	}
 
@@ -500,6 +511,7 @@ public class SectionLocation extends LinearLayout
 	SectionFieldEditable<EditText, Location> mEditAddressPostalCode
 		= new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(R.id.edit_address_postal_code) {
 
+		TextInputLayout mPostalLayout = null;
 		Validator<EditText> mPostalCodeCharacterCountValidator = new Validator<EditText>() {
 
 //			Allow anything between 1 and 20 characters if required based on billing country
@@ -623,9 +635,18 @@ public class SectionLocation extends LinearLayout
 	private boolean requiresPostalCode() {
 		// #1056. Postal code check depends on the country, of billing, selected.
 		if (LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
-			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
-			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
-				CountryDisplayType.THREE_LETTER);
+			String selectedCountry;
+			if (materialFormTestEnabled) {
+				CountrySpinnerAdapter countryAdapter = new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
+					R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false);
+				int position = countrySubject.getValue() != null ? countryAdapter.getPositionByCountryThreeLetterCode(countrySubject.getValue()) : countryAdapter.getDefaultLocalePosition();
+				selectedCountry = countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER);
+			} else {
+				CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
+				selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
+					CountryDisplayType.THREE_LETTER);
+			}
+
 			return PointOfSale.countryPaymentRequiresPostalCode(selectedCountry);
 		}
 
@@ -636,6 +657,8 @@ public class SectionLocation extends LinearLayout
 		= new SectionFieldEditable<Spinner, Location>(R.id.edit_country_spinner) {
 
 		private boolean mSetFieldManually = false;
+		TextInputLayout mCountryLayout = null;
+		TextInputLayout mStateLayout = null;
 
 		Validator<Spinner> mValidator = new Validator<Spinner>() {
 			@Override
@@ -646,7 +669,7 @@ public class SectionLocation extends LinearLayout
 
 		private void updateData(int position) {
 			if (getData() != null && getField() != null) {
-				CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) getField().getAdapter();
+				CountrySpinnerAdapter countryAdapter = materialFormTestEnabled ? materialCountryAdapter : (CountrySpinnerAdapter) getField().getAdapter();
 				getData()
 					.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
 				updateCountryDependantValidation();
@@ -739,7 +762,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected void onHasFieldAndData(Spinner field, Location data) {
-			CountrySpinnerAdapter adapter = (CountrySpinnerAdapter) field.getAdapter();
+			CountrySpinnerAdapter adapter = materialFormTestEnabled ? materialCountryAdapter : (CountrySpinnerAdapter) field.getAdapter();
 			if (data instanceof RailLocation && ((RailLocation) data).getTicketDeliveryCountryCodes() != null) {
 				adapter.dataSetChanged(((RailLocation) data).getTicketDeliveryCountryCodes());
 			}

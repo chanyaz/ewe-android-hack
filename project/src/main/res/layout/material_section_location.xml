@@ -88,12 +88,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.expedia.bookings.widget.accessibility.AccessibleSpinner
-                    android:id="@+id/edit_country_spinner"
-                    style="@style/FakeSpinner.Light"
+                <EditText
+                    android:id="@+id/material_edit_country_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:spinner_label="@string/address_state_country_cont_desc" />
+                    android:cursorVisible="false"
+                    android:drawableRight="@drawable/material_dropdown"
+                    android:hint="@string/country"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/traveler_input_text_size" />
 
             </android.support.design.widget.TextInputLayout>
 
