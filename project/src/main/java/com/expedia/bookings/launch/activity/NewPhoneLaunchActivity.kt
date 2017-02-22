@@ -35,7 +35,6 @@ import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
-import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
 import com.expedia.bookings.tracking.FacebookEvents

@@ -504,8 +504,8 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
     }
 
-    fun refreshState() {
-        launchListWidget.notifyDataSetChanged()
+    fun refreshState(isVisible: Boolean) {
+        launchListWidget.visibilityChanged(isVisible)
     }
 
     private fun userBucketedForPopularHotels(): Boolean {

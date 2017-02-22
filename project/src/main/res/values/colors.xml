@@ -325,6 +325,7 @@
     <color name="new_launch_lob_divider_color">#dcdcdc</color>
     <color name="launch_screen_itin_divider">@color/white_70</color>
     <color name="hotel_tonight_background_gradient">#B3B31B63</color>
+    <color name="launch_screen_active_itin_bg">@color/dark_navy</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">@color/exp_lx_orange</color>

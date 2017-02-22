@@ -40,6 +40,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_phablet);
 		initializeFeatureCheck(R.string.preference_enable_payment_traveler_updated_strings);
 		initializeFeatureCheck(R.string.preference_open_car_web_view);
+		initializeFeatureCheck(R.string.preference_active_itin_on_launch);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.launch.widget
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,6 +7,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.OptimizedImageView
+import com.expedia.bookings.widget.TextView
 import com.expedia.vm.PopularHotelsTonightViewModel
 
 class PopularHotelsTonightCard(itemView: View, context: Context): RecyclerView.ViewHolder(itemView) {

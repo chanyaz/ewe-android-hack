@@ -1,8 +1,13 @@
 package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +16,35 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripUtils {
+
+	public static boolean customerHasTripsInNextTwoWeeks(@NotNull Collection<Trip> customerTrips, boolean includeSharedItins) {
+		DateTime twoWeeksFromNow = DateTime.now().plusDays(14);
+		return hasTripStartDateBeforeDateTime(customerTrips, twoWeeksFromNow, includeSharedItins);
+	}
+
+	public static boolean hasTripStartDateBeforeDateTime(Collection<Trip> trips, DateTime dateTime, boolean includeSharedItins) {
+		List<Trip> tripsSortedDateTimeAscending = new ArrayList<>(trips);
+
+		Collections.sort(tripsSortedDateTimeAscending, SORT_ASCENDING_ORDER_COMPARATOR);
+
+		for (Trip trip : tripsSortedDateTimeAscending) {
+			if (trip.getStartDate() != null) {
+				if (trip.getStartDate().isBefore(dateTime) || trip.getStartDate().isEqual(dateTime)) {
+					if (!includeSharedItins && trip.isShared()) {
+						continue; // don't add shared itins to the list
+					}
+					else {
+						return true;
+					}
+				}
+				else { // we don't have any more trips within the time range. Break out of loop
+					break;
+				}
+			}
+		}
+
+		return false;
+	}
 
 	public static void putTripComponents(JSONObject obj, List<TripComponent> tripComponents) throws JSONException {
 		JSONUtils.putJSONableList(obj, "tripComponents", tripComponents);
@@ -59,4 +93,29 @@ public class TripUtils {
 
 		return components;
 	}
+
+	private static final Comparator<Trip> SORT_ASCENDING_ORDER_COMPARATOR = new Comparator<Trip>() {
+		@Override
+		public int compare(Trip o1, Trip o2) {
+
+			if (o1.getStartDate() == null) {
+				if (o1.getStartDate() == o2.getStartDate()) {
+					return 0;
+				}
+				else {
+					return 1;
+				}
+			}
+
+			if (o1.getStartDate().isBefore(o2.getStartDate())) {
+				return -1;
+			}
+			else if (o1.getStartDate().isEqual(o2.getStartDate())) {
+				return 0;
+			}
+			else {
+				return 1;
+			}
+		}
+	};
 }

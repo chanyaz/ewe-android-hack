@@ -1,7 +1,6 @@
 package com.expedia.bookings.launch.widget;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,11 +14,20 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.model.UserLoginStateChangedModel;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import rx.Observer;
 
 public class LaunchListWidget extends RecyclerView {
 
@@ -30,6 +38,16 @@ public class LaunchListWidget extends RecyclerView {
 	private View header;
 	boolean showLobHeader = false;
 
+	private final ItineraryManager.ItinerarySyncAdapter itinerarySyncListener = new ItineraryManager.ItinerarySyncAdapter() {
+		@Override
+		public void onSyncFinished(Collection<Trip> trips) {
+			notifyDataSetChanged();
+		}
+	};
+
+	@Inject
+	UserLoginStateChangedModel userLoginStateChangedModel;
+
 	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LaunchListWidget);
@@ -37,14 +55,21 @@ public class LaunchListWidget extends RecyclerView {
 		typedArray.recycle();
 	}
 
-	public void notifyDataSetChanged() {
-		adapter.updateState();
+	public void visibilityChanged(boolean visible) {
+		if (visible) {
+			ItineraryManager.getInstance().addSyncListener(itinerarySyncListener);
+			notifyDataSetChanged();
+		}
+		else {
+			ItineraryManager.getInstance().removeSyncListener(itinerarySyncListener);
+		}
 	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		Ui.getApplication(getContext()).appComponent().inject(this);
 
 		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);
@@ -54,6 +79,28 @@ public class LaunchListWidget extends RecyclerView {
 		setAdapter(adapter);
 		addItemDecoration(new LaunchListDividerDecoration(getContext()));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+
+		ItineraryManager.getInstance().addSyncListener(itinerarySyncListener);
+
+		userLoginStateChangedModel.getUserLoginStateChanged().debounce(200, TimeUnit.MILLISECONDS)
+			.delay(3, TimeUnit.SECONDS)
+			.subscribe(new Observer<Boolean>() {
+
+				@Override
+				public void onCompleted() {
+				}
+
+				@Override
+				public void onError(Throwable e) {
+				}
+
+				@Override
+				public void onNext(Boolean signedIn) {
+					if (signedIn) {
+						ItineraryManager.getInstance().startSync(false, false, true);
+					}
+				}
+			});
 	}
 
 	@NonNull
@@ -132,4 +179,9 @@ public class LaunchListWidget extends RecyclerView {
 	public void onHasInternetConnectionChange(boolean enabled) {
 		adapter.onHasInternetConnectionChange(enabled);
 	}
+
+	private void notifyDataSetChanged() {
+		adapter.updateState();
+	}
+
 }

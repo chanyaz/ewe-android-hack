@@ -2303,10 +2303,17 @@ public class OmnitureTracking {
 
 	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
 	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
+	private static final String LAUNCH_ACTIVE_ITIN = "App.LS.Itin.Active";
 
 
 	public static void trackLaunchSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SIGN_IN);
+		addStandardFields(s);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackLaunchActiveItin() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_ACTIVE_ITIN);
 		addStandardFields(s);
 		s.trackLink(null, "o", "App Landing", null, null);
 	}
@@ -3537,6 +3544,7 @@ public class OmnitureTracking {
 		if (AndroidUtils.isTablet(sContext) && FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_phablet)) {
 			trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppPhablet);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
