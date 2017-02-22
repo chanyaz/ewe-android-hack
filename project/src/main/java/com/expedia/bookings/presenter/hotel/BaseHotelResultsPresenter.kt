@@ -151,8 +151,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val hotelIconFactory = HotelMarkerIconGenerator(context)
 
     var mapItems = arrayListOf<MapItem>()
-    private val ANIMATION_DURATION_FILTER = 500
     var hotels = emptyList<Hotel>()
+
+    private val ANIMATION_DURATION_FILTER = 500
 
     protected var sortFilterButtonTransition: VerticalTranslateTransition? = null
     private var toolbarTitleTransition: VerticalTranslateTransition? = null
@@ -210,12 +211,19 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     protected fun animateMapCarouselIn() {
         if (mapCarouselContainer.visibility != View.VISIBLE) {
-            mapCarouselContainer.translationX = screenWidth
-            mapCarouselContainer.visibility = View.VISIBLE
-
             val carouselAnimation = mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400)
-            carouselAnimation.withEndAction { animateFab(-mapCarouselContainer.height.toFloat()) }
-            carouselAnimation.start()
+            mapCarouselContainer.translationX = screenWidth
+
+            var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null //need to know carousel height before fab can properly animate.
+            onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+                fab.animate().translationY(-mapCarouselContainer.height.toFloat()).setInterpolator(DecelerateInterpolator()).withEndAction {
+                    carouselAnimation.start()
+                }.start()
+                mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+            }
+
+            mapCarouselContainer.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
+            mapCarouselContainer.visibility = View.VISIBLE
         }
     }
 
@@ -838,7 +846,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 mapCarouselContainer.visibility = View.INVISIBLE
             } else {
                 mapCarouselTransition?.toOrigin()
-                animateFab(-mapCarouselContainer.height.toFloat())
             }
         }
     }
@@ -854,7 +861,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun startTransition(forwardToList: Boolean) {
             super.startTransition(forwardToList)
             //Map pin will always be selected for non-clustering behavior eventually
-            val isMapPinSelected = mapItems.filter { it.isSelected }.isEmpty()
+            val isMapPinSelected = mapItems.filter { it.isSelected }.isNotEmpty()
 
             recyclerView.visibility = View.VISIBLE
             fabShouldVisiblyMove = if (forwardToList) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
