@@ -17,12 +17,15 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
     }
 
     override fun back(): Boolean {
-        flightOfferViewModel.cancelSearchObservable.onNext(Unit)
+        flightOfferViewModel.cancelOutboundSearchObservable.onNext(Unit)
         return super.back()
     }
 
     override fun setupComplete() {
         super.setupComplete()
+        flightOfferViewModel.searchParamsObservable.subscribe {
+            resultsPresenter.setLoadingState()
+        }
         flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedOutboundFlightSelection)
         overviewPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)

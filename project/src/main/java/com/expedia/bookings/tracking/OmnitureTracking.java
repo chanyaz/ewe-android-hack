@@ -5748,6 +5748,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
+			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightByotSearch,
+				R.string.preference_flight_byot)) {
+				trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);
+			}
 		}
 		s.track();
 	}

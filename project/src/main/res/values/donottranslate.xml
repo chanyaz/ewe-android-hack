@@ -115,6 +115,7 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
+    <string name="preference_flight_byot">preference_flight_byot</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
     <string name="preference_show_sign_in_on_launch_screen">preference_show_sign_in_on_launch_screen</string>
     <string name="preference_enable_new_cookies">preference_enable_new_cookies</string>
