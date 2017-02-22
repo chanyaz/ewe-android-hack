@@ -62,6 +62,7 @@ public class CarPresenter extends Presenter {
 		show(carSearchPresenter);
 		carResultsPresenter.setVisibility(INVISIBLE);
 		carSearchPresenter.getSearchViewModel().getSearchParamsObservable().subscribe(carSearchParamsObserver);
+		carResultsPresenter.locationDescriptionSubject.subscribe(carSearchPresenter.getSearchViewModel().getFormattedOriginObservable());
 	}
 
 	private Observer<CarSearchParam> carSearchParamsObserver = new Observer<CarSearchParam>() {

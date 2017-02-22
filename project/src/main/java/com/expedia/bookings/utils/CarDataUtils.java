@@ -266,15 +266,14 @@ public class CarDataUtils {
 		String pickupLocationLngStr = carDeepLink.getPickupLocationLng();
 		LatLong pickupLocationLatLng = LatLong.fromLatLngStrings(pickupLocationLatStr, pickupLocationLngStr);
 		String originDescription = carDeepLink.getOriginDescription();
-		if (carDeepLink.getOriginDescription() == null) {
-			originDescription = pickupLocation;
+		if (originDescription == null) {
+			originDescription = "";
 		}
 		SuggestionV4 originSuggestion;
 
 		//Input Validation
-		//1. One of `origin` and `pickupLocationLatLng` should exist for Car Search Params to be valid
-		//2. `originDescription` should be non-empty
-		if ((Strings.isEmpty(pickupLocation) && pickupLocationLatLng == null) || Strings.isEmpty(originDescription)) {
+		//One of `origin` and `pickupLocationLatLng` should exist for Car Search Params to be valid
+		if (Strings.isEmpty(pickupLocation) && pickupLocationLatLng == null) {
 			return null;
 		}
 		else {
@@ -285,6 +284,10 @@ public class CarDataUtils {
 		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
 		DateTime startDateTime = carDeepLink.getPickupDateTime();
 		DateTime endDateTime = carDeepLink.getDropoffDateTime();
+
+		if (startDateTime == null || endDateTime == null) {
+			return null;
+		}
 
 		return (CarSearchParam) new CarSearchParam.Builder().pickupLocationLatLng(pickupLocationLatLng)
 			.startDateTime(startDateTime).endDateTime(endDateTime).origin(originSuggestion).build();

@@ -69,8 +69,7 @@ open class CarSearchParam(val originLocation: String?, val startDateTime: DateTi
 
             //Input Validation
             //1. One of `origin` and `pickupLocationLatLng` should exist for Car Search Params to be valid
-            //2. `originDescription` should be non-empty
-            if ((Strings.isEmpty(origin) && pickupLocationLatLng == null) || Strings.isEmpty(originDescription)) {
+            if (Strings.isEmpty(origin) && pickupLocationLatLng == null) {
                 throw IllegalStateException("Incomplete params: Origin and pickupLocationLatLong both cannot be null")
             }
 
