@@ -129,6 +129,10 @@
             android:summary="Use 'Phablet' experience on tablet devices"
             android:title="Enable Phablet experience" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_member_deal_on_launch_screen"
+            android:layout="@layout/preference"
+            android:summary="Member Deal On Launch Screen"
+            android:title="New item on launch + new screen (WIP)"/>
     </PreferenceCategory>
-
 </PreferenceScreen>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
+import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -32,6 +34,7 @@ import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.PopularHotelsTonightCard;
 import com.expedia.bookings.widget.SignInPlaceholderCard;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.vm.MemberOnlyDealViewModel;
 import com.expedia.vm.PopularHotelsTonightViewModel;
 import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
@@ -49,6 +52,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		LOB_VIEW,
 		SIGN_IN_VIEW,
 		POPULAR_HOTELS,
+		MEMBER_DEAL_VIEW,
 		HEADER_VIEW,
 		HOTEL_VIEW,
 		COLLECTION_VIEW
@@ -56,7 +60,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public static boolean isStaticCard(int itemViewType) {
 		return itemViewType == LaunchListViewsEnum.SIGN_IN_VIEW.ordinal() ||
-			itemViewType == LaunchListViewsEnum.POPULAR_HOTELS.ordinal();
+			itemViewType == LaunchListViewsEnum.POPULAR_HOTELS.ordinal()
+			|| itemViewType == LaunchListViewsEnum.MEMBER_DEAL_VIEW.ordinal();
 	}
 
 	private List<?> staticCards = new ArrayList<>();
@@ -121,6 +126,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (viewType == LaunchListViewsEnum.POPULAR_HOTELS.ordinal()) {
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_popular_hotels_tonight_card, parent, false);
 			return new PopularHotelsTonightCard(view, context);
+		}
+		else if (viewType == LaunchListViewsEnum.MEMBER_DEAL_VIEW.ordinal()) {
+			View view = LayoutInflater.from(context).inflate(R.layout.member_deal_launch_cell, parent, false);
+			view.setOnClickListener(new MemberDealClickListener());
+			return new MemberDealLaunchViewHolder(view);
 		}
 		else if (viewType == LaunchListViewsEnum.COLLECTION_VIEW.ordinal()) {
 			View view = LayoutInflater.from(context)
@@ -226,28 +236,31 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			return LaunchListViewsEnum.LOB_VIEW.ordinal();
 		}
 
-		Object object = listData.get(position);
+		Object item = listData.get(position);
 
-		if (object.getClass() == Integer.class) {
+		if (item instanceof Integer) {
 			return LaunchListViewsEnum.LOADING_VIEW.ordinal();
 		}
-		else if (object.getClass() == Hotel.class) {
+		else if (item instanceof Hotel) {
 			return LaunchListViewsEnum.HOTEL_VIEW.ordinal();
 		}
-		else if (object.getClass() == CollectionLocation.class) {
+		else if (item instanceof CollectionLocation) {
 			return LaunchListViewsEnum.COLLECTION_VIEW.ordinal();
 		}
-		else if (object.getClass() == HeaderViewModel.class) {
+		else if (item instanceof HeaderViewModel) {
 			return LaunchListViewsEnum.HEADER_VIEW.ordinal();
 		}
-		else if (object.getClass() == SignInPlaceHolderViewModel.class) {
+		else if (item instanceof SignInPlaceHolderViewModel) {
 			return LaunchListViewsEnum.SIGN_IN_VIEW.ordinal();
 		}
-		else if (object.getClass() == NewLaunchLobViewModel.class) {
+		else if (item instanceof NewLaunchLobViewModel) {
 			return LaunchListViewsEnum.LOB_VIEW.ordinal();
 		}
-		else if (object.getClass() == PopularHotelsTonightViewModel.class) {
+		else if (item instanceof PopularHotelsTonightViewModel) {
 			return LaunchListViewsEnum.POPULAR_HOTELS.ordinal();
+		}
+		else if (item instanceof MemberOnlyDealViewModel) {
+			return LaunchListViewsEnum.MEMBER_DEAL_VIEW.ordinal();
 		}
 		else {
 			return -1;
@@ -276,6 +289,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		if (userBucketedForPopularHotels()) {
 			items.add(makePopularHotelsTonightViewModel());
+		}
+		if (isBucketedForMemberDeal()) {
+			items.add(new MemberOnlyDealViewModel());
 		}
 		items.add(new LaunchListAdapter.HeaderViewModel());
 		return items;
@@ -369,12 +385,24 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.string.preference_show_sign_in_on_launch_screen);
 	}
 
+	private boolean isBucketedForMemberDeal() {
+		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen);
+	}
+
 	private static class HeaderViewModel {
 
 	}
 
 	public int getOffset() {
 		return staticCards.size();
+	}
+
+	private class MemberDealClickListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(context, MemberDealActivity.class);
+			context.startActivity(intent);
+		}
 	}
 }
 
