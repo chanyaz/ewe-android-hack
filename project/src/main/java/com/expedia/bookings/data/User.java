@@ -16,6 +16,7 @@ import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
@@ -81,8 +82,27 @@ public class User implements JSONable {
 	}
 
 	public List<StoredCreditCard> getStoredCreditCards() {
-		return (mStoredCreditCards != null) ? mStoredCreditCards : Collections.<StoredCreditCard>emptyList();
+		boolean removeExpiredCreditCards = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
+		if (mStoredCreditCards != null) {
+			if (removeExpiredCreditCards) {
+				List<StoredCreditCard> creditCards = new ArrayList<>(mStoredCreditCards);
+				List<StoredCreditCard> expiredCreditCards = new ArrayList<>();
+				for (StoredCreditCard creditCard : creditCards) {
+					if (creditCard.isExpired()) {
+						expiredCreditCards.add(creditCard);
+					}
+				}
+				creditCards.removeAll(expiredCreditCards);
+				return creditCards;
+			}
+			else {
+				return mStoredCreditCards;
+			}
+
+		}
+		return Collections.emptyList();
 	}
+
 
 	public List<StoredPointsCard> getStoredPointsCards() {
 		return mStoredPointsCards;

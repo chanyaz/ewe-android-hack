@@ -5417,6 +5417,8 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		}
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
+
 		s.track();
 	}
 
