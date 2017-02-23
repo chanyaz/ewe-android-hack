@@ -667,6 +667,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_new_search,
 		R.string.flight_generic_error_title,
 		R.string.error_try_again_warning,
+		R.layout.member_deal_activity,
 		R.layout.insurance_benefits_dialog_body,
 		R.layout.insurance_widget,
 		R.string.insurance_adding,
