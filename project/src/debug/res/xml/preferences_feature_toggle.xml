@@ -119,4 +119,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="General">
+
+        <CheckBoxPreference
+            android:key="@string/preference_phablet"
+            android:layout="@layout/preference"
+            android:summary="Use 'Phablet' experience on tablet devices"
+            android:title="Enable Phablet experience" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

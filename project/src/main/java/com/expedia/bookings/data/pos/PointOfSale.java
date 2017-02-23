@@ -28,6 +28,7 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -55,7 +56,7 @@ public class PointOfSale {
 	/**
 	 * This enum defines the different types of fields required for hotels checkout.
 	 */
-	public enum RequiredPaymentFields {
+	private enum RequiredPaymentFields {
 		NONE,
 		POSTAL_CODE,
 		ALL,
@@ -81,16 +82,16 @@ public class PointOfSale {
 	private int mSiteId;
 
 	// The POS's contact phone number
-	private String mSupportPhoneNumber;
+	private SupportPhoneNumber mSupportPhoneNumber;
 
 	// The POS's base tier rewards member contact phone number
-	private String mSupportPhoneNumberBaseTier;
+	private SupportPhoneNumber mSupportPhoneNumberBaseTier;
 
 	// The POS's middle tier rewards member contact phone number
-	private String mSupportPhoneNumberMiddleTier;
+	private SupportPhoneNumber mSupportPhoneNumberMiddleTier;
 
 	// The POS's top tier rewards member phone number
-	private String mSupportPhoneNumberTopTier;
+	private SupportPhoneNumber mSupportPhoneNumberTopTier;
 
 	// The POS's silver rewards member contact email
 	private String mSupportEmailMiddleTier;
@@ -515,25 +516,25 @@ public class PointOfSale {
 	private String getSupportPhoneNumber() {
 		String number = getPosLocale().getSupportNumber();
 		if (TextUtils.isEmpty(number)) {
-			number = mSupportPhoneNumber;
+			number = mSupportPhoneNumber.getPhoneNumberForDevice(sIsTablet);
 		}
 		return number;
 	}
 
 	public String getDefaultSupportPhoneNumber() {
-		return mSupportPhoneNumber;
+		return mSupportPhoneNumber.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportPhoneNumberBaseTier() {
-		return mSupportPhoneNumberBaseTier;
+		return mSupportPhoneNumberBaseTier.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportPhoneNumberMiddleTier() {
-		return mSupportPhoneNumberMiddleTier;
+		return mSupportPhoneNumberMiddleTier.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportPhoneNumberTopTier() {
-		return mSupportPhoneNumberTopTier;
+		return mSupportPhoneNumberTopTier.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportEmailMiddleTier() {
@@ -633,21 +634,22 @@ public class PointOfSale {
 	}
 
 	public boolean supports(LineOfBusiness lob) {
+		boolean showingTabletInterface = ExpediaBookingApp.useTabletInterface();
 		switch (lob) {
 		case CARS:
-			return mSupportsCars && !sIsTablet;
+			return mSupportsCars && !showingTabletInterface;
 		case LX:
-			return mSupportsLx && !sIsTablet;
+			return mSupportsLx && !showingTabletInterface;
 		case TRANSPORT:
-			return mSupportsGT && !sIsTablet;
+			return mSupportsGT && !showingTabletInterface;
 		case FLIGHTS:
 			return mSupportsFlights;
 		case HOTELS:
 			return true;
 		case PACKAGES:
-			return mSupportsPackages && !sIsTablet;
+			return mSupportsPackages && !showingTabletInterface;
 		case RAILS:
-			return mSupportsRails && !sIsTablet;
+			return mSupportsRails && !showingTabletInterface;
 		}
 
 		return false;
@@ -1032,7 +1034,7 @@ public class PointOfSale {
 		sIsTablet = usingTabletInterface;
 
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
-		loadPointOfSaleInfo(configHelper, usingTabletInterface);
+		loadPointOfSaleInfo(configHelper);
 
 		// Load supported Expedia suggest locales
 		loadExpediaSuggestSupportedLanguages(configHelper);
@@ -1183,7 +1185,7 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Data loading
 
-	private static void loadPointOfSaleInfo(PointOfSaleConfigHelper configHelper, boolean usingTabletInterface) {
+	private static void loadPointOfSaleInfo(PointOfSaleConfigHelper configHelper) {
 		long start = System.nanoTime();
 
 		sPointOfSale.clear();
@@ -1195,7 +1197,7 @@ public class PointOfSale {
 			Iterator<String> keys = posData.keys();
 			while (keys.hasNext()) {
 				String posName = keys.next();
-				PointOfSale pos = parsePointOfSale(usingTabletInterface, posName, posData.optJSONObject(posName));
+				PointOfSale pos = parsePointOfSale(posName, posData.optJSONObject(posName));
 				if (pos != null) {
 					if (BuildConfig.RELEASE && pos.isDisabledForRelease()) {
 						continue;
@@ -1216,8 +1218,7 @@ public class PointOfSale {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
-	private static PointOfSale parsePointOfSale(boolean usingTabletInterface, String posName, JSONObject data)
-			throws JSONException {
+	private static PointOfSale parsePointOfSale(String posName, JSONObject data) throws JSONException {
 
 		PointOfSaleId pointOfSaleFromId = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
 		if (pointOfSaleFromId == null) {
@@ -1240,19 +1241,16 @@ public class PointOfSale {
 
 		// Support
 		String[] supportPhoneNumberTierNames = ProductFlavorFeatureConfiguration.getInstance().getRewardTierSupportNumberConfigNames();
-		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(usingTabletInterface, data, "supportPhoneNumber");
+		pos.mSupportPhoneNumber = new SupportPhoneNumber(data.optJSONObject("supportPhoneNumber"));
 		if (supportPhoneNumberTierNames != null) {
 			if (supportPhoneNumberTierNames.length > 0 && supportPhoneNumberTierNames[0] != null) {
-				pos.mSupportPhoneNumberBaseTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
-						supportPhoneNumberTierNames[0]);
+				pos.mSupportPhoneNumberBaseTier = new SupportPhoneNumber(data.optJSONObject(supportPhoneNumberTierNames[0]));
 			}
 			if (supportPhoneNumberTierNames.length > 1 && supportPhoneNumberTierNames[1] != null) {
-				pos.mSupportPhoneNumberMiddleTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
-						supportPhoneNumberTierNames[1]);
+				pos.mSupportPhoneNumberMiddleTier = new SupportPhoneNumber(data.optJSONObject(supportPhoneNumberTierNames[1]));
 			}
 			if (supportPhoneNumberTierNames.length > 2 && supportPhoneNumberTierNames[2] != null) {
-				pos.mSupportPhoneNumberTopTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
-						supportPhoneNumberTierNames[2]);
+				pos.mSupportPhoneNumberTopTier = new SupportPhoneNumber(data.optJSONObject(supportPhoneNumberTierNames[2]));
 			}
 		}
 
@@ -1327,31 +1325,6 @@ public class PointOfSale {
 		pos.mRequiredPaymentFieldsFlights = parseRequiredPaymentFieldsFlights(data);
 
 		return pos;
-	}
-
-	// e.g. "supportPhoneNumber": {
-	//  "*": "<Default #>",
-	//  "iPhone": "<iPhone #>",
-	//  "iPad": "<iPad #>",
-	//  "Android": "<Android non-tablet #>",
-	//  "AndroidTablet": "<Android tablet #>"
-	// },
-	private static String parseDeviceSpecificPhoneNumber(boolean usingTabletInterface, JSONObject data, String name)
-		throws JSONException {
-		if (!data.has(name)) {
-			return null;
-		}
-		JSONObject numbers = data.getJSONObject(name);
-
-		// Try to find a device specific number
-		String deviceSpecificKey = usingTabletInterface ? "AndroidTablet" : "Android";
-		String result = numbers.optString(deviceSpecificKey, null);
-		if (!TextUtils.isEmpty(result)) {
-			return result;
-		}
-
-		// Just use the default number (or null if it doesn't exist)
-		return numbers.optString("*", null);
 	}
 
 	private static RequiredPaymentFields parseRequiredPaymentFieldsFlights(JSONObject data) {

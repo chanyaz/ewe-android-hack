@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -47,7 +48,6 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.AndroidUtils;
 
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
@@ -222,7 +222,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private void setSignInView(View view) {
 		View mEmptyView;
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
-			R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity())) {
+			R.string.preference_itin_new_sign_in_screen) && !ExpediaBookingApp.useTabletInterface()) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
@@ -549,7 +549,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private int getSupportActionBarHeight() {
 		int ret;
 		// Tablet's ItineraryActivity is not an ActionBarActivity yet.
-		if (AndroidUtils.isTablet(getActivity())) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			ret = getActivity().getActionBar() == null ? 0 : getActivity().getActionBar().getHeight();
 		}
 		else {

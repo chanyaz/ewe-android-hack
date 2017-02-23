@@ -205,7 +205,7 @@ public class HotelSummarySection extends RelativeLayout {
 				mPriceText.setTextColor(mSalePriceTextColor);
 				if (rate.isAirAttached()) {
 					// Story #3586. Air Attach Phone - Search Results.
-					if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+					if (!ExpediaBookingApp.useTabletInterface()) {
 						if (mSaleImageView != null) {
 							mSaleImageView.setVisibility(View.VISIBLE);
 							mSaleImageView.setImageResource(R.drawable.bg_hotel_cell_sale_air_attach);
@@ -332,7 +332,7 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText.setTextSize(priceTextSize);
 		mPriceText.setText(hotelPrice);
 
-		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			ratingInfo.setVisibility(GONE);
 		}
 		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
@@ -426,7 +426,7 @@ public class HotelSummarySection extends RelativeLayout {
 	}
 
 	private void setSoldOut() {
-		if (ExpediaBookingApp.useTabletInterface(getContext())) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			if (mSoldOutText != null) {
 				mSoldOutText.setVisibility(View.VISIBLE);
 				mSoldOutText.setText(

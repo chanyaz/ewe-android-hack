@@ -253,13 +253,13 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			switch (firstError.getErrorCode()) {
 			case FLIGHT_PRODUCT_NOT_FOUND:
 			case SESSION_TIMEOUT:
-				if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+				if (ExpediaBookingApp.useTabletInterface()) {
 					Events.post(new Events.TripItemExpired(LineOfBusiness.FLIGHTS));
 					// Let's break for Tablet ONLY. Let's handle all cases for flights with just one dialog - below (for now).
 					break;
 				}
 			case FLIGHT_SOLD_OUT:
-				if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+				if (ExpediaBookingApp.useTabletInterface()) {
 					// Post event for tablets to show the BookingUnavailableFragment
 					Events.post(new Events.BookingUnavailable(LineOfBusiness.FLIGHTS));
 				}

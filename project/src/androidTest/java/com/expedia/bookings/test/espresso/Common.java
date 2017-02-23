@@ -28,8 +28,7 @@ public class Common {
 	}
 
 	public static boolean isTablet() {
-		Context context = InstrumentationRegistry.getTargetContext();
-		return ExpediaBookingApp.useTabletInterface(context);
+		return ExpediaBookingApp.useTabletInterface();
 	}
 
 	public static boolean isPhone() {

@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -46,8 +48,6 @@ import com.expedia.ui.PackageActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
 
-import java.util.List;
-
 /**
  * Utilities for navigating the app (between Activities)
  */
@@ -83,7 +83,7 @@ public class NavUtils {
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			Intent intent = new Intent(context, TabletLaunchActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
@@ -101,7 +101,7 @@ public class NavUtils {
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
 		Intent intent;
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			intent = new Intent(context, TabletLaunchActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		}
@@ -148,7 +148,7 @@ public class NavUtils {
 
 	public static void goToItin(Context context, String itinId) {
 		Intent intent;
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			TaskStackBuilder builder = TaskStackBuilder.create(context);
 			intent = new Intent(context, TabletLaunchActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -183,7 +183,7 @@ public class NavUtils {
 	public static void goToSignIn(Context context, Boolean showAccount) {
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			intent = new Intent(context, TabletLaunchActivity.class);
 		}
 		else {
@@ -455,33 +455,6 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
 		context.startActivity(intent);
-	}
-
-	/**
-	 * Helper method for determining whether or not to skip launch and start EH tablet
-	 *
-	 * @param context
-	 * @return true if EHTablet should be (and has been) launched
-	 */
-	public static boolean skipLaunchScreenAndStartEHTablet(Context context) {
-		Intent intent = generateStartEHTabletIntent(context);
-		if (intent != null) {
-			context.startActivity(intent);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Builds the intent for starting EhTablet
-	 *
-	 * @return Intent for going to EHTablet start screen, or null if not valid for this device
-	 */
-	private static Intent generateStartEHTabletIntent(Context context) {
-		if (ExpediaBookingApp.useTabletInterface(context)) {
-			return new Intent(context, TabletLaunchActivity.class);
-		}
-		return null;
 	}
 
 	public static void onDataMissing(Activity activity) {

@@ -33,7 +33,6 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
 import com.expedia.bookings.widget.SlidingRadioGroup;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 import com.squareup.phrase.Phrase;
 
@@ -115,7 +114,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 		mFooterTextView.setVisibility(View.GONE);
 
 		// Hide the header if this is not the tablet
-		if (!AndroidUtils.isTablet(getActivity())) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			Ui.findView(view, R.id.header_layout).setVisibility(View.GONE);
 		}
 
@@ -233,7 +232,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			: View.GONE);
 
 		// Disable highlighting if we're on phone UI
-		mAdapter.highlightSelectedPosition(AndroidUtils.isTablet(getActivity()));
+		mAdapter.highlightSelectedPosition(ExpediaBookingApp.useTabletInterface());
 
 		CharSequence commonValueAdds = response.getCommonValueAddsString(getActivity());
 		if (commonValueAdds != null) {
@@ -340,7 +339,7 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 
 	private void openWebViewWithText(String title, String text, boolean useLeftMargin) {
 		String html;
-		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
 		}
 		else {

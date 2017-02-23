@@ -187,7 +187,7 @@ public class TripBucket implements JSONable {
 		mLastLOBAdded = tripBucketItem.getLineOfBusiness();
 		mRefreshCount++;
 		mItems.add(tripBucketItem);
-		if (ExpediaBookingApp.isTablet()) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			checkForTabletMismatchedItems();
 		}
 	}

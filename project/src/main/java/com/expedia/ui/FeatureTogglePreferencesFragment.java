@@ -36,6 +36,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_hotel_server_side_filters);
 		initializeFeatureCheck(R.string.preference_show_sign_in_on_launch_screen);
 		initializeFeatureCheck(R.string.preference_show_popular_hotels_on_launch_screen);
+		initializeFeatureCheck(R.string.preference_phablet);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

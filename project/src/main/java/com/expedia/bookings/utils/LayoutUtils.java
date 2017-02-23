@@ -191,7 +191,7 @@ public class LayoutUtils {
 		float acceptableWidth = context.getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
 		float measuredWidthOfStr = amenityTextView.getPaint().measureText(context.getString(amenity.getStrId()));
 
-		if (ExpediaBookingApp.useTabletInterface(context) || amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
+		if (ExpediaBookingApp.useTabletInterface() || amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
 			amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				context.getResources().getDimension(R.dimen.amenity_text_size_small));
 		}

@@ -366,6 +366,15 @@
             android:title="Integration AA Test - 11455" />
 
         <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13350"
+            android:layout="@layout/preference"
+            android:title="Phablet - 13350" />
+
+        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
