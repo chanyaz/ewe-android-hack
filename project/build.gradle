@@ -371,7 +371,7 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled = true
+            testCoverageEnabled = GradleUtil.shouldEnableTestCoverage(project)
 
             applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
 
@@ -449,26 +449,34 @@ public class GradleUtil {
     }
 
     static def shouldEnableProguard(Project project) {
+        return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "runProguard")
+    }
+
+    static def shouldEnableTestCoverage(Project project) {
+        return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "enableTestCoverage")
+    }
+
+    private static def shouldEnableOnJenkinsOrIfManuallyEnabled(Project project, String manualEnableKey) {
         def buildNumber = "${System.env.BUILD_NUMBER}"
         def ci = "${System.env.CI}"
-        def boolean shouldRunProguard = false
+        def boolean shouldEnable = false
 
         // If BUILD_NUMBER defined turn on proguard
         if (isDefined(buildNumber)) {
-            shouldRunProguard = true
+            shouldEnable = true
         }
 
         // If CI defined turn on proguard
         if (isDefined(ci)) {
-            shouldRunProguard = true
+            shouldEnable = true
         }
 
         // This setting supercedes BUILD_NUMBER
-        if (project.hasProperty("runProguard")) {
-            shouldRunProguard = project.getProperty("runProguard").toBoolean()
+        if (project.hasProperty(manualEnableKey)) {
+            shouldEnable = project.getProperty(manualEnableKey).toBoolean()
         }
 
-        return shouldRunProguard;
+        return shouldEnable;
     }
 
     static def getPropertyWithDefault(Project project, String key, String thedefault) {
