@@ -138,6 +138,9 @@ public class PointOfSale {
 	// Whether to show rails on this POS
 	private boolean mSupportsRails;
 
+	// Whether to show Cars WebView on this POS
+	private boolean mSupportsCarsWebView;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -661,6 +664,10 @@ public class PointOfSale {
 
 	public boolean supportsFlightsFreeCancellation() {
 		return mShowFlightsFreeCancellation;
+	}
+
+	public boolean supportsCarsWebView() {
+		return mSupportsCarsWebView;
 	}
 
 	/**
@@ -1278,6 +1285,7 @@ public class PointOfSale {
 		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
+		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);

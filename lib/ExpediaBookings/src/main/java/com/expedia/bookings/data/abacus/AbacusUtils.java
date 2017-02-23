@@ -56,6 +56,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
 	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
 	public static final int ExpediaAndroidAppPhablet = 13350;
+	public static final int EBAndroidAppShowCarWebView = 12913;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariant {
@@ -115,6 +116,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
 		testIDs.add(EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		testIDs.add(ExpediaAndroidAppPhablet);
+		testIDs.add(EBAndroidAppShowCarWebView);
 		return testIDs;
 	}
 

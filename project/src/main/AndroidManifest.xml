@@ -285,6 +285,11 @@
             android:theme="@style/V2.Theme.Cars"
             tools:ignore="UnusedAttribute" />
 
+        <activity
+            android:name="com.expedia.ui.CarWebViewActivity"
+            android:resizeableActivity="false"
+            tools:ignore="UnusedAttribute" />
+
         <!-- LX activity -->
 
         <activity
