@@ -609,7 +609,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (etpContainer.visibility == View.VISIBLE) {
             selectRoomButtonOffset = (offset + (etpContainer.height) / 2)
         }
-        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset
+
+        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset ||
+                detailContainer.getChildAt(detailContainer.childCount-1).bottom - detailContainer.height - detailContainer.scrollY <= stickySelectRoomContainer.height / 4
 
         if (showStickySelectRoom && !selectRoomInAnimator.isRunning && stickySelectRoomContainer.translationY != 0f) {
             selectRoomInAnimator.start()
