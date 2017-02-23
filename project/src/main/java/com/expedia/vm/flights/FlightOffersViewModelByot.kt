@@ -23,6 +23,7 @@ class FlightOffersViewModelByot(context: Context, flightServices: FlightServices
         val maxStay = context.resources.getInteger(R.integer.calendar_max_days_flight_search)
         val maxRange = context.resources.getInteger(R.integer.calendar_max_days_flight_search)
         val searchParams = Db.getFlightSearchParams().buildParamsForInboundSearch(maxStay, maxRange, legId)
+        searchingForFlightDateTime.onNext(Unit)
         flightInboundSearchSubscription = flightServices.flightSearch(searchParams, makeResultsObserver(), resultsReceivedDateTimeObservable)
     }
 

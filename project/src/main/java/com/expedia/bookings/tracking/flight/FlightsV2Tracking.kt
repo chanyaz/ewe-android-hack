@@ -32,9 +32,9 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
     }
 
-    fun trackResultInBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
-        OmnitureTracking.trackResultInBoundFlights()
-        TuneUtils.trackFlightV2InBoundResults(flightSearchParams, flightLegs)
+    fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData) {
+        OmnitureTracking.trackResultInBoundFlights(trackingData)
+        TuneUtils.trackFlightV2InBoundResults(trackingData)
     }
 
     fun trackFlightBaggageFeeClick() {
