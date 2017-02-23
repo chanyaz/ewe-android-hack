@@ -4696,10 +4696,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Flight Search</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">via Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Browse hotels</string>
 
