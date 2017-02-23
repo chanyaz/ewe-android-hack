@@ -45,4 +45,9 @@ public class SearchResultsScreenSteps {
 		onView(withId(R.id.sort_filter_button)).perform(waitFor(isCompletelyDisplayed(), 20, TimeUnit.SECONDS));
 		onView(withId(R.id.menu_search)).perform(click());
 	}
+
+	@And("^I click on sort and filter icon$")
+	public void clickOnSortAndFilterIcon() throws Throwable {
+		onView(withId(R.id.sort_filter_button)).perform(click());
+	}
 }
