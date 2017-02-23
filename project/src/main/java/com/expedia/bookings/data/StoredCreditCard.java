@@ -107,6 +107,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 			obj.putOpt("cardNumber", mCardNumber);
 			obj.putOpt("isSelectable", mIsSelectable);
 			obj.putOpt("nameOnCard", mNameOnCard);
+			obj.putOpt("expired", expired);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -124,6 +125,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 		mCardNumber = obj.optString("cardNumber");
 		mIsSelectable = obj.optBoolean("isSelectable");
 		mNameOnCard = obj.optString("nameOnCard");
+		expired = obj.optBoolean("expired");
 		return true;
 	}
 
