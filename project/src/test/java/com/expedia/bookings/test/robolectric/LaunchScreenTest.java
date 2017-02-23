@@ -35,7 +35,6 @@ public class LaunchScreenTest {
 	private Hotel hotelNoRating = new Hotel();
 	@Before
 	public void before() {
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		HotelRate rate = new HotelRate();
 		rate.averageRate = 1;
 		rate.surchargeTotal = 1;

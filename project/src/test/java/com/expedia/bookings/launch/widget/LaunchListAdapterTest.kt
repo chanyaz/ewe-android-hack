@@ -82,7 +82,7 @@ class LaunchListAdapterTest {
         SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
         createSystemUnderTest()
-        givenWeHaveCurrentLocationAndHotels()
+        givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
@@ -97,7 +97,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, fifthPosition)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.COLLECTION_VIEW.ordinal, fifthPosition)
     }
 
     @Test
@@ -106,7 +106,7 @@ class LaunchListAdapterTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
         createSystemUnderTest()
-        givenWeHaveCurrentLocationAndHotels()
+        givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
@@ -118,7 +118,7 @@ class LaunchListAdapterTest {
         assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, fifthPosition)
+        assertEquals(LaunchListAdapter.LaunchListViewsEnum.COLLECTION_VIEW.ordinal, fifthPosition)
     }
 
     @Test
