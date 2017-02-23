@@ -81,20 +81,30 @@ public class User implements JSONable {
 	}
 
 	public List<StoredCreditCard> getStoredCreditCards() {
+		return getStoredCreditCards(false);
+	}
+
+	public List<StoredCreditCard> getStoredCreditCards(boolean removeExpiredCards) {
 		if (mStoredCreditCards != null) {
-			List<StoredCreditCard> creditCards = new ArrayList<>(mStoredCreditCards);
-			List<StoredCreditCard> expiredCreditCards = new ArrayList<>();
-			for (StoredCreditCard creditCard : creditCards) {
-				if (creditCard.isExpired()) {
-					expiredCreditCards.add(creditCard);
+			if (removeExpiredCards) {
+				List<StoredCreditCard> creditCards = new ArrayList<>(mStoredCreditCards);
+				List<StoredCreditCard> expiredCreditCards = new ArrayList<>();
+				for (StoredCreditCard creditCard : creditCards) {
+					if (creditCard.isExpired()) {
+						expiredCreditCards.add(creditCard);
+					}
 				}
+				creditCards.removeAll(expiredCreditCards);
+				return creditCards;
 			}
-			creditCards.removeAll(expiredCreditCards);
-			return creditCards;
+			else {
+				return mStoredCreditCards;
+			}
 
 		}
 		return Collections.emptyList();
 	}
+
 
 	public List<StoredPointsCard> getStoredPointsCards() {
 		return mStoredPointsCards;

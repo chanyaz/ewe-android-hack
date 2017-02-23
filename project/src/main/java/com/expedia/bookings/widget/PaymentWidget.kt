@@ -335,7 +335,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         sectionBillingInfo.bind(Db.getBillingInfo())
         val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
         if (tripItem != null) {
-            val storedUserCreditCards = Db.getUser().storedCreditCards
+            val storedUserCreditCards = storedCardsList()
             for (storedCard in storedUserCreditCards) {
                 if (tripItem.isPaymentTypeSupported(storedCard.type)) {
                     Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
@@ -524,10 +524,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     })
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
-            else viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+            else viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (storedCardsList().isNotEmpty() || Db.getTemporarilySavedCard() != null))
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(forward)
         }
     }
+
+    private fun storedCardsList() = Db.getUser().storedCreditCards
 
     protected open fun updateLegacyToolbarMenu(forward: Boolean) {
         if (forward) {
@@ -595,7 +597,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) {
                 validateAndBind()
-                viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+                viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (storedCardsList().isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
             if (materialFormTestEnabled) viewmodel.updateBackgroundColor.onNext(forward)
@@ -634,7 +636,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun shouldShowPaymentOptions(): Boolean {
-        return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()
+        return (User.isLoggedIn(context) && storedCardsList().isNotEmpty()
                 && getLineOfBusiness() != LineOfBusiness.RAILS)
                 || Db.getTemporarilySavedCard() != null
     }
