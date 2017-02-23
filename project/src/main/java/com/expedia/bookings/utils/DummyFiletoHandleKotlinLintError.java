@@ -73,6 +73,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_accessible_bathroom,
 		R.drawable.ic_amenity_hot_tub,
 		R.drawable.ic_amenity_jacuzzi,
+		R.string.booking_successful,
+		R.string.check_your_email_for_itin,
 		R.drawable.ic_amenity_whirl_pool,
 		R.drawable.hotel_tooltip_airattach_selected,
 		R.drawable.ic_amenity_kitchen,

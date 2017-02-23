@@ -5026,5 +5026,9 @@
     <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_popular_hotels">Popular Hotels Tonight</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Booking Successful!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Please check your email for the itinerary.</string>
 
 </resources>

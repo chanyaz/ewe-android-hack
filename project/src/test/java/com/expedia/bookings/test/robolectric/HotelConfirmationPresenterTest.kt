@@ -2,10 +2,11 @@ package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractItinDetailsResponse
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -27,7 +28,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -83,6 +86,24 @@ class HotelConfirmationPresenterTest {
         assertEquals("Itinerary #7241053124635", hotelPresenter.confirmationPresenter.itinNumberTextView.text)
         assertEquals("abhithaparian@gmail.com", hotelPresenter.confirmationPresenter.sendToEmailTextView.text)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testDialogDisplayedOnItinsCallFailure() {
+        val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
+        makeItinResponseObserver.onError(Throwable())
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowOfAlertDialog = Shadows.shadowOf(alertDialog)
+
+        val message = alertDialog.findViewById(android.R.id.message) as TextView
+        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
+
+        assertEquals(true, alertDialog.isShowing)
+        assertEquals("Booking Successful!", shadowOfAlertDialog.title)
+        assertEquals("Please check your email for the itinerary.", message.text)
+        assertEquals("OK", okButton.text)
+    }
+
 
     private fun selectHotelRoom() {
         val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
