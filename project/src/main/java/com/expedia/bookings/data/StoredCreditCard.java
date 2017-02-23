@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
-
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -17,6 +16,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 	private String mRemoteId;
 	private String mCardNumber;
 	private String mNameOnCard;
+	private boolean expired;
 	private boolean mIsGoogleWallet;
 
 	// (Tablet Checkout) When user is logged in, can this credit card be selected from the list of stored credit cards or disabled?
@@ -60,6 +60,15 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 
 	public String getNameOnCard() {
 		return mNameOnCard;
+	}
+
+
+	public void setExpired(boolean isExpired) {
+		expired = isExpired;
+	}
+
+	public boolean isExpired() {
+		return expired;
 	}
 
 	/**
