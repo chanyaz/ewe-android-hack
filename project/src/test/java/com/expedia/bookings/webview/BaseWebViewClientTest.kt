@@ -2,6 +2,7 @@ package com.expedia.bookings.webview
 
 import android.app.Activity
 import android.webkit.WebView
+import com.expedia.bookings.fragment.WebViewFragment
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -37,6 +38,12 @@ class BaseWebViewClientTest {
     }
 
     @Test
+    fun logoutLinkOverrideUrlLoading() {
+        createSystemUnderTest(loadCookies = true)
+        assertShouldOverrideUrlLoading(url = "http://user/logout", expectedResult = false)
+    }
+
+    @Test
     fun mailToLinksOpenEmailClient() {
         val emailAddress = "tharman@expedia.com"
         val url = "mailto:$emailAddress"
@@ -62,7 +69,8 @@ class BaseWebViewClientTest {
         assertTrue(webViewActivityClosed)
     }
 
-    class TestBaseWebViewClient(activity: Activity, loadCookies: Boolean, val expectedEmailUrl: String): BaseWebViewClient(activity, loadCookies) {
+    class TestBaseWebViewClient(activity: Activity, loadCookies: Boolean, val expectedEmailUrl: String)
+        : BaseWebViewClient(activity, loadCookies, WebViewFragment.TrackingName.Default) {
 
         override fun doSupportEmail(url: String) {
             assertEquals(expectedEmailUrl, url)

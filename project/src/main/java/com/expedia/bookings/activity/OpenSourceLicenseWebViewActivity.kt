@@ -19,7 +19,8 @@ class OpenSourceLicenseWebViewActivity : WebViewActivity() {
     }
 
     override fun createWebViewFragment(extras: Bundle?, enableLogin: Boolean, injectExpediaCookies: Boolean,
-                                       allowMobileRedirects: Boolean, name: String?): WebViewFragment {
+                                       allowMobileRedirects: Boolean, name: String?, handleBack: Boolean,
+                                       retryOnError: Boolean): WebViewFragment {
         return OpenSourceLicenseWebViewFragment.newInstance()
     }
 }

@@ -84,9 +84,9 @@ class CarWebViewTest {
     }
 
     private fun getCarUKUrlWithVisitorId(): String {
-        val baseUrl = "https://www.expedia.co.uk/car-hire"
+        val baseUrl = "https://www.expedia.co.uk/car-hire?mcicid=App.Cars.WebView"
         val visitorID = ADMS_Measurement.sharedInstance().visitorID
-        return baseUrl + "?" + APP_VISITOR_ID_PARAM + visitorID
+        return baseUrl + "&" + APP_VISITOR_ID_PARAM + visitorID
     }
 
 }

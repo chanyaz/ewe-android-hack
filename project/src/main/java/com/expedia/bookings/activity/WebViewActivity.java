@@ -32,9 +32,14 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING = "ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING";
 	private static final String ARG_RETURN_FROM_ROOM_UPGRADE = "ARG_RETURN_FROM_ROOM_UPGRADE";
+	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
+	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
 	private static final String APP_VISITOR_ID_PARAM = "appvi=";
 
 
+	private boolean handleBack;
+
+	private WebViewFragment webViewFragment;
 	public static class IntentBuilder {
 
 		private Context mContext;
@@ -126,6 +131,16 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			mIntent.putExtra(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
 			return this;
 		}
+
+		public IntentBuilder setHandleBack(boolean handleBack) {
+			mIntent.putExtra(ARG_HANDLE_BACK, handleBack);
+			return this;
+		}
+
+		public IntentBuilder setRetryOnFailure(boolean retry) {
+			mIntent.putExtra(ARG_HANDLE_RETRY_ON_ERROR, retry);
+			return this;
+		}
 	}
 
 	@Override
@@ -194,9 +209,12 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			// do want to view desktop version (itineraries, for example).
 			boolean allowMobileRedirects = extras.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
 			String name = extras.getString(ARG_TRACKING_NAME);
+			handleBack = extras.getBoolean(ARG_HANDLE_BACK, false);
+			boolean retryOnError = extras.getBoolean(ARG_HANDLE_RETRY_ON_ERROR, false);
 
-			WebViewFragment webViewFragment =
-				createWebViewFragment(extras, enableLogin, injectExpediaCookies, allowMobileRedirects, name);
+			webViewFragment =
+				createWebViewFragment(extras, enableLogin, injectExpediaCookies, allowMobileRedirects,
+					name, handleBack, retryOnError);
 			if (webViewFragment == null) {
 				finish();
 				return;
@@ -209,7 +227,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	}
 
 	protected WebViewFragment createWebViewFragment(Bundle extras, boolean enableLogin, boolean injectExpediaCookies,
-			boolean allowMobileRedirects, String name) {
+		boolean allowMobileRedirects, String name, boolean handleBack, boolean retryOnError) {
 		WebViewFragment fragment;
 
 		if (extras.containsKey(ARG_HTML_DATA)) {
@@ -229,7 +247,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			}
 			boolean attemptForceMobileWeb = extras.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
 			fragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
-				attemptForceMobileWeb, name);
+				attemptForceMobileWeb, name, handleBack, retryOnError);
 		}
 		return fragment;
 	}
@@ -243,6 +261,16 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		}
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (webViewFragment.canGoBack() && handleBack) {
+			webViewFragment.goBack();
+		}
+		else {
+			super.onBackPressed();
+		}
 	}
 
 	@Override
