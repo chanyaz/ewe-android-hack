@@ -23,6 +23,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
@@ -56,10 +57,7 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutUsed() {
-        featureToggleWebCheckout(true)
-        setPOSWithWebCheckoutEnabled(true)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
+        getToWebCheckoutView()
         webCheckoutViewObservable.assertValueCount(1)
     }
 
@@ -142,13 +140,28 @@ class WebCheckoutViewTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewURLWithoutParamsContainsAppVID() {
+        getToWebCheckoutView()
+        val testURL = "abcdefg"
+        hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
+        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL?appvi="))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewURLWithParamsContainsAppVID() {
+        getToWebCheckoutView()
+        val testURL = "abcdefg?ab=c"
+        hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
+        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL&appvi="))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewClearsPageGoingBack() {
         val closeViewSubscriber = TestSubscriber<Unit>()
         val urlSubscriber = TestSubscriber<String>()
-        featureToggleWebCheckout(true)
-        setPOSWithWebCheckoutEnabled(true)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
+        getToWebCheckoutView()
 
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).webViewURLObservable.subscribe(urlSubscriber)
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
@@ -158,6 +171,13 @@ class WebCheckoutViewTest {
         closeViewSubscriber.assertValueCount(1)
         urlSubscriber.assertValueCount(1)
         urlSubscriber.assertValue("about:blank")
+    }
+
+    private fun getToWebCheckoutView() {
+        featureToggleWebCheckout(true)
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
     }
 
     private fun selectHotelRoom() {
