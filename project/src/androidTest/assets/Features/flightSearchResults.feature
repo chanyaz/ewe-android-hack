@@ -129,3 +129,23 @@ Feature: Flights Search Results Screen Tests
       | AirlineName       | price | duration | timing             | number | cellNumber |
       | American Airlines | 696   | 2h 35m   | 5:40 pm - 8:15 pm  | 0      | 1          |
 
+  @Flights @Search @FlightResults
+  Scenario: UI validations on the docked outbound header view on inbound FSR
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I select first flight
+    Then Validate that on the selected outbound docked view Flight label is displayed
+    And Validate that on the selected outbound docked view Flight Airline name is displayed
+    And Validate that on the selected outbound docked view Airline time is displayed
+    And Validate the toolbar header text on the selected outbound docked view
