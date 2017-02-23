@@ -531,7 +531,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    private fun storedCardsList() = Db.getUser().storedCreditCards
+    private fun storedCardsList() = Db.getUser().getStoredCreditCards(removeCreditCards)
 
     protected open fun updateLegacyToolbarMenu(forward: Boolean) {
         if (forward) {
