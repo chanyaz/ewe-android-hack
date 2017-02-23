@@ -200,7 +200,7 @@
             android:key="12637"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Expanded Rate Detail" />
+            android:title="Flight Expanded Rate Detail - 12637" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -209,7 +209,7 @@
             android:key="12763"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Seat Class And Booking Code View" />
+            android:title="Flight Seat Class And Booking Code View - 12763" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -218,7 +218,7 @@
             android:key="12768"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Seats Left Urgency Message" />
+            android:title="Flight Seats Left Urgency Message - 12768" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -227,7 +227,7 @@
             android:key="12765"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Round Trip on FSR" />
+            android:title="Flight Round Trip on FSR - 12765" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -236,7 +236,7 @@
             android:key="12766"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Material Flight - Distance on Flight Detail" />
+            android:title="Material Flight - Distance on Flight Detail - 12766" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -245,7 +245,7 @@
             android:key="13035"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Material Flight - Premium Class Booking" />
+            android:title="Material Flight - Premium Class Booking - 13035" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -254,7 +254,7 @@
             android:key="13202"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Byot Search" />
+            android:title="Flight Byot Search - 13202" />
 
     </PreferenceCategory>
 
@@ -311,7 +311,7 @@
             android:key="12630"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="LX Universal Checkout" />
+            android:title="LX Universal Checkout - 12630" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -396,7 +396,7 @@
             android:summary="%s"
             android:key="12465"
             android:layout="@layout/preference"
-            android:title="Hotel Gallery" />
+            android:title="Hotel Gallery - 12465" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -405,7 +405,7 @@
             android:summary="%s"
             android:key="13257"
             android:layout="@layout/preference"
-            android:title="User Reviews" />
+            android:title="User Reviews - 13257" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -414,7 +414,7 @@
             android:summary="%s"
             android:key="13023"
             android:layout="@layout/preference"
-            android:title="New trips sign in screen" />
+            android:title="New trips sign in screen - 13023" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -423,7 +423,7 @@
             android:summary="%s"
             android:key="13026"
             android:layout="@layout/preference"
-            android:title="Hotel Soft change web view" />
+            android:title="Hotel Soft change web view - 13026" />
     </PreferenceCategory>
 
 </PreferenceScreen>
