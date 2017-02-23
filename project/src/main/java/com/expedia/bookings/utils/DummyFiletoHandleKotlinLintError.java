@@ -876,6 +876,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_member_pricing_color_test,
 		R.drawable.ic_hotel_member_test,
 		R.string.flight_detail_cabin_class_desc_TEMPLATE,
+		R.layout.fetching_itins_progress_widget,
 		R.array.flags,
 		R.dimen.itin_pos_header_flag_icon,
 		R.string.dialog_app_rating_title_alt,
