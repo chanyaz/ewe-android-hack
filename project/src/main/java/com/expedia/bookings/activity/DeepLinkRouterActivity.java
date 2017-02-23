@@ -20,6 +20,7 @@ import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -43,6 +44,7 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -90,12 +92,14 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		@Override
 		public void onError(Throwable e) {
 			AbacusHelperUtils.updateAbacus(new AbacusResponse(), DeepLinkRouterActivity.this);
+			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(DeepLinkRouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
 			handleDeeplink();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			AbacusHelperUtils.updateAbacus(abacusResponse, DeepLinkRouterActivity.this);
+			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(DeepLinkRouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
 		}
 	};
 
@@ -247,7 +251,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
 
-		if (ExpediaBookingApp.useTabletInterface(this)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			mLobToLaunch = LineOfBusiness.HOTELS;
 			mSearchParams = new SearchParams();
 			if (deepLink.getCheckInDate() != null) {
@@ -371,7 +375,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleFlightSearch(FlightDeepLink flightDeepLink) {
 
-		if (ExpediaBookingApp.useTabletInterface(this)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			mSearchParams = new SearchParams();
 
 			if (flightDeepLink.getDepartureDate() != null) {

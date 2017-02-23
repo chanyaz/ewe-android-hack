@@ -289,7 +289,7 @@ public abstract class BookingFragment<T extends Response> extends Fragment {
 			Events.post(new Events.BookingResponseErrorTripBooked());
 			return;
 		case FLIGHT_SOLD_OUT:
-			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+			if (ExpediaBookingApp.useTabletInterface()) {
 				Events.post(new Events.BookingUnavailable(lob));
 			}
 			else {
@@ -297,7 +297,7 @@ public abstract class BookingFragment<T extends Response> extends Fragment {
 			}
 			OmnitureTracking.trackErrorPageLoadFlightSoldOut();
 		case SESSION_TIMEOUT:
-			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+			if (ExpediaBookingApp.useTabletInterface()) {
 				Events.post(new Events.BookingUnavailable(lob));
 			}
 			else {

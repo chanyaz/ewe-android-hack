@@ -12,6 +12,7 @@ import android.text.Spanned;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -24,7 +25,6 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.text.HtmlCompat;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
 public class HotelUtils {
@@ -163,7 +163,7 @@ public class HotelUtils {
 		String fees = rate.getTotalMandatoryFees().getFormattedMoney();
 		String tripTotal = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
 		int templateId;
-		if (!AndroidUtils.isTablet(context) && rate.isPayLater()) {
+		if (!ExpediaBookingApp.useTabletInterface() && rate.isPayLater()) {
 			if (!rate.getDisplayDeposit().isZero()) {
 				templateId = R.string.pay_later_deposit_resort_disclaimer_TEMPLATE;
 			}

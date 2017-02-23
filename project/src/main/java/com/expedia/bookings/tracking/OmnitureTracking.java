@@ -119,6 +119,7 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 import kotlin.NotImplementedError;
@@ -4128,9 +4129,9 @@ public class OmnitureTracking {
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
 
-		// Experience segmentation
-		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(sContext));
-		s.setEvar(50, (usingTabletInterface) ? "app.tablet.android" : "app.phone.android");
+		// Experience segmentation -- deliberately set to device type, regardless of tablet/phablet AB test
+		boolean isTabletDevice = AndroidUtils.isTablet(sContext);
+		s.setEvar(50, (isTabletDevice) ? "app.tablet.android" : "app.phone.android");
 
 		// TPID
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));

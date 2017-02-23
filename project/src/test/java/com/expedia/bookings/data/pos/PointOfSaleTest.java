@@ -88,7 +88,7 @@ public class PointOfSaleTest {
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA})
-	public void checkSupportPhoneNumbersBlue() {
+	public void checkSupportPhoneNumbersBaseTier() {
 		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
 		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.BASE);
 

@@ -204,7 +204,7 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 			Property property = hotel.getProperty();
 			Rate rate = hotel.getRate();
 			setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate,
-				ExpediaBookingApp.useTabletInterface(getActivity())));
+				ExpediaBookingApp.useTabletInterface()));
 			break;
 		}
 		}

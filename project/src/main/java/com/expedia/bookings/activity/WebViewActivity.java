@@ -132,7 +132,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
@@ -251,6 +251,6 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
+		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
 	}
 }

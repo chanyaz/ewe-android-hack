@@ -91,7 +91,7 @@ public class AccountLibActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 

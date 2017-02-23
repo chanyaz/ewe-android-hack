@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -36,7 +37,6 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
 /**
@@ -236,9 +236,9 @@ public class BreakdownDialogFragment extends DialogFragment {
 		Money total;
 		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
 		boolean resortCase = rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
-		boolean payLaterCase = rateWeCareAbout.isPayLater() && !AndroidUtils.isTablet(context);
+		boolean payLaterCase = rateWeCareAbout.isPayLater() && !ExpediaBookingApp.useTabletInterface();
 		// #5665: zero deposit for tablet only
-		boolean isZeroDepositCaseTablet = AndroidUtils.isTablet(context) && rateWeCareAbout.isPayLater();
+		boolean isZeroDepositCaseTablet = ExpediaBookingApp.useTabletInterface() && rateWeCareAbout.isPayLater();
 
 		// Show amount to be paid today in resort or ETP cases
 		if (resortCase || payLaterCase || isZeroDepositCaseTablet) {

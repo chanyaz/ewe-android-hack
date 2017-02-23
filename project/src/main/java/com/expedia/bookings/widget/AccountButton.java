@@ -45,7 +45,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
 public class AccountButton extends LinearLayout {
@@ -97,7 +96,7 @@ public class AccountButton extends LinearLayout {
 			public void onClick(View v) {
 				if (mListener != null) {
 
-					if (ExpediaBookingApp.isTablet()) {
+					if (ExpediaBookingApp.useTabletInterface()) {
 						clearTabletCheckoutData();
 					}
 					mListener.accountLogoutClicked();
@@ -155,7 +154,7 @@ public class AccountButton extends LinearLayout {
 
 	// Do some runtime styling, based on whether this is tablet or a white-labelled app
 	private void bindLoginContainer(LineOfBusiness lob) {
-		boolean isTablet = AndroidUtils.isTablet(getContext());
+		boolean isTablet = ExpediaBookingApp.useTabletInterface();
 
 		if (isTablet) {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
@@ -228,8 +227,9 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
-		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && (
-			lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES) && !AndroidUtils.isTablet(getContext());
+		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled()
+			&& (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES)
+			&& !ExpediaBookingApp.useTabletInterface();
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -339,7 +339,7 @@ public class AccountButton extends LinearLayout {
 			break;
 
 		case HOTELS:
-			if (AndroidUtils.isTablet(getContext())) {
+			if (ExpediaBookingApp.useTabletInterface()) {
 				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 				CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
 				rewardPoints = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();

@@ -13,8 +13,6 @@ import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -72,6 +70,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
@@ -94,6 +95,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static boolean sIsFirstLaunchEver = true;
 	private static boolean sIsFirstLaunchOfAppVersion = true;
 	private static boolean sIsTablet = false;
+	private static boolean sIsBucketedForPhablet = false;
 
 	public static boolean isFirstLaunchOfAppVersion() {
 		return sIsFirstLaunchOfAppVersion;
@@ -111,10 +113,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		return sIsInstrumentation;
 	}
 
-	public static boolean isTablet() {
-		return sIsTablet;
-	}
-
 	public static boolean isRobolectric() {
 		return sIsRobolectric;
 	}
@@ -129,6 +127,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static void setIsRobolectric(boolean isRobolectric) {
 		sIsRobolectric = isRobolectric;
+	}
+
+	public static void setIsBucketedForPhablet(boolean isBucketedForPhablet) {
+		sIsBucketedForPhablet = isBucketedForPhablet;
 	}
 
 	private AppStartupTimeLogger appStartupTimeLogger;
@@ -320,7 +322,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		boolean connectingToProduction = (appComponent().endpointProvider().getEndPoint() == EndPoint.PRODUCTION);
 
 		pointOfSaleKey =
-			PointOfSale.init(configHelper, pointOfSaleKey, connectingToProduction, useTabletInterface(this));
+			PointOfSale.init(configHelper, pointOfSaleKey, connectingToProduction, isTablet());
 
 		SettingUtils.save(this, getString(R.string.PointOfSaleKey), pointOfSaleKey);
 
@@ -357,10 +359,24 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	//////////////////////////////////////////////////////////////////////////
 	// All-app utilities
 
-	// Due to a low number of users and a desire to use latest APIs,
-	// we only use tablet UI on ICS+
-	public static boolean useTabletInterface(Context context) {
-		return AndroidUtils.isTablet(context);
+	/**
+	 * Use this method when you need to know if the device is a tablet, regardless of which interface we are showing
+	 * to the user.
+	 */
+	private static boolean isTablet() {
+		return sIsTablet;
+	}
+
+	/**
+	 * Use this method when you need to know whether or not to display the tablet user interface.
+	 */
+	public static boolean useTabletInterface() {
+		if (sIsBucketedForPhablet) {
+			return false;
+		}
+		else {
+			return isTablet();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
