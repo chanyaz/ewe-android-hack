@@ -56,6 +56,8 @@ import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
+
+    val removeCreditCards = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppRemoveExpiredCreditCards)
     val cardInfoContainer: ViewGroup by bindView(R.id.card_info_container)
     val paymentOptionsContainer: ViewGroup by bindView(R.id.section_payment_options_container)
     val billingInfoContainer: ViewGroup by bindView(R.id.section_billing_info_container)
