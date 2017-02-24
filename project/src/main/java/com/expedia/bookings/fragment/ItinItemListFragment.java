@@ -318,9 +318,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void syncItinManager(boolean forceRefresh, boolean showLoading) {
 		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
-			setIsLoading(true);
 			boolean syncing = mItinManager.startSync(forceRefresh);
 			if (syncing && (showLoading || getItinCardCount() <= 0)) {
+				setIsLoading(true);
 				mItinListView.enableScrollToRevelentWhenDataSetChanged();
 			}
 			else {
