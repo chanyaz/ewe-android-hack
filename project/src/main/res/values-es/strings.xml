@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">Económica</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Económica Premium</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">Eco. Prem.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Ejecutiva</string>
     <!-- Label for "first" cabin code -->
@@ -3072,9 +3070,9 @@
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Cargando comentarios de usuarios…</string>
+    <string name="user_review_loading_text">Cargando reseñas de usuarios…</string>
     <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Comentarios en otros idiomas</string>
+    <string name="user_review_other_languages_title">Reseñas en otros idiomas</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recientes</string>
     <!-- The text for the sort button, recent -->
@@ -3082,7 +3080,7 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">En contra</string>
     <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Cargando más comentarios…</string>
+    <string name="user_review_loading_more_reviews">Cargando más reseñas…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Leer más</string>
     <!-- Read more of the review -->
@@ -3094,11 +3092,11 @@
     -->
     <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; de &lt;b&gt;%2$d&lt;/b&gt; huéspedes recomiendan este hotel.</string>
     <!-- Special case for 0 reviews -->
-    <string name="no_reviews">No hay comentarios</string>
+    <string name="no_reviews">No hay reseñas</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
-        <item quantity="zero">No hay comentarios</item>
+        <item quantity="zero">No hay reseñas</item>
         <item quantity="one">Ver %s reseña</item>
         <item quantity="two">Ver %s reseñas</item>
         <item quantity="many">Ver %s reseñas</item>
@@ -3113,14 +3111,14 @@
     -->
     <string name="user_review_name_and_location_signature">%1$sde %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">No hay comentarios recientes sobre este hotel.</string>
+    <string name="user_review_no_critical_reviews">No hay reseñas recientes sobre este hotel.</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">No hay comentarios favorables sobre este hotel.</string>
+    <string name="user_review_no_favorable_reviews">No hay reseñas favorables sobre este hotel.</string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">No hay comentarios recientes sobre este hotel.</string>
+    <string name="user_review_no_recent_reviews">No hay reseñas recientes sobre este hotel.</string>
 
     <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Los comentarios no están disponibles temporalmente</string>
+    <string name="user_review_unavailable">Las reseñas no están disponibles temporalmente</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Reserva ahora, paga después</string>
@@ -3968,11 +3966,11 @@
     <string name="filter_remove_hotel_price_filters_cont_desc">Eliminar los filtros por precio de hotel</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="display_recent_reviews_cont_desc">Presiona aquí para mostrar los comentarios más recientes</string>
+    <string name="display_recent_reviews_cont_desc">Presiona aquí para mostrar las reseñas más recientes</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="display_favorable_reviews_cont_desc">Presiona aquí para mostrar los comentarios positivos</string>
+    <string name="display_favorable_reviews_cont_desc">Presiona aquí para mostrar las reseñas positivas</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="display_critical_reviews_cont_desc">Presiona aquí para mostrar los comentarios negativos</string>
+    <string name="display_critical_reviews_cont_desc">Presiona aquí para mostrar las reseñas negativas</string>
     <!-- Flight Search -->
     <!-- Content description for action: Press to clear selected dates -->
     <string name="flights_clear_selected_dates_cont_desc">Presiona aquí para eliminar las fechas seleccionadas</string>
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">Ascenso de categoría disponible</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">¿Cómo fue tu experiencia?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">¿Te gusta nuestra app?</string>
     <!-- Message for App Rating Dialog -->
-    <string name="dialog_app_rating_message">Si te gusta nuestra aplicación, comparte tu opinión y deja un comentario en Play Store.</string>
+    <string name="dialog_app_rating_message">Si te gusta nuestra aplicación, comparte tu opinión y deja una reseña en Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">Hacer un comentario</string>
+    <string name="dialog_app_rating_review_button">Hacer una reseña</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">Puntuar la app</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">Enviar por correo electrónico</string>
+    <string name="dialog_app_rating_feedback_button">Enviar comentarios</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">Enviar correo al equipo de ayuda</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">No, gracias</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">No, gracias</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Ingresa una dirección de correo electrónico válida</string>
     <!-- Checkout validation error message for first name -->

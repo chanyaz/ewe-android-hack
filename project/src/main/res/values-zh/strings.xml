@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">经济型</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">高端经济舱</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">高端经济舱</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">商务舱</string>
     <!-- Label for "first" cabin code -->
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">可以升级房型</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">您的体验怎么样？</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">喜欢我们的 App 吗？</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">喜欢我们的 App 的话，别忘了到 Play Store 给我们好评哦！</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">评论</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">给 App 打分</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">反馈</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">发送电子邮件至应用技术支持</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">不用了，谢谢</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">不，谢谢</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">输入有效的电子邮件地址</string>
     <!-- Checkout validation error message for first name -->

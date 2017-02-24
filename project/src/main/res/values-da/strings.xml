@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">Økonomi</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium-økonomi</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">Prem.-øko.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">Opgradering tilgængelig</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">Hvordan var din oplevelse?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">Kan du lide vores app?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Du er mere end velkommen til at give os en anmeldelse i Play Store, hvis du kan lide vores app.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">Anmeldelse</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">Bedøm app</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">Send feedback</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">Send e-mail til appsupport</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Nej tak</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">Nej tak</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Indtast en gyldig e-mailadresse</string>
     <!-- Checkout validation error message for first name -->
