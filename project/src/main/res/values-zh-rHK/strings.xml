@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">以 {brand} 帳戶登入</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">以 {brand} 帳戶登入按鈕</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">登入以賺取 {reward} 點 Expedia+ 積分</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">登入以獲得 {reward} Expedia+ 積分按鈕</string>
     <!-- or -->
     <string name="or">或</string>
+    <!--Create Account -->
+    <string name="Create_Account">建立帳戶</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">賺取獎賞並解開會員尊享優惠</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可辦理登機手續</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">分享您的航班</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">讓其他人取得您旅遊行程的最新資訊。</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">有 %1$s 個航班前往%2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">重載行程</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">重新載入您的行程</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">正在刷新您的行程…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">未能載入您的行程。請再試一次。</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -2191,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">您這次預訂將獲得 {reward_currency} 分！</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">閣下是尊貴會員！</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">以 {brand} 會員身分預訂！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">您這次行程將獲得 {reward_currency} 分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2421,6 +2425,8 @@
     <string name="no_thanks">不用了</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">進階選項</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">其他資料 (選填)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -5003,8 +5009,10 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(請參閱確認電郵)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">請輸入有效的行程編號 (最少 11 個數目字)</string>
+    <string name="itinerary_number_error_message">請輸入有效的行程編號</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">登入以查看您即將出發的行程</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">尋找以訪客身分預訂的行程</string>
 
 </resources>

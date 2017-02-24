@@ -194,7 +194,7 @@ public class ItineraryManager implements JSONable {
 	public String getDeepLinkItinIdByTripNumber(String tripNumber) {
 		if (!TextUtils.isEmpty(tripNumber)) {
 			for (int i = 0; i < mItinCardDatas.size(); i++) {
-				if (tripNumber.equals(mItinCardDatas.get(i).getTripComponent().getParentPackage().getParentTrip().getTripNumber())) {
+				if (tripNumber.equals(mItinCardDatas.get(i).getTripNumber())) {
 					return mItinCardDatas.get(i).getId();
 				}
 			}

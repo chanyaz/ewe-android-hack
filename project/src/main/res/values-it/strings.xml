@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Accedi con {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Pulsante per effettuare l\&apos;accesso con {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Accedi per guadagnare {reward} punti Expedia+</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Pulsante per effettuare l\&apos;accesso e guadagnare {reward} punti Expedia+</string>
     <!-- or -->
     <string name="or">o</string>
+    <!--Create Account -->
+    <string name="Create_Account">CREA UN ACCOUNT</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">Accumula punti e accedi a offerte esclusive</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in disponibile</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">Condividi il tuo volo</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">Permetti ad altri di ricevere informazioni aggiornate sul tuo volo.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s volo per %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">Aggiorna itinerari</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">Aggiorna i tuoi viaggi</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">Aggiornamento dei tuoi viaggi in corso…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">Non è stato possibile recuperare i tuoi itinerari. Riprova.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -2191,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">Per questa prenotazione riceverai {reward_currency} crediti!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">Sei uno dei nostri clienti più fedeli!</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">Procedi all\&apos;acquisto come iscritto a {brand}!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Per questo viaggio riceverai {reward_currency} crediti!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2421,6 +2425,8 @@
     <string name="no_thanks">No, grazie</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Avanzate</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">Opzioni avanzate (facoltativo)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -3264,7 +3270,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">Accedi</string>
+    <string name="sign_in">ACCEDI</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Accesso in corso…</string>
     <!-- Label for sign out confirmation -->
@@ -5003,8 +5009,10 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(indicato nell\&apos;e-mail di conferma)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">Inserisci un numero itinerario valido (almeno 11 caratteri)</string>
+    <string name="itinerary_number_error_message">Inserisci un numero di itinerario valido</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Accedi per consultare i tuoi prossimi viaggi</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">Trova viaggio prenotato come ospite</string>
 
 </resources>
