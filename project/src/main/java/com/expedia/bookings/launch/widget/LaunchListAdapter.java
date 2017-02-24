@@ -18,10 +18,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.otto.Events;
@@ -33,12 +33,9 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.widget.PopularHotelsTonightCard;
 import com.expedia.bookings.widget.SignInPlaceholderCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsHelperKt;
-import com.expedia.vm.MemberOnlyDealViewModel;
-import com.expedia.vm.PopularHotelsTonightViewModel;
 import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
@@ -50,26 +47,15 @@ import rx.subjects.PublishSubject;
 public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 
-	enum LaunchListViewsEnum {
-		LOADING_VIEW,
-		LOB_VIEW,
-		SIGN_IN_VIEW,
-		POPULAR_HOTELS,
-		MEMBER_DEAL_VIEW,
-		HEADER_VIEW,
-		HOTEL_VIEW,
-		COLLECTION_VIEW
+	public static boolean isStaticCard(int itemViewKey) {
+		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
+			|| itemViewKey == LaunchDataItem.POPULAR_HOTELS
+			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
 
-	public static boolean isStaticCard(int itemViewType) {
-		return itemViewType == LaunchListViewsEnum.SIGN_IN_VIEW.ordinal() ||
-			itemViewType == LaunchListViewsEnum.POPULAR_HOTELS.ordinal()
-			|| itemViewType == LaunchListViewsEnum.MEMBER_DEAL_VIEW.ordinal();
-	}
-
-	private List<?> staticCards = new ArrayList<>();
-	private List<?> dynamicCards = new ArrayList<>();
-	private ArrayList<Object> listData = new ArrayList<>();
+	private List<LaunchDataItem> staticCards = new ArrayList<>();
+	private List<LaunchDataItem> dynamicCards = new ArrayList<>();
+	private ArrayList<LaunchDataItem> listData = new ArrayList<>();
 
 	private Context context;
 	private ViewGroup parentView;
@@ -92,50 +78,61 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
 		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
-		setListData(new ArrayList<Object>(), "");
+		setListData(new ArrayList<LaunchDataItem>(), "");
 	}
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		parentView = parent;
 
-		if (viewType == LaunchListViewsEnum.LOB_VIEW.ordinal()) {
+		if (viewType == LaunchDataItem.LOB_VIEW) {
 			NewLaunchLobWidget view = (NewLaunchLobWidget) LayoutInflater.from(context)
 				.inflate(R.layout.widget_new_launch_lob, parent, false);
 			lobViewHolder = new LaunchLobHeaderViewHolder(view);
 			return lobViewHolder;
 		}
-		else if (viewType == LaunchListViewsEnum.HEADER_VIEW.ordinal()) {
+		else if (viewType == LaunchDataItem.HEADER_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.launch_header_root, parent, false);
 			FrameLayout layout = (FrameLayout) view.findViewById(R.id.parent_layout);
 			layout.addView(headerView);
 			return new LaunchHeaderViewHolder(view);
 		}
-		else if (viewType == LaunchListViewsEnum.LOADING_VIEW.ordinal()) {
+		else if (viewType == LaunchDataItem.LOADING_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.launch_tile_loading_widget, parent, false);
 			return new LaunchLoadingViewHolder(view);
 		}
-		else if (viewType == LaunchListViewsEnum.HOTEL_VIEW.ordinal()) {
+		else if (viewType == LaunchDataItem.HOTEL_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_launch_list_card, parent, false);
 			return new HotelViewHolder(view);
 		}
-		else if (viewType == LaunchListViewsEnum.SIGN_IN_VIEW.ordinal()) {
+		else if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
 			return new SignInPlaceholderCard(view, context);
 		}
-		else if (viewType == LaunchListViewsEnum.POPULAR_HOTELS.ordinal()) {
-			View view = LayoutInflater.from(context).inflate(R.layout.feeds_popular_hotels_tonight_card, parent, false);
-			return new PopularHotelsTonightCard(view, context);
+		else if (viewType == LaunchDataItem.POPULAR_HOTELS) {
+			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
+			BigImageLaunchViewModel vm = getPopularHotelViewModel();
+			vm.setBackgroundResId(R.drawable.popular_hotel_stock_image);
+			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
+			holder.bind(vm);
+			holder.itemView.setOnClickListener(seeAllClickListener);
+			return holder;
 		}
-		else if (viewType == LaunchListViewsEnum.MEMBER_DEAL_VIEW.ordinal()) {
-			View view = LayoutInflater.from(context).inflate(R.layout.member_deal_launch_cell, parent, false);
+		else if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
+			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
-			return new MemberDealLaunchViewHolder(view);
+			BigImageLaunchViewModel vm = new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon, R.color.black_30,
+				R.string.member_deal_title, R.string.member_deal_subtitle);
+			// TODO: fix with #10044
+			vm.setBackgroundUrl("https://a.travel-assets.com/dynamic_images/{region_id}.jpg");
+			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
+			holder.bind(vm);
+			return holder;
 		}
-		else if (viewType == LaunchListViewsEnum.COLLECTION_VIEW.ordinal()) {
+		else if (viewType == LaunchDataItem.COLLECTION_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_collection_list_card, parent, false);
 			return new CollectionViewHolder(view);
@@ -149,8 +146,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
 		int itemViewType = holder.getItemViewType();
-		boolean isFullSpanView = itemViewType == LaunchListViewsEnum.HEADER_VIEW.ordinal() ||
-			itemViewType == LaunchListViewsEnum.LOB_VIEW.ordinal() || isStaticCard(itemViewType);
+		boolean isFullSpanView = itemViewType == LaunchDataItem.HEADER_VIEW ||
+			itemViewType == LaunchDataItem.LOB_VIEW || isStaticCard(itemViewType);
 
 		// NOTE: All the code below is for staggered views.
 		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
@@ -176,35 +173,31 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
-		else if (holder instanceof PopularHotelsTonightCard) {
-			((PopularHotelsTonightCard) holder).bind(makePopularHotelsTonightViewModel());
-			((PopularHotelsTonightCard) holder).itemView.setOnClickListener(seeAllClickListener);
-		}
 		else if (holder instanceof LaunchLoadingViewHolder) {
 			((LaunchLoadingViewHolder) holder).bind();
 		}
 
 		else if (holder instanceof HotelViewHolder) {
-			Hotel hotel = (Hotel) listData.get(position);
+			LaunchHotelDataItem hotelDataItem = (LaunchHotelDataItem) listData.get(position);
 
-			final String url = Images.getNearbyHotelImage(hotel);
+			final String url = Images.getNearbyHotelImage(hotelDataItem.getHotel());
 			HeaderBitmapDrawable drawable = Images
 				.makeHotelBitmapDrawable(context, (HotelViewHolder) holder, width / 2, url,
 					PICASSO_TAG, R.drawable.results_list_placeholder);
 			((HotelViewHolder) holder).getBackgroundImage().setImageDrawable(drawable);
 
-			((HotelViewHolder) holder).bindListData(hotel, fullWidthTile, hotelSelectedSubject);
+			((HotelViewHolder) holder).bindListData(hotelDataItem.getHotel(), fullWidthTile, hotelSelectedSubject);
 		}
 		else if (holder instanceof CollectionViewHolder) {
-			CollectionLocation location = (CollectionLocation) listData.get(position);
+			LaunchCollectionDataItem locationDataItem = (LaunchCollectionDataItem) listData.get(position);
 
-			final String url = Images.getCollectionImageUrl(location, width / 2);
+			final String url = Images.getCollectionImageUrl(locationDataItem.getCollection(), width / 2);
 			HeaderBitmapDrawable drawable = Images
 				.makeCollectionBitmapDrawable(context, (CollectionViewHolder) holder, url, PICASSO_TAG);
 			((CollectionViewHolder) holder).setCollectionUrl(url);
 			((CollectionViewHolder) holder).getBackgroundImage().setImageDrawable(drawable);
 
-			((CollectionViewHolder) holder).bindListData(location, fullWidthTile, false);
+			((CollectionViewHolder) holder).bindListData(locationDataItem.getCollection(), fullWidthTile, false);
 		}
 		else if (holder instanceof LaunchHeaderViewHolder) {
 			headerView.setOnClickListener(seeAllClickListener);
@@ -221,53 +214,20 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@Override
 	public void onViewRecycled(RecyclerView.ViewHolder holder) {
-		if (holder.getItemViewType() == LaunchListViewsEnum.LOADING_VIEW.ordinal()) {
+		if (holder.getItemViewType() == LaunchDataItem.LOADING_VIEW) {
 			((LaunchLoadingViewHolder) holder).cancelAnimation();
 		}
 		super.onViewRecycled(holder);
 	}
 
-	private List<LaunchListViewsEnum> getCollectionWithoutSignInView(List<LaunchListViewsEnum> views) {
-		ArrayList<LaunchListViewsEnum> viewsWithNoSignInView = new ArrayList<>(views);
-		viewsWithNoSignInView.remove(LaunchListViewsEnum.SIGN_IN_VIEW);
-		return viewsWithNoSignInView;
-	}
-
 	@Override
 	public int getItemViewType(int position) {
 		if (showOnlyLOBView) {
-			return LaunchListViewsEnum.LOB_VIEW.ordinal();
+			return LaunchDataItem.LOB_VIEW;
 		}
 
-		Object item = listData.get(position);
-
-		if (item instanceof Integer) {
-			return LaunchListViewsEnum.LOADING_VIEW.ordinal();
-		}
-		else if (item instanceof Hotel) {
-			return LaunchListViewsEnum.HOTEL_VIEW.ordinal();
-		}
-		else if (item instanceof CollectionLocation) {
-			return LaunchListViewsEnum.COLLECTION_VIEW.ordinal();
-		}
-		else if (item instanceof HeaderViewModel) {
-			return LaunchListViewsEnum.HEADER_VIEW.ordinal();
-		}
-		else if (item instanceof SignInPlaceHolderViewModel) {
-			return LaunchListViewsEnum.SIGN_IN_VIEW.ordinal();
-		}
-		else if (item instanceof NewLaunchLobViewModel) {
-			return LaunchListViewsEnum.LOB_VIEW.ordinal();
-		}
-		else if (item instanceof PopularHotelsTonightViewModel) {
-			return LaunchListViewsEnum.POPULAR_HOTELS.ordinal();
-		}
-		else if (item instanceof MemberOnlyDealViewModel) {
-			return LaunchListViewsEnum.MEMBER_DEAL_VIEW.ordinal();
-		}
-		else {
-			return -1;
-		}
+		LaunchDataItem item = listData.get(position);
+		return item.getKey();
 	}
 
 	@Override
@@ -284,45 +244,42 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		notifyDataSetChanged();
 	}
 
-	private ArrayList<Object> makeStaticCards() {
-		ArrayList<Object> items = new ArrayList<Object>();
-		items.add(new NewLaunchLobViewModel(context, null, null));
+	private ArrayList<LaunchDataItem> makeStaticCards() {
+		ArrayList<LaunchDataItem> items = new ArrayList<>();
+		items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
 		if (showSignInCard()) {
-			items.add(makeSignInPlaceholderViewModel());
-		}
-		if (userBucketedForPopularHotels()) {
-			items.add(makePopularHotelsTonightViewModel());
+			items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 		}
 		if (isBucketedForMemberDeal()) {
-			items.add(new MemberOnlyDealViewModel());
+			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 		}
-		items.add(new LaunchListAdapter.HeaderViewModel());
+		if (userBucketedForPopularHotels()) {
+			items.add(new LaunchDataItem(LaunchDataItem.POPULAR_HOTELS));
+		}
+		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		return items;
 	}
 
-	public void setListData(List<?> objects, String headerTitle) {
+	public void setListData(List<LaunchDataItem> objects, String headerTitle) {
 		staticCards = makeStaticCards();
 		dynamicCards = objects;
-		listData = new ArrayList<Object>();
+		listData = new ArrayList<>();
 		listData.addAll(staticCards);
 		listData.addAll(dynamicCards);
 		setSeeAllButtonVisibility(objects, headerTitle);
 		notifyDataSetChanged();
 	}
 
-	private void setSeeAllButtonVisibility(List<?> listData, String headerTitle) {
+	private void setSeeAllButtonVisibility(List<LaunchDataItem> listData, String headerTitle) {
 		if (listData.isEmpty()) {
 			return;
 		}
-		Class clz = listData.get(0).getClass();
+		LaunchDataItem dataItem = listData.get(0);
 		launchListTitle.setText(headerTitle);
-		if (clz == Integer.class) {
-			seeAllButton.setVisibility(View.GONE);
-		}
-		else if (clz == Hotel.class) {
+		if (dataItem.getKey() == LaunchDataItem.HOTEL_VIEW) {
 			seeAllButton.setVisibility(View.VISIBLE);
 		}
-		else if (clz == CollectionLocation.class) {
+		else {
 			seeAllButton.setVisibility(View.GONE);
 		}
 	}
@@ -365,17 +322,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.Create_Account));
 	}
 
-	private PopularHotelsTonightViewModel makePopularHotelsTonightViewModel() {
+	private BigImageLaunchViewModel getPopularHotelViewModel() {
 		if (Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
 			== AbacusUtils.TripsPopularHotelsVariant.VARIANT1.ordinal()) {
-			return new PopularHotelsTonightViewModel(R.drawable.popular_hotel_stock_image,
-				context.getString(R.string.launch_find_hotels_near_you),
-				context.getString(R.string.launch_find_popular_hotels));
+			return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
+				R.color.hotel_tonight_background_gradient,
+				R.string.launch_find_hotels_near_you,
+				R.string.launch_find_popular_hotels);
 		}
 		else {
-			return new PopularHotelsTonightViewModel(R.drawable.popular_hotel_stock_image,
-				context.getString(R.string.launch_find_popular_hotels),
-				context.getString(R.string.launch_find_hotels_near_you));
+			return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
+				R.color.hotel_tonight_background_gradient,
+				R.string.launch_find_popular_hotels,
+				R.string.launch_find_hotels_near_you);
 		}
 	}
 

@@ -4873,4 +4873,8 @@
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Fetching your trips…</string>
 
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Member Deals</string>
+    <string name="member_deal_subtitle">Discounts off select Cities</string>
+
 </resources>
