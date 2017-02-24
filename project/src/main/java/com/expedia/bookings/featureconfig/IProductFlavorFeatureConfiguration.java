@@ -197,4 +197,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean sendEapidToTuneTracking();
 
 	boolean shouldShowPackageIncludesView();
+
+	boolean forceShowHotelLoyaltyEarnMessage();
 }

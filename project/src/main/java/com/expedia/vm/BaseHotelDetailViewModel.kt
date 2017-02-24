@@ -16,7 +16,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
@@ -36,6 +35,7 @@ import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
 import com.expedia.util.getGuestRatingBackground
 import com.expedia.util.getGuestRatingText
+import com.expedia.util.LoyaltyUtil
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
@@ -220,10 +220,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     val payByPhoneContainerVisibility = Observable.combineLatest(showBookByPhoneObservable, hotelSoldOut) { showBookByPhoneObservable, hotelSoldOut -> showBookByPhoneObservable && !hotelSoldOut }
 
-    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable, earnMessageVisibilityObservable)
+    val hotelMessagingContainerVisibility = Observable.combineLatest(showDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut, hasRegularLoyaltyPointsAppliedObservable, showAirAttachSWPImageObservable)
     {
-        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage, earnMessage ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || earnMessage || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
+        hasDiscount, hasVipAccess, promoMessage, hotelSoldOut, hasRegularLoyaltyPointsApplied, shouldShowAirAttachSWPImage ->
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage) || hasRegularLoyaltyPointsApplied || shouldShowAirAttachSWPImage) && !hotelSoldOut
     }
 
     val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
@@ -492,11 +492,10 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && offerResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
         promoImageObservable.onNext(getPromoImage(firstHotelRoomResponse))
-        val earnMessage = if (offerResponse.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) packageLoyaltyInformation?.earn?.getEarnMessage(context) ?: "" else chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
-        val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
+        val earnMessage = LoyaltyUtil.getEarnMessagingString(context, offerResponse.isPackage, chargeableRateInfo?.loyaltyInfo?.earn, packageLoyaltyInformation?.earn)
+        val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(context, earnMessage, offerResponse.isPackage)
         earnMessageObservable.onNext(earnMessage)
         earnMessageVisibilityObservable.onNext(earnMessageVisibility)
-        promoMessageVisibilityObservable.onNext(!earnMessageVisibility)
 
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
