@@ -25,15 +25,18 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     abstract fun getFlightCabinPreferenceVisibility(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
     abstract fun getRoundTripMessageVisibilty(): Boolean
+    abstract fun isShowingFlightPriceDifference(): Boolean
 
     var contentDescription = getFlightContentDesc()
 
     fun getFlightContentDesc(): CharSequence {
         var result = SpannableBuilder()
 
-        result.append(Phrase.from(context, R.string.flight_detail_card_cont_desc_TEMPLATE)
+        result.append(Phrase.from(context, (if (isShowingFlightPriceDifference()) R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
+        else R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE))
                 .put("time", asscesibleFlightTime)
-                .put("pricedifference", price())
+                .putOptional("price", price())
+                .putOptional("pricedifference", price())
                 .put("airline", FlightV2Utils.getAirlinesList(airline))
                 .put("hours", getHourTimeContDesc(flightLeg.durationHour))
                 .put("minutes", getMinuteTimeContDesc(flightLeg.durationMinute))
