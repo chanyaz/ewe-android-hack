@@ -284,12 +284,12 @@ public class LXDataUtils {
 	}
 
 	public static LxSearchParams buildLXSearchParamsFromDeeplink(ActivityDeepLink activityDeepLink) {
-
 		LocalDate startDate = LocalDate.now();
-		LocalDate endDate = startDate.plusDays(14);
 		if (activityDeepLink.getStartDate() != null) {
 			startDate = activityDeepLink.getStartDate();
 		}
+
+		LocalDate endDate = startDate.plusDays(14);
 
 		String location = "";
 		String filters = "";
