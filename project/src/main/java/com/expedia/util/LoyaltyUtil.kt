@@ -9,6 +9,7 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.extension.getEarnMessage
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 
 class LoyaltyUtil {
     companion object {
@@ -19,7 +20,7 @@ class LoyaltyUtil {
 
         fun shouldShowEarnMessage(context: Context, earnMessage: String, isPackage: Boolean): Boolean {
             val userBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage, R.string.preference_enable_hotel_loyalty_earn_message)
-            val forceShow = context.resources.getBoolean(R.bool.force_hotel_loyalty_earn_message)
+            val forceShow = ProductFlavorFeatureConfiguration.getInstance().forceShowHotelLoyaltyEarnMessage()
             val validMessage = earnMessage.isNotBlank()
             val enabledForPOS = if (isPackage) PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages else PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
             return (forceShow || userBucketed) && validMessage && enabledForPOS

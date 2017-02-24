@@ -425,4 +425,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowPackageIncludesView() {
 		return false;
 	}
+
+	@Override
+	public boolean forceShowHotelLoyaltyEarnMessage() {
+		return true;
+	}
 }
