@@ -48,7 +48,9 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
+import com.mobiata.android.util.AndroidUtils;
 
+import kotlin.Unit;
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
 
@@ -221,8 +223,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private void setSignInView(View view) {
 		View mEmptyView;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
-			R.string.preference_itin_new_sign_in_screen) && !ExpediaBookingApp.useTabletInterface()) {
+		if (isNewSignInScreen()) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
@@ -232,6 +233,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 					public void call(Boolean show) {
 						toolBarVisibilitySubject.onNext(show);
 						Ui.hideKeyboard(getActivity());
+					}
+				});
+			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
+				new Action1<Unit>() {
+					@Override
+					public void call(Unit unit) {
+						syncItinManager(true, true);
 					}
 				});
 			mEmptyView = mSignInPresenter;
@@ -336,6 +344,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
+		if (isNewSignInScreen() && isLoading) {
+			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
+		}
 	}
 
 	public boolean isLoading() {
@@ -362,6 +373,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mAllowLoadItins = false;
 	}
 
+	private boolean isNewSignInScreen() {
+		return
+			FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
+				R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity());
+	}
+
 	public synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		if (isFetchGuestItinFailure) {
@@ -372,6 +389,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public synchronized void startAddRegisteredUserItinActivity() {
+
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
 		OmnitureTracking.trackFindItin();
@@ -576,7 +594,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onTripFailedFetchingGuestItinerary() {
 		boolean isFetchGuestItinFailure = true;
-		startAddGuestItinActivity(isFetchGuestItinFailure);
+		if (!isNewSignInScreen()) {
+			startAddGuestItinActivity(isFetchGuestItinFailure);
+		}
 	}
 
 	@Override

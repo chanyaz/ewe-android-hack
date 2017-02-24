@@ -5031,5 +5031,7 @@
     <string name="booking_successful">Booking Successful!</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Please check your email for the itinerary.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Fetching your trips…</string>
 
 </resources>

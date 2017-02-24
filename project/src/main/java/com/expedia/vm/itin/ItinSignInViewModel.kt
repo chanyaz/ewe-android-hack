@@ -35,10 +35,16 @@ class ItinSignInViewModel(val context: Context) {
     val updateButtonTextColorSubject = PublishSubject.create<Int>()
     val updateButtonImageVisibilitySubject = PublishSubject.create<Boolean>()
     val updateButtonColorSubject = PublishSubject.create<Int>()
+    val syncItinManagerSubject = PublishSubject.create<Unit>()
 
     var signInClickSubject = endlessObserver<Unit> {
-        val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
-        User.signIn(context as Activity, args)
+        if (User.isLoggedIn(context)) {
+            syncItinManagerSubject.onNext(Unit)
+        }
+        else {
+            val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
+            User.signIn(context as Activity, args)
+        }
     }
 
     private var mCurrentState = MessageState.NONE

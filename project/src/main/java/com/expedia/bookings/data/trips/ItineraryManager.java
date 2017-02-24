@@ -733,14 +733,16 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private void onTripFailedFetchingGuestItinerary() {
+	@VisibleForTesting
+	public void onTripFailedFetchingGuestItinerary() {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingGuestItinerary();
 		}
 	}
 
-	private void onTripFailedFetchingRegisteredUserItinerary() {
+	@VisibleForTesting
+	public void onTripFailedFetchingRegisteredUserItinerary() {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingRegisteredUserItinerary();
