@@ -28,7 +28,7 @@
 
         <include
             android:id="@+id/credit_card_section"
-            layout="@layout/section_credit_card"
+            layout="@layout/phone_section_credit_card"
             android:layout_width="@dimen/credit_card_checkout_width"
             android:layout_height="@dimen/credit_card_checkout_height"
             android:layout_above="@id/center"
