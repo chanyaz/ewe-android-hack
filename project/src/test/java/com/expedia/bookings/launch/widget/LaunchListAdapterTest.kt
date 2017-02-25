@@ -57,7 +57,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingLobView_ShowingHotels() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
@@ -79,7 +78,6 @@ class LaunchListAdapterTest {
     fun getItemViewType_ShowingPopularHotelsAndSignInCard() {
         
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
         createSystemUnderTest()
         givenWeHaveStaffPicks()
@@ -164,9 +162,8 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun getItemViewType_ShowingLobView_ShowingHotels_NoAB_NoFeature() {
+    fun getItemViewType_ShowingLobView_ShowingHotels_NoAB_Test() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, false)
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
@@ -184,7 +181,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingHotels_CustomerSignedIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -205,7 +201,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingHotels_ShowSignInAfterSignOut() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -225,7 +220,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingLobView_ShowingCollectionView() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -245,7 +239,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingLobView_ShowingCollectionView_CustomerSignedIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -264,7 +257,6 @@ class LaunchListAdapterTest {
     fun getItemViewType_ShowingLobView_ShowingLoadingState() {
         
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenWeHaveALoadingState()
 
@@ -285,7 +277,6 @@ class LaunchListAdapterTest {
     @Test
     fun onBindViewHolder_FullWidthViews() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels = 6)
 
@@ -305,7 +296,6 @@ class LaunchListAdapterTest {
     @Test
     fun itemCount_hotelStateOrder_signedIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         val numberOfHotels = 5
         givenCustomerSignedIn()
@@ -320,7 +310,6 @@ class LaunchListAdapterTest {
     @Test
     fun itemCount_collectionStateOrder_signedIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         val numberOfStaffPicks = 5
         givenCustomerSignedIn()
@@ -334,7 +323,6 @@ class LaunchListAdapterTest {
     @Test
     fun itemCount_NoInternetConnection() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_sign_in_on_launch_screen, true)
         createSystemUnderTest()
         userHasNoInternetConnection(false)
 

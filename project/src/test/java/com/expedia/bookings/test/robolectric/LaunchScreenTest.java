@@ -24,7 +24,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.mobiata.android.util.SettingUtils;
 
 import static org.junit.Assert.assertEquals;
 
@@ -76,7 +75,6 @@ public class LaunchScreenTest {
 	public void testListDisplaysCollectionWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		SettingUtils.save(activity, R.string.preference_show_sign_in_on_launch_screen, true);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -125,7 +123,6 @@ public class LaunchScreenTest {
 	public void testListDisplaysHotelsWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		SettingUtils.save(activity, R.string.preference_show_sign_in_on_launch_screen, true);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -169,7 +166,6 @@ public class LaunchScreenTest {
 	public void testZeroRatingWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		SettingUtils.save(activity, R.string.preference_show_sign_in_on_launch_screen, true);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
