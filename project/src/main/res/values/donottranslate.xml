@@ -102,6 +102,8 @@
     <string name="preference_abacus_setting_variant1">Variant1</string>
     <string name="preference_abacus_setting_variant2">Variant2</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
+    <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
+    <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
     <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
     <string name="preference_user_has_booked_hotel_or_flight">preference_user_has_booked_hotel_or_flight</string>

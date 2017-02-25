@@ -16,6 +16,8 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
+import com.expedia.ui.EBPreferencesFragment;
+
 import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -29,6 +31,7 @@ public interface AppComponent {
 	void inject(AbacusHelperUtils.CookiesReferenceV2 cookiesReferenceV2);
 	void inject(AbacusHelperUtils.CookiesReferenceV1 cookiesReferenceV1);
 	void inject(LaunchListWidget launchListWidget);
+	void inject(EBPreferencesFragment ebPreferencesFragment);
 
 	Context appContext();
 	EndpointProvider endpointProvider();

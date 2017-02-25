@@ -2,6 +2,8 @@ package com.expedia.ui;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,12 +21,18 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BugShakerShim;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.readystatesoftware.chuck.Chuck;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
+
+	@Inject
+	ChuckInterceptor chuckInterceptor;
 
 	@Override
 	public void onStart() {
@@ -35,6 +43,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Ui.getApplication(getActivity()).appComponent().inject(this);
 
 		if (BuildConfig.DEBUG) {
 			addPreferencesFromResource(R.xml.preferences_dev);
@@ -88,6 +97,23 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 					return true;
 				}
 			});
+
+			String chuckNotificationKey = getString(R.string.preference_enable_chuck_notification);
+			final CheckBoxPreference chuckNotificationPreference = (CheckBoxPreference) findPreference(chuckNotificationKey);
+			chuckNotificationPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					boolean isChuckNotificationEnabled = Boolean.valueOf(newValue.toString());
+					if (isChuckNotificationEnabled) {
+						chuckInterceptor.showNotification(true);
+					}
+					else {
+						chuckInterceptor.showNotification(false);
+					}
+					return true;
+				}
+			});
+
 		}
 	}
 
@@ -138,6 +164,11 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		}
 		else if (getString(R.string.preference_clear_user_cookies).equals(key)) {
 			ExpediaServices.removeUserCookieFromUserLoginCookies(getActivity());
+		}
+		else if (getString(R.string.preference_chuck_show_ui).equals(key)) {
+			Intent intent = Chuck.getLaunchIntent(getActivity());
+			startActivity(intent);
+
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

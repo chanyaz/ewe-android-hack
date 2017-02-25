@@ -44,6 +44,8 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.readystatesoftware.chuck.ChuckInterceptor;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
@@ -180,7 +182,7 @@ public class AppModule {
 	@Singleton
 	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager1,
 		PersistentCookieManagerV2 cookieManager2, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
+		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled, ChuckInterceptor chuckInterceptor) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
 		}
@@ -194,6 +196,9 @@ public class AppModule {
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(logLevel);
 		client.addInterceptor(logger);
+		if (BuildConfig.DEBUG && !ExpediaBookingApp.isAutomation()) {
+			client.addInterceptor(chuckInterceptor);
+		}
 		client.followRedirects(true);
 		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
 			client.cookieJar(cookieManager2);
@@ -364,5 +369,14 @@ public class AppModule {
 	SmartOfferService provideSmartOfferService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+
+	@Provides
+	@Singleton
+	ChuckInterceptor provideChuckInterceptor(final Context context) {
+		ChuckInterceptor interceptor = new ChuckInterceptor(context);
+		interceptor.showNotification(
+			SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false));
+		return interceptor;
 	}
 }

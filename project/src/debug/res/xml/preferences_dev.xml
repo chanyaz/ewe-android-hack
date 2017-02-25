@@ -66,6 +66,19 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="@string/preference_enable_chuck_notification"
+            android:layout="@layout/preference"
+            android:summary="Enable Chuck (In-app HTTP inspector for OkHttp clients) notification."
+            android:title="Enable Chuck notification" />
+
+        <Preference
+            android:title="Show Chuck UI"
+            android:key="@string/preference_chuck_show_ui"
+            android:layout="@layout/preference"
+            android:summary="Click to view Chuck UI for HTTP requests" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="@string/preference_disable_modern_tls"
             android:layout="@layout/preference"
             android:summary="Allows connecting to non-HTTPS servers."
