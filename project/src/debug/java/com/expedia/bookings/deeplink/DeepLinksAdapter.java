@@ -110,6 +110,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Location Search with Location ID", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916"),
 		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?adults=3", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
 		new DeepLink("Hotel Future Dates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?hotelId=12539", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
+		new DeepLink("Hotel Future Dates - Korea PoS", "https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539", "startDate", 90, "endDate", 97, "yyyy.MM.dd"),
 		new DeepLink("Hotel Info Site", "https://www.expedia.com/mobile/deeplink/Krabi-Trang-Hotels-Pakasai-Resort.h1276486.Hotel-Information?rm1=a2:c2:c7:c8", "chkin", 14, "chkout", 18, "MM/dd/yyyy"),
 
 		new DeepLink("Flight Search", "https://www.expedia.com/mobile/deeplink/Flights-Search"),

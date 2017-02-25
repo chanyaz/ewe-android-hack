@@ -10,12 +10,13 @@ import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
 class UniversalDeepLinkParserTest() {
 
-    val parser = DeepLinkParser()
+    val parser = UniversalDeepLinkParser(RuntimeEnvironment.application.assets)
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -241,6 +242,16 @@ class UniversalDeepLinkParserTest() {
         output = output as ShortUrlDeepLink
         Assert.assertEquals("http://e.xpda.co", output.shortUrl)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun pointOfSaleDateFormatParsing() {
+        var data = Uri.parse("https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=2017.05.24&endDate=2017.05.31")
+        var parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        Assert.assertEquals(LocalDate(2017,5,24), parsed.checkInDate)
+        Assert.assertEquals(LocalDate(2017,5,31), parsed.checkOutDate)
+    }
+
 
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
         Assert.assertEquals(childrenExpected.size, childrenActual.size)

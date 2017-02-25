@@ -1,5 +1,6 @@
 package com.expedia.bookings.deeplink
 
+import android.content.res.AssetManager
 import android.net.Uri
 import com.expedia.bookings.data.ChildTraveler
 import com.expedia.bookings.utils.GuestsPickerUtils
@@ -11,7 +12,7 @@ import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 
-class CustomDeepLinkParser: DeepLinkParser() {
+class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
 
     private val locationId = Pattern.compile("^(ID)?([0-9]+)")
 

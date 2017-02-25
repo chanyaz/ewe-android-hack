@@ -8,12 +8,13 @@ import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
 class CustomDeepLinkParserTest {
 
-    val parser = DeepLinkParser()
+    val parser = DeepLinkParser(RuntimeEnvironment.application.assets)
 
     @Test
     fun hotelDeepLinkParsing() {

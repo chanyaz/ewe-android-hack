@@ -1,22 +1,27 @@
 package com.expedia.bookings.deeplink
 
+import android.content.res.AssetManager
 import android.net.Uri
 import com.expedia.bookings.data.ChildTraveler
+import com.expedia.bookings.data.pos.PointOfSaleConfigHelper
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.GuestsPickerUtils
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.android.Log
+import com.mobiata.android.util.IoUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
+import org.json.JSONException
+import org.json.JSONObject
 import java.net.URLDecoder
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.Locale
 import java.util.regex.Pattern
 
-class UniversalDeepLinkParser: DeepLinkParser() {
+class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
 
     private val LEG_PATTERN = Pattern.compile("from:(.+),to:(.+),departure:(.+)")
     private val AIRPORT_CODE = Pattern.compile("[^A-Z]?([A-Z]{3})[^A-Z]?")
@@ -27,13 +32,15 @@ class UniversalDeepLinkParser: DeepLinkParser() {
     private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
 
      fun parseUniversalDeepLink(data: Uri): DeepLink {
-        var routingDestination = getRoutingDestination(data)
+         var routingDestination = getRoutingDestination(data)
+         val dateFormat = getDateFormatForPOS(data)
+
         when(routingDestination) {
-            "/hotel-search" -> return parseHotelUniversalDeepLink(data)
-            "hotel-infosite" -> return parseHotelInfoSiteUniversalDeepLink(data)
-            "/flights-search" -> return parseFlightUniversalDeepLink(data)
-            "/carsearch" -> return parseCarUniversalDeepLink(data)
-            "/things-to-do/search" -> return parseActivityUniversalDeepLink(data)
+            "/hotel-search" -> return parseHotelUniversalDeepLink(data, dateFormat)
+            "hotel-infosite" -> return parseHotelInfoSiteUniversalDeepLink(data, dateFormat)
+            "/flights-search" -> return parseFlightUniversalDeepLink(data, dateFormat)
+            "/carsearch" -> return parseCarUniversalDeepLink(data, dateFormat)
+            "/things-to-do/search" -> return parseActivityUniversalDeepLink(data, dateFormat)
             "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
             "shorturl" -> return parseShortUrlDeepLink(data)
             "/user/signin" -> return SignInDeepLink()
@@ -65,15 +72,15 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         return routingDestination
     }
 
-    private fun parseHotelInfoSiteUniversalDeepLink(data: Uri): HotelDeepLink {
+    private fun parseHotelInfoSiteUniversalDeepLink(data: Uri, dateFormat: String): HotelDeepLink {
         val hotelDeepLink = HotelDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
         var matcher = HOTEL_INFO_SITE.matcher(data.path.toLowerCase())
         if (matcher.find()) {
             hotelDeepLink.hotelId = matcher.group(1)
         }
-        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkin", DateTimeFormat.forPattern("MM/dd/yyyy"))
-        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkout", DateTimeFormat.forPattern("MM/dd/yyyy"))
+        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkin", DateTimeFormat.forPattern(dateFormat))
+        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkout", DateTimeFormat.forPattern(dateFormat))
         if (queryParameterNames.contains("rm1")) {
             val passengers = data.getQueryParameter("rm1").split(":".toRegex(), 2)
             if (passengers.size > 0) {
@@ -87,12 +94,12 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         return hotelDeepLink
     }
 
-    private fun parseHotelUniversalDeepLink(data: Uri): HotelDeepLink {
+    private fun parseHotelUniversalDeepLink(data: Uri, dateFormat: String): HotelDeepLink {
         val hotelDeepLink = HotelDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
-        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", DateTimeFormat.forPattern("MM/dd/yyyy"))
-        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "endDate", DateTimeFormat.forPattern("MM/dd/yyyy"))
+        hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", DateTimeFormat.forPattern(dateFormat))
+        hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "endDate", DateTimeFormat.forPattern(dateFormat))
         hotelDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "adults")
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sort")
         hotelDeepLink.regionId = getQueryParameterIfExists(data, queryParameterNames, "regionId")
@@ -100,7 +107,7 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         return hotelDeepLink
     }
 
-    private fun parseFlightUniversalDeepLink(data: Uri): DeepLink {
+    private fun parseFlightUniversalDeepLink(data: Uri, dateFormat: String): DeepLink {
         val flightDeepLink = FlightDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
@@ -122,7 +129,7 @@ class UniversalDeepLinkParser: DeepLinkParser() {
                     flightDeepLink.destination = airportCodeDestinationMatcher.group(1)
                     try {
                         val departureDateStr = departureMatcher.group(1)
-                        flightDeepLink.departureDate = LocalDate.parse(URLDecoder.decode(departureDateStr, "UTF-8"), DateTimeFormat.forPattern("MM/dd/yyyy"))
+                        flightDeepLink.departureDate = LocalDate.parse(URLDecoder.decode(departureDateStr, "UTF-8"), DateTimeFormat.forPattern(dateFormat))
                     }
                     catch (e: Exception) {
                     }
@@ -141,7 +148,7 @@ class UniversalDeepLinkParser: DeepLinkParser() {
                 if (returnDateMatcher.find()) {
                     try {
                         val returnDateStr = returnDateMatcher.group(1)
-                        flightDeepLink.returnDate = LocalDate.parse(URLDecoder.decode(returnDateStr, "UTF-8"), DateTimeFormat.forPattern("MM/dd/yyyy"))
+                        flightDeepLink.returnDate = LocalDate.parse(URLDecoder.decode(returnDateStr, "UTF-8"), DateTimeFormat.forPattern(dateFormat))
                     }
                     catch (e: Exception) {
                     }
@@ -160,12 +167,12 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         return flightDeepLink
     }
 
-    private fun parseCarUniversalDeepLink(data: Uri): CarDeepLink {
+    private fun parseCarUniversalDeepLink(data: Uri, dateFormat: String): CarDeepLink {
         val carDeepLink = CarDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
-        carDeepLink.pickupDateTime = getCarParsedDateTimeQueryParameterIfExists(data, queryParameterNames, "date1", "time1", DateTimeFormat.forPattern("MM/dd/yyyy"))
-        carDeepLink.dropoffDateTime = getCarParsedDateTimeQueryParameterIfExists(data, queryParameterNames, "date2", "time2", DateTimeFormat.forPattern("MM/dd/yyyy"))
+        carDeepLink.pickupDateTime = getCarParsedDateTimeQueryParameterIfExists(data, queryParameterNames, "date1", "time1", DateTimeFormat.forPattern(dateFormat))
+        carDeepLink.dropoffDateTime = getCarParsedDateTimeQueryParameterIfExists(data, queryParameterNames, "date2", "time2", DateTimeFormat.forPattern(dateFormat))
 
         if (queryParameterNames.contains("locn")) {
             val airportCodeMatcher = AIRPORT_CODE.matcher(data.getQueryParameter("locn"))
@@ -201,11 +208,11 @@ class UniversalDeepLinkParser: DeepLinkParser() {
         return null
     }
 
-    private fun parseActivityUniversalDeepLink(data: Uri): ActivityDeepLink {
+    private fun parseActivityUniversalDeepLink(data: Uri, dateFormat: String): ActivityDeepLink {
         val activityDeepLink = ActivityDeepLink()
         val queryParameterNames = StrUtils.getQueryParameterNames(data)
 
-        activityDeepLink.startDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", DateTimeFormat.forPattern("MM/dd/yyyy"))
+        activityDeepLink.startDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", DateTimeFormat.forPattern(dateFormat))
         activityDeepLink.filters = getQueryParameterIfExists(data, queryParameterNames, "categories")
 
         if (queryParameterNames.contains("location")) {
@@ -254,6 +261,38 @@ class UniversalDeepLinkParser: DeepLinkParser() {
             Log.w(TAG, "Could not parse childAges: " + childAgesStr, e)
         }
         return null
+    }
+
+    private fun getDateFormatForPOS(uri: Uri) : String {
+        val defaultDateFormat = "MM/dd/yyyy"
+
+        if (ASSETS != null) {
+            val configHelper = PointOfSaleConfigHelper(ASSETS, ProductFlavorFeatureConfiguration.getInstance().posConfigurationPath)
+            val stream = configHelper.openPointOfSaleConfiguration()
+
+            try {
+                val jsonData = IoUtils.convertStreamToString(stream)
+                val posData = JSONObject(jsonData)
+                val keys = posData.keys()
+
+                keys.forEach { key ->
+                    val posJson = posData.getJSONObject(key)
+                    if (posJson.getString("url") == uri.host.replace("www.", "")) {
+                        return posJson.getString("deepLinkDateFormat")
+                    }
+                }
+                return defaultDateFormat
+            }
+            catch (e: JSONException) {
+                return defaultDateFormat
+            }
+            finally {
+                stream.close()
+            }
+        }
+        else {
+            return defaultDateFormat
+        }
     }
 
     private fun parseTripUniversalDeepLink(data: Uri): TripDeepLink {
