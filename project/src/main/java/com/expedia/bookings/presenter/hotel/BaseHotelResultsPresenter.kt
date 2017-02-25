@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -216,7 +217,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
             var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null //need to know carousel height before fab can properly animate.
             onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
-                fab.animate().translationY(-mapCarouselContainer.height.toFloat()).setInterpolator(DecelerateInterpolator()).withEndAction {
+                fab.animate().translationY(-fabHeightOffset()).setInterpolator(DecelerateInterpolator()).withEndAction {
                     carouselAnimation.start()
                 }.start()
                 mapCarouselContainer.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
@@ -886,7 +887,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     //Since we're not moving it manually, let's jump it to where it belongs,
                     // and let's get it showing the right thing
                     if (isMapPinSelected) {
-                        fab.translationY = -mapCarouselContainer.height.toFloat()
+                        fab.translationY = -fabHeightOffset()
                     } else {
                         fab.translationY = 0f
                     }
@@ -899,7 +900,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (forwardToList) {
                 finalFabTranslation = -filterHeight
             } else {
-                finalFabTranslation = if (isMapPinSelected) -mapCarouselContainer.height.toFloat() else 0f
+                finalFabTranslation = if (isMapPinSelected) -fabHeightOffset() else 0f
             }
             hideBundlePriceOverview(!forwardToList)
             updateFilterButtonText(forwardToList)
@@ -962,7 +963,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             } else {
                 mapView.translationY = 0f
                 recyclerView.translationY = screenHeight.toFloat()
-                googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
+                googleMap?.setPadding(0, toolbar.height, 0, fabHeightOffset().toInt())
                 if (ExpediaBookingApp.isDeviceShitty()) {
                     googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                     createMarkers()
@@ -1194,6 +1195,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 .build()
         googleMap?.setPadding(0, 0, 0, 0)
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+    }
+
+    private fun fabHeightOffset(): Float {
+        val offset = context.resources.getDimension(R.dimen.hotel_carousel_fab_vertical_offset)
+        return mapCarouselContainer.height.toFloat() - offset
     }
 
     abstract fun inflate()

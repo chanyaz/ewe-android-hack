@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
+import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.endlessObserver
@@ -83,6 +84,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.paramsSubject.subscribe { params ->
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+
             setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())

@@ -41,6 +41,8 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
 
+    var shopWithPoints: Boolean = false
+
     var lineOfBusiness = LineOfBusiness.HOTELS
 
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
@@ -141,6 +143,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.loyaltyAvailabilityObservable.subscribe { isVisible ->
                 loyaltyMessageContainer.visibility =
                         if (isVisible) View.VISIBLE
+                        else if (shopWithPoints) View.INVISIBLE
                         else View.GONE
                 shadowOnLoyaltyMessageContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
                 shadowOnHotelCell.visibility = if (!isVisible && lineOfBusiness == LineOfBusiness.HOTELS) View.VISIBLE else View.GONE
