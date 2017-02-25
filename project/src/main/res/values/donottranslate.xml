@@ -125,6 +125,7 @@
     <string name="preference_enable_new_cookies">preference_enable_new_cookies</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
     <string name="preference_phablet">preference_phablet</string>
+    <string name="preference_open_car_web_view">preference_open_car_web_view</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

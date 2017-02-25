@@ -135,4 +135,15 @@
             android:summary="Member Deal On Launch Screen"
             android:title="New item on launch + new screen (WIP)"/>
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Cars Features">
+        <CheckBoxPreference
+            android:key="@string/preference_open_car_web_view"
+            android:layout="@layout/preference"
+            android:summary="Open Cars in WebView"
+            android:title="Open Cars in WebView" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

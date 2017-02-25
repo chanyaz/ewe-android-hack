@@ -42,6 +42,7 @@ import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
+import com.expedia.ui.CarWebViewActivity;
 import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.PackageActivity;
@@ -332,8 +333,23 @@ public class NavUtils {
 
 	public static void goToCars(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
-		Intent intent = new Intent(context, CarActivity.class);
-		startActivity(context, intent, animOptions);
+		if (PointOfSale.getPointOfSale().supportsCarsWebView()
+			&& FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowCarWebView,
+			R.string.preference_open_car_web_view)) {
+			String carEndPointUrl = Ui.getApplication(context).appComponent()
+				.endpointProvider().getE3EndpointUrlWithPath("car-hire");
+			CarWebViewActivity.IntentBuilder builder = new CarWebViewActivity.IntentBuilder(context);
+			builder.setUrl(carEndPointUrl);
+			builder.setInjectExpediaCookies(true);
+			builder.setAllowMobileRedirects(true);
+			builder.setAttemptForceMobileSite(true);
+			builder.setLoginEnabled(true);
+			startActivity(context, builder.getIntent(),null);
+		}
+		else {
+			Intent intent = new Intent(context, CarActivity.class);
+			startActivity(context, intent, animOptions);
+		}
 	}
 
 	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey,
