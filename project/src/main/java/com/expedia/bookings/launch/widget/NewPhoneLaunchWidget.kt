@@ -21,6 +21,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
@@ -33,6 +34,7 @@ import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
@@ -209,26 +211,28 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
 
         currentLocationSubject.subscribe { currentLocation ->
-            launchListWidget.visibility = View.VISIBLE
-            launchError.visibility = View.GONE
-            if (isNearByHotelDataExpired() || isPOSChanged) {
-                isPOSChanged = false
-                val params = buildHotelSearchParams(currentLocation)
-                downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
-                launchDataTimeStamp = DateTime.now()
-                launchListWidget.showListLoadingAnimation()
+            if (userBucketedForPopularHotels()) {
+                showCollections()
+                if (isNearByHotelDataExpired() || isPOSChanged) {
+                    isPOSChanged = false
+                    searchParams = buildDeeplinkToHotelSearchParams(currentLocation)
+                }
+            } else {
+                launchListWidget.visibility = View.VISIBLE
+                launchError.visibility = View.GONE
+                if (isNearByHotelDataExpired() || isPOSChanged) {
+                    isPOSChanged = false
+                    val params = buildHotelSearchParams(currentLocation)
+                    searchParams = buildDeeplinkToHotelSearchParams(currentLocation)
+                    downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
+                    launchDataTimeStamp = DateTime.now()
+                    launchListWidget.showListLoadingAnimation()
+                }
             }
         }
 
         locationNotAvailable.subscribe {
-            launchListWidget.visibility = View.VISIBLE
-            launchListWidget.showListLoadingAnimation()
-            val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
-            val localeCode = PointOfSale.getPointOfSale().localeIdentifier
-            launchDataTimeStamp = null
-            downloadSubscription = collectionServices.getPhoneCollection(
-                    ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
-                    collectionDownloadListener)
+            showCollections()
         }
 
         posChangeSubject.subscribe {
@@ -240,10 +244,20 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             } else {
                 locationNotAvailable.onNext(Unit)
             }
-            launchListWidget.onPOSChange();
-            adjustLobViewHeight();
+            launchListWidget.onPOSChange()
+            adjustLobViewHeight()
         }
+    }
 
+    private fun showCollections() {
+        launchListWidget.visibility = View.VISIBLE
+        launchListWidget.showListLoadingAnimation()
+        val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
+        val localeCode = PointOfSale.getPointOfSale().localeIdentifier
+        launchDataTimeStamp = null
+        downloadSubscription = collectionServices.getPhoneCollection(
+                ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
+                collectionDownloadListener)
     }
 
     private fun adjustLobViewHeight() {
@@ -395,12 +409,17 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         val params = NearbyHotelParams(loc.latitude.toString(),
                 loc.longitude.toString(), "1",
                 today, tomorrow, HOTEL_SORT, "true")
-        searchParams = HotelSearchParams()
-        searchParams?.checkInDate = currentDate
-        searchParams?.checkOutDate = currentDate.plusDays(1)
-        searchParams?.setSearchLatLon(loc.latitude, loc.longitude)
-        searchParams?.setFromLaunchScreen(true)
         return params
+    }
+
+    private fun buildDeeplinkToHotelSearchParams(loc: Location) : HotelSearchParams {
+        val currentDate = LocalDate()
+        val searchParams = HotelSearchParams()
+        searchParams.checkInDate = currentDate
+        searchParams.checkOutDate = currentDate.plusDays(1)
+        searchParams.setSearchLatLon(loc.latitude, loc.longitude)
+        searchParams.setFromLaunchScreen(true)
+        return searchParams
     }
 
     fun getNearByHotelObserver(): Observer<MutableList<Hotel>> {
@@ -487,5 +506,11 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     fun refreshState() {
         launchListWidget.notifyDataSetChanged()
+    }
+
+    private fun userBucketedForPopularHotels(): Boolean {
+        return FeatureToggleUtil
+                .isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
+                        R.string.preference_show_popular_hotels_on_launch_screen)
     }
 }
