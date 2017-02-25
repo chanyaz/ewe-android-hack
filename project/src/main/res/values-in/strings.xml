@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">Ekonomi</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Ekonomi Premium</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">Prem. Eko.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Bisnis</string>
     <!-- Label for "first" cabin code -->
@@ -3385,7 +3383,7 @@
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Komunikasi</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">Nilai aplikasi kami!</string>
+    <string name="rate_our_app">Beri nilai aplikasi kami!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
     <!-- Label for link to terms of use -->
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">Upgrade Tersedia</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">Bagaimana kesan Anda?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">Anda Suka Aplikasi Kami?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Jika Anda menyukai aplikasi kami, berikan ulasan di Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">Ulasan</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">Beri Nilai Aplikasi</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">Kirim Umpan Balik</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">Email Dukungan Aplikasi</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Tidak, terima kasih</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">Tidak, Terima Kasih</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Masukkan alamat email yang valid</string>
     <!-- Checkout validation error message for first name -->

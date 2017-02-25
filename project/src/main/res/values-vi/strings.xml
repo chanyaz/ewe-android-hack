@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">Hạng Phổ thông</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Hạng Phổ thông Thượng hạng</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">Prem. Eco.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Hạng Thương gia</string>
     <!-- Label for "first" cabin code -->
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">Có nâng hạng</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">Quý vị đã có trải nghiệm như thế nào?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">Thích app của chúng tôi?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Nhớ chia sẻ nhận xét về app cùng chúng tôi tại CH Play.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">Nhận xét</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">Đánh giá app</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">Gửi phản hồi</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">Email hỗ trợ app</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Không, cảm ơn</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">Không, cảm ơn</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Nhập địa chỉ email hợp lệ</string>
     <!-- Checkout validation error message for first name -->

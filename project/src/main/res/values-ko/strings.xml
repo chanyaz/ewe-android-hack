@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">이코노미석</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">프리미엄 이코노미석</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">프리.이코.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">비즈니스석</string>
     <!-- Label for "first" cabin code -->
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">업그레이드 이용 가능</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">이용한 경험이 어떠셨나요?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">저희 앱이 마음에 드세요?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">저희 앱이 마음에 드시면 Play Store에 이용 후기를 남겨주세요.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">이용 후기</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">앱 평가</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">의견 보내기</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">이메일 앱 지원</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">나중에 하기</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">나중에 하기</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">유효한 이메일 주소를 입력해 주세요.</string>
     <!-- Checkout validation error message for first name -->

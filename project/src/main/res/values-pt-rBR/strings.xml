@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">Econômica</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Econômica Premium</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">Eco. Prem.</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Executiva</string>
     <!-- Label for "first" cabin code -->
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">Upgrade disponível</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">Como foi sua experiência?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">Adora nosso app?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">Se você ficou satisfeito com nosso app, compartilhe sua opinião, deixando uma avaliação na Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">Avaliação</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">Avalie o app</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">Enviar comentários</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">Suporte por e-mail do app</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Não, obrigado</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">Não, obrigado</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Insira um endereço de e-mail válido</string>
     <!-- Checkout validation error message for first name -->

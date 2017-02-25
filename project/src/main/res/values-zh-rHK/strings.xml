@@ -946,7 +946,7 @@
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
         <item quantity="zero">不停站</item>
-        <item quantity="one">%s 站</item>
+        <item quantity="one">停站 %s 次</item>
         <item quantity="two">%s 站</item>
         <item quantity="few">%s 站</item>
         <item quantity="many">%s 站</item>
@@ -2020,8 +2020,6 @@
     <string name="cabin_code_coach">經濟艙</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">特等經濟艙</string>
-    <!-- Label for "premium coach" cabin code abbreviated for Flights SRP. Please keep the string no longer than English 'Prem. Eco.' -->
-    <string name="cabin_code_premium_coach_abbreviated">特選經濟艙</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">商務艙</string>
     <!-- Label for "first" cabin code -->
@@ -4442,7 +4440,7 @@
     <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity}往 ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留 ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
-    <string name="package_flight_overview_total_duration_TEMPLATE">合計需時：{duration}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">合共需時：{duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
     <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">合共需時：{duration} • {distance} {distanceunit}</string>
 
@@ -4983,14 +4981,22 @@
     <string name="room_upgrade_available">可提供升級</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">您的體驗如何？</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">喜歡此 App 嗎？</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">如您喜歡使用我們的 App，請於 Play Store 留下評價通知我們。</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">評價</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">評價此 App</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">傳送意見</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">寄電郵給 App 支援</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">不用了</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">不用了</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">請輸入有效的電郵地址</string>
     <!-- Checkout validation error message for first name -->
