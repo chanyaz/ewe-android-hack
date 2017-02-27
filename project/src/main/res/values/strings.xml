@@ -4503,6 +4503,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Infant in seat {number} details</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Member Deals</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ Points applied! (excludes taxes and fees)</string>
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
