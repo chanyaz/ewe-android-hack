@@ -66,7 +66,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val performSearchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
-        if (getParamsBuilder().areRequiredParamsFilled()) {
+        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
             val flightSearchParams = getParamsBuilder().build()
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
