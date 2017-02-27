@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -24,6 +28,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
@@ -160,7 +166,9 @@ public class RecyclerGallery extends RecyclerView {
 			mLayoutManager = new A11yLinearLayoutManager(getContext()) {
 				@Override
 				protected int getExtraLayoutSpace(State state) {
-					if (state.hasTargetScrollPosition()) {
+					if (state.hasTargetScrollPosition()
+						|| Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelDetailsGalleryPeak)) {
+
 						return AndroidUtils.getScreenSize(getContext()).x;
 					}
 					else {
@@ -413,5 +421,46 @@ public class RecyclerGallery extends RecyclerView {
 
 	public interface IImageViewBitmapLoadedListener {
 		void onImageViewBitmapLoaded(int index);
+	}
+
+	public void peakSecondImage() {
+		if (mAdapter.getItemCount() > 1) {
+			final View visibleView = mLayoutManager.findViewByPosition(0);
+			final View peakingView = mLayoutManager.findViewByPosition(1);
+
+			if (visibleView != null && peakingView != null) {
+				animatePeakWithBounce(peakingView);
+				animatePeakWithBounce(visibleView);
+			}
+		}
+	}
+
+	private void animatePeakWithBounce(View view) {
+		final Long duration =  1000L;
+		final int peakAmount = (int) getResources().getDimension(R.dimen.hotel_gallery_peak_amount);
+		view.animate().translationX(-peakAmount).setStartDelay(duration / 2)
+			.setInterpolator(new AccelerateInterpolator()).setDuration(duration / 4)
+			.withEndAction(new TranslateViewRunnable(view, 0, new BounceInterpolator(), duration));
+	}
+
+	private static final class TranslateViewRunnable implements Runnable {
+		private final WeakReference<View> viewReference;
+		private final int translationX;
+		private final Interpolator interpolator;
+		private final Long duration;
+
+		public TranslateViewRunnable(View view, int translationX, Interpolator interpolator, Long duration) {
+			this.viewReference = new WeakReference<>(view);
+			this.translationX = translationX;
+			this.interpolator = interpolator;
+			this.duration = duration;
+		}
+		@Override
+		public void run() {
+			View view = viewReference.get();
+			if (view != null) {
+				view.animate().translationX(translationX).setStartDelay(0).setInterpolator(interpolator).setDuration(duration).start();
+			}
+		}
 	}
 }

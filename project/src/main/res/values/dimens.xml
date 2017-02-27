@@ -227,8 +227,8 @@
     <!-- Dimensions for hotel details -->
     <dimen name="widget_hotel_info_padding">18dp</dimen>
     <dimen name="hotel_detail_gradient_height">120dp</dimen>
-
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
+    <dimen name="hotel_gallery_peak_amount">40dp</dimen>
 
     <!--Dimensions for hotel review row-->
     <dimen name="hotel_review_title_text_size">13dp</dimen>
