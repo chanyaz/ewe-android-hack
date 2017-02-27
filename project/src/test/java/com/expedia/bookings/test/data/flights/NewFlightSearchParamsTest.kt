@@ -2,16 +2,19 @@ package com.expedia.bookings.test.data.flights
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricRunner::class)
 class NewFlightSearchParamsTest {
     val maxStay = 26
     val maxRange = 329
