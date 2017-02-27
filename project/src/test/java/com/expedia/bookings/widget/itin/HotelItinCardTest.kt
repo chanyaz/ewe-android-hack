@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Property
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.RoomUpgradeOffersService
 import com.expedia.bookings.test.MultiBrand
@@ -15,6 +16,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
@@ -97,17 +99,45 @@ class HotelItinCardTest {
     @Test
     fun roomUpgradeBannerVisible() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
+
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
         sut.bind(itinCardData)
 
+        assertEquals(true, sut.isRoomUpgradable())
         assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
     }
 
     @Test
-    fun roomUpgradeBannerGoneNoOffers() {
+    fun roomUpgradeBannerFeatureOn() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
+
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
+        itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.NOT_CALLED_UPGRADE_API
+        sut.bind(itinCardData)
+
+        assertEquals(true, sut.isRoomUpgradable())
+    }
+
+    @Test
+    fun roomUpgradeBannerFeatureOff() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
+
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
+        itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.NOT_CALLED_UPGRADE_API
+        sut.bind(itinCardData)
+
+        assertEquals(false, sut.isRoomUpgradable())
+    }
+
+    @Test
+    fun roomUpgradeBannerGoneNoOffers() {
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.NO_UPGRADE_OFFERS
@@ -119,6 +149,7 @@ class HotelItinCardTest {
     @Test
     fun roomUpgradeBannerGoneFeatureOff() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         sut.bind(itinCardData)
@@ -128,16 +159,19 @@ class HotelItinCardTest {
     @Test
     fun roomUpgradeBannerGoneForSharedItin() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).isSharedItin(true).build()
         sut.bind(itinCardData)
 
+        assertEquals(false, sut.isRoomUpgradable())
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
     @Test
     fun roomUpgradeBannerGoneInDetails() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
         createSystemUnderTest()
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl(url).build()
         itinCardData.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
@@ -151,6 +185,7 @@ class HotelItinCardTest {
     @Test
     fun roomFetchOffersObserver() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
         setupRoomUpgradeService()
         createSystemUnderTest()
         sut.roomUpgradeService = roomUpgradeService
@@ -170,6 +205,7 @@ class HotelItinCardTest {
     @Test
     fun roomFetchOffersErrorObserver() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
         setupRoomUpgradeService()
         createSystemUnderTest()
         sut.roomUpgradeService = roomUpgradeService
@@ -189,7 +225,6 @@ class HotelItinCardTest {
 
     @Test
     fun roomUpgradeUnavailableNoRoomOfferApiLink() {
-        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
 
         val itinCardData = ItinCardDataHotelBuilder().withRoomUpgradeApiUrl("").build()

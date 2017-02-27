@@ -71,6 +71,8 @@ class HotelItinContentGeneratorTest {
     @Test
     fun hotelRoomUpgradeButtonOpensWebView() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
+
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false)
                 .withRoomUpgradeWebUrl(getRoomUpgradeWebUrl())
@@ -140,6 +142,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun roomUpgradeButtonVisible() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false)
                 .withRoomUpgradeWebUrl(getRoomUpgradeWebUrl()).build()
@@ -154,6 +157,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun roomUpgradeButtonGoneFeatureOff() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -166,6 +170,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun roomUpgradeButtonGoneForSharedItin() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(true).build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
