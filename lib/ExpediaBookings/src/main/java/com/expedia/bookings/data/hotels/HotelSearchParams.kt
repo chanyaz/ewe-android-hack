@@ -6,7 +6,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.LocalDate
 import java.util.HashMap
 
-open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val shopWithPoints: Boolean, val filterUnavailable: Boolean, val sortType: String? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
+open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, var shopWithPoints: Boolean, val filterUnavailable: Boolean, var sortType: String? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
 

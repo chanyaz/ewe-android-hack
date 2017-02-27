@@ -3,6 +3,7 @@ package com.expedia.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -52,6 +53,12 @@ class HotelActivity : AbstractAppCompatActivity() {
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
         detailsMapView.onCreate(savedInstanceState)
+
+        if (intent.hasExtra(Codes.MEMBER_ONLY_DEALS)) {
+            hotelPresenter.searchPresenter.memberDealsSearch = true
+            hotelPresenter.searchPresenter.shopWithPointsWidget.visibility = View.INVISIBLE
+        }
+
         if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             handleDeeplink(intent)
         } else {
