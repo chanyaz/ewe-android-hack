@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -249,7 +250,20 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         bundleSlidingWidget.visibility = if (forward) View.VISIBLE else View.GONE
     }
 
-    private val resultsToOverview = bundleSlidingWidget.addBundleTransitionFrom(FlightResultsListViewPresenter::class.java.name)
+    private val resultsToOverview = object : Transition(FlightResultsListViewPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), bundleSlidingWidget.REGULAR_ANIMATION_DURATION) {
+        override fun startTransition(forward: Boolean) {
+            resultsPresenter.recyclerView.isEnabled = !forward
+            bundleSlidingWidget.startBundleTransition(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            bundleSlidingWidget.updateBundleTransition(f, forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            bundleSlidingWidget.finalizeBundleTransition(forward)
+        }
+    }
 
     override fun setupToolbarMenu() {
         toolbar.inflateMenu(R.menu.package_flights_menu)
