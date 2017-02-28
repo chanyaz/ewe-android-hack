@@ -20,7 +20,7 @@
 
         <ImageView
             android:id="@+id/status_image"
-            android:layout_width="18dp"
+            android:layout_width="19dp"
             android:layout_height="18dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"

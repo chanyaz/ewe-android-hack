@@ -88,7 +88,7 @@ class ItinSignInViewModel(val context: Context) {
     fun setState(state: MessageState) {
         mCurrentState = state
         when (state) {
-            MessageState.NO_UPCOMING_TRIPS -> updateMessageAndButton(context.getString(R.string.no_upcoming_trips), context.getString(R.string.refresh_trips_new), R.drawable.ic_empty_itin_suitcase)
+            MessageState.NO_UPCOMING_TRIPS -> updateMessageAndButton(context.getString(R.string.no_upcoming_trips), context.getString(R.string.refresh_trips_new), 0)
             MessageState.FAILURE -> updateMessageAndButton(context.getString(R.string.fetching_trips_error_connection), context.getString(R.string.refresh_trips_new), R.drawable.ic_itin_connection_error)
             MessageState.TRIPS_ERROR -> updateMessageAndButton(context.getString(R.string.fetching_trips_error_connection), context.getString(R.string.refresh_trips_new), R.drawable.ic_itin_connection_error)
             MessageState.NOT_LOGGED_IN -> updateMessageAndButton(context.getString(R.string.itin_sign_in_message), getSignInText(), 0)
