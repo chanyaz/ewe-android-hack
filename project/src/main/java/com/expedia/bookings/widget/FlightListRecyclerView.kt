@@ -17,4 +17,12 @@ class FlightListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVi
         addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
         addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.footer_button_height), false))
     }
+
+    override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
+        return if (isEnabled) super.onInterceptTouchEvent(e) else true
+    }
+
+    override fun onTouchEvent(e: MotionEvent?): Boolean {
+        return if (isEnabled) super.onTouchEvent(e) else false
+    }
 }
