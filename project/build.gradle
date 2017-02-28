@@ -271,7 +271,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
-            resConfigs "en_CA", "fr", "fr_CA"
+            resConfigs "en_CA", "fr_CA"
         }
 
         airAsiaGo {
@@ -286,7 +286,7 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
-            resConfigs "th", "zh", "zh_HK", "in"
+            resConfigs "th", "zh", "zh_HK", "in", "ja"
         }
 
         wotif {
