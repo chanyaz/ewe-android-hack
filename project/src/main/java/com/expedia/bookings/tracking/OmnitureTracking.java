@@ -995,6 +995,8 @@ public class OmnitureTracking {
 		if (isLXEnabled) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		}
+
+		s.track();
 	}
 
 	public static void trackHotelV2PurchaseFromWebView(HotelItinDetailsResponse hotelItinDetailsResponse) {
