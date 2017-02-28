@@ -47,7 +47,7 @@ class ItinSignInViewModelTest {
         statusTextTestSubscriber.assertValue("No upcoming trips.")
         buttonTextTestSubscriber.assertValue("Refresh your trips")
         contDescTestSubscriber.assertValue("Refresh your trips Button")
-        imageTestSubscriber.assertValueCount(1)
+        imageTestSubscriber.assertValueCount(0)
     }
 
     @Test
