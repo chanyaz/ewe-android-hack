@@ -22,6 +22,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -115,8 +116,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         if (displayFlightDropDownRoutes()) {
             val viewStub = findViewById(R.id.search_restricted_airport_dropdown_presenter) as ViewStub
             viewStub.inflate() as FlightSearchAirportDropdownPresenter
-        }
-        else {
+        } else {
             val viewStub = findViewById(R.id.search_presenter) as ViewStub
             viewStub.inflate() as FlightSearchPresenter
         }
@@ -127,7 +127,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightOutboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
-            presenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
+            presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName))
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
@@ -136,7 +136,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchTrackingBuilder.markResultsProcessed()
             searchTrackingBuilder.searchResponse(it)
         }
-        presenter.menuSearch.setOnMenuItemClickListener ({
+        presenter.menuSearch.setOnMenuItemClickListener({
             show(searchPresenter)
             true
         })
@@ -162,13 +162,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightInboundPresenter
         presenter.flightOfferViewModel = flightOfferViewModel
         searchViewModel.searchParamsObservable.subscribe { params ->
-            presenter.toolbarViewModel.city.onNext(params.departureAirport.regionNames.shortName)
+            presenter.toolbarViewModel.city.onNext(HtmlCompat.stripHtml(params.departureAirport.regionNames.displayName))
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             if (params.returnDate != null) {
                 presenter.toolbarViewModel.date.onNext(params.returnDate)
             }
         }
-        presenter.menuSearch.setOnMenuItemClickListener ({
+        presenter.menuSearch.setOnMenuItemClickListener({
             show(searchPresenter)
             true
         })
@@ -208,7 +208,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.flightSummary.setPadding(0, 0, 0, 0)
         }
 
-        Observable.combineLatest( flightOfferViewModel.confirmedOutboundFlightSelection,
+        Observable.combineLatest(flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
                     val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
@@ -257,8 +257,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
             val message = context.getString(resId)
             presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
-        }
-        else {
+        } else {
             presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
         }
 
@@ -271,7 +270,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.createTripResponseObservable.safeSubscribe { trip -> trip!!
+        createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
+            trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }
@@ -323,22 +323,22 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         viewModel.outboundResultsObservable.subscribe {
             announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
-                    .put("city", viewModel.searchParamsObservable.value.arrivalAirport?.regionNames?.shortName)
+                    .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.arrivalAirport))
                     .format().toString())
         }
-        viewModel.confirmedOutboundFlightSelection.subscribe{
+        viewModel.confirmedOutboundFlightSelection.subscribe {
             if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
                 inboundPresenter.showResults()
                 show(inboundPresenter)
             }
         }
         viewModel.inboundResultsObservable.subscribe {
-            if(!isByotEnabled) {
+            if (!isByotEnabled) {
                 searchTrackingBuilder.searchResponse(it)
                 inboundPresenter.trackFlightResultsLoad()
             }
             announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
-                    .put("city", viewModel.searchParamsObservable.value.departureAirport?.regionNames?.shortName)
+                    .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.departureAirport))
                     .format().toString())
             show(inboundPresenter)
         }
@@ -486,7 +486,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>): LeftToRightTransition(presenter, left, right) {
+    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : LeftToRightTransition(presenter, left, right) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
@@ -507,6 +507,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
     }
+
     private val inboundFlightToOverview = FlightResultsToCheckoutOverviewTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java)
     private val outboundFlightToOverview = FlightResultsToCheckoutOverviewTransition(this, FlightOutboundPresenter::class.java, FlightOverviewPresenter::class.java)
 
@@ -521,7 +522,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private val defaultOutboundTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name){
+    private val defaultOutboundTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.GONE
             outBoundPresenter.visibility = View.VISIBLE
@@ -556,8 +557,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private fun getDefaultSearchPresenterClassName(): String {
         return if (displayFlightDropDownRoutes()) {
             FlightSearchAirportDropdownPresenter::class.java.name
-        }
-        else {
+        } else {
             FlightSearchPresenter::class.java.name
         }
     }
