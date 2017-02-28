@@ -8,6 +8,8 @@ import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -18,7 +20,6 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
-import com.expedia.vm.AbstractHotelFilterViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.Subscription
@@ -34,6 +35,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
+    val filterParamsSubject = PublishSubject.create<UserFilterChoices>()
 
     // Outputs
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
@@ -45,7 +47,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = PublishSubject.create<CharSequence>()
     val showHotelSearchViewObservable = PublishSubject.create<Unit>()
-    val sortByDeepLinkSubject = PublishSubject.create<AbstractHotelFilterViewModel.Sort>()
+    val sortByDeepLinkSubject = PublishSubject.create<Sort>()
 
     var isFavoritingSupported: Boolean = lob == LineOfBusiness.HOTELS
 
@@ -67,6 +69,20 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                     .children(cachedParams?.children!!) as HotelSearchParams.Builder
             val params = builder.shopWithPoints(cachedParams?.shopWithPoints ?: false).build()
 
+            doSearch(params)
+        })
+
+        filterParamsSubject.subscribe(endlessObserver { filterParams ->
+            val cachedParams: HotelSearchParams? = paramsSubject.value
+            val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                    context.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+                    .destination(cachedParams?.suggestion)
+                    .startDate(cachedParams?.checkIn)
+                    .endDate(cachedParams?.checkOut)
+                    .adults(cachedParams?.adults!!)
+                    .children(cachedParams?.children!!) as HotelSearchParams.Builder
+            addFilterCriteria(builder, filterParams)
+            val params = builder.shopWithPoints(cachedParams?.shopWithPoints ?: false).build()
             doSearch(params)
         })
 
@@ -100,7 +116,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         val isPerceivedInstant = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
         val makeMultipleCalls = isInitial && isPerceivedInstant
 
-        hotelSearchSubscription = hotelServices?.search(params,if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
+        hotelSearchSubscription = hotelServices?.search(params, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isInitial)
                 if (makeMultipleCalls) {
@@ -156,13 +172,29 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         }
     }
 
-    fun getSortTypeFromString(sorttype: String?): AbstractHotelFilterViewModel.Sort {
-        when(sorttype) {
-            "Discounts" -> return AbstractHotelFilterViewModel.Sort.DEALS
-            "Price" -> return AbstractHotelFilterViewModel.Sort.PRICE
-            "Rating" -> return AbstractHotelFilterViewModel.Sort.RATING
+    private fun addFilterCriteria(searchBuilder: HotelSearchParams.Builder, filterParams: UserFilterChoices) {
+        if (filterParams.isDefault()) {
+            return
+        }
+
+        if (filterParams.name.isNotEmpty()) {
+            searchBuilder.hotelName = filterParams.name
+        }
+
+        if (filterParams.hotelStarRating.getStarRatingParamsAsList().isNotEmpty()) {
+            searchBuilder.starRatings = filterParams.hotelStarRating.getStarRatingParamsAsList()
+        }
+
+        //TODO - add the rest of the filters...
+    }
+
+    private fun getSortTypeFromString(sortType: String?): Sort {
+        when (sortType) {
+            "Discounts" -> return Sort.DEALS
+            "Price" -> return Sort.PRICE
+            "Rating" -> return Sort.RATING
             else -> {
-                return AbstractHotelFilterViewModel.Sort.RECOMMENDED
+                return Sort.RECOMMENDED
             }
         }
     }

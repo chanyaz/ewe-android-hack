@@ -1,5 +1,11 @@
 package com.expedia.bookings.featureconfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +14,7 @@ import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.hotel.Sort;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -15,13 +22,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.vm.AbstractHotelFilterViewModel;
-
-import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
@@ -264,8 +264,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public AbstractHotelFilterViewModel.Sort getDefaultSort() {
-		return AbstractHotelFilterViewModel.Sort.RECOMMENDED;
+	public Sort getDefaultSort() {
+		return Sort.RECOMMENDED;
 	}
 
 	@Override

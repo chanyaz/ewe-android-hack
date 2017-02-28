@@ -1,11 +1,6 @@
-package com.expedia.vm
+package com.expedia.bookings.tracking.hotel
 
-import android.content.Context
-import com.expedia.bookings.R
-import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.FeatureToggleUtil
-
-class HotelFilterViewModel(context:Context): AbstractHotelFilterViewModel(context) {
+class HotelFilterTracker : FilterTracker {
     override fun trackHotelSortBy(sortBy: String) {
         HotelTracking.trackHotelSortBy(sortBy)
     }
@@ -26,23 +21,11 @@ class HotelFilterViewModel(context:Context): AbstractHotelFilterViewModel(contex
         HotelTracking.trackLinkHotelClearFilter()
     }
 
-    override fun trackHotelFilterNeighbourhood() {
+    override fun trackHotelFilterNeighborhood() {
         HotelTracking.trackLinkHotelFilterNeighbourhood()
     }
 
     override fun trackHotelRefineRating(rating: String) {
         HotelTracking.trackLinkHotelRefineRating(rating)
-    }
-
-    override fun sortItemToRemove(): Sort {
-        return Sort.PACKAGE_DISCOUNT
-    }
-
-    override fun showHotelFavorite(): Boolean {
-        return true
-    }
-
-    override fun isClientSideFiltering() : Boolean {
-        return !FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters)
     }
 }

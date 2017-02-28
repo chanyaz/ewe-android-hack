@@ -14,6 +14,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 public interface HotelApi {
@@ -38,7 +39,8 @@ public interface HotelApi {
 		@Query("room1") String guestString,
 		@Query("shopWithPoints") Boolean shopWithPoints,
 		@Query("filterUnavailable") String filterUnavailable,
-		@Query("resultsPerPage") Integer resultsPerPage);
+		@Query("resultsPerPage") Integer resultsPerPage,
+		@QueryMap(encoded = true) Map<String, Object> filterParams);
 
 	@GET("/m/api/hotel/info?forceV2Search=true")
 	Observable<HotelOffersResponse> info(

@@ -11,8 +11,8 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.PackageFilterViewModel
+import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
@@ -102,7 +102,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         return LineOfBusiness.PACKAGES
     }
 
-    override fun createFilterViewModel(): AbstractHotelFilterViewModel {
+    override fun createFilterViewModel(): BaseHotelFilterViewModel {
         return PackageFilterViewModel(context)
     }
 }

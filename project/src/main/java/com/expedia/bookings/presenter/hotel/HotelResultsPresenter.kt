@@ -17,6 +17,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
@@ -26,10 +27,11 @@ import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.AbstractHotelFilterViewModel
-import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.HotelClientFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
+import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
+import com.expedia.vm.hotel.HotelServerFilterViewModel
 import rx.Observer
 import javax.inject.Inject
 
@@ -242,7 +244,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return LineOfBusiness.HOTELS
     }
 
-    override fun createFilterViewModel(): AbstractHotelFilterViewModel {
-        return HotelFilterViewModel(context)
+    override fun createFilterViewModel(): BaseHotelFilterViewModel {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters)) {
+            return HotelServerFilterViewModel(context)
+        }
+        return HotelClientFilterViewModel(context)
     }
 }
