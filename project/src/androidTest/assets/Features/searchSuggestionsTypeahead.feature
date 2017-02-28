@@ -1,6 +1,6 @@
 Feature: Search Suggestions for Flights
 
-  @Flights @Typeahead
+  @Flights @FlightsTypeahead
   Scenario: Ensure trigger of typeahead calls on typing search query
     Given I launch the App
     And I launch "Flights" LOB
@@ -11,7 +11,7 @@ Feature: Search Suggestions for Flights
     When I add "d" to the query in flights search box
     Then flights suggest typeAhead is fired for "lond"
 
-  @Flights @Typeahead
+  @Flights @FlightsTypeahead
   Scenario: Ensure Typeahead works as expected for To and From locations Roundtrip
     Given I launch the App
     And I launch "Flights" LOB
@@ -20,7 +20,7 @@ Feature: Search Suggestions for Flights
     And I type "lond" in the flights destination search box
     Then flights suggest typeAhead is fired for "lond"
 
-  @Flights @Typeahead
+  @Flights @FlightsTypeahead
   Scenario: Ensure Typeahead works as expected for One way trip
     Given I launch the App
     And I launch "Flights" LOB
@@ -32,14 +32,14 @@ Feature: Search Suggestions for Flights
     When I add "d" to the query in flights search box
     Then flights suggest typeAhead is fired for "lond"
 
-  @Flights @Typeahead @Int
+  @Flights @FlightsTypeahead @Prod
   Scenario: Typeahead happy path by hitting real service
     Given I launch the App
     And I launch "Flights" LOB
     When I type "TOR" in the flights search box
     Then flights suggest typeAhead is fired
 
-  @Flights @Typeahead
+  @Flights @FlightsTypeahead
   Scenario: Recent searches shown in the suggestion list
     Given I launch the App
     And I launch "Flights" LOB
@@ -48,7 +48,7 @@ Feature: Search Suggestions for Flights
     And I type "lo" in the flights destination search box
     Then "London, England, UK (LON - All Airports)" is listed at the top of suggestion list as recent search
 
-  @Flights @Typeahead
+  @Flights @FlightsTypeahead
   Scenario: Multi-city metro code type hierarchy shown properly on the UI
     Given I launch the App
     And I launch "Flights" LOB

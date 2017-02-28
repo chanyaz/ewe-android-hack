@@ -2,6 +2,7 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +30,7 @@ public class SortSteps {
 
 	@Then("^flight results are sorted by \"([^\"]*)\"$")
 	public void flightResultsSortedBy(String sortCriteria) throws Throwable {
-		switch (sortCriteria.toLowerCase()) {
+		switch (sortCriteria.toLowerCase(Locale.getDefault())) {
 		case "price":
 			assertResultsSortedByPrice(FlightsScreen.outboundFlightList());
 			break;
@@ -61,7 +62,7 @@ public class SortSteps {
 	public void selectSort(String criteria) throws Throwable {
 		onView(withId(R.id.sort_by_selection_spinner)).perform(ViewActions.waitForViewToDisplay(), click());
 
-		switch (criteria.toLowerCase()) {
+		switch (criteria.toLowerCase(Locale.getDefault())) {
 		case "price":
 			onView(withText("Price")).perform(ViewActions.waitForViewToDisplay(), click());
 			break;

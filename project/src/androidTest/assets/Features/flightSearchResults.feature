@@ -1,6 +1,6 @@
-Feature: Flights Search Results Screen Tests
+Feature: Flights Search Results
 
-  @Flights @Search @FlightResults
+  @Flights @FlightSearchResults
   Scenario: Verifying data consistency through Search and FSR screens for round trip search
     Given I launch the App
     And I launch "Flights" LOB
@@ -23,7 +23,7 @@ Feature: Flights Search Results Screen Tests
     And on inbound FSR the number of traveller are as user selected
 
 
-  @Flights @Search @FlightResults
+  @Flights @FlightSearchResults
   Scenario: Verifying data consistency for one way trip through Search and FSR screens
     Given I launch the App
     And I launch "Flights" LOB
@@ -44,7 +44,7 @@ Feature: Flights Search Results Screen Tests
     And on outbound FSR the number of traveller are as user selected
 
 
-  @Flights @Search @FlightResults
+  @Flights @FlightSearchResults
   Scenario Outline: Verifying UI elements and data on each flight cell of FSR
     Given I launch the App
     And I bucket the following tests
@@ -78,7 +78,7 @@ Feature: Flights Search Results Screen Tests
 
 
 
-  @Flights @SearchScreen @CALocale @Prod
+  @Flights @FlightSearchResults @CALocale @Prod
   Scenario: POS and locale combination
     Given I launch the App
     And I set the POS to "Canada"
@@ -97,7 +97,7 @@ Feature: Flights Search Results Screen Tests
     Then the currency symbol at cell 2 on FSR is "$" and isOutBound : true
 
 
-  @Flights @Search @FlightResults
+  @Flights @FlightSearchResults
   Scenario Outline: Data consistency between Outbound and Inbound FSR and cell UI validations
     Given I launch the App
     And I bucket the following tests
@@ -129,7 +129,7 @@ Feature: Flights Search Results Screen Tests
       | AirlineName       | price | duration | timing             | number | cellNumber |
       | American Airlines | 696   | 2h 35m   | 5:40 pm - 8:15 pm  | 0      | 1          |
 
-  @Flights @Search @FlightResults
+  @Flights @FlightSearchResults
   Scenario: UI validations on the docked outbound header view on inbound FSR
 
     Given I launch the App

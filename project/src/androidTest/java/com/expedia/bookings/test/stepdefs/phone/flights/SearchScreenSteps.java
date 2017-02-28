@@ -2,18 +2,23 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
+
 import android.support.test.espresso.matcher.RootMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

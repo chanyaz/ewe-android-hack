@@ -64,13 +64,13 @@ public class TestUtilFlights {
 		String formattedTime;
 		int index = time.indexOf(":");
 		if (time.contains("am") || time.contains("pm")) {
-			time = time.substring(0, index+6);
+			time = time.substring(0, index + 6);
 
 			Date currentTime = currentFormat.parse(time);
 			formattedTime = targetFormat.format(currentTime);
 		}
 		else {
-			formattedTime = time.substring(0, index+3);
+			formattedTime = time.substring(0, index + 3);
 		}
 
 		return formattedTime;
