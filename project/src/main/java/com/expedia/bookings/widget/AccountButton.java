@@ -253,13 +253,6 @@ public class AccountButton extends LinearLayout {
 				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsToEarn));
 				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsToEarn));
 			}
-			else {
-				mLoginTextView.setText(getSignInWithoutRewardsText());
-				mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
-					.put("brand", BuildConfig.brand)
-					.format());
-				mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_bg);
-			}
 			if (lob == LineOfBusiness.FLIGHTS) {
 				mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
 			}
@@ -272,7 +265,6 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
 				.put("brand", BuildConfig.brand)
 				.format());
-			mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_bg);
 		}
 	}
 
