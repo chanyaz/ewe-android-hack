@@ -395,6 +395,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(flightOverviewToError)
         addTransition(errorToSearch)
         addTransition(searchToInbound)
+        addTransition(errorToConfirmation)
     }
 
     private fun flightListToOverviewTransition() {
@@ -511,6 +512,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val outboundFlightToOverview = FlightResultsToCheckoutOverviewTransition(this, FlightOutboundPresenter::class.java, FlightOverviewPresenter::class.java)
 
     private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
+
+    private val errorToConfirmation = LeftToRightTransition(this, FlightErrorPresenter::class.java, FlightConfirmationPresenter::class.java)
 
     private val outboundToInbound = object : ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
