@@ -336,7 +336,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
