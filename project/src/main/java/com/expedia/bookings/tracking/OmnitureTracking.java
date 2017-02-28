@@ -41,7 +41,6 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -51,7 +50,6 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.PaymentType;
@@ -284,16 +282,6 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
-
-	}
-
-	public static void trackHotelRecentSearchClick() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_RECENT_SEARCH_CLICK + "\" click...");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, HOTELSV2_RECENT_SEARCH_CLICK);
-		s.setProp(16, HOTELSV2_RECENT_SEARCH_CLICK);
-		s.trackLink(null, "o", "Search Results Update", null, null);
 
 	}
 
@@ -1222,21 +1210,6 @@ public class OmnitureTracking {
 		s.setEvar(4, "D=c4");
 	}
 
-	private static void addHotelV2AdvancePurchaseWindow(ADMS_Measurement s,
-		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
-		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckIn()));
-		s.setEvar(5, window);
-		s.setProp(5, window);
-	}
-
-	private static String getHotelV2Evar47String(com.expedia.bookings.data.hotels.HotelSearchParams params) {
-		StringBuilder sb = new StringBuilder("HOT|A");
-		sb.append(params.getAdults());
-		sb.append("|C");
-		sb.append(params.getChildren().size());
-		return sb.toString();
-	}
-
 	private static String internalGenerateHotelV2DRRString(HotelOffersResponse hotelOffersResponse) {
 		if (hotelOffersResponse != null && CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
 			HotelOffersResponse.HotelRoomResponse firstRoomDetails = hotelOffersResponse.hotelRoomResponse.get(0);
@@ -1353,18 +1326,6 @@ public class OmnitureTracking {
 		String products = s.getProducts();
 		products += ";" + numNights + ";" + df.format(totalCost);
 		s.setProducts(products);
-	}
-
-	private static void addProducts(ADMS_Measurement s, Property property, String supplierType) {
-		// The "products" field uses this format:
-		// Hotel;<supplier> Hotel:<hotel id>
-
-		if (TextUtils.isEmpty(supplierType)) {
-			supplierType = "";
-		}
-		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
-
-		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + property.getPropertyId());
 	}
 
 	private static void addEventsAndProductsForAirAttach(ADMS_Measurement s, Property property, String eventVar,
@@ -1509,12 +1470,6 @@ public class OmnitureTracking {
 		addCouponFields(s, HOTELS_COUPON_FAIL);
 	}
 
-	public static void trackHotelConfirmationFlightsXSell() {
-		ADMS_Measurement s = createTrackLinkEvent(HOTELS_CONF_CROSSSELL_FLIGHTS);
-		s.setEvar(12, HOTELS_CONF_CROSSSELL_FLIGHTS);
-		internalTrackLink(s);
-	}
-
 	public static void trackHotelConfirmationAddToCalendar() {
 		internalTrackLink(HOTELS_CONF_ADD_TO_CALENDAR);
 	}
@@ -1618,59 +1573,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackPageLoadFlightCheckoutConfirmation() {
-		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-
-		FlightTrip newestFlightOffer = getNewestFlightOffer();
-		boolean isSplitTicket = newestFlightOffer.isSplitTicket();
-
-		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
-		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
-		String origin = searchParams.getDepartureLocation().getDestinationId();
-		String dest = searchParams.getArrivalLocation().getDestinationId();
-
-		String eVar30 = "Flight:";
-		eVar30 += origin;
-		eVar30 += "-";
-		eVar30 += dest;
-		eVar30 += ":";
-
-		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
-		eVar30 += dtf.print(searchParams.getDepartureDate());
-		if (searchParams.isRoundTrip()) {
-			eVar30 += "-";
-			eVar30 += dtf.print(searchParams.getReturnDate());
-		}
-
-		eVar30 += ":N";
-		s.setEvar(30, eVar30);
-
-		if (isSplitTicket) {
-			addFlightSplitTicketInfo(s, pageName, newestFlightOffer, true, true);
-		}
-		else {
-			addProducts(s);
-		}
-
-		s.setCurrencyCode(newestFlightOffer.getTotalPrice().getCurrency());
-		s.setEvents("purchase");
-
-		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
-		final String orderId = Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId();
-		s.setPurchaseID("onum" + orderId);
-
-		// TRL
-		Itinerary itin = Db.getTripBucket().getFlight().getItinerary();
-		s.setProp(71, itin.getItineraryNumber());
-
-		// order #
-		s.setProp(72, orderId);
-
-		s.track();
-	}
-
 	private static void addProducts(ADMS_Measurement s) {
 		// products variable, described here: http://confluence/display/Omniture/Product+string+format
 		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
@@ -1682,51 +1584,12 @@ public class OmnitureTracking {
 		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
 	}
 
-	public static void trackPageLoadFlightCheckoutPaymentCid() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_CID);
-	}
-
-	public static void trackPageLoadFlightCheckoutSlideToPurchase() {
-		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, getPaymentType());
-		s.track();
-	}
-
-	public static void trackPageLoadFlightCheckoutPaymentEditSave() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_EDIT_SAVE);
-	}
-
 	public static void trackPageLoadFlightCheckoutPaymentEditCard() {
 		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD);
 	}
 
-	public static void trackPageLoadFlightCheckoutPaymentEditAddress() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_EDIT_ADDRESS);
-	}
-
-	public static void trackPageLoadFlightCheckoutPaymentSelect() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_SELECT);
-	}
-
 	public static void trackPageLoadFlightCheckoutWarsaw() {
 		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_WARSAW);
-	}
-
-	public static void trackPageLoadFlightTravelerEditSave() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_SAVE);
-	}
-
-	public static void trackPageLoadFlightTravelerEditPassport() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_PASSPORT);
-	}
-
-	public static void trackPageLoadFlightTravelerEditDetails() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_DETAILS);
-	}
-
-	public static void trackPageLoadFlightTravelerEditInfo() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
 	}
 
 	public static void trackPageLoadFlightTravelerSelect() {
@@ -1735,34 +1598,6 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightLogin() {
 		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_LOGIN);
-	}
-
-	public static void trackPageLoadFlightCheckoutInfo() {
-		String pageName = FLIGHT_CHECKOUT_INFO;
-		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-
-		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		s.setEvents("event71");
-		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-		s.setEvar(47, getEvar47String(params));
-
-		String origin = params.getDepartureLocation().getDestinationId();
-		s.setEvar(3, origin);
-		s.setProp(3, origin);
-		String dest = params.getArrivalLocation().getDestinationId();
-		s.setEvar(4, dest);
-		s.setProp(4, dest);
-
-		internalSetFlightDateProps(s, params);
-		addStandardFlightFields(s);
-
-		if (searchFlightTrip.isSplitTicket()) {
-			addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
-		}
-		else {
-			addProducts(s);
-		}
-		s.track();
 	}
 
 	private static FlightTrip getNewestFlightOffer() {
@@ -1819,17 +1654,6 @@ public class OmnitureTracking {
 			}
 		}
 		return "";
-	}
-
-	public static void trackPageLoadFlightRateDetailsOverview() {
-		String pageName = FLIGHT_RATE_DETAILS;
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
-		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-		ADMS_Measurement s = createTrackPageLoadEventPriceChange(pageName);
-		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
-		s.setEvents("event4");
-
-		s.track();
 	}
 
 	public static void trackPageLoadFlightSearchResults(int legPosition) {
@@ -2001,41 +1825,6 @@ public class OmnitureTracking {
 		s.setAppState(FLIGHT_SEARCH);
 		s.setEvar(18, FLIGHT_SEARCH);
 		s.track();
-	}
-
-	public static void trackLinkFlightSearchSelect(int selectPos, int legPos) {
-		String prefix = "";
-
-		if (legPos == 0) {
-			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_OUT_SELECT;
-			}
-			else {
-				prefix = PREFIX_FLIGHT_SEARCH_ONE_WAY_SELECT;
-			}
-		}
-		else if (legPos == 1) {
-			prefix = PREFIX_FLIGHT_SEARCH_ROUNDTRIP_IN_SELECT;
-		}
-
-		FlightFilter filter = Db.getFlightSearch().getFilter(legPos);
-		String link = prefix + "." + filter.getSort().name() + "." + Integer.toString(selectPos);
-
-		internalTrackLink(link);
-	}
-
-	public static void trackLinkFlightRefine(int legPosition) {
-		if (legPosition == 0) {
-			if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-				internalTrackLink(FLIGHT_SEARCH_ROUNDTRIP_OUT_REFINE);
-			}
-			else {
-				internalTrackLink(FLIGHT_SEARCH_ONE_WAY_REFINE);
-			}
-		}
-		else if (legPosition == 1) {
-			internalTrackLink(FLIGHT_SEARCH_ROUNDTRIP_IN_REFINE);
-		}
 	}
 
 	public static void trackLinkFlightSort(String sortType) {
@@ -3047,14 +2836,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Checkout", null, null);
 	}
 
-	public static void trackAddCarClick() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, ADD_ATTACH_CAR);
-		s.setProp(16, ADD_ATTACH_CAR);
-		s.setEvar(12, CROSS_SELL_CAR_FROM_FLIGHT);
-		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
-	}
-
 	public static void trackDoneBookingClick(LineOfBusiness lob) {
 		String link = getBase(lob == LineOfBusiness.FLIGHTS) + ".Confirm.Done";
 		internalTrackLink(link);
@@ -3154,10 +2935,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(trackingId);
 		s.trackLink(null, "o", "Itinerary Action", null, null);
-	}
-
-	public static void trackHotelItinMapOpen() {
-		createAndtrackLinkEvent(ITIN_HOTEL_MAP_OPEN, "Itinerary Action");
 	}
 
 	public static void trackFindItin() {
@@ -3549,10 +3326,6 @@ public class OmnitureTracking {
 		trackCrossSell(CROSS_SELL_ITIN_TO_HOTEL);
 	}
 
-	public static void trackCrossSellFlightToHotel() {
-		trackCrossSell(CROSS_SELL_FLIGHT_TO_HOTEL);
-	}
-
 	private static void trackCrossSell(String link) {
 		Log.d(TAG, "Tracking \"" + link + "\"");
 
@@ -3750,16 +3523,6 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackLinkLaunchScreenToHotels() {
-		String link = LAUNCH_SCREEN + "." + "Hotel";
-		internalTrackLink(link);
-	}
-
-	public static void trackLinkLaunchScreenToFlights() {
-		String link = LAUNCH_SCREEN + "." + "Flight";
-		internalTrackLink(link);
-	}
-
 	public static void trackPageLoadLaunchScreen() {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		boolean isFirstAppLaunch =
@@ -3772,15 +3535,6 @@ public class OmnitureTracking {
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
-	}
-
-	public static void trackPageLoadAbacusTestResults() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		final String link = "LogExperiement";
-
-		addStandardFields(s);
-
-		s.trackLink(null, "o", link, null, null);
 	}
 
 	public static void trackAccountPageLoad() {
@@ -4321,12 +4075,6 @@ public class OmnitureTracking {
 	private static void addStandardFlightFields(ADMS_Measurement s) {
 		s.setEvar(2, "Flight");
 		s.setProp(2, "Flight");
-	}
-
-	private static void addAdvancePurchaseWindow(ADMS_Measurement s, HotelSearchParams searchParams) {
-		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckInDate()));
-		s.setEvar(5, window);
-		s.setProp(5, window);
 	}
 
 	private static String getLobString(LineOfBusiness lob) {

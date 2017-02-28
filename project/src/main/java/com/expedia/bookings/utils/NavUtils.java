@@ -17,8 +17,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.FlightSearchActivity;
-import com.expedia.bookings.activity.FlightSearchResultsActivity;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
@@ -47,7 +45,6 @@ import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.PackageActivity;
 import com.google.gson.Gson;
-import com.mobiata.android.Log;
 
 /**
  * Utilities for navigating the app (between Activities)
@@ -344,7 +341,7 @@ public class NavUtils {
 			builder.setAllowMobileRedirects(true);
 			builder.setAttemptForceMobileSite(true);
 			builder.setLoginEnabled(true);
-			startActivity(context, builder.getIntent(),null);
+			startActivity(context, builder.getIntent(), null);
 		}
 		else {
 			Intent intent = new Intent(context, CarActivity.class);
@@ -416,7 +413,8 @@ public class NavUtils {
 				intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true);
 			}
 			else {
-				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.getFilters().isEmpty()) {
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP)
+					|| !searchParams.getFilters().isEmpty()) {
 					intent.putExtra("filters", searchParams.getFilters());
 					intent.putExtra(Codes.FROM_DEEPLINK, true);
 				}
@@ -432,22 +430,13 @@ public class NavUtils {
 	// Assumes we are already searching in flights, but are not on the flight
 	// search screen anymore
 	public static void restartFlightSearch(Activity activity) {
-		Context context = activity;
 		// Clear out old data
 		Db.resetBillingInfo();
 		Db.getFlightSearch().setSearchResponse(null);
 
 		// If tablet then let's just close the checkout activity to expose the results activity. A new search with old params will kick off.
-		if (activity instanceof TabletCheckoutActivity) {
-			Db.getTripBucket().clearFlight();
-			activity.finish();
-		}
-		else {
-			// Launch search activity (new search should start automatically due to blank data)
-			Intent intent = new Intent(context, FlightSearchResultsActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			context.startActivity(intent);
-		}
+		Db.getTripBucket().clearFlight();
+		activity.finish();
 	}
 
 	public static void restartHotelSearch(Activity activity) {
@@ -460,33 +449,6 @@ public class NavUtils {
 			Db.getTripBucket().clearHotel();
 			activity.finish();
 		}
-	}
-
-	public static void goToFlightSearch(Context context) {
-		// Clear out old data
-		Db.resetBillingInfo();
-		Db.getFlightSearch().setSearchResponse(null);
-
-		// Start search activity
-		sendKillActivityBroadcast(context);
-		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
-		context.startActivity(intent);
-	}
-
-	public static void onDataMissing(Activity activity) {
-		Log.i("Key data missing - resetting the app!");
-
-		// Reset the db
-		Db.clear();
-
-		// Go back to the start
-		Intent intent = new Intent(activity, FlightSearchActivity.class);
-		intent.putExtra(FlightSearchActivity.EXTRA_DATA_EXPIRED, true);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		activity.startActivity(intent);
-
-		// Finish the current Activity
-		activity.finish();
 	}
 
 	/**

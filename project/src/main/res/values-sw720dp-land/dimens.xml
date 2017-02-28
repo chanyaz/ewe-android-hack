@@ -3,8 +3,6 @@
 
     <!-- Tablet Flights -->
     <dimen name="plane_window_height">600dp</dimen>
-    <dimen name="plane_window_text_offset">-60dp</dimen>
-    <dimen name="flight_search_calendar_height">380dp</dimen>
 
     <!-- Tablet Launch Screen -->
     <dimen name="tablet_search_width">768dp</dimen>

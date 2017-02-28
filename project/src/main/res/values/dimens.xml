@@ -134,11 +134,6 @@
     <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
     <!-- Flight search -->
-    <dimen name="airport_row_height">56dp</dimen>
-    <dimen name="flight_search_header_padding_top">14dp</dimen>
-    <dimen name="flight_search_header_padding_bottom">14dp</dimen>
-    <dimen name="flight_search_space_between_rows">6dp</dimen>
-    <dimen name="flight_search_calendar_height">300dp</dimen>
     <dimen name="flight_search_airport_padding_left">12dp</dimen>
 
     <!-- Plane window view dimens, these must always be linked -->
@@ -146,37 +141,21 @@
     <dimen name="plane_window_text_offset">-35dp</dimen>
 
     <!-- Flights dimens -->
-    <dimen name="flight_header_bottom_margin">88dp</dimen>
-    <dimen name="simple_gray_divider_height">1dp</dimen>
-    <dimen name="simple_gray_divider_margin_top">5dp</dimen>
-    <dimen name="simple_gray_divider_margin_bottom">5dp</dimen>
     <dimen name="data_display_primary_text">18sp</dimen>
     <dimen name="data_display_sub_text">14sp</dimen>
     <dimen name="data_form_section_header_text">14sp</dimen>
-    <dimen name="yoyo_navigation_padding_right">10dp</dimen>
-    <dimen name="flight_calendar_min_height">200dp</dimen>
     <dimen name="flight_segment_margin">6dp</dimen>
     <dimen name="cvv_keypad_text_size">24dp</dimen>
     <dimen name="cvv_keypad_text_padding">0dp</dimen>
     <dimen name="cvv_keypad_book_text_size">16dp</dimen>
-    <dimen name="flight_list_blur_height">70dp</dimen>
     <dimen name="checkout_form_bottom_spacer_margin">0dp</dimen>
     <dimen name="arrow_up_down_click_padding">20dp</dimen>
     <dimen name="traveler_button_padding">10dp</dimen>
     <dimen name="flight_leg_day_textview_margin_right">10dp</dimen>
     <dimen name="flight_leg_day_textview_margin_top">-2dp</dimen>
     <dimen name="flight_leg_day_textview_margin_top_no_overlap">3dp</dimen>
-    <dimen name="payment_option_vertical_padding">8dp</dimen>
     <dimen name="checkout_info_container_padding">8dp</dimen>
-    <dimen name="checkout_info_cc_padding">5dp</dimen>
-    <dimen name="flight_payment_container_padding">10dp</dimen>
     <dimen name="flight_sort_filter_container_height">58dp</dimen>
-
-    <!-- We need to increase the margins because of the animation -->
-    <dimen name="flight_card_initial_offset">64dp</dimen>
-    <dimen name="flight_card_overlap_offset">16dp</dimen>
-    <dimen name="flight_card_mask_offset">-26dp</dimen>
-    <dimen name="flight_card_with_span_mask_offset">-15dp</dimen>
 
     <!-- FlightTripView dimensions -->
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>

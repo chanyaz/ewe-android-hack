@@ -69,8 +69,5 @@ public class SectionTravelerInfoTablet extends SectionTravelerInfo implements IL
 
 	public void setPassportCountryFieldEnabled(boolean enabled) {
 		mFields.setFieldEnabled(mEditPassportCountrySpinner, enabled);
-		mFields.setFieldEnabled(mEditPassportCountryListView, enabled);
 	}
-
-
 }

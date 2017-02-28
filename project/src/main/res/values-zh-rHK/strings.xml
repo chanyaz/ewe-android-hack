@@ -917,16 +917,10 @@
     <string name="infants_in_laps">手抱</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">佔位</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">2 歲以下嬰幼兒</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">成人 (年滿 12 歲) 數目不足以安排手抱嬰幼兒。有關嬰幼兒需佔有自己的座位。</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">我們只可為每位年滿 12 歲的旅客預留最多 2 個嬰兒座位。</string>
-    <!-- Description for infant travelers sitting in laps -->
-    <string name="in_laps">手抱</string>
-    <!-- Description for infant travelers sitting in seats -->
-    <string name="in_seats">佔位</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">2 歲以下嬰幼兒座位喜好</string>
     <!-- Description for infant seating preference message -->
@@ -1833,10 +1827,6 @@
     <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
-    <!-- Label for Flight Search in task manager -->
-    <string name="Flights_TEMPLATE">{brand} 航班</string>
-    <!-- Label for flight search part of app -->
-    <string name="search_flights">搜尋航班</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">出發機場</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -1845,26 +1835,8 @@
     <string name="loading_flights">正載入航班…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">正從 400 多間航空公司中搜尋您的航班</string>
-    <!-- Label for screen that is doing searches -->
-    <string name="searching">搜尋中…</string>
-    <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">找不到任何航班</string>
-    <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">出發機場無效。</string>
-    <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">抵達機場無效。</string>
-    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">出發和抵達機場無效。</string>
-    <!-- Error message when we find no flights because of invalid departure date -->
-    <string name="error_invalid_departure_date">出發日期無效。</string>
-    <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">詳情</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">選擇</string>
-    <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">前往%s的航班</string>
-    <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">返回%s的航班</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">很抱歉，我們未能連接 {brand} 的伺服器。請於稍後再試一次。</string>
     <!-- Sort by departure timelabel -->
@@ -1882,10 +1854,6 @@
         <item quantity="many">%s 日</item>
         <item quantity="other">%s 日</item>
     </plurals>
-    <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">選擇前往%1$s的航班</string>
-    <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">選擇返回%1$s的航班</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">頁面載入錯誤！錯誤訊息：%1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
@@ -1900,14 +1868,6 @@
     <string name="error_same_flight_departure_arrival">出發及抵達機場必須不同。</string>
 
     <!-- Flight search params fragment -->
-    <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">選擇出發日期</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">%1$s (單程)</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">%1$s 至 %2$s</string>
-    <!-- Label for "sort" button -->
-    <string name="sort_flights">航班排序</string>
     <!-- Edit search title -->
     <string name="edit_search">修改搜尋</string>
     <!-- Action mode asking users to select dates -->
@@ -1933,24 +1893,8 @@
     <string name="recent">最近搜尋</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Prompt for spinner dialog when selecting departure airport -->
-    <string name="prompt_departure_airport">選擇出發機場</string>
-    <!-- Prompt for spinner dialog when selecting arrival airport -->
-    <string name="prompt_arrival_airport">選擇抵達機場</string>
 
     <!-- Calendar instructions -->
-    <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">請點選 &lt;b&gt;&lt;font color="#3b5998"&gt;出發日期&lt;/font&gt;&lt;/b&gt;。</string>
-    <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">請點選 &lt;b&gt;&lt;font color="#3b5998"&gt;回程日期&lt;/font&gt;&lt;/b&gt;。(選填)</string>
-    <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">已選取 %1$d 晚行程。</string>
-    <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">已選取同日來回。</string>
-    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
-    <string name="calendar_tooltip_bottom_select_return_date">(選填) 選擇回程日期</string>
-    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">拖曳結束日期來更改</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
@@ -2028,8 +1972,6 @@
     <string name="flight_cabin_mixed_classes">多種艙等</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
-    <!-- Button label for selecting flight -->
-    <string name="select_flight">選擇航班</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">出發地點：%s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -2059,24 +2001,12 @@
     </plurals>
 
     <!-- Flight payment overview Activity -->
-    <!-- Edit current payment -->
-    <string name="edit_current_payment_details">現時付款資料</string>
-    <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">選擇付款方法</string>
-    <!-- Select Payment -->
-    <string name="select_payment">選擇付款</string>
-    <!-- Select payment callout AB Test variate2 -->
-    <string name="select_payment_callout">輸入資料</string>
     <!-- Add new card -->
     <string name="add_new_card">新增信用卡</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">新的扣帳卡/信用卡</string>
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">新的信用卡</string>
-    <!-- Overview button -->
-    <string name="overview_btn">概覽</string>
-    <!-- Stored Payment label -->
-    <string name="stored_payment_label">選擇已儲存的付款方法</string>
     <!-- Payment Method -->
     <string name="payment_method">付款資料</string>
     <!-- Billing Address -->
@@ -2101,8 +2031,6 @@
     <string name="debit_cards_not_accepted">不接受扣帳卡。</string>
 
     <!-- Trip Overview Activity -->
-    <!-- Label for Overview activity in task manager -->
-    <string name="Overview">概覽</string>
     <!-- Trip total price label -->
     <string name="total_price_label">行程總金額</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
@@ -2115,12 +2043,7 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">可能同時設有付款手續費及車票送遞費</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">包括機票 ＋ 酒店</string>
-    <!-- Includes taxes (but not necessarily fees) -->
-    <string name="includes_taxes">包括稅項</string>
-    <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s：%2$s 往%3$s</string>
-    <!-- Number of traverlers template -->
-
+    <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d 位旅客</item>
         <item quantity="one">%1$d 位旅客</item>
@@ -2129,8 +2052,6 @@
         <item quantity="many">%1$d 位旅客</item>
         <item quantity="other">%1$d 位旅客</item>
     </plurals>
-    <!-- Checkout button text -->
-    <string name="checkout_btn">付款</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">正在檢查價格變動…</string>
     <!-- Price changed from -->
@@ -2153,8 +2074,6 @@
     <string name="hotel_card_not_supported_generic">此酒店不接受此信用卡品牌。</string>
 
     <!-- Checkout Activity -->
-    <!-- Checkout Information label -->
-    <string name="checkout_information">付款資料</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">您接受上述所有條件嗎？</string>
     <!-- I Accept button label -->
@@ -2224,8 +2143,6 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
     <!-- Pay later deposit amount -->
     <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
-    <!-- Flights AB Test Free Cancellation-->
-    <string name="ab_test_flights_free_cancellation">24 小時內免費取消</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">輸入旅客資料</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2316,12 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">國家/地區編號</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">出生日期：%1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">出生日期：%1$s</string>
-    <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">%1$s 到期日：%2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2353,8 +2266,6 @@
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
-    <!-- Single Line City State Zip -->
-    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
     <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
     <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
@@ -2462,8 +2373,6 @@
     <string name="country">國家/地區</string>
     <!-- Passport country label -->
     <string name="passport_country">護照國家/地區</string>
-    <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">護照國家/地區/原籍地</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">修改 # (如適用)</string>
     <!-- traveler number hint -->
@@ -2491,35 +2400,20 @@
     <string name="none">無</string>
 
     <!-- Traveler options activity -->
-    <!-- Select a traveler -->
-    <string name="select_a_traveler">選擇旅客</string>
-    <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">選擇另一位旅客</string>
-    <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">輸入新的旅客</string>
     <!-- Edit current traveler details -->
     <string name="edit_guest_details">更改旅客資料</string>
-    <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">更改旅客資料</string>
     <!-- Edit current traveler details from Error Screen -->
     <string name="edit_traveler_details">更改旅客資料</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">錯誤</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">首選%1$s位</string>
-    <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">首選%1$s位</string>
     <string name="prefers_seat_colored_TEMPLATE2">首選：%1$s座位</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">正載入旅客資料…</string>
-    <!-- Passport -->
-    <string name="passport">護照</string>
 
     <!-- Passport label -->
     <string name="passport_country_colon">護照：</string>
-
-    <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">目前旅客 - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2554,28 +2448,10 @@
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">完成預訂</string>
-    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">您將飛往%s！</string>
-    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">編號為 %s 的行程已寄發至</string>
-    <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">預訂客房</string>
-    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
-    <string name="add_to_your_trip">添加到您的行程</string>
-    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">%s酒店</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
-    <string name="cars_in_TEMPLATE">%s租車</string>
-    <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">其他指示</string>
-    <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">經電郵分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">新增至日曆</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">致電 {brand} 客戶支援</string>
-    <!-- Add Insurance label -->
-    <string name="add_insurance">新增保險</string>
     <!-- Insurance -->
     <string name="insurance">保險</string>
     <!-- Insurance label on itin section -->
@@ -2646,8 +2522,6 @@
     <string name="Airline_fee">航空公司手續費</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">篩選條件已清除</string>
-    <!-- split ticket rules header -->
-    <string name="split_ticket_important_flight_information_header">重要機票資訊</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">您的機票由兩個單程票價組成，其分別受各自的規則及限制約束。</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">您的機票由兩個單程票價組成，其分別受各自的規則及限制約束。</string>
@@ -2657,8 +2531,6 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;出發&lt;/a&gt;及&lt;a href=\"{returnlink}\"&gt;回程&lt;/a&gt;航班分別設有行李費</string>
     <!-- Flight dialog  errors -->
-    <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">安全碼無效</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">取消</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -2735,8 +2607,6 @@
     <string name="card_ending_TEMPLATE">尾碼為 %s 的信用卡</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">尾碼為 %2$s 的 %1$s</string>
-    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
-    <string name="title_complete_booking">完成預訂</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">授權簽署</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
@@ -2786,8 +2656,6 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;拖曳&lt;/b&gt;以延長入住</string>
     <!-- Child age dialog button -->
     <string name="button_done">完成</string>
-    <!-- Done button text in Confirmation screens -->
-    <string name="button_confirmation_done">完成</string>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">選擇小童的年齡 (%1$s - %2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -3971,36 +3839,14 @@
     <string name="display_favorable_reviews_cont_desc">輕按以顯示好評</string>
     <!-- Content description for action: Press to display critical reviews -->
     <string name="display_critical_reviews_cont_desc">輕按以顯示負評</string>
-    <!-- Flight Search -->
-    <!-- Content description for action: Press to clear selected dates -->
-    <string name="flights_clear_selected_dates_cont_desc">輕按以清除所選日期</string>
-    <!-- Content description for action: Press to edit number of travelers -->
-    <string name="flights_search_number_of_travelers_edit_cont_desc">輕按以更改旅客人數</string>
     <!-- Flight Search Results - Flight Leg Selection -->
-    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="flight_leg_cancel_cont_desc">取消您的航班選擇並返回航班搜尋結果</string>
-    <!-- Content description for action: Press to select this flight -->
-    <string name="flight_leg_select_flight_cont_desc">輕按以選擇此航班</string>
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">輕按以查看行李費資料</string>
-    <!-- Flight Search Results - Selection Overview -->
-    <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="flight_selection_cost_summary_cont_desc">前往所選航班的費用概覽</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="checkout_cont_desc">輕按以前往結帳</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">輕按以輸入優惠券或推廣代碼</string>
-    <!-- Traveler Information screen -->
-    <!-- Content description for action: Press to enter a new traveler -->
-    <string name="traveler_enter_new_traveler_cont_desc">輕按以輸入新的旅客</string>
-    <!-- Content description for action: Press to edit traveler information -->
-    <string name="traveler_edit_traveler_information_cont_desc">輕按以更改旅客資料</string>
-    <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="traveler_edit_passport_country_cont_desc">更改旅客護照國家/地區</string>
-    <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="traveler_information_done_cont_desc">輕按以完成輸入旅客資料</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="traveler_gender_edit_cont_desc">輕按以選擇旅客性別</string>
@@ -4202,7 +4048,6 @@
     <string name="airline_fee_notice">付款時將附加根據信用卡類型收取的航空公司手續費。</string>
     <string name="airline_charge_notice">航空公司將根據付款方式收取附加費。</string>
     <string name="airline_fee_notice_payment">根據付款方式收取航空公司手續費</string>
-    <string name="airline_notice_fee_added">付款時將附加根據信用卡類型收取的<u><b>航空公司手續費</b></u>。有關費用將於付款時加入總金額。</string>
     <string name="airline_notice_fee_added_tablet">付款時將附加根據信用卡類型收取的&lt;u&gt;&lt;b&gt;航空公司手續費&lt;/b&gt;&lt;/u&gt;。有關費用將於付款時加入總金額。</string>
 
     <!-- French compliance warnings d/5810 -->

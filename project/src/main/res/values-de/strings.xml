@@ -917,16 +917,10 @@
     <string name="infants_in_laps">Auf dem Schoß</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">Eigener Sitzplatz</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">Kleinkinder unter 2</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Es gibt nicht genügend Erwachsene (ab 12 J.) für Kleinkinder auf dem Schoß. Sie benötigen einen eigenen Sitzplatz.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Pro Reisendem ab 12 Jahren können wir maximal zwei Sitzplätze für Kleinkinder buchen.</string>
-    <!-- Description for infant travelers sitting in laps -->
-    <string name="in_laps">Auf dem Schoß</string>
-    <!-- Description for infant travelers sitting in seats -->
-    <string name="in_seats">Mit eigenem Sitzplatz</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Sitzplatzpräferenz für Kleinkinder unter 2</string>
     <!-- Description for infant seating preference message -->
@@ -1833,10 +1827,6 @@
     <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
-    <!-- Label for Flight Search in task manager -->
-    <string name="Flights_TEMPLATE">{brand} Flüge</string>
-    <!-- Label for flight search part of app -->
-    <string name="search_flights">Flüge suchen</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Von</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -1845,26 +1835,8 @@
     <string name="loading_flights">Flüge werden geladen…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">Wir suchen Flüge von über 400 Fluglinien für Sie</string>
-    <!-- Label for screen that is doing searches -->
-    <string name="searching">Suche erfolgt…</string>
-    <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Keine Flüge gefunden.</string>
-    <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">Ungültiger Abflughafen.</string>
-    <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">Ungültiger Zielflughafen.</string>
-    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">Ungültige Abflug- und Zielflughäfen.</string>
-    <!-- Error message when we find no flights because of invalid departure date -->
-    <string name="error_invalid_departure_date">Ungültiges Anreisedatum.</string>
-    <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">Details</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Buchen</string>
-    <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Hinflüge nach %s</string>
-    <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Rückflüge nach %s</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">Leider konnten wir keine Verbindung zu den {brand}-Servern herstellen.  Bitte versuchen Sie es später erneut.</string>
     <!-- Sort by departure timelabel -->
@@ -1882,10 +1854,6 @@
         <item quantity="many">%s Tage</item>
         <item quantity="other">%s Tage</item>
     </plurals>
-    <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">Ihr Hinflug nach %1$s</string>
-    <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">Ihr Rückflug nach %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Fehler beim Laden der Seite! Fehlermeldung: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
@@ -1900,14 +1868,6 @@
     <string name="error_same_flight_departure_arrival">Start- und Landeflughafen dürfen nicht gleich sein.</string>
 
     <!-- Flight search params fragment -->
-    <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">Anreisedatum</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">%1$s (nur Hinflug)</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">%1$s bis %2$s</string>
-    <!-- Label for "sort" button -->
-    <string name="sort_flights">Flüge sortieren</string>
     <!-- Edit search title -->
     <string name="edit_search">Suche bearbeiten</string>
     <!-- Action mode asking users to select dates -->
@@ -1933,24 +1893,8 @@
     <string name="recent">Vor Kurzem gesucht</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Prompt for spinner dialog when selecting departure airport -->
-    <string name="prompt_departure_airport">Abflughafen auswählen</string>
-    <!-- Prompt for spinner dialog when selecting arrival airport -->
-    <string name="prompt_arrival_airport">Ankunftsflughafen auswählen</string>
 
     <!-- Calendar instructions -->
-    <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Tippen Sie auf das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Hinflugs&lt;/font&gt;&lt;/b&gt;.</string>
-    <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Wählen Sie das &lt;b&gt;&lt;font color="#3b5998"&gt;Datum Ihres Rückflugs&lt;/font&gt;&lt;/b&gt;. (optional)</string>
-    <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">Reise mit %1$d Übernachtung(en) ausgewählt.</string>
-    <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">Tagesreise ausgewählt.</string>
-    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
-    <string name="calendar_tooltip_bottom_select_return_date">Rückreisedatum auswählen (optional)</string>
-    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">Ziehen Sie zum Ändern der Reisedauer</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
@@ -2028,8 +1972,6 @@
     <string name="flight_cabin_mixed_classes">Gemischte Klassen</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
-    <!-- Button label for selecting flight -->
-    <string name="select_flight">Flug auswählen</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">Abflug in %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -2059,24 +2001,12 @@
     </plurals>
 
     <!-- Flight payment overview Activity -->
-    <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Aktuelle Zahlungsdetails</string>
-    <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Wählen Sie eine Zahlungsart aus</string>
-    <!-- Select Payment -->
-    <string name="select_payment">Zahlungsart auswählen</string>
-    <!-- Select payment callout AB Test variate2 -->
-    <string name="select_payment_callout">Details eingeben</string>
     <!-- Add new card -->
     <string name="add_new_card">Neue Karte hinzufügen</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Neue Debit-/Kreditkarte</string>
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">Neue Kreditkarte</string>
-    <!-- Overview button -->
-    <string name="overview_btn">Überblick</string>
-    <!-- Stored Payment label -->
-    <string name="stored_payment_label">Wählen Sie eine gespeicherte Zahlungsart aus</string>
     <!-- Payment Method -->
     <string name="payment_method">Zahlungsdetails</string>
     <!-- Billing Address -->
@@ -2101,8 +2031,6 @@
     <string name="debit_cards_not_accepted">Debitkarten werden nicht akzeptiert.</string>
 
     <!-- Trip Overview Activity -->
-    <!-- Label for Overview activity in task manager -->
-    <string name="Overview">Überblick</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Gesamtpreis</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
@@ -2115,12 +2043,7 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Es können Zahlungs- und Zustellungsgebühren anfallen</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Inklusive Flug + Hotel</string>
-    <!-- Includes taxes (but not necessarily fees) -->
-    <string name="includes_taxes">Inklusive Steuern</string>
-    <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: von %2$s nach %3$s</string>
-    <!-- Number of traverlers template -->
-
+    <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d Reisende</item>
         <item quantity="one">%1$d Reisender</item>
@@ -2129,8 +2052,6 @@
         <item quantity="many">%1$d Reisende</item>
         <item quantity="other">%1$d Reisende</item>
     </plurals>
-    <!-- Checkout button text -->
-    <string name="checkout_btn">Buchen</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Es wird nach Preisänderungen gesucht…</string>
     <!-- Price changed from -->
@@ -2153,8 +2074,6 @@
     <string name="hotel_card_not_supported_generic">Diese Kreditkartenmarke wird vom Hotel nicht unterstützt.</string>
 
     <!-- Checkout Activity -->
-    <!-- Checkout Information label -->
-    <string name="checkout_information">Buchungsinformationen</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">Akzeptieren Sie alle oben aufgeführten Bestimmungen?</string>
     <!-- I Accept button label -->
@@ -2224,8 +2143,6 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Der Gesamtpreis Ihrer Reise, inklusive einer Hotelgebühr von &lt;b&gt;%1$s&lt;/b&gt;, beträgt &lt;b&gt;%2$s&lt;/b&gt;. Sie bezahlen vor Ort im Hotel den Restbetrag Ihrer Buchung (in der Landeswährung des Hotels).</string>
     <!-- Pay later deposit amount -->
     <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
-    <!-- Flights AB Test Free Cancellation-->
-    <string name="ab_test_flights_free_cancellation">Kostenlose Stornierung innerhalb von 24 Stunden</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Angaben zum Reisenden eingeben</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2316,12 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landesvorwahl</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">geboren am %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">geboren am %1$s</string>
-    <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">%1$s, gültig bis %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2353,8 +2266,6 @@
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
-    <!-- Single Line City State Zip -->
-    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
     <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
     <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
@@ -2462,8 +2373,6 @@
     <string name="country">Land</string>
     <!-- Passport country label -->
     <string name="passport_country">Ausweis ausgestellt in:</string>
-    <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">Land/Ausstellungsort des Reisepasses</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Regress-Nr. (falls zutreffend)</string>
     <!-- traveler number hint -->
@@ -2491,35 +2400,20 @@
     <string name="none">Keine</string>
 
     <!-- Traveler options activity -->
-    <!-- Select a traveler -->
-    <string name="select_a_traveler">Wählen Sie einen Reisenden aus</string>
-    <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Wählen Sie einen anderen Reisenden aus</string>
-    <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Geben Sie einen neuen Reisenden ein</string>
     <!-- Edit current traveler details -->
     <string name="edit_guest_details">Angaben zum Gast ändern</string>
-    <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">Daten der Reisenden ändern</string>
     <!-- Edit current traveler details from Error Screen -->
     <string name="edit_traveler_details">Angaben zum Reisenden bearbeiten</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Fehler</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Bevorzugt diesen Sitzplatz: %1$s</string>
-    <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Bevorzugt diesen Sitzplatz: %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">Bevorzugt diesen Sitzplatz: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Informationen zum Reisenden werden geladen…</string>
-    <!-- Passport -->
-    <string name="passport">Reisepass</string>
 
     <!-- Passport label -->
     <string name="passport_country_colon">Reisepass:</string>
-
-    <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">Aktueller Reisender - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2554,28 +2448,10 @@
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Buchung abgeschlossen</string>
-    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">Sie reisen nach %s!</string>
-    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Reiseplannr. %s versendet:</string>
-    <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">Zimmer buchen</string>
-    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
-    <string name="add_to_your_trip">Zur Reise hinzufügen</string>
-    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">Hotels in %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
-    <string name="cars_in_TEMPLATE">Mietwagen in %s</string>
-    <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">Weitere Aktionen</string>
-    <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Per E-Mail versenden</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Zum Kalender hinzufügen</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">{brand}-Kundenservice anrufen</string>
-    <!-- Add Insurance label -->
-    <string name="add_insurance">Reiseschutz hinzufügen</string>
     <!-- Insurance -->
     <string name="insurance">Reiseschutz</string>
     <!-- Insurance label on itin section -->
@@ -2646,8 +2522,6 @@
     <string name="Airline_fee">Flugliniengebühr</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filter gelöscht</string>
-    <!-- split ticket rules header -->
-    <string name="split_ticket_important_flight_information_header">Wichtige Informationen zu Ihrem Flug</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">Ihr Flug besteht aus zwei einfachen Flugtickets, die ihren jeweiligen Richtlinien und Einschränkungen unterliegen.</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Ihr Flug besteht aus zwei einfachen Flugtickets, die ihren jeweiligen Richtlinien und Einschränkungen unterliegen.</string>
@@ -2657,8 +2531,6 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Für &lt;a href=\"{departurelink}\"&gt;Hin-&lt;/a&gt; und &lt;a href=\"{returnlink}\"&gt;Rückflüge&lt;/a&gt; fallen jeweils eigene Gepäckgebühren an.</string>
     <!-- Flight dialog  errors -->
-    <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">Ungültige Prüfnummer</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">Abbrechen</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -2736,8 +2608,6 @@
     <string name="card_ending_TEMPLATE">Karte endet auf %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s, endet auf %2$s</string>
-    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
-    <string name="title_complete_booking">Buchung abschließen</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Autorisierte Unterschrift</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
@@ -2787,8 +2657,6 @@
     <string name="drag_to_extend_your_stay">Durch &lt;b&gt;Ziehen&lt;/b&gt; verlängern Sie den Reisezeitraum.</string>
     <!-- Child age dialog button -->
     <string name="button_done">Fertig</string>
-    <!-- Done button text in Confirmation screens -->
-    <string name="button_confirmation_done">Fertig</string>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Alter des Kindes auswählen (%1$s - %2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -3972,36 +3840,14 @@
     <string name="display_favorable_reviews_cont_desc">Nur positive Bewertungen anzeigen</string>
     <!-- Content description for action: Press to display critical reviews -->
     <string name="display_critical_reviews_cont_desc">Nur negative Bewertungen anzeigen</string>
-    <!-- Flight Search -->
-    <!-- Content description for action: Press to clear selected dates -->
-    <string name="flights_clear_selected_dates_cont_desc">Ausgewählte Reisedaten entfernen</string>
-    <!-- Content description for action: Press to edit number of travelers -->
-    <string name="flights_search_number_of_travelers_edit_cont_desc">Anzahl der Reisenden ändern</string>
     <!-- Flight Search Results - Flight Leg Selection -->
-    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="flight_leg_cancel_cont_desc">Flugauswahl löschen und zu den Suchergebnissen zurückkehren</string>
-    <!-- Content description for action: Press to select this flight -->
-    <string name="flight_leg_select_flight_cont_desc">Diesen Flug auswählen</string>
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Gepäckgebühren anzeigen</string>
-    <!-- Flight Search Results - Selection Overview -->
-    <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="flight_selection_cost_summary_cont_desc">Kosten für die Flugauswahl anzeigen</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="checkout_cont_desc">Buchen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Gutschein- oder Angebotscode eingeben</string>
-    <!-- Traveler Information screen -->
-    <!-- Content description for action: Press to enter a new traveler -->
-    <string name="traveler_enter_new_traveler_cont_desc">Neuen Reisenden hinzufügen</string>
-    <!-- Content description for action: Press to edit traveler information -->
-    <string name="traveler_edit_traveler_information_cont_desc">Informationen zum Reisenden bearbeiten</string>
-    <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="traveler_edit_passport_country_cont_desc">Ausstellungsland des Ausweisdokuments</string>
-    <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="traveler_information_done_cont_desc">Fertig?</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="traveler_gender_edit_cont_desc">Geschlecht</string>
@@ -4203,7 +4049,6 @@
     <string name="airline_fee_notice">Bei der Zahlung wird eine Flugliniengebühr basierend auf dem Kartentyp hinzugefügt.</string>
     <string name="airline_charge_notice">Fluglinien berechnen basierend auf der Zahlungsweise eine zusätzliche Gebühr.</string>
     <string name="airline_fee_notice_payment">Es fällt eine Flugliniengebühr basierend auf der Zahlungsweise an</string>
-    <string name="airline_notice_fee_added">Bei der Zahlung wird je nach Kartentyp eine <u><b>Flugliniengebühr</b></u> hinzugefügt. Diese Gebühr wird bei der Zahlung zum Gesamtpreis hinzugefügt.</string>
     <string name="airline_notice_fee_added_tablet">Bei der Zahlung wird je nach Kartentyp eine &lt;u&gt;&lt;b&gt;Flugliniengebühr&lt;/b&gt;&lt;/u&gt; hinzugefügt. Diese Gebühr wird bei der Zahlung zum Gesamtpreis hinzugefügt.</string>
 
     <!-- French compliance warnings d/5810 -->

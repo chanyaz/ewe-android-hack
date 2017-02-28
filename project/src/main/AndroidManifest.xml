@@ -188,21 +188,6 @@
             tools:ignore="UnusedAttribute" />
 
         <!-- Flights activities -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.FlightSearchActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme"
-            android:windowSoftInputMode="stateUnchanged"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightSearchResultsActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme.OverlayMode"
-            android:uiOptions="splitActionBarWhenNarrow"
-            tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.bookings.activity.FlightUnsupportedPOSActivity"
             android:resizeableActivity="false"
@@ -210,49 +195,10 @@
             android:theme="@style/FlightTheme"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.FlightSearchOverlayActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme.Transparent"
-            android:windowSoftInputMode="stateUnchanged"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightTripOverviewActivity"
-            android:label="@string/Overview"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme.Transparent"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightBookingActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightPaymentOptionsActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme.CheckoutForms"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme.CheckoutForms"
-            tools:ignore="UnusedAttribute" />
-        <activity
             android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
             android:label="@string/legal_information"
             android:resizeableActivity="false"
             android:theme="@style/FlightTheme.Rules"
-            tools:ignore="UnusedAttribute" />
-        <activity
-            android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
-            android:label="@string/booking_complete"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme"
             tools:ignore="UnusedAttribute" />
 
         <activity

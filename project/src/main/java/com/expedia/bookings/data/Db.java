@@ -558,28 +558,6 @@ public class Db {
 
 	private static final String FLIGHT_SEARCH_PARAMS_SETTING = "flightSearchParamsSetting";
 
-	public static void saveFlightSearchParamsToDisk(Context context) {
-		Log.i("Saving flight search params to disk.");
-		SettingUtils.save(context, FLIGHT_SEARCH_PARAMS_SETTING, getFlightSearch().getSearchParams().toJson()
-			.toString());
-	}
-
-	public static void loadFlightSearchParamsFromDisk(Context context) {
-		String searchParamsJson = SettingUtils.get(context, FLIGHT_SEARCH_PARAMS_SETTING, null);
-		if (!TextUtils.isEmpty(searchParamsJson)) {
-			try {
-				Log.i("Restoring flight search params from disk...");
-				FlightSearchParams params = new FlightSearchParams();
-				params.fromJson(new JSONObject(searchParamsJson));
-				params.ensureValidDates();
-				getFlightSearch().setSearchParams(params);
-			}
-			catch (JSONException e) {
-				Log.w("Could not restore flight search params from disk", e);
-			}
-		}
-	}
-
 	public static void clearFlightSearchParamsFromDisk(Context context) {
 		SettingUtils.remove(context, FLIGHT_SEARCH_PARAMS_SETTING);
 	}

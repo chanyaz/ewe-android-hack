@@ -11,7 +11,7 @@ public class WorkingBillingInfoManager {
 
 	/**
 	 * Set the current "working" BillingInfo to be a copy of the BillingInfo argument and set it's base BillingInfo to be the same
-	 * @param BillingInfo
+	 * @param billingInfo
 	 */
 	public void setWorkingBillingInfoAndBase(BillingInfo billingInfo) {
 		mWorkingBillingInfo = new BillingInfo(billingInfo);
@@ -20,7 +20,7 @@ public class WorkingBillingInfoManager {
 
 	/**
 	 * Set the working travelBillingInfo the BillingInfo argument but keep the current working BillingInfo and set it as the base BillingInfo
-	 * @param BillingInfo
+	 * @param billingInfo
 	 */
 	public void shiftWorkingBillingInfo(BillingInfo billingInfo) {
 		mBaseBillingInfo = mWorkingBillingInfo == null ? new BillingInfo() : new BillingInfo(mWorkingBillingInfo);
@@ -52,7 +52,6 @@ public class WorkingBillingInfoManager {
 
 	/**
 	 * Save the current working BillingInfo to the Db object effectively commiting the changes locally.
-	 * @param BillingInfoNumber (0 indexed)
 	 */
 	public void commitWorkingBillingInfoToDB() {
 		BillingInfo commitBillingInfo = new BillingInfo(mWorkingBillingInfo);

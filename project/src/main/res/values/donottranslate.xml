@@ -379,7 +379,6 @@
     <string name="country_code_ax">AX</string>
 
     <!-- Non-localized content descriptions (Automation) -->
-    <string name="cd_top_flight_calendar">Top of flight calendar</string>
     <string name="cd_slide_to_checkout_start">Slide to checkout start</string>
     <string name="cd_slide_to_checkout_end">Slide to checkout end</string>
     <string name="cd_one_btn">One</string>

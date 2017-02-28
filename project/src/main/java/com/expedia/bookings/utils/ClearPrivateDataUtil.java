@@ -9,11 +9,9 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.launch.data.LaunchDb;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.Log;
 
 public class ClearPrivateDataUtil {
@@ -41,10 +39,6 @@ public class ClearPrivateDataUtil {
 
 		// AirAsia Flight routes
 		Db.deleteCachedFlightRoutes(context);
-
-		// Clear airport dropdown suggestions
-		AirportDropDownAdapter.clearRecentAirports(context);
-		FlightSearchParamsFragment.clearRecentAirAsiaAirports(context);
 
 		// Clear suggestions from tablet search
 		SuggestionProvider.clearRecents(context);

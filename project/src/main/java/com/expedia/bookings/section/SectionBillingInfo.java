@@ -16,7 +16,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -43,7 +42,6 @@ import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
@@ -86,16 +84,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mContext = context;
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIconGrey);
-		mFields.add(this.mDisplayCreditCardBrandIconBlack);
 		mFields.add(this.mDisplayCreditCardBrandIconWhite);
 		mFields.add(this.mDisplayCreditCardBrandIconTablet);
-		mFields.add(this.mDisplayCreditCardExpiration);
 		mFields.add(this.mDisplayCreditCardExpirationLongForm);
 		mFields.add(this.mDisplayCreditCardGenericName);
-		mFields.add(this.mDisplayCreditCardNumberMasked);
 		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayAddress);
-		mFields.add(this.mDisplayBrandAndExpirationColored);
 		mFields.add(this.mDisplayEmailDisclaimer);
 		mFields.add(this.mDisplayLccFeeWarning);
 		mFields.add(this.mDisplayLccFeeDivider);
@@ -129,9 +123,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	 * Helper method, so when we update the card number we don't rebind everything
 	 */
 	protected void rebindNumDependantFields() {
-		mDisplayCreditCardNumberMasked.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIconGrey.bindData(mBillingInfo);
-		mDisplayCreditCardBrandIconBlack.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIconWhite.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIconTablet.bindData(mBillingInfo);
 	}
@@ -254,28 +246,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<TextView, BillingInfo> mDisplayCreditCardNumberMasked = new SectionField<TextView, BillingInfo>(
-		R.id.display_creditcard_number_masked) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			field.setText(NumberMaskFormatter.obscureCreditCardNumber(data.getNumber()));
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayCreditCardExpiration = new SectionField<TextView, BillingInfo>(
-		R.id.display_creditcard_expiration) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (data.getExpirationDate() != null) {
-				String exprStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
-				field.setText(exprStr);
-			}
-			else {
-				field.setText("");
-			}
-		}
-	};
-
 	SectionField<TextView, BillingInfo> mDisplayCreditCardExpirationLongForm = new SectionField<TextView, BillingInfo>(
 		R.id.display_creditcard_expiration_long_form) {
 		@Override
@@ -323,25 +293,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 			else {
 				field.setImageResource(R.drawable.ic_generic_card);
-			}
-		}
-	};
-
-	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconBlack = new SectionField<ImageView, BillingInfo>(
-		R.id.display_credit_card_brand_icon_black) {
-		@Override
-		public void onHasFieldAndData(ImageView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getBrandName())) {
-				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
-				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.getBlackCardIcon(cardType));
-				}
-				else {
-					field.setImageDrawable(null);
-				}
-			}
-			else {
-				field.setImageDrawable(null);
 			}
 		}
 	};
@@ -407,26 +358,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void onHasFieldAndData(SectionLocation field, BillingInfo data) {
 			if (data.getLocation() != null) {
 				field.bind(data.getLocation());
-			}
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayBrandAndExpirationColored = new SectionField<TextView, BillingInfo>(
-		R.id.display_brand_and_expiration_colored) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (data.getExpirationDate() != null && data.getBrandName() != null) {
-				String exprStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
-				String brandName = data.getBrandName().replace("_", " ");
-				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
-				String formatted = String.format(formatStr, brandName, exprStr);
-				SpannableString stringToSpan = new SpannableString(formatted);
-				int color = mContext.getResources().getColor(R.color.checkout_card_brand_color);
-				Ui.setTextStyleNormalText(stringToSpan, color, 0, brandName.length());
-				field.setText(stringToSpan);
-			}
-			else {
-				field.setText("");
 			}
 		}
 	};

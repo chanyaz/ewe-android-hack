@@ -1,18 +1,15 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.ViewActions;
-
 import android.support.test.espresso.ViewInteraction;
 
+import com.expedia.bookings.R;
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 
 public class BillingAddressScreen {
@@ -21,7 +18,6 @@ public class BillingAddressScreen {
 	private static final int sAddressCityEditTextID = R.id.edit_address_city;
 	private static final int sAddressStateEditTextID = R.id.edit_address_state;
 	private static final int sAddressPostalCodeEditTextID = R.id.edit_address_postal_code;
-	private static final int sNextButtonID = R.id.menu_next;
 
 	//Object access
 
@@ -45,10 +41,6 @@ public class BillingAddressScreen {
 		return onView(allOf(withId(sAddressPostalCodeEditTextID), isDescendantOfA(withId(parentId))));
 	}
 
-	public static ViewInteraction nextButton() {
-		return onView(withId(sNextButtonID));
-	}
-
 	//Object interaction
 
 	public static void typeTextAddressLineOne(String text, int parentId) {
@@ -65,14 +57,5 @@ public class BillingAddressScreen {
 
 	public static void typeTextPostalCode(String text, int parentId) {
 		postalCodeEditText(parentId).perform(scrollTo(), typeText(text), closeSoftKeyboard());
-	}
-
-	public static void clickNextButton() {
-		nextButton().perform(ViewActions.waitForViewToDisplay());
-		nextButton().perform(click());
-	}
-
-	public static ViewInteraction passportCountryText() {
-		return onView(withParent(withId(R.id.edit_country_spinner)));
 	}
 }

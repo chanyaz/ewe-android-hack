@@ -51,7 +51,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private static final int NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD = 6;
 
 	static {
-		// TODO: Should this be localized in some way?
 		sDaySpanFormatter.setPositivePrefix("+");
 	}
 

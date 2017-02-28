@@ -12,12 +12,9 @@
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
     <color name="actionbarTabletTitleColor">#F3F3F3</color>
     <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
-    <color name="action_bar_flight_cancel_text_color">#E9E9E9</color>
-    <color name="action_bar_flight_result_separator_color">#5FFF</color>
     <color name="actionbar_terminal_text_ctx">#F3F3F3</color>
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
-    <color name="actionbar_button_text_color">@color/review_screen_tab_indicator</color>
 
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
@@ -75,23 +72,16 @@
     <color name="plane_window_background">#CACACA</color>
     <color name="flight_trip">#0D6599</color>
     <color name="flight_trip_price">#22599C</color>
-    <color name="trip_info_text">#FEFEFE</color>
     <color name="airport_text">#607480</color>
     <color name="divider_gray">#DCDCDC</color>
-    <color name="data_entry_text">#121212</color>
     <color name="data_entry_heading">#1D5380</color>
     <color name="data_entry_heading_divider">#37658D</color>
     <color name="data_review_dark">#333333</color>
-    <color name="review_screen_tab_indicator">#FEE36C</color>
     <color name="data_review_gray">@color/gray7</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
-    <color name="flights_traveler_disabled_gray">#ffa5a5a5</color>
     <color name="flight_card_airline_fee_warning">#577494</color>
-    <color name="flight_card_unsupported_warning">#BA4D4D</color>
-    <color name="flight_card_no_debit_warning">#A33B3B</color>
-    <color name="flight_card_warning_text">#F0F0F0</color>
     <color name="flight_card_invalid_cc_type_text_color">#B4B4B4</color>
     <color name="flight_card_lcc_fee_text_color">#787878</color>
     <color name="flight_results_row_bg">#374F6E</color>
@@ -101,11 +91,9 @@
     <color name="spinner_airport">@color/white</color>
     <color name="spinner_airport_details">#777777</color>
     <color name="flight_free_cancellation_text_color">#FFE980</color>
-    <color name="flight_departure_date_color">#343434</color>
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
     <color name="checkout_additional_fees_tablet_bg">#99424242</color>
     <color name="credit_card_form_additional_fees_tablet_bg">#282828</color>
-    <color name="flight_edit_search_button_color">@color/black</color>
     <color name="flight_earn_message_text_color">#3D4652</color>
     
     <!-- Flights V2 colors -->
@@ -192,12 +180,10 @@
     <color name="window_background_dark">#2D3742</color>
     <color name="light_gray">#777777</color>
     <color name="dark_blue">#1C3061</color>
-    <color name="calendar_header">#FFF3F3F3</color>
     <color name="calendar_instruction_text_color">#717171</color>
     <color name="bg_expedia_list">#f5f5f5</color>
 
     <!-- Slide To Purchase -->
-    <color name="slide_to_purchase_background">#66000000</color>
     <color name="slide_to_purchase_text">#fcfcfc</color>
 
     <color name="suggestion_row_divider">#FF4F4F4F</color>
@@ -209,7 +195,6 @@
     <color name="bg_row_state_pressed">#f0f0f0</color>
     <color name="bg_tablet_button_state_pressed">#cccccc</color>
     <color name="bg_tablet_clickable_button_done_color">@color/black</color>
-    <color name="bg_payment_row_state_pressed">#33000000</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
     <color name="tab_text">#d7d9dc</color>
@@ -225,8 +210,6 @@
     <color name="header_background">#ccc</color>
     <color name="header_text">#777</color>
     <color name="hotel_strikethrough_price_text_color">#777</color>
-    <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
-    <color name="flight_checkout_opaque_gray">#D9D9D9</color>
     <color name="nav_dropdown_dividers">#26ffffff</color>
     <color name="action_bar_flight_text_color">#F5F5F5</color>
     <color name="confirmation_header_divider_flight">#7D7ab6f5</color>
@@ -235,7 +218,6 @@
     <color name="confirmation_item_divider_hotel">#616871</color>
     <color name="cost_summary_header_text_color">#004582</color>
     <color name="flight_checkout_missing_info_callout">#E60000</color>
-    <color name="flight_checkout_fee_warning_background">#1A2C40</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="map_dimmer">#c0495359</color>
@@ -329,7 +311,6 @@
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
     <color name="checkout_traveler_birth_color">#919191</color>
-    <color name="checkout_card_brand_color">#38597D</color>
     <color name="checkout_main_traveler_message">@color/gray7</color>
 
     <!-- Old Launch Screen colors -->
@@ -444,13 +425,6 @@
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>
-
-    <!-- Calendar text colors -->
-    <color name="calendar_cell_current_month_text">#3F3A3A</color>
-    <color name="calendar_cell_disabled_month_text">#C7C7C7</color>
-    <color name="calendar_cell_today_text">#3F3A3A</color>
-    <color name="calendar_cell_selected_date_text">#423D3D</color>
-    <color name="calendar_cell_out_of_valid_range_text">#C7C7C7</color>
 
     <!-- Packages colors -->
     <color name="package_bundle_icon_color">@color/gray6</color>

@@ -917,16 +917,10 @@
     <string name="infants_in_laps">Schoot</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">Stoel</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two">Baby\&apos;s &lt; 2 jaar</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">Er zijn niet genoeg volwassenen (12+ jaar oud) om baby\&apos;s op schoot te laten plaatsnemen. Ze hebben hun eigen ticket nodig.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">Per reiziger van 12+ jaar kunnen we voor max. 2 baby\&apos;s stoelen reserveren</string>
-    <!-- Description for infant travelers sitting in laps -->
-    <string name="in_laps">Op schoot</string>
-    <!-- Description for infant travelers sitting in seats -->
-    <string name="in_seats">Op stoel</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Stoelkeuze voor baby\&apos;s &lt; 2 jaar</string>
     <!-- Description for infant seating preference message -->
@@ -1833,10 +1827,6 @@
     <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
-    <!-- Label for Flight Search in task manager -->
-    <string name="Flights_TEMPLATE">{brand}-vluchten</string>
-    <!-- Label for flight search part of app -->
-    <string name="search_flights">Zoeken naar een vlucht</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
     <string name="hint_departure_airport">Vertrek vanaf</string>
     <!-- Hint in edit text that indicates one should enter an arrival airport -->
@@ -1845,26 +1835,8 @@
     <string name="loading_flights">Vluchten laden…</string>
     <!-- Label at head of flight results while we're waiting for them to load -->
     <string name="loading_flights_from_400_airlines">We zijn door vluchten van 400+ airlines aan het zoeken</string>
-    <!-- Label for screen that is doing searches -->
-    <string name="searching">Zoeken…</string>
-    <!-- Error message when we find no flights -->
-    <string name="error_no_flights_found">Geen vluchten gevonden</string>
-    <!-- Error message when we find no flights because of an invalid departure airport -->
-    <string name="error_invalid_departure_airport">Ongeldige luchthaven van vertrek.</string>
-    <!-- Error message when we find no flights because of an invalid arrival airport -->
-    <string name="error_invalid_arrival_airport">Ongeldige luchthaven van aankomst.</string>
-    <!-- Error message when we find no flights because of invalid departure AND arrival airports -->
-    <string name="error_invalid_departure_arrival_airports">Ongeldige luchthavens van vertrek en aankomst.</string>
-    <!-- Error message when we find no flights because of invalid departure date -->
-    <string name="error_invalid_departure_date">Ongeldige vertrekdatum</string>
-    <!-- "Details" button label, for seeing details of a flight -->
-    <string name="details">Details</string>
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Selecteer</string>
-    <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Heenvluchten naar %s</string>
-    <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Terugvluchten naar %s</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">We konden geen verbinding maken met de servers van {brand}. Probeer het later opnieuw.</string>
     <!-- Sort by departure timelabel -->
@@ -1882,10 +1854,6 @@
         <item quantity="many">%s dagen</item>
         <item quantity="other">%s dagen</item>
     </plurals>
-    <!-- Select a flight to (city name) -->
-    <string name="select_a_flight_to_TEMPLATE">Selecteer een vlucht naar %1$s</string>
-    <!-- Select a flight back to (city name) -->
-    <string name="select_a_flight_back_to_TEMPLATE">Selecteer een terugvlucht naar %1$s</string>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">Fout bij het laden van pagina! Foutbericht: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
@@ -1900,14 +1868,6 @@
     <string name="error_same_flight_departure_arrival">De luchthavens van vertrek en aankomst moeten verschillen.</string>
 
     <!-- Flight search params fragment -->
-    <!-- Hint when no dates are selected for a flight trip -->
-    <string name="hint_select_departure">Selecteer een vertrekdatum</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">%1$s (enkele reis)</string>
-    <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">%1$s naar %2$s</string>
-    <!-- Label for "sort" button -->
-    <string name="sort_flights">Vluchten sorteren</string>
     <!-- Edit search title -->
     <string name="edit_search">Zoekopdracht wijzigen</string>
     <!-- Action mode asking users to select dates -->
@@ -1933,24 +1893,8 @@
     <string name="recent">Recent</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
-    <!-- Prompt for spinner dialog when selecting departure airport -->
-    <string name="prompt_departure_airport">Selecteer luchthaven van vertrek</string>
-    <!-- Prompt for spinner dialog when selecting arrival airport -->
-    <string name="prompt_arrival_airport">Selecteer luchthaven van aankomst</string>
 
     <!-- Calendar instructions -->
-    <!-- Nothing is selected -->
-    <string name="calendar_instructions_nothing_selected">Selecteer je &lt;b&gt;&lt;font color="#3b5998"&gt;vertrekdatum&lt;/font&gt;&lt;/b&gt;.</string>
-    <!-- Start date is selected -->
-    <string name="calendar_instructions_start_selected">Selecteer je &lt;b&gt;&lt;font color="#3b5998"&gt;retourdatum&lt;/font&gt;&lt;/b&gt;. (optioneel).</string>
-    <!-- Start date and end date selected -->
-    <string name="calendar_instructions_range_selected_TEMPLATE">Retourreis met %1$d nachten geselecteerd.</string>
-    <!-- Start date and end date sameday -->
-    <string name="calendar_instructions_range_selected_same_day">Retourreis op dezelfde dag geselecteerd.</string>
-    <!-- Calendar tooltip bottom line after a single date is selected e.g. (Optional) Select Return Date -->
-    <string name="calendar_tooltip_bottom_select_return_date">(Optioneel) Selecteer een retourdatum</string>
-    <!-- Calendar tooltip bottom line after two dates are selected E.g. Drag End Dates to Modify -->
-    <string name="calendar_tooltip_bottom_drag_to_modify">Sleep de einddatum om te wijzigen</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
@@ -2028,8 +1972,6 @@
     <string name="flight_cabin_mixed_classes">Meer boekingsklassen</string>
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
-    <!-- Button label for selecting flight -->
-    <string name="select_flight">Selecteer vlucht</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
     <string name="depart_from_TEMPLATE">Vanaf %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
@@ -2059,24 +2001,12 @@
     </plurals>
 
     <!-- Flight payment overview Activity -->
-    <!-- Edit current payment -->
-    <string name="edit_current_payment_details">Huidige betaalinformatie</string>
-    <!-- Or Select a new payment method -->
-    <string name="or_select_new_paymet_method">Selecteer een betalingsmethode</string>
-    <!-- Select Payment -->
-    <string name="select_payment">Selecteer betalingsmethode</string>
-    <!-- Select payment callout AB Test variate2 -->
-    <string name="select_payment_callout">details invoeren</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe creditcard toevoegen</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nieuwe debit/creditcard</string>
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">Nieuwe creditcard</string>
-    <!-- Overview button -->
-    <string name="overview_btn">Overzicht</string>
-    <!-- Stored Payment label -->
-    <string name="stored_payment_label">Kies een opgeslagen betaalmethode</string>
     <!-- Payment Method -->
     <string name="payment_method">Betalingsinfo</string>
     <!-- Billing Address -->
@@ -2101,8 +2031,6 @@
     <string name="debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
 
     <!-- Trip Overview Activity -->
-    <!-- Label for Overview activity in task manager -->
-    <string name="Overview">Overzicht</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Totaal reis</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
@@ -2115,12 +2043,7 @@
     <string name="payment_and_ticket_delivery_fees_may_also_apply">Mogelijk gelden er ook transactie- en ticketleveringskosten</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Inclusief vluchten + hotel</string>
-    <!-- Includes taxes (but not necessarily fees) -->
-    <string name="includes_taxes">Incl. belastingen</string>
-    <!-- Date and trip from _ to _ -->
-    <string name="trip_to_with_date">%1$s: %2$s tot %3$s</string>
-    <!-- Number of traverlers template -->
-
+    <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$d reizigers</item>
         <item quantity="one">%1$d reiziger</item>
@@ -2129,8 +2052,6 @@
         <item quantity="many">%1$d reizigers</item>
         <item quantity="other">%1$d reizigers</item>
     </plurals>
-    <!-- Checkout button text -->
-    <string name="checkout_btn">Betaling</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Zoeken naar prijswijzigingen…</string>
     <!-- Price changed from -->
@@ -2153,8 +2074,6 @@
     <string name="hotel_card_not_supported_generic">Het hotel accepteert dit creditcardmerk niet.</string>
 
     <!-- Checkout Activity -->
-    <!-- Checkout Information label -->
-    <string name="checkout_information">Betaalinfo</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">Ga je akkoord met alle bovenstaande voorwaarden?</string>
     <!-- I Accept button label -->
@@ -2224,8 +2143,6 @@
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Het totaal voor je reis, incl. &lt;b&gt;%1$s&lt;/b&gt; resortkosten, is &lt;b&gt;%2$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de resterende boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
     <!-- Pay later deposit amount -->
     <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
-    <!-- Flights AB Test Free Cancellation-->
-    <string name="ab_test_flights_free_cancellation">Gratis annulering binnen 24 uur</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Reizigersinfo invoeren</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2316,12 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landcode</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">Geboren op %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Geboren op %1$s</string>
-    <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">%1$s vervalt op %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2353,8 +2266,6 @@
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
-    <!-- Single Line City State Zip -->
-    <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
 
     <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
     <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
@@ -2462,8 +2373,6 @@
     <string name="country">Land</string>
     <!-- Passport country label -->
     <string name="passport_country">Land van uitgave</string>
-    <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">Land van uitgave/afkomst</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Redressnummer (indien toepasbaar)</string>
     <!-- traveler number hint -->
@@ -2491,35 +2400,20 @@
     <string name="none">Geen</string>
 
     <!-- Traveler options activity -->
-    <!-- Select a traveler -->
-    <string name="select_a_traveler">Selecteer een reiziger</string>
-    <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Selecteer een andere reiziger</string>
-    <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Voer een nieuwe reiziger in</string>
     <!-- Edit current traveler details -->
     <string name="edit_guest_details">Gastdetails wijzigen</string>
-    <!-- Edit current traveler details -->
-    <string name="edit_current_traveler">Reizigersinformatie wijzigen</string>
     <!-- Edit current traveler details from Error Screen -->
     <string name="edit_traveler_details">Wijzig reizigersdetails</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Fout</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
-    <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <string name="prefers_seat_colored_TEMPLATE2">Voorkeur: stoel %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Bezig met laden reizigersinformatie…</string>
-    <!-- Passport -->
-    <string name="passport">Paspoort</string>
 
     <!-- Passport label -->
     <string name="passport_country_colon">Paspoort:</string>
-
-    <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">Huidige reiziger - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2554,28 +2448,10 @@
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Boeking voltooid</string>
-    <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">Je vliegt naar %s</string>
-    <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Reisplannummer%s verstuurd naar</string>
-    <!-- Title for section helping users get hotel rooms after booking a flight -->
-    <string name="get_a_room">Boek een kamer</string>
-    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
-    <string name="add_to_your_trip">Toevoegen aan reis</string>
-    <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
-    <string name="hotels_in_TEMPLATE">Hotels in %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
-    <string name="cars_in_TEMPLATE">Auto\&apos;s in %s</string>
-    <!-- Title for section helping users in other various ways -->
-    <string name="more_actions">Meer opties</string>
-    <!-- Button label for sharing your recently booked trip -->
-    <string name="share_trip">Deel via e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Toevoegen aan Agenda</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">Bel de {brand}-klantenservice</string>
-    <!-- Add Insurance label -->
-    <string name="add_insurance">Verzekering toevoegen</string>
     <!-- Insurance -->
     <string name="insurance">Verzekering</string>
     <!-- Insurance label on itin section -->
@@ -2646,8 +2522,6 @@
     <string name="Airline_fee">Airlinetoeslag</string>
     <!-- Accessibility announcement when filter are cleared-->
     <string name="filters_cleared">Filters gewist</string>
-    <!-- split ticket rules header -->
-    <string name="split_ticket_important_flight_information_header">Belangrijke vluchtinfo</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">Je vlucht is een combinatie van 2 enkele tickets, met hun eigen regels en beperkingen.</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Je vlucht is een combinatie van 2 enkele tickets, met hun eigen regels en beperkingen.</string>
@@ -2657,8 +2531,6 @@
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Heenvluchten&lt;/a&gt; en &lt;a href=\"{returnlink}\"&gt;terugvluchten&lt;/a&gt; hebben hun eigen bagagekosten</string>
     <!-- Flight dialog  errors -->
-    <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">Ongeldige CVV-code</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">Annuleren</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -2735,8 +2607,6 @@
     <string name="card_ending_TEMPLATE">creditcard eindigend op %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s eindigend op %2$s</string>
-    <!-- Title for screen telling you to complete your booking by entering a CVV # -->
-    <string name="title_complete_booking">Voltooi je boeking</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Handtekening kaarthouder</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
@@ -2786,8 +2656,6 @@
     <string name="drag_to_extend_your_stay">&lt;b&gt;Sleep&lt;/b&gt; om je verblijf te verlengen</string>
     <!-- Child age dialog button -->
     <string name="button_done">Gereed</string>
-    <!-- Done button text in Confirmation screens -->
-    <string name="button_confirmation_done">Gereed</string>
     <!-- Title of "select child age" spinner dialog box -->
     <string name="prompt_select_child_age">Selecteer leeftijd kind (%1$s–%2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
@@ -3971,36 +3839,14 @@
     <string name="display_favorable_reviews_cont_desc">Tik voor positieve beoordelingen</string>
     <!-- Content description for action: Press to display critical reviews -->
     <string name="display_critical_reviews_cont_desc">Tik voor negatieve beoordelingen</string>
-    <!-- Flight Search -->
-    <!-- Content description for action: Press to clear selected dates -->
-    <string name="flights_clear_selected_dates_cont_desc">Tik om geselecteerde datums te wissen</string>
-    <!-- Content description for action: Press to edit number of travelers -->
-    <string name="flights_search_number_of_travelers_edit_cont_desc">Tik om aantal reizigers te wijzigen</string>
     <!-- Flight Search Results - Flight Leg Selection -->
-    <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
-    <string name="flight_leg_cancel_cont_desc">Annuleer de selectie en keer terug naar zoekresultaten</string>
-    <!-- Content description for action: Press to select this flight -->
-    <string name="flight_leg_select_flight_cont_desc">Tik om deze vlucht te selecteren</string>
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Tik voor meer info over bagagekosten</string>
-    <!-- Flight Search Results - Selection Overview -->
-    <!-- Content description for action: Press to go to cost summary for your flight selections -->
-    <string name="flight_selection_cost_summary_cont_desc">Ga naar kostenoverzicht voor je selectie</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="checkout_cont_desc">Tik voor betaalpagina</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Tik om een coupon- of promocode in te voeren</string>
-    <!-- Traveler Information screen -->
-    <!-- Content description for action: Press to enter a new traveler -->
-    <string name="traveler_enter_new_traveler_cont_desc">Tik om nieuwe reiziger in te voeren</string>
-    <!-- Content description for action: Press to edit traveler information -->
-    <string name="traveler_edit_traveler_information_cont_desc">Tik om reizigersinfo te bewerken</string>
-    <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="traveler_edit_passport_country_cont_desc">Bewerk land van paspoort reiziger</string>
-    <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="traveler_information_done_cont_desc">Tik om reizigersinfo te voltooien</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="traveler_gender_edit_cont_desc">Tik om geslacht reiziger te selecteren</string>
@@ -4202,7 +4048,6 @@
     <string name="airline_fee_notice">Op basis van het kaarttype wordt een airlinetoeslag toegevoegd bij het afrekenen.</string>
     <string name="airline_charge_notice">Op basis van de betalingsmethode brengen airlines een toeslag in rekening.</string>
     <string name="airline_fee_notice_payment">Op basis van de betalingsmethode wordt een airlinetoeslag berekend</string>
-    <string name="airline_notice_fee_added">Op basis van het kaarttype wordt een <u><b>airlinetoeslag</b></u> toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
     <string name="airline_notice_fee_added_tablet">Op basis van het kaarttype wordt een &lt;u&gt;&lt;b&gt;airlinetoeslag&lt;/b&gt;&lt;/u&gt; toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
 
     <!-- French compliance warnings d/5810 -->

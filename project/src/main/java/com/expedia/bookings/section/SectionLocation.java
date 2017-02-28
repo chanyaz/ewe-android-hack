@@ -1,13 +1,11 @@
 package com.expedia.bookings.section;
 
-import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -20,12 +18,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption;
@@ -70,11 +68,6 @@ public class SectionLocation extends LinearLayout
 
 	private void init(Context context) {
 		mContext = context;
-
-		//Display fields
-		mFields.add(mDisplayAddressCountry);
-		mFields.add(mDisplayAddressBothLines);
-		mFields.add(mDisplayCityStateZipOneLine);
 
 		//Validation Indicators
 		mFields.add(mValidAddrLineOne);
@@ -196,55 +189,6 @@ public class SectionLocation extends LinearLayout
 	public void addInvalidCharacterListener(InvalidCharacterListener listener) {
 		mInvalidCharacterListeners.add(listener);
 	}
-
-	//////////////////////////////////////
-	////// DISPLAY FIELDS
-	//////////////////////////////////////
-
-	SectionField<TextView, Location> mDisplayAddressBothLines = new SectionField<TextView, Location>(
-		R.id.display_address_single_line) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			List<String> address = data.getStreetAddress();
-
-			if (address != null) {
-				if (address.size() == 1) {
-					field.setText((address.get(0) != null) ? address.get(0) : "");
-				}
-				else {
-					String addrStr = String.format(
-						mContext.getResources().getString(R.string.single_line_street_address_TEMPLATE),
-						address.get(0), address.get(1));
-					addrStr = addrStr.trim();
-					if (addrStr.endsWith(",")) {
-						addrStr = addrStr.substring(0, addrStr.length() - 1);
-					}
-					field.setText(addrStr);
-				}
-			}
-		}
-	};
-
-	SectionField<TextView, Location> mDisplayCityStateZipOneLine = new SectionField<TextView, Location>(
-		R.id.display_address_city_state_zip_one_line) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			Resources res = mContext.getResources();
-			String formatStr = res.getString(R.string.single_line_city_state_zip_TEMPLATE);
-			String retStr = String.format(formatStr, data.getCity() == null ? "" : data.getCity(),
-				data.getStateCode() == null ? "" : data.getStateCode(),
-				data.getPostalCode() == null ? "" : data.getPostalCode());
-			field.setText(retStr);
-		}
-	};
-
-	SectionField<TextView, Location> mDisplayAddressCountry = new SectionField<TextView, Location>(
-		R.id.display_address_country) {
-		@Override
-		public void onHasFieldAndData(TextView field, Location data) {
-			field.setText((data.getCountryCode() != null) ? data.getCountryCode() : "");
-		}
-	};
 
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS

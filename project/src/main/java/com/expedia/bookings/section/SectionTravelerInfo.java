@@ -23,12 +23,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -88,12 +86,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		//Display fields
 		mFields.add(mDisplayFullName);
-		mFields.add(mDisplayPassportCountry);
 		mFields.add(mDisplaySpecialAssistance);
 		mFields.add(mDisplayPhoneNumberWithCountryCode);
-		mFields.add(mDisplaySpeatPreference);
-		mFields.add(mDisplayLongFormBirthDay);
-		mFields.add(mDisplayCurrentTravelerWithNameColored);
 		mFields.add(mDisplayEmailDisclaimer);
 
 		//Validation Indicator fields
@@ -116,7 +110,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditRedressNumber);
 		mFields.add(mEditGenderSpinner);
 		mFields.add(mEditPassportCountrySpinner);
-		mFields.add(mEditPassportCountryListView);
 		mFields.add(mEditAssistancePreferenceSpinner);
 		mFields.add(mEditSeatPreferenceSpinner);
 	}
@@ -337,25 +330,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionField<TextView, Traveler> mDisplayCurrentTravelerWithNameColored = new SectionField<TextView, Traveler>(
-		R.id.display_current_traveler_with_name_colored) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (data.hasName()) {
-				String formatStr = mContext.getString(R.string.current_traveler_TEMPLATE);
-				String formatted = String.format(formatStr, data.getFirstName().trim(), data.getLastName().trim());
-				SpannableString stringToSpan = new SpannableString(formatted);
-				int color = mContext.getResources().getColor(R.color.checkout_card_brand_color);
-				Ui.setTextStyleNormalText(stringToSpan, color, 0, formatted.indexOf(data.getFirstName()));
-
-				field.setText(stringToSpan);
-			}
-			else {
-				field.setText("");
-			}
-		}
-	};
-
 	SectionField<TextView, Traveler> mDisplayPhoneNumberWithCountryCode = new SectionField<TextView, Traveler>(
 		R.id.display_phone_number_with_country_code) {
 		@Override
@@ -370,55 +344,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionField<TextView, Traveler> mDisplayLongFormBirthDay = new SectionField<TextView, Traveler>(
-		R.id.display_born_on) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (data.getBirthDate() != null) {
-				String formatStr = mContext.getString(R.string.born_on_TEMPLATE);
-				String bdayStr = JodaUtils.formatLocalDate(mContext, data.getBirthDate(),
-					DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
-				String bornStr = String.format(formatStr, bdayStr);
-				field.setText(bornStr);
-			}
-			else {
-				field.setText("");
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayPassportCountry = new SectionField<TextView, Traveler>(
-		R.id.display_passport_country) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			if (TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
-				field.setText("");
-			}
-			else { // set primary passport country
-				CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(getContext(), CountryDisplayType.FULL_NAME);
-				int pos = adapter.getPositionByCountryThreeLetterCode(data.getPrimaryPassportCountry());
-				field.setText(adapter.getItemValue(pos, CountryDisplayType.FULL_NAME));
-			}
-			onChange();
-		}
-	};
-
 	SectionField<TextView, Traveler> mDisplaySpecialAssistance = new SectionField<TextView, Traveler>(
 		R.id.display_special_assistance) {
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
 			String template = mContext.getString(R.string.special_assistance_label_TEMPLATE);
 			String val = String.format(template, data.getAssistanceString(mContext, data.getAssistance()));
-			field.setText(val);
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplaySpeatPreference = new SectionField<TextView, Traveler>(
-		R.id.display_seat_preference) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			String template = mContext.getString(R.string.prefers_seat_TEMPLATE);
-			String val = String.format(template, data.getSeatPreferenceString(mContext));
 			field.setText(val);
 		}
 	};
@@ -1105,129 +1036,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		}
 	};
 
-	SectionFieldEditable<ListView, Traveler> mEditPassportCountryListView = new SectionFieldEditable<ListView, Traveler>(
-		R.id.edit_passport_country_listview) {
-
-		CountrySpinnerAdapter mCountryAdapter;
-
-		Validator<ListView> mValidator = new Validator<ListView>() {
-			@Override
-			public int validate(ListView obj) {
-				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
-
-				if (hasMoreThanOnePassport) {
-					if (getData().isChangedPrimaryPassportCountry() && obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
-						return ValidationError.NO_ERROR;
-					}
-					else {
-						return ValidationError.ERROR_DATA_MISSING;
-					}
-				}
-				else {
-					if (obj.getCheckedItemPosition() != ListView.INVALID_POSITION) {
-						return ValidationError.NO_ERROR;
-					}
-					else if (getData() != null && getData().getPrimaryPassportCountry() != null) {
-						//referring to data instead of gui elements sort of breaks our paradigm, but meh
-						return ValidationError.NO_ERROR;
-					}
-					else {
-						return ValidationError.ERROR_DATA_MISSING;
-					}
-				}
-			}
-		};
-
-		@Override
-		protected Validator<ListView> getValidator() {
-			return mValidator;
-		}
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-
-			mCountryAdapter = new CountrySpinnerAdapter(mContext, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
-				android.R.layout.simple_list_item_single_choice);
-
-			if (hasBoundField()) {
-				getField().setAdapter(mCountryAdapter);
-			}
-		}
-
-		@Override
-		public void setChangeListener(ListView field) {
-			field.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-					if (mCountryAdapter != null && getData() != null) {
-						getData().setPrimaryPassportCountry(
-							mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-
-		}
-
-		@Override
-		protected void onHasFieldAndData(ListView field, Traveler data) {
-			getField().setSelection(AdapterView.INVALID_POSITION);
-			onChange(SectionTravelerInfo.this);
-
-			boolean travelerHasMultiplePassports = (data.getPassportCountries().size() > 1);
-			if (!travelerHasMultiplePassports) {
-				if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
-					for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-						if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-							data.getPrimaryPassportCountry())) {
-							getField().setItemChecked(i, true);
-							getField().setSelection(i);
-							break;
-						}
-					}
-				}
-				else if (mAutoChoosePassportCountry) {
-					int pos = mCountryAdapter.getDefaultLocalePosition();
-					getField().setItemChecked(pos, true);
-					getField().setSelection(pos);
-					getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
-				}
-			}
-			else { // traveler has multiple passports
-				int countryIndex = (field.getSelectedItemPosition() == AdapterView.INVALID_POSITION) ? 0 : field.getSelectedItemPosition();
-				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(countryIndex, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-					data.getPrimaryPassportCountry());
-
-				if (!dataAndFieldMatch) {
-					if (data.isChangedPrimaryPassportCountry()) {
-						// use the primary passport country recently selected
-						for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-							if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-								data.getPrimaryPassportCountry())) {
-								getField().setSelection(i);
-								getField().setItemChecked(i, true);
-								break;
-							}
-						}
-					}
-					else {
-						getField().setSelection(AdapterView.INVALID_POSITION);
-						getField().setItemChecked(AdapterView.INVALID_POSITION, true);
-						onChange(SectionTravelerInfo.this);
-					}
-				}
-			}
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
-			return retArr;
-		}
-	};
-
 	SectionFieldEditable<TelephoneSpinner, Traveler> mEditPhoneNumberCountryCodeSpinner = new SectionFieldEditable<TelephoneSpinner, Traveler>(
 		R.id.edit_phone_number_country_code_spinner) {
 
@@ -1272,9 +1080,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				public void onNothingSelected(AdapterView<?> arg0) {
 				}
 			});
-
 		}
-
 
 		@Override
 		protected void onHasFieldAndData(TelephoneSpinner field, Traveler data) {
