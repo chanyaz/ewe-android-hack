@@ -1,9 +1,12 @@
 package com.expedia.bookings.widget;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
@@ -44,8 +47,8 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.LoyaltyUtil;
 import com.squareup.phrase.Phrase;
-import java.text.NumberFormat;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -53,7 +56,8 @@ public class AccountButton extends LinearLayout {
 
 	private View mAccountLoadingContainer;
 	private View mLoginContainer;
-	private TextView mLoginTextView;
+	@VisibleForTesting
+	protected TextView mLoginTextView;
 	private View mLogoutContainer;
 	private TextView mRewardsTextView;
 	private View mLogoutButton;
@@ -189,8 +193,7 @@ public class AccountButton extends LinearLayout {
 					drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
 				}
 
-				mLoginTextView.setTextColor(
-					ContextCompat.getColor(getContext(), textColor));
+				mLoginTextView.setTextColor(ContextCompat.getColor(getContext(), textColor));
 				int[] attrs = { drawableSkinAttribute };
 				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
 				mLoginTextView
@@ -212,24 +215,14 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}
 
+		showLoginButtonText(lob);
+	}
+
+	@VisibleForTesting
+	protected void showLoginButtonText(LineOfBusiness lob) {
 		if (isSignInEarnMessagingEnabled(lob)) {
 			RewardsInfo rewardsInfo = getRewardsForLOB(lob);
-			if (rewardsInfo != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
-				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsInfo));
-				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsInfo));
-				if (lob == LineOfBusiness.FLIGHTS) {
-					mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
-				}
-				else {
-					mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_rewards_bg);
-				}
-			}
-			else {
-				mLoginTextView.setText(getSignInWithoutRewardsText());
-				mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
-					.put("brand", BuildConfig.brand)
-					.format());
-			}
+			setLoginTextAndContentDescription(lob, rewardsInfo);
 		}
 		else {
 			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
@@ -241,9 +234,49 @@ public class AccountButton extends LinearLayout {
 		}
 	}
 
+	@VisibleForTesting
+	protected void setLoginTextAndContentDescription(LineOfBusiness lob, RewardsInfo rewardsInfo) {
+		if (rewardsInfo != null && getRewardsForLOB(lob) != null && LoyaltyUtil.Companion
+			.shouldShowEarnMessage(getContext(), Float.toString(getRewardsForLOB(lob).getPointsToEarn()),
+				lob == LineOfBusiness.PACKAGES)) {
+
+			if (rewardsInfo.getTotalAmountToEarn() != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
+				String rewardsToEarn = rewardsInfo.getTotalAmountToEarn().getFormattedMoneyFromAmountAndCurrencyCode(
+					Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsToEarn));
+				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsToEarn));
+			}
+			else if (rewardsInfo.getTotalPointsToEarn() != 0) {
+				DecimalFormat formatter = new DecimalFormat("#,###");
+				String rewardsToEarn = formatter.format(Math.round(rewardsInfo.getTotalPointsToEarn()));
+				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsToEarn));
+				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsToEarn));
+			}
+			else {
+				mLoginTextView.setText(getSignInWithoutRewardsText());
+				mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format());
+			}
+			if (lob == LineOfBusiness.FLIGHTS) {
+				mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
+			}
+			else {
+				mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_rewards_bg);
+			}
+		}
+		else {
+			mLoginTextView.setText(getSignInWithoutRewardsText());
+			mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format());
+		}
+	}
+
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
 		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled()
-			&& (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2 || lob == LineOfBusiness.PACKAGES)
+			&& (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2
+			|| lob == LineOfBusiness.PACKAGES)
 			&& !ExpediaBookingApp.useTabletInterface();
 	}
 
@@ -253,9 +286,10 @@ public class AccountButton extends LinearLayout {
 		// Traveler Email Text
 		TextView travelerEmailTextView = Ui.findView(mLogoutContainer, R.id.account_top_textview);
 		travelerEmailTextView.setText(traveler.getEmail());
-		travelerEmailTextView.setContentDescription(Phrase.from(getContext(), R.string.signed_in_account_cont_desc_TEMPLATE)
-			.put("email", traveler.getEmail())
-			.format());
+		travelerEmailTextView
+			.setContentDescription(Phrase.from(getContext(), R.string.signed_in_account_cont_desc_TEMPLATE)
+				.put("email", traveler.getEmail())
+				.format());
 
 		// Bottom text -- rewards
 		@StringRes int rewardsCategoryTextResId = 0;
@@ -319,7 +353,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private boolean updateRewardsTextViewVisibility(String rewardPointsText, LineOfBusiness lob,
-													boolean isLoyaltyMember) {
+		boolean isLoyaltyMember) {
 		if (!Strings.isEmpty(rewardPointsText)) {
 			mRewardsTextView.setVisibility(View.VISIBLE);
 			return true;
@@ -372,7 +406,8 @@ public class AccountButton extends LinearLayout {
 			break;
 		case TRANSPORT:
 			TripBucketItemTransport transport = Db.getTripBucket().getTransport();
-			LXCreateTripResponse createTransportTripResponse = transport == null ? null : transport.getCreateTripResponse();
+			LXCreateTripResponse createTransportTripResponse =
+				transport == null ? null : transport.getCreateTripResponse();
 			rewardPoints = createTransportTripResponse == null ? "" : createTransportTripResponse.getRewardsPoints();
 			break;
 		case PACKAGES:
@@ -418,22 +453,19 @@ public class AccountButton extends LinearLayout {
 				return NumberFormat.getInstance().format(rewards.getPointsToEarn());
 			}
 			else if (rewards.getAmountToEarn() != null && !rewards.getAmountToEarn().isZero()) {
-				return rewards.getAmountToEarn().getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+				return rewards.getAmountToEarn().getFormattedMoneyFromAmountAndCurrencyCode(
+					Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 			}
 		}
 		return "0";
 	}
 
-	public CharSequence getSignInWithRewardsAmountText(RewardsInfo rewardsInfo) {
-
-			//noinspection ConstantConditions This can never be null from api.
-			String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
-				.getFormattedMoneyFromAmountAndCurrencyCode(
-					Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
-			return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
-				.put("reward", rewardsToEarn)
-				.format();
-		}
+	public CharSequence getSignInWithRewardsAmountText(String rewardsToEarn) {
+		//noinspection ConstantConditions This can never be null from api.
+		return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
+			.put("reward", rewardsToEarn)
+			.format();
+	}
 
 	public CharSequence getSignInWithoutRewardsText() {
 		return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
@@ -446,7 +478,8 @@ public class AccountButton extends LinearLayout {
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
 			//TODO Remove trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null. Currently we need to initialize it till we start getting this in production.
-			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
+			if (trip != null && trip.getRewards() != null && (trip.getRewards().getTotalPointsToEarn() != 0
+				|| trip.getRewards().getTotalAmountToEarn() != null)) {
 				return trip.getRewards();
 			}
 		}
@@ -515,12 +548,8 @@ public class AccountButton extends LinearLayout {
 		void accountLogoutClicked();
 	}
 
-	public CharSequence getSignInWithRewardsContentDescriptionText(RewardsInfo rewardsInfo) {
-
+	public CharSequence getSignInWithRewardsContentDescriptionText(String rewardsToEarn) {
 		//noinspection ConstantConditions This can never be null from api.
-		String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
-			.getFormattedMoneyFromAmountAndCurrencyCode(
-				Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
 		return Phrase.from(this, R.string.Sign_in_to_earn_cont_desc_TEMPLATE)
 			.put("reward", rewardsToEarn)
 			.format();
