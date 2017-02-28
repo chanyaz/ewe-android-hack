@@ -39,11 +39,19 @@ Please see our expectations on [Contributing](https://github.com/ExpediaInc/ewe-
 Code Style
 ==========
 
-Our Java and XML files follow a specific code style. To import the Mobiata code style first close Android Studio, then:
+Our Java and XML files follow a specific code style. To import the Mobiata code style first close Android Studio. You will need to edit `tools/sync-code-style.sh` to whichever version of Android Studio you are running. To do this:
 
-````shell
-./tools/sync-code-style.sh
-````
+1. Go to `~/Library/Preferences`
+
+2. Note down which version of Android Studio exists there, like `AndroidStudio1.5/`
+
+3. Then go to your `ewe-android-eb` directory
+
+4. Open the following script `vim tools/sync-code-style.sh`
+
+5. Edit the version (i.e. `AndroidStudio1.2`) and replace it with your version of android.
+
+6. Run the script `./tools/sync-code-style.sh`
 
 Restart Android Studio and select `MobiataIntellij` via `Preferences -> Code Style -> Java -> Scheme`.
 
