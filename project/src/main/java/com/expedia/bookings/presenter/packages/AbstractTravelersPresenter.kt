@@ -8,8 +8,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -105,7 +105,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
 
     open inner class SelectToEntryTransition(className: Class<*>) : Presenter.Transition(TravelerPickerWidget::class.java, className) {
         override fun startTransition(forward: Boolean) {
-            travelerEntryWidget.rootContainer.requestFocus()
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
@@ -121,9 +120,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         override fun endTransition(forward: Boolean) {
             if (forward) {
                 travelerEntryWidget.resetStoredTravelerSelection()
-                travelerEntryWidget.nameEntryView.firstName.requestFocus()
-                travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
-                Ui.showKeyboard(travelerEntryWidget.nameEntryView.firstName, null)
                 if (viewModel.lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackCheckoutEditTraveler()
                 } else if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
