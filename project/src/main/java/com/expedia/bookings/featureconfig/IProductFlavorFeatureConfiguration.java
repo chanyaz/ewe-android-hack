@@ -160,8 +160,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	PointOfSaleId getUSPointOfSaleId();
 
-	boolean isEarnMessageOnCheckoutSignInButtonEnabled();
-
 	boolean isGoogleAccountChangeEnabled();
 
 	String getOmnitureEventValue(OmnitureTracking.OmnitureEventName key);

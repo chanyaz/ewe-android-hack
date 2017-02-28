@@ -337,11 +337,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isEarnMessageOnCheckoutSignInButtonEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isGoogleAccountChangeEnabled() {
 		return false;
 	}
