@@ -327,8 +327,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void syncItinManager(boolean forceRefresh, boolean showLoading) {
 		if (mAllowLoadItins && mItinListView != null && mItinManager != null) {
-			setIsLoading(true);
 			boolean syncing = mItinManager.startSync(forceRefresh);
+			setIsLoading(syncing);
 			if (syncing && (showLoading || getItinCardCount() <= 0)) {
 				mItinListView.enableScrollToRevelentWhenDataSetChanged();
 			}
@@ -341,13 +341,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void setIsLoading(boolean isLoading) {
+		Log.i("Supreeth", "Supreeth ItinItemListFragment isLoading = " + isLoading);
 		mIsLoading = isLoading;
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
 		if (isNewSignInScreen()) {
 			if (isLoading) {
-				Log.i("Supreeth", "Supreeth ItinItemListFragment isLoading");
 				mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
 			}
 			else {

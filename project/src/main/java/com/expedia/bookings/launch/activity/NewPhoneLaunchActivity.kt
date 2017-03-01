@@ -160,7 +160,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
+            println("Supreeth onBackPressed")
             if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
+                println("Supreeth onBackPressed inside IF")
                 showHideToolBar(true)
                 return
             }
@@ -176,6 +178,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         } else if (viewPager.currentItem == PAGER_POS_LAUNCH) {
             if (newPhoneLaunchFragment?.onBackPressed() ?: false) return
         }
+        println("Supreeth onBackPressed before super.onBackPressed()")
         super.onBackPressed()
     }
 

@@ -67,7 +67,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     }
 
     fun showSignInWidget() {
-        show(signInWidget)
+        show(signInWidget, Presenter.FLAG_CLEAR_TOP)
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
 
