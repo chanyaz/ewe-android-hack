@@ -204,7 +204,6 @@ public class AccountButton extends LinearLayout {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
 				lpt.width = LayoutParams.MATCH_PARENT;
 				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-
 				mLoginContainer.setBackgroundResource(R.drawable.old_checkout_account_button_background);
 				mLoginTextView
 					.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));

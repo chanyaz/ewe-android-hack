@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -34,24 +35,24 @@ class HotelRoomRateViewTest {
         givenHotelOffersResponse()
         hotelRoomRateView.viewModel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), false, LineOfBusiness.HOTELS)
 
-        assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
-        assertEquals(false, hotelRoomRateView.viewRoom.isChecked)
+        assertEquals(View.VISIBLE, hotelRoomRateView.hotelRoomRateActionButton.viewRoomButton.visibility)
+        assertEquals(View.GONE, hotelRoomRateView.hotelRoomRateActionButton.bookButton.visibility)
+        assertEquals(View.GONE, hotelRoomRateView.hotelRoomRateActionButton.soldOutButton.visibility)
 
         hotelRoomRateView.viewModel.collapseRoomObservable.onNext(Unit)
 
         hotelRoomRateView.expandedMeasurementsDone = true
         hotelRoomRateView.viewModel.expandRoomObservable.onNext(Unit)
 
-        assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
-        assertEquals(true, hotelRoomRateView.viewRoom.isChecked)
+        assertEquals(View.GONE, hotelRoomRateView.hotelRoomRateActionButton.viewRoomButton.visibility)
+        assertEquals(View.VISIBLE, hotelRoomRateView.hotelRoomRateActionButton.bookButton.visibility)
+        assertEquals(View.GONE, hotelRoomRateView.hotelRoomRateActionButton.soldOutButton.visibility)
 
         //Check the effects of selectedRoomSoldOut signal
         hotelRoomRateView.viewModel.roomSoldOut.onNext(true)
-        assertEquals(false, hotelRoomRateView.viewRoom.isEnabled)
-        assertEquals(false, hotelRoomRateView.viewRoom.isChecked)
-        assertEquals("Sold Out", hotelRoomRateView.viewRoom.text)
-        assertEquals("Sold Out", hotelRoomRateView.viewRoom.textOn)
-        assertEquals("Sold Out", hotelRoomRateView.viewRoom.textOff)
+        assertEquals(View.GONE, hotelRoomRateView.hotelRoomRateActionButton.viewRoomButton.visibility)
+        assertEquals(View.GONE, hotelRoomRateView.hotelRoomRateActionButton.bookButton.visibility)
+        assertEquals(View.VISIBLE, hotelRoomRateView.hotelRoomRateActionButton.soldOutButton.visibility)
     }
 
     private fun givenHotelOffersResponse() {

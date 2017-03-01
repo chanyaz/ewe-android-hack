@@ -67,10 +67,9 @@
         <item name="traveler_checkout_circle_drawable">@drawable/hotel_traveler_checkout_circle</item>
 
         <!-- Used for other styles -->
-        <item name="hotel_toggle_background_selector_drawable">@drawable/old_hotel_toggle_background_selector</item>
-        <item name="hotel_toggle_text_drawable">@drawable/hotel_toggle_text</item>
         <item name="accept_terms_text_color">@color/hotels_primary_color</item>
         <item name="accept_terms_background_color">@color/white</item>
+        <item name="hotel_book_button_background_selector_drawable">@drawable/old_hotel_book_background_selector</item>
     </style>
 
 
@@ -105,10 +104,9 @@
         <item name="traveler_checkout_circle_drawable">@drawable/new_traveler_checkout_circle</item>
 
         <!-- Used for other styles -->
-        <item name="hotel_toggle_background_selector_drawable">@drawable/new_hotel_toggle_background</item>
-        <item name="hotel_toggle_text_drawable">@drawable/new_hotel_select_room_toggle_text</item>
         <item name="accept_terms_text_color">@color/app_primary</item>
         <item name="accept_terms_background_color">@color/white</item>
+        <item name="hotel_book_button_background_selector_drawable">@drawable/new_hotel_book_background_selector</item>
     </style>
 
     <style name="V2.Theme.Floating" parent="AppTheme.Base">
@@ -179,22 +177,9 @@
         <item name="textStyle">normal</item>
     </style>
 
-    <style name="HotelToggleButton">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textOff">@string/view_room_button_text</item>
-        <item name="android:textOn">@string/book_room_button_text</item>
-        <item name="android:background">?attr/hotel_toggle_background_selector_drawable</item>
-        <item name="android:textColor">?attr/hotel_toggle_text_drawable</item>
-    </style>
-
     <style name="HotelButtonStyle">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="HotelToggleButtonTextAppearance">
-        <item name="android:textSize">17sp</item>
-        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="HotelButtonTextAppearance">

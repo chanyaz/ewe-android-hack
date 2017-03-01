@@ -30,6 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
@@ -109,15 +110,12 @@ public class HotelScreen {
 	public static ViewInteraction expandedFreeCancellation() {
 		return onView(
 			allOf(withId(R.id.expanded_free_cancellation_text_view),
-					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	public static ViewInteraction expandedBedType() {
 		return onView(
-			allOf(withId(R.id.expanded_bed_type_text_view),
-					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+			allOf(withId(R.id.expanded_bed_type_text_view), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	public static void clickRenoInfo() {
@@ -179,19 +177,15 @@ public class HotelScreen {
 
 	public static ViewInteraction addRoom() {
 		return onView(
-			allOf(
-				withId(R.id.view_room_button), allOf(withText(R.string.book_room_button_text)),
-				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+			allOf(withId(R.id.hotel_book_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
 
 	public static ViewInteraction viewRoom(String roomName) {
 		return onView(
 			allOf(
-				withId(R.id.view_room_button), allOf(withText("View Room")),
-				hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
-						withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
+				withId(R.id.view_room_button), withParent(allOf(withId(R.id.hotel_room_row_button), hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
+					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}

@@ -35,8 +35,6 @@
         <item name="traveler_presenter">@layout/flight_travelers_presenter_view_stub</item>
         <item name="sliderText">@string/slide_to_book_text</item>
         <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
-        <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>
-        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_package_background_selector</item>
         <item name="vip_info_select_ripple_drawable">@drawable/vip_info_package_select_ripple</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/exp_blue_button_ripple</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
@@ -45,6 +43,7 @@
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/package_traveler_text_color</item>
+        <item name="hotel_book_button_background_selector_drawable">@drawable/package_book_background_selector</item>
     </style>
 
     <!--

@@ -24,7 +24,7 @@ public class HotelDetailRenovationTest extends HotelTestCase {
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
 		HotelScreen.waitForDetailsLoaded();
 
-		onView(withText("View Room")).perform(scrollTo());
+		HotelScreen.viewRoom("pay_later_room_0").perform(scrollTo());
 
 		// checking we are not showing rating and amenities container
 		HotelScreen.ratingContainer().check(matches(not(isDisplayed())));
@@ -36,12 +36,12 @@ public class HotelDetailRenovationTest extends HotelTestCase {
 		HotelScreen.clickPayNow();
 		onView(allOf(withId(R.id.room_header_image), isDisplayed())).perform(swipeUp());
 		Common.delay(1);
-		onView(withText("View Room")).perform(scrollTo());
+		HotelScreen.viewRoom("pay_later_room_0").perform(scrollTo());
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(
 			withId(R.id.collapsed_container)), isDisplayed(), hasSibling(withText("2 double"))))
 			.check(matches(withText("1 Room Left!")));
 
-		onView(withText("View Room")).perform(click());
+		HotelScreen.viewRoom("pay_later_room_0").perform(click());
 
 		Common.delay(1);
 		onView(allOf(withId(R.id.collapsed_urgency_text_view), withParent(
