@@ -97,7 +97,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Home", "expda://home"),
 		new DeepLink("Sign In", "expda://signIn"),
 		new DeepLink("Trips", "expda://trips"),
-		new DeepLink("Trips with itin number", "expda://trips?itinNum=7238447666975"),
+		new DeepLink("Trips with itin number in Mock Server", "expda://trips?itinNum=1103274148635"),
 		new DeepLink("Unsupported URL Scheme", "george://noworky"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
 		new DeepLink("Support Email", "expda://supportEmail"),
@@ -129,7 +129,8 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Home", "https://www.expedia.com/mobile/deeplink"),
 		new DeepLink("Sign In", "https://www.expedia.com/mobile/deeplink/user/signin"),
 		new DeepLink("Trips", "https://www.expedia.com/mobile/deeplink/trips"),
-		new DeepLink("Trips", "https://www.expedia.com/mobile/deeplink/trips/7238447666975"),
+		new DeepLink("Trips in Mock Web Server", "https://www.expedia.com/mobile/deeplink/trips/1103274148635"),
+		new DeepLinkTrips()
 	};
 
 	@Override
@@ -356,6 +357,12 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	static class DeepLinkCustom extends DeepLink {
 		DeepLinkCustom() {
 			super("Go!", "expda://");
+		}
+	}
+
+	static class DeepLinkTrips extends DeepLink {
+		DeepLinkTrips() {
+			super("Go!", "https://www.expedia.com/mobile/deeplink/trips/");
 		}
 	}
 

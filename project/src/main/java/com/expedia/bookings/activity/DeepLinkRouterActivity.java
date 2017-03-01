@@ -492,8 +492,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private void handleTrip(TripDeepLink tripDeepLink) {
-		String itinId = getItineraryManagerInstance().getDeepLinkItinIdByTripNumber(tripDeepLink.getItinNum());
-		NavUtils.goToItin(this, itinId);
+		NavUtils.goToItin(this, tripDeepLink.getItinNum());
 	}
 
 	@VisibleForTesting
