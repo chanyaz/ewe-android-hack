@@ -34,9 +34,9 @@
 
     <!-- Hotels v2 -->
     <!-- slide to reserve -->
-    <string name="hotelsv2_slide_reserve">Dra för att boka</string>
+    <string name="hotelsv2_slide_reserve">Svep för att boka</string>
     <!-- slide to purchase -->
-    <string name="hotelsv2_slide_purchase">Dra för att köpa</string>
+    <string name="hotelsv2_slide_purchase">Svep för att köpa</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">Ändra datum</string>
     <!-- checkout view toolbar title -->
@@ -72,7 +72,7 @@
     <!-- Cars price templates-->
     <string name="cars_total_template">Totalt %s</string>
     <!-- Slide to reserve -->
-    <string name="cars_slider_text">Dra för att boka</string>
+    <string name="cars_slider_text">Svep för att boka</string>
     <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_reserve_button">Boka</string>
     <!-- Text for checkout toolbar-->
@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Dra för att boka</string>
+    <string name="lx_slider_text">Svep för att köpa</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Ange kontaktuppgifter</string>
     <!-- LX search error -->
@@ -2160,11 +2160,11 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Jag godkänner villkoren</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Dra för att köpa.</string>
+    <string name="slide_to_purchase">Svep för att köpa.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">dra för att boka hotell</string>
+    <string name="slide_to_book_hotel">svep för att boka hotell</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">dra för att boka flyg</string>
+    <string name="slide_to_book_flight">svep för att boka flyg</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Ditt kort kommer att debiteras {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2316,6 +2316,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landskod</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Landskod</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Född %1$s</string>
     <!-- Born on colored -->
@@ -4380,7 +4382,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Dra för att boka</string>
+    <string name="slide_to_book_text">Svep för att köpa</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} poäng i {brand_reward_name}</string>
@@ -4716,9 +4718,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Flygtiden är {time} med en prisskillnad på {pricedifference}. Trafikeras av {airline}. Restiden är {hours} {minutes} med {stops} stopp\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Flygtiden är {time} med en prisskillnad på {pricedifference}. Trafikeras av {airline}. Restiden är {hours} {minutes} med {stops} stopp\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flygtiden är {time} och priset är {price}. Trafikeras av {airline}. Restiden är {hours} {minutes} med {stops} stopp\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med betyget {starrating} av 5. {guestrating} av 5 i gästbetyg. Pris {price}. Inkluderar hotell och flyg\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -5020,5 +5023,15 @@
     <string name="itin_sign_in_message">Logga in för att se dina kommande resor</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Hitta resa bokad som gäst</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Hitta hotell nära dig</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Populära hotell ikväll</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Bokning genomförd!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Kolla din e-post för hela resplanen.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Hämtar dina resor…</string>
 
 </resources>
