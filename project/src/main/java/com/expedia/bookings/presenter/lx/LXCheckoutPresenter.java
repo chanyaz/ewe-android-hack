@@ -23,6 +23,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
@@ -160,7 +161,14 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private Transition checkoutToRules = new VisibilityTransition(this, LXCheckoutMainViewPresenter.class, LxRulesWidget.class);
 
-	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class, LXCheckoutMainViewPresenter.class);
+	private Transition checkoutToCvv = new VisibilityTransition(this, CVVEntryWidget.class,
+		LXCheckoutMainViewPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			AccessibilityUtil.setFocusToToolbarNavigationIcon(cvv.toolbar);
+		}
+	};
 
 	private Transition cvvToError = new VisibilityTransition(this, CVVEntryWidget.class, LXErrorWidget.class);
 
