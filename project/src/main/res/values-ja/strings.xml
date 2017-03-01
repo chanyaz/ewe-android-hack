@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">スライドして予約</string>
+    <string name="lx_slider_text">スライドして購入</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">連絡先情報を入力</string>
     <!-- LX search error -->
@@ -2083,7 +2083,7 @@
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">スライドしてホテルを予約</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">スライドして航空券を予約</string>
+    <string name="slide_to_book_flight">スライドして航空券を購入</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
     <!-- Your are using pwp points -->
@@ -2233,6 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">国番号</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">国番号</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">生年月日 : %1$s</string>
 
@@ -4225,7 +4227,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">スライドして予約</string>
+    <string name="slide_to_book_text">スライドして購入</string>
     <string name="hotel_city_country_TEMPLATE">{city}、{country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} ポイント</string>
@@ -4561,9 +4563,10 @@
     <string name="reward_top_tier_name_short">+ゴールド</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">フライト時間は {time} で料金は {price} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4865,5 +4868,15 @@
     <string name="itin_sign_in_message">サインインして今後の旅行予定にアクセスする</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">ゲストとして予約した旅行を検索</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">現在地付近のホテルを検索</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">今晩泊まれる人気のホテル</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">予約完了 !</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">旅程に関するEメールをご確認ください。</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">旅程を取得しています…</string>
 
 </resources>

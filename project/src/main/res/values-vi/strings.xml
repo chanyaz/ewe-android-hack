@@ -2081,7 +2081,7 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Trượt để thanh toán</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">trượt để đặt phòng khách sạn</string>
+    <string name="slide_to_book_hotel">trượt để đặt phòng</string>
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
@@ -2233,6 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Mã quốc gia</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Mã quốc gia</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Sinh %1$s</string>
 
@@ -4561,9 +4563,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Giờ chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Giờ chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Thời gian chuyến bay là {time} với giá {price}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5. Xếp hạng của khách {guestrating} trên 5. Giá {price}. Gồm khách sạn và chuyến bay\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4865,5 +4868,15 @@
     <string name="itin_sign_in_message">Đăng nhập để xem thông tin các chuyến đi sắp tới</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Tìm chuyến đi đặt bằng tài khoản khách</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Tìm khách sạn gần quý vị</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Khách sạn nhiều người quan tâm tối nay</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Đã đặt thành công!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Hãy kiểm tra email để xem lịch trình.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Đang tải thông tin chuyến đi…</string>
 
 </resources>

@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">밀어서 예약하기</string>
+    <string name="lx_slider_text">밀어서 구매하기</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">연락처 정보 입력</string>
     <!-- LX search error -->
@@ -2081,9 +2081,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">밀어서 구매하기</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">밀어서 호텔 예약하기</string>
+    <string name="slide_to_book_hotel">밀어서 호텔 구매하기</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">밀어서 항공 예약하기</string>
+    <string name="slide_to_book_flight">밀어서 항공편 구매하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
     <!-- Your are using pwp points -->
@@ -2233,6 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">국가 코드</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">국가 코드</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">생년월일: %1$s</string>
 
@@ -4225,7 +4227,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">밀어서 예약하기</string>
+    <string name="slide_to_book_text">밀어서 구매하기</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{brand_reward_name} {rewardpoints}포인트</string>
@@ -4561,9 +4563,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유 포함입니다.\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유합니다.\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">항공편 시간은 {time}이며, 요금은 {price}입니다. 운항사는 {airline}입니다. 소요 시간은 {hours} {minutes}이며, {stops}번 경유합니다.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}. 호텔 및 항공 포함\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4865,5 +4868,15 @@
     <string name="itin_sign_in_message">로그인하여 예정된 여행에 액세스하세요.</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">비회원 예약 여행 찾기</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">근처의 호텔 찾기</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">오늘 밤 인기 호텔</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">예약 성공!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">이메일에서 여행 일정을 확인해 주세요.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">여행을 가져오는 중…</string>
 
 </resources>

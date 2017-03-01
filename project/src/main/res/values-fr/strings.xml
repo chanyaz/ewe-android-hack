@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Faites glisser pour réserver</string>
+    <string name="lx_slider_text">Faites glisser pour acheter</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Veuillez saisir vos coordonnées</string>
     <!-- LX search error -->
@@ -2080,9 +2080,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Faire glisser pour effectuer le paiement.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">Faire glisser pour réserver votre hôtel</string>
+    <string name="slide_to_book_hotel">Faites glisser pour régler votre hôtel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">Faire glisser pour réserver votre vol</string>
+    <string name="slide_to_book_flight">Faites glisser pour acheter votre vol</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Votre carte sera débitée de {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2232,6 +2232,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Indicatif</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Indicatif</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Né(e) le %1$s</string>
 
@@ -4220,11 +4222,11 @@
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
         <item quantity="one">Hôtel à {city} - 1 chambre, {number} nuit</item>
-        <item quantity="other">Hôtel à {city} - 1 chambre, {number} nuits</item>
+        <item quantity="other">Hôtel à {city}, 1 chambre, {number} nuits</item>
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Faites glisser pour réserver</string>
+    <string name="slide_to_book_text">Faites glisser pour acheter</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} points {brand_reward_name}</string>
@@ -4560,9 +4562,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol à bord de {airline}. Le vol est d\&apos;une durée de {hours} {minutes} et compte {stops} escales\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Le vol est à {time} et la différence de prix est de {pricedifference}. Vol à bord de {airline}. Le vol est d\&apos;une durée de {hours} {minutes} et compte {stops} escales\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Le vol est à {time} et son prix s\&apos;élève à {price}. Vol à bord de {airline}. Le vol est d\&apos;une durée de {hours} {minutes} et compte {stops} escales\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} coté {starrating} sur 5. Note clients de {guestrating} sur 5. Prix de {price}. Comprend l\&apos;hôtel et les vols\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4864,5 +4867,15 @@
     <string name="itin_sign_in_message">Connectez-vous pour accéder à vos voyages à venir</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Trouver le voyage réservé en tant qu\&apos;invité</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Trouvez des hôtels près de vous</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Hôtels prisés ce soir</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Réservation réussie !</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Veuillez vérifier votre boîte e-mail pour accéder au voyage.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Recherche de vos voyages…</string>
 
 </resources>
