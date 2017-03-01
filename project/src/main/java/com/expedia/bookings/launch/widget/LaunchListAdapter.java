@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
@@ -34,6 +36,7 @@ import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.PopularHotelsTonightCard;
 import com.expedia.bookings.widget.SignInPlaceholderCard;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.util.PermissionsHelperKt;
 import com.expedia.vm.MemberOnlyDealViewModel;
 import com.expedia.vm.PopularHotelsTonightViewModel;
 import com.expedia.vm.SignInPlaceHolderViewModel;
@@ -337,8 +340,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Bundle animBundle = AnimUtils.createActivityScaleBundle(v);
-			seeAllClickSubject.onNext(animBundle);
+			if (PermissionsHelperKt.havePermissionToAccessLocation(context)) {
+				Bundle animBundle = AnimUtils.createActivityScaleBundle(v);
+				seeAllClickSubject.onNext(animBundle);
+			}
+			else {
+				NoLocationPermissionDialog dialog = NoLocationPermissionDialog.newInstance();
+				dialog.show(((FragmentActivity) context).getSupportFragmentManager(),
+					NoLocationPermissionDialog.TAG);
+			}
 			OmnitureTracking.trackNewLaunchScreenSeeAllClick();
 		}
 	};
