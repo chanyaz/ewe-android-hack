@@ -86,7 +86,11 @@ public class LaunchListWidget extends RecyclerView {
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		Db.setLaunchListHotelData(event.topHotels);
-		adapter.setListData(event.topHotels, headerTitle);
+		List<LaunchDataItem> hotelDataItemList = new ArrayList<>();
+		for (int i = 0; i < event.topHotels.size(); i++) {
+			hotelDataItemList.add(new LaunchHotelDataItem(event.topHotels.get(i)));
+		}
+		adapter.setListData(hotelDataItemList, headerTitle);
 	}
 
 	@Subscribe
@@ -98,20 +102,24 @@ public class LaunchListWidget extends RecyclerView {
 			event.collection.locations = event.collection.locations
 				.subList(0, ProductFlavorFeatureConfiguration.getInstance().getCollectionCount());
 		}
-		adapter.setListData(event.collection.locations, headerTitle);
+		List<LaunchDataItem> collectionDataItemList = new ArrayList<>();
+		for (int i = 0; i < event.collection.locations.size(); i++) {
+			collectionDataItemList.add(new LaunchCollectionDataItem(event.collection.locations.get(i)));
+		}
+		adapter.setListData(collectionDataItemList, headerTitle);
 	}
 
 	public void showListLoadingAnimation() {
-		List<Object> elements = createDummyListForAnimation();
+		List<LaunchDataItem> elements = createListForLoading();
 		String headerTitle = getResources().getString(R.string.loading_header);
 		adapter.setListData(elements, headerTitle);
 	}
 
 	// Create list to show cards for loading animation
-	public List<Object> createDummyListForAnimation() {
-		ArrayList<Object> elements = new ArrayList<>();
+	public List<LaunchDataItem> createListForLoading() {
+		ArrayList<LaunchDataItem> elements = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
-			elements.add(0);
+			elements.add(new LaunchDataItem(LaunchDataItem.LOADING_VIEW));
 		}
 		return elements;
 	}

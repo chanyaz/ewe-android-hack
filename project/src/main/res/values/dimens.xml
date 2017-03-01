@@ -279,6 +279,7 @@
     <dimen name="default_text_size">12sp</dimen>
     <dimen name="large_text_size">14sp</dimen>
     <dimen name="xlarge_text_size">16sp</dimen>
+    <dimen name="xxxlarge_text_size">24sp</dimen>
 
     <!-- Package Hotel Map -->
     <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>

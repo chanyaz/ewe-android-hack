@@ -1114,6 +1114,14 @@
         <item name="textStyle">medium</item>
     </style>
 
+    <style name="Core.Text.XXXLarge">
+        <item name="android:textSize">@dimen/xxxlarge_text_size</item>
+    </style>
+
+    <style name="Core.Text.XXXLarge.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
     <style name="HotelPriceTextStyle">
         <item name="android:textStyle">bold</item>
     </style>

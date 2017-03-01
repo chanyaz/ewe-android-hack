@@ -35,7 +35,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
+@Config(sdk = intArrayOf(21), shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
 class LaunchListAdapterTest {
 
     lateinit private var sut: LaunchListAdapter
@@ -62,16 +62,16 @@ class LaunchListAdapterTest {
 
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, fourthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
     }
 
     @Test
@@ -83,19 +83,19 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.COLLECTION_VIEW.ordinal, fifthPosition)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
     }
 
     @Test
@@ -107,16 +107,16 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val thirdPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.COLLECTION_VIEW.ordinal, fifthPosition)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
     }
 
     @Test
@@ -133,11 +133,11 @@ class LaunchListAdapterTest {
         recyclerView.adapter = sut
         givenWeHaveCurrentLocationAndHotels()
 
-        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal) as PopularHotelsTonightCard
+        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchDataItem.POPULAR_HOTELS) as BigImageLaunchViewHolder
         sut.onBindViewHolder(viewHolder, 1)
 
-        assertEquals("Find Hotels Near You", viewHolder.firstLineTextView.text.toString())
-        assertEquals("Popular Hotels Tonight", viewHolder.secondLineTextView.text.toString())
+        assertEquals("Find Hotels Near You", viewHolder.titleView.text.toString())
+        assertEquals("Popular Hotels Tonight", viewHolder.subTitleView.text.toString())
     }
 
     @Test
@@ -154,11 +154,11 @@ class LaunchListAdapterTest {
         recyclerView.adapter = sut
         givenWeHaveCurrentLocationAndHotels()
 
-        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchListAdapter.LaunchListViewsEnum.POPULAR_HOTELS.ordinal) as PopularHotelsTonightCard
+        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchDataItem.POPULAR_HOTELS) as BigImageLaunchViewHolder
         sut.onBindViewHolder(viewHolder, 1)
 
-        assertEquals("Popular Hotels Tonight", viewHolder.firstLineTextView.text.toString())
-        assertEquals("Find Hotels Near You", viewHolder.secondLineTextView.text.toString())
+        assertEquals("Popular Hotels Tonight", viewHolder.titleView.text.toString())
+        assertEquals("Find Hotels Near You", viewHolder.subTitleView.text.toString())
     }
 
     @Test
@@ -169,13 +169,13 @@ class LaunchListAdapterTest {
 
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, thirdPosition)
     }
 
     @Test
@@ -186,16 +186,16 @@ class LaunchListAdapterTest {
         givenWeHaveCurrentLocationAndHotels()
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, fourthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
     }
 
     @Test
@@ -205,16 +205,16 @@ class LaunchListAdapterTest {
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
 
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, sut.getItemViewType(0))
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, sut.getItemViewType(1))
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, sut.getItemViewType(2))
+        assertEquals(LaunchDataItem.LOB_VIEW, sut.getItemViewType(0))
+        assertEquals(LaunchDataItem.HEADER_VIEW, sut.getItemViewType(1))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sut.getItemViewType(2))
 
         givenCustomerSignedOut()
         givenWeHaveCurrentLocationAndHotels()
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, sut.getItemViewType(0))
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, sut.getItemViewType(1))
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, sut.getItemViewType(2))
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HOTEL_VIEW.ordinal, sut.getItemViewType(3))
+        assertEquals(LaunchDataItem.LOB_VIEW, sut.getItemViewType(0))
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, sut.getItemViewType(1))
+        assertEquals(LaunchDataItem.HEADER_VIEW, sut.getItemViewType(2))
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sut.getItemViewType(3))
     }
 
     @Test
@@ -224,16 +224,16 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.COLLECTION_VIEW.ordinal, fourthPosition)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
     }
 
     @Test
@@ -244,13 +244,13 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.COLLECTION_VIEW.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
     }
 
     @Test
@@ -261,17 +261,17 @@ class LaunchListAdapterTest {
         givenWeHaveALoadingState()
 
         val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal, firstPosition)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.SIGN_IN_VIEW.ordinal, secondPosition)
+        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.HEADER_VIEW.ordinal, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         // 2..100 should be loading view as we're in a loading state
         val fourthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchListAdapter.LaunchListViewsEnum.LOADING_VIEW.ordinal, fourthPosition)
+        assertEquals(LaunchDataItem.LOADING_VIEW, fourthPosition)
     }
 
     @Test
@@ -356,8 +356,11 @@ class LaunchListAdapterTest {
 
     private fun givenWeHaveALoadingState() {
         val headerTitle = "Loading..."
-        val loadingListOfNumbers = arrayListOf<Any>(1, 2, 3, 4, 5)
-        sut.setListData(loadingListOfNumbers, headerTitle)
+        var dataItems = ArrayList<LaunchDataItem>()
+        for (i in 1..5) {
+            dataItems.add(LaunchDataItem(LaunchDataItem.LOADING_VIEW))
+        }
+        sut.setListData(dataItems, headerTitle)
     }
 
     private fun userHasNoInternetConnection(isOnline: Boolean) {
@@ -365,26 +368,22 @@ class LaunchListAdapterTest {
     }
 
     private fun givenWeHaveStaffPicks(numberOfStaffPicks: Int = 5) {
-        val collectionList = ArrayList<Any>()
         val headerTitle = "Staff picks"
-        var i = 0
-        while (i < numberOfStaffPicks) {
-            collectionList.add(CollectionLocation())
-            i++
+        var dataItems = ArrayList<LaunchDataItem>()
+        for (i in  0..numberOfStaffPicks-1) {
+            dataItems.add(LaunchCollectionDataItem(CollectionLocation()))
         }
-        sut.setListData(collectionList, headerTitle)
+        sut.setListData(dataItems, headerTitle)
     }
 
     private fun givenWeHaveCurrentLocationAndHotels(numberOfHotels: Int = 5) {
         // show hotels
         val headerTitle = "Recommended Hotels"
-        val hotelsList = ArrayList<Any>()
-        var i = 0
-        while (i < numberOfHotels) {
-            hotelsList.add(createMockHotel())
-            i++
+        var dataItems = ArrayList<LaunchDataItem>()
+        for (i in  0..numberOfHotels-1) {
+            dataItems.add(LaunchHotelDataItem(createMockHotel()))
         }
-        sut.setListData(hotelsList, headerTitle)
+        sut.setListData(dataItems, headerTitle)
     }
 
     private fun createMockHotel(): Hotel {
