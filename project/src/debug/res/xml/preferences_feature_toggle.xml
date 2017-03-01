@@ -29,6 +29,11 @@
             android:summary="Enable Hotel Loyalty Earn Message."
             android:title="Enable Enable Hotel Loyalty Earn Message" />
 
+        <CheckBoxPreference android:key="@string/preference_urgency_hotel_results"
+            android:layout="@layout/preference"
+            android:summary="Displays percent sold out on hotel results page"
+            android:title="Hotel Results Urgency Message" />
+
         <CheckBoxPreference
             android:key="@string/preference_hotel_server_side_filters"
             android:layout="@layout/preference"

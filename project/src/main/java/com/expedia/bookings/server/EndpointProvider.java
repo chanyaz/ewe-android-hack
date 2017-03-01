@@ -114,6 +114,24 @@ public class EndpointProvider {
 		}
 	}
 
+	public String getUrgencyEndpointUrl() {
+		String endpoint;
+		switch (getEndPoint()) {
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		case INTEGRATION:
+			endpoint = "http://www.expedia.com.urgency-prime.us-west-2.test.expedia.com/urgencyservice/v1";
+			break;
+		case PRODUCTION:
+			endpoint = "https://urgency.expedia.com/urgencyservice/v1/";
+			break;
+		default:
+			endpoint = "https://urgency.expedia.com/urgencyservice/v1/";
+		}
+		return endpoint;
+	}
+
 	public String getRailEndpointUrl() {
 		String endpoint;
 		switch (getEndPoint()) {

@@ -13,6 +13,7 @@ import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.services.urgency.UrgencyServices;
 import com.expedia.bookings.tracking.hotel.ClientLogTracker;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
 import com.expedia.model.UserLoginStateChangedModel;
@@ -49,6 +50,13 @@ public final class HotelModule {
 		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, gaiaRequestInterceptor,
 			AndroidSchedulers.mainThread(),
 			Schedulers.io());
+	}
+
+	@Provides
+	@HotelScope
+	UrgencyServices provideUrgencyService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getUrgencyEndpointUrl();
+		return new UrgencyServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

@@ -121,6 +121,7 @@
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
     <string name="preference_member_deal_on_launch_screen">preference_member_deal_on_launch_screen</string>
     <string name="preference_show_popular_hotels_on_launch_screen">preference_show_popular_hotels_on_launch_screen</string>
+    <string name="preference_urgency_hotel_results">preference_urgency_hotel_results</string>
     <string name="preference_enable_new_cookies">preference_enable_new_cookies</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
     <string name="preference_phablet">preference_phablet</string>
