@@ -120,13 +120,13 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
         override fun onCompleted() {
             toggleSwitchEnabledObservable.onNext(true)
-            updatingTripDialog.hide()
+            updatingTripDialog.dismiss()
         }
 
         override fun onError(e: Throwable) {
             toggleSwitchEnabledObservable.onNext(true)
             updateToggleSwitch()
-            updatingTripDialog.hide()
+            updatingTripDialog.dismiss()
             handleError(e.toString())
         }
 
