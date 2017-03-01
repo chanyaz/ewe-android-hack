@@ -2235,6 +2235,8 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Code du pays</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Code de pays</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">Né le %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Né le %1$s</string>
 

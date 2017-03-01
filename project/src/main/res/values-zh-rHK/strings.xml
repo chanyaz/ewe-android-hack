@@ -2232,9 +2232,11 @@
     <string name="special_assistance_label_TEMPLATE">特別協助：%1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
-    <string name="phone_number_country_code_dropdown_cont_desc">國家/地區編號</string>
+    <string name="phone_number_country_code_dropdown_cont_desc">國家地區代碼</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">國家地區代碼</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">出生日期：%1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">出生日期：%1$s</string>
 
