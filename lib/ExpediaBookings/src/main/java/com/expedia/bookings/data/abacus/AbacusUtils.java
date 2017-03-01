@@ -66,12 +66,6 @@ public class AbacusUtils {
 		BUCKETED
 	}
 
-	public enum TripsPopularHotelsVariant {
-		CONTROL,
-		VARIANT1,
-		VARIANT2
-	}
-
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();

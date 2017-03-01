@@ -323,19 +323,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private BigImageLaunchViewModel getPopularHotelViewModel() {
-		if (Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
-			== AbacusUtils.TripsPopularHotelsVariant.VARIANT1.ordinal()) {
 			return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
 				R.color.hotel_tonight_background_gradient,
 				R.string.launch_find_hotels_near_you,
-				R.string.launch_find_popular_hotels);
-		}
-		else {
-			return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
-				R.color.hotel_tonight_background_gradient,
-				R.string.launch_find_popular_hotels,
-				R.string.launch_find_hotels_near_you);
-		}
+				R.string.launch_find_recommended_hotels);
 	}
 
 	private boolean showSignInCard() {
