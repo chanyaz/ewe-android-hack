@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -344,8 +345,14 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
-		if (isNewSignInScreen() && isLoading) {
-			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
+		if (isNewSignInScreen()) {
+			if (isLoading) {
+				Log.i("Supreeth", "Supreeth ItinItemListFragment isLoading");
+				mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
+			}
+			else {
+				mSignInPresenter.showSignInWidget();
+			}
 		}
 	}
 
@@ -648,6 +655,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
+		Log.i("Supreeth", "Supreeth ItinItemListFragment onSyncFinished");
 		mItinListView.syncWithManager();
 		setIsLoading(false);
 		if (mCurrentSyncHasErrors) {

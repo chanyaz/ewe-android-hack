@@ -956,6 +956,7 @@ public class ItineraryManager implements JSONable {
 	 * @return true if the sync started or is in progress, false if it never started
 	 */
 	public boolean startSync(boolean forceRefresh) {
+		Log.i("Supreeth", "Supreeth ItinManager startSync forceRefresh = " + forceRefresh);
 		return startSync(forceRefresh, true, true);
 	}
 
@@ -969,6 +970,7 @@ public class ItineraryManager implements JSONable {
 				"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
 					+
 					" we're not starting a formal sync; but we will call onSyncFinished() with no results");
+			Log.i("Supreeth", "Supreeth ItinManager startSync before calling onSyncFinished");
 			onSyncFinished(mTrips.values());
 			return false;
 		}
@@ -1265,6 +1267,7 @@ public class ItineraryManager implements JSONable {
 		protected void onPostExecute(Collection<Trip> trips) {
 			super.onPostExecute(trips);
 
+			Log.i("Supreeth", "Supreeth ItinManager onPostExecute before calling onSyncFinished");
 			onSyncFinished(trips);
 			logStats();
 

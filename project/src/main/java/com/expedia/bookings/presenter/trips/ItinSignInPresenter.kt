@@ -35,53 +35,71 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         addTransition(signInToAddGuestTransition)
         addTransition(addGuestToProgressTransition)
         addTransition(signInToProgressTransition)
-        show(signInWidget)
+        showSignInWidget()
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
+            println("Supreeth addGuestItinClickSubject")
             showAddGuestItinScreen()
             addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
         }
 
         addGuestItinWidget.viewModel.showItinFetchProgressObservable.subscribe {
-            show(itinFetchProgressWidget)
-            addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
+            println("Supreeth showItinFetchProgressObservable")
+            showItinFetchProgress()
         }
         signInWidget.viewModel.syncItinManagerSubject.subscribe {
-            show(itinFetchProgressWidget)
+            println("Supreeth syncItinManagerSubject")
+            showItinFetchProgress()
         }
+    }
+
+    private fun showItinFetchProgress() {
+        show(itinFetchProgressWidget)
+        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
 
     fun showAddGuestItinScreen() {
         if (currentState == null) {
-            show(signInWidget)
+            showSignInWidget()
         }
         show(addGuestItinWidget, Presenter.FLAG_CLEAR_TOP)
         OmnitureTracking.trackFindGuestItin()
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(false)
     }
 
+    fun showSignInWidget() {
+        show(signInWidget)
+        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
+    }
+
     inner class createSyncAdapter() : ItineraryManager.ItinerarySyncAdapter() {
 
         override fun onSyncFailure(error: ItineraryManager.SyncError?) {
+            println("Supreeth onSyncFailure")
             signInWidget.viewModel.syncFailure(error)
         }
 
         override fun onTripAdded(trip: Trip?) {
             super.onTripAdded(trip)
+            println("Supreeth onTripAdded")
             show(signInWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
+            println("Supreeth onSyncFinished")
             signInWidget.viewModel.syncError(trips)
             if (trips?.size == 0 && currentState != addGuestItinWidget.javaClass.name){
+                println("Supreeth onSyncFinished showing signInWidget")
                 show(signInWidget, Presenter.FLAG_CLEAR_TOP)
             }
         }
 
         override fun onTripFailedFetchingGuestItinerary() {
+            println("Supreeth onTripFailedFetchingGuestItinerary")
             showAddGuestItinScreen()
         }
 
         override fun onTripFailedFetchingRegisteredUserItinerary() {
+            println("Supreeth onTripFailedFetchingRegisteredUserItinerary")
             showAddGuestItinScreen()
         }
     }

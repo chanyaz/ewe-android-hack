@@ -30,6 +30,7 @@ open class AddGuestItinViewModel(val context: Context) {
 
     init {
         performGuestTripSearch.subscribe { guestEmailItinNumPair ->
+            println("Supreeth AddGuestItinViewModel showItinFetchProgressObservable")
             showItinFetchProgressObservable.onNext(Unit)
             getItinManager().addGuestTrip(guestEmailItinNumPair.first, guestEmailItinNumPair.second)
         }
@@ -53,11 +54,13 @@ open class AddGuestItinViewModel(val context: Context) {
 
     inner class createSyncAdapter() : ItineraryManager.ItinerarySyncAdapter() {
         override fun onTripFailedFetchingGuestItinerary() {
+            println("Supreeth AddGuestItinViewModel onTripFailedFetchingGuestItinerary")
             showErrorObservable.onNext(true)
             showErrorMessageObservable.onNext(context.getString(R.string.unable_to_find_guest_itinerary))
         }
 
         override fun onTripFailedFetchingRegisteredUserItinerary() {
+            println("Supreeth AddGuestItinViewModel onTripFailedFetchingRegisteredUserItinerary")
             showErrorObservable.onNext(true)
             showErrorMessageObservable.onNext(Phrase.from(context.getString(R.string.unable_to_find_registered_user_itinerary_template))
                     .put("brand", BuildConfig.brand).format().toString())
