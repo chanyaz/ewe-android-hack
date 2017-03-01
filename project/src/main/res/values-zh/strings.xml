@@ -4778,9 +4778,7 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">打开对话框</string>
     <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">展开，查看客房信息并选择房型</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">选择房型</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">已禁用</string>
     <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
