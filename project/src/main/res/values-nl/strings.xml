@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Swipe om te boeken</string>
+    <string name="lx_slider_text">Swipe om te kopen</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Contactinfo invoeren</string>
     <!-- LX search error -->
@@ -2162,9 +2162,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Swipe om te boeken.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">sleep om hotel te boeken</string>
+    <string name="slide_to_book_hotel">Swipe om accommodatie te kopen</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">sleep om vlucht te boeken</string>
+    <string name="slide_to_book_flight">Swipe om vlucht te kopen</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Op je creditcard wordt {dueamount} in rekening gebracht</string>
     <!-- Your are using pwp points -->
@@ -2316,6 +2316,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landcode</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Landcode</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Geboren op %1$s</string>
     <!-- Born on colored -->
@@ -4380,7 +4382,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Swipe om te boeken</string>
+    <string name="slide_to_book_text">Swipe om te kopen</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} punten</string>
@@ -4716,9 +4718,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Vluchttijd is {time} met een prijsverschil van {pricedifference}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Vluchttijd is {time} met een prijsverschil van {pricedifference}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Vluchttijd is {time} met prijs {price}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -5020,5 +5023,15 @@
     <string name="itin_sign_in_message">Meld je aan voor toegang tot je aankomende reizen</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Vind een gastboeking</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Vind hotels in jouw buurt</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Populaire hotels voor vandaag</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Boeking voltooid!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Controleer je inbox voor het reisplan.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Je reizen worden opgehaald …</string>
 
 </resources>

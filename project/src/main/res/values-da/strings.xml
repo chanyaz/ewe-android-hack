@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Skub for at reservere</string>
+    <string name="lx_slider_text">Skub for at gennemføre dit køb</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Indtast kontaktoplysninger</string>
     <!-- LX search error -->
@@ -2160,11 +2160,11 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Jeg accepterer</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Skub for at købe.</string>
+    <string name="slide_to_purchase">Skub for at gennemføre dit køb.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">skub for at reservere hotel</string>
+    <string name="slide_to_book_hotel">skub for at gennemføre køb af hotelværelse</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">skub for at reservere flyrejse</string>
+    <string name="slide_to_book_flight">skub for at gennemføre køb af flyrejse</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Der trækkes {dueamount} fra dit kort</string>
     <!-- Your are using pwp points -->
@@ -2316,6 +2316,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landekode</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Landekode</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Født %1$s</string>
     <!-- Born on colored -->
@@ -4380,7 +4382,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Skub for at reservere</string>
+    <string name="slide_to_book_text">Skub for at gennemføre dit køb</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints}{brand_reward_name} point</string>
@@ -4716,9 +4718,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Flyvetiden er {time} med en prisforskel på {pricedifference}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Flyvetiden er {time} med en prisforskel på {pricedifference}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flyvetiden er {time} til en pris på {price}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5. Pris {price}. Inkluderer hotel og fly\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -5020,5 +5023,15 @@
     <string name="itin_sign_in_message">Log på din konto for at få adgang til dine kommende rejser</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Find rejse booket som gæst</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Find hoteller i nærheden af dig</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Populære hoteller til i aften</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Din reservation er gennemført!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Kontroller din e-mail for at se din rejseplan.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Henter dine rejser…</string>
 
 </resources>
