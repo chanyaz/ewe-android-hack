@@ -6,6 +6,21 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
+import org.hamcrest.Matcher;
+
+import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.ViewAssertion;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.expedia.bookings.widget.flights.FlightListAdapter;
+
+import junit.framework.Assert;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 public class TestUtilFlights {
 	public static Map<String, String> dataSet;
@@ -77,4 +92,35 @@ public class TestUtilFlights {
 	}
 
 
+
+	public static ViewAssertion assertFlightResultsListFor(final Matcher<View> matcher) {
+		return new ViewAssertion() {
+
+			@Override
+			public void check(@Nullable View view, @Nullable NoMatchingViewException e) {
+
+				RecyclerView recyclerView = (RecyclerView) view;
+				FlightListAdapter adapter = (FlightListAdapter) recyclerView.getAdapter();
+				int itemCount = adapter.getItemCount() - adapter.adjustPosition();
+
+				for (int position = 1; position <= itemCount; position++) {
+					RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForPosition(position);
+					View viewAtPosition = viewHolder.itemView;
+					assertThat(viewAtPosition, matcher);
+				}
+			}
+		};
+	}
+
+	public static ViewAssertion assertFlightsResultsListSizeEquals(final int size) {
+		return new ViewAssertion() {
+			@Override
+			public void check(View view, NoMatchingViewException noView) {
+				RecyclerView recyclerView = (RecyclerView) view;
+				FlightListAdapter adapter = (FlightListAdapter) recyclerView.getAdapter();
+				int itemCount = adapter.getItemCount() - adapter.adjustPosition();
+				Assert.assertEquals(itemCount, size);
+			}
+		};
+	}
 }
