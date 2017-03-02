@@ -36,7 +36,9 @@ public class PersistentCookieManagerV2Test {
 	private static final List<Cookie> EXPIRED_COOKIES = new ArrayList<>();
 	private static final List<Cookie> LINFO_COOKIE = new ArrayList<>();
 	private static final List<Cookie> SOME_OTHER_SITE_COOKIES = new ArrayList<>();
+	private static final List<Cookie> VOYAGES_COOKIES = new ArrayList<>();
 	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
+	private static final HttpUrl voyages = HttpUrl.parse(" https://agence.voyages-sncf.com");
 	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
 	private static final HttpUrl omniture = HttpUrl.parse("https://omniture.com");
 	private static final HttpUrl someOtherSite = HttpUrl.parse("https://someothersite.com");
@@ -92,6 +94,14 @@ public class PersistentCookieManagerV2Test {
 		list.add("MC1=GUID=notARealMC1Cookie; Domain=.someothersite.com; Path=/");
 		for (String string : list) {
 			SOME_OTHER_SITE_COOKIES.add(Cookie.parse(someOtherSite, string));
+		}
+
+		list = new ArrayList<>();
+		list.add("tpid=v.1,1; Domain=.agence.voyages-sncf.com; Path=/");
+		list.add("iEAPID=0,; Domain=.agence.voyages-sncf.com; Path=/");
+		list.add("linfo=v.4,|0|0|255|1|0||||||||1033|0|0||0|0|0|-1|-1; Domain=.agence.voyages-sncf.com; Path=/");
+		for (String string : list) {
+			VOYAGES_COOKIES.add(Cookie.parse(voyages, string));
 		}
 	}
 
@@ -183,6 +193,24 @@ public class PersistentCookieManagerV2Test {
 		String linfoValue = manager.getCookieValue(expedia, "linfo");
 		Assert.assertEquals("", linfoValue);
 		expectCookies(omniture, 1);
+	}
+
+	@Test
+	public void deleteVoyagesCookies() {
+		manager.saveFromResponse(voyages, VOYAGES_COOKIES);
+		String[] userCookieNames = {
+			"tpid",
+			"iEAPID",
+			"linfo",
+		};
+
+		manager.removeNamedCookies(voyages.toString(), userCookieNames);
+		String tpidValue = manager.getCookieValue(voyages, "tpid");
+		Assert.assertEquals("", tpidValue);
+		String iEAPIDValue = manager.getCookieValue(voyages, "iEAPID");
+		Assert.assertEquals("", iEAPIDValue);
+		String linfoValue = manager.getCookieValue(voyages, "linfo");
+		Assert.assertEquals("", linfoValue);
 	}
 
 	@Test
