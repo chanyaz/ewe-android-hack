@@ -4302,6 +4302,11 @@ public class OmnitureTracking {
 	private static final String CAR_CHECKOUT_CVV_SCREEN = "App.Cars.Checkout.Payment.CID";
 	private static final String CAR_CHECKOUT_CONFIRMATION = "App.Cars.Checkout.Confirmation";
 	private static final String CAR_CHECKOUT_CONFIRMATION_CROSS_SELL = "App.Cars.CKO.Confirm.Xsell";
+	private static final String CAR_WEBVIEW_RETRY = "App.Cars.WebView.Retry";
+	private static final String CAR_WEBVIEW_LOGOUT = "App.Cars.WebView.Logout";
+	private static final String CAR_WEBVIEW_CLOSE = "App.Cars.WebView.Close";
+	private static final String CAR_WEBVIEW_BACK = "App.Cars.WebView.Back";
+	private static final String CAR_WEBVIEW_SIGNIN = "App.Cars.WebView.SignIn";
 
 	public static void trackAppCarSearchBox() {
 		Log.d(TAG, "Tracking \"" + CAR_DEST_SEARCH + "\" pageLoad...");
@@ -4473,6 +4478,21 @@ public class OmnitureTracking {
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
+	}
+	public static void trackAppCarWebViewRetry() {
+		createAndtrackLinkEvent(CAR_WEBVIEW_RETRY, "Car Webview");
+	}
+	public static void trackAppCarWebViewBack() {
+		createAndtrackLinkEvent(CAR_WEBVIEW_BACK, "Car Webview");
+	}
+	public static void trackAppCarWebViewSignIn() {
+		createAndtrackLinkEvent(CAR_WEBVIEW_SIGNIN, "Car Webview");
+	}
+	public static void trackAppCarWebViewLogOut() {
+		createAndtrackLinkEvent(CAR_WEBVIEW_LOGOUT, "Car Webview");
+	}
+	public static void trackAppCarWebViewClose() {
+		createAndtrackLinkEvent(CAR_WEBVIEW_CLOSE, "Car Webview");
 	}
 
 	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {

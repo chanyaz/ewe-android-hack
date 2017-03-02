@@ -8,6 +8,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -23,8 +25,12 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.webview.BaseWebViewClient;
@@ -40,6 +46,8 @@ public class WebViewFragment extends DialogFragment {
 		BaggageFeeOneWay,
 		BaggageFeeOutbound,
 		BaggageFeeInbound,
+		CarWebView,
+		Default,
 	}
 
 	public static final String TAG = WebViewFragment.class.toString();
@@ -56,6 +64,8 @@ public class WebViewFragment extends DialogFragment {
 	private static final String ARG_DIALOG_BUTTON_TEXT = "ARG_DIALOG_BUTTON_TEXT";
 
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
+	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
+	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
 
 	private static final String INSTANCE_LOADED = "com.expedia.bookings.fragment.WebViewFragment.INSTANCE_LOADED";
 
@@ -73,14 +83,16 @@ public class WebViewFragment extends DialogFragment {
 	private boolean mAllowUseableNetRedirects;
 	private boolean mAttemptForceMobileSite;
 	private TrackingName mTrackingName;
+	private boolean handleBack;
+	private boolean retryOnError;
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-		boolean allowUseableNetRedirects, String name) {
-		return newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, false, name);
+		boolean allowUseableNetRedirects, String name, boolean handleBack, boolean retryOnError) {
+		return newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, false, name, handleBack, retryOnError);
 	}
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-		boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name) {
+		boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name, boolean handleBack, boolean retryOnError) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
@@ -90,6 +102,8 @@ public class WebViewFragment extends DialogFragment {
 		args.putBoolean(ARG_ALLOW_MOBILE_REDIRECTS, allowUseableNetRedirects);
 		args.putBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
 		args.putString(ARG_TRACKING_NAME, name);
+		args.putBoolean(ARG_HANDLE_BACK, handleBack);
+		args.putBoolean(ARG_HANDLE_RETRY_ON_ERROR, retryOnError);
 		frag.setArguments(args);
 		frag.setRetainInstance(true);
 
@@ -146,6 +160,8 @@ public class WebViewFragment extends DialogFragment {
 
 		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
 		mAttemptForceMobileSite = args.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
+		handleBack = args.getBoolean(ARG_HANDLE_BACK, false);
+		retryOnError = args.getBoolean(ARG_HANDLE_RETRY_ON_ERROR, false);
 	}
 
 	@Override
@@ -310,7 +326,26 @@ public class WebViewFragment extends DialogFragment {
 		}
 		mWebView.getSettings().setDisplayZoomControls(false);
 
-		mWebView.setWebViewClient(new BaseWebViewClient(getActivity(), mLoadCookies) {
+		mWebView.setWebViewClient(new BaseWebViewClient(getActivity(), mLoadCookies, mTrackingName) {
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (isLoginUrl(url)) {
+					trackLoginLinkClick();
+					handleLogin();
+					return true;
+				}
+				else {
+					return super.shouldOverrideUrlLoading(view, url);
+				}
+			}
+
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				super.onPageStarted(view, url, favicon);
+				if (mListener != null) {
+					mListener.setLoading(true);
+				}
+			}
 
 			@Override
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -335,12 +370,18 @@ public class WebViewFragment extends DialogFragment {
 				if (isAdded()) {
 					String errorFormatStr = getResources().getString(R.string.web_view_loading_error_TEMPLATE);
 					String errorMessage = String.format(errorFormatStr, description);
-					Ui.showToast(getActivity(), errorMessage);
+					if (retryOnError) {
+						showErrorRetryDialog(this.getActivity(), view, errorMessage, failingUrl);
+					}
+					else {
+						Ui.showToast(getActivity(), errorMessage);
+					}
 				}
 			}
 
 			@Override
 			public void onPageFinished(WebView webview, String url) {
+				super.onPageFinished(webview, url);
 				//Stop progress spinner
 				mWebViewLoaded = true;
 				if (mListener != null) {
@@ -383,6 +424,7 @@ public class WebViewFragment extends DialogFragment {
 					}, 50);
 				}
 			}
+
 		});
 	}
 
@@ -420,7 +462,67 @@ public class WebViewFragment extends DialogFragment {
 		cookieSyncManager.sync();
 	}
 
+	private boolean isTripsPageUrl(String url) {
+		return url.contains(PointOfSale.getPointOfSale().getHotelsWebCheckoutURL() + "?tripid");
+	}
+
+	public boolean canGoBack() {
+		if (isTripsPageUrl(mWebView.getUrl()) || !handleBack) {
+			return false;
+		}
+		return mWebView.canGoBack();
+	}
+
+	public void goBack() {
+		mWebView.goBack();
+	}
+
 	public interface WebViewFragmentListener {
 		void setLoading(boolean loading);
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == Constants.RESULT_NO_CHANGES) {
+			mWebView.reload();
+		}
+	}
+
+	private boolean isLoginUrl(String url) {
+		return url.contains("user/signin") || url.contains("user/createaccount");
+	}
+
+	private void handleLogin() {
+		Intent loginIntent = new Intent(getActivity(), AccountLibActivity.class);
+		startActivityForResult(loginIntent, Constants.RESULT_NO_CHANGES);
+	}
+
+	private void showErrorRetryDialog(Context context, final WebView webView, String errorMessage,
+		final String retryUrl) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.WebViewAlertDialog);
+		builder.setCancelable(false)
+			.setMessage(errorMessage)
+			.setPositiveButton(context.getResources().getString(R.string.retry), new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					trackRetryClick();
+					dialog.dismiss();
+					webView.loadUrl(retryUrl);
+				}
+			})
+			.show();
+	}
+
+	private void trackLoginLinkClick() {
+		if (mTrackingName == TrackingName.CarWebView) {
+			new CarWebViewTracking().trackAppCarWebViewSignIn();
+		}
+	}
+
+	private void trackRetryClick() {
+		if (mTrackingName == TrackingName.CarWebView) {
+			new CarWebViewTracking().trackAppCarWebViewRetry();
+		}
+	}
+
 }

@@ -334,13 +334,18 @@ public class NavUtils {
 			&& FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowCarWebView,
 			R.string.preference_open_car_web_view)) {
 			String carEndPointUrl = Ui.getApplication(context).appComponent()
-				.endpointProvider().getE3EndpointUrlWithPath("car-hire");
+				.endpointProvider().getE3EndpointUrlWithPath("car-hire?mcicid=App.Cars.WebView");
 			CarWebViewActivity.IntentBuilder builder = new CarWebViewActivity.IntentBuilder(context);
 			builder.setUrl(carEndPointUrl);
 			builder.setInjectExpediaCookies(true);
 			builder.setAllowMobileRedirects(true);
 			builder.setAttemptForceMobileSite(true);
 			builder.setLoginEnabled(true);
+			builder.setHandleBack(true);
+			builder.setRetryOnFailure(true);
+			builder.setTitle(context.getString(R.string.nav_car_rentals));
+			builder.setTrackingName("CarWebView");
+			builder.setTheme(R.style.CarWebViewTheme);
 			startActivity(context, builder.getIntent(), null);
 		}
 		else {

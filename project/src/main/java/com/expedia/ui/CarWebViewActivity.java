@@ -2,11 +2,13 @@ package com.expedia.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.utils.UserAccountRefresher;
 
 public class CarWebViewActivity extends WebViewActivity implements UserAccountRefresher.IUserAccountRefreshListener {
@@ -33,8 +35,25 @@ public class CarWebViewActivity extends WebViewActivity implements UserAccountRe
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home: {
+			new CarWebViewTracking().trackAppCarWebViewClose();
+			finish();
+			return true;
+		}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		new CarWebViewTracking().trackAppCarWebViewBack();
+		super.onBackPressed();
+	}
+
+	@Override
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 	}
 }
-
