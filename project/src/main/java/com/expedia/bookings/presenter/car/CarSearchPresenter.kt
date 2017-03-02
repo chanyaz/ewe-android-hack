@@ -95,9 +95,6 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         calendarWidget.setOnClickListener {
             calendarWidget.showCalendarDialog()
         }
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            searchButton.isEnabled = false
-        }
     }
 
     override var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->

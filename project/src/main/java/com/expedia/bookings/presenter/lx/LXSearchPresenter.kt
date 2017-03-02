@@ -87,9 +87,6 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         val service = Ui.getApplication(context).lxComponent().suggestionsService()
         suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, false)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.location_activity_details)
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            searchButton.isEnabled = false
-        }
         calendarWidgetV2.text = context.resources.getString(R.string.select_start_date)
         calendarWidgetV2.contentDescription = context.resources.getString(R.string.lx_search_start_date_cont_desc)
     }

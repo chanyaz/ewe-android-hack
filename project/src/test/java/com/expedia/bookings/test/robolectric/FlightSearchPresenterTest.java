@@ -4,9 +4,13 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.shadows.RoboLayoutInflater;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.ScrollView;
 
@@ -27,6 +32,7 @@ import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.AbacusTestUtils;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CalendarWidgetV2;
 import com.expedia.bookings.widget.FlightCabinClassPickerView;
@@ -40,7 +46,9 @@ import com.squareup.phrase.Phrase;
 
 import rx.observers.TestSubscriber;
 
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -116,7 +124,6 @@ public class FlightSearchPresenterTest {
 		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
 		assertEquals(activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId()), flightCabinClassWidget.getText());
 	}
-
 
 	@Test
 	public void testRoundTrip() {
@@ -324,5 +331,20 @@ public class FlightSearchPresenterTest {
 		widget.setSearchViewModel(flightSearchViewModel);
 		widget.getSearchViewModel().getFormattedDestinationObservable().onNext("San Francisco");
 		assertEquals(destinationFlight.getContentDescription(), "Flying to. Button. San Francisco");
+	}
+
+	@Test
+	public void testSearchButtonState() {
+		AccessibilityManager mockAccessibilityManager = Mockito.mock(AccessibilityManager.class);
+		Context spyContext = Mockito.spy(RuntimeEnvironment.application);
+		Mockito.when(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager);
+		Mockito.when(mockAccessibilityManager.isEnabled()).thenReturn(true);
+		Mockito.when(mockAccessibilityManager.isTouchExplorationEnabled()).thenReturn(true);
+		assertTrue(AccessibilityUtil.isTalkBackEnabled(spyContext));
+
+		widget = (FlightSearchPresenter) new RoboLayoutInflater(spyContext).inflate(R.layout.test_flight_search_presenter,
+			null);
+		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
+		assertFalse(searchBtn.isEnabled());
 	}
 }
