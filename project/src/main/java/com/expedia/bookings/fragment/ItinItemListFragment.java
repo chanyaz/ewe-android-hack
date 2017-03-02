@@ -350,9 +350,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			if (isLoading) {
 				mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
 			}
-			else {
-				mSignInPresenter.showSignInWidget();
-			}
 		}
 	}
 
@@ -725,6 +722,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			if (isResumed()) {
 				if (mSignInPresenter != null) {
 					mSignInPresenter.getSignInWidget().getSignInToolbar().setCurrentPOS();
+					mSignInPresenter.getAddGuestItinWidget().getSignInToolbar().setCurrentPOS();
 				}
 			}
 		}

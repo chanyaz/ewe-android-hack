@@ -38,7 +38,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         showSignInWidget()
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
             println("Supreeth addGuestItinClickSubject")
-            showAddGuestItinScreen()
+            showAddGuestItinScreen(false)
             addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
         }
 
@@ -57,13 +57,17 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
 
-    fun showAddGuestItinScreen() {
+    fun showAddGuestItinScreen(hasError: Boolean = false) {
         if (currentState == null) {
             showSignInWidget()
         }
+
         show(addGuestItinWidget, Presenter.FLAG_CLEAR_TOP)
         OmnitureTracking.trackFindGuestItin()
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(false)
+        if (!hasError) {
+            addGuestItinWidget.resetFields()
+        }
     }
 
     fun showSignInWidget() {
@@ -87,20 +91,22 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             println("Supreeth onSyncFinished")
             signInWidget.viewModel.syncError(trips)
+            println("Supreeth onSyncFinished trips = $trips")
+            println("Supreeth onSyncFinished trips?.size = $trips?.size")
             if (trips?.size == 0 && currentState != addGuestItinWidget.javaClass.name){
                 println("Supreeth onSyncFinished showing signInWidget")
-                show(signInWidget, Presenter.FLAG_CLEAR_TOP)
+                showSignInWidget()
             }
         }
 
         override fun onTripFailedFetchingGuestItinerary() {
             println("Supreeth onTripFailedFetchingGuestItinerary")
-            showAddGuestItinScreen()
+            showAddGuestItinScreen(true)
         }
 
         override fun onTripFailedFetchingRegisteredUserItinerary() {
             println("Supreeth onTripFailedFetchingRegisteredUserItinerary")
-            showAddGuestItinScreen()
+            showAddGuestItinScreen(true)
         }
     }
 }

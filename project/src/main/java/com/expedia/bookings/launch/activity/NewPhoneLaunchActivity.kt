@@ -161,6 +161,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onBackPressed() {
         if (viewPager.currentItem == PAGER_POS_ITIN) {
             println("Supreeth onBackPressed")
+//            if ((itinListFragment?.mSignInPresenter?.currentState == itinListFragment?.mSignInPresenter?.itinFetchProgressWidget?.javaClass?.name)) {
+//                return
+//            }
             if ((itinListFragment?.mSignInPresenter?.back() ?: false)) {
                 println("Supreeth onBackPressed inside IF")
                 showHideToolBar(true)
