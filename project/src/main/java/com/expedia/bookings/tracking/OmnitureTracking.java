@@ -2905,6 +2905,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
 	private static final String ITIN_CHANGE_POSA = "App.Itinerary.POSa";
 	private static final String ITIN_HOTEL_INFO_EDIT_ROOM = "App.Itinerary.Hotel.Info.EditRoom";
+	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
@@ -6061,6 +6062,11 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
 		s.setEvar(37, paymentType.getOmnitureTrackingCode());
 		s.track();
+	}
+
+	public static void trackItinRefresh() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_USER_REFRESH);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinUserRating() {
