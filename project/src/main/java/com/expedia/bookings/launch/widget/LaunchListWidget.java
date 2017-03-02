@@ -1,5 +1,9 @@
 package com.expedia.bookings.launch.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import android.content.Context;
@@ -12,10 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.SlideInItemAnimator;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
@@ -23,10 +27,6 @@ import com.expedia.model.UserLoginStateChangedModel;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -39,13 +39,6 @@ public class LaunchListWidget extends RecyclerView {
 	private View header;
 	boolean showLobHeader = false;
 
-	private final ItineraryManager.ItinerarySyncAdapter itinerarySyncListener = new ItineraryManager.ItinerarySyncAdapter() {
-		@Override
-		public void onSyncFinished(Collection<Trip> trips) {
-			notifyDataSetChanged();
-		}
-	};
-
 	@Inject
 	UserLoginStateChangedModel userLoginStateChangedModel;
 
@@ -54,16 +47,6 @@ public class LaunchListWidget extends RecyclerView {
 		TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LaunchListWidget);
 		showLobHeader = typedArray.getBoolean(R.styleable.LaunchListWidget_show_lob_in_header, false);
 		typedArray.recycle();
-	}
-
-	public void visibilityChanged(boolean visible) {
-		if (visible) {
-			ItineraryManager.getInstance().addSyncListener(itinerarySyncListener);
-			notifyDataSetChanged();
-		}
-		else {
-			ItineraryManager.getInstance().removeSyncListener(itinerarySyncListener);
-		}
 	}
 
 	@Override
@@ -77,11 +60,11 @@ public class LaunchListWidget extends RecyclerView {
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
 		adapter = new LaunchListAdapter(getContext(), header);
+		adapter.addSyncListener();
 		setAdapter(adapter);
+		setItemAnimator(new SlideInItemAnimator(this));
 		addItemDecoration(new LaunchListDividerDecoration(getContext()));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
-
-		ItineraryManager.getInstance().addSyncListener(itinerarySyncListener);
 
 		userLoginStateChangedModel.getUserLoginStateChanged().debounce(200, TimeUnit.MILLISECONDS)
 			.observeOn(AndroidSchedulers.mainThread())
@@ -181,8 +164,7 @@ public class LaunchListWidget extends RecyclerView {
 		adapter.onHasInternetConnectionChange(enabled);
 	}
 
-	private void notifyDataSetChanged() {
+	public void notifyDataSetChanged() {
 		adapter.updateState();
 	}
-
 }
