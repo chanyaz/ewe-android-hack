@@ -260,14 +260,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showSignInCard()) {
 			items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 		}
+		if (showActiveItin()) {
+			items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
+		}
 		if (isBucketedForMemberDeal()) {
 			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 		}
 		if (userBucketedForPopularHotels()) {
 			items.add(new LaunchDataItem(LaunchDataItem.POPULAR_HOTELS));
-		}
-		if (showActiveItin()) {
-			items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
 		}
 
 		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
