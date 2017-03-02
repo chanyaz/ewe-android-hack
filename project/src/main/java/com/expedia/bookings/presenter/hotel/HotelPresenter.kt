@@ -156,15 +156,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
+        presenter.viewModel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
 
-        presenter.viewmodel.searchingForHotelsDateTime.subscribe {
+        presenter.viewModel.searchingForHotelsDateTime.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
         }
-        presenter.viewmodel.hotelResultsObservable.subscribe {
+        presenter.viewModel.hotelResultsObservable.subscribe {
             searchTrackingBuilder.markResultsProcessed()
         }
-        presenter.viewmodel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
+        presenter.viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
             searchTrackingBuilder.markApiResponseReceived()
         }
         presenter.adapter.allViewsLoadedTimeObservable.subscribe {
@@ -176,16 +176,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
-        presenter.viewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
-        presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
-        presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        presenter.viewmodel.hotelResultsObservable.subscribe { hotelSearchResponse ->
+        presenter.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
+        presenter.viewModel.errorObservable.subscribe { show(errorPresenter) }
+        presenter.viewModel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        presenter.viewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
             if (!isBucketedForPerceivedInstant()) {
                 searchTrackingBuilder.searchParams(hotelSearchParams)
                 searchTrackingBuilder.searchResponse(hotelSearchResponse)
             }
         }
-        presenter.viewmodel.addHotelResultsObservable.subscribe { hotelSearchResponse ->
+        presenter.viewModel.addHotelResultsObservable.subscribe { hotelSearchResponse ->
             if (isBucketedForPerceivedInstant()) {
                 searchTrackingBuilder.searchParams(hotelSearchParams)
                 searchTrackingBuilder.searchResponse(hotelSearchResponse)
@@ -840,7 +840,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         } else {
             // Hotel region search
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
-            resultsPresenter.viewmodel.paramsSubject.onNext(params)
+            resultsPresenter.viewModel.paramsSubject.onNext(params)
         }
     }
 

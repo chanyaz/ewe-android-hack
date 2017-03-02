@@ -122,9 +122,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
-    val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
-        userFilterChoices.minPrice = p.first
-        userFilterChoices.maxPrice = p.second
+    val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { minMaxPair ->
+        userFilterChoices.minPrice = minMaxPair.first
+        userFilterChoices.maxPrice = minMaxPair.second
         trackHotelFilterPriceSlider()
 
         handleFiltering()
@@ -140,15 +140,15 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         if (s.length == 0) trackingDone = false
     }
 
-    val favoriteFilteredObserver: Observer<Boolean> = endlessObserver {
-        userFilterChoices.favorites = it
+    val favoriteFilteredObserver: Observer<Boolean> = endlessObserver { filterFavorites ->
+        userFilterChoices.favorites = filterFavorites
         handleFiltering()
     }
 
-    val vipFilteredObserver: Observer<Boolean> = endlessObserver {
-        userFilterChoices.isVipOnlyAccess = it
+    val vipFilteredObserver: Observer<Boolean> = endlessObserver { vipOnly ->
+        userFilterChoices.isVipOnlyAccess = vipOnly
         handleFiltering()
-        trackHotelFilterVIP(it)
+        trackHotelFilterVIP(vipOnly)
     }
 
     val selectAmenity: Observer<Int> = endlessObserver { amenityId ->
