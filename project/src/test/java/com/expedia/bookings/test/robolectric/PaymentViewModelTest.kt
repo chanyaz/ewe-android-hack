@@ -10,6 +10,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemFlightV2
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarCreateTripResponse
 import com.expedia.bookings.data.cars.CarVendor
 import com.expedia.bookings.data.cars.CreateTripCarOffer
@@ -29,9 +30,11 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -263,6 +266,30 @@ class PaymentViewModelTest {
         cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Payment Method")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "Credit card, pay with points")
         pwpSmallIconTestSubscriber.assertValues(false, true, false)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPaymentTileWithPaymentABTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
+        SettingUtils.save(getContext(), R.string.preference_enable_payment_traveler_updated_strings, true)
+
+        var viewModel: PaymentViewModel = PaymentViewModel(getContext())
+        viewModel.cardTitle.subscribe(cardTitleTestSubscriber)
+        viewModel.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
+
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+
+        viewModel.isRedeemable.onNext(false)
+
+        //User is paying with points and card
+        viewModel.splitsType.onNext(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
+
+        //User has not filled billing Info
+        viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
+        viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
+        cardSubtitleTestSubscriber.assertValues("","Enter credit card")
+        cardTitleTestSubscriber.assertValues("Enter payment details", "Enter payment details")
     }
 
     @Test

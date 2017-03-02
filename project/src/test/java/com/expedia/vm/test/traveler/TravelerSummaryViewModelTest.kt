@@ -4,17 +4,21 @@ import android.app.Activity
 import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSummaryViewModel
+import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -47,6 +51,32 @@ class TravelerSummaryViewModelTest {
         Ui.getApplication(activity).defaultTravelerComponent()
         summaryVM = TravelerSummaryViewModel(activity)
 
+    }
+
+    @Test
+    fun emptyStateDefaultAfterInitWithTravelerInfoAbTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
+        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_enable_payment_traveler_updated_strings, true)
+
+        var expectedTitle = resources.getString(R.string.enter_traveler_details)
+        val summaryVM = TravelerSummaryViewModel(activity)
+        assertEquals(expectedTitle, summaryVM.getTitle())
+        assertEquals("", summaryVM.getSubtitle())
+    }
+
+    @Test
+    fun updateToIncompleteOneTravelerNoNameWithTravelerInfoAbTest() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
+        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_enable_payment_traveler_updated_strings, true)
+        var expectedEmptyTitle = resources.getString(R.string.enter_traveler_details)
+        val summaryVM = TravelerSummaryViewModel(activity)
+
+        mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
+
+        assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
+        assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
     @Test

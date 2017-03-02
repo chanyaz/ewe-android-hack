@@ -4,13 +4,17 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
 
 class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context) {
+
+    val isFeatureEnabledForTravelerInfoTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo, R.string.preference_enable_payment_traveler_updated_strings)
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -21,7 +25,8 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
     override fun getTitle(): String {
         var traveler = getFirstTraveler()
         if (traveler?.fullName.isNullOrEmpty()) {
-            return resources.getString(R.string.checkout_enter_traveler_details)
+            return resources.getString(if (isFeatureEnabledForTravelerInfoTest) R.string.enter_traveler_details
+                                        else R.string.checkout_enter_traveler_details)
         } else {
             return traveler!!.fullName
         }
@@ -36,7 +41,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
 
         var traveler = getFirstTraveler()
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
-            return resources.getString(R.string.enter_traveler_details)
+            return if (isFeatureEnabledForTravelerInfoTest) "" else resources.getString(R.string.enter_traveler_details)
         } else {
             return traveler!!.birthDate!!.toString("MM/dd/yyyy")
         }

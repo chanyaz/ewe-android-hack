@@ -11,12 +11,15 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.extensions.LineOfBusinessExtensions
 import com.expedia.bookings.data.extensions.isUniversalCheckout
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -67,6 +70,7 @@ open class PaymentViewModel(val context: Context) {
     val onStoredCardChosen = PublishSubject.create<Unit>()
     val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
     val ccFeeDisclaimer = PublishSubject.create<String>()
+    val isFeatureEnabledForPaymentInfoTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo, R.string.preference_enable_payment_traveler_updated_strings)
 
     init {
         Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
@@ -83,11 +87,9 @@ open class PaymentViewModel(val context: Context) {
                         resources.getString(R.string.checkout_paying_with_points_only_line1),
                         resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else if (it.info == null) {
-                val title = resources.getString(R.string.checkout_enter_payment_details)
-                val subTitle = resources.getString(
-                        if (it.isRedeemable) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
+                val titleSubtitlePair = getTitleAndSubtitleNoInfo(it.isRedeemable)
                 tempCard.onNext(Pair("", getCardIcon(null)))
-                setPaymentTileInfo(null, title, subTitle, it.splitsType, it.status)
+                setPaymentTileInfo(null, titleSubtitlePair.first, titleSubtitlePair.second, it.splitsType, it.status)
             } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
                 val title = getCardTypeAndLast4Digits(it.info.paymentType, it.info.number)
                 tempCard.onNext(Pair("", getCardIcon(it.info.paymentType)))
@@ -165,6 +167,26 @@ open class PaymentViewModel(val context: Context) {
             enableMenuItem.onNext(isEnabled)
             menuVisibility.onNext(isEnabled)
         }
+    }
+
+    fun getTitleAndSubtitleNoInfo(isRedeemable: Boolean): Pair<String, String> {
+        val isUniversalCheckout = LineOfBusinessExtensions.isUniversalCheckout(lineOfBusiness.value, context)
+        var title: String
+        var subTitle: String
+        if (isUniversalCheckout && isFeatureEnabledForPaymentInfoTest) {
+            title = resources.getString(R.string.enter_payment_information)
+            if (billingInfoAndStatusUpdate.value.second == ContactDetailsCompletenessStatus.DEFAULT) {
+                subTitle = ""
+            } else {
+                subTitle = resources.getString(R.string.checkout_hotelsv2_enter_payment_details_line2)
+            }
+        } else {
+            title = resources.getString(R.string.checkout_enter_payment_details)
+            subTitle = resources.getString(
+                    if (isRedeemable) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
+        }
+        return Pair(title, subTitle)
+
     }
 
     @VisibleForTesting

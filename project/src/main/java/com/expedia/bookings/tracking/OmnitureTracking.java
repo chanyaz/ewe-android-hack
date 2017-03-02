@@ -5442,6 +5442,9 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_payment_traveler_updated_strings)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo);
+		}
 
 		s.track();
 	}
