@@ -1,10 +1,10 @@
 package com.expedia.bookings.test.phone.newflights
 
 import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.ViewInteraction
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.test.espresso.matcher.ViewMatchers.*
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.ViewActions
 
@@ -27,4 +27,7 @@ object FlightsOverviewScreen {
 
     fun priceChangeTextView() = onView(withId(R.id.price_change_text))
 
+    @JvmStatic fun clickOnCheckoutButton(): ViewInteraction {
+        return onView(withId(R.id.checkout_button)).perform(click());
+    }
 }
