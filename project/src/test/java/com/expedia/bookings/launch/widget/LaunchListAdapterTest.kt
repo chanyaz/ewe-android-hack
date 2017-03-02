@@ -120,10 +120,9 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun getItemViewType_ShowingPopularHotelsWithVariant1() {
+    fun getItemViewType_ShowingPopularHotelsVerifyText() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
-                AbacusUtils.TripsPopularHotelsVariant.VARIANT1.ordinal)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
         SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -137,28 +136,7 @@ class LaunchListAdapterTest {
         sut.onBindViewHolder(viewHolder, 1)
 
         assertEquals("Find Hotels Near You", viewHolder.titleView.text.toString())
-        assertEquals("Popular Hotels Tonight", viewHolder.subTitleView.text.toString())
-    }
-
-    @Test
-    fun getItemViewType_ShowingPopularHotelsWithVariant2() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
-                AbacusUtils.TripsPopularHotelsVariant.VARIANT2.ordinal)
-
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val recyclerView = RecyclerView(context)
-        recyclerView.layoutManager = layoutManager
-        createSystemUnderTest()
-        recyclerView.adapter = sut
-        givenWeHaveCurrentLocationAndHotels()
-
-        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchDataItem.POPULAR_HOTELS) as BigImageLaunchViewHolder
-        sut.onBindViewHolder(viewHolder, 1)
-
-        assertEquals("Popular Hotels Tonight", viewHolder.titleView.text.toString())
-        assertEquals("Find Hotels Near You", viewHolder.subTitleView.text.toString())
+        assertEquals("Recommended hotels tonight", viewHolder.subTitleView.text.toString())
     }
 
     @Test

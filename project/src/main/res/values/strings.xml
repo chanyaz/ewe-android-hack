@@ -4865,7 +4865,7 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Popular Hotels Tonight</string>
+    <string name="launch_find_recommended_hotels">Recommended hotels tonight</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>
     <!-- Check your email for itinerary alert message-->
