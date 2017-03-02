@@ -1,14 +1,16 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.concurrent.TimeUnit;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -26,7 +28,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^I wait for results to load$")
 	public void waitForResultsToLoad() throws Throwable {
-		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 20, TimeUnit.SECONDS));
+		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 30, TimeUnit.SECONDS));
 	}
 
 	@Then("^on FSR the destination is \"(.*?)\"$")
@@ -42,7 +44,7 @@ public class SearchResultsScreenSteps {
 
 	@Then("^I click on search icon to go to search form$")
 	public void clickOnSearchIcon() throws Throwable {
-		onView(withId(R.id.sort_filter_button)).perform(waitFor(isCompletelyDisplayed(), 20, TimeUnit.SECONDS));
+		waitForResultsToLoad();
 		onView(withId(R.id.menu_search)).perform(click());
 	}
 

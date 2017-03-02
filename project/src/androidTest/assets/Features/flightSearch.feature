@@ -1,6 +1,6 @@
 Feature: Flights Search
 
-  @Flights @SearchScreen @Prod
+  @Flights @FlightSearch @Prod
   Scenario: Verifying if round trip International search works
 
     Given I launch the App
@@ -19,7 +19,7 @@ Feature: Flights Search
     And Validate that flight search results are displayed
 
 
-  @Flights @SearchScreen @Prod
+  @Flights @FlightSearch @Prod
   Scenario: Verifying if one way International search works
 
     Given I launch the App
@@ -37,7 +37,7 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @SearchScreen @Prod @EBOnly
+  @Flights @FlightSearch @Prod @EBOnly
   Scenario: Verifying if round trip International search works for Indonesia
 
     Given I launch the App
@@ -53,7 +53,7 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @SearchScreen @Prod @EBonly
+  @Flights @FlightSearch @Prod @EBonly
   Scenario: Verifying if one-way trip International search works for Indonesia
 
     Given I launch the App
@@ -70,7 +70,7 @@ Feature: Flights Search
     And Validate that flight search results are displayed
 
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Verifying UI fields visibility on round trip search form
     Given I launch the App
     When I launch "Flights" LOB
@@ -78,7 +78,7 @@ Feature: Flights Search
     And arrival field exists for flights search form
     And calendar field exists for flights search form
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Verifying UI fields visibility on one way trip search form
     Given I launch the App
     And I launch "Flights" LOB
@@ -88,7 +88,7 @@ Feature: Flights Search
     And arrival field exists for flights search form
 
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario Outline: UI fields validation on travellers form adults
     Given I launch the App
     And I launch "Flights" LOB
@@ -114,7 +114,7 @@ Feature: Flights Search
       | 6             | 5           |
 
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario Outline: UI fields validation on travellers form children
     Given I launch the App
     And I launch "Flights" LOB
@@ -143,7 +143,7 @@ Feature: Flights Search
       | 5             | 4           |
 
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Calender validation - Calender widget is displayed after selecting Flight locations
     Given I launch the App
     And I launch "Flights" LOB
@@ -157,7 +157,7 @@ Feature: Flights Search
     And Validate that Done button is disabled
     And Validate that Previous month arrow is displayed: false
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Calender fields/text validation for Search Screen when no dates are selected and a Round trip.
     Given I launch the App
     And I launch "Flights" LOB
@@ -169,7 +169,7 @@ Feature: Flights Search
     And Validate that Next month arrow is displayed: true
     And Validate that "Select departure date" text below calender title is displayed
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Calender fields/text validation for Search Screen when selecting dates and a Round trip
     Given I launch the App
     And I launch "Flights" LOB
@@ -186,7 +186,7 @@ Feature: Flights Search
       | start_date | 5  |
       | end_date   | 10 |
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Calender fields/text validation for Search Screen when a Round trip and selecting departure date only
     Given I launch the App
     And I launch "Flights" LOB
@@ -199,7 +199,7 @@ Feature: Flights Search
     And Validate the selected date on calender button
       | start_date | 5  |
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Calender fields/text validation for Search Screen when selecting dates and a OneWay trip
     Given I launch the App
     And I launch "Flights" LOB
@@ -214,7 +214,7 @@ Feature: Flights Search
       | start_date | 5  |
       | isRoundTrip | false  |
 
-  @Flights @SearchScreen
+  @Flights @FlightSearch
   Scenario: Previous/Next month button validation of Calender Widget
     Given I launch the App
     And I launch "Flights" LOB
@@ -229,7 +229,7 @@ Feature: Flights Search
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
 
-  @Flights @SearchScreen @Prod
+  @Flights @FlightSearch @Prod
   Scenario: Verify search form retains detaild of last search at re-search from FSR
     Given I launch the App
     And I launch "Flights" LOB

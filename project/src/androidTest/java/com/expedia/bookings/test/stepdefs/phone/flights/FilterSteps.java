@@ -21,7 +21,7 @@ import cucumber.api.java.en.Then;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class SortAndFilterScreenSteps {
+public class FilterSteps {
 
 	@Then("^Validate that default flight duration is set to maximum$")
 	public void validateDefaultFlightDuration() throws Throwable {

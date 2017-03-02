@@ -36,10 +36,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.CheckoutToolbar;
 import com.expedia.bookings.widget.FilterRangeSeekBar;
 import com.expedia.bookings.widget.FilterSeekBar;
 import com.expedia.bookings.widget.StarRatingBar;
-import com.expedia.bookings.widget.CheckoutToolbar;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -358,6 +358,70 @@ public final class ViewActions {
 				return "Get total list items count";
 			}
 		};
+	}
+
+	public static ViewAction getFlightPriceAtPosition(final int position, final AtomicReference<String> price) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(RecyclerView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View cell = ((RecyclerView) view).getChildAt(position);
+				TextView priceView = (TextView) cell.findViewById(R.id.price_text_view);
+				price.set((String) priceView.getText());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get view at position " + position;
+			}
+		};
+	}
+
+	public static ViewAction getFlightTimeAtPosition(final int position, final AtomicReference<String> time) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(RecyclerView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View cell = ((RecyclerView) view).getChildAt(position);
+				TextView timeView = (TextView) cell.findViewById(R.id.flight_time_detail_text_view);
+				time.set((String) timeView.getText());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get view at position " + position;
+			}
+		};
+	}
+
+	public static ViewAction getFlightDurationAtPosition(final int pos, final AtomicReference<String> duration) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(RecyclerView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				View cell = ((RecyclerView) view).getChildAt(pos);
+				TextView durationView = (TextView) cell.findViewById(R.id.flight_duration_text_view);
+				duration.set((String) durationView.getText());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get view at position " + pos;
+			}
+		};
+
 	}
 
 	//View Action to get the child count of list view items

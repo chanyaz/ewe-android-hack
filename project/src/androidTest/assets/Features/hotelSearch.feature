@@ -1,4 +1,4 @@
-Feature: Getting hotel results from the App
+Feature: Hotel Search
 
   @Int @HotelSearch
   Scenario Outline: Successfully searching for hotels with different combinations.

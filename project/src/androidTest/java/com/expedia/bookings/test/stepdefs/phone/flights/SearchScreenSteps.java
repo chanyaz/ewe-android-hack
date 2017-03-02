@@ -2,18 +2,23 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
+
 import android.support.test.espresso.matcher.RootMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.BuildConfig;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -139,7 +144,7 @@ public class SearchScreenSteps {
 
 	@And("^I make a flight search with following parameters$")
 	public void flightSearchCall(Map<String, String> parameters) throws Throwable {
-		DataUtil.dataSet = parameters;
+		TestUtilFlights.dataSet = parameters;
 		enterSourceAndDestination(parameters);
 		pickDates(parameters);
 		selectTravelers(parameters);
@@ -148,15 +153,15 @@ public class SearchScreenSteps {
 
 	@And("^search criteria is retained on the search form$")
 	public void checkFormDetails() throws Throwable {
-		onView(withId(R.id.origin_card)).check(matches(withText(containsString(DataUtil.dataSet.get("source")))));
-		onView(withId(R.id.destination_card)).check(matches(withText(containsString(DataUtil.dataSet.get("destination")))));
-		int totalNumberOfTravelers = Integer.parseInt(DataUtil.dataSet.get("adults")) + Integer.parseInt(DataUtil.dataSet.get("child"));
+		onView(withId(R.id.origin_card)).check(matches(withText(containsString(TestUtilFlights.dataSet.get("source")))));
+		onView(withId(R.id.destination_card)).check(matches(withText(containsString(TestUtilFlights.dataSet.get("destination")))));
+		int totalNumberOfTravelers = Integer.parseInt(TestUtilFlights.dataSet.get("adults")) + Integer.parseInt(TestUtilFlights.dataSet.get("child"));
 		onView(withId(R.id.traveler_card)).check(matches(withText(containsString(String.valueOf(totalNumberOfTravelers) + " Traveler"))));
 	}
 
 	@And("^I trigger flight search again with following parameters$")
 	public void remakeFlightSearch(Map<String, String> parameters) throws Throwable {
-		DataUtil.dataSet = parameters;
+		TestUtilFlights.dataSet = parameters;
 		SearchScreen.origin().perform(click());
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
 		SearchScreen.selectLocation(parameters.get("source_suggest"));
@@ -191,11 +196,11 @@ public class SearchScreenSteps {
 	}
 
 	private void changeNumberOfAdults(int previousNumberOfAdults) {
-		while (previousNumberOfAdults < Integer.parseInt(DataUtil.dataSet.get("adults"))) {
+		while (previousNumberOfAdults < Integer.parseInt(TestUtilFlights.dataSet.get("adults"))) {
 			SearchScreen.incrementAdultsButton();
 			previousNumberOfAdults++;
 		}
-		while (previousNumberOfAdults > Integer.parseInt(DataUtil.dataSet.get("adults"))) {
+		while (previousNumberOfAdults > Integer.parseInt(TestUtilFlights.dataSet.get("adults"))) {
 			SearchScreen.removeAdultsButton().perform(click());
 			previousNumberOfAdults--;
 		}
@@ -203,14 +208,14 @@ public class SearchScreenSteps {
 
 
 	private void changeNumberOfChildren(int previousNumberOfChildren) {
-		int adult = Integer.parseInt(DataUtil.dataSet.get("adults"));
-		int child = Integer.parseInt(DataUtil.dataSet.get("child"));
+		int adult = Integer.parseInt(TestUtilFlights.dataSet.get("adults"));
+		int child = Integer.parseInt(TestUtilFlights.dataSet.get("child"));
 		this.totalTravelers = adult + child;
-		while (previousNumberOfChildren < Integer.parseInt(DataUtil.dataSet.get("child"))) {
+		while (previousNumberOfChildren < Integer.parseInt(TestUtilFlights.dataSet.get("child"))) {
 			SearchScreen.incrementChildrenButton();
 			previousNumberOfChildren++;
 		}
-		while (previousNumberOfChildren > Integer.parseInt(DataUtil.dataSet.get("child"))) {
+		while (previousNumberOfChildren > Integer.parseInt(TestUtilFlights.dataSet.get("child"))) {
 			SearchScreen.removeChildButton().perform(click());
 			previousNumberOfChildren--;
 		}
@@ -218,7 +223,7 @@ public class SearchScreenSteps {
 
 	@And("^on FSR the date is as user selected$")
 	public void verifyDate() throws Throwable {
-		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(DataUtil.dataSet.get("start_date")));
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(TestUtilFlights.dataSet.get("start_date")));
 		String date = String.valueOf(startDate.getDayOfMonth());
 		String year = String.valueOf(startDate.getYear());
 		String month = getMonth(startDate.getMonthOfYear());
@@ -267,7 +272,7 @@ public class SearchScreenSteps {
 
 	@Then("^I verify date is as user selected for inbound flight$")
 	public void verifyDateForInboundFlight() throws Throwable {
-		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(DataUtil.dataSet.get("end_date")));
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(TestUtilFlights.dataSet.get("end_date")));
 		String date = String.valueOf(startDate.getDayOfMonth());
 		String year = String.valueOf(startDate.getYear());
 		String month = getMonth(startDate.getMonthOfYear());
