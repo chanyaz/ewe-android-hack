@@ -597,4 +597,17 @@ public class User implements JSONable {
 		UserAccountRefresher userAccountRefresher = new UserAccountRefresher(context, LineOfBusiness.NONE, listener);
 		userAccountRefresher.forceAccountRefresh();
 	}
+
+	public boolean hasAtLeastOneExpiredStoredCard() {
+		boolean hasAtLeastOneExpiredStoredCard = false;
+		if (mStoredCreditCards != null) {
+			for (StoredCreditCard creditCard : mStoredCreditCards) {
+				if (creditCard.isExpired()) {
+					hasAtLeastOneExpiredStoredCard = true;
+					break;
+				}
+			}
+		}
+		return hasAtLeastOneExpiredStoredCard;
+	}
 }
