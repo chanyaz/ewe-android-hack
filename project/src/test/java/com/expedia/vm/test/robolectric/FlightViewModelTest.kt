@@ -6,6 +6,7 @@ import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.flights.FlightViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -93,5 +94,14 @@ class FlightViewModelTest {
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
+    }
+
+    @Test
+    fun testFlightOfferContentDescription() {
+        createExpectedFlightLeg()
+        createSystemUnderTest()
+        val expectedResult = SpannableBuilder()
+        expectedResult.append("Flight time is 01:10:00 to 12:20:00 plus 1d with price $200. Flying with UnitedDelta. The flight duration is 19 hours 10 minutes with 1 stops\\u0020Button")
+        assertEquals(sut.getFlightContentDesc(), expectedResult.build())
     }
 }

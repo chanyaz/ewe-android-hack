@@ -28,7 +28,7 @@ public class FlightAndPackagesRulesActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
@@ -62,7 +62,7 @@ public class FlightAndPackagesRulesActivity extends FragmentActivity {
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
+		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override

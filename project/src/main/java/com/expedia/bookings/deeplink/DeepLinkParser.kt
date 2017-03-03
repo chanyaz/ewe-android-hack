@@ -1,5 +1,6 @@
 package com.expedia.bookings.deeplink
 
+import android.content.res.AssetManager
 import android.net.Uri
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -7,17 +8,18 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import java.net.URLDecoder
 
-open class DeepLinkParser {
+open class DeepLinkParser(assets: AssetManager) {
 
     protected val TAG = "ExpediaDeepLink"
+    protected val ASSETS = assets
 
     fun parseDeepLink(data: Uri) : DeepLink {
         val scheme = data.scheme
         if (isUniversalLink(scheme)) {
-            return UniversalDeepLinkParser().parseUniversalDeepLink(data)
+            return UniversalDeepLinkParser(ASSETS).parseUniversalDeepLink(data)
         }
         else {
-            return CustomDeepLinkParser().parseCustomDeepLink(data)
+            return CustomDeepLinkParser(ASSETS).parseCustomDeepLink(data)
         }
     }
 

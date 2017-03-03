@@ -674,7 +674,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		}
 	}
 
-	private void finishCollapse() {
+	protected void finishCollapse() {
 		mHeaderImageContainer.setEnabled(false);
 		mHeaderGallery.showPhotoCount = false;
 		if (mHeaderGallery.getSelectedViewHolder() != null) {

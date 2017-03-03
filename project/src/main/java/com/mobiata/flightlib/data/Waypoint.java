@@ -333,7 +333,7 @@ public class Waypoint implements JSONable {
 		DateTime cal1 = getDateTime(POSITION_GATE, ACCURACY_SCHEDULED);
 		DateTime cal2 = getDateTime(POSITION_GATE, ACCURACY_ACTUAL);
 		if (cal1 != null && cal2 != null) {
-			int delay = DateTimeUtils.compareDateTimes(cal1, cal2);
+			int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
 			return new Delay(delay, Delay.DELAY_GATE_ACTUAL);
 		}
 
@@ -344,7 +344,7 @@ public class Waypoint implements JSONable {
 			cal1 = getDateTime(POSITION_GATE, ACCURACY_SCHEDULED);
 			cal2 = getDateTime(POSITION_GATE, ACCURACY_ESTIMATED);
 			if (cal1 != null && cal2 != null) {
-				int delay = DateTimeUtils.compareDateTimes(cal1, cal2);
+				int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
 				return new Delay(delay, Delay.DELAY_GATE_ESTIMATED);
 			}
 		}
@@ -353,7 +353,7 @@ public class Waypoint implements JSONable {
 		cal1 = getDateTime(POSITION_RUNWAY, ACCURACY_SCHEDULED);
 		cal2 = getDateTime(POSITION_RUNWAY, ACCURACY_ACTUAL);
 		if (cal1 != null && cal2 != null) {
-			int delay = DateTimeUtils.compareDateTimes(cal1, cal2);
+			int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
 			return new Delay(delay, Delay.DELAY_RUNWAY_ACTUAL);
 		}
 
@@ -363,7 +363,7 @@ public class Waypoint implements JSONable {
 			cal1 = getDateTime(POSITION_GATE, ACCURACY_SCHEDULED);
 			cal2 = getDateTime(POSITION_GATE, ACCURACY_ESTIMATED);
 			if (cal1 != null && cal2 != null) {
-				int delay = DateTimeUtils.compareDateTimes(cal1, cal2);
+				int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
 				return new Delay(delay, Delay.DELAY_GATE_ESTIMATED);
 			}
 		}
@@ -372,7 +372,7 @@ public class Waypoint implements JSONable {
 		cal1 = getDateTime(POSITION_RUNWAY, ACCURACY_SCHEDULED);
 		cal2 = getDateTime(POSITION_RUNWAY, ACCURACY_ESTIMATED);
 		if (cal1 != null && cal2 != null) {
-			int delay = DateTimeUtils.compareDateTimes(cal1, cal2);
+			int delay = DateTimeUtils.getMinutesBetween(cal1, cal2);
 			return new Delay(delay, Delay.DELAY_RUNWAY_ESTIMATED);
 		}
 

@@ -112,7 +112,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_review_list, container, false);
-		if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			mHeaderView = inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
 		return view;
@@ -445,7 +445,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			loadedReview.mReview = review;
 
 			String body = review.getBody();
-			if (ExpediaBookingApp.useTabletInterface(getActivity()) && body.length() > TABLET_BODY_LENGTH_CUTOFF) {
+			if (ExpediaBookingApp.useTabletInterface() && body.length() > TABLET_BODY_LENGTH_CUTOFF) {
 				loadedReview.mBodyReduced = body.substring(0, TABLET_BODY_LENGTH_CUT);
 				loadedReview.mBodyReduced += "...";
 				loadedReview.mBodyWasReduced = true;

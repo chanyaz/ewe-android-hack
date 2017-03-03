@@ -30,8 +30,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.expedia.account.Config;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -63,6 +61,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
 	AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -112,7 +113,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
@@ -292,7 +293,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	private boolean shouldBail() {
-		boolean isPhone = !ExpediaBookingApp.useTabletInterface(this);
+		boolean isPhone = !ExpediaBookingApp.useTabletInterface();
 		return isPhone && notPortraitOrientation;
 	}
 
@@ -350,7 +351,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 			String message = getString(R.string.lawyer_label_atol_long_message);
 			String html;
-			if (ExpediaBookingApp.useTabletInterface(this)) {
+			if (ExpediaBookingApp.useTabletInterface()) {
 				html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
 			}
 			else {

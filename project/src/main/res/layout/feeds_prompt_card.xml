@@ -12,7 +12,8 @@
     <LinearLayout
         android:id="@+id/top_half"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="109dp"
+        android:layout_gravity="top"
         android:gravity="bottom|left"
         android:orientation="vertical">
 
@@ -20,50 +21,55 @@
             android:id="@+id/first_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
+            android:paddingLeft="11dp"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="16sp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/second_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:paddingLeft="10dp"
-            android:paddingBottom="12dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="11dp"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:gravity="right"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="20dp">
+        android:gravity="right"
+        android:orientation="horizontal">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/button_one"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:visibility="gone"
-            android:textColor="#4CA0FF"
-            android:textSize="18sp" />
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/exp_launch_blue"
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/button_two"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="25dp"
-            android:visibility="gone"
-            android:textColor="#4CA0FF"
-            android:textSize="18sp" />
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:textColor="@color/exp_launch_blue"
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

@@ -1,6 +1,6 @@
 Feature: Flights Search Results Screen Tests
 
-  @Flights @Search @FlightResults @WIP
+  @Flights @Search @FlightResults
   Scenario: Verifying data consistency through Search and FSR screens for round trip search
     Given I launch the App
     And I launch "Flights" LOB
@@ -13,12 +13,14 @@ Feature: Flights Search Results Screen Tests
       | end_date            | 25                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
-    And on inbound FSR the number of traveller are as user selected
+    And on outbound FSR the number of traveller are as user selected
     And I select first flight
     And I verify date is as user selected for inbound flight
-    And on outbound FSR the number of traveller are as user selected
+    And on inbound FSR the number of traveller are as user selected
 
 
   @Flights @Search @FlightResults
@@ -35,9 +37,11 @@ Feature: Flights Search Results Screen Tests
       | end_date            | 10                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
-    And on inbound FSR the number of traveller are as user selected
+    And on outbound FSR the number of traveller are as user selected
 
 
   @Flights @Search @FlightResults
@@ -45,7 +49,6 @@ Feature: Flights Search Results Screen Tests
     Given I launch the App
     And I bucket the following tests
       | RoundTripOnFlightsFSR |
-      | UrgencyMessegingOnFSR |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -56,28 +59,30 @@ Feature: Flights Search Results Screen Tests
       | end_date            | 25                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
-    Then Validate that flight time field is displayed: true
-    And Validate that price field is displayed: true
-    And Validate that airline name field is displayed: true
-    And Validate that flight duration field is displayed: true
-    And Validate that round trip header is displayed: true
-    And Name of airline is "<AirlineName>"
-    And Price of the flight is <price>
-    And Duration of the flight is "<duration>"
-    And Timing of the flight is "<timing>"
-    And Number of stops are <number>
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    Then Validate that flight time field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that flight duration field at cell <cellNumber> is displayed: true and isOutBound : true
+    And Validate that round trip header at cell <cellNumber> is displayed: true and isOutBound : true
+    And Name of airline at cell <cellNumber> is "<AirlineName>" and isOutBound : true
+    And Price of the flight at cell <cellNumber> is <price> and isOutBound : true
+    And Duration of the flight at cell <cellNumber> is "<duration>" and isOutBound : true
+    And Timing of the flight at cell <cellNumber> is "<timing>" and isOutBound : true
+    And Number of stops at cell <cellNumber> are <number> and isOutBound : true
 
     Examples:
-      | AirlineName    | price | duration | timing             | number |
-      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      |
+      | AirlineName    | price | duration | timing             | number | cellNumber |
+      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      | 2          |
 
-  @Flights @SearchScreen @WIP
-  Scenario Outline: POS and locale combination
+
+
+  @Flights @SearchScreen @CALocale @Prod
+  Scenario: POS and locale combination
     Given I launch the App
-    And I set the POS to "<POS>"
-    And I change the locale to "<LOCALE>"
+    And I set the POS to "Canada"
     And I launch "Flights" LOB
-    And I select one way trip
     When I make a flight search with following parameters
       | source              | SFO                                      |
       | destination         | DEL                                      |
@@ -87,10 +92,60 @@ Feature: Flights Search Results Screen Tests
       | end_date            | 10                                       |
       | adults              | 3                                        |
       | child               | 2                                        |
-    Then the currency symbol on FSR is "<symbol>"
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    Then the currency symbol at cell 2 on FSR is "$" and isOutBound : true
+
+
+  @Flights @Search @FlightResults
+  Scenario Outline: Data consistency between Outbound and Inbound FSR and cell UI validations
+    Given I launch the App
+    And I bucket the following tests
+      | RoundTripOnFlightsFSR |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I select first flight
+    Then Validate that flight time field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that flight duration field at cell <cellNumber> is displayed: true and isOutBound : false
+    And Validate that round trip header at cell <cellNumber> is displayed: true and isOutBound : false
+    And Name of airline at cell <cellNumber> is "<AirlineName>" and isOutBound : false
+    And Price of the flight at cell <cellNumber> is <price> and isOutBound : false
+    And Duration of the flight at cell <cellNumber> is "<duration>" and isOutBound : false
+    And Timing of the flight at cell <cellNumber> is "<timing>" and isOutBound : false
+    And Number of stops at cell <cellNumber> are <number> and isOutBound : false
 
     Examples:
-      | POS              | LOCALE | symbol |
-      | Unites States    |   AU   |  US$   |
-      | Australia        |   US   |   $    |
+      | AirlineName       | price | duration | timing             | number | cellNumber |
+      | American Airlines | 696   | 2h 35m   | 5:40 pm - 8:15 pm  | 0      | 1          |
 
+  @Flights @Search @FlightResults
+  Scenario: UI validations on the docked outbound header view on inbound FSR
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I select first flight
+    Then Validate that on the selected outbound docked view Flight label is displayed
+    And Validate that on the selected outbound docked view Flight Airline name is displayed
+    And Validate that on the selected outbound docked view Airline time is displayed
+    And Validate the toolbar header text on the selected outbound docked view

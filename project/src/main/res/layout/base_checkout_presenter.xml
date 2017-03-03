@@ -67,6 +67,17 @@
                         android:inflatedId="@+id/payment_info_card_view"
                         android:layout="?attr/paymentWidgetLayout" />
 
+                    <ViewStub
+                        android:id="@+id/material_payment_view_stub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fitsSystemWindows="true"
+                        android:layout_marginLeft="@dimen/card_view_container_margin"
+                        android:layout_marginRight="@dimen/card_view_container_margin"
+                        android:inflatedId="@+id/payment_info_card_view"
+                        android:layout="@layout/material_billing_details_payment_widget" />
+
                     <!-- Insurance -->
 
                     <com.expedia.bookings.widget.InsuranceWidget

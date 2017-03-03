@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -73,7 +74,7 @@ public class GuestPicker extends LinearLayout {
 		mChildAgesLayout = Ui.findView(this, R.id.child_ages_layout);
 		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
 
-		boolean isTablet = getContext().getResources().getBoolean(R.bool.tablet);
+		boolean isTablet = ExpediaBookingApp.useTabletInterface();
 		trackingBase = isTablet ? OmnitureTracking.PICKER_TRACKING_BASE_TABLET :
 			OmnitureTracking.PICKER_TRACKING_BASE_FLIGHT;
 		// Click listeners

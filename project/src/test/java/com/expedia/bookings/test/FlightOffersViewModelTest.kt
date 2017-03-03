@@ -369,7 +369,7 @@ class FlightOffersViewModelTest {
     }
 
     private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
-        val makeResultsObserverMethod = sut.javaClass.getDeclaredMethod("makeResultsObserver")
+        val makeResultsObserverMethod = sut.javaClass.superclass.getDeclaredMethod("makeResultsObserver")
         makeResultsObserverMethod.isAccessible = true
         return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
     }

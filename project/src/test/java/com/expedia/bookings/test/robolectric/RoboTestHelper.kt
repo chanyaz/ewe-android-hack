@@ -16,7 +16,7 @@ object RoboTestHelper {
     fun bucketTests(vararg tests: Int) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }
@@ -24,7 +24,7 @@ object RoboTestHelper {
     fun controlTests(vararg tests: Int) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariate.CONTROL.ordinal)
+            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }

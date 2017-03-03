@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
@@ -13,10 +14,11 @@ import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.util.endlessObserver
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -164,6 +166,8 @@ class HotelRoomRateViewModelTest {
 
     @Test
     fun earnMessageIsShown() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
+        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
@@ -177,6 +181,8 @@ class HotelRoomRateViewModelTest {
 
     @Test
     fun earnMessageIsNotShown() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
+        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, false)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
         hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo

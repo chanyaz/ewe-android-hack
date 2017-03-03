@@ -1,5 +1,9 @@
 package com.expedia.bookings.activity;
 
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -45,7 +49,6 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -53,6 +56,7 @@ import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
@@ -67,13 +71,9 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-import io.fabric.sdk.android.Fabric;
-
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Locale;
-
 import net.danlew.android.joda.JodaTimeAndroid;
+
+import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -95,6 +95,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static boolean sIsFirstLaunchEver = true;
 	private static boolean sIsFirstLaunchOfAppVersion = true;
 	private static boolean sIsTablet = false;
+	private static boolean sIsBucketedForPhablet = false;
 
 	public static boolean isFirstLaunchOfAppVersion() {
 		return sIsFirstLaunchOfAppVersion;
@@ -110,10 +111,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean isInstrumentation() {
 		return sIsInstrumentation;
-	}
-
-	public static boolean isTablet() {
-		return sIsTablet;
 	}
 
 	public static boolean isRobolectric() {
@@ -132,10 +129,15 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		sIsRobolectric = isRobolectric;
 	}
 
+	public static void setIsBucketedForPhablet(boolean isBucketedForPhablet) {
+		sIsBucketedForPhablet = isBucketedForPhablet;
+	}
+
 	private AppStartupTimeLogger appStartupTimeLogger;
 
 	@Override
 	public void onCreate() {
+		FeatureToggleUtil.enableFeatureOnDebugBuild(this, R.string.preference_enable_new_cookies);
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
@@ -288,7 +290,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
 		if (SettingUtils.get(ExpediaBookingApp.this, PREF_FIRST_LAUNCH, true)) {
-			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
 
@@ -307,7 +308,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
 
-		if (BugShakerShim.isBugShakerEnabled(getBaseContext())) {
+		if (BugShakerShim.isBugShakerEnabled(this)) {
 			BugShakerShim.startNewBugShaker(this);
 		}
 	}
@@ -321,7 +322,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		boolean connectingToProduction = (appComponent().endpointProvider().getEndPoint() == EndPoint.PRODUCTION);
 
 		pointOfSaleKey =
-			PointOfSale.init(configHelper, pointOfSaleKey, connectingToProduction, useTabletInterface(this));
+			PointOfSale.init(configHelper, pointOfSaleKey, connectingToProduction, isTablet());
 
 		SettingUtils.save(this, getString(R.string.PointOfSaleKey), pointOfSaleKey);
 
@@ -358,10 +359,24 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	//////////////////////////////////////////////////////////////////////////
 	// All-app utilities
 
-	// Due to a low number of users and a desire to use latest APIs,
-	// we only use tablet UI on ICS+
-	public static boolean useTabletInterface(Context context) {
-		return AndroidUtils.isTablet(context);
+	/**
+	 * Use this method when you need to know if the device is a tablet, regardless of which interface we are showing
+	 * to the user.
+	 */
+	private static boolean isTablet() {
+		return sIsTablet;
+	}
+
+	/**
+	 * Use this method when you need to know whether or not to display the tablet user interface.
+	 */
+	public static boolean useTabletInterface() {
+		if (sIsBucketedForPhablet) {
+			return false;
+		}
+		else {
+			return isTablet();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

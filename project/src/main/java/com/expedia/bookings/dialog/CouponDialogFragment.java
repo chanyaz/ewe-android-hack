@@ -85,7 +85,7 @@ public class CouponDialogFragment extends DialogFragment {
 
 		// TODO: Add a theme that works back to v8
 		ContextThemeWrapper context;
-		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			// Tablet
 			context = new ContextThemeWrapper(getActivity(), R.style.V2_Dialog_Coupon_Tablet);
 		}

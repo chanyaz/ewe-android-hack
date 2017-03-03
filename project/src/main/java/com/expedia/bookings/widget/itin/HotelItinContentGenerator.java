@@ -26,9 +26,11 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
@@ -370,24 +372,24 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade) && !isSharedItin();
 		if (showRoomUpgradeButton) {
 			//hasUpgradeAvailable set to true until API is ready
-			boolean hasUpgradeAvailable = true;
+			boolean hasUpgradeAvailable = itinCardData.hasRoomUpgradeOffers();
 			hotelUpgradeText.setVisibility(hasUpgradeAvailable ? View.VISIBLE : View.GONE);
 			AccessibilityUtil.appendRoleContDesc(hotelUpgradeText, hotelUpgradeText.getText().toString(), R.string.accessibility_cont_desc_role_button);
 
 			if (hasUpgradeAvailable) {
 				//add null check if necessary!
 				//roomUpgradeLink stubbed until API is ready
-				final String roomUpgradeLink = "http://www.expedia.com";
+				final String roomUpgradeLink = itinCardData.getProperty().getRoomUpgradeWebViewUrl();
 				hotelUpgradeText.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						WebViewActivity.IntentBuilder intentBuilder =
-							buildWebViewIntent(R.string.trips_upgrade_hotel_button_label_cont_desc, roomUpgradeLink);
+							buildWebViewIntent(R.string.trips_upgrade_hotel_button_label_cont_desc, roomUpgradeLink).setRoomUpgradeType();
 
 						Intent intent = intentBuilder.getIntent();
 						//Stubbed using cancel room data until API is ready
-						intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
-						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+						intent.putExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID, getItinCardData().getTripNumber());
+						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE);
 					}
 				});
 			}
@@ -471,10 +473,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		boolean showEditRoomOption =
-			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_hotel_itin_soft_change_button)
-				&& !isSharedItin();
-		if (showEditRoomOption) {
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView) && !isSharedItin();
 
+		if (showEditRoomOption) {
 			//Setting hasEditRoomOption to true till API is ready
 			boolean hasEditRoomOption = getItinCardData().getProperty().isBookingChangeAvailable();
 			if (hasEditRoomOption) {
@@ -527,7 +528,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				OmnitureTracking.trackItinEditRoomInfoWebViewOpen();
 				String softChangeUrl = getItinCardData().getProperty().getBookingChangeWebUrl();
 				Intent webViewIntent =
-					buildWebViewIntent(R.string.trips_edit_room_info_web_view_title, softChangeUrl).getIntent();
+					buildWebViewIntent(R.string.trips_edit_room_info_web_view_title, softChangeUrl).setRoomSoftChange().getIntent();
 				webViewIntent.putExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID, getItinCardData().getTripNumber());
 				((Activity) getContext()).startActivityForResult(webViewIntent, Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE);
 			}

@@ -145,7 +145,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate} – เลือกวันส่งคืนรถ</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – เลือกวันเดินทางกลับ</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">เลือกวันรับรถ</string>
     <!-- Label for pick-up time picker -->
@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">เข้าสู่ระบบด้วย {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">ปุ่มเข้าสู่ระบบด้วย {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับคะแนน Expedia+ {reward} คะแนน</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">ปุ่มเข้าสู่ระบบเพื่อรับคะแนน Expedia+ {reward} คะแนน</string>
     <!-- or -->
     <string name="or">หรือ</string>
+    <!--Create Account -->
+    <string name="Create_Account">สร้างบัญชี</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">สะสมคะแนนและปลดล็อคดีลสุดพิเศษ</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">มีบริการเช็คอิน</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">แชร์เที่ยวบินของคุณ</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">ให้เพื่อนๆ ได้รู้อัพเดทแบบสดๆ ขณะที่คุณเดินทาง</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">เที่ยวบิน %1$s ไปยัง %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">รีเฟรชการเดินทาง</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">รีเฟรชการเดินทางของคุณ</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">กำลังรีเฟรชการเดินทางของคุณ…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">เราไม่สามารถดึงแผนการเดินทางของคุณได้ในตอนนี้ โปรดลองใหม่อีกครั้ง</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1307,6 +1309,8 @@
     <string name="trips_expand_button_label_cont_desc">กดปุ่มเพื่อขยายการเดินทาง</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">อัพเกรดห้องพัก</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">แก้ไขข้อมูลห้องพัก</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">รหัสยืนยันโรงแรม</string>
     <!-- Passengers Label -->
@@ -2020,6 +2024,10 @@
     <string name="cabin_code_business">ชั้นธุรกิจ</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">ชั้นหนึ่ง</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">ชั้นโดยสารผสม</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">เลือกเที่ยวบิน</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -2183,6 +2191,8 @@
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ {reward_currency} คะแนนจากการจองนี้!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">คุณเป็นสมาชิกผู้ทรงเกียรติ</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">เลือกจองในฐานะสมาชิก {brand}!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">คุณจะได้รับ {reward_currency} คะแนนจากทริปนี้!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2306,6 +2316,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">รหัสประเทศ</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">รหัสประเทศ</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">วันเกิด %1$s</string>
     <!-- Born on colored -->
@@ -2413,6 +2425,8 @@
     <string name="no_thanks">ไม่ ขอบคุณ</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">ตัวเลือกขั้นสูง</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">ข้อมูลเพิ่มเติม (ไม่บังคับ)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -4704,9 +4718,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">เวลาเที่ยวบินคือ {time} ในส่วนต่างราคา {pricedifference} บินกับ {airline} ระยะเวลาเที่ยวบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">เวลาเที่ยวบินคือ {time} ในส่วนต่างราคา {pricedifference} บินกับ {airline} ระยะเวลาบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">เวลาเที่ยวบินคือ {time} ราคา {price} บินกับ {airline} ระยะเวลาเที่ยวบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} ระดับดาวโรงแรม {starrating} จาก 5 คะแนนจากผู้เข้าพัก {guestrating} จาก 5 ราคา {price} รวมโรงแรมและเที่ยวบิน\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4753,6 +4768,12 @@
         <item quantity="one">จำนวนผู้เดินทาง ปุ่ม เปิดกล่องโต้ตอบ ผู้เดินทาง {travelers} คน</item>
         <item quantity="other">จำนวนผู้เดินทาง ปุ่ม เปิดกล่องโต้ตอบ ผู้เดินทาง {travelers} คน</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">เลือกระดับชั้นโดยสารที่ต้องการ ปุ่ม เปิดกล่องโต้ตอบ ระดับชั้นโดยสารที่ต้องการ {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">เลือกระดับชั้นโดยสาร กล่องโต้ตอบ</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">ระดับชั้นโดยสารที่ต้องการ {class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} ถึง {enddate}</string>
@@ -4889,6 +4910,8 @@
     <string name="hotel_expanded_room_select_cont_desc">เลือกห้อง</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">ปิดใช้งาน</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">ประเทศ{country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">ราคา {activity_price}</string>
@@ -4961,14 +4984,22 @@
     <string name="room_upgrade_available">มีห้องพักพร้อมให้อัพเกรด</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">การใช้งานแอพของเราเป็นอย่างไร</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">ชอบแอพของเรา?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">หากคุณชอบใช้แอพของเราแล้วละก็ เขียนรีวิวบอกเราได้ที่ Play Store</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">ความคิดเห็น</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">ให้คะแนนแอพ</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">ส่งความคิดเห็น</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">ส่งอีเมลถึงฝ่ายสนับสนุนแอพ</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">ไม่ ขอบคุณ</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">ไม่ ขอบคุณ</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">ป้อนอีเมลที่ติดต่อได้</string>
     <!-- Checkout validation error message for first name -->
@@ -4984,9 +5015,23 @@
     <string name="passport_validation_error_message">เลือกประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">เพิ่มการเดินทางที่จองขณะไม่ได้เข้าสู่ระบบ</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">กำลังค้นหาการเดินทางของคุณ…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(ในอีเมลยืนยัน)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">ป้อนหมายเลขแผนการเดินทางที่ถูกต้อง</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">เข้าสู่ระบบเพื่อดูการเดินทางที่กำลังจะมาถึง</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">หาการเดินทางที่จองโดยไม่ได้เข้าสู่ระบบ</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">ค้นหาโรงแรมใกล้ตัวคุณ</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">โรงแรมยอดฮิตคืนนี้</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">จองเรียบร้อยแล้ว!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">ดูแผนการเดินทางได้ที่อีเมลของคุณ</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">กำลังโหลดทริปของคุณ…</string>
 
 </resources>

@@ -28,17 +28,13 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 	int mLeft;
 	int mRight;
 	int mMiddle;
-	int headerCount = 1;
 
-	public LaunchListDividerDecoration(Context context, boolean isLobViewAdded) {
+	public LaunchListDividerDecoration(Context context) {
 		mTop = 0;
 		mLeft = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
 		mMiddle = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_middle);
 		mBottom = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_bottom);
 		mRight = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
-		if (isLobViewAdded) {
-			headerCount = 2;
-		}
 	}
 
 	@Override
@@ -46,19 +42,26 @@ public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 		outRect.top = mTop;
 		outRect.bottom = mBottom;
 
-		int pos = parent.getChildAdapterPosition(view) - headerCount;
-		// when we have 2 headers one for lob and another one staff picks or near by hotel header
-		if (pos == -2) {
+		LaunchListAdapter adapter = (LaunchListAdapter) parent.getAdapter();
+
+		int recyclerViewChildIndex = parent.getChildAdapterPosition(view);
+		int actualPosition = parent.getChildAdapterPosition(view) - adapter.getOffset();
+		int itemViewType = adapter.getItemViewType(recyclerViewChildIndex);
+
+		boolean isLobButtonsView = itemViewType == LaunchListAdapter.LaunchListViewsEnum.LOB_VIEW.ordinal();
+		boolean isStatic = LaunchListAdapter.isStaticCard(itemViewType);
+
+		if (isLobButtonsView) {
 			outRect.left = 0;
 			outRect.right = 0;
 		}
 		// Big guys (0, 5, 10, etc)
-		else if (pos % 5 == 0) {
+		else if (actualPosition % 5 == 0 || isStatic) {
 			outRect.left = mLeft;
 			outRect.right = mRight;
 		}
 		// Right column (2, 4, 7, 9, etc)
-		else if ((pos % 5) % 2 == 0) {
+		else if ((actualPosition % 5) % 2 == 0) {
 			outRect.left = mMiddle / 2;
 			outRect.right = mRight;
 		}

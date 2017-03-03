@@ -11,6 +11,30 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_show_popular_hotels_on_launch_screen"
+            android:layout="@layout/preference"
+            android:summary="Show popular hotels card to users on launch screen"
+            android:title="Enable Popular Hotels Card on Launch Screen" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Hotel Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_hotel_loyalty_earn_message"
+            android:layout="@layout/preference"
+            android:summary="Enable Hotel Loyalty Earn Message."
+            android:title="Enable Enable Hotel Loyalty Earn Message" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_hotel_server_side_filters"
+            android:layout="@layout/preference"
+            android:summary="Server side result filtering"
+            android:title="Enable Server Side Filters" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -52,7 +76,6 @@
             android:layout="@layout/preference"
             android:summary="Enable 3DS payment webview checkout"
             android:title="Enable 3DS payment" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -60,10 +83,10 @@
         android:title="Material Flight Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_flight_premium_class"
+            android:key="@string/preference_flight_byot"
             android:layout="@layout/preference"
-            android:summary="Show Flight Premium Class"
-            android:title="Show Flight Premium Class" />
+            android:summary="Enable flight byot"
+            android:title="Enable Flight Byot" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -75,12 +98,6 @@
             android:layout="@layout/preference"
             android:summary="Upgrade your hotel room booking"
             android:title="Enable Hotel Upgrade Feature" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_hotel_itin_soft_change_button"
-            android:layout="@layout/preference"
-            android:summary="Hotel Itinerary Soft Change."
-            android:title="Enable Hotel Itin Soft Change Button" />
 
         <CheckBoxPreference
             android:key="@string/preference_itin_card_detail"
@@ -95,4 +112,32 @@
             android:title="Enable new Itin sign in screen" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="General">
+
+        <CheckBoxPreference
+            android:key="@string/preference_phablet"
+            android:layout="@layout/preference"
+            android:summary="Use 'Phablet' experience on tablet devices"
+            android:title="Enable Phablet experience" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_member_deal_on_launch_screen"
+            android:layout="@layout/preference"
+            android:summary="Member Deal On Launch Screen"
+            android:title="New item on launch + new screen (WIP)"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Cars Features">
+        <CheckBoxPreference
+            android:key="@string/preference_open_car_web_view"
+            android:layout="@layout/preference"
+            android:summary="Open Cars in WebView"
+            android:title="Open Cars in WebView" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

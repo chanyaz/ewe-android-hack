@@ -7,6 +7,7 @@ import android.net.Uri
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
@@ -16,7 +17,6 @@ import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -212,8 +212,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, hotelAddress.city) else "")
 
-            //TODO add tracking for web checkout to native confirmation
-
+            HotelTracking.trackHotelPurchaseFromWebView(response)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
     }

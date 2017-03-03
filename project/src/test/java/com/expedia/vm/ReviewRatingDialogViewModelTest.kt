@@ -107,7 +107,6 @@ class ReviewRatingDialogViewModelTest {
     @Test
     fun testReviewPromptOnlyShowsAgainAfterCleared() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
 
         assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
         SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
@@ -117,17 +116,8 @@ class ReviewRatingDialogViewModelTest {
     }
 
     @Test
-    fun testReviewPromptDoesNotShowAbacus() {
-        SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
-
-        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
-    }
-
-    @Test
     fun testReviewPromptShowsAfterThreeMonths() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
 
         assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
         SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
@@ -139,7 +129,6 @@ class ReviewRatingDialogViewModelTest {
     @Test
     fun testReviewPromptDoesNotShowBeforeThreeMonths() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
 
         assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
         SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
@@ -151,7 +140,6 @@ class ReviewRatingDialogViewModelTest {
     @Test
     fun testReviewPromptDoesNotShowThreeMonthsInFuture() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
 
         assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
         SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)

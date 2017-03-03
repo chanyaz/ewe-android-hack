@@ -102,6 +102,8 @@
               "orderLineNumber": "da0459bd-bd1a-4b84-b054-b1bcdcd75aa1",
               "refundabilityStatus": "REFUNDABLE",
               "availableOnAllDates": true,
+              "roomUpgradeOfferApiUrl": "",
+              "roomUpgradeLink": "",
               "totalPriceDetails": {
                 "primaryCurrencyCode": "USD",
                 "base": "504.46",

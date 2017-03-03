@@ -17,7 +17,7 @@ public class Layover {
 	public Layover(Flight flight1, Flight flight2) {
 		DateTime arrival = flight1.getArrivalWaypoint().getMostRelevantDateTime();
 		DateTime departure = flight2.getOriginWaypoint().getMostRelevantDateTime();
-		mDuration = DateTimeUtils.compareDateTimes(arrival, departure);
+		mDuration = DateTimeUtils.getMinutesBetween(arrival, departure);
 	}
 
 }

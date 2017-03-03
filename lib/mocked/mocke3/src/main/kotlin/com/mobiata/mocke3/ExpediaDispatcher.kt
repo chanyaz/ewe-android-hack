@@ -83,6 +83,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return makeEmptyResponse()
         }
 
+        // TODO - move Trips into own dispatcher
+
+        // Trips API - room upgrade
+        if (request.path.matches(Regex("^/api/trips.*/upgradeOffers\\?.*$"))) {
+            return dispatchUpgradeOffersResponse()
+        }
+
         // Trips API
         if (request.path.startsWith("/api/trips?")) {
             return dispatchTrip(request)
@@ -307,6 +314,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("railEndTzOffset", "" + pacificTimeZone.getOffset(railEnd.millis) / 1000)
 
         return makeResponse("/api/trips/happy.json", params)
+    }
+
+    private fun dispatchUpgradeOffersResponse(): MockResponse {
+        return makeResponse("/api/trips/upgradeOffers/happy.json", emptyMap())
     }
 
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {

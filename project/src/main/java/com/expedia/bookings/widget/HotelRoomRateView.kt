@@ -130,6 +130,11 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 vm.roomRowExpanded()
             }
         }
+
+        vm.roomSoldOut.subscribe { soldOut ->
+            row.isEnabled = !soldOut
+        }
+
         row.setOnClickListener {
             expandRowWithAnimation()
             vm.roomRowExpanded()
@@ -318,7 +323,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 it.startAnimation(alphaAnimation)
             }
 
-            row.isEnabled = true
+            row.isEnabled = !viewModel.roomSoldOut.value
+
             depositTermsButton.visibility = View.GONE
             if (showTerms) {
                 dailyPricePerNight.visibility = View.VISIBLE

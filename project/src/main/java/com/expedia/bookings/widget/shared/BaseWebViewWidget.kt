@@ -11,6 +11,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.adobe.adms.measurement.ADMS_Measurement
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -18,6 +19,11 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+
+    val HEADER_CLASS = "site-header-primary"
+    val FACEBOOK_LOGIN_CLASS = "facebook-login-pane"
+    val APP_VISITOR_ID_PARAM = "appvi="
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
@@ -29,6 +35,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         override fun onPageFinished(view: WebView, url: String) {
+            preventLoadingOfDivClass(HEADER_CLASS)
+            preventLoadingOfDivClass(FACEBOOK_LOGIN_CLASS)
             toggleLoading(false)
         }
 
@@ -40,6 +48,10 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             super.onReceivedError(view, request, error)
             toggleLoading(false)
         }
+    }
+
+    private fun preventLoadingOfDivClass(className: String) {
+        webView.loadUrl("javascript:(function() { document.getElementsByClassName('$className')[0].style.display=\"none\"; })()");
     }
 
     open fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -58,8 +70,13 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewURLObservable.subscribe { url ->
-            webView.loadUrl(url)
+            webView.loadUrl(getUrlWithVisitorId(url))
         }
+    }
+
+    private fun getUrlWithVisitorId(url: String): String {
+        val visitorID = ADMS_Measurement.sharedInstance().visitorID
+        return "$url${if (url.contains("?")) "&" else "?"}$APP_VISITOR_ID_PARAM$visitorID"
     }
 
     fun setExitButtonOnClickListener(listener: OnClickListener) {

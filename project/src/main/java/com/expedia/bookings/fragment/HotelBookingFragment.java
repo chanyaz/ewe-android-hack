@@ -336,7 +336,7 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 
 				// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
 				// FIXME: just implement HotelProductRateUp for phone
-				if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+				if (!ExpediaBookingApp.useTabletInterface()) {
 					boolean isPriceHigher = priceChange < 0;
 					HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
 						originalRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());

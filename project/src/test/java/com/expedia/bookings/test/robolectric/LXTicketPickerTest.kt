@@ -7,6 +7,8 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.lx.Ticket
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXTicketPicker
 import com.google.gson.GsonBuilder
@@ -18,7 +20,9 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@RunWith(RobolectricRunner::class) class LXTicketPickerTest {
+@RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+class LXTicketPickerTest {
     private var picker: LXTicketPicker by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 

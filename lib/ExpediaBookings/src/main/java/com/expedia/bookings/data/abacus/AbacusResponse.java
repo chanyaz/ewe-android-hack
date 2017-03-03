@@ -31,7 +31,7 @@ public class AbacusResponse {
 		if (test != null) {
 			return test.getBucketVariate();
 		}
-		return AbacusUtils.DefaultVariate.CONTROL.ordinal();
+		return AbacusUtils.DefaultVariant.CONTROL.ordinal();
 	}
 
 	public String getAnalyticsString(int key) {

@@ -46,7 +46,7 @@ public class CarCheckoutViewTest extends CarTestCase {
 
 	public void testInsuranceIncludedViewAbacusTest() throws Throwable {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO,
-			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		gotoCheckout(INSURANCE_INCLUDED);
 		assertTextWithChildrenIsDisplayed(R.id.ticked_info_container, "Insurance included");
 	}

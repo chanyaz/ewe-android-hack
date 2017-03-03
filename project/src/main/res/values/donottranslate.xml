@@ -33,13 +33,6 @@
     <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
     <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
 
-    <!-- Lean Plum SDK -->
-    <string name="lean_plum_sdk_dev_appid">iP8YMOTxnTNTBS7oclci3OIxWAKL8hXJyx84GepS09s</string>
-    <string name="lean_plum_sdk_dev_key">nKAaL3XpW5WsFx8kv8UjvDRjtYD0C3jGPDLSIamlFZ4</string>
-
-    <string name="lean_plum_sdk_prod_appid">xKlVSadJbLLqOI2ox80QLZQ5IBec4VRggWTjdpuQQAk</string>
-    <string name="lean_plum_sdk_prod_key">tCIe8ebANwhOqDWxLtscOmvONeW7OGR4f91hm8rT1cg</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">159126</string>
     <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
@@ -106,6 +99,8 @@
     <string name="preference_abacus_setting_server">Abacus Server</string>
     <string name="preference_abacus_setting_control">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
+    <string name="preference_abacus_setting_variant1">Variant1</string>
+    <string name="preference_abacus_setting_variant2">Variant2</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
     <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
@@ -114,7 +109,7 @@
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
-    <string name="preference_hotel_itin_soft_change_button">preference_hotel_itin_soft_change_button</string>
+    <string name="preference_enable_hotel_loyalty_earn_message">preference_enable_hotel_loyalty_earn_message</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
@@ -122,9 +117,14 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
-    <string name="preference_flight_premium_class">preference_flight_premium_class</string>
+    <string name="preference_flight_byot">preference_flight_byot</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
+    <string name="preference_member_deal_on_launch_screen">preference_member_deal_on_launch_screen</string>
+    <string name="preference_show_popular_hotels_on_launch_screen">preference_show_popular_hotels_on_launch_screen</string>
     <string name="preference_enable_new_cookies">preference_enable_new_cookies</string>
+    <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
+    <string name="preference_phablet">preference_phablet</string>
+    <string name="preference_open_car_web_view">preference_open_car_web_view</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

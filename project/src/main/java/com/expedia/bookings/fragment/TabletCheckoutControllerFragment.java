@@ -890,7 +890,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	/*
 	 * SlideToWidgetJB.ISlideToListener
 	 *
-	 * This manages the "slide to book hotel" animation. onSlideStart/Progress/AllTheWay/Abort
+	 * This manages the "slide to purchase hotel" animation. onSlideStart/Progress/AllTheWay/Abort
 	 * callbacks come from the SlideToWidgetJB View. It's more of a two-step animation, which
 	 * needs some clever coding here:
 	 * 1. As the user is dragging his finger, we want to transition the fragments along with

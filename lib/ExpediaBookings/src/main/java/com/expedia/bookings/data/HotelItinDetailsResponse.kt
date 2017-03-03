@@ -16,8 +16,14 @@ class HotelItinDetailsResponse : AbstractItinDetailsResponse() {
         var hotelId: String? = null
         lateinit var checkInDateTime: DateTime
         lateinit var checkOutDateTime: DateTime
+        lateinit var inventoryType: String
+        lateinit var totalPriceDetails: TotalPriceDetails
         lateinit var hotelPropertyInfo: HotelPropertyInfo
         lateinit var rooms: List<Rooms>
+
+        class TotalPriceDetails {
+            lateinit var primaryCurrencyCode: String
+        }
 
         class HotelPropertyInfo {
             lateinit var name: String

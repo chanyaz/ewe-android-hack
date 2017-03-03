@@ -24,6 +24,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -34,11 +35,13 @@ import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
+import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
+import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -56,6 +59,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         @Inject set
 
     lateinit var travelerManager: TravelerManager
+
+    val isByotEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightByotSearch,
+            R.string.preference_flight_byot);
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
@@ -126,12 +132,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.date.onNext(params.departureDate)
             searchTrackingBuilder.searchParams(params)
         }
-        presenter.flightOfferViewModel.searchingForFlightDateTime.subscribe {
-            searchTrackingBuilder.markSearchApiCallMade()
-        }
-        presenter.flightOfferViewModel.resultsReceivedDateTimeObservable.subscribe {
-            searchTrackingBuilder.markApiResponseReceived()
-        }
         presenter.flightOfferViewModel.outboundResultsObservable.subscribe {
             searchTrackingBuilder.markResultsProcessed()
             searchTrackingBuilder.searchResponse(it)
@@ -146,6 +146,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (searchTrackingBuilder.isWorkComplete()) {
                 val trackingData = searchTrackingBuilder.build()
                 FlightsV2Tracking.trackResultOutBoundFlights(trackingData)
+            }
+        }
+        if (isByotEnabled) {
+            presenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe {
+                searchTrackingBuilder.markSearchClicked()
+                searchTrackingBuilder.searchParams(Db.getFlightSearchParams())
             }
         }
         presenter
@@ -167,6 +173,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             true
         })
         presenter.setupComplete()
+        if (isByotEnabled) {
+            presenter.flightOfferViewModel.inboundResultsObservable.subscribe {
+                searchTrackingBuilder.markResultsProcessed()
+                searchTrackingBuilder.searchResponse(it)
+            }
+
+            (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
+                searchTrackingBuilder.markResultsUsable()
+                if (searchTrackingBuilder.isWorkComplete()) {
+                    val trackingData = searchTrackingBuilder.build()
+                    FlightsV2Tracking.trackResultInBoundFlights(trackingData)
+                }
+            }
+        }
         presenter
     }
 
@@ -287,8 +307,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter
     }
 
-    val flightOfferViewModel: FlightOffersViewModel by lazy {
-        val viewModel = FlightOffersViewModel(context, flightServices)
+    val flightOfferViewModel: BaseFlightOffersViewModel by lazy {
+        val viewModel: BaseFlightOffersViewModel
+        if (isByotEnabled) {
+            viewModel = FlightOffersViewModelByot(context, flightServices)
+        } else {
+            viewModel = FlightOffersViewModel(context, flightServices)
+        }
+
         viewModel.flightProductId.subscribe { productKey ->
             val createTripParams = FlightCreateTripParams(productKey)
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
@@ -300,8 +326,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     .put("city", viewModel.searchParamsObservable.value.arrivalAirport?.regionNames?.shortName)
                     .format().toString())
         }
+        viewModel.confirmedOutboundFlightSelection.subscribe{
+            if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
+                inboundPresenter.showResults()
+                show(inboundPresenter)
+            }
+        }
         viewModel.inboundResultsObservable.subscribe {
-            inboundPresenter.trackFlightResultsLoad()
+            if(!isByotEnabled) {
+                searchTrackingBuilder.searchResponse(it)
+                inboundPresenter.trackFlightResultsLoad()
+            }
             announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
                     .put("city", viewModel.searchParamsObservable.value.departureAirport?.regionNames?.shortName)
                     .format().toString())
@@ -314,6 +349,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel.noNetworkObservable.subscribe {
             show(searchPresenter)
         }
+        viewModel.searchingForFlightDateTime.subscribe {
+            searchTrackingBuilder.markSearchApiCallMade()
+        }
+        viewModel.resultsReceivedDateTimeObservable.subscribe {
+            searchTrackingBuilder.markApiResponseReceived()
+        }
         viewModel
     }
 
@@ -322,6 +363,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.searchParamsObservable.subscribe { params ->
             announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
             flightOfferViewModel.searchParamsObservable.onNext(params)
+            flightOfferViewModel.isOutboundSearch = true
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
@@ -353,6 +395,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(flightOverviewToError)
         addTransition(errorToSearch)
         addTransition(searchToInbound)
+        addTransition(errorToConfirmation)
     }
 
     private fun flightListToOverviewTransition() {
@@ -469,7 +512,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val outboundFlightToOverview = FlightResultsToCheckoutOverviewTransition(this, FlightOutboundPresenter::class.java, FlightOverviewPresenter::class.java)
 
     private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
-    
+
+    private val errorToConfirmation = LeftToRightTransition(this, FlightErrorPresenter::class.java, FlightConfirmationPresenter::class.java)
+
     private val outboundToInbound = object : ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -488,7 +533,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val searchToOutbound = SearchToOutboundTransition(this, searchPresenter.javaClass, FlightOutboundPresenter::class.java)
     private val searchToInbound = SearchToOutboundTransition(this, searchPresenter.javaClass, FlightInboundPresenter::class.java)
- 
+
     private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE

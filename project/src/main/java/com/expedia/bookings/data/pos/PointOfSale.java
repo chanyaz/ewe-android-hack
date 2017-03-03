@@ -28,6 +28,7 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -55,7 +56,7 @@ public class PointOfSale {
 	/**
 	 * This enum defines the different types of fields required for hotels checkout.
 	 */
-	public enum RequiredPaymentFields {
+	private enum RequiredPaymentFields {
 		NONE,
 		POSTAL_CODE,
 		ALL,
@@ -81,16 +82,16 @@ public class PointOfSale {
 	private int mSiteId;
 
 	// The POS's contact phone number
-	private String mSupportPhoneNumber;
+	private SupportPhoneNumber mSupportPhoneNumber;
 
 	// The POS's base tier rewards member contact phone number
-	private String mSupportPhoneNumberBaseTier;
+	private SupportPhoneNumber mSupportPhoneNumberBaseTier;
 
 	// The POS's middle tier rewards member contact phone number
-	private String mSupportPhoneNumberMiddleTier;
+	private SupportPhoneNumber mSupportPhoneNumberMiddleTier;
 
 	// The POS's top tier rewards member phone number
-	private String mSupportPhoneNumberTopTier;
+	private SupportPhoneNumber mSupportPhoneNumberTopTier;
 
 	// The POS's silver rewards member contact email
 	private String mSupportEmailMiddleTier;
@@ -136,6 +137,9 @@ public class PointOfSale {
 
 	// Whether to show rails on this POS
 	private boolean mSupportsRails;
+
+	// Whether to show Cars WebView on this POS
+	private boolean mSupportsCarsWebView;
 
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
@@ -192,12 +196,15 @@ public class PointOfSale {
 
 	private boolean mShouldShowKnownTravelerNumber;
 
+	private boolean mShouldFormatTravelerPhoneNumber;
+
 	private boolean mRequiresHotelPostalCode;
 
 	private boolean isPwPEnabledForHotels;
 
 	private boolean isSWPEnabledForHotels;
 	private boolean isEarnMessageEnabledForHotels;
+	private boolean isEarnMessageEnabledForHotelsV2;
 	private boolean isEarnMessageEnabledForFlights;
 	private boolean isEarnMessageEnabledForPackages;
 
@@ -243,18 +250,18 @@ public class PointOfSale {
 		sCountryCodeMap.put("ai", new CountryResources(R.string.country_ai));
 		sCountryCodeMap.put("aq", new CountryResources(R.string.country_aq));
 		sCountryCodeMap.put("ag", new CountryResources(R.string.country_ag));
-		sCountryCodeMap.put("ar", new CountryResources(R.string.country_ar, R.drawable.ic_flag_ar));
+		sCountryCodeMap.put("ar", new CountryResources(R.string.country_ar, R.drawable.ic_flag_ar_icon));
 		sCountryCodeMap.put("am", new CountryResources(R.string.country_am));
 		sCountryCodeMap.put("aw", new CountryResources(R.string.country_aw));
-		sCountryCodeMap.put("au", new CountryResources(R.string.country_au, R.drawable.ic_flag_au));
-		sCountryCodeMap.put("at", new CountryResources(R.string.country_at, R.drawable.ic_flag_at));
+		sCountryCodeMap.put("au", new CountryResources(R.string.country_au, R.drawable.ic_flag_au_icon));
+		sCountryCodeMap.put("at", new CountryResources(R.string.country_at, R.drawable.ic_flag_at_icon));
 		sCountryCodeMap.put("az", new CountryResources(R.string.country_az));
 		sCountryCodeMap.put("bs", new CountryResources(R.string.country_bs));
 		sCountryCodeMap.put("bh", new CountryResources(R.string.country_bh));
 		sCountryCodeMap.put("bd", new CountryResources(R.string.country_bd));
 		sCountryCodeMap.put("bb", new CountryResources(R.string.country_bb));
 		sCountryCodeMap.put("by", new CountryResources(R.string.country_by));
-		sCountryCodeMap.put("be", new CountryResources(R.string.country_be, R.drawable.ic_flag_be));
+		sCountryCodeMap.put("be", new CountryResources(R.string.country_be, R.drawable.ic_flag_be_icon));
 		sCountryCodeMap.put("bz", new CountryResources(R.string.country_bz));
 		sCountryCodeMap.put("bj", new CountryResources(R.string.country_bj));
 		sCountryCodeMap.put("bm", new CountryResources(R.string.country_bm));
@@ -262,7 +269,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("bo", new CountryResources(R.string.country_bo));
 		sCountryCodeMap.put("ba", new CountryResources(R.string.country_ba));
 		sCountryCodeMap.put("bw", new CountryResources(R.string.country_bw));
-		sCountryCodeMap.put("br", new CountryResources(R.string.country_br, R.drawable.ic_flag_br));
+		sCountryCodeMap.put("br", new CountryResources(R.string.country_br, R.drawable.ic_flag_br_icon));
 		sCountryCodeMap.put("io", new CountryResources(R.string.country_io));
 		sCountryCodeMap.put("bn", new CountryResources(R.string.country_bn));
 		sCountryCodeMap.put("bg", new CountryResources(R.string.country_bg));
@@ -270,7 +277,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("bi", new CountryResources(R.string.country_bi));
 		sCountryCodeMap.put("kh", new CountryResources(R.string.country_kh));
 		sCountryCodeMap.put("cm", new CountryResources(R.string.country_cm));
-		sCountryCodeMap.put("ca", new CountryResources(R.string.country_ca, R.drawable.ic_flag_ca));
+		sCountryCodeMap.put("ca", new CountryResources(R.string.country_ca, R.drawable.ic_flag_ca_icon));
 		sCountryCodeMap.put("cv", new CountryResources(R.string.country_cv));
 		sCountryCodeMap.put("ky", new CountryResources(R.string.country_ky));
 		sCountryCodeMap.put("cf", new CountryResources(R.string.country_cf));
@@ -289,7 +296,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("cy", new CountryResources(R.string.country_cy));
 		sCountryCodeMap.put("cz", new CountryResources(R.string.country_cz));
 		sCountryCodeMap.put("ci", new CountryResources(R.string.country_ci));
-		sCountryCodeMap.put("dk", new CountryResources(R.string.country_dk, R.drawable.ic_flag_dk));
+		sCountryCodeMap.put("dk", new CountryResources(R.string.country_dk, R.drawable.ic_flag_dk_icon));
 		sCountryCodeMap.put("dj", new CountryResources(R.string.country_dj));
 		sCountryCodeMap.put("dm", new CountryResources(R.string.country_dm));
 		sCountryCodeMap.put("do", new CountryResources(R.string.country_do));
@@ -303,14 +310,14 @@ public class PointOfSale {
 		sCountryCodeMap.put("fk", new CountryResources(R.string.country_fk));
 		sCountryCodeMap.put("fo", new CountryResources(R.string.country_fo));
 		sCountryCodeMap.put("fj", new CountryResources(R.string.country_fj));
-		sCountryCodeMap.put("fi", new CountryResources(R.string.country_fi, R.drawable.ic_flag_fi));
-		sCountryCodeMap.put("fr", new CountryResources(R.string.country_fr, R.drawable.ic_flag_fr));
+		sCountryCodeMap.put("fi", new CountryResources(R.string.country_fi, R.drawable.ic_flag_fi_icon));
+		sCountryCodeMap.put("fr", new CountryResources(R.string.country_fr, R.drawable.ic_flag_fr_icon));
 		sCountryCodeMap.put("gf", new CountryResources(R.string.country_gf));
 		sCountryCodeMap.put("pf", new CountryResources(R.string.country_pf));
 		sCountryCodeMap.put("ga", new CountryResources(R.string.country_ga));
 		sCountryCodeMap.put("gm", new CountryResources(R.string.country_gm));
 		sCountryCodeMap.put("ge", new CountryResources(R.string.country_ge));
-		sCountryCodeMap.put("de", new CountryResources(R.string.country_de, R.drawable.ic_flag_de));
+		sCountryCodeMap.put("de", new CountryResources(R.string.country_de, R.drawable.ic_flag_de_icon));
 		sCountryCodeMap.put("gh", new CountryResources(R.string.country_gh));
 		sCountryCodeMap.put("gi", new CountryResources(R.string.country_gi));
 		sCountryCodeMap.put("gr", new CountryResources(R.string.country_gr));
@@ -326,26 +333,26 @@ public class PointOfSale {
 		sCountryCodeMap.put("ht", new CountryResources(R.string.country_ht));
 		sCountryCodeMap.put("va", new CountryResources(R.string.country_va));
 		sCountryCodeMap.put("hn", new CountryResources(R.string.country_hn));
-		sCountryCodeMap.put("hk", new CountryResources(R.string.country_hk, R.drawable.ic_flag_hk));
+		sCountryCodeMap.put("hk", new CountryResources(R.string.country_hk, R.drawable.ic_flag_hk_icon));
 		sCountryCodeMap.put("hu", new CountryResources(R.string.country_hu));
 		sCountryCodeMap.put("is", new CountryResources(R.string.country_is));
-		sCountryCodeMap.put("in", new CountryResources(R.string.country_in, R.drawable.ic_flag_in));
-		sCountryCodeMap.put("id", new CountryResources(R.string.country_id, R.drawable.ic_flag_id));
+		sCountryCodeMap.put("in", new CountryResources(R.string.country_in, R.drawable.ic_flag_in_icon));
+		sCountryCodeMap.put("id", new CountryResources(R.string.country_id, R.drawable.ic_flag_id_icon));
 		sCountryCodeMap.put("ir", new CountryResources(R.string.country_ir));
 		sCountryCodeMap.put("iq", new CountryResources(R.string.country_iq));
-		sCountryCodeMap.put("ie", new CountryResources(R.string.country_ie, R.drawable.ic_flag_ie));
+		sCountryCodeMap.put("ie", new CountryResources(R.string.country_ie, R.drawable.ic_flag_ie_icon));
 		sCountryCodeMap.put("im", new CountryResources(R.string.country_im));
 		sCountryCodeMap.put("il", new CountryResources(R.string.country_il));
-		sCountryCodeMap.put("it", new CountryResources(R.string.country_it, R.drawable.ic_flag_it));
+		sCountryCodeMap.put("it", new CountryResources(R.string.country_it, R.drawable.ic_flag_it_icon));
 		sCountryCodeMap.put("jm", new CountryResources(R.string.country_jm));
-		sCountryCodeMap.put("jp", new CountryResources(R.string.country_jp, R.drawable.ic_flag_jp));
+		sCountryCodeMap.put("jp", new CountryResources(R.string.country_jp, R.drawable.ic_flag_jp_icon));
 		sCountryCodeMap.put("je", new CountryResources(R.string.country_je));
 		sCountryCodeMap.put("jo", new CountryResources(R.string.country_jo));
 		sCountryCodeMap.put("kz", new CountryResources(R.string.country_kz));
 		sCountryCodeMap.put("ke", new CountryResources(R.string.country_ke));
 		sCountryCodeMap.put("ki", new CountryResources(R.string.country_ki));
 		sCountryCodeMap.put("kp", new CountryResources(R.string.country_kp));
-		sCountryCodeMap.put("kr", new CountryResources(R.string.country_kr, R.drawable.ic_flag_kr));
+		sCountryCodeMap.put("kr", new CountryResources(R.string.country_kr, R.drawable.ic_flag_kr_icon));
 		sCountryCodeMap.put("kw", new CountryResources(R.string.country_kw));
 		sCountryCodeMap.put("kg", new CountryResources(R.string.country_kg));
 		sCountryCodeMap.put("la", new CountryResources(R.string.country_la));
@@ -361,7 +368,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("mk", new CountryResources(R.string.country_mk));
 		sCountryCodeMap.put("mg", new CountryResources(R.string.country_mg));
 		sCountryCodeMap.put("mw", new CountryResources(R.string.country_mw));
-		sCountryCodeMap.put("my", new CountryResources(R.string.country_my, R.drawable.ic_flag_my));
+		sCountryCodeMap.put("my", new CountryResources(R.string.country_my, R.drawable.ic_flag_my_icon));
 		sCountryCodeMap.put("mv", new CountryResources(R.string.country_mv));
 		sCountryCodeMap.put("ml", new CountryResources(R.string.country_ml));
 		sCountryCodeMap.put("mt", new CountryResources(R.string.country_mt));
@@ -370,7 +377,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("mr", new CountryResources(R.string.country_mr));
 		sCountryCodeMap.put("mu", new CountryResources(R.string.country_mu));
 		sCountryCodeMap.put("yt", new CountryResources(R.string.country_yt));
-		sCountryCodeMap.put("mx", new CountryResources(R.string.country_mx, R.drawable.ic_flag_mx));
+		sCountryCodeMap.put("mx", new CountryResources(R.string.country_mx, R.drawable.ic_flag_mx_icon));
 		sCountryCodeMap.put("fm", new CountryResources(R.string.country_fm));
 		sCountryCodeMap.put("md", new CountryResources(R.string.country_md));
 		sCountryCodeMap.put("mc", new CountryResources(R.string.country_mc));
@@ -383,17 +390,17 @@ public class PointOfSale {
 		sCountryCodeMap.put("na", new CountryResources(R.string.country_na));
 		sCountryCodeMap.put("nr", new CountryResources(R.string.country_nr));
 		sCountryCodeMap.put("np", new CountryResources(R.string.country_np));
-		sCountryCodeMap.put("nl", new CountryResources(R.string.country_nl, R.drawable.ic_flag_nl));
+		sCountryCodeMap.put("nl", new CountryResources(R.string.country_nl, R.drawable.ic_flag_nl_icon));
 		sCountryCodeMap.put("an", new CountryResources(R.string.country_an));
 		sCountryCodeMap.put("nc", new CountryResources(R.string.country_nc));
-		sCountryCodeMap.put("nz", new CountryResources(R.string.country_nz, R.drawable.ic_flag_nz));
+		sCountryCodeMap.put("nz", new CountryResources(R.string.country_nz, R.drawable.ic_flag_nz_icon));
 		sCountryCodeMap.put("ni", new CountryResources(R.string.country_ni));
 		sCountryCodeMap.put("ne", new CountryResources(R.string.country_ne));
 		sCountryCodeMap.put("ng", new CountryResources(R.string.country_ng));
 		sCountryCodeMap.put("nu", new CountryResources(R.string.country_nu));
 		sCountryCodeMap.put("nf", new CountryResources(R.string.country_nf));
 		sCountryCodeMap.put("mp", new CountryResources(R.string.country_mp));
-		sCountryCodeMap.put("no", new CountryResources(R.string.country_no, R.drawable.ic_flag_no));
+		sCountryCodeMap.put("no", new CountryResources(R.string.country_no, R.drawable.ic_flag_no_icon));
 		sCountryCodeMap.put("om", new CountryResources(R.string.country_om));
 		sCountryCodeMap.put("pk", new CountryResources(R.string.country_pk));
 		sCountryCodeMap.put("pw", new CountryResources(R.string.country_pw));
@@ -402,7 +409,7 @@ public class PointOfSale {
 		sCountryCodeMap.put("pg", new CountryResources(R.string.country_pg));
 		sCountryCodeMap.put("py", new CountryResources(R.string.country_py));
 		sCountryCodeMap.put("pe", new CountryResources(R.string.country_pe));
-		sCountryCodeMap.put("ph", new CountryResources(R.string.country_ph, R.drawable.ic_flag_ph));
+		sCountryCodeMap.put("ph", new CountryResources(R.string.country_ph, R.drawable.ic_flag_ph_icon));
 		sCountryCodeMap.put("pn", new CountryResources(R.string.country_pn));
 		sCountryCodeMap.put("pl", new CountryResources(R.string.country_pl));
 		sCountryCodeMap.put("pt", new CountryResources(R.string.country_pt));
@@ -427,26 +434,26 @@ public class PointOfSale {
 		sCountryCodeMap.put("rs", new CountryResources(R.string.country_rs));
 		sCountryCodeMap.put("sc", new CountryResources(R.string.country_sc));
 		sCountryCodeMap.put("sl", new CountryResources(R.string.country_sl));
-		sCountryCodeMap.put("sg", new CountryResources(R.string.country_sg, R.drawable.ic_flag_sg));
+		sCountryCodeMap.put("sg", new CountryResources(R.string.country_sg, R.drawable.ic_flag_sg_icon));
 		sCountryCodeMap.put("sk", new CountryResources(R.string.country_sk));
 		sCountryCodeMap.put("si", new CountryResources(R.string.country_si));
 		sCountryCodeMap.put("sb", new CountryResources(R.string.country_sb));
 		sCountryCodeMap.put("so", new CountryResources(R.string.country_so));
 		sCountryCodeMap.put("za", new CountryResources(R.string.country_za));
 		sCountryCodeMap.put("gs", new CountryResources(R.string.country_gs));
-		sCountryCodeMap.put("es", new CountryResources(R.string.country_es, R.drawable.ic_flag_es));
+		sCountryCodeMap.put("es", new CountryResources(R.string.country_es, R.drawable.ic_flag_es_icon));
 		sCountryCodeMap.put("lk", new CountryResources(R.string.country_lk));
 		sCountryCodeMap.put("sd", new CountryResources(R.string.country_sd));
 		sCountryCodeMap.put("sr", new CountryResources(R.string.country_sr));
 		sCountryCodeMap.put("sj", new CountryResources(R.string.country_sj));
 		sCountryCodeMap.put("sz", new CountryResources(R.string.country_sz));
-		sCountryCodeMap.put("se", new CountryResources(R.string.country_se, R.drawable.ic_flag_se));
-		sCountryCodeMap.put("ch", new CountryResources(R.string.country_ch, R.drawable.ic_flag_ch));
+		sCountryCodeMap.put("se", new CountryResources(R.string.country_se, R.drawable.ic_flag_se_icon));
+		sCountryCodeMap.put("ch", new CountryResources(R.string.country_ch, R.drawable.ic_flag_ch_icon));
 		sCountryCodeMap.put("sy", new CountryResources(R.string.country_sy));
-		sCountryCodeMap.put("tw", new CountryResources(R.string.country_tw, R.drawable.ic_flag_tw));
+		sCountryCodeMap.put("tw", new CountryResources(R.string.country_tw, R.drawable.ic_flag_tw_icon));
 		sCountryCodeMap.put("tj", new CountryResources(R.string.country_tj));
 		sCountryCodeMap.put("tz", new CountryResources(R.string.country_tz));
-		sCountryCodeMap.put("th", new CountryResources(R.string.country_th, R.drawable.ic_flag_th));
+		sCountryCodeMap.put("th", new CountryResources(R.string.country_th, R.drawable.ic_flag_th_icon));
 		sCountryCodeMap.put("tl", new CountryResources(R.string.country_tl));
 		sCountryCodeMap.put("tg", new CountryResources(R.string.country_tg));
 		sCountryCodeMap.put("tk", new CountryResources(R.string.country_tk));
@@ -460,14 +467,14 @@ public class PointOfSale {
 		sCountryCodeMap.put("ug", new CountryResources(R.string.country_ug));
 		sCountryCodeMap.put("ua", new CountryResources(R.string.country_ua));
 		sCountryCodeMap.put("ae", new CountryResources(R.string.country_ae));
-		sCountryCodeMap.put("gb", new CountryResources(R.string.country_gb, R.drawable.ic_flag_gb));
-		sCountryCodeMap.put("us", new CountryResources(R.string.country_us, R.drawable.ic_flag_us));
+		sCountryCodeMap.put("gb", new CountryResources(R.string.country_gb, R.drawable.ic_flag_uk_icon));
+		sCountryCodeMap.put("us", new CountryResources(R.string.country_us, R.drawable.ic_flag_us_icon));
 		sCountryCodeMap.put("um", new CountryResources(R.string.country_um));
 		sCountryCodeMap.put("uy", new CountryResources(R.string.country_uy));
 		sCountryCodeMap.put("uz", new CountryResources(R.string.country_uz));
 		sCountryCodeMap.put("vu", new CountryResources(R.string.country_vu));
 		sCountryCodeMap.put("ve", new CountryResources(R.string.country_ve));
-		sCountryCodeMap.put("vn", new CountryResources(R.string.country_vn, R.drawable.ic_flag_vn));
+		sCountryCodeMap.put("vn", new CountryResources(R.string.country_vn, R.drawable.ic_flag_vn_icon));
 		sCountryCodeMap.put("vg", new CountryResources(R.string.country_vg));
 		sCountryCodeMap.put("vi", new CountryResources(R.string.country_vi));
 		sCountryCodeMap.put("wf", new CountryResources(R.string.country_wf));
@@ -512,25 +519,25 @@ public class PointOfSale {
 	private String getSupportPhoneNumber() {
 		String number = getPosLocale().getSupportNumber();
 		if (TextUtils.isEmpty(number)) {
-			number = mSupportPhoneNumber;
+			number = mSupportPhoneNumber.getPhoneNumberForDevice(sIsTablet);
 		}
 		return number;
 	}
 
 	public String getDefaultSupportPhoneNumber() {
-		return mSupportPhoneNumber;
+		return mSupportPhoneNumber.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportPhoneNumberBaseTier() {
-		return mSupportPhoneNumberBaseTier;
+		return mSupportPhoneNumberBaseTier.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportPhoneNumberMiddleTier() {
-		return mSupportPhoneNumberMiddleTier;
+		return mSupportPhoneNumberMiddleTier.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportPhoneNumberTopTier() {
-		return mSupportPhoneNumberTopTier;
+		return mSupportPhoneNumberTopTier.getPhoneNumberForDevice(sIsTablet);
 	}
 
 	public String getSupportEmailMiddleTier() {
@@ -630,21 +637,22 @@ public class PointOfSale {
 	}
 
 	public boolean supports(LineOfBusiness lob) {
+		boolean showingTabletInterface = ExpediaBookingApp.useTabletInterface();
 		switch (lob) {
 		case CARS:
-			return mSupportsCars && !sIsTablet;
+			return mSupportsCars && !showingTabletInterface;
 		case LX:
-			return mSupportsLx && !sIsTablet;
+			return mSupportsLx && !showingTabletInterface;
 		case TRANSPORT:
-			return mSupportsGT && !sIsTablet;
+			return mSupportsGT && !showingTabletInterface;
 		case FLIGHTS:
 			return mSupportsFlights;
 		case HOTELS:
 			return true;
 		case PACKAGES:
-			return mSupportsPackages && !sIsTablet;
+			return mSupportsPackages && !showingTabletInterface;
 		case RAILS:
-			return mSupportsRails && !sIsTablet;
+			return mSupportsRails && !showingTabletInterface;
 		}
 
 		return false;
@@ -656,6 +664,10 @@ public class PointOfSale {
 
 	public boolean supportsFlightsFreeCancellation() {
 		return mShowFlightsFreeCancellation;
+	}
+
+	public boolean supportsCarsWebView() {
+		return mSupportsCarsWebView;
 	}
 
 	/**
@@ -859,7 +871,7 @@ public class PointOfSale {
 	}
 
 	public boolean isEarnMessageEnabledForHotels() {
-		return isEarnMessageEnabledForHotels;
+		return isEarnMessageEnabledForHotels || isEarnMessageEnabledForHotelsV2;
 	}
 
 	public boolean isEarnMessageEnabledForFlights() {
@@ -876,6 +888,10 @@ public class PointOfSale {
 
 	public Boolean shouldShowKnownTravelerNumber() {
 		return mShouldShowKnownTravelerNumber;
+	}
+
+	public Boolean shouldFormatTravelerPhoneNumber() {
+		return mShouldFormatTravelerPhoneNumber;
 	}
 
 	/**
@@ -1025,7 +1041,7 @@ public class PointOfSale {
 		sIsTablet = usingTabletInterface;
 
 		// Load all data; in the future we may want to load only the POS requested, to save startup time
-		loadPointOfSaleInfo(configHelper, usingTabletInterface);
+		loadPointOfSaleInfo(configHelper);
 
 		// Load supported Expedia suggest locales
 		loadExpediaSuggestSupportedLanguages(configHelper);
@@ -1176,7 +1192,7 @@ public class PointOfSale {
 	//////////////////////////////////////////////////////////////////////////
 	// Data loading
 
-	private static void loadPointOfSaleInfo(PointOfSaleConfigHelper configHelper, boolean usingTabletInterface) {
+	private static void loadPointOfSaleInfo(PointOfSaleConfigHelper configHelper) {
 		long start = System.nanoTime();
 
 		sPointOfSale.clear();
@@ -1188,7 +1204,7 @@ public class PointOfSale {
 			Iterator<String> keys = posData.keys();
 			while (keys.hasNext()) {
 				String posName = keys.next();
-				PointOfSale pos = parsePointOfSale(usingTabletInterface, posName, posData.optJSONObject(posName));
+				PointOfSale pos = parsePointOfSale(posName, posData.optJSONObject(posName));
 				if (pos != null) {
 					if (BuildConfig.RELEASE && pos.isDisabledForRelease()) {
 						continue;
@@ -1209,8 +1225,7 @@ public class PointOfSale {
 		Log.i("Loaded POS data in " + (System.nanoTime() - start) / 1000000 + " ms");
 	}
 
-	private static PointOfSale parsePointOfSale(boolean usingTabletInterface, String posName, JSONObject data)
-			throws JSONException {
+	private static PointOfSale parsePointOfSale(String posName, JSONObject data) throws JSONException {
 
 		PointOfSaleId pointOfSaleFromId = PointOfSaleId.getPointOfSaleFromId(data.optInt("pointOfSaleId"));
 		if (pointOfSaleFromId == null) {
@@ -1233,19 +1248,16 @@ public class PointOfSale {
 
 		// Support
 		String[] supportPhoneNumberTierNames = ProductFlavorFeatureConfiguration.getInstance().getRewardTierSupportNumberConfigNames();
-		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(usingTabletInterface, data, "supportPhoneNumber");
+		pos.mSupportPhoneNumber = new SupportPhoneNumber(data.optJSONObject("supportPhoneNumber"));
 		if (supportPhoneNumberTierNames != null) {
 			if (supportPhoneNumberTierNames.length > 0 && supportPhoneNumberTierNames[0] != null) {
-				pos.mSupportPhoneNumberBaseTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
-						supportPhoneNumberTierNames[0]);
+				pos.mSupportPhoneNumberBaseTier = new SupportPhoneNumber(data.optJSONObject(supportPhoneNumberTierNames[0]));
 			}
 			if (supportPhoneNumberTierNames.length > 1 && supportPhoneNumberTierNames[1] != null) {
-				pos.mSupportPhoneNumberMiddleTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
-						supportPhoneNumberTierNames[1]);
+				pos.mSupportPhoneNumberMiddleTier = new SupportPhoneNumber(data.optJSONObject(supportPhoneNumberTierNames[1]));
 			}
 			if (supportPhoneNumberTierNames.length > 2 && supportPhoneNumberTierNames[2] != null) {
-				pos.mSupportPhoneNumberTopTier = parseDeviceSpecificPhoneNumber(usingTabletInterface, data,
-						supportPhoneNumberTierNames[2]);
+				pos.mSupportPhoneNumberTopTier = new SupportPhoneNumber(data.optJSONObject(supportPhoneNumberTierNames[2]));
 			}
 		}
 
@@ -1273,6 +1285,7 @@ public class PointOfSale {
 		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
+		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
@@ -1298,6 +1311,7 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForPackages = data.optBoolean("earnMessageEnabled:packages", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
+		pos.isEarnMessageEnabledForHotelsV2 = data.optBoolean("earnMessageEnabledV2:hotels", false);
 		pos.shouldShowWebCheckout = data.optBoolean("shouldShowWebCheckout", false);
 		pos.hotelsWebCheckoutURL = data.optString("webCheckoutURL:hotels");
 		pos.hotelsWebBookingConfirmationURL = data.optString("webBookingConfirmationURL:hotels");
@@ -1305,6 +1319,7 @@ public class PointOfSale {
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
 		pos.mShouldShowKnownTravelerNumber = data.optBoolean("shouldShowKnownTravelerNumber", false);
+		pos.mShouldFormatTravelerPhoneNumber = data.optBoolean("shouldFormatTravelerPhoneNumber", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
@@ -1318,31 +1333,6 @@ public class PointOfSale {
 		pos.mRequiredPaymentFieldsFlights = parseRequiredPaymentFieldsFlights(data);
 
 		return pos;
-	}
-
-	// e.g. "supportPhoneNumber": {
-	//  "*": "<Default #>",
-	//  "iPhone": "<iPhone #>",
-	//  "iPad": "<iPad #>",
-	//  "Android": "<Android non-tablet #>",
-	//  "AndroidTablet": "<Android tablet #>"
-	// },
-	private static String parseDeviceSpecificPhoneNumber(boolean usingTabletInterface, JSONObject data, String name)
-		throws JSONException {
-		if (!data.has(name)) {
-			return null;
-		}
-		JSONObject numbers = data.getJSONObject(name);
-
-		// Try to find a device specific number
-		String deviceSpecificKey = usingTabletInterface ? "AndroidTablet" : "Android";
-		String result = numbers.optString(deviceSpecificKey, null);
-		if (!TextUtils.isEmpty(result)) {
-			return result;
-		}
-
-		// Just use the default number (or null if it doesn't exist)
-		return numbers.optString("*", null);
 	}
 
 	private static RequiredPaymentFields parseRequiredPaymentFieldsFlights(JSONObject data) {

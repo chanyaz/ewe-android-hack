@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.mobiata.android.util.SettingUtils;
 
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase() {
@@ -84,6 +86,7 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 			}
 		}
 		setActivity(null);
+		SettingUtils.save(a, R.string.preference_user_has_booked_hotel_or_flight, false);
 		super.tearDown();
 	}
 }

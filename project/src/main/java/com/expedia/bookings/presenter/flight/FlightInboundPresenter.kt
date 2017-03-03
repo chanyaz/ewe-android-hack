@@ -2,10 +2,29 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.Ui
+import javax.inject.Inject
 
 class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
+
+
+    lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
+        @Inject set
+
+    init {
+        Ui.getApplication(context).flightComponent().inject(this)
+    }
+
+    override fun back(): Boolean {
+        flightOfferViewModel.cancelInboundSearchObservable.onNext(Unit)
+        return super.back()
+    }
 
     override fun setupComplete() {
         super.setupComplete()
@@ -13,6 +32,11 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
         overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedInboundFlightSelection)
         overviewPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.inboundSelected)
         flightOfferViewModel.inboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightByotSearch, R.string.preference_flight_byot)) {
+            flightOfferViewModel.confirmedOutboundFlightSelection.subscribe {
+                resultsPresenter.setLoadingState()
+            }
+        }
     }
 
     override fun isOutboundResultsPresenter(): Boolean {
@@ -28,8 +52,8 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
     }
 
     override fun trackFlightResultsLoad() {
-        val flightLegs = flightOfferViewModel.inboundResultsObservable.value
-        FlightsV2Tracking.trackResultInBoundFlights(Db.getFlightSearchParams(), flightLegs)
+        val trackingData = searchTrackingBuilder.build()
+        FlightsV2Tracking.trackResultInBoundFlights(trackingData)
     }
 
 }
