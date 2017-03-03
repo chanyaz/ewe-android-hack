@@ -1,16 +1,8 @@
 package com.expedia.bookings.utils;
 
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import android.content.Context;
-
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
@@ -18,12 +10,15 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
-import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Inject;
 import okhttp3.HttpUrl;
 import rx.Observer;
 
@@ -135,15 +130,8 @@ public class AbacusHelperUtils {
 		String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
 		HttpUrl url = HttpUrl.parse(endpointUrl);
 		String host = url.host();
-		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
-			CookiesReferenceV2 cookiesReferenceV2 = new CookiesReferenceV2(context);
-			cookiesReferenceV2.mCookieManagerV2.setMC1Cookie(mc1Cookie, host);
-		}
-		else {
-			CookiesReferenceV1 cookiesReferenceV1 = new CookiesReferenceV1(context);
-			cookiesReferenceV1.mCookieManagerV1.setMC1Cookie(mc1Cookie, host);
-		}
-
+		CookiesReference cookiesReference = new CookiesReference(context);
+		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, host);
 		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
 		Db.setAbacusGuid(abacusGuid);
 		return abacusGuid;
@@ -156,11 +144,12 @@ public class AbacusHelperUtils {
 		return abacusGuid;
 	}
 
-	public static class CookiesReferenceV2 {
-		@Inject
-		public PersistentCookieManagerV2 mCookieManagerV2;
 
-		public CookiesReferenceV2(Context context) {
+	public static class CookiesReference {
+		@Inject
+		public PersistentCookiesCookieJar mCookieManager;
+
+		public CookiesReference(Context context) {
 			if (context == null) {
 				throw new RuntimeException("Context passed to AbacusHelperUtils.CookiesReference cannot be null!");
 			}
@@ -168,15 +157,4 @@ public class AbacusHelperUtils {
 		}
 	}
 
-	public static class CookiesReferenceV1 {
-		@Inject
-		public PersistentCookieManager mCookieManagerV1;
-
-		public CookiesReferenceV1(Context context) {
-			if (context == null) {
-				throw new RuntimeException("Context passed to AbacusHelperUtils.CookiesReference cannot be null!");
-			}
-			Ui.getApplication(context).appComponent().inject(this);
-		}
-	}
 }

@@ -1,21 +1,6 @@
 package com.expedia.bookings.dagger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import android.content.Context;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -26,10 +11,11 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -45,6 +31,18 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import dagger.Module;
 import dagger.Provides;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Named;
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.FormBody;
@@ -143,20 +141,17 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	PersistentCookieManagerV2 provideCookieManagerV2(Context context) {
+	PersistentCookiesCookieJar provideCookieManager(Context context) {
+		PersistentCookiesCookieJar cookieManager;
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManagerV2 manager = new PersistentCookieManagerV2(storage, oldStorage);
-		return manager;
-	}
-
-	@Provides
-	@Singleton
-	PersistentCookieManager provideCookieManagerV1(Context context) {
-		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
-		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage);
-		return manager;
+		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
+			cookieManager = new PersistentCookieManagerV2(storage, oldStorage);
+		}
+		else {
+			cookieManager = new PersistentCookieManager(storage, oldStorage);
+		}
+		return cookieManager;
 	}
 
 	@Provides
@@ -177,8 +172,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager1,
-		PersistentCookieManagerV2 cookieManager2, Cache cache,
+	OkHttpClient provideOkHttpClient(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
 		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
@@ -194,13 +188,7 @@ public class AppModule {
 		logger.setLevel(logLevel);
 		client.addInterceptor(logger);
 		client.followRedirects(true);
-		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
-			client.cookieJar(cookieManager2);
-		}
-		else {
-			client.cookieJar(cookieManager1);
-		}
-
+		client.cookieJar(cookieManager);
 		client.connectTimeout(10, TimeUnit.SECONDS);
 		client.readTimeout(60L, TimeUnit.SECONDS);
 

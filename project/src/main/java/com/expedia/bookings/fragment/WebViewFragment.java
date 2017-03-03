@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,11 +20,11 @@ import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Constants;
@@ -35,7 +33,7 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.webview.BaseWebViewClient;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-
+import java.util.HashMap;
 import okhttp3.Cookie;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -154,7 +152,9 @@ public class WebViewFragment extends DialogFragment {
 		mLoadCookies = args.getBoolean(ARG_LOAD_EXPEDIA_COOKIES, false);
 		// TODO when removing feature toggle please remove usage of ARG_LOAD_EXPEDIA_COOKIES and loadCookies method.
 		if (mLoadCookies && !FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_new_cookies)) {
-			loadCookies();
+			PersistentCookieManager mCookieManager = (PersistentCookieManager) new ExpediaServices(
+				getContext()).mCookieManager;
+			loadCookies(mCookieManager);
 		}
 
 		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
@@ -441,12 +441,12 @@ public class WebViewFragment extends DialogFragment {
 		}
 	}
 
-	private void loadCookies() {
+	private void loadCookies(PersistentCookieManager mCookieManager) {
 		CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
 		CookieManager cookieManager = CookieManager.getInstance();
 
 		// Set the Expedia cookies for loading the URL properly
-		HashMap<String, HashMap<String, Cookie>> cookiesStore = ExpediaServices.getCookies(getActivity());
+		HashMap<String, HashMap<String, Cookie>> cookiesStore = mCookieManager.getCookieStore();
 		cookieManager.setAcceptCookie(true);
 		cookieManager.removeSessionCookie();
 
