@@ -13,6 +13,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -329,18 +330,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel.confirmedOutboundFlightSelection.subscribe {
             if (isByotEnabled && viewModel.isRoundTripSearchSubject.value) {
                 inboundPresenter.showResults()
-                show(inboundPresenter)
+                showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
         }
         viewModel.inboundResultsObservable.subscribe {
             if (!isByotEnabled) {
                 searchTrackingBuilder.searchResponse(it)
                 inboundPresenter.trackFlightResultsLoad()
+                showInboundPresenter(viewModel.searchParamsObservable.value.departureAirport)
             }
-            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
-                    .put("city", StrUtils.formatCity(viewModel.searchParamsObservable.value.departureAirport))
-                    .format().toString())
-            show(inboundPresenter)
         }
         viewModel.errorObservable.subscribe {
             errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
@@ -573,5 +571,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         if (screen == FlightActivity.Screen.SEARCH) {
             show(searchPresenter)
         }
+    }
+
+    private fun showInboundPresenter(city: SuggestionV4) {
+        show(inboundPresenter)
+        announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
+                .put("city", StrUtils.formatCity(city))
+                .format().toString())
     }
 }
