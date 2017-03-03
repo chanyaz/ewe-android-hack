@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 import android.content.Context;
 
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
@@ -26,6 +27,7 @@ public interface AppComponent {
 	void inject(NewPhoneLaunchActivity activity);
 	void inject(AbacusHelperUtils.CookiesReferenceV2 cookiesReferenceV2);
 	void inject(AbacusHelperUtils.CookiesReferenceV1 cookiesReferenceV1);
+	void inject(LaunchListWidget launchListWidget);
 
 	Context appContext();
 	EndpointProvider endpointProvider();

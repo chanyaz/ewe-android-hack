@@ -1,11 +1,9 @@
 package com.expedia.bookings.launch.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -19,6 +17,9 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
@@ -33,13 +34,16 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.widget.SignInPlaceholderCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsHelperKt;
+import com.expedia.vm.ActiveItinViewModel;
 import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -49,6 +53,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
+		    || itemViewKey == LaunchDataItem.ACTIVE_ITIN_VIEW
 			|| itemViewKey == LaunchDataItem.POPULAR_HOTELS
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
@@ -121,6 +126,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			holder.itemView.setOnClickListener(seeAllClickListener);
 			return holder;
 		}
+		else if (viewType == LaunchDataItem.ACTIVE_ITIN_VIEW) {
+			View view = LayoutInflater.from(context).inflate(R.layout.launch_active_itin, parent, false);
+			return new ActiveItinLaunchCard(view, context);
+		}
 		else if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
@@ -173,10 +182,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
+		else if (holder instanceof ActiveItinLaunchCard) {
+			((ActiveItinLaunchCard) holder).bind(" ", makeActiveItinViewModel());
+		}
 		else if (holder instanceof LaunchLoadingViewHolder) {
 			((LaunchLoadingViewHolder) holder).bind();
 		}
-
 		else if (holder instanceof HotelViewHolder) {
 			LaunchHotelDataItem hotelDataItem = (LaunchHotelDataItem) listData.get(position);
 
@@ -225,7 +236,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showOnlyLOBView) {
 			return LaunchDataItem.LOB_VIEW;
 		}
-
 		LaunchDataItem item = listData.get(position);
 		return item.getKey();
 	}
@@ -250,13 +260,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showSignInCard()) {
 			items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 		}
+		if (showActiveItin()) {
+			items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
+		}
 		if (isBucketedForMemberDeal()) {
 			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 		}
 		if (userBucketedForPopularHotels()) {
 			items.add(new LaunchDataItem(LaunchDataItem.POPULAR_HOTELS));
 		}
+
 		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
+
 		return items;
 	}
 
@@ -294,6 +309,17 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		notifyDataSetChanged();
 	}
 
+	@VisibleForTesting
+	protected boolean customerHasTripsInNextTwoWeeks() {
+		Collection<Trip> customersTrips = getCustomerTrips();
+		boolean includeSharedItins = false;
+		return TripUtils.customerHasTripsInNextTwoWeeks(customersTrips, includeSharedItins);
+	}
+
+	private Collection<Trip> getCustomerTrips() {
+		return ItineraryManager.getInstance().getTrips();
+	}
+
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -329,8 +355,23 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.string.launch_find_recommended_hotels);
 	}
 
+	private ActiveItinViewModel makeActiveItinViewModel() {
+		if (User.isLoggedIn(context)) {
+			return new ActiveItinViewModel(context.getString(R.string.launch_upcoming_trips_signed_in),
+				context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
+		}
+		else {
+			return new ActiveItinViewModel(context.getString(R.string.launch_upcoming_trips_guest_user),
+				context.getString(R.string.launch_upcoming_trips_subtext_guest_user));
+		}
+	}
+
 	private boolean showSignInCard() {
 		return userBucketedForSignIn(context) && !User.isLoggedIn(context);
+	}
+
+	private boolean showActiveItin() {
+		return userBucketedForActiveItin() && customerHasTripsInNextTwoWeeks();
 	}
 
 	private boolean userBucketedForPopularHotels() {
@@ -347,8 +388,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen);
 	}
 
+	private boolean userBucketedForActiveItin() {
+		return FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard,
+				R.string.preference_active_itin_on_launch);
+	}
+
 	private static class HeaderViewModel {
 	}
+
 
 	public int getOffset() {
 		return staticCards.size();

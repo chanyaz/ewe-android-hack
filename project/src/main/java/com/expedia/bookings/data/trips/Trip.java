@@ -434,7 +434,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		}
 
 		// Compare tripId, then tripNumber if lacking that
-		if (!TextUtils.equals(mTripId, another.mTripId)) {
+		if (!Strings.equals(mTripId, another.mTripId)) {
 			if (mTripId == null) {
 				return -1;
 			}
@@ -442,7 +442,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 			return Strings.compareTo(mTripId, another.mTripId);
 		}
 
-		if (!TextUtils.equals(mTripNumber, another.mTripNumber)) {
+		if (!Strings.equals(mTripNumber, another.mTripNumber)) {
 			if (mTripNumber == null) {
 				return -1;
 			}
