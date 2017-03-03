@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
+#!/bin/ksh
 
 flavor=$1
 packageName=$2
-device=$3
-tags=$4
+tags=$3
 
 if [ -z "$flavor" ]; then
    echo "Missing Flavor"
@@ -15,18 +15,19 @@ if [ -z "$packageName" ]; then
    exit 1
 fi
 
-if [ -z "$device" ]; then
-   echo "Please specify the device"
+if [ -z "$tags" ]; then
+   echo "Missing Tags"
    exit 1
 fi
 
 echo "Running Cucumber UI tests on $flavor"
 
 function createDummyFilesOnDevice() {
+    device=$1
     echo "Creating Dummy Files....."
     adb -s $device shell mkdir /data/local/tmp/cucumber-htmlreport
     echo "Created..... cucumber-htmlreport"
-    adb -s $device shell touch /data/local/tmp/cucumber.json
+    adb -s $device shell touch /data/local/tmp/cucumber-htmlreport/cucumber.json
     echo "Created..... cucumber.json"
     adb -s $device shell touch /data/local/tmp/cucumber-htmlreport/formatter.js
     echo "Created..... formatter.js"
@@ -42,6 +43,7 @@ function createDummyFilesOnDevice() {
 }
 
 function removeDummyFilesOnDevice() {
+    device=$1
     echo "Removing Dummy Files....."
     adb -s $device shell rm -r /data/local/tmp/cucumber-htmlreport
     adb -s $device shell rm /data/local/tmp/cucumber.json
@@ -56,6 +58,7 @@ function build() {
 }
 
 function installBuild() {
+    device=$1
     echo "Installing Builds....."
     flavorLowerCase=$(tr "[A-Z]" "[a-z]" <<< "$flavor")
 
@@ -82,6 +85,7 @@ function installBuild() {
 }
 
 function uninstallBuild() {
+    device=$1
     echo "Uninstall Builds.."
     # unistall old apks
     adb -s $device uninstall ${packageName}.debug
@@ -91,8 +95,9 @@ function uninstallBuild() {
 }
 
 function runCucumberTests() {
+    device=$1
+    tagsPassed=$2
     echo "Running Cucumber Tests"
-    tagsPassed=""
     if [ -n "$tags" ]; then
         tagsPassed="-e tags \"${tags}\""
     fi
@@ -102,7 +107,10 @@ function runCucumberTests() {
 }
 
 function publishHTMLReport() {
-    cd project/build/outputs
+    device=$1
+    mkdir project/build/outputs
+    mkdir project/build/outputs/$device
+    cd project/build/outputs/$device
     adb -s $device pull /data/local/tmp/cucumber-htmlreport
     publishHTMLReport=$?
 }
@@ -130,16 +138,76 @@ function printResultsAndExit() {
   fi
 }
 
-#uninstall existing build
-uninstallBuild
-build
-#remove dummy files if already present
-removeDummyFilesOnDevice
-createDummyFilesOnDevice
-installBuild
-runCucumberTests
-publishHTMLReport
-removeDummyFilesOnDevice
-uninstallBuild
-printResultsAndExit
+function devices() {
+    adb devices | tail -n +2 | cut -sf 1
+}
 
+function runTestsOnDevice() {
+    device=$1
+    tags=$2
+    #uninstall existing build
+    uninstallBuild $device
+    #remove dummy files if already present
+    removeDummyFilesOnDevice $device
+    createDummyFilesOnDevice $device
+    installBuild $device
+    runCucumberTests $device $tags
+    publishHTMLReport $device
+}
+
+function distributingTagsOverDevices() {
+    tags=$1
+    numberOfDevices=$2
+    #Replacing comma with spaces
+    tags=$(echo ${tags} | sed 's/,/ /g')
+    read -a tagsArr <<<$tags
+    tagsCount=${#tagsArr[@]}
+
+    if (("$numberOfDevices" > "$tagsCount")) ; then
+        #Distribute each tag per device
+        for (( i=0; i<${tagsCount}; i++ )) ; do
+            tagsForEachDeviceArr[i]=${tagsArr[$i]}
+        done
+    else
+        #Distribute tags over device
+        #for example: 2 devices, 5 tags. On 1st Device - Tag1,Tag3,Tag5 will run and on 2nd Device - Tag2,Tag4 will run
+        for (( i=0; i<${tagsCount}; i++ )) ; do
+            index=$((i%${numberOfDevices}))
+            newTagStr="${tagsForEachDeviceArr[index]} ${tagsArr[$i]}"
+            tagsForEachDeviceArr[index]=${newTagStr}
+        done
+    fi
+
+    for (( i=0; i<${#tagsForEachDeviceArr[@]}; i++ )) ; do
+        echo ${tagsForEachDeviceArr[i]}
+    done
+}
+
+tagsForEachDeviceArr=()
+deviceIdentifierArr=()
+devicesCount=0
+
+for DEVICE in $(devices) ; do
+    deviceIdentifierArr[devicesCount]=$DEVICE
+    devicesCount=$((${devicesCount}+1))
+done
+
+if (("$devicesCount" == 0)) ; then
+  echo "No devices are connected"
+  exit 1
+fi
+
+#Building Debug and Android Test Debug
+build
+#Distribute tags over devices to run in parallel
+distributingTagsOverDevices ${tags} ${devicesCount}
+for (( i=0; i<${#tagsForEachDeviceArr[@]}; i++ )) ; do
+    #Trimming first character(+) and replacing space with comma(,)
+    tagsToRun=$(echo ${tagsForEachDeviceArr[i]} | sed 's/ /,/g')
+    echo "Trigerring on device" ${deviceIdentifierArr[i]} "with tags" $tagsToRun
+    runTestsOnDevice ${deviceIdentifierArr[i]} $tagsToRun &
+    echo "Trigerred"
+done
+
+wait
+echo "Done"
