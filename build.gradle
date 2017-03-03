@@ -101,6 +101,13 @@ subprojects {
             info.events = debug.events
             info.exceptionFormat = debug.exceptionFormat
 
+            afterTest { desc, result ->
+                def runtime = (result.endTime - result.startTime)
+                if (runtime > 1000) {
+                    println(" >>> SLOW TEST (${runtime} ms) <<< ${desc.className}.${desc.name}")
+                }
+            }
+
             afterSuite { desc, result ->
                 if (!desc.parent) { // will match the outermost suite
                     def results = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
