@@ -10,6 +10,15 @@ function updateJenkinsFlag() {
   fi
 }
 
+function prepareLocalMavenRepo() {
+  # Robolectric does not play well with multiple threads: https://github.com/robolectric/robolectric/issues/2346
+  # Turns out the problem is an internal maven downloader. Workaround is to make sure resources are downloaded ahead of time
+  if [ -n `which mvn` ]; then
+    mvn -f jenkins/robo3-api18-pom.xml dependency:go-offline
+    mvn -f jenkins/robo3-api21-pom.xml dependency:go-offline
+  fi
+}
+
 function setUpForPythonScripts() {
 # do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
   if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true") ]]; then
@@ -130,6 +139,7 @@ if [ "$flavor" == "" ]; then
 fi
 
 updateJenkinsFlag
+prepareLocalMavenRepo
 setUpForPythonScripts
 if [ "$flavor" == "Expedia" ]; then
     runPRPolice

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.robolectric</groupId>
+    <artifactId>robolectric-files</artifactId>
+    <version>3.0</version>
+    <packaging>pom</packaging>
+    <description>Robolectric Test Runner files.</description>
+    <url>http://robolectric.org/</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.robolectric</groupId>
+            <artifactId>android-all</artifactId>
+            <version>4.3_r2-robolectric-0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.robolectric</groupId>
+            <artifactId>shadows-core</artifactId>
+            <version>3.0</version>
+            <classifier>18</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20080701</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ccil.cowan.tagsoup</groupId>
+            <artifactId>tagsoup</artifactId>
+            <version>1.2</version>
+        </dependency>
+    </dependencies>
+</project>

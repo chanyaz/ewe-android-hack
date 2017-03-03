@@ -1,12 +1,6 @@
 package com.expedia.bookings.utils
 
 import android.net.Uri
-import org.junit.Test
-import rx.observers.TestSubscriber
-import java.util.concurrent.TimeUnit
-import kotlin.test.assertTrue
-import com.expedia.bookings.data.clientlog.EmptyResponse
-import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -19,10 +13,12 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import rx.schedulers.Schedulers
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class DeepLinkUtilsTest {
@@ -225,11 +221,9 @@ class DeepLinkUtilsTest {
     }
 
     fun trackDeepLink(uri: String) {
-        val observer = TestSubscriber<EmptyResponse>()
         val data = Uri.parse(uri)
         val queryData = StrUtils.getQueryParameterNames(data)
         DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryData)
-        observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
     }
 
     private fun assertOmnitureDeepLinkArgsSetup(key: String) {

@@ -181,6 +181,10 @@ class DeepLinkRouterActivityTest {
         var supportEmailCallsCount = 0
         lateinit var mockItineraryManager: ItineraryManager
 
+        override fun startProcessing() {
+            handleDeeplink()
+        }
+
         override fun handleSignIn() {
             signInCallsCount++
         }
