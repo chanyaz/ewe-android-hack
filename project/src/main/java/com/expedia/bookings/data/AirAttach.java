@@ -51,9 +51,9 @@ public class AirAttach implements JSONable {
 		if (obj.has("jodaOfferExpiresObj")) {
 			mExpirationDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "jodaOfferExpiresObj", "");
 		}
-		else if (obj.has("offerExpires")) {
-			JSONObject offerExpires = obj.optJSONObject("offerExpires");
-			mExpirationDate = DateTimeParser.parseDateTime(offerExpires);
+		else if (obj.has("offerExpiresTime")) {
+			JSONObject offerExpiresTime = obj.optJSONObject("offerExpiresTime");
+			mExpirationDate = DateTimeParser.parseDateTime(offerExpiresTime);
 		}
 
 		return true;

@@ -236,7 +236,7 @@
       },
       "airAttachQualificationInfo": {
         "airAttachQualified": true,
-        "offerExpires": {
+        "offerExpiresTime": {
           "epochSeconds": "${airAttachOfferExpiresEpochSeconds}",
           "timeZoneOffsetSeconds": "${airAttachOfferExpiresTzOffset}"
         }
