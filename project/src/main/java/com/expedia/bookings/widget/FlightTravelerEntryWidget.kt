@@ -39,8 +39,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
     val passportCountryEditBox: EditText by bindView(R.id.passport_country_btn)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
-    var advancedButton: LinearLayout ?= null
-    var advancedOptionsIcon: ImageView ?= null
+    var advancedButton: LinearLayout? = null
+    var advancedOptionsIcon: ImageView? = null
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -78,7 +78,14 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         vm.passportCountrySubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {
-                passportCountryEditBox.setText(countryCode)
+                if (countryCode.isNullOrBlank()) {
+                    passportCountryEditBox.setText(countryCode)
+                } else {
+                    val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+                            R.layout.material_item)
+                    val countryName = adapter.getItem(adapter.getPositionByCountryThreeLetterCode(countryCode))
+                    passportCountryEditBox.setText(countryName)
+                }
             } else {
                 selectPassport(countryCode)
             }
@@ -154,7 +161,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         adapter.showPosAsFirstCountry()
 
         builder.setAdapter(adapter) { dialog, position ->
-            passportCountryEditBox.setText(adapter.getItem(position))
+            if ((viewModel as FlightTravelerEntryWidgetViewModel).showPassportCountryObservable.value) {
+                (viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+            }
             (viewModel as FlightTravelerEntryWidgetViewModel).passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
             (viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(true)
         }
