@@ -105,6 +105,7 @@ import com.mobiata.flightlib.data.FlightCode;
 import okhttp3.Call;
 import okhttp3.ConnectionSpec;
 import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -164,10 +165,7 @@ public class ExpediaServices implements DownloadListener {
 	public OkHttpClient mCachedClient;
 
 	@Inject
-	public PersistentCookieManager mCookieManager;
-
-	@Inject
-	public PersistentCookieManagerV2 mCookieManagerV2;
+	public CookieJar cookieJar;
 
 	@Inject
 	public EndpointProvider mEndpointProvider;
@@ -231,7 +229,7 @@ public class ExpediaServices implements DownloadListener {
 	// inject the cookies elsewhere (e.g., a WebView)
 	public static HashMap<String, HashMap<String, Cookie>> getCookies(Context context) {
 		ExpediaServices services = new ExpediaServices(context);
-		return services.mCookieManager.getCookieStore();
+		return ((PersistentCookieManager)services.cookieJar).getCookieStore();
 	}
 
 	public static void removeUserLoginCookies(Context context) {
@@ -247,8 +245,8 @@ public class ExpediaServices implements DownloadListener {
 	private static void removeUserLoginCookies(Context context, String[] userCookieNames) {
 		ExpediaServices services = new ExpediaServices(context);
 		String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
-		services.mCookieManager.removeNamedCookies(userCookieNames);
-		services.mCookieManagerV2.removeNamedCookies(endpointUrl, userCookieNames);
+		((PersistentCookieManager)services.cookieJar).removeNamedCookies(userCookieNames);
+		((PersistentCookieManagerV2)services.cookieJar).removeNamedCookies(endpointUrl, userCookieNames);
 	}
 
 	public static void removeUserCookieFromUserLoginCookies(Context context) {
