@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Slide to book</string>
+    <string name="lx_slider_text">Slide to purchase</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Enter contact details</string>
     <!-- LX search error -->
@@ -2083,9 +2083,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">slide to book hotel</string>
+    <string name="slide_to_book_hotel">slide to purchase hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">slide to book flight</string>
+    <string name="slide_to_book_flight">slide to purchase flight</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2235,6 +2235,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Country Code</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Born %1$s</string>
 
@@ -4227,7 +4229,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Slide to book</string>
+    <string name="slide_to_book_text">Slide to purchase</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} Points</string>
@@ -4563,9 +4565,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flight time is {time} with price {price}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}. Includes hotel and flights\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4867,5 +4870,15 @@
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Popular Hotels Tonight</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Booking Successful!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Please check your email for the itinerary.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Fetching your trips…</string>
 
 </resources>

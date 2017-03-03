@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Sveip for å bestille</string>
+    <string name="lx_slider_text">Sveip for å kjøpe</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Oppgi kontaktdetaljer</string>
     <!-- LX search error -->
@@ -2081,9 +2081,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Bla videre for å betale.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">sveip for å bestille hotell</string>
+    <string name="slide_to_book_hotel">sveip for å kjøpe hotellrom</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">sveip for å bestille fly</string>
+    <string name="slide_to_book_flight">sveip for å kjøpe flyreise</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Kortet ditt vil bli belastet med {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2233,6 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landskode</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Landskode</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Født %1$s</string>
 
@@ -4225,7 +4227,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Sveip for å bestille</string>
+    <string name="slide_to_book_text">Sveip for å kjøpe</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} poeng med {brand_reward_name}</string>
@@ -4561,9 +4563,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Flytiden er på {time}, med en prisforskjell på {pricedifference}. Flyvningen er med {airline}. Flytiden er på {hours} {minutes} med {stops} mellomlandinger\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Flytiden er på {time}, med en prisforskjell på {pricedifference}. Flyreisen er med {airline}. Flytiden er på {hours} {minutes}, med {stops} mellomlandinger\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flytiden er på {time}, med en pris på {price}. Flyreisen er med {airline}. Flytiden er på {hours} {minutes} med {stops} mellomlandinger\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5. Pris {price}. Inkluderer hotell og flyvninger\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4865,5 +4868,15 @@
     <string name="itin_sign_in_message">Logg på for tilgang til kommende reiser</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Finn en reise bestilt som gjest</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Finn hoteller nær deg</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Populære hoteller i kveld</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Bestillingen gikk igjennom!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Åpne innboksen din for å se reiseruten.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Henter reisene dine …</string>
 
 </resources>

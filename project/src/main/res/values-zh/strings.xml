@@ -556,8 +556,8 @@
         <item quantity="other">%1$s 台设备</item>
     </plurals>
     <plurals name="ticket_type_room_TEMPLATE">
-        <item quantity="one">%1$s 间客房</item>
-        <item quantity="other">%1$s 间客房</item>
+        <item quantity="one">%1$s 间房</item>
+        <item quantity="other">%1$s 间房</item>
     </plurals>
     <plurals name="ticket_type_carriage_TEMPLATE">
         <item quantity="one">%1$s 辆马车</item>
@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">滑动屏幕，开始预订</string>
+    <string name="lx_slider_text">滑动屏幕，即可预订</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
     <!-- LX search error -->
@@ -972,7 +972,7 @@
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">加入旅行计划</string>
     <!-- Rooms and rates button to select a particular room and view details -->
-    <string name="room_rate_button_select_room">选择房间</string>
+    <string name="room_rate_button_select_room">选择房型</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 条点评</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
@@ -2233,6 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">国家/地区代码</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">国家/地区代码</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">生日：%1$s</string>
 
@@ -2351,13 +2353,13 @@
     <!-- Traveler Information -->
     <string name="traveler_information">旅客信息</string>
     <!-- First name label -->
-    <string name="first_name">名</string>
+    <string name="first_name">名字</string>
     <!-- Middle name label -->
     <string name="middle_name">中间名</string>
     <!-- Middle name optional label -->
     <string name="middle_name_optional">中间名（可选）</string>
     <!-- Last name label -->
-    <string name="last_name">姓</string>
+    <string name="last_name">姓氏</string>
     <!-- date of birth label -->
     <string name="date_of_birth">出生日期</string>
     <!-- default value for the gender drop down on checkout -->
@@ -3689,7 +3691,7 @@
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
-    <string name="cc_american_express">American Express</string>
+    <string name="cc_american_express">美国运通</string>
     <!-- Carte Blanche -->
     <string name="cc_carte_blanche">Carte Blanche</string>
     <!-- China Union Pay -->
@@ -3703,9 +3705,9 @@
     <!-- Maestro -->
     <string name="cc_maestro">Maestro</string>
     <!-- Master Card -->
-    <string name="cc_master_card">Master Card</string>
+    <string name="cc_master_card">万事达</string>
     <!-- Visa -->
-    <string name="cc_visa">Visa</string>
+    <string name="cc_visa">维萨</string>
     <!-- Carte Bleue -->
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
@@ -4225,7 +4227,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">滑动屏幕，开始预订</string>
+    <string name="slide_to_book_text">滑动屏幕，即可预订</string>
     <string name="hotel_city_country_TEMPLATE">{country}，{city}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints}{brand_reward_name} 积分</string>
@@ -4561,9 +4563,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">航班时间是 {time}，价格差别为 {pricedifference}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">航班出发时间 {time}，价差为 {pricedifference}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">航班出发时间 {time}，价差为 {price}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格 {price}。含酒店和机票\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4747,9 +4750,9 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">打开对话框</string>
     <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">展开，查看客房信息并选择客房</string>
+    <string name="hotel_room_expand_cont_desc">展开，查看客房信息并选择房型</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">选择客房</string>
+    <string name="hotel_expanded_room_select_cont_desc">选择客房型房</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">已禁用</string>
     <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
@@ -4865,5 +4868,15 @@
     <string name="itin_sign_in_message">登录帐户，查看近期行程</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">查找使用访客帐户预订的行程</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">寻找您周边的酒店</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">今晚热卖酒店</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">预订成功！</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">详细行程单，请检查您的邮箱。</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">正在提取您的行程信息…</string>
 
 </resources>

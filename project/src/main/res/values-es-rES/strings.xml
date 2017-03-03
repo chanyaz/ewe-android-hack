@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Desliza para reservar</string>
+    <string name="lx_slider_text">Desliza para realizar la compra</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Introducir datos de contacto</string>
     <!-- LX search error -->
@@ -2233,6 +2233,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Código de país</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Código de país</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Fecha de nacimiento: %1$s</string>
 
@@ -4225,7 +4227,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Desliza para reservar</string>
+    <string name="slide_to_book_text">Desliza para realizar la compra</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} puntos {brand_reward_name}</string>
@@ -4561,9 +4563,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">El horario del vuelo es {time}; con una diferencia de precio de {pricedifference}. Vuelo operado por {airline}. La duración del vuelo es de {hours} y {minutes}, con {stops} escalas\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">El horario del vuelo es {time}; con una diferencia de precio de {pricedifference}. Vuelo operado por {airline}. La duración del vuelo es de {hours} y {minutes}, con {stops} escalas\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">El horario del vuelo es {time}; con un de precio de {price}. Vuelo operado por {airline}. La duración del vuelo es de {hours} y {minutes}, con {stops} escalas\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}, con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}. Incluye hotel y vuelo\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4865,5 +4868,15 @@
     <string name="itin_sign_in_message">Inicia sesión para ver tus próximos viajes</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Encontrar viaje con cuenta de invitado</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Encuentra hoteles cerca de ti</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Los más buscados para hoy</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">¡Reserva realizada!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Consulta tu correo electrónico para ver el itinerario.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Recuperando viajes…</string>
 
 </resources>
