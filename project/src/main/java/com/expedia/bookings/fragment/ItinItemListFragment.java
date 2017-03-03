@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -37,17 +38,21 @@ import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
+
+import kotlin.Unit;
+import rx.functions.Action1;
+import rx.subjects.BehaviorSubject;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	ItinerarySyncListener {
@@ -76,6 +81,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ImageView mStatusImage;
 	private Button mFindItineraryButton;
 	public ItinSignInPresenter mSignInPresenter;
+	private FrameLayout mDeepRefreshLoadingView;
 
 	private boolean mAllowLoadItins = false;
 
@@ -97,6 +103,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		FAILURE,
 		NONE
 	}
+
+	public BehaviorSubject<Boolean> toolBarVisibilitySubject = BehaviorSubject.create();
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
@@ -141,6 +149,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mRoot = Ui.findView(view, R.id.outer_container);
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
+		mDeepRefreshLoadingView = Ui.findView(view, R.id.deep_refresh_loading_layout);
 
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
@@ -214,11 +223,25 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private void setSignInView(View view) {
 		View mEmptyView;
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
-			R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity())) {
+		if (isNewSignInScreen()) {
 			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
 			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
 			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
+			mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
+				new Action1<Boolean>() {
+					@Override
+					public void call(Boolean show) {
+						toolBarVisibilitySubject.onNext(show);
+						Ui.hideKeyboard(getActivity());
+					}
+				});
+			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
+				new Action1<Unit>() {
+					@Override
+					public void call(Unit unit) {
+						syncItinManager(true, true);
+					}
+				});
 			mEmptyView = mSignInPresenter;
 		}
 		else {
@@ -321,6 +344,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
+		if (isNewSignInScreen() && isLoading) {
+			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
+		}
 	}
 
 	public boolean isLoading() {
@@ -347,6 +373,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mAllowLoadItins = false;
 	}
 
+	private boolean isNewSignInScreen() {
+		return
+			FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
+				R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity());
+	}
+
 	public synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		if (isFetchGuestItinFailure) {
@@ -357,6 +389,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public synchronized void startAddRegisteredUserItinActivity() {
+
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
 		OmnitureTracking.trackFindItin();
@@ -442,7 +475,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		User.signOut(getActivity());
 
 		syncItinManager(true, false);
-		AdTracker.trackLogout();
 
 		updateLoginState();
 
@@ -535,7 +567,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private int getSupportActionBarHeight() {
 		int ret;
 		// Tablet's ItineraryActivity is not an ActionBarActivity yet.
-		if (AndroidUtils.isTablet(getActivity())) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			ret = getActivity().getActionBar() == null ? 0 : getActivity().getActionBar().getHeight();
 		}
 		else {
@@ -556,12 +588,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onTripUpdated(Trip trip) {
 		OmnitureTracking.trackItinAdd(trip);
+		showDeepRefreshLoadingView(false);
 	}
 
 	@Override
 	public void onTripFailedFetchingGuestItinerary() {
 		boolean isFetchGuestItinFailure = true;
-		startAddGuestItinActivity(isFetchGuestItinFailure);
+		if (!isNewSignInScreen()) {
+			startAddGuestItinActivity(isFetchGuestItinFailure);
+		}
 	}
 
 	@Override
@@ -571,7 +606,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripUpdateFailed(Trip trip) {
-		// Do nothing
+		showDeepRefreshLoadingView(false);
 	}
 
 	@Override
@@ -654,7 +689,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				//we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
-					AdTracker.trackViewItinList();
 					OmnitureTracking.trackItin(getActivity());
 				}
 
@@ -696,5 +730,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			}
 			ratingDialog.show();
 		}
+	}
+
+	public void showDeepRefreshLoadingView(boolean show) {
+		mDeepRefreshLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
 	}
 }

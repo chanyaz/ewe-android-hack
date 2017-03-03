@@ -47,6 +47,10 @@ public class LXScreen {
 		EspressoUtils.assertViewIsDisplayed(R.id.scrollView);
 	}
 
+	public static void didOpenResults() {
+		EspressoUtils.assertViewIsDisplayed(R.id.lx_search_results_list);
+	}
+
 	public static void selectLocation(String location) throws Throwable {
 		Common.delay(1);
 		SearchScreen.selectLocation(location);

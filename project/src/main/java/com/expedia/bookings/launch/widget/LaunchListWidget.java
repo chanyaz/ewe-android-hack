@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
@@ -36,21 +37,29 @@ public class LaunchListWidget extends RecyclerView {
 		typedArray.recycle();
 	}
 
+	public void notifyDataSetChanged() {
+		adapter.updateState();
+	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 
-		StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
-			StaggeredGridLayoutManager.VERTICAL);
+		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);
 
 		header = LayoutInflater.from(getContext()).inflate(R.layout.snippet_launch_list_header, null);
-		adapter = new LaunchListAdapter(header, showLobHeader);
+		adapter = new LaunchListAdapter(getContext(), header);
 		setAdapter(adapter);
-		addItemDecoration(new LaunchListDividerDecoration(getContext(), showLobHeader));
+		addItemDecoration(new LaunchListDividerDecoration(getContext()));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
+	}
+
+	@NonNull
+	public StaggeredGridLayoutManager makeLayoutManager() {
+		return new StaggeredGridLayoutManager(2,
+				StaggeredGridLayoutManager.VERTICAL);
 	}
 
 	public void setHeaderPaddingTop(float paddingTop) {
@@ -72,14 +81,12 @@ public class LaunchListWidget extends RecyclerView {
 		Events.unregister(this);
 		super.onDetachedFromWindow();
 	}
-
-
+	
 	@Subscribe
 	public void onNearbyHotelsSearchResults(Events.LaunchHotelSearchResponse event) {
 		String headerTitle = getResources().getString(R.string.nearby_deals_title);
 		Db.setLaunchListHotelData(event.topHotels);
 		adapter.setListData(event.topHotels, headerTitle);
-		adapter.notifyDataSetChanged();
 	}
 
 	@Subscribe
@@ -92,19 +99,17 @@ public class LaunchListWidget extends RecyclerView {
 				.subList(0, ProductFlavorFeatureConfiguration.getInstance().getCollectionCount());
 		}
 		adapter.setListData(event.collection.locations, headerTitle);
-		adapter.notifyDataSetChanged();
 	}
 
 	public void showListLoadingAnimation() {
-		List<Integer> elements = createDummyListForAnimation();
+		List<Object> elements = createDummyListForAnimation();
 		String headerTitle = getResources().getString(R.string.loading_header);
 		adapter.setListData(elements, headerTitle);
-		adapter.notifyDataSetChanged();
 	}
 
 	// Create list to show cards for loading animation
-	public List<Integer> createDummyListForAnimation() {
-		List<Integer> elements = new ArrayList<>();
+	public List<Object> createDummyListForAnimation() {
+		ArrayList<Object> elements = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
 			elements.add(0);
 		}

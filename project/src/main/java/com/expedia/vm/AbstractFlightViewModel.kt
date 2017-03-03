@@ -17,28 +17,33 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
     val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, false) ?: ""
-    var seatsLeft = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
+    var seatsLeftUrgencyMessage = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
+    var flightCabinPreferences = FlightV2Utils.getFlightCabinPreferences(context, flightLeg)
 
     abstract fun price(): String
-    abstract fun getUrgencyMessageVisibilty(): Boolean
+    abstract fun getUrgencyMessageVisibility(seatsLeft: String): Boolean
+    abstract fun getFlightCabinPreferenceVisibility(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
     abstract fun getRoundTripMessageVisibilty(): Boolean
+    abstract fun isShowingFlightPriceDifference(): Boolean
 
     var contentDescription = getFlightContentDesc()
 
     fun getFlightContentDesc(): CharSequence {
         var result = SpannableBuilder()
 
-        result.append(Phrase.from(context, R.string.flight_detail_card_cont_desc_TEMPLATE)
+        result.append(Phrase.from(context, (if (isShowingFlightPriceDifference()) R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
+        else R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE))
                 .put("time", asscesibleFlightTime)
-                .put("pricedifference", price())
+                .putOptional("price", price())
+                .putOptional("pricedifference", price())
                 .put("airline", FlightV2Utils.getAirlinesList(airline))
                 .put("hours", getHourTimeContDesc(flightLeg.durationHour))
                 .put("minutes", getMinuteTimeContDesc(flightLeg.durationMinute))
                 .put("stops", flightLeg.stopCount)
                 .format()
                 .toString())
-        if(flightSegments != null){
+        if (flightSegments != null) {
             for (segment in flightSegments) {
                 result.append(Phrase.from(context, R.string.flight_detail_flight_duration_card_cont_desc_TEMPLATE).
                         put("departureairport", segment.departureAirportCode).
@@ -52,7 +57,11 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
                 }
             }
         }
-        if (getUrgencyMessageVisibilty()) {
+        if (getFlightCabinPreferenceVisibility()) {
+            result.append(Phrase.from(context, R.string.flight_detail_cabin_class_desc_TEMPLATE).
+                    put("class", flightCabinPreferences).format().toString())
+        }
+        if (getUrgencyMessageVisibility(seatsLeftUrgencyMessage)) {
             val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
             result.append(Phrase.from(context.resources.getQuantityString(R.plurals.flight_detail_urgency_message_cont_desc_TEMPLATE, seatsLeft))
                     .put("seatsleft", seatsLeft).format().toString())

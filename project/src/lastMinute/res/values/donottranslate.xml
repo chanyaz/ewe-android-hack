@@ -18,10 +18,4 @@
     <string name="lastminute_au">lastminute.com.au</string>
     <string name="lastminute_nz">lastminute.co.nz</string>
 
-    <!-- Lean Plum SDK -->
-    <string name="lean_plum_sdk_dev_appid">app_I28LJCqP3QKEVxu8gosdtLD0bR89TesA0bp3UvLqM3w</string>
-    <string name="lean_plum_sdk_dev_key">dev_MrQpVfHzIF61UljxwBO7xIe4gdmRy3rOB3hDidNz7OI</string>
-
-    <string name="lean_plum_sdk_prod_appid">app_DWQDPUw9LNunhSKF4IwgBzYXeZuqnZkR6uObVxUVqeg</string>
-    <string name="lean_plum_sdk_prod_key">prod_a0hzrdYopqcoWgEdtKjmrTZSpAJlRbRvWVmI9HAzfcg</string>
 </resources>

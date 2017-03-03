@@ -71,7 +71,7 @@ public class ServicesUtil {
 
 	public static String generateClient(Context context) {
 		String clientName = ProductFlavorFeatureConfiguration.getInstance().getClientShortName();
-		String deviceType = ExpediaBookingApp.useTabletInterface(context) ? "tablet" : "phone";
+		String deviceType = ExpediaBookingApp.useTabletInterface() ? "tablet" : "phone";
 		return clientName + ".app.android." + deviceType;
 	}
 

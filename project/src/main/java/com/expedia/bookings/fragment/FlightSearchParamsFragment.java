@@ -191,7 +191,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 
 		mIsLandscape = getResources().getBoolean(R.bool.landscape);
-		mIsTablet = ExpediaBookingApp.useTabletInterface(getActivity());
+		mIsTablet = ExpediaBookingApp.useTabletInterface();
 		mFirstRun = savedInstanceState == null;
 
 		mProgressDialog = (SimpleProgressDialogFragment) getChildFragmentManager().findFragmentByTag(TAG_PROGRESS);

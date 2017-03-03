@@ -156,6 +156,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBurningRewardPointsForLoggedInUserWithEnoughRedeemablePointsResponse() {
         setup()
 
@@ -179,7 +180,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals("$3.70", sut.tripTotalPrice.value)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBurningRewardPointsForLoggedInUserWithRedeemablePointsLessThanTripTotalResponse() {
         setup()
 

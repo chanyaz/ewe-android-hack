@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/root_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:descendantFocusability="beforeDescendants"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="9dp">
+
+        <com.expedia.bookings.widget.TravelerButton
+            android:id="@+id/traveler_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="center_vertical"/>
+
+        <com.expedia.bookings.widget.traveler.NameEntryView
+            android:id="@+id/name_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.expedia.bookings.widget.traveler.EmailEntryView
+            android:id="@+id/email_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.expedia.bookings.widget.traveler.PhoneEntryView
+            android:id="@+id/phone_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.expedia.bookings.widget.traveler.TSAEntryView
+            android:id="@+id/tsa_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.expedia.bookings.widget.accessibility.AccessibleSpinner
+            android:id="@+id/passport_country_spinner"
+            style="@style/FakeSpinner.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:popupBackground="@android:color/white"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:textSize="@dimen/traveler_input_text_size"
+            android:visibility="gone"
+            app:spinner_label="@string/passport_country"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passport_country_layout_btn"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <EditText
+                android:id="@+id/passport_country_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:drawableRight="@drawable/material_dropdown"
+                android:hint="@string/passport_country"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/traveler_input_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
+            android:id="@+id/traveler_advanced_options_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="9dp"/>
+
+    </LinearLayout>
+</merge>

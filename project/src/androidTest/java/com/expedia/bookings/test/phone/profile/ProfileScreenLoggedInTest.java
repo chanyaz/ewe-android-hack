@@ -19,10 +19,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -33,6 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.sameBitmap;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertContainsImageDrawable;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsGone;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -75,7 +76,7 @@ public class ProfileScreenLoggedInTest {
 		assertViewIsGone(R.id.pending_points); // 0 pending points == hide the view
 		ViewInteraction countryView = getFirstRowCountry();
 		countryView.check(matches(withText("USA")));
-		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertContainsImageDrawable(R.id.flagView, R.drawable.ic_flag_us_icon);
 		assertViewIsGone(R.id.points_monetary_value_label);
 		assertViewIsGone(R.id.points_monetary_value);
 		assertViewIsGone(R.id.currency_label);
@@ -93,7 +94,7 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.pending_points, "965 pending");
 		ViewInteraction countryView = getSecondRowCountry();
 		countryView.check(matches(withText("USA")));
-		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertContainsImageDrawable(R.id.flagView, R.drawable.ic_flag_us_icon);
 		assertViewWithTextIsDisplayed(R.id.currency_label, "Currency");
 		assertViewWithTextIsDisplayed(R.id.currency, "USD");
 		assertViewWithTextIsDisplayed(R.id.points_monetary_value_label, "Points value");
@@ -111,7 +112,7 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
 		ViewInteraction countryView = getSecondRowCountry();
 		countryView.check(matches(withText("USA")));
-		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertContainsImageDrawable(R.id.flagView, R.drawable.ic_flag_us_icon);
 		assertViewWithTextIsDisplayed(R.id.currency_label, "Currency");
 		assertViewWithTextIsDisplayed(R.id.currency, "USD");
 		assertViewWithTextIsDisplayed(R.id.points_monetary_value_label, "Points value");
@@ -130,34 +131,34 @@ public class ProfileScreenLoggedInTest {
 		assertViewWithTextIsDisplayed(R.id.pending_points, "5,601 pending");
 		ViewInteraction countryView = getSecondRowCountry();
 		countryView.check(matches(withText("USA")));
-		assertTextViewHasCompoundDrawableFlag(countryView, R.drawable.ic_flag_us);
+		assertContainsImageDrawable(R.id.flagView, R.drawable.ic_flag_us_icon);
 	}
 
 	// only spot checking a few countries as OOM issues are preventing testing all
 
 	@Test
 	public void argentina() {
-		doCountryTest("Argentina", "ARG", R.drawable.ic_flag_ar);
+		doCountryTest("Argentina", "ARG", R.drawable.ic_flag_ar_icon);
 	}
 
 	@Test
 	public void canada() {
-		doCountryTest("Canada", "CAN", R.drawable.ic_flag_ca);
+		doCountryTest("Canada", "CAN", R.drawable.ic_flag_ca_icon);
 	}
 
 	@Test
 	public void hongKong() {
-		doCountryTest("Hong Kong", "HKG", R.drawable.ic_flag_hk);
+		doCountryTest("Hong Kong", "HKG", R.drawable.ic_flag_hk_icon);
 	}
 
 	@Test
 	public void korea() {
-		doCountryTest("Korea", "KOR", R.drawable.ic_flag_kr);
+		doCountryTest("Korea", "KOR", R.drawable.ic_flag_kr_icon);
 	}
 
 	@Test
 	public void unitedKingdom() {
-		doCountryTest("United Kingdom", "GBR", R.drawable.ic_flag_gb);
+		doCountryTest("United Kingdom", "GBR", R.drawable.ic_flag_uk_icon);
 	}
 
 	private void doCountryTest(String countryName, String country3LetterCode, @DrawableRes int flagResId) {
@@ -167,7 +168,7 @@ public class ProfileScreenLoggedInTest {
 
 		ViewInteraction countryView = getSecondRowCountry();
 		countryView.check(matches(withText(country3LetterCode)));
-		assertTextViewHasCompoundDrawableFlag(countryView, flagResId);
+		assertContainsImageDrawable(R.id.flagView, flagResId);
 	}
 
 	private void switchCountry(String countryName) {

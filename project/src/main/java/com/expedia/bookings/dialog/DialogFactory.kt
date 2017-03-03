@@ -1,5 +1,6 @@
 package com.expedia.bookings.dialog
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import com.expedia.bookings.BuildConfig
@@ -11,18 +12,20 @@ class DialogFactory {
 
     companion object {
         fun showNoInternetRetryDialog(context: Context, retryFun: () -> Unit, cancelFun: () -> Unit) {
-            val b = AlertDialog.Builder(context)
-            b.setCancelable(false)
-                    .setMessage(context.resources.getString(R.string.error_no_internet))
-                    .setPositiveButton(context.resources.getString(R.string.retry)) { dialog, which ->
-                        dialog.dismiss()
-                        retryFun()
-                    }
-                    .setNegativeButton(context.resources.getString(R.string.cancel)) { dialog, which ->
-                        dialog.dismiss()
-                        cancelFun()
-                    }
-                    .show()
+            if (isContextValidActivity(context)) {
+                val b = AlertDialog.Builder(context)
+                b.setCancelable(false)
+                        .setMessage(context.resources.getString(R.string.error_no_internet))
+                        .setPositiveButton(context.resources.getString(R.string.retry)) { dialog, which ->
+                            dialog.dismiss()
+                            retryFun()
+                        }
+                        .setNegativeButton(context.resources.getString(R.string.cancel)) { dialog, which ->
+                            dialog.dismiss()
+                            cancelFun()
+                        }
+                        .show()
+            }
         }
 
         fun createLogoutDialog(context: Context, logoutFun: () -> Unit): AlertDialog {
@@ -41,6 +44,13 @@ class DialogFactory {
                 OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL)
             })
             return builder.create()
+        }
+
+        private fun isContextValidActivity(context: Context): Boolean {
+            if (context is Activity) {
+                return !context.isFinishing && !context.isDestroyed
+            }
+            return true
         }
     }
 }

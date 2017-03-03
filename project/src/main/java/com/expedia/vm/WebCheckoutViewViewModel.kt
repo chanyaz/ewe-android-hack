@@ -47,6 +47,8 @@ class WebCheckoutViewViewModel(val context: Context) : WebViewViewModel(), UserA
         val bookTripId = bookedTripIDObservable.value
         if (Strings.isNotEmpty(bookTripId)) {
             fetchItinObservable.onNext(bookTripId)
+        } else {
+            closeView.onNext(Unit)
         }
     }
 

@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSubject: BehaviorSubject<Boolean>, val posChangeSubject: BehaviorSubject<Unit>) {
+class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSubject: BehaviorSubject<Boolean>?, val posChangeSubject: BehaviorSubject<Unit>?) {
 
     val lobsSubject = PublishSubject.create<ArrayList<LobInfo>>()
 
@@ -22,7 +22,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
     }
 
     init {
-        posChangeSubject.subscribe(refreshLobsObserver)
+        posChangeSubject?.subscribe(refreshLobsObserver)
         navigationSubject.subscribe {
             trackLobNavigation(it.first)
         }

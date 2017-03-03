@@ -97,6 +97,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Home", "expda://home"),
 		new DeepLink("Sign In", "expda://signIn"),
 		new DeepLink("Trips", "expda://trips"),
+		new DeepLink("Trips with itin number", "expda://trips?itinNum=7238447666975"),
 		new DeepLink("Unsupported URL Scheme", "george://noworky"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
 		new DeepLink("Support Email", "expda://supportEmail"),
@@ -109,6 +110,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Location Search with Location ID", "https://www.expedia.com/mobile/deeplink/Hotel-Search?regionId=6119916"),
 		new DeepLink("Hotel Search with Adults", "https://www.expedia.com/mobile/deeplink/Hotel-Search?adults=3", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
 		new DeepLink("Hotel Future Dates", "https://www.expedia.com/mobile/deeplink/Hotel-Search?hotelId=12539", "startDate", 90, "endDate", 97, "MM/dd/yyyy"),
+		new DeepLink("Hotel Future Dates - Korea PoS", "https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539", "startDate", 90, "endDate", 97, "yyyy.MM.dd"),
 		new DeepLink("Hotel Info Site", "https://www.expedia.com/mobile/deeplink/Krabi-Trang-Hotels-Pakasai-Resort.h1276486.Hotel-Information?rm1=a2:c2:c7:c8", "chkin", 14, "chkout", 18, "MM/dd/yyyy"),
 
 		new DeepLink("Flight Search", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
@@ -127,6 +129,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Home", "https://www.expedia.com/mobile/deeplink"),
 		new DeepLink("Sign In", "https://www.expedia.com/mobile/deeplink/user/signin"),
 		new DeepLink("Trips", "https://www.expedia.com/mobile/deeplink/trips"),
+		new DeepLink("Trips", "https://www.expedia.com/mobile/deeplink/trips/7238447666975"),
 	};
 
 	@Override

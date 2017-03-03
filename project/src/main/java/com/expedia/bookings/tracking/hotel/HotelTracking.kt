@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking.hotel
 
+import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -9,7 +10,6 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
-import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
 
 open class HotelTracking {
@@ -185,7 +185,6 @@ open class HotelTracking {
         fun trackHotelSearch(trackingParams: HotelSearchTrackingData) {
             OmnitureTracking.trackHotelsV2Search(trackingParams);
             FacebookEvents().trackHotelV2Search(trackingParams)
-            LeanPlumUtils.trackHotelV2Search(trackingParams)
             TuneUtils.trackHotelV2SearchResults(trackingParams)
         }
 
@@ -238,7 +237,6 @@ open class HotelTracking {
         fun trackPageLoadHotelCheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams, pageUsableData: PageUsableData) {
             OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams, pageUsableData)
             val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
-            LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse, searchParams.guests)
             TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
             FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
         }
@@ -289,9 +287,12 @@ open class HotelTracking {
 
         fun trackHotelPurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, guestCount: Int, couponCode: String) {
             OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalAppliedRewardCurrency)
-            LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse, guestCount, couponCode)
             TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
             FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)
+        }
+
+        fun trackHotelPurchaseFromWebView(hotelItinDetailsResponse: HotelItinDetailsResponse) {
+            OmnitureTracking.trackHotelV2PurchaseFromWebView(hotelItinDetailsResponse)
         }
 
         fun trackHotelConfirmationCalendar() {

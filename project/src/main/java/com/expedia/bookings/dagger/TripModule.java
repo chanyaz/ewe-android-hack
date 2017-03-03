@@ -3,6 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ItinTripServices;
+import com.expedia.bookings.services.RoomUpgradeOffersService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,5 +20,11 @@ public final class TripModule {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
-}
 
+	@Provides
+	@TripScope
+	RoomUpgradeOffersService provideRoomUpgradeOffersService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new RoomUpgradeOffersService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	}
+}

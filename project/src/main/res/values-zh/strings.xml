@@ -62,9 +62,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">每天</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">报价使用的是%s。</string>
+    <string name="cars_checkout_breakdown_us_text">标价使用的是%s。</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">报价使用的是%1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
+    <string name="cars_checkout_breakdown_non_us_text">标价使用的是%1$s。所有取车时应付的税费都需要使用当地货币结算 (%2$s)。</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">每周</string>
     <!-- Cars weekly price templates-->
@@ -110,9 +110,9 @@
     <!-- Car bags text-->
     <string name="car_bags_text">行李</string>
     <!-- Car automatic transmission text-->
-    <string name="car_auto_tran_text">自动挡档</string>
+    <string name="car_auto_tran_text">自动档</string>
     <!-- Car manual transmission text-->
-    <string name="car_man_tran_text">手动挡档</string>
+    <string name="car_man_tran_text">手动档</string>
 
     <!-- car result -->
     <!-- car door range -->
@@ -311,7 +311,7 @@
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">选择日期</string>
     <!-- Select Start date - used for the LX Calendar. -->
-    <string name="select_start_date">选择开始日期</string>
+    <string name="select_start_date">选择出发日期</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晚酒店</string>
     <!-- Missing flight info message -->
@@ -378,7 +378,7 @@
     <!-- LX checkout cost breakdown for alert button -->
     <string name="lx_cost_breakdown_button_text">完成</string>
     <!-- LX checkout price breakdown for POS same as pickup location templates-->
-    <string name="lx_checkout_breakdown_price_disclaimer_text">报价使用的是%s。</string>
+    <string name="lx_checkout_breakdown_price_disclaimer_text">标价使用的是%s。</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">总价</string>
     <!-- Text for error toolbar-->
@@ -556,8 +556,8 @@
         <item quantity="other">%1$s 台设备</item>
     </plurals>
     <plurals name="ticket_type_room_TEMPLATE">
-        <item quantity="one">%1$s 间客房</item>
-        <item quantity="other">%1$s 间客房</item>
+        <item quantity="one">%1$s 间房</item>
+        <item quantity="other">%1$s 间房</item>
     </plurals>
     <plurals name="ticket_type_carriage_TEMPLATE">
         <item quantity="one">%1$s 辆马车</item>
@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">滑动屏幕，开始预订</string>
+    <string name="lx_slider_text">滑动屏幕，即可预订</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">请输入详细联系信息</string>
     <!-- LX search error -->
@@ -978,7 +978,7 @@
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">加入旅行计划</string>
     <!-- Rooms and rates button to select a particular room and view details -->
-    <string name="room_rate_button_select_room">选择房间</string>
+    <string name="room_rate_button_select_room">选择房型</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 条点评</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">登录 {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">登录 {brand} 按钮</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} Expedia+ 积分</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录，累积 {reward} Expedia+ 积分</string>
     <!-- or -->
     <string name="or">或</string>
+    <!--Create Account -->
+    <string name="Create_Account">创建帐户</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">累积奖励，揭开专属优惠</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可以办理登机</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">分享航班信息</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">允许其他人在您的旅行期间接收实时更新。</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s 个航班飞往 %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">刷新行程</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">刷新您的行程</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">正在刷新您的行程…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">我们暂时无法获取您的行程信息。请再试一次。</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1307,6 +1309,8 @@
     <string name="trips_expand_button_label_cont_desc">展开行程按钮</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">升级酒店客房</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">编辑客房信息</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">酒店确认代码</string>
     <!-- Passengers Label -->
@@ -2015,11 +2019,15 @@
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">经济型</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">高级经济舱</string>
+    <string name="cabin_code_premium_coach">高端经济舱</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">商务舱</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">头等舱</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">不同舱位</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">选择航班</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -2183,6 +2191,8 @@
     <string name="youll_earn_points_TEMPLATE">此次预订将累积 {reward_currency} 分！</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">您是我们尊贵的会员！</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">以 {brand} 会员身份预订！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">预订此行程将累积 {reward_currency} 分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2306,6 +2316,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">国家/地区代码</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">国家/地区代码</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">生日：%1$s</string>
     <!-- Born on colored -->
@@ -2413,6 +2425,8 @@
     <string name="no_thanks">不，谢谢</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">高级选项</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">高级选项（可选）</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2428,13 +2442,13 @@
     <!-- Traveler Information -->
     <string name="traveler_information">旅客信息</string>
     <!-- First name label -->
-    <string name="first_name">名</string>
+    <string name="first_name">名字</string>
     <!-- Middle name label -->
     <string name="middle_name">中间名</string>
     <!-- Middle name optional label -->
     <string name="middle_name_optional">中间名（可选）</string>
     <!-- Last name label -->
-    <string name="last_name">姓</string>
+    <string name="last_name">姓氏</string>
     <!-- date of birth label -->
     <string name="date_of_birth">出生日期</string>
     <!-- default value for the gender drop down on checkout -->
@@ -2453,23 +2467,23 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">护照签发国家 / 原籍</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">核查备案号（如适用）</string>
+    <string name="only_if_applicable">身份纠正识别号（如适用）</string>
     <!-- traveler number hint -->
     <string name="known_traveler_number">已知旅客编号</string>
     <!-- traveler number info msg -->
     <string name="known_traveler_msg">这是政府签发的、用于 TSA 预检的号码。</string>
     <!-- redress number info msg -->
-    <string name="redress_number_msg">核查备案号是 TSA 发出的唯一编号，目的是帮助 TSA 避免发生观察名单误认并验证您的身份。</string>
+    <string name="redress_number_msg">身份纠正识别号是 TSA 发出的唯一编号，目的是帮助 TSA 避免发生观察名单误认并验证您的身份。</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">正在将旅客信息保存到您的帐户…</string>
     <!-- Seating Preference -->
-    <string name="seating_preference">座位喜好</string>
+    <string name="seating_preference">座位要求</string>
     <!-- Seat Preference -->
     <string name="seat_preference">座位要求</string>
     <!-- Special Assistance -->
     <string name="special_assistance">特殊帮助</string>
     <!-- Add Redress # -->
-    <string name="add_redress_num">添加 Redress #</string>
+    <string name="add_redress_num">添加身份纠正识别号</string>
 
     <!-- Entered invalid birthdate dialog -->
     <string name="invalid_birthdate_message">您输入的年龄与您搜索的旅客的年龄不符。请更新信息，然后再尝试付款。</string>
@@ -3121,7 +3135,7 @@
     <string name="etp_pay_now_cancellation_text">在酒店的取消截止日期之前都可以免费取消。</string>
 
     <!-- ETP pay later deposit info message -->
-    <string name="etp_pay_later_deposit_text">您的押金不会超过预订的总金额。</string>
+    <string name="etp_pay_later_deposit_text">您的订金不会超过预订的总金额。</string>
     <string name="no_charge_text_TEMPLATE">{brand} 不会向您收费。</string>
     <string name="deposit_info_text">订金担保</string>
 
@@ -3809,7 +3823,7 @@
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
-    <string name="cc_american_express">American Express</string>
+    <string name="cc_american_express">美国运通</string>
     <!-- Carte Blanche -->
     <string name="cc_carte_blanche">Carte Blanche</string>
     <!-- China Union Pay -->
@@ -3823,9 +3837,9 @@
     <!-- Maestro -->
     <string name="cc_maestro">Maestro</string>
     <!-- Master Card -->
-    <string name="cc_master_card">Master Card</string>
+    <string name="cc_master_card">万事达</string>
     <!-- Visa -->
-    <string name="cc_visa">Visa</string>
+    <string name="cc_visa">维萨</string>
     <!-- Carte Bleue -->
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
@@ -4368,7 +4382,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">滑动屏幕，开始预订</string>
+    <string name="slide_to_book_text">滑动屏幕，即可预订</string>
     <string name="hotel_city_country_TEMPLATE">{country}，{city}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints}{brand_reward_name} 积分</string>
@@ -4704,9 +4718,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">航班时间是 {time}，价格差别为 {pricedifference}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">航班出发时间 {time}，价差为 {pricedifference}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">航班出发时间 {time}，价差为 {price}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格 {price}。含酒店和机票\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4753,6 +4768,12 @@
         <item quantity="one">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
         <item quantity="other">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">选择需要的等级。按钮。打开对话框。需要的等级：{seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">选择需要的等级。对话框</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">需要的等级：{class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} 至 {enddate}</string>
@@ -4782,7 +4803,7 @@
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">选择第 {seniornumber} 名老人的年龄。</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
-    <string name="packages_search_datepicker_announce_accessibility_start_date">选择您的开始日期。</string>
+    <string name="packages_search_datepicker_announce_accessibility_start_date">选择您的出发日期。</string>
     <!--Announce for choosing end date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_end_date">选择您的结束日期。</string>
     <!--Packages accessibility flight search filter-->
@@ -4884,11 +4905,13 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">打开对话框</string>
     <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">展开，查看客房信息并选择客房</string>
+    <string name="hotel_room_expand_cont_desc">展开，查看客房信息并选择房型</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">选择客房</string>
+    <string name="hotel_expanded_room_select_cont_desc">选择客房型房</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">已禁用</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">国家/地区{country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">价格为 {activity_price}</string>
@@ -4961,14 +4984,22 @@
     <string name="room_upgrade_available">可以升级房型</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">您的体验怎么样？</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">喜欢我们的 App 吗？</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">喜欢我们的 App 的话，别忘了到 Play Store 给我们好评哦！</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">评论</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">给 App 打分</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">反馈</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">发送电子邮件至应用技术支持</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">不用了，谢谢</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">不，谢谢</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">输入有效的电子邮件地址</string>
     <!-- Checkout validation error message for first name -->
@@ -4984,9 +5015,23 @@
     <string name="passport_validation_error_message">选择护照国家/地区</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">手动添加您使用访客帐户预订的行程</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">正在搜索您的行程…</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">（参见您的确认邮件）</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">请输入有效的行程编号</string>
     <!-- Itin screen message for signing in-->
-    <string name="itin_sign_in_message">登录以查看您的近期行程</string>
+    <string name="itin_sign_in_message">登录帐户，查看近期行程</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">查找使用访客帐户预订的行程</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">寻找您周边的酒店</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">今晚热卖酒店</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">预订成功！</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">详细行程单，请检查您的邮箱。</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">正在提取您的行程信息…</string>
 
 </resources>

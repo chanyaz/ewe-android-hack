@@ -10,6 +10,8 @@ import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.lx.LXTicketType
 import com.expedia.bookings.data.lx.Offer
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.LXOffersListWidget
 import com.google.gson.GsonBuilder
 import org.joda.time.LocalDate
@@ -25,6 +27,7 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class LXOfferListWidgetTest {
     private var widget: LXOffersListWidget by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
@@ -38,7 +41,7 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testSetOffersBucketedForFirstOfferExpandedABTest() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
+        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.BUCKETED)
         val offersList = setActivityOfferList()
         widget.sortTicketByPriorityAndOfferByPrice(offersList)
         assertTrue(offersList[0].isToggled)
@@ -46,14 +49,14 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testSetOffersControlledForFirstOfferExpandedABTest() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.CONTROL)
+        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.CONTROL)
         val offersList = setActivityOfferList()
         assertFalse(offersList[0].isToggled)
     }
 
     @Test
     fun testFirstOfferExpandedBucketed() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
+        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.BUCKETED)
         setActivityOfferList()
 
         val offerContainer = widget.offerContainer
@@ -69,7 +72,7 @@ class LXOfferListWidgetTest {
 
     @Test
     fun testFirstOfferCollapsed() {
-        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.CONTROL)
+        bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariant.CONTROL)
         setActivityOfferList()
 
         val offerContainer = widget.offerContainer
@@ -83,7 +86,7 @@ class LXOfferListWidgetTest {
         assertEquals(offerRow.visibility, View.VISIBLE)
     }
 
-    private fun bucketFirstOfferInListExpandedABTest(defaultVariate: AbacusUtils.DefaultVariate ) {
+    private fun bucketFirstOfferInListExpandedABTest(defaultVariate: AbacusUtils.DefaultVariant) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded,
                 defaultVariate.ordinal)

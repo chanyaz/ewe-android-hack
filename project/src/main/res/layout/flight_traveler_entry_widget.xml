@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:visibility="gone"/>
 
         <com.expedia.bookings.widget.traveler.NameEntryView
             android:id="@+id/name_entry_widget"
@@ -60,8 +61,7 @@
             android:id="@+id/passport_country_layout_btn"
             android:layout_width="match_parent"
             android:visibility="gone"
-            android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/passport_country_btn"

@@ -69,7 +69,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			finish();
 		}
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
@@ -203,7 +203,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	private boolean shouldBail() {
 		// #1106: Don't continue to load any part of the
 		// activity as we're just about to recreate it
-		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
+		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

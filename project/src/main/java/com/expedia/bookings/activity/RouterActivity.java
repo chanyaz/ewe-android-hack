@@ -19,6 +19,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -32,7 +33,6 @@ import rx.Observer;
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	boolean loadSignInViewAbTest = false;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +66,18 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		boolean userNotLoggedIn = !User.isLoggedIn(RouterActivity.this);
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(),
-			0);
-
-		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled() && loadSignInViewAbTest) {
-			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
-
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			if (loadSignInViewAbTest) {
+				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
+			}
+			query.addExperiment(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
+			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
+			query.addExperiment(AbacusUtils.ExpediaAndroidAppPhablet);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
 			.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
-
 	}
 
 	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new Observer<AbacusResponse>() {
@@ -91,6 +92,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			Log.d("Abacus:showSignInOnLaunchTest - onError");
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
+				ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(RouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
 			}
 			NavUtils.goToLaunchScreen(RouterActivity.this, false);
 			finishActivity();
@@ -100,7 +102,10 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		public void onNext(AbacusResponse abacusResponse) {
 			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch) && loadSignInViewAbTest) {
+			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(RouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch)
+				&& loadSignInViewAbTest) {
 				NavUtils.goToSignIn(RouterActivity.this);
 			}
 			else {
@@ -171,12 +176,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	private void handleAppLaunch() {
 		TrackingUtils.initializeTracking(this.getApplication());
-		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
-			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
-			finishActivity();
-		}
 		// Show app introduction if available and not already shown.
-		else if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
 			.get(this, R.string.preference_app_intro_shown_once, false)) {
 			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
 			finishActivity();

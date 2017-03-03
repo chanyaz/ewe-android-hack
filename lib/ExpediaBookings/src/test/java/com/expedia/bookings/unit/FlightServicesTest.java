@@ -105,6 +105,64 @@ public class FlightServicesTest {
 	}
 
 	@Test
+	public void testMockOutboundSearchWorksForByot() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
+
+		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
+			.legNo(0)
+			.origin(getDummySuggestionForByot())
+			.destination(getDummySuggestionForByot())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.adults(1)
+			.build();
+
+		service.flightSearch(params, observer, resultsResponseReceived);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		resultsResponseReceivedTestSubscriber.assertValueCount(1);
+	}
+
+	@Test
+	public void testMockInboundSearchWorksForByot() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+		PublishSubject<Unit> resultsResponseReceived = PublishSubject.create();
+
+		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber resultsResponseReceivedTestSubscriber = new TestSubscriber();
+		resultsResponseReceived.subscribe(resultsResponseReceivedTestSubscriber);
+
+
+		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
+			.legNo(1)
+			.selectedLegID("leg-id")
+			.origin(getDummySuggestionForByot())
+			.destination(getDummySuggestionForByot())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.adults(1)
+			.build();
+		service.flightSearch(params, observer, resultsResponseReceived);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		resultsResponseReceivedTestSubscriber.assertValueCount(1);
+	}
+
+	@Test
 	public void testSearchErrorWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -144,5 +202,11 @@ public class FlightServicesTest {
 		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
 		suggestion.hierarchyInfo.airport.airportCode = "";
 		return suggestion;
+	}
+
+	private SuggestionV4 getDummySuggestionForByot() {
+		SuggestionV4 dummySuggestion = getDummySuggestion();
+		dummySuggestion.hierarchyInfo.airport.airportCode = "byot_search";
+		return dummySuggestion;
 	}
 }

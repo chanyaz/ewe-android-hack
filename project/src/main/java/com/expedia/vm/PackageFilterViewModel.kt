@@ -3,7 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.tracking.PackagesTracking
 
-class PackageFilterViewModel(context:Context): AbstractHotelFilterViewModel(context) {
+class PackageFilterViewModel(context: Context) : AbstractHotelFilterViewModel(context) {
     override fun trackHotelSortBy(sortBy: String) {
         PackagesTracking().trackHotelSortBy(sortBy)
     }
@@ -38,5 +38,9 @@ class PackageFilterViewModel(context:Context): AbstractHotelFilterViewModel(cont
 
     override fun showHotelFavorite(): Boolean {
         return false
+    }
+
+    override fun isClientSideFiltering(): Boolean {
+        return true
     }
 }

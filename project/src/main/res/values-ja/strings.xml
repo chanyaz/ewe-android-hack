@@ -276,9 +276,9 @@
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">セッションの期限が切れました。もう一度お試しください。</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
-    <string name="reservation_already_exists_new_hotels">この予約は完了しています。旅程または Eメールをご確認ください。</string>
+    <string name="reservation_already_exists_new_hotels">この予約は完了しています。旅程またはEメールをご確認ください。</string>
     <!-- Shown to user when they try to book something already booked -->
-    <string name="reservation_already_exists">この旅行はすでにご予約済みのようです。旅行または Eメールをご確認ください。</string>
+    <string name="reservation_already_exists">この旅行はすでにご予約済みのようです。旅行またはEメールをご確認ください。</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
     <string name="reservation_price_change">レンタカー料金が変更されました。新しい料金を確認してから、次に進んでください。</string>
     <!-- Show to user when the their traveler information is invalid -->
@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">スライドして予約</string>
+    <string name="lx_slider_text">スライドして購入</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">連絡先情報を入力</string>
     <!-- LX search error -->
@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">{brand} アカウントでサインイン</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">{brand} アカウントでサインイン ボタン</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得ボタン</string>
     <!-- or -->
     <string name="or">または</string>
+    <!--Create Account -->
+    <string name="Create_Account">アカウントを作成</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">特典を獲得 &amp; 限定のお得情報にアクセス</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">チェックイン可</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">フライト情報をシェアする</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">旅行中にリアルタイムな情報がシェアされます。</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$sへのフライト %1$s 便</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">旅程を更新</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">旅行を読み込む</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">旅行の読み込み中…</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">現在、旅程を取得できません。もう一度お試しください。</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -1307,6 +1309,8 @@
     <string name="trips_expand_button_label_cont_desc">旅行拡大ボタン</string>
     <!-- Content Description for upgrade image to upgrade hotel room -->
     <string name="trips_upgrade_hotel_button_label_cont_desc">客室をアップグレードする</string>
+    <!-- Web view header label for soft changes to hotel room booking -->
+    <string name="trips_edit_room_info_web_view_title">客室情報を編集</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">ホテルの確認番号</string>
     <!-- Passengers Label -->
@@ -2020,6 +2024,10 @@
     <string name="cabin_code_business">ビジネス</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">ファーストクラス</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">複数のクラス</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">フライトを選択する</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -2156,7 +2164,7 @@
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">スライドしてホテルを予約</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">スライドして航空券を予約</string>
+    <string name="slide_to_book_flight">スライドして航空券を購入</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
     <!-- Your are using pwp points -->
@@ -2183,6 +2191,8 @@
     <string name="youll_earn_points_TEMPLATE">今回のご予約で {reward_currency} ポイント付与されます !</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">いつもご利用ありがとうございます。</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">{brand}の会員として予約 !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">今回の旅行で {reward_currency} ポイント付与されます !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2190,14 +2200,14 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">申し訳ありません。ホテルがこの宿泊の合計料金を %1$s から %2$s に値上げしました。</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">うれしいお知らせです ! ご宿泊料金が %1$s から %2$s に値下げされました。</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">うれしいお知らせです !  ご宿泊料金が %1$s から %2$s に値下げされました。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完了</string>
     <string name="done_cont_desc">完了ボタン</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">半角英字を使用してください</string>
     <!-- Label to show user when they use unsupported characters in their email -->
-    <string name="please_enter_a_valid_email_address">有効な Eメールアドレスを入力してください</string>
+    <string name="please_enter_a_valid_email_address">有効なEメールアドレスを入力してください</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">ホテルでのお支払い料金</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
@@ -2306,6 +2316,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">国番号</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">国番号</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">生年月日 : %1$s</string>
     <!-- Born on colored -->
@@ -2413,6 +2425,8 @@
     <string name="no_thanks">いいえ</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">拡張設定</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">その他 (オプション)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -3519,7 +3533,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">エラーが発生したため、お客様のご予約を完了することができませんでした。もう一度お試しください。</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、 {brand}のカスタマーサポートまでお電話ください。</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、{brand}のカスタマーサポートまでお電話ください。</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">申し訳ありません。ご希望の客室はご利用いただけません。</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -4368,7 +4382,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">スライドして予約</string>
+    <string name="slide_to_book_text">スライドして購入</string>
     <string name="hotel_city_country_TEMPLATE">{city}、{country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} ポイント</string>
@@ -4647,7 +4661,7 @@
     <string name="flight_add_infant_in_seat_number_TEMPLATE">座席が必要な乳幼児 {number} の詳細</string>
 
     <!-- Shop with points -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ ポイント適用済み !(税およびサービス料別)</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ ポイント適用済み ! (税およびサービス料別)</string>
     <string name="regular_loyalty_applied_message">Expedia+ ポイント適用済み !</string>
     <string name="vip_loyalty_applied_message">還元率 2 倍でポイント適用済み !</string>
     <!-- String to be appended with +VIP in header of room rates. -->
@@ -4704,9 +4718,10 @@
     <string name="reward_top_tier_name_short">+ゴールド</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">フライト時間は {time} で料金は {price} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4753,6 +4768,12 @@
         <item quantity="one">旅行者数ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
         <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
     </plurals>
+    <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
+    <string name="select_preferred_flight_class_cont_desc_TEMPLATE">ご希望のクラスを選択。ボタン。ダイアログを開きます。ご希望のクラス {seatingclass}</string>
+    <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
+    <string name="choose_preferred_class_cont_desc">ご希望のクラスを選択。ダイアログ</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">ご希望のクラス {class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
@@ -4889,6 +4910,8 @@
     <string name="hotel_expanded_room_select_cont_desc">客室を選択</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">無効のクレジットカード タイプ</string>
+    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
+    <string name="accessibility_cont_desc_pos_TEMPLATE">国名 {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">料金は {activity_price} です</string>
@@ -4961,16 +4984,24 @@
     <string name="room_upgrade_available">アップグレード可</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">ご意見をお聞かせください。</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">ご意見をお聞かせください。</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">今後のサービス向上のため、Play Store でのアプリ評価にご協力ください。</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">レビュー</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">アプリを評価する</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">フィードバックを送信</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">アプリ サポートにメールする</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">送信しない</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">評価しない</string>
     <!-- Checkout validation error message for email -->
-    <string name="email_validation_error_message">有効な Eメールアドレスを入力してください</string>
+    <string name="email_validation_error_message">有効なEメールアドレスを入力してください</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">名を半角アルファベットのみで入力してください</string>
     <!-- Checkout validation error message for last name -->
@@ -4984,9 +5015,23 @@
     <string name="passport_validation_error_message">パスポートの発行国を選択してください</string>
     <!-- Itin screen message for adding a guest trip-->
     <string name="itin_sign_in_add_guest_trip_message">ゲストとして予約した旅行を手動で追加する</string>
-    <!-- Progress dialog text while searching for a guest trip -->
-    <string name="spinner_text_add_guest_trip">旅行を検索中 …</string>
+    <!-- Itinerary number hint -->
+    <string name="itinerary_number_hint">(確認メールに記載)</string>
+    <!-- Itinerary number error message -->
+    <string name="itinerary_number_error_message">有効な旅程番号を入力してください</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">サインインして今後の旅行予定にアクセスする</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">ゲストとして予約した旅行を検索</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">現在地付近のホテルを検索</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">今晩泊まれる人気のホテル</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">予約完了 !</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">旅程に関するEメールをご確認ください。</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">旅程を取得しています…</string>
 
 </resources>

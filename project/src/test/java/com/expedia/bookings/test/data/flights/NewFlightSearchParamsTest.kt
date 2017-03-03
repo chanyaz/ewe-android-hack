@@ -2,16 +2,19 @@ package com.expedia.bookings.test.data.flights
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricRunner::class)
 class NewFlightSearchParamsTest {
     val maxStay = 26
     val maxRange = 329
@@ -189,6 +192,28 @@ class NewFlightSearchParamsTest {
         assertEquals(expectedReturnDate, params.getEndOfTripDate())
         assertNotEquals(params.startDate, params.getEndOfTripDate())
 
+    }
+
+    @Test
+    fun testBuildParamsForInboundSearch() {
+        val params = giveSearchParams()
+        val inboundSearchParams = giveSearchParams().buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
+        Assert.assertEquals(params.adults, inboundSearchParams.adults)
+        Assert.assertEquals(params.children.size, inboundSearchParams.children.size)
+        Assert.assertEquals(params.departureDate, inboundSearchParams.departureDate)
+        Assert.assertEquals(params.returnDate, inboundSearchParams.returnDate)
+        Assert.assertEquals(params.departureAirport, inboundSearchParams.departureAirport)
+        Assert.assertEquals(params.arrivalAirport, inboundSearchParams.arrivalAirport)
+        Assert.assertEquals(1, inboundSearchParams.legNo)
+        Assert.assertEquals("outboundleg", inboundSearchParams.selectedOutboundLegId)
+    }
+
+    private fun giveSearchParams(): FlightSearchParams {
+        return builder.origin(expectedOrigin)
+                .destination(expectedOrigin)
+                .startDate(tomorrow)
+                .endDate(expectedReturnDate)
+                .adults(expectedNumAdults).build() as FlightSearchParams
     }
 
     private fun getDummySuggestion(city: String, airport: String): SuggestionV4 {

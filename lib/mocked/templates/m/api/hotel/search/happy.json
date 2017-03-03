@@ -1463,6 +1463,84 @@
           "currencyCode": "USD"
         }
       },
+      "hotelGuestRating": "4.4",
+      "hotelId": "happypath_with_loyalty_points",
+      "hotelStarRating": "4.0",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "largeThumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+      "latitude": "37.78458",
+      "isHotelAvailable": true,
+      "localizedName": "happypath_with_loyalty_points",
+      "locationDescription": "Union Square - Convention Center",
+      "locationId": "800177",
+      "longitude": "-122.40854",
+      "lowRateInfo": {
+        "averageBaseRate": "109.00",
+        "averageRate": "109.00",
+        "currencyCode": "USD",
+        "discountPercent": 0,
+        "maxNightlyRate": "109.00",
+        "nightlyRateTotal": "109.00",
+        "nightlyRatesPerRoom": [
+          {
+            "baseRate": "109.00",
+            "promo": "false",
+            "rate": "109.00"
+          }
+        ],
+        "priceAdjustments": [],
+        "priceToShowUsers": "109",
+        "strikethroughPriceToShowUsers": "109",
+        "total": "109.00",
+        "totalMandatoryFees": "0.00",
+        "totalPriceWithMandatoryFees": "109.00",
+        "userPriceType": "PerNightRateNoTaxes",
+        "loyaltyInfo": {
+          "burn": {
+            "type": "REGULAR",
+            "amount": {
+              "amount": "-41.50",
+              "formattedPrice": "($41.50)",
+              "formattedWholePrice": "($42)",
+              "currencyCode": "USD"
+            }
+          },
+          "earn": {
+            "points": {
+              "base": 100,
+              "bonus": 200,
+              "total": 300
+            }
+          },
+          "isBurnApplied": false
+        }
+      },
+      "name": "happypath_with_loyalty_points",
+      "postalCode": "94101",
+      "proximityDistanceInKiloMeters": "0.0",
+      "proximityDistanceInMiles": "0.0",
+      "roomsLeftAtThisRate": "40",
+      "shortDescription": "SHORT_DESCRIPTION",
+      "stateProvinceCode": "CA",
+      "supplierType": "MERCHANT",
+      "thumbnailUrl": "/hotels/1000000/570000/564900/564858/564858_43_d.jpg",
+      "totalRecommendations": "0",
+      "totalReviews": "100"
+    },
+    {
+      "address": "551 Cyril Magnin St PWP",
+      "airportCode": "SFO",
+      "city": "San Francisco",
+      "countryCode": "USA",
+      "distanceUnit": "Miles",
+      "hasFreeCancellation": true,
+      "highestSurveyPriceAsPrice": {
+        "amount": 249,
+        "currency": {
+          "currencyCode": "USD"
+        }
+      },
       "hotelGuestRating": "0.0",
       "hotelId": "no_guest_review",
       "hotelStarRating": "4.0",
@@ -1495,7 +1573,26 @@
         "total": "109.00",
         "totalMandatoryFees": "0.00",
         "totalPriceWithMandatoryFees": "109.00",
-        "userPriceType": "PerNightRateNoTaxes"
+        "userPriceType": "PerNightRateNoTaxes",
+        "loyaltyInfo": {
+          "burn": {
+            "type": "REGULAR",
+            "amount": {
+              "amount": "-41.50",
+              "formattedPrice": "($41.50)",
+              "formattedWholePrice": "($42)",
+              "currencyCode": "USD"
+            }
+          },
+          "earn": {
+            "points": {
+              "base": 100,
+              "bonus": 200,
+              "total": 300
+            }
+          },
+          "isBurnApplied": false
+        }
       },
       "name": "no_guest_review",
       "postalCode": "94101",

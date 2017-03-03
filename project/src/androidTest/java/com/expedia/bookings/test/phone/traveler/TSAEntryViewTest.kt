@@ -38,7 +38,7 @@ class TSAEntryViewTest {
 
     @Before
     fun setUp() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariate.CONTROL.ordinal)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false)
 
         Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent()

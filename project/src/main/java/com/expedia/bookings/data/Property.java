@@ -74,6 +74,12 @@ public class Property implements JSONable {
 		}
 	}
 
+	public enum RoomUpgradeType {
+		NOT_CALLED_UPGRADE_API,
+		NO_UPGRADE_OFFERS,
+		HAS_UPGRADE_OFFERS
+	}
+
 	// Data about the hotel that generally does not change
 	private String mName;
 	private String mPropertyId;
@@ -143,12 +149,27 @@ public class Property implements JSONable {
 
 	private String mRoomCancelLink;
 	private String mBookingChangeWebUrl;
+	private String mRoomUpgradeWebViewUrl;
+	private String mRoomUpgradeOffersApiUrl;
+	private RoomUpgradeType mRoomUpgradeOfferType = RoomUpgradeType.NOT_CALLED_UPGRADE_API;
 
+	public RoomUpgradeType getRoomUpgradeOfferType() {
+		return mRoomUpgradeOfferType;
+	}
+	public void setRoomUpgradeOfferType(RoomUpgradeType hasRoomUpgradeOffers) {
+		this.mRoomUpgradeOfferType = hasRoomUpgradeOffers;
+	}
 	public void setRoomCancelLink(String roomCancelLink) {
 		this.mRoomCancelLink = roomCancelLink;
 	}
 	public void setBookingChangeWebUrl(String mBookingChangeWebUrl) {
 		this.mBookingChangeWebUrl = mBookingChangeWebUrl;
+	}
+	public void setRoomUpgradeWebViewUrl(String roomUpgradeWebViewUrl) {
+		this.mRoomUpgradeWebViewUrl = roomUpgradeWebViewUrl;
+	}
+	public void setRoomUpgradeOffersApiUrl(String mRoomUpgradeOffersApiUrl) {
+		this.mRoomUpgradeOffersApiUrl = mRoomUpgradeOffersApiUrl;
 	}
 
 	public boolean isBookingChangeAvailable() {
@@ -160,6 +181,12 @@ public class Property implements JSONable {
 	}
 	public String getBookingChangeWebUrl() {
 		return mBookingChangeWebUrl;
+	}
+	public String getRoomUpgradeWebViewUrl() {
+		return mRoomUpgradeWebViewUrl;
+	}
+	public String getRoomUpgradeOffersApiUrl() {
+		return mRoomUpgradeOffersApiUrl;
 	}
 
 	public boolean isETPHotel() {
@@ -718,6 +745,9 @@ public class Property implements JSONable {
 			obj.putOpt("isETPHotel", mIsETPHotel);
 			obj.putOpt("mRoomCancelLink", mRoomCancelLink);
 			obj.putOpt("mBookingChangeWebUrl", mBookingChangeWebUrl);
+			obj.putOpt("mRoomUpgradeWebViewUrl", mRoomUpgradeWebViewUrl);
+			obj.putOpt("mRoomUpgradeOffersApiUrl", mRoomUpgradeOffersApiUrl);
+			obj.putOpt("mRoomUpgradeOfferType", mRoomUpgradeOfferType.name());
 			return obj;
 		}
 		catch (JSONException e) {
@@ -771,6 +801,9 @@ public class Property implements JSONable {
 		mIsETPHotel = obj.optBoolean("isETPHotel", false);
 		mRoomCancelLink = obj.optString("mRoomCancelLink", "");
 		mBookingChangeWebUrl = obj.optString("mBookingChangeWebUrl", "");
+		mRoomUpgradeWebViewUrl = obj.optString("mRoomUpgradeWebViewUrl", "");
+		mRoomUpgradeOffersApiUrl = obj.optString("mRoomUpgradeOffersApiUrl", "");
+		mRoomUpgradeOfferType = RoomUpgradeType.valueOf(obj.optString("mRoomUpgradeOfferType", RoomUpgradeType.NOT_CALLED_UPGRADE_API.name()));
 		return true;
 	}
 

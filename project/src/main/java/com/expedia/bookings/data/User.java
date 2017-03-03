@@ -19,7 +19,6 @@ import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -200,8 +199,6 @@ public class User implements JSONable {
 		//perform the rest of the clean up.
 		performSignOutCleanupActions(context);
 		logger.addSplit("performSignOutCleanupActions");
-
-		AdTracker.trackLogout();
 
 		logger.dumpToLog();
 	}

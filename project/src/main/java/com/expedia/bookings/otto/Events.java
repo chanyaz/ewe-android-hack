@@ -10,19 +10,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.launch.data.LaunchCollection;
-import com.expedia.bookings.launch.data.LaunchLocation;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
@@ -41,13 +39,15 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
-import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
+import com.expedia.bookings.launch.data.LaunchCollection;
+import com.expedia.bookings.launch.data.LaunchLocation;
 import com.expedia.bookings.widget.LXOfferDatesButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
@@ -781,6 +781,9 @@ public class Events {
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
+			if (filters == null) {
+				filters = "";
+			}
 			lxSearchParams = (LxSearchParams)new LxSearchParams.Builder()
 				.searchType(SearchType.EXPLICIT_SEARCH).filters(
 					filters).location(locationName).startDate(startDate).endDate(endDate).build();
@@ -987,14 +990,6 @@ public class Events {
 
 		public LaunchListItemSelected(Hotel offer) {
 			this.offer = offer;
-		}
-	}
-
-	public static class LaunchSeeAllButtonPressed {
-		public Bundle animOptions;
-
-		public LaunchSeeAllButtonPressed(Bundle animOptions) {
-			this.animOptions = animOptions;
 		}
 	}
 

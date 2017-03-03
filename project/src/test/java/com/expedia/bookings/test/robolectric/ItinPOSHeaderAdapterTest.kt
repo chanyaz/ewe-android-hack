@@ -2,7 +2,9 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.itin.ItinPOSHeader
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +30,7 @@ class ItinPOSHeaderAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun currentPOSIsDisplayed() {
         pos = PointOfSale.getPointOfSale()
 
@@ -35,11 +38,12 @@ class ItinPOSHeaderAdapterTest {
         val currentPOSUrl = header.posText.text
 
         assertEquals("USA", currentPOS)
-        assertEquals("expedia.com", currentPOSUrl)
+        assertEquals("Expedia.com", currentPOSUrl)
         assertEquals("Country United States", header.spinner.selectedView.contentDescription)
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun changePOSDisplayedOnTripsHeader() {
         header.position = 1
         header.onPrivateDataCleared()
@@ -50,11 +54,12 @@ class ItinPOSHeaderAdapterTest {
         header.setCurrentPOS()
 
         assertEquals("AUS", currentPOS)
-        assertEquals("expedia.com.au", currentPOSUrl)
+        assertEquals("Expedia.com.au", currentPOSUrl)
         assertEquals("Country Australia", header.spinner.selectedView.contentDescription)
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun posNotUpdatedOnDialogCancel() {
         header.position = 1
         header.onDialogCancel()
@@ -63,7 +68,7 @@ class ItinPOSHeaderAdapterTest {
         val currentPOSUrl = header.posText.text
 
         assertEquals("USA", pos.threeLetterCountryCode)
-        assertEquals("expedia.com", currentPOSUrl)
+        assertEquals("Expedia.com", currentPOSUrl)
     }
 
     private fun setCurrentPOS() {

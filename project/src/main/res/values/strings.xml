@@ -694,7 +694,7 @@
 
     <!-- LX Strings -->
     <!-- Slide to book -->
-    <string name="lx_slider_text">Slide to book</string>
+    <string name="lx_slider_text">Slide to purchase</string>
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Enter contact details</string>
     <!-- LX search error -->
@@ -1035,7 +1035,7 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Sign in with {brand}</string>
-    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">Sign in with {brand} button</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} Expedia+ points</string>
@@ -1043,6 +1043,10 @@
     <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} Expedia+ points button</string>
     <!-- or -->
     <string name="or">or</string>
+    <!--Create Account -->
+    <string name="Create_Account">CREATE AN ACCOUNT</string>
+    <!-- Earn rewards and unlock exclusive deals -->
+    <string name="earn_rewards_and_unlock_deals">Earn rewards and unlock exclusive deals</string>
 
     <!-- Restricted Profile -->
     <!-- Restricted profile sign in message -->
@@ -1161,10 +1165,6 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check in available</string>
-    <!-- Title for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_title">Share your flight</string>
-    <!-- Content for flight share In Local Notification -->
-    <string name="Share_flight_itinerary_content">Allow others to get live updates while you travel.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s flight to %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1226,6 +1226,8 @@
     <string name="refresh_trips">Refresh Trips</string>
     <!-- Button text to refresh your trips in new Itin Sign In -->
     <string name="refresh_trips_new">Refresh your trips</string>
+    <!-- Itin loading text while deep refreshing trip -->
+    <string name="refreshing_your_trip">Refreshing your trip&#8230;</string>
     <!-- Itinerary screen when we can't fetch any trips -->
     <string name="fetching_trips_error">We were unable to fetch your itineraries at this time. Please try again.</string>
     <!-- Itinerary screen when we connection fails while fetching trips -->
@@ -2022,6 +2024,10 @@
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
     <string name="cabin_code_first">First Class</string>
+    <!-- Label for showing Mixed classes on SRP when number of segments in one is more than 2 -->
+    <string name="flight_cabin_mixed_classes">Mixed classes</string>
+    <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
+    <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">Select Flight</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -2158,9 +2164,9 @@
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">slide to book hotel</string>
+    <string name="slide_to_book_hotel">slide to purchase hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">slide to book flight</string>
+    <string name="slide_to_book_flight">slide to purchase flight</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2187,6 +2193,8 @@
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} points for this booking!</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">You are a valued member!</string>
+    <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
+    <string name="shop_as_a_member_TEMPLATE">Shop as an {brand} member!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} points for this trip!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2310,6 +2318,8 @@
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
+    <!-- Country Code hint for material traveler form -->
+    <string name="phone_number_country_code_hint">Country Code</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
@@ -2417,6 +2427,8 @@
     <string name="no_thanks">No Thanks</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Advanced</string>
+    <!--Advanced flight traveler options, explicitly telling user they are optional -->
+    <string name="advanced_optional">Advanced (optional)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -3260,7 +3272,7 @@
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">SIGN IN</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Signing in…</string>
     <!-- Label for sign out confirmation -->
@@ -4372,7 +4384,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Slide to book</string>
+    <string name="slide_to_book_text">Slide to purchase</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} Points</string>
@@ -4686,10 +4698,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">You are using {amount} in Orbucks\nYour card will be charged {dueamount}</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Flight Search</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">via Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Browse hotels</string>
 
@@ -4708,9 +4716,10 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
-    <!--Packages search accessibility -->
-    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
-    <string name="flight_detail_card_cont_desc_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
+    <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
+    <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">Flight time is {time} with price {price}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}. Includes hotel and flights\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4761,6 +4770,8 @@
     <string name="select_preferred_flight_class_cont_desc_TEMPLATE">Select preferred class. Button. Opens dialog. Preferred class {seatingclass}</string>
     <!--Choose preferred class content description. Eg. Choose preferred class. Dialog -->
     <string name="choose_preferred_class_cont_desc">Choose preferred class. Dialog</string>
+    <!-- Label for Cabin Class Preference. Example. Preferred class Economy -->
+    <string name="flight_detail_cabin_class_desc_TEMPLATE">Preferred class {class}</string>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="search_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
@@ -4971,14 +4982,22 @@
     <string name="room_upgrade_available">Upgrade Available</string>
     <!-- Title for App Rating Dialog -->
     <string name="dialog_app_rating_title">How was your experience?</string>
+    <!-- Alt. Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title_alt">Love Our App?</string>
     <!-- Message for App Rating Dialog -->
     <string name="dialog_app_rating_message">If you love using our app, please let us know with a review in the Play Store.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">Review</string>
+    <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button_alt">Rate App</string>
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">Send Feedback</string>
+    <!-- Alt. Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button_alt">Email App Support</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">No, thanks</string>
+    <!-- Alt. Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button_alt">No Thanks</string>
     <!-- Checkout validation error message for email -->
     <string name="email_validation_error_message">Enter a valid email address</string>
     <!-- Checkout validation error message for first name -->
@@ -4997,8 +5016,20 @@
     <!-- Itinerary number hint -->
     <string name="itinerary_number_hint">(in your confirmation email)</string>
     <!-- Itinerary number error message -->
-    <string name="itinerary_number_error_message">Enter valid itinerary number, minimum 11</string>
+    <string name="itinerary_number_error_message">Enter valid itinerary number</string>
     <!-- Itin screen message for signing in-->
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
+    <!-- Find Guest Itinerary Screen Title -->
+    <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
+    <!-- find hotels header text-->
+    <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
+    <!-- Popular hotels header text-->
+    <string name="launch_find_popular_hotels">Popular Hotels Tonight</string>
+    <!-- Booking successful alert text-->
+    <string name="booking_successful">Booking Successful!</string>
+    <!-- Check your email for itinerary alert message-->
+    <string name="check_your_email_for_itin">Please check your email for the itinerary.</string>
+    <!-- Fetching your trips in new signin screen -->
+    <string name="fetching_your_trips">Fetching your trips…</string>
 
 </resources>

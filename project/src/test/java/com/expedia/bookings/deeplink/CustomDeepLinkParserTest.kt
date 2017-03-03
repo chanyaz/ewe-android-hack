@@ -8,12 +8,13 @@ import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
 class CustomDeepLinkParserTest {
 
-    val parser = DeepLinkParser()
+    val parser = DeepLinkParser(RuntimeEnvironment.application.assets)
 
     @Test
     fun hotelDeepLinkParsing() {
@@ -224,6 +225,12 @@ class CustomDeepLinkParserTest {
         data = Uri.parse("expda://showtrips")
         output = parser.parseDeepLink(data)
         Assert.assertTrue(output is TripDeepLink)
+
+        data = Uri.parse("expda://trips?itinNum=7238447666975")
+        output = parser.parseDeepLink(data) as TripDeepLink
+        Assert.assertTrue(output is TripDeepLink)
+        Assert.assertEquals("7238447666975", output.itinNum)
+
     }
 
     @Test

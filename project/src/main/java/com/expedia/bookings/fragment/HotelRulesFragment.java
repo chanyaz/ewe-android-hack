@@ -39,7 +39,7 @@ public class HotelRulesFragment extends Fragment {
 		String cancellationPolicy = "";
 
 		if (lob == LineOfBusiness.HOTELS) {
-			if (ExpediaBookingApp.isTablet()) {
+			if (ExpediaBookingApp.useTabletInterface()) {
 				Rate rate = Db.getTripBucket().getHotel().getRate();
 				if (rate != null) {
 					cancellationPolicy = rate.getCancellationPolicy();
@@ -71,7 +71,7 @@ public class HotelRulesFragment extends Fragment {
 
 	private void populateHeaderRows(View view) {
 
-		final int themeId = ExpediaBookingApp.useTabletInterface(getActivity()) ?
+		final int themeId = ExpediaBookingApp.useTabletInterface() ?
 			R.style.FlightTheme : R.style.HotelWebViewTheme;
 
 		final PointOfSale pos = PointOfSale.getPointOfSale();
@@ -150,7 +150,7 @@ public class HotelRulesFragment extends Fragment {
 
 					String message = getString(R.string.lawyer_label_atol_long_message);
 					String html;
-					if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+					if (ExpediaBookingApp.useTabletInterface()) {
 						html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
 					}
 					else {

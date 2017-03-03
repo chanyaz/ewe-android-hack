@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -30,7 +31,6 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
 
@@ -382,7 +382,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				"0.0"),
 			currencyCode);
 		// 0 out deposit amount (deposit v2 tablet only: #5665)
-		if (AndroidUtils.isTablet(mContext)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			depositAmount = ParserUtils.createMoney("0", currencyCode);
 			depositToShowUsers = ParserUtils.createMoney("0", currencyCode);
 		}
