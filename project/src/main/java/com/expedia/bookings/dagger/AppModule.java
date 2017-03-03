@@ -19,6 +19,7 @@ import android.content.Context;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
@@ -46,6 +47,7 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
+import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -269,7 +271,7 @@ public class AppModule {
 			long responseTime = response.receivedResponseAtMillis() - response.sentRequestAtMillis();
 			ClientLog.ResponseCLBuilder responseLogBuilder = new ClientLog.ResponseCLBuilder();
 
-			responseLogBuilder.pageName(request.build().url().encodedPath().replaceAll("/","_"));
+			responseLogBuilder.pageName(getPageName(request.build()));
 			responseLogBuilder.eventName(NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
 			responseLogBuilder.deviceName(android.os.Build.MODEL);
 			responseLogBuilder.responseTime(responseTime);
@@ -278,6 +280,27 @@ public class AppModule {
 			clientLogServices.log(responseLogBuilder.build());
 
 		}
+	}
+
+	private String getPageName(Request request) {
+		String pageName = request.url().encodedPath().replaceAll("/", "_");
+		if (pageName.contains("flight_search") && FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightByotSearch,
+				R.string.preference_flight_byot)) {
+			FormBody body = (FormBody) request.body();
+
+			for (int index = body.size(); index > 0; index--) {
+				if (body.encodedName(index - 1).equals("ul")) {
+					if (body.encodedValue(index - 1).equals("0")) {
+						return pageName.concat("_outbound");
+					}
+					else {
+						return pageName.concat("_inbound");
+					}
+				}
+			}
+		}
+		return pageName;
 	}
 
 	@Provides
