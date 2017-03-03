@@ -60,11 +60,10 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
     }
 
     override fun setHotelList(response: HotelSearchResponse) {
-        super.setHotelList(response)
-
         setFilteredHotelListAndRetainLoyaltyInformation(ArrayList(response.hotelList))
         filteredResponse.userPriceType = response.userPriceType
         previousSortType = Sort.RECOMMENDED
+        super.setHotelList(response)
     }
 
     override fun handleFiltering() {
