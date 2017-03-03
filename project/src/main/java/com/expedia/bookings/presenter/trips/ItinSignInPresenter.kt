@@ -47,6 +47,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
         signInWidget.viewModel.syncItinManagerSubject.subscribe {
             show(itinFetchProgressWidget)
+            OmnitureTracking.trackItinRefresh()
         }
     }
 
