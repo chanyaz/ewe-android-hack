@@ -50,6 +50,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by vsuriyal on 12/30/16.
@@ -346,5 +347,51 @@ public class FlightSearchPresenterTest {
 			null);
 		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
 		assertFalse(searchBtn.isEnabled());
+	}
+
+	@Test
+	public void testGetSearchViewModel() {
+		Ui.getApplication(activity).defaultTravelerComponent();
+		FlightSearchViewModel flightSearchViewModel = new FlightSearchViewModel(activity);
+		widget.setSearchViewModel(flightSearchViewModel);
+
+		assertNotNull(widget.getSearchViewModel());
+	}
+
+	@Test
+	public void testTabsOneWayTripTab() {
+		initializeWidget();
+		selectRoundTripTabAtIndex(1);
+		TestSubscriber<Boolean> isRoundTripSearchSubscriber = new TestSubscriber<>();
+		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
+
+		isRoundTripSearchSubscriber.assertValue(false);
+	}
+
+	@Test
+	public void testRoundTripTabs() {
+		initializeWidget();
+		selectRoundTripTabAtIndex(0);
+		TestSubscriber<Boolean> isRoundTripSearchSubscriber = new TestSubscriber<>();
+		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
+
+		isRoundTripSearchSubscriber.assertValue(true);
+	}
+
+	@Test
+	public void testOriginDestinationPlaceholders() {
+		assertEquals(activity.getString(R.string.fly_from_hint), widget.getOriginSearchBoxPlaceholderText());
+		assertEquals(activity.getString(R.string.fly_to_hint), widget.getDestinationSearchBoxPlaceholderText());
+	}
+
+	private void initializeWidget() {
+		Ui.getApplication(activity).defaultTravelerComponent();
+		FlightSearchViewModel flightSearchViewModel = new FlightSearchViewModel(activity);
+		widget.setSearchViewModel(flightSearchViewModel);
+	}
+
+	private void selectRoundTripTabAtIndex(int index) {
+		TabLayout.Tab tab = widget.getTabs().getTabAt(index);
+		tab.select();
 	}
 }
