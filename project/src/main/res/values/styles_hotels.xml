@@ -52,6 +52,7 @@
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
         <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
+        <item name="hotel_urgency_background_color">@color/hotel_urgency_control_color</item>
 
         <!-- InfoSite -->
         <item name="pay_now_later_selector">@drawable/hotel_pay_now_later_button_selector</item>
@@ -89,6 +90,7 @@
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_app</item>
         <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip_blue_test</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue_test_pressed</item>
+        <item name="hotel_urgency_background_color">@color/hotel_urgency_variant_color</item>
 
         <!-- InfoSite -->
         <item name="pay_now_later_selector">@drawable/new_pay_now_later_selector</item>

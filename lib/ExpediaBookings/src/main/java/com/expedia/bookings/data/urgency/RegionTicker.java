@@ -16,4 +16,8 @@ public class RegionTicker {
 	public int getScore() {
 		return regionLevelData.compressionSummary.score;
 	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
 }

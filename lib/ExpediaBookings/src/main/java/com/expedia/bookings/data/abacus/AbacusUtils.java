@@ -53,6 +53,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelMemberPricingBadge = 13098;
 	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
 	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
+	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
@@ -114,6 +115,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppShowSignInCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelMemberPricingBadge);
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
+		testIDs.add(EBAndroidAppHotelUrgencyMessage);
 		testIDs.add(EBAndroidAppTripsHotelSoftChangeWebView);
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);

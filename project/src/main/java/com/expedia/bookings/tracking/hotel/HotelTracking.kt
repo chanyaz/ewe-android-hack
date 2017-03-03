@@ -23,6 +23,10 @@ open class HotelTracking {
             OmnitureTracking.trackPayWithPointsDisabled()
         }
 
+        fun trackUrgencyScore(score: Int) {
+            OmnitureTracking.trackUrgencyScore(score)
+        }
+
         fun trackPayWithPointsReEnabled(percentagePaidWithPoints: Int) {
             OmnitureTracking.trackPayWithPointsReEnabled(percentagePaidWithPoints)
         }

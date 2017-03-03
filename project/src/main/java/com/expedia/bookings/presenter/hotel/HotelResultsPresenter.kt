@@ -5,16 +5,22 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.hotel.animation.ScaleInRunnable
+import com.expedia.bookings.hotel.animation.ScaleOutRunnable
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
@@ -27,6 +33,7 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -37,10 +44,15 @@ import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.hotel.HotelServerFilterViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
 import rx.Observer
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
 
+    val urgencyDropDownContainer: LinearLayout by bindView(R.id.hotel_urgency_container)
+    val urgencyPercentBookedView: TextView by bindView(R.id.urgency_percentage_view)
+    val urgencyDescriptionView: TextView by bindView(R.id.urgency_destination_description_view)
+    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
@@ -71,7 +83,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_urgency_hotel_results)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
             vm.hotelResultsObservable.subscribe { response ->
                 urgencyViewModel.fetchCompressionScore(response.searchRegionId,
                         vm.paramsSubject.value.checkIn, vm.paramsSubject.value.checkOut)
@@ -155,12 +167,18 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
-        urgencyViewModel = UrgencyViewModel(urgencyServices)
+        urgencyViewModel = UrgencyViewModel(context, urgencyServices)
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
+            urgencyViewModel.percentSoldOutTextSubject.zipWith(urgencyViewModel.urgencyDescriptionSubject,
+                    { soldOutPercentText, urgencyDescription ->
+                        urgencyPercentBookedView.text = soldOutPercentText
+                        urgencyDescriptionView.text = urgencyDescription
+                    }).subscribe {
+                UrgencyAnimation(urgencyDropDownContainer, toolbarShadow).animate()
+            }
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_urgency_hotel_results)) {
-            urgencyViewModel.percentSoldOutScoreSubject.subscribe { score ->
-                // TODO mingle card #9768
-                Toast.makeText(context, "Urgency: $score", Toast.LENGTH_LONG).show()
+            urgencyViewModel.rawSoldOutScoreSubject.subscribe { score ->
+                HotelTracking.trackUrgencyScore(score)
             }
         }
 
@@ -213,6 +231,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun showLoading() {
         super.showLoading()
         filterBtnWithCountWidget?.visibility = View.GONE
+        urgencyDropDownContainer.visibility = View.GONE
     }
 
     override fun doAreaSearch() {
@@ -300,5 +319,35 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             return HotelServerFilterViewModel(context)
         }
         return HotelClientFilterViewModel(context)
+    }
+
+    private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {
+        private val duration = 500L
+        private val shadowViewRef: WeakReference<View>
+        private val scaleInRunnable: ScaleInRunnable
+        private val scaleOutRunnable: ScaleOutRunnable
+
+        init {
+            shadowViewRef = WeakReference(toolbarShadow)
+            scaleInRunnable = ScaleInRunnable(urgencyContainer, duration, 0L)
+            scaleOutRunnable = ScaleOutRunnable(urgencyContainer, duration, 5000L)
+
+            scaleInRunnable.endSubject.subscribe {
+                shadowViewRef.get()?.visibility = VISIBLE
+                scaleOutRunnable.run()
+            }
+
+            scaleOutRunnable.startSubject.subscribe {
+                shadowViewRef.get()?.visibility = GONE
+            }
+            scaleOutRunnable.endSubject.subscribe {
+               shadowViewRef.get()?.visibility = VISIBLE
+            }
+        }
+
+        fun animate() {
+            shadowViewRef.get()?.visibility = GONE
+            Handler(Looper.getMainLooper()).post(scaleInRunnable)
+        }
     }
 }
