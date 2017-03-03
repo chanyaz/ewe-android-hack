@@ -108,6 +108,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		super.onCreate(savedInstanceState);
 		deepLinkParser = new DeepLinkParser(this.getAssets());
 
+		startProcessing();
+	}
+
+	@VisibleForTesting
+	protected void startProcessing() {
 		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
 		}
@@ -116,7 +121,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 	}
 
-	private void handleDeeplink() {
+	@VisibleForTesting
+	protected void handleDeeplink() {
 		TrackingUtils.initializeTracking(this.getApplication());
 		// Handle incoming intents
 		Intent intent = getIntent();
