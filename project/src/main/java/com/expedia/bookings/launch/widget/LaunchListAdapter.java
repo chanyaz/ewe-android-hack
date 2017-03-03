@@ -1,5 +1,9 @@
 package com.expedia.bookings.launch.widget;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripUtils;
@@ -27,6 +32,7 @@ import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
@@ -41,9 +47,6 @@ import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -73,6 +76,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
 	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
 	private boolean showOnlyLOBView = false;
+	private PublishSubject<String> memberDealBackgroundUrlSubject = PublishSubject.create();
 
 	public LaunchListAdapter(Context context, View header) {
 		this.context = context;
@@ -133,11 +137,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
-			BigImageLaunchViewModel vm = new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon, R.color.black_30,
-				R.string.member_deal_title, R.string.member_deal_subtitle);
-			// TODO: fix with #10044
-			vm.setBackgroundUrl("https://a.travel-assets.com/dynamic_images/{region_id}.jpg");
+			BigImageLaunchViewModel vm = getMemberDealViewModel();
+			vm.setBackgroundUrl(getMemberDealHomeScreenImageUrl());
 			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
+			memberDealBackgroundUrlSubject.subscribe(vm.getBackgroundUrlChangeSubject());
 			holder.bind(vm);
 			return holder;
 		}
@@ -263,7 +266,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showActiveItin()) {
 			items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
 		}
-		if (isBucketedForMemberDeal()) {
+		if (showMemberDeal()) {
 			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 		}
 		if (userBucketedForPopularHotels()) {
@@ -301,6 +304,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	public void onPOSChange() {
 		posSubject.onNext(Unit.INSTANCE);
+		memberDealBackgroundUrlSubject.onNext(getMemberDealHomeScreenImageUrl());
 	}
 
 	public void onHasInternetConnectionChange(boolean enabled) {
@@ -355,6 +359,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.string.launch_find_recommended_hotels);
 	}
 
+	private BigImageLaunchViewModel getMemberDealViewModel() {
+		return  new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon,
+			R.color.member_deal_background_gradient,
+			R.string.member_deal_title,
+			R.string.member_deal_subtitle);
+	}
+
+	private String getMemberDealHomeScreenImageUrl() {
+		Akeakamai akeakamai = new Akeakamai(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl());
+		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width), context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
+		return akeakamai.build();
+	}
+
 	private ActiveItinViewModel makeActiveItinViewModel() {
 		if (User.isLoggedIn(context)) {
 			return new ActiveItinViewModel(context.getString(R.string.launch_upcoming_trips_signed_in),
@@ -384,8 +401,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 	}
 
-	private boolean isBucketedForMemberDeal() {
-		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen);
+	private boolean showMemberDeal() {
+		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen) && User.isLoggedIn(context);
 	}
 
 	private boolean userBucketedForActiveItin() {

@@ -4892,6 +4892,6 @@
 
     <!-- Member Deal Only -->
     <string name="member_deal_title">Member Deals</string>
-    <string name="member_deal_subtitle">Discounts off select Cities</string>
+    <string name="member_deal_subtitle">Discounts off select hotels</string>
 
 </resources>
