@@ -53,15 +53,15 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @FlightSearch @Prod @EBonly
+  @Flights @FlightSearch @Prod @EBOnly
   Scenario: Verifying if one-way trip International search works for Indonesia
 
     Given I launch the App
     And I set the POS to "Indonesia"
     And I launch "Flights" LOB
     When I select one way trip
-    And I select source location from the dropdown as "BKK"
-    And I select destination from the dropdown as "HKG"
+    And I select source location from the dropdown as "DPS"
+    And I select destination from the dropdown as "SIN"
     And I pick departure date for flights
       | start_date | 5  |
     And I change travellers count and press done

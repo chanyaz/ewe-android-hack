@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -136,7 +135,7 @@ public class SortSteps {
 	public AtomicReference<String> getPriceAtPosition(int pos, ViewInteraction viewInteraction) {
 		AtomicReference<String> price = new AtomicReference<>();
 		viewInteraction
-			.perform(RecyclerViewActions.scrollToPosition(pos), ViewActions.getFlightPriceAtPosition(pos, price));
+			.perform(ViewActions.waitForViewToDisplay(), ViewActions.getFlightPriceAtPosition(pos, price));
 
 		return price;
 	}
@@ -144,14 +143,14 @@ public class SortSteps {
 	public AtomicReference<String> getFlightTimeAtPosition(int pos, ViewInteraction viewInteraction) {
 		AtomicReference<String> time = new AtomicReference<>();
 		viewInteraction
-			.perform(RecyclerViewActions.scrollToPosition(pos), ViewActions.getFlightTimeAtPosition(pos, time));
+			.perform(ViewActions.waitForViewToDisplay(), ViewActions.getFlightTimeAtPosition(pos, time));
 
 		return time;
 	}
 
 	public AtomicReference<String> getDurationAtPosition(int pos, ViewInteraction viewInteraction) {
 		AtomicReference<String> duration = new AtomicReference<>();
-		viewInteraction.perform(RecyclerViewActions.scrollToPosition(pos), ViewActions.getFlightDurationAtPosition(pos, duration));
+		viewInteraction.perform(ViewActions.waitForViewToDisplay(), ViewActions.getFlightDurationAtPosition(pos, duration));
 
 		return duration;
 	}

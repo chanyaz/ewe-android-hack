@@ -104,7 +104,7 @@ public class FlightsSearchResultsSingleCellSteps {
 
 	@And("Validate that on the selected outbound docked view Airline time is displayed$")
 	public void validateOutboundFlightAirlinetime() throws Throwable {
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("21:00 - 23:00 (2h 0m)");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 	}
 
 	@And("^Validate the toolbar header text on the selected outbound docked view$")

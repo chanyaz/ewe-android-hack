@@ -108,11 +108,9 @@ function runCucumberTests() {
 
 function publishHTMLReport() {
     device=$1
-    mkdir project/build/outputs
     mkdir project/build/outputs/$device
     cd project/build/outputs/$device
     adb -s $device pull /data/local/tmp/cucumber-htmlreport
-    publishHTMLReport=$?
 }
 
 function printTestStatus() {

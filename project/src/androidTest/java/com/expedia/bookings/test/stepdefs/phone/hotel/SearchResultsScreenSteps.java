@@ -8,7 +8,7 @@ public class SearchResultsScreenSteps {
 
 	@Then("^I can see hotel search results$")
 	public void waitForSearchResultsToAppear() throws Throwable {
-		HotelScreen.waitForResultsLoaded();
+		HotelScreen.waitForResultsLoaded(30);
 	}
 }
 
