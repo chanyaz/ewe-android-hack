@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
-import com.expedia.util.subscribeOnCheckChanged
+import com.expedia.util.subscribeOnUserInitiatedCheckChanged
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
@@ -45,8 +45,7 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
         vm.titleObservable.subscribeText(titleTextView)
         vm.toggleSwitchEnabledObservable.subscribeEnabled(toggleSwitch)
         vm.widgetVisibilityObservable.subscribeVisibility(this)
-        toggleSwitch.subscribeOnCheckChanged(vm.userInitiatedToggleObservable)
-
+        toggleSwitch.subscribeOnUserInitiatedCheckChanged(vm.userInitiatedToggleObservable)
     }
 
     init {

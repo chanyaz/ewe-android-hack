@@ -101,11 +101,14 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
 		assertInsuranceTerms();
-		PackageScreen.toggleInsurance();
+		PackageScreen.toggleInsuranceSwitchProgrammatically();
+		assertInsuranceIsNotAdded();
+		PackageScreen.toggleInsuranceSwitchProgrammatically();
+		PackageScreen.toggleInsuranceSwitch();
 		assertInsuranceIsAdded();
 		assertInsuranceToggleIsEnabled();
-		PackageScreen.toggleInsurance();
-		assertInsuranceIsRemoved();
+		PackageScreen.toggleInsuranceSwitch();
+		assertInsuranceIsNotAdded();
 		assertInsuranceToggleIsEnabled();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
@@ -170,11 +173,14 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
 		assertInsuranceTerms();
-		PackageScreen.toggleInsurance();
+		PackageScreen.toggleInsuranceSwitchProgrammatically();
+		assertInsuranceIsNotAdded();
+		PackageScreen.toggleInsuranceSwitchProgrammatically();
+		PackageScreen.toggleInsuranceSwitch();
 		assertInsuranceIsAdded();
 		assertInsuranceToggleIsEnabled();
-		PackageScreen.toggleInsurance();
-		assertInsuranceIsRemoved();
+		PackageScreen.toggleInsuranceSwitch();
+		assertInsuranceIsNotAdded();
 		assertInsuranceToggleIsEnabled();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
@@ -437,6 +443,14 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
 	}
 
+	private void assertInsuranceIsNotAdded() {
+		PackageScreen.showPriceBreakdown();
+		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
+		Espresso.pressBack();
+		onView(withId(R.id.bundle_total_price)).check(matches(withText("$696")));
+		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
+	}
+
 	private void assertInsuranceIsNotVisible() {
 		onView(withId(R.id.insurance_widget)).check(matches(not(isDisplayed())));
 	}
@@ -447,14 +461,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertInsuranceToggleIsEnabled() {
 		onView(withId(R.id.insurance_switch)).check(matches(isEnabled()));
-	}
-
-	private void assertInsuranceIsRemoved() {
-		PackageScreen.showPriceBreakdown();
-		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
-		Espresso.pressBack();
-		onView(withId(R.id.bundle_total_price)).check(matches(withText("$696")));
-		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
 	}
 
 	private void assertInsuranceTerms() {

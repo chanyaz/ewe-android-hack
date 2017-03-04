@@ -44,6 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.toggleProgrammatically;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.allOf;
@@ -477,8 +478,12 @@ public class PackageScreen {
 		return onView(withId(R.id.bundle_total_text)).perform(click());
 	}
 
-	public static ViewInteraction toggleInsurance() {
+	public static ViewInteraction toggleInsuranceSwitch() {
 		return onView(withId(R.id.insurance_switch)).perform(click());
+	}
+
+	public static ViewInteraction toggleInsuranceSwitchProgrammatically() {
+		return onView(withId(R.id.insurance_switch)).perform(toggleProgrammatically());
 	}
 
 	public static void enterPaymentInfo(@NotNull String nameOnCard) {
