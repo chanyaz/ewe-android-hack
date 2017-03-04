@@ -264,7 +264,7 @@ public class LXDetailsPresenter extends Presenter {
 				navIcon.setParameter(1 - arrowRatio);
 			}
 			if (!ExpediaBookingApp.isAutomation()) {
-				details.doCounterscroll();
+				details.updateGalleryPosition();
 			}
 		}
 	};

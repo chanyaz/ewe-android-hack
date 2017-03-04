@@ -51,12 +51,15 @@ import kotlin.Unit;
 import rx.Observer;
 import rx.subjects.PublishSubject;
 
-public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener {
+public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener, RecyclerGallery.IImageViewBitmapLoadedListener {
 
 	public static final int DURATION = 500;
 
 	@InjectView(R.id.activity_details_container)
 	LinearLayout activityContainer;
+
+	@InjectView(R.id.activity_details)
+	LXDetailsScrollView activityDetailsContainer;
 
 	@InjectView(R.id.gallery_container)
 	FrameLayout galleryContainer;
@@ -158,12 +161,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
 		defaultScroll();
 		galleryContainer.getViewTreeObserver().addOnScrollChangedListener(
-				new ViewTreeObserver.OnScrollChangedListener() {
-						@Override
-						public void onScrollChanged() {
-							setA11yScrolling();
-						}
-				});
+			new ViewTreeObserver.OnScrollChangedListener() {
+				@Override
+				public void onScrollChanged() {
+					setA11yScrolling();
+					updateGalleryPosition();
+				}
+			});
 	}
 
 	public void defaultScroll() {
@@ -257,6 +261,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		activityGallery.setDataSource(mediaList);
 		activityGallery.setOnItemClickListener(this);
+		activityGallery.addImageViewCreatedListener(this);
 		activityGallery.scrollToPosition(0);
 	}
 
@@ -511,6 +516,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	@Override
 	public void onGalleryItemClicked(Object item) {
+		mHasBeenTouched = true;
 		toggleFullScreenGallery();
 	}
 
@@ -537,5 +543,33 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@VisibleForTesting
 	protected void setActivityDetails(ActivityDetailsResponse activityDetails) {
 		this.activityDetails = activityDetails;
+	}
+
+	public void updateGalleryPosition() {
+		updateGalleryChildrenHeights(activityGallery.getSelectedItem());
+		activityGallery.setTranslationY(-getInitialScrollTop());
+	}
+
+	public void updateGalleryChildrenHeights(int index) {
+		resizeImageViews(index);
+		resizeImageViews(index - 1);
+		resizeImageViews(index + 1);
+	}
+
+	private void resizeImageViews(int index) {
+		if (index >= 0 && index < activityGallery.getAdapter().getItemCount()) {
+			RecyclerGallery.RecyclerAdapter.ViewHolder holder = (RecyclerGallery.RecyclerAdapter.ViewHolder)activityGallery.findViewHolderForAdapterPosition(index);
+			if (holder != null) {
+				if (holder.mImageView != null) {
+					holder.mImageView.setIntermediateValue(getHeight() - mInitialScrollTop, getHeight(),
+							(float) activityDetailsContainer.getScrollY() / mInitialScrollTop);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void onImageViewBitmapLoaded(int index) {
+		updateGalleryPosition();
 	}
 }
