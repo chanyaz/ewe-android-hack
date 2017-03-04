@@ -16,6 +16,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -64,9 +65,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         showSearchMenu.subscribe { searchMenu.isVisible = it }
     }
 
-    override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+    override var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
+            setMapToInitialState(viewModel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
@@ -92,6 +93,17 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             fab.isEnabled = true
         }
 
+        vm.filterResultsObservable.subscribe(listResultsObserver)
+        vm.filterResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+        vm.filterResultsObservable.subscribe {
+            if (previousWasList) {
+                filterBtnWithCountWidget.visibility = View.VISIBLE
+                filterBtnWithCountWidget.translationY = 0f
+            } else {
+                fab.isEnabled = true
+            }
+        }
+
         vm.titleSubject.subscribe {
             toolbarTitle.text = it
         }
@@ -108,21 +120,36 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             show(ResultsList())
 
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
-            filterView.viewmodel.clearObservable.onNext(Unit)
+            filterView.viewModel.clearObservable.onNext(Unit)
         }
 
         vm.sortByDeepLinkSubject.subscribe { sortType ->
-            filterView.viewmodel.sortByObservable.onNext(sortType)
+            filterView.viewModel.sortByObservable.onNext(sortType)
         }
 
         vm.locationParamsSubject.subscribe { params ->
             loadingOverlay.animate(true)
             loadingOverlay.visibility = View.VISIBLE
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
-            filterView.viewmodel.clearObservable.onNext(Unit)
+            filterView.viewModel.clearObservable.onNext(Unit)
         }
 
-        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewmodel.isCurrentLocationSearch)
+        vm.filterParamsSubject.subscribe {
+            if (previousWasList) {
+                showLoading()
+                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+                resetListOffset()
+            } else {
+                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+                fab.isEnabled = false
+                animateMapCarouselOut()
+                clearMarkers()
+                loadingOverlay.animate(true)
+                loadingOverlay.visibility = View.VISIBLE
+            }
+        }
+
+        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
     }
 
     override fun onFinishInflate() {
@@ -166,10 +193,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterBtnWithCountWidget.setOnClickListener {
             previousWasList = currentState == ResultsList::class.java.name
             showWithTracking(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(true)
+            filterView.viewModel.sortContainerObservable.onNext(true)
             filterView.toolbar.title = resources.getString(R.string.sort_and_filter)
         }
-        filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
+        filterView.viewModel.filterCountObservable.subscribe(filterCountObserver)
     }
 
     override fun inflate() {
@@ -178,7 +205,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun back(): Boolean {
         if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
-            viewmodel.unsubscribeSearchResponse()
+            viewModel.unsubscribeSearchResponse()
         }
         return super.back()
     }
@@ -200,7 +227,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         coordinate.lat = center?.latitude!!
         coordinate.lng = center?.longitude!!
         location.coordinates = coordinate
-        viewmodel.locationParamsSubject.onNext(location)
+        viewModel.locationParamsSubject.onNext(location)
     }
 
     override fun hideSearchThisArea() {

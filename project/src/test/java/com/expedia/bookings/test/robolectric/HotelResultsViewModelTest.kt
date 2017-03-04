@@ -5,6 +5,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -98,6 +99,19 @@ class HotelResultsViewModelTest {
         resultsSubscriber.assertNoTerminalEvent()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(2)
+    }
+
+    @Test
+    fun filteredSearch() {
+        val filteredResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        sut.filterResultsObservable.subscribe(filteredResultsSubscriber)
+
+        sut.paramsSubject.onNext(makeHappyParams())
+        sut.filterParamsSubject.onNext(makeFilterParams())
+
+        filteredResultsSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        filteredResultsSubscriber.assertValueCount(1)
+        filteredResultsSubscriber.assertNoTerminalEvent()
     }
 
     @Test
@@ -229,5 +243,11 @@ class HotelResultsViewModelTest {
         suggestion.coordinates = SuggestionV4.LatLng()
 
         return suggestion
+    }
+
+    private fun makeFilterParams(): UserFilterChoices {
+        val filterParams = UserFilterChoices()
+        filterParams.name = "Hyatt"
+        return filterParams
     }
 }

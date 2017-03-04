@@ -98,7 +98,7 @@ class HotelFilterViewTest {
 
     private fun initViewModel() {
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
-        hotelFilterView.viewmodel = HotelClientFilterViewModel(activity)
+        hotelFilterView.viewModel = HotelClientFilterViewModel(activity)
         hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
         hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel

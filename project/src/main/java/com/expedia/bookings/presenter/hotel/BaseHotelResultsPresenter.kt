@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
-import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -91,9 +90,10 @@ import kotlin.properties.Delegates
 
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
+    abstract var viewModel: HotelResultsViewModel
+
     //Views
     var filterButtonText: TextView by Delegates.notNull()
-
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     var mapView: MapView by Delegates.notNull()
     open val loadingOverlay: MapLoadingOverlayWidget? = null
@@ -105,13 +105,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
+
     var adapter: BaseHotelListAdapter by Delegates.notNull()
     open val searchThisArea: Button? = null
     var isMapReady = false
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
-
-    abstract var viewmodel: HotelResultsViewModel
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -239,11 +238,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun animateFab(newTranslationY: Float) {
-        fab.animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
-    }
-
-    private fun resetListOffset() {
+    protected fun resetListOffset() {
         val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -mapListSplitAnchor.toFloat())
         mover.duration = 300
         mover.start()
@@ -255,6 +250,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         } else {
             recyclerView.layoutManager.scrollToPositionWithOffset(1, mapListSplitAnchor)
         }
+    }
+
+    private fun animateFab(newTranslationY: Float) {
+        fab.animate().translationY(newTranslationY).setInterpolator(DecelerateInterpolator()).start()
     }
 
     private fun adjustGoogleMapLogo() {
@@ -272,27 +271,29 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return (mapTransitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
-    val addListResultsObserver = endlessObserver<HotelSearchResponse> {
-        adapter.addResultsSubject.onNext(it)
-        filterView.viewmodel.setHotelList(it)
+    val addListResultsObserver = endlessObserver<HotelSearchResponse> { response ->
+        adapter.addResultsSubject.onNext(response)
+        filterView.viewModel.setHotelList(response)
     }
 
-    val listResultsObserver = endlessObserver<HotelSearchResponse> {
+    val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
         loadingOverlay?.animate(false)
         loadingOverlay?.visibility = View.GONE
-        adapter.resultsSubject.onNext(it)
+        adapter.resultsSubject.onNext(response)
 
         // show fab button always in case of AB test or shitty device
         if (ExpediaBookingApp.isDeviceShitty()) {
             fab.visibility = View.VISIBLE
             getFabAnimIn().start()
         }
-        if (ExpediaBookingApp.isDeviceShitty() && it.hotelList.size <= 3) {
+        if (ExpediaBookingApp.isDeviceShitty() && response.hotelList.size <= 3) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
-        filterView.viewmodel.setHotelList(it)
+        if (!response.isFilteredResponse) {
+            filterView.viewModel.setHotelList(response)
+        }
     }
 
     fun lastBestLocationSafe(): Location {
@@ -331,11 +332,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     override fun back(): Boolean {
         if (ResultsFilter().javaClass.name == currentState) {
-            if (filterView.viewmodel.isFilteredToZeroResults()) {
+            if (filterView.viewModel.isFilteredToZeroResults()) {
                 filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
                 return true
             } else {
-                filterView.viewmodel.doneObservable.onNext(Unit)
+                filterView.viewModel.doneObservable.onNext(Unit)
             }
         } else if (ResultsList().javaClass.name == currentState) {
             clearMarkers(false)
@@ -355,24 +356,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.hotelFavoriteChange.subscribe(hotelFavoriteChangeObserver)
 
         recyclerView.adapter = adapter
-        filterView.viewmodel = createFilterViewModel()
+        filterView.viewModel = createFilterViewModel()
 
-        if (filterView.viewmodel.isClientSideFiltering()) {
-            filterView.viewmodel.filterObservable.subscribe(filterObserver)
+        if (filterView.viewModel.isClientSideFiltering()) {
+            filterView.viewModel.filterObservable.subscribe(filterObserver)
         } else {
-            filterView.viewmodel.filterByParamsObservable.subscribe { params ->
-                if (previousWasList) {
-                    showLoading()
-                    show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
-                } else {
-                    show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
-                    fab.isEnabled = false
-                    clearMarkers()
-                    loadingOverlay?.animate(true)
-                    loadingOverlay?.visibility = View.VISIBLE
-                }
-
-                viewmodel.filterParamsSubject.onNext(params)
+            filterView.viewModel.filterByParamsObservable.subscribe { params ->
+                viewModel.filterParamsSubject.onNext(params)
             }
         }
 
@@ -416,9 +406,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             return
         }
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
-        hotels.forEach {
-            hotel ->
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory, viewmodel.isFavoritingSupported)
+        hotels.forEach { hotel ->
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory, viewModel.isFavoringSupported)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }
@@ -529,9 +518,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         inflateAndSetupToolbarMenu()
 
-        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
+        filterView.viewModel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filterView.viewModel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
+        filterView.viewModel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
     }
 
     private fun inflateAndSetupToolbarMenu() {
@@ -553,7 +542,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             showWithTracking(ResultsFilter())
             val isResults = currentState == ResultsList::class.java.name
             previousWasList = isResults
-            filterView.viewmodel.sortContainerObservable.onNext(isResults)
+            filterView.viewModel.sortContainerObservable.onNext(isResults)
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
         filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView

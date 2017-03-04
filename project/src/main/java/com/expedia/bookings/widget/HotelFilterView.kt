@@ -119,7 +119,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
         sortByAdapter.clear()
         val sortList = Sort.values().toMutableList()
-        sortList.remove(viewmodel.sortItemToRemove())
+        sortList.remove(viewModel.sortItemToRemove())
         sortByAdapter.addAll(sortList)
 
         if (!isCurrentLocationSearch) {
@@ -135,7 +135,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         sortByButtonGroup.setSelection(0, false)
     }
 
-    var viewmodel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
+    var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
 
         doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerObservable.subscribeVisibility(priceRangeContainer)
@@ -146,7 +146,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
             filterFavoriteContainer.setOnClickListener {
                 clearHotelNameFocus()
                 updateFavoriteFilter()
@@ -172,7 +172,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             resetStars()
 
             filterHotelVip.isChecked = false
-            if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
+            if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
                 filterHotelFavorite.isChecked = false
             }
 
@@ -502,13 +502,13 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun refreshFavoriteCheckbox() {
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
             if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
-                viewmodel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
+                viewModel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
             } else {
-                if (viewmodel.userFilterChoices.favorites) updateFavoriteFilter()
+                if (viewModel.userFilterChoices.favorites) updateFavoriteFilter()
                 filterFavoriteContainer.visibility = View.GONE
                 optionLabel.text = context.resources.getString(R.string.vip)
             }
@@ -530,6 +530,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun updateFavoriteFilter() {
         filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
-        viewmodel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
+        viewModel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
     }
 }

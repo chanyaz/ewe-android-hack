@@ -18,7 +18,7 @@ import com.expedia.vm.hotel.HotelResultsViewModel
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
 
-    override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+    override var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
@@ -38,11 +38,11 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             show(ResultsList())
 
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
-            filterView.viewmodel.clearObservable.onNext(Unit)
+            filterView.viewModel.clearObservable.onNext(Unit)
         }
 
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
+            setMapToInitialState(viewModel.paramsSubject.value?.suggestion)
         }
     }
 
@@ -54,7 +54,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
-        filterView.viewmodel.priceRangeContainerVisibility.onNext(false)
+        filterView.viewModel.priceRangeContainerVisibility.onNext(false)
     }
 
     override fun doAreaSearch() {
