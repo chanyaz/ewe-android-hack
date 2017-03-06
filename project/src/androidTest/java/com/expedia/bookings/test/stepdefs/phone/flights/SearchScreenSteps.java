@@ -74,6 +74,7 @@ public class SearchScreenSteps {
 	@When("^I select source location from the dropdown as \"(.*?)\"$")
 	public void selectSourceFromDropDown(String location) throws Throwable {
 		SearchScreen.origin().perform(click());
+		Common.delay(1);
 		onData(airportDropDownEntryWithAirportCode(location))
 			.inRoot(RootMatchers.isPlatformPopup()).perform(click());
 	}
