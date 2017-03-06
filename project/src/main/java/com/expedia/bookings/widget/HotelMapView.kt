@@ -89,7 +89,9 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         vm.fromPrice.subscribeText(selectRoomPrice)
         vm.fromPriceVisibility.subscribeVisibility(selectRoomPrice)
         vm.selectARoomInvisibility.subscribeInverseVisibility(selectRoomContainer)
-
+        vm.selectRoomContDescription.subscribe{ it ->
+            selectRoomContainer.contentDescription = it
+        }
         //Hook inputs from View
         selectRoomContainer.subscribeOnClick(endlessObserver<Unit> {
             (context as Activity).onBackPressed()

@@ -67,6 +67,7 @@ class HotelMapViewTest {
         assertEquals(4f, hotelMapView.toolBarRating.getRating())
         assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
         assertEquals("From $109", hotelMapView.selectRoomPrice.text.toString())
+        assertEquals("Select a Room From $109 button", hotelMapView.selectRoomContainer.contentDescription)
     }
 
     @Test fun testMapViewWhenStrikethroughPriceAndPriceAreDifferent() {
@@ -86,6 +87,8 @@ class HotelMapViewTest {
         assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
         assertEquals("From $241", hotelMapView.selectRoomPrice.text.toString())
         assertEquals("$284", hotelMapView.selectRoomStrikethroughPrice.text.toString())
+        assertEquals("Select a Room From $241 button", hotelMapView.selectRoomContainer.contentDescription)
+
     }
 
     @Test fun testMapViewWhenHotelStarRatingIsZero() {
