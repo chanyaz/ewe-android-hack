@@ -99,7 +99,7 @@ class TravelerValidator {
 
     fun validatePassengerCategory(birthDate: LocalDate?, category: PassengerCategory?) : Boolean {
         if (startOfTrip == null || endOfTrip == null) {
-            throw RuntimeException("Error: Attempted to validate PassengerCategory before trip dates were properly initialized")
+            return false
         }
         else if (birthDate == null || category == null) {
             return false

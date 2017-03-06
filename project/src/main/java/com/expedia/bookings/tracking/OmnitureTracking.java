@@ -2307,6 +2307,7 @@ public class OmnitureTracking {
 
 	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
 	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
+	private static final String LAUNCH_GUEST_ITIN = "App.Ls.Itin.Guest";
 	private static final String LAUNCH_ACTIVE_ITIN = "App.LS.Itin.Active";
 
 
@@ -2318,6 +2319,12 @@ public class OmnitureTracking {
 
 	public static void trackLaunchActiveItin() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_ACTIVE_ITIN);
+		addStandardFields(s);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackLaunchGuestItin() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_GUEST_ITIN);
 		addStandardFields(s);
 		s.trackLink(null, "o", "App Landing", null, null);
 	}
@@ -3549,6 +3556,7 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppPhablet);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
