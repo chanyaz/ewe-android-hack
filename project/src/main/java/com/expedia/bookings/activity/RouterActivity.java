@@ -19,7 +19,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -92,7 +91,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			Log.d("Abacus:showSignInOnLaunchTest - onError");
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
-				ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(RouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+				ExpediaBookingApp.setIsBucketedForPhablet(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet));
 			}
 			NavUtils.goToLaunchScreen(RouterActivity.this, false);
 			finishActivity();
@@ -102,7 +101,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		public void onNext(AbacusResponse abacusResponse) {
 			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(RouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+			ExpediaBookingApp.setIsBucketedForPhablet(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet));
 
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch)
 				&& loadSignInViewAbTest) {
