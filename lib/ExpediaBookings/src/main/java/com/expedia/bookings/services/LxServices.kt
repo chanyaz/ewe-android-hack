@@ -391,12 +391,16 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 if (lxSortFilterMetadata != null)
                     Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
                             { lxSearchResponse, lxSortFilterMetadata ->
-                                if (lxFilterTextSearchEnabled) {
-                                    lxSearchResponse.activities = lxSearchResponse.unFilteredActivities.applySortFilter(lxSortFilterMetadata)
-                                    lxSearchResponse
-                                } else {
-                                    CombineSearchResponseAndSortFilterStreams(lxSearchResponse, lxSortFilterMetadata)
+                                if (lxSearchResponse != null) {
+                                    if (lxFilterTextSearchEnabled) {
+                                        lxSearchResponse.activities = lxSearchResponse.unFilteredActivities.applySortFilter(lxSortFilterMetadata)
+                                        lxSearchResponse
+                                    } else {
+                                        CombineSearchResponseAndSortFilterStreams(lxSearchResponse, lxSortFilterMetadata)
+                                    }
                                 }
+                                else lxSearch(lxSearchParams!!)
+                                lxSearchResponse
                             })
                 else lxSearch(lxSearchParams!!)
                 )
