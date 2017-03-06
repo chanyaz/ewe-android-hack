@@ -44,7 +44,6 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -92,14 +91,14 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		@Override
 		public void onError(Throwable e) {
 			AbacusHelperUtils.updateAbacus(new AbacusResponse(), DeepLinkRouterActivity.this);
-			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(DeepLinkRouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+			ExpediaBookingApp.setIsBucketedForPhablet(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet));
 			handleDeeplink();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			AbacusHelperUtils.updateAbacus(abacusResponse, DeepLinkRouterActivity.this);
-			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(DeepLinkRouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+			ExpediaBookingApp.setIsBucketedForPhablet(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet));
 		}
 	};
 
