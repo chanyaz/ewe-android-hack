@@ -12,7 +12,9 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
+import com.expedia.account.Config;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightSearchActivity;
@@ -31,6 +33,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -39,6 +42,7 @@ import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
+import com.expedia.ui.CarWebViewActivity;
 import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.PackageActivity;
@@ -47,7 +51,6 @@ import com.mobiata.android.Log;
 
 /**
  * Utilities for navigating the app (between Activities)
- *
  */
 public class NavUtils {
 
@@ -71,7 +74,7 @@ public class NavUtils {
 		}
 		else {
 			// Future thought: Should we be showing a toast at all and let app handle it?
-				Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}
@@ -81,7 +84,7 @@ public class NavUtils {
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			Intent intent = new Intent(context, TabletLaunchActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
@@ -90,7 +93,7 @@ public class NavUtils {
 			Intent intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			if (forceShowWaterfall) {
-				intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_WATERFALL(), true);
+				intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 			}
 			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
@@ -99,7 +102,7 @@ public class NavUtils {
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
 		Intent intent;
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			intent = new Intent(context, TabletLaunchActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		}
@@ -107,7 +110,7 @@ public class NavUtils {
 			intent = getLaunchIntent(context);
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			if (forceShowWaterfall) {
-				intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_WATERFALL(), true);
+				intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 			}
 			sendKillActivityBroadcast(context);
 		}
@@ -141,8 +144,12 @@ public class NavUtils {
 	}
 
 	public static void goToItin(Context context) {
+		goToItin(context, null);
+	}
+
+	public static void goToItin(Context context, String itinId) {
 		Intent intent;
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			TaskStackBuilder builder = TaskStackBuilder.create(context);
 			intent = new Intent(context, TabletLaunchActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -156,22 +163,35 @@ public class NavUtils {
 		else {
 			intent = getLaunchIntent(context);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ITIN(), true);
+			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+			if (itinId != null) {
+				intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_ID, itinId);
+			}
 			context.startActivity(intent);
 		}
 	}
 
+	public static void goToAccount(Activity activity) {
+		Bundle args = AccountLibActivity
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null);
+		User.signIn(activity, args);
+	}
+
 	public static void goToSignIn(Context context) {
+		goToSignIn(context, true);
+	}
+
+	public static void goToSignIn(Context context, Boolean showAccount) {
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
-		if (ExpediaBookingApp.useTabletInterface(context)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			intent = new Intent(context, TabletLaunchActivity.class);
 		}
 		else {
 			intent = getLaunchIntent(context);
 		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		intent.putExtra(NewPhoneLaunchActivity.getARG_FORCE_SHOW_ACCOUNT(), true);
+		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, showAccount);
 		builder.addNextIntent(intent);
 		builder.startActivities();
 		User.signIn((Activity) context, new Bundle());
@@ -213,7 +233,8 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToHotelsV2(Context context, com.expedia.bookings.data.hotels.HotelSearchParams params, Bundle animOptions, int flags) {
+	public static void goToHotelsV2(Context context, com.expedia.bookings.data.hotels.HotelSearchParams params,
+		Bundle animOptions, int flags) {
 		sendKillActivityBroadcast(context);
 
 		Intent intent = new Intent();
@@ -285,7 +306,7 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, FlightSearchParams params) {
-			goToFlights(context, true, null, 0, params);
+		goToFlights(context, true, null, 0, params);
 	}
 
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
@@ -312,11 +333,27 @@ public class NavUtils {
 
 	public static void goToCars(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
-		Intent intent = new Intent(context, CarActivity.class);
-		startActivity(context, intent, animOptions);
+		if (PointOfSale.getPointOfSale().supportsCarsWebView()
+			&& FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowCarWebView,
+			R.string.preference_open_car_web_view)) {
+			String carEndPointUrl = Ui.getApplication(context).appComponent()
+				.endpointProvider().getE3EndpointUrlWithPath("car-hire");
+			CarWebViewActivity.IntentBuilder builder = new CarWebViewActivity.IntentBuilder(context);
+			builder.setUrl(carEndPointUrl);
+			builder.setInjectExpediaCookies(true);
+			builder.setAllowMobileRedirects(true);
+			builder.setAttemptForceMobileSite(true);
+			builder.setLoginEnabled(true);
+			startActivity(context, builder.getIntent(),null);
+		}
+		else {
+			Intent intent = new Intent(context, CarActivity.class);
+			startActivity(context, intent, animOptions);
+		}
 	}
 
-	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey, int flags) {
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey,
+		int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
@@ -339,7 +376,7 @@ public class NavUtils {
 		if (searchParams != null) {
 			Gson gson = CarServices.generateGson();
 			intent.putExtra("carSearchParams", gson.toJson(searchParams));
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS,true);
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 		}
 
 		if ((flags & FLAG_OPEN_SEARCH) != 0) {
@@ -378,12 +415,14 @@ public class NavUtils {
 				intent.putExtra("activityId", searchParams.getActivityId());
 				intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true);
 			}
-			else if (searchParams.getFilters().isEmpty()) {
-				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
-			}
 			else {
-				intent.putExtra("filters", searchParams.getFilters());
-				intent.putExtra(Codes.FROM_DEEPLINK, true);
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXNavigateToSRP) || !searchParams.getFilters().isEmpty()) {
+					intent.putExtra("filters", searchParams.getFilters());
+					intent.putExtra(Codes.FROM_DEEPLINK, true);
+				}
+				else {
+					intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+				}
 			}
 		}
 
@@ -434,31 +473,6 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
-	/**
-	 * Helper method for determining whether or not to skip launch and start EH tablet
-	 * @param context
-	 * @return true if EHTablet should be (and has been) launched
-	 */
-	public static boolean skipLaunchScreenAndStartEHTablet(Context context) {
-		Intent intent = generateStartEHTabletIntent(context);
-		if (intent != null) {
-			context.startActivity(intent);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Builds the intent for starting EhTablet
-	 * @return Intent for going to EHTablet start screen, or null if not valid for this device
-	 */
-	private static Intent generateStartEHTabletIntent(Context context) {
-		if (ExpediaBookingApp.useTabletInterface(context)) {
-			return new Intent(context, TabletLaunchActivity.class);
-		}
-		return null;
-	}
-
 	public static void onDataMissing(Activity activity) {
 		Log.i("Key data missing - resetting the app!");
 
@@ -481,26 +495,26 @@ public class NavUtils {
 	 * Intent.FLAG_ACTIVITY_CLEAR_TASK that we'd otherwise want to use in some cases,
 	 * like when we open a hotel details from the widget. Call this method when you want
 	 * to clear the task.
-	 *
+	 * <p>
 	 * Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
 	 * intent to guarantee the backstack is actually erased.
-	 *
+	 * <p>
 	 * <pre class="prettyprint">
 	 * public class MyActivity extends Activity {
-	 *     // To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
-	 *     private ActivityKillReceiver mKillReceiver;
-	 *
-	 *     protected void onCreate(Bundle savedInstanceState) {
-	 *         super.onCreate(savedInstanceState);
-	 *         mKillReceiver = new ActivityKillReceiver(this);
-	 *         mKillReceiver.onCreate();
-	 *     }
-	 *
-	 *     protected void onDestroy();
-	 *         if (mKillReceiver != null) {
-	 *             mKillReceiver.onDestroy();
-	 *         }
-	 *     }
+	 * // To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
+	 * private ActivityKillReceiver mKillReceiver;
+	 * <p>
+	 * protected void onCreate(Bundle savedInstanceState) {
+	 * super.onCreate(savedInstanceState);
+	 * mKillReceiver = new ActivityKillReceiver(this);
+	 * mKillReceiver.onCreate();
+	 * }
+	 * <p>
+	 * protected void onDestroy();
+	 * if (mKillReceiver != null) {
+	 * mKillReceiver.onDestroy();
+	 * }
+	 * }
 	 * }
 	 * </pre>
 	 *
@@ -514,17 +528,16 @@ public class NavUtils {
 
 	/**
 	 * Inspired by http://android-developers.blogspot.com/2009/01/can-i-use-this-intent.html
-	 *
+	 * <p>
 	 * Indicates whether the specified action can be used as an intent. This
 	 * method queries the package manager for installed packages that can
 	 * respond to an intent with the specified action. If no suitable package is
 	 * found, this method returns false.
 	 *
 	 * @param context The application's environment.
-	 * @param intent The Intent action to check for availability.
-	 *
+	 * @param intent  The Intent action to check for availability.
 	 * @return True if an Intent with the specified action can be sent and
-	 *         responded to, false otherwise.
+	 * responded to, false otherwise.
 	 */
 	public static boolean isIntentAvailable(Context context, Intent intent) {
 		final PackageManager packageManager = context.getPackageManager();

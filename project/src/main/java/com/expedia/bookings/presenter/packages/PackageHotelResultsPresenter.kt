@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -18,7 +17,6 @@ import com.expedia.vm.hotel.HotelResultsViewModel
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
-    override val heightOfButton = 0
 
     override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -33,9 +31,12 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         vm.paramsSubject.subscribe { params ->
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+
             setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())
+
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }

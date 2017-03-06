@@ -9,6 +9,8 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RoboTestHelper.assertVisible
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -59,6 +61,7 @@ class HotelCreateTripErrorOnWebViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCreateTripErrorProductExpiry() {
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
         assertVisible(hotelPresenter.errorPresenter)
@@ -67,6 +70,7 @@ class HotelCreateTripErrorOnWebViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCreateTripErrorRoomUnavailable() {
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
         assertVisible(hotelPresenter.errorPresenter)
@@ -75,6 +79,7 @@ class HotelCreateTripErrorOnWebViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testCreateTripErrorUnknownError() {
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel.errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
         assertVisible(hotelPresenter.errorPresenter)

@@ -7,9 +7,11 @@ import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
@@ -25,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.data.abacus.AbacusUtils.EBAndroidAppLXNavigateToSRP;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithContentDescription;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
@@ -36,6 +39,8 @@ import static org.hamcrest.core.AllOf.allOf;
 public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testViewItineraries() throws Throwable {
+
+		AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP);
 
 		NewLaunchScreen.tripsButton().perform(click());
 
@@ -81,6 +86,11 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		//so the setup values can be read by the tests when required. That would avoid the duplication which is being done below.
 		boolean isOutboundFlightDepartureAtStandardOffset = checkOutboundFlightDepartureAtStandardOffset();
 		boolean isOutboundFlightArrivalAtStandardOffset = checkOutboundFlightArrivalAtStandardOffset();
+
+		DataInteraction lxAttachRow = TripsScreen.tripsListItem().atPosition(1);
+		lxAttachRow.perform(click());
+		LXScreen.didOpenResults();
+		Common.pressBack();
 
 		// Outbound flight assertions
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(2);

@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -16,7 +17,6 @@ import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -40,7 +40,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
-        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
+            flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
+        }
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
@@ -57,10 +59,22 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
         vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
         vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
-        vm.formattedOriginObservable.subscribe { text -> originCardView.setText(text) }
+        vm.formattedOriginObservable.subscribe { text ->
+            originCardView.setText(text)
+            originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
+                    .put("from_destination", text)
+                    .format().toString()
+        }
         vm.formattedDestinationObservable.subscribe {
             text ->
             destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
+            destinationCardView.contentDescription =
+                    if (text.isNotEmpty())
+                        Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
+                                .put("to_destination", text)
+                                .format().toString()
+                    else
+                        context.resources.getString(R.string.fly_to_hint)
             if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty()) {
                 calendarWidgetV2.showCalendarDialog()
             }
@@ -95,7 +109,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override fun inflate() {
         View.inflate(context, R.layout.widget_base_flight_search, this)
         toolBarTitle.text = context.resources.getText(R.string.flights_title)
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
             flightCabinClassCardView.visibility = View.VISIBLE
         }
     }

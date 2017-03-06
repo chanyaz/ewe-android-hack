@@ -15,7 +15,11 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
         }
     }
 
-    override fun getUrgencyMessageVisibilty(): Boolean {
+    override fun getUrgencyMessageVisibility(seatsLeft : String): Boolean {
+        return false
+    }
+
+    override fun getFlightCabinPreferenceVisibility(): Boolean {
         return false
     }
 
@@ -25,5 +29,9 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
 
     override fun getRoundTripMessageVisibilty(): Boolean {
         return false
+    }
+
+    override fun isShowingFlightPriceDifference(): Boolean {
+        return true
     }
 }

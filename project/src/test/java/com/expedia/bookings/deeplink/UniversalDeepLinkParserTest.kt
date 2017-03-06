@@ -2,20 +2,24 @@ package com.expedia.bookings.deeplink
 
 import android.net.Uri
 import com.expedia.bookings.data.ChildTraveler
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
 class UniversalDeepLinkParserTest() {
 
-    val parser = DeepLinkParser()
+    val parser = UniversalDeepLinkParser(RuntimeEnvironment.application.assets)
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun hotelUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink/Hotel-Search")
         var output = parser.parseDeepLink(data)
@@ -59,6 +63,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun hotelInfoSiteUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink/Las-Vegas-Hotels-TI-Treasure-Island-Hotel-And-Casino.h15930.Hotel-Information")
         var output = parser.parseDeepLink(data)
@@ -86,6 +91,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun flightUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink/Flights-Search")
         var output = parser.parseDeepLink(data)
@@ -117,6 +123,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun carUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink/carsearch")
         var output = parser.parseDeepLink(data)
@@ -148,6 +155,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun activityUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink/things-to-do/search")
         var output = parser.parseDeepLink(data)
@@ -170,6 +178,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun homeUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink")
         var output = parser.parseDeepLink(data)
@@ -181,6 +190,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun signInUniversalLinkParsing() {
         val data = Uri.parse("https://www.expedia.com/mobile/deeplink/user/signin")
         val output = parser.parseDeepLink(data)
@@ -188,13 +198,20 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun tripUniversalLinkParsing() {
-        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips")
-        val output = parser.parseDeepLink(data)
+        var data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips")
+        var output = parser.parseDeepLink(data)
         Assert.assertTrue(output is TripDeepLink)
+
+        data = Uri.parse("https://www.expedia.com/mobile/deeplink/trips/7238447666975")
+        output = parser.parseDeepLink(data) as TripDeepLink
+        Assert.assertTrue(output is TripDeepLink)
+        Assert.assertEquals("7238447666975", output.itinNum)
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun unknownUniversalLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/mobile/deeplink/user/wrongHost")
         var output = parser.parseDeepLink(data)
@@ -206,6 +223,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun sharedItineraryDeepLinkParsing() {
         var data = Uri.parse("https://www.expedia.com/m/trips/shared/0y5Ht7LVY1gqSwdrngvC0MCAdQKn-QHMK5hNDlKKtt6jwSkXTR2TnYs9xISPHASFzitz_Tty083fguArrsJbxx6j")
         var output = parser.parseDeepLink(data)
@@ -216,6 +234,7 @@ class UniversalDeepLinkParserTest() {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun shortUrlUniversalLinkParsing() {
         val data = Uri.parse("http://e.xpda.co")
         var output = parser.parseDeepLink(data)
@@ -223,6 +242,16 @@ class UniversalDeepLinkParserTest() {
         output = output as ShortUrlDeepLink
         Assert.assertEquals("http://e.xpda.co", output.shortUrl)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun pointOfSaleDateFormatParsing() {
+        var data = Uri.parse("https://www.expedia.co.kr/mobile/deeplink/Hotel-Search?hotelId=12539&startDate=2017.05.24&endDate=2017.05.31")
+        var parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        Assert.assertEquals(LocalDate(2017,5,24), parsed.checkInDate)
+        Assert.assertEquals(LocalDate(2017,5,31), parsed.checkOutDate)
+    }
+
 
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
         Assert.assertEquals(childrenExpected.size, childrenActual.size)

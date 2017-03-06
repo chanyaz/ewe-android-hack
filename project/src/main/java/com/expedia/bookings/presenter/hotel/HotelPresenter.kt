@@ -108,6 +108,17 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
 
+    val bookingSuccessDialog: android.app.AlertDialog by lazy {
+        val builder = android.app.AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.booking_successful))
+        builder.setMessage(context.getString(R.string.check_your_email_for_itin))
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+            (context as Activity).finish()
+            dialog.dismiss()
+        })
+        builder.create()
+    }
+
     val searchStub: ViewStub by bindView(R.id.search_stub)
     val searchPresenter: HotelSearchPresenter by lazy {
         var presenter = searchStub.inflate() as HotelSearchPresenter
@@ -125,7 +136,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         webCheckoutView.viewModel = webCheckoutViewViewModel
 
         webCheckoutViewViewModel.closeView.subscribe {
-            back()
+            webCheckoutViewViewModel.webViewURLObservable.onNext("about:blank")
+            super.back()
         }
         webCheckoutViewViewModel.fetchItinObservable.subscribe { bookedTripID ->
             itinTripServices.getTripDetails(bookedTripID, makeNewItinResponseObserver())
@@ -313,8 +325,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
 
             override fun onError(e: Throwable) {
-                //TODO handle error on fetching itin
                 Log.d("Error fetching itin:" + e.stackTrace)
+                bookingSuccessDialog.show()
             }
 
         }
@@ -503,7 +515,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            searchPresenter.showSuggestionState(selectOrigin = false)
+            if(!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch)) {
+                searchPresenter.showSuggestionState(selectOrigin = false)
+            }
             HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
@@ -917,6 +931,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     override fun back(): Boolean {
+        if (currentState == WebCheckoutView::class.java.name) {
+            webCheckoutView.back()
+            return true
+        }
         if (searchPresenter.back()) {
             return true
         }

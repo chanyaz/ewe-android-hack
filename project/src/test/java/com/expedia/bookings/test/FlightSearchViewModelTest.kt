@@ -1,14 +1,18 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +28,9 @@ import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @RunWith(RobolectricRunner::class)
 class FlightSearchViewModelTest {
@@ -289,6 +295,85 @@ class FlightSearchViewModelTest {
 
     }
 
+    @Test
+    fun testFlightOutboundSearchForByot() {
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        givenByotOutboundSearch()
+
+        val searchParams = sut.getParamsBuilder().build()
+        assertEquals(searchParams.legNo, 0)
+        assertNull(searchParams.selectedOutboundLegId)
+
+        try {
+            givenValidStartAndEndDates()
+            sut.getParamsBuilder().selectedLegID("leg-id")
+            sut.getParamsBuilder().build()
+            fail("This has to throw exception")
+        } catch (e: IllegalArgumentException) {
+        }
+    }
+
+    @Test
+    fun testFlightInboundSearchForByot() {
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        givenByotInboundSearch()
+
+        val searchParams = sut.getParamsBuilder().build()
+        assertEquals(searchParams.legNo, 1)
+        assertEquals(searchParams.selectedOutboundLegId, "leg-id")
+
+        try {
+            sut.getParamsBuilder().selectedLegID(null)
+            sut.getParamsBuilder().build()
+            fail("This has to throw exception")
+        } catch (e: IllegalArgumentException) {
+        }
+
+    }
+
+    @Test
+    fun testByotAbacusTest() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightByotSearch)
+        SettingUtils.save(context, R.string.preference_flight_byot, true)
+
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        sut.isRoundTripSearchObservable.onNext(true)
+        sut.performSearchObserver.onNext(Unit)
+        assertNull(sut.searchParamsObservable.value.legNo)
+
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightByotSearch)
+        sut.isRoundTripSearchObservable.onNext(true)
+        sut.performSearchObserver.onNext(Unit)
+        assertEquals(sut.searchParamsObservable.value.legNo, 0)
+    }
+
+    private fun givenByotOutboundSearch() {
+        sut.getParamsBuilder()
+                .legNo(0)
+    }
+
+    private fun givenByotInboundSearch() {
+        sut.getParamsBuilder()
+                .legNo(1).selectedLegID("leg-id")
+    }
+
     private fun givenValidStartAndEndDates() {
         val startDate = LocalDate()
         val endDate = LocalDate()
@@ -297,7 +382,7 @@ class FlightSearchViewModelTest {
                 .endDate(endDate)
     }
 
-    private fun givenParamsHaveDates(startDate: LocalDate, endDate: LocalDate) {
+    private fun givenParamsHaveDates(startDate: LocalDate, endDate: LocalDate?) {
         sut.getParamsBuilder()
                 .startDate(startDate)
                 .endDate(endDate)

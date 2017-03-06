@@ -54,8 +54,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	View.OnClickListener getInsuranceLinkViewClickListener(final Context context, final String insuranceTermsUrl);
 
-	boolean isLeanPlumEnabled();
-
 	boolean isTuneEnabled();
 
 	boolean isClearPrivateDataInAboutEnabled();
@@ -199,4 +197,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean sendEapidToTuneTracking();
 
 	boolean shouldShowPackageIncludesView();
+
+	boolean forceShowHotelLoyaltyEarnMessage();
 }

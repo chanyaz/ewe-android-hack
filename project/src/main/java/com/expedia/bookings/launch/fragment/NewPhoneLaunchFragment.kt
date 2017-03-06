@@ -40,6 +40,13 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     private var locSubscription: Subscription? = null
     private var wasOffline = false
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isResumed && isVisibleToUser && newPhoneLaunchWidget != null) {
+            newPhoneLaunchWidget.refreshState()
+        }
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is LaunchFragmentListener) {

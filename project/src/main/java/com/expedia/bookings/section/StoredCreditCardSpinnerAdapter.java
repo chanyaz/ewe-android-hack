@@ -9,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.trips.TripBucketItem;
@@ -19,9 +21,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus;
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.expedia.bookings.data.Db;
 import com.squareup.phrase.Phrase;
 
 public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
@@ -38,7 +38,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	private boolean hasTemporarilySavedCard = false;
 
 	//In tablet stored credit card is list popup in which we show 2 additional cards 'Saved cards' and 'Add New card'
-	boolean isTablet = AndroidUtils.isTablet(getContext());
+	private boolean isTablet = ExpediaBookingApp.useTabletInterface();
 
 	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item) {
 		super(context, R.layout.traveler_autocomplete_row);

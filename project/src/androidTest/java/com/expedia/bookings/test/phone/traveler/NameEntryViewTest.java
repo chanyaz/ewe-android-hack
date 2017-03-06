@@ -43,7 +43,7 @@ public class NameEntryViewTest {
 
 	@Before
 	public void setUp() {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
 
 		nameView = (NameEntryView) activityTestRule.getRoot();

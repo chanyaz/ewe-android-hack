@@ -55,13 +55,14 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     fun setCurrentPOS() {
         position = adapter.findPOSIndex(PointOfSale.getPointOfSale().pointOfSaleId.id)
         lastPosition = position
-        posText.text = adapter.pointOfSales[position].url
+        posText.text = adapter.pointOfSales[position].url.capitalize()
+
         setPOSAdapterPosition(lastPosition)
     }
 
     override fun onPrivateDataCleared() {
         lastPosition = position
-        posText.text = adapter.pointOfSales[position].url
+        posText.text = adapter.pointOfSales[position].url.capitalize()
         SettingUtils.save(context, R.string.PointOfSaleKey, Integer.toString(adapter.pointOfSales[position].pointOfSaleId.id))
         PointOfSale.onPointOfSaleChanged(context)
         Events.post(Events.PhoneLaunchOnPOSChange())

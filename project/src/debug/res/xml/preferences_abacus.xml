@@ -22,15 +22,6 @@
             android:title="Hotel Results Perceived Instant Test - 10555" />
 
         <ListPreference
-            android:entries="@array/abacus_hotel_filter_prominence"
-            android:entryValues="@array/abacus_hotel_filter_prominence_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="11790"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Hotel Filter Prominence Test - 11790" />
-
-        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
@@ -44,18 +35,18 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="12875"
+            android:key="13247"
             android:layout="@layout/preference"
-            android:title="Hotel Color Switch Test - 12875" />
+            android:title="Hotel Color Switch Test - 13247" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="12907"
+            android:key="13246"
             android:layout="@layout/preference"
-            android:title="Hotel Room Rate Always Expanded - 12907" />
+            android:title="Hotel Room Rate Always Expanded - 13246" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -91,7 +82,25 @@
             android:summary="%s"
             android:key="13079"
             android:layout="@layout/preference"
-            android:title="Hotel Hide Review and Rating When no Reviews- 13079" />
+            android:title="Hotel Hide Review and Rating When no Reviews - 13079" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="13179"
+            android:layout="@layout/preference"
+            android:title="Hotel Loyalty Earn Message - 13179" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="13178"
+            android:layout="@layout/preference"
+            android:title="Hotel Remove Auto Focus On Search - 13178" />
 
     </PreferenceCategory>
 
@@ -146,6 +155,14 @@
             android:layout="@layout/preference"
             android:title="LX Disable POI Search - 13050" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="13152"
+            android:layout="@layout/preference"
+            android:title="LX Navigate To SRP - 13152" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -183,7 +200,7 @@
             android:key="12637"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Expanded Rate Detail" />
+            android:title="Flight Expanded Rate Detail - 12637" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -192,7 +209,7 @@
             android:key="12763"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Seat Class And Booking Code View" />
+            android:title="Flight Seat Class And Booking Code View - 12763" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -201,7 +218,7 @@
             android:key="12768"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Seats Left Urgency Message" />
+            android:title="Flight Seats Left Urgency Message - 12768" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -210,7 +227,7 @@
             android:key="12765"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight Round Trip on FSR" />
+            android:title="Flight Round Trip on FSR - 12765" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -219,7 +236,7 @@
             android:key="12766"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Material Flight - Distance on Flight Detail" />
+            android:title="Material Flight - Distance on Flight Detail - 12766" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -228,7 +245,16 @@
             android:key="13035"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Material Flight - Premium Class Booking" />
+            android:title="Material Flight - Premium Class Booking - 13035" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13202"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flight Byot Search - 13202" />
 
     </PreferenceCategory>
 
@@ -253,6 +279,25 @@
             android:key="8687"
             android:layout="@layout/preference"
             android:title="Launch on signIn view (first app launch) - 8687" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13191"
+            android:layout="@layout/preference"
+            android:title="Show Sign In card on Launch screen - 13191"/>
+
+        <ListPreference
+            android:entries="@array/abacus_popular_hotel_choices"
+            android:entryValues="@array/abacus_popular_hotel_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13314"
+            android:layout="@layout/preference"
+            android:title="Show Popular Hotels Tonight card on Launch screen - 13314"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -266,7 +311,7 @@
             android:key="12630"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="LX Universal Checkout" />
+            android:title="LX Universal Checkout - 12630" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -321,6 +366,15 @@
             android:title="Integration AA Test - 11455" />
 
         <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13350"
+            android:layout="@layout/preference"
+            android:title="Phablet - 13350" />
+
+        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
@@ -342,16 +396,16 @@
             android:summary="%s"
             android:key="12465"
             android:layout="@layout/preference"
-            android:title="Hotel Gallery" />
+            android:title="Hotel Gallery - 12465" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="12794"
+            android:key="13257"
             android:layout="@layout/preference"
-            android:title="User Reviews" />
+            android:title="User Reviews - 13257" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -360,7 +414,40 @@
             android:summary="%s"
             android:key="13023"
             android:layout="@layout/preference"
-            android:title="New trips sign in screen" />
+            android:title="New trips sign in screen - 13023" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="13026"
+            android:layout="@layout/preference"
+            android:title="Hotel Soft change web view - 13026" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="-1"
+            android:summary="%s"
+            android:key="13196"
+            android:layout="@layout/preference"
+            android:title="Hotel Upgrade web view - 13196"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Cars Tests">
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="12913"
+            android:layout="@layout/preference"
+            android:title="Show Web View" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -48,6 +48,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
+import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
@@ -118,6 +119,7 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 import kotlin.NotImplementedError;
@@ -373,13 +375,14 @@ public class OmnitureTracking {
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event51");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFilterProminence);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceProminance);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceProminence);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelImageLoadLatency);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideNoReviewRating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMemberPricingBadge);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
 
 		// Send the tracking data
 		s.track();
@@ -993,8 +996,69 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		}
 
+		s.track();
+	}
+
+	public static void trackHotelV2PurchaseFromWebView(HotelItinDetailsResponse hotelItinDetailsResponse) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
+		HotelItinDetailsResponse response = hotelItinDetailsResponse;
+		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
+		// Product details
+		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
+		LocalDate checkInDate = new LocalDate(
+			hotelItinDetailsResponse.responseData.getHotels().get(0).checkInDateTime.toLocalDate());
+		LocalDate checkOutDate = new LocalDate(
+			hotelItinDetailsResponse.responseData.getHotels().get(0).checkOutDateTime.toLocalDate());
+		String checkIn = dtf.print(checkInDate);
+		String checkOut = dtf.print(checkOutDate);
+		s.setEvar(30, "Hotel:" + checkIn + "-" + checkOut + ":N");
+
+		s.setProp(72, hotelItinDetailsResponse.responseData.getOrderNumber().toString());
+		s.setProp(2, "hotels");
+		s.setPurchaseID("onum" + hotelItinDetailsResponse.responseData.getOrderNumber().toString());
+
+		s.setEvar(2, "D=c2");
+
+		int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
+
+		String totalCost = hotelItinDetailsResponse.responseData.getTotalTripPrice().getTotalFormatted();
+
+		String supplierType = hotelItinDetailsResponse.responseData.getHotels().get(0).getInventoryType();
+		if (Strings.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
+		s.setProducts(getHotelProductString(hotelItinDetailsResponse.responseData.getHotels().get(0).getHotelId(),
+			numNights, totalCost, properCaseSupplierType));
+
+		// Currency code
+		s.setCurrencyCode(
+			hotelItinDetailsResponse.responseData.getHotels().get(0).getTotalPriceDetails().primaryCurrencyCode);
+
+		// LX Cross sell
+		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
+		if (isLXEnabled) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest);
+		}
+
 		// Send the tracking data
 		s.track();
+	}
+
+	public static String getHotelProductString(String hotelId, int numNights,
+		String totalCost, String properCaseSupplierType) {
+		if (hotelId == null) {
+			hotelId = "";
+		}
+		if (totalCost == null) {
+			totalCost = "";
+		}
+		String products = "Hotel;" + properCaseSupplierType + " Hotel:"
+			+ hotelId;
+
+		products += ";" + numNights + ";" + totalCost;
+		return products;
 	}
 
 	private static String getPercentageOfAmountPaidWithPoints(int percentagePaidWithPoints) {
@@ -2449,6 +2513,14 @@ public class OmnitureTracking {
 	private static final String BASE_RFFR_MAP_LINK = "App.LS.Map.";
 
 	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
+	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
+
+
+	public static void trackLaunchSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_SIGN_IN);
+		addStandardFields(s);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
 
 	// When a bottom tile is clicked – collection selection
 	public static void trackTabletLaunchTileSelect(String tileUniqueId) {
@@ -3017,6 +3089,7 @@ public class OmnitureTracking {
 
 	private static final String ITIN_EMPTY = "App.Itinerary.Empty";
 	private static final String ITIN_FIND = "App.Itinerary.Find";
+	private static final String ITIN_FIND_GUEST = "App.Itinerary.Find.Guest";
 	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
@@ -3089,6 +3162,10 @@ public class OmnitureTracking {
 
 	public static void trackFindItin() {
 		internalTrackPageLoadEventStandard(ITIN_FIND);
+	}
+
+	public static void trackFindGuestItin() {
+		internalTrackPageLoadEventStandard(ITIN_FIND_GUEST);
 	}
 
 	/**
@@ -3231,6 +3308,8 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
 		s.setEvents("event63");
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView);
 		s.track();
 	}
 
@@ -3455,42 +3534,6 @@ public class OmnitureTracking {
 		s.setEvents("event212");
 
 		s.trackLink(null, "o", link, null, null);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Lean Plum Notification Tracking
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void trackLeanPlumNotification(String campaignText) {
-		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(11, campaignText);
-		s.setEvents("event212");
-
-		s.trackLink(null, "o", "App Notification", null, null);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// In App Messaging Tracking
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static void trackLeanPlumInAppMessage(String campaignText) {
-		Log.d(TAG, "Tracking LeanPlumNotification \"" + campaignText + "\"");
-
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(25, campaignText);
-		s.setEvents("event12");
-
-		s.setProp(16, "App.Push.In-App Message");
-		s.setEvar(28, "App.Push.In-App Message");
-
-		s.trackLink(null, "o", "In-App Notification", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3722,8 +3765,10 @@ public class OmnitureTracking {
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
@@ -4086,9 +4131,9 @@ public class OmnitureTracking {
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
 
-		// Experience segmentation
-		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(sContext));
-		s.setEvar(50, (usingTabletInterface) ? "app.tablet.android" : "app.phone.android");
+		// Experience segmentation -- deliberately set to device type, regardless of tablet/phablet AB test
+		boolean isTabletDevice = AndroidUtils.isTablet(sContext);
+		s.setEvar(50, (isTabletDevice) ? "app.tablet.android" : "app.phone.android");
 
 		// TPID
 		s.setProp(7, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
@@ -5667,9 +5712,9 @@ public class OmnitureTracking {
 		s.setAppState(FLIGHT_SEARCH_V2);
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_premium_class)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
-		}
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
+
 		s.track();
 	}
 
@@ -5707,6 +5752,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
+			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightByotSearch,
+				R.string.preference_flight_byot)) {
+				trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);
+			}
 		}
 		s.track();
 	}
@@ -5724,10 +5773,14 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackResultInBoundFlights() {
+	public static void trackResultInBoundFlights(FlightSearchTrackingData trackingData) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_IN);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightByotSearch,
+			R.string.preference_flight_byot)) {
+			setEventsForSearchTracking(s, trackingData.getPerformanceData(), "");
+		}
 		s.track();
 	}
 
@@ -5887,8 +5940,8 @@ public class OmnitureTracking {
 		str += "|L";
 		str += childrenInLap;
 
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightPremiumClass, R.string.preference_flight_premium_class)) {
-						str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
+			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
 		return str;
 	}

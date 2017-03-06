@@ -15,6 +15,8 @@ Feature: Flights Search
       | end_date   | 10 |
     And I change travellers count and press done
     Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
 
 
   @Flights @SearchScreen @Prod
@@ -32,6 +34,8 @@ Feature: Flights Search
       | start_date | 5 |
     And I change travellers count and press done
     Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
 
   @Flights @SearchScreen @Prod @EBOnly
   Scenario: Verifying if round trip International search works for Indonesia
@@ -46,6 +50,8 @@ Feature: Flights Search
       | end_date   | 10 |
     And I change travellers count and press done
     Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
 
   @Flights @SearchScreen @Prod @EBonly
   Scenario: Verifying if one-way trip International search works for Indonesia
@@ -53,12 +59,15 @@ Feature: Flights Search
     Given I launch the App
     And I set the POS to "Indonesia"
     And I launch "Flights" LOB
-    When I select source location from the dropdown as "BKK"
+    When I select one way trip
+    And I select source location from the dropdown as "BKK"
     And I select destination from the dropdown as "HKG"
     And I pick departure date for flights
       | start_date | 5  |
     And I change travellers count and press done
     Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
 
 
   @Flights @SearchScreen
@@ -78,45 +87,6 @@ Feature: Flights Search
     And calendar field exists for one way flights search form
     And arrival field exists for flights search form
 
-  @Flights @SearchScreen
-  Scenario: Verifying data consistency through screens for round trip
-    Given I launch the App
-    And I launch "Flights" LOB
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
-    Then on FSR the destination is "Delhi"
-    And on FSR the date is as user selected
-    And on inbound FSR the number of traveller are as user selected
-    And I select first flight
-    And I verify date is as user selected for inbound flight
-    And on outbound FSR the number of traveller are as user selected
-
-
-  @Flights @SearchScreen
-  Scenario: Verifying data consistency for one way trip
-    Given I launch the App
-    And I launch "Flights" LOB
-    And I select one way trip
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 10                                       |
-      | adults              | 3                                        |
-      | child               | 2                                        |
-    Then on FSR the destination is "Delhi"
-    And on FSR the date is as user selected
-    And on inbound FSR the number of traveller are as user selected
-    
 
   @Flights @SearchScreen
   Scenario Outline: UI fields validation on travellers form adults
@@ -189,7 +159,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when no dates are selected and a Round trip.
-
     Given I launch the App
     And I launch "Flights" LOB
     And I Click on Select Dates button for flights
@@ -202,7 +171,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when selecting dates and a Round trip
-
     Given I launch the App
     And I launch "Flights" LOB
     When I Click on Select Dates button for flights
@@ -220,7 +188,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when a Round trip and selecting departure date only
-
     Given I launch the App
     And I launch "Flights" LOB
     When I Click on Select Dates button for flights
@@ -234,7 +201,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Calender fields/text validation for Search Screen when selecting dates and a OneWay trip
-
     Given I launch the App
     And I launch "Flights" LOB
     And I select one way trip
@@ -250,7 +216,6 @@ Feature: Flights Search
 
   @Flights @SearchScreen
   Scenario: Previous/Next month button validation of Calender Widget
-
     Given I launch the App
     And I launch "Flights" LOB
     When I Click on Select Dates button for flights
@@ -263,3 +228,33 @@ Feature: Flights Search
     Then Validate that Current Month calender is displayed
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
+
+  @Flights @SearchScreen @Prod
+  Scenario: Verify search form retains detaild of last search at re-search from FSR
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 2                                        |
+      | child               | 2                                        |
+    And I click on search icon to go to search form
+    Then search criteria is retained on the search form
+    When I trigger flight search again with following parameters
+      | source              | LON                                      |
+      | destination         | MAD                                      |
+      | source_suggest      | London, England, UK (LON - All Airports) |
+      | destination_suggest | Madrid, Spain (MAD - All Airports)       |
+      | start_date          | 7                                        |
+      | end_date            | 11                                       |
+      | adults              | 3                                        |
+      | child               | 3                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    And on FSR the destination is "Madrid"
+    And on FSR the date is as user selected
+    And on outbound FSR the number of traveller are as user selected

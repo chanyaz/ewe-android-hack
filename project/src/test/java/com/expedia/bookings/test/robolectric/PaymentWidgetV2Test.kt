@@ -97,7 +97,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTile() {
         sut.validateAndBind()
         //For Paying With Points Only
@@ -141,14 +141,14 @@ class PaymentWidgetV2Test {
     @Test
     fun testSecureCheckoutBucketed() {
         updateABTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging,
-                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         assertTrue(sut.isSecureToolbarBucketed())
     }
 
     @Test
     fun testSecureCheckoutControl() {
         updateABTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging,
-                AbacusUtils.DefaultVariate.CONTROL.ordinal)
+                AbacusUtils.DefaultVariant.CONTROL.ordinal)
         assertFalse(sut.isSecureToolbarBucketed())
     }
 

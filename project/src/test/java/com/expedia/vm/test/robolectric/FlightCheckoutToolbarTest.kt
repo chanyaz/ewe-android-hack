@@ -16,6 +16,8 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -63,6 +65,7 @@ class FlightCheckoutToolbarTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testToolbarMenuItemNotShownInCheckoutOverview() {
         assertFalse(toolbar.menuItem.isVisible)
         overview.showCheckout()
@@ -70,6 +73,7 @@ class FlightCheckoutToolbarTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testToolbarSaysDoneInPaymentDetailsWidget() {
         overview.showCheckout()
         checkout.paymentWidget.cardInfoContainer.performClick()
@@ -80,6 +84,7 @@ class FlightCheckoutToolbarTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testToolbarMenuItemNotShownInPaymentOptionsWidget() {
         setupTempCardToShowPaymentOptions()
 
@@ -91,6 +96,7 @@ class FlightCheckoutToolbarTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testToolbarSaysDoneInTravelerEntryWidget() {
         setTravelersInDb(0)
 
@@ -102,6 +108,7 @@ class FlightCheckoutToolbarTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testToolbarMenuItemNotShownInTravelerPickerWidget() {
         setTravelersInDb(5)
 
@@ -149,7 +156,7 @@ class FlightCheckoutToolbarTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = LocalDate().plusDays(3)
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null)
     }
 
     private fun getFlightCreateTripResponse(): FlightCreateTripResponse {

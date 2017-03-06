@@ -24,8 +24,8 @@ public class CommonSteps {
 		case "United States":
 			Common.setPOS(PointOfSaleId.UNITED_STATES);
 			break;
-		case "Australia":
-			Common.setPOS(PointOfSaleId.AUSTRALIA);
+		case "Canada":
+			Common.setPOS(PointOfSaleId.CANADA);
 			break;
 		}
 	}
@@ -41,11 +41,11 @@ public class CommonSteps {
 		AbacusResponse abacusResponse = new AbacusResponse();
 		if (list.contains("RoundTripOnFlightsFSR")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage,
-				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		if (list.contains("UrgencyMessegingOnFSR")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightUrgencyMessage,
-				AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		Db.setAbacusResponse(abacusResponse);
 	}

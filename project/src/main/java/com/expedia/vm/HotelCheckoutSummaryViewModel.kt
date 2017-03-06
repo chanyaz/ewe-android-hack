@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -12,10 +13,9 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.HotelUtils
-import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -106,7 +106,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             val room = it.newHotelProductResponse.hotelRoomResponse
             val rate = room.rateInfo.chargeableRateInfo
 
-            isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
+            isPayLater.onNext(room.isPayLater && !ExpediaBookingApp.useTabletInterface())
             isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             isDepositV2.onNext(room.depositRequired)

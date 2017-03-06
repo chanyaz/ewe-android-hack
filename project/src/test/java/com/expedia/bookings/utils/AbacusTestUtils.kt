@@ -15,15 +15,21 @@ object AbacusTestUtils {
     @JvmStatic fun bucketTests(vararg tests: Int) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.BUCKETED.ordinal)
         }
+        Db.setAbacusResponse(abacusResponse)
+    }
+
+    @JvmStatic fun bucketTestWithVariant(test: Int, variant: Int) {
+        val abacusResponse = AbacusResponse()
+        abacusResponse.updateABTestForDebug(test, variant)
         Db.setAbacusResponse(abacusResponse)
     }
 
     @JvmStatic fun unbucketTests(vararg tests: Int) {
         val abacusResponse = AbacusResponse()
         for (test in tests) {
-            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariate.CONTROL.ordinal)
+            abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.CONTROL.ordinal)
         }
         Db.setAbacusResponse(abacusResponse)
     }

@@ -118,7 +118,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			MapsInitializer.initialize(activity);
 		}
 
-		mIsTablet = ExpediaBookingApp.useTabletInterface(activity);
+		mIsTablet = ExpediaBookingApp.useTabletInterface();
 		if (mIsTablet) {
 			mTextView = new TextView(getActivity());
 			mTextView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

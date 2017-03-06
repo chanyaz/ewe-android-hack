@@ -159,8 +159,6 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
 
-		assertEquals(true,
-			testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
 		PackageScreen.enterFirstName(testFirstName);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
@@ -170,7 +168,6 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			}
 		});
 		assertEquals(4, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
-		assertEquals(false, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
 
 		PackageScreen.enterLastName(testLastName);
 		PackageScreen.enterEmail(testEmail);

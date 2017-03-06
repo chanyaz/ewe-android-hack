@@ -1,6 +1,5 @@
 package com.expedia.bookings.section;
 
-import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
@@ -34,6 +33,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -1022,7 +1022,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 			View view = Ui.inflate(this, R.layout.fragment_dialog_expiration, null);
 
-			int themeResId = ExpediaBookingApp.useTabletInterface(getActivity())
+			int themeResId = ExpediaBookingApp.useTabletInterface()
 				? R.style.Theme_Light_Fullscreen_Panel
 				: R.style.ExpediaLoginDialog;
 			Dialog dialog = new Dialog(getActivity(), themeResId);
@@ -1215,7 +1215,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		TripBucketItem bucketItem;
 
 		if (lob == LineOfBusiness.HOTELS) {
-			if (!ExpediaBookingApp.isTablet()) {
+			if (!ExpediaBookingApp.useTabletInterface()) {
 				bucketItem = Db.getTripBucket().getHotelV2();
 			}
 			else {

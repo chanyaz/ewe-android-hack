@@ -35,7 +35,7 @@ public class DateTimeUtils {
 	 * @param cal2 the second date/time
 	 * @return the difference between them in minutes
 	 */
-	public static int compareDateTimes(ReadableInstant cal1, ReadableInstant cal2) {
+	public static int getMinutesBetween(ReadableInstant cal1, ReadableInstant cal2) {
 		return Minutes.minutesBetween(cal1, cal2).getMinutes();
 	}
 

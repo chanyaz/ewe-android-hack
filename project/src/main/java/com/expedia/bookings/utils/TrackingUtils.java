@@ -12,10 +12,6 @@ public class TrackingUtils {
 		if (!isAutomation()) {
 			AdTracker.init(app.getApplicationContext());
 
-			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-				LeanPlumUtils.init(app);
-			}
-
 			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
 				TuneUtils.init(app);
 			}

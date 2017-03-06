@@ -90,10 +90,10 @@ public class LXDataUtilsTest {
 
 	@Test
 	public void testBuildLXSearchParamsFromDeeplinkSearch() {
-		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco";
+		final String expectedURL = "expda://activitySearch?startDate=2050-08-08&location=San+Francisco";
 		final String location = "San Francisco";
 		final String startDate = DateUtils
-			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2050-08-08")));
 
 		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
@@ -102,14 +102,15 @@ public class LXDataUtilsTest {
 
 		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
 		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
+		assertEquals(expectedLxSearchParams.getActivityEndDate(), obtainedLxSearchParams.getActivityEndDate());
 	}
 
 	@Test
 	public void testBuildLXSearchParamsFromDeeplinkSearchWithFilters() {
-		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
+		final String expectedURL = "expda://activitySearch?startDate=2050-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
 		final String location = "San Francisco";
 		final String startDate = DateUtils
-			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2050-08-08")));
 		final String filters = "Private Transfers|Shared Transfers";
 
 		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
@@ -120,6 +121,7 @@ public class LXDataUtilsTest {
 		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
 		assertEquals(expectedLxSearchParams.getFilters(), obtainedLxSearchParams.getFilters());
 		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
+		assertEquals(expectedLxSearchParams.getActivityEndDate(), obtainedLxSearchParams.getActivityEndDate());
 	}
 
 	@Test
@@ -178,7 +180,7 @@ public class LXDataUtilsTest {
 	}
 
 	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
-		DeepLinkParser deepLinkParser = new DeepLinkParser();
+		DeepLinkParser deepLinkParser = new DeepLinkParser(RuntimeEnvironment.application.getAssets());
 		DeepLink deepLink = deepLinkParser.parseDeepLink(Uri.parse(expectedURL));
 		return LXDataUtils.buildLXSearchParamsFromDeeplink((ActivityDeepLink) deepLink);
 	}

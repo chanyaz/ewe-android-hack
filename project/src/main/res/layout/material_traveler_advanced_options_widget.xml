@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/advanced_optional"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/traveler_layout_number"
@@ -44,8 +50,7 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/edit_assistance_preference_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/edit_assistance_preference_button"
@@ -64,8 +69,7 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/seat_preference_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/edit_seat_preference_button"

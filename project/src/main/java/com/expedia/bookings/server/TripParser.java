@@ -295,6 +295,8 @@ public class TripParser {
 				boolean isNotMultiRoomBooking = roomsJson.length() == 1;
 				if (isNotMultiRoomBooking) {
 					property.setBookingChangeWebUrl(firstRoom.optString("roomChangeLinkForMobileWebView"));
+					property.setRoomUpgradeWebViewUrl(firstRoom.optString("roomUpgradeLink"));
+					property.setRoomUpgradeOffersApiUrl(firstRoom.optString("roomUpgradeOfferApiUrl"));
 				}
 			}
 		}

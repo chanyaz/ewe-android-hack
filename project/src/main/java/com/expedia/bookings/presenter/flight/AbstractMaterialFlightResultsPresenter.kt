@@ -9,12 +9,12 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
-import com.expedia.vm.flights.FlightOffersViewModel
+import com.expedia.vm.flights.BaseFlightOffersViewModel
 import com.expedia.vm.flights.FlightOverviewViewModel
 
 abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: AttributeSet?) : BaseFlightPresenter(context, attrs) {
 
-    lateinit var flightOfferViewModel: FlightOffersViewModel
+    lateinit var flightOfferViewModel: BaseFlightOffersViewModel
 
     init {
         toolbarViewModel.menuVisibilitySubject.subscribe { menuSearch.isVisible = it }
@@ -31,11 +31,10 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject)
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        flightOfferViewModel.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
-        flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
-        flightOfferViewModel.searchParamsObservable.subscribe {
-            resultsPresenter.setLoadingState()
+        overviewPresenter.showPaymentFeesObservable.subscribe {
+            paymentFeeInfoWebView.viewModel.webViewURLObservable.onNext(flightOfferViewModel.obFeeDetailsUrlObservable.value)
         }
+        flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
     }
 
     override fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel {

@@ -19,6 +19,8 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -42,6 +44,7 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -54,6 +57,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+
+import rx.Observer;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -75,16 +80,39 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private boolean mIsCurrentLocationSearch;
 	private HotelSearchParams hotelSearchParams;
 	ClientLogServices clientLogServices;
-	private DeepLinkParser deepLinkParser = new DeepLinkParser();
+	private DeepLinkParser deepLinkParser = null;
+
+	Observer<AbacusResponse> evaluateAbTests = new Observer<AbacusResponse>() {
+
+		@Override
+		public void onCompleted() {
+			handleDeeplink();
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			AbacusHelperUtils.updateAbacus(new AbacusResponse(), DeepLinkRouterActivity.this);
+			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(DeepLinkRouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+			handleDeeplink();
+		}
+
+		@Override
+		public void onNext(AbacusResponse abacusResponse) {
+			AbacusHelperUtils.updateAbacus(abacusResponse, DeepLinkRouterActivity.this);
+			ExpediaBookingApp.setIsBucketedForPhablet(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(DeepLinkRouterActivity.this, AbacusUtils.ExpediaAndroidAppPhablet, R.string.preference_phablet));
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		deepLinkParser = new DeepLinkParser(this.getAssets());
+
 		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
 		}
 		else {
-			handleDeeplink();
+			AbacusHelperUtils.downloadBucketWithWait(this, evaluateAbTests);
 		}
 	}
 
@@ -127,7 +155,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish = true;
 		}
 		else if (deepLink instanceof TripDeepLink) {
-			NavUtils.goToItin(this);
+			handleTrip((TripDeepLink) deepLink);
 			finish = true;
 		}
 		else if (deepLink instanceof SharedItineraryDeepLink) {
@@ -225,7 +253,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
 
-		if (ExpediaBookingApp.useTabletInterface(this)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			mLobToLaunch = LineOfBusiness.HOTELS;
 			mSearchParams = new SearchParams();
 			if (deepLink.getCheckInDate() != null) {
@@ -349,7 +377,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private void handleFlightSearch(FlightDeepLink flightDeepLink) {
 
-		if (ExpediaBookingApp.useTabletInterface(this)) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			mSearchParams = new SearchParams();
 
 			if (flightDeepLink.getDepartureDate() != null) {
@@ -456,6 +484,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private void goFetchSharedItin(String sharableUrl) {
 		getItineraryManagerInstance().fetchSharedItin(sharableUrl);
 		NavUtils.goToItin(this);
+	}
+
+	private void handleTrip(TripDeepLink tripDeepLink) {
+		String itinId = getItineraryManagerInstance().getDeepLinkItinIdByTripNumber(tripDeepLink.getItinNum());
+		NavUtils.goToItin(this, itinId);
 	}
 
 	@VisibleForTesting

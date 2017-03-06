@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -28,7 +29,6 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
 /**
@@ -164,7 +164,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	private void addDueToBrandRow(Rate rate, boolean showDepositAmount) {
-		boolean isTabletPayLater = AndroidUtils.isTablet(this.getContext()) && rate.isPayLater();
+		boolean isTabletPayLater = ExpediaBookingApp.useTabletInterface() && rate.isPayLater();
 		String formattedMoney =
 			isTabletPayLater ? new Money(0, rate.getTotalAmountAfterTax().getCurrency()).getFormattedMoney()
 				: (showDepositAmount ? rate.getDepositAmount().getFormattedMoney()
