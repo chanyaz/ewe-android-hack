@@ -2,7 +2,10 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import com.squareup.phrase.Phrase
 
@@ -46,7 +49,13 @@ class BundleTotalPriceViewModel(val context: Context,
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
         } else if (isExpanded) {
-            context.getString(R.string.bundle_overview_price_widget_button_close)
+            val params = Db.getPackageParams()
+            Phrase.from(context, R.string.bundle_overview_price_widget_expanded_TEMPLATE)
+                    .put("city_name", StrUtils.formatCity(params.destination))
+                    .put("startdate", DateUtils.localDateToMMMd(params.startDate))
+                    .put("enddate", DateUtils.localDateToMMMd(params.endDate))
+                    .put("guests", StrUtils.formatTravelerString(context, params.guests))
+                    .format().toString()
         } else if (pricePerPersonObservable.value != null) {
             Phrase.from(context, R.string.bundle_overview_price_widget_button_open_TEMPLATE)
                     .put("price_per_person", pricePerPersonObservable.value)

@@ -22,6 +22,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -82,6 +83,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     fun startBundleTransition(forward: Boolean) {
         isMoving = true
         translationDistance = translationY
+        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
+        AccessibilityUtil.delayedFocusToView(bundlePriceWidget,300)
         bundlePriceWidget.bundleTitle.visibility = View.VISIBLE
         bundlePriceWidget.bundleSubtitle.visibility = View.VISIBLE
         bundlePriceWidget.bundleTotalText.visibility = View.VISIBLE
@@ -130,7 +133,6 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
         translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidgetContainer.height
         isMoving = false
-        bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
         if (forward && trackLoad) {
             PackagesTracking().trackViewBundlePageLoad()
         }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -367,7 +368,24 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val resultsToOverview = bundleSlidingWidget.addBundleTransitionFrom(PackageHotelResultsPresenter::class.java.name)
+    private val resultsToOverview = object : Presenter.Transition(PackageHotelResultsPresenter::class.java.name, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
+        override fun startTransition(forward: Boolean) {
+            if(forward)
+                resultsPresenter.visibility = GONE
+            else
+                resultsPresenter.visibility = VISIBLE
+            bundleSlidingWidget.startBundleTransition(forward)
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            bundleSlidingWidget.updateBundleTransition(f, forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            bundleSlidingWidget.finalizeBundleTransition(forward)
+        }
+    }
+            //bundleSlidingWidget.addBundleTransitionFrom(PackageHotelResultsPresenter::class.java.name)
 
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->
         Db.setPackageSelectedHotel(selectedPackageHotel, offer)

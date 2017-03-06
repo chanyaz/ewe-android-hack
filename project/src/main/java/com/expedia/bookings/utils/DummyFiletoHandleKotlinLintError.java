@@ -633,7 +633,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_lob_flights,
 		R.string.bundle_overview_price_widget_TEMPLATE,
 		R.string.bundle_overview_price_widget_button_open_TEMPLATE,
-		R.string.bundle_overview_price_widget_button_close,
+		R.string.bundle_overview_price_widget_expanded_TEMPLATE,
 		R.string.search_child_drop_down_cont_desc_TEMPLATE,
 		R.layout.material_flights_spinner_airport_dropdown_row,
 		R.drawable.search_dropdown,
