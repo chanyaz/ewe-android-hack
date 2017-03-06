@@ -12,6 +12,7 @@ class HotelDeepLink: DeepLink() {
     var numAdults: Int = 0
     var children: List<ChildTraveler>? = null
     var sortType: String? = null
+    var memberOnlyDealSearch: Boolean = false
 
 }
 
