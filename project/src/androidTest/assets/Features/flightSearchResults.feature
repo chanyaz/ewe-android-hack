@@ -211,3 +211,29 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
     And Validate that round trip header at cell 1 is displayed: false and isOutBound : true
+
+
+    @Flights @Search @FlightResults
+  Scenario: Validate legal compliance messaging FSR for AU POS
+    Given I launch the App
+    And I set the POS to "Australia"
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    Then Validate legal compliance messaging on SRP and isOutbound : true
+    And Validate the Per person roundtrip text and isOutbound : true
+    Then Select outbound flight from SRP
+    And Validate legal compliance link on flight overview screen is clickable and isOutbound : true
+    Then Select outbound flight from Overview
+    And Validate legal compliance messaging on SRP and isOutbound : false
+    And Validate the Per person roundtrip text and isOutbound : false
+    Then Select inbound flight from SRP
+    And Validate legal compliance link on flight overview screen is clickable and isOutbound : false
