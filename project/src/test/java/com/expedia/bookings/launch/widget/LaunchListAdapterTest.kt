@@ -39,7 +39,6 @@ import kotlin.test.assertTrue
 class LaunchListAdapterTest {
 
     lateinit private var sut: LaunchListAdapter
-
     lateinit private var context: Context
     lateinit private var parentView: ViewGroup
     lateinit private var headerView: View
@@ -56,9 +55,7 @@ class LaunchListAdapterTest {
 
     @After
     fun tearDown() {
-        AbacusTestUtils.unbucketTests( AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-                AbacusUtils.EBAndroidAppLaunchShowActiveItinCard,
-                AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen )
+        AbacusTestUtils.resetABTests()
 
         SettingUtils.save(context, R.string.preference_active_itin_on_launch, false)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, false)
@@ -67,14 +64,10 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemViewPosition_showing_hotels_activeItin_signInCard_memberDeals_popularHotels() {
-        AbacusTestUtils.bucketTests( AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
-                                     AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen,
-                                     AbacusUtils.EBAndroidAppLaunchShowActiveItinCard )
-
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
-        SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, true)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
-
+        givenSignInCardEnabled()
+        givenPopularHotelsCardEnabled()
+        givenMemberDealsCardEnabled()
+        givenActiveItinCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
@@ -102,12 +95,10 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingHotels_ActiveItin() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard)
-
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
+        givenActiveItinCardEnabled()
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
-
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -127,9 +118,8 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingPopularHotelsAndSignInCard() {
-        
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+        givenSignInCardEnabled()
+        givenPopularHotelsCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -151,9 +141,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingPopularHotels() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+        givenPopularHotelsCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -172,11 +160,11 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingActiveItin_SignedIn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
-
+        givenActiveItinCardEnabled()
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
+
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
         recyclerView.layoutManager = layoutManager
@@ -193,11 +181,11 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingActiveItin_Guest() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
-
+        givenActiveItinCardEnabled()
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedOut()
+
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
         recyclerView.layoutManager = layoutManager
@@ -215,9 +203,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingPopularHotelsVerifyText() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+        givenPopularHotelsCardEnabled()
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
@@ -235,10 +221,8 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingHotels_NoAB_Test() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
-
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
@@ -252,9 +236,8 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingHotels_CustomerSignedIn_ActiveItin() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard)
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
+        givenActiveItinCardEnabled()
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -274,7 +257,8 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingHotels_ShowSignInAfterSignOut() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
+
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -293,8 +277,8 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingCollectionView_ActiveItin() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard)
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
+        givenActiveItinCardEnabled()
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -316,7 +300,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingCollectionView_CustomerSignedIn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -333,8 +317,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_ShowingLobView_ShowingLoadingState() {
-        
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveALoadingState()
 
@@ -354,7 +337,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun onBindViewHolder_FullWidthViews() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels(numberOfHotels = 6)
 
@@ -373,7 +356,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemCount_hotelStateOrder_signedIn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
         createSystemUnderTest()
         val numberOfHotels = 5
         givenCustomerSignedIn()
@@ -387,7 +370,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemCount_collectionStateOrder_signedIn() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
         createSystemUnderTest()
         val numberOfStaffPicks = 5
         givenCustomerSignedIn()
@@ -400,7 +383,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemCount_NoInternetConnection() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen)
+        givenSignInCardEnabled()
         createSystemUnderTest()
         userHasNoInternetConnection(false)
 
@@ -511,6 +494,24 @@ class LaunchListAdapterTest {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
         }
+    }
+
+    private fun givenActiveItinCardEnabled() {
+        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard, 1)
+    }
+
+    private fun givenMemberDealsCardEnabled() {
+        SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, true)
+    }
+
+    private fun givenPopularHotelsCardEnabled() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen, 1)
+        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+    }
+
+    private fun givenSignInCardEnabled() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, 1)
     }
 
     class TestLaunchListAdapter(context: Context?, header: View?) : LaunchListAdapter(context, header) {

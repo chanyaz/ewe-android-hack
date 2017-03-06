@@ -6,10 +6,13 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 
 object AbacusTestUtils {
 
+    @JvmStatic fun resetABTests() {
+        Db.setAbacusResponse(AbacusResponse())
+    }
+
     @JvmStatic fun updateABTest(key: Int, value: Int) {
-        val abacusResponse = AbacusResponse()
+        val abacusResponse = Db.getAbacusResponse()
         abacusResponse.updateABTestForDebug(key, value)
-        Db.setAbacusResponse(abacusResponse)
     }
 
     @JvmStatic fun bucketTests(vararg tests: Int) {
