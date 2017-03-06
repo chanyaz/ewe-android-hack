@@ -55,7 +55,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     val couponCardView = CouponWidget(context, attr)
     var hasDiscount = false
     val backPressedAfterUserWithEffectiveSwPAvailableSignedOut = PublishSubject.create<Unit>()
-    val  pageUsableData = PageUsableData()
+    val pageUsableData = PageUsableData()
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
