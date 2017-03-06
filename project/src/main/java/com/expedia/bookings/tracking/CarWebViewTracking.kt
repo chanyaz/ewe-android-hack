@@ -22,4 +22,8 @@ class CarWebViewTracking {
         OmnitureTracking.trackAppCarWebViewClose()
     }
 
+    fun trackAppCarWebViewABTest() {
+        OmnitureTracking.trackAppCarWebViewABTest()
+    }
+
 }

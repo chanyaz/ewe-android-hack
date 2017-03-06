@@ -39,6 +39,7 @@ import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.CarWebViewActivity;
 import com.expedia.ui.FlightActivity;
@@ -330,6 +331,7 @@ public class NavUtils {
 
 	public static void goToCars(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
+		new CarWebViewTracking().trackAppCarWebViewABTest();
 		if (PointOfSale.getPointOfSale().supportsCarsWebView()
 			&& FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowCarWebView,
 			R.string.preference_open_car_web_view)) {
