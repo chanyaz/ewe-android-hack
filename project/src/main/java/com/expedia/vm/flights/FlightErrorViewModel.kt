@@ -42,7 +42,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             }
         }
         paramsSubject.subscribe { params ->
-            val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport?.regionNames?.shortName))
+            val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport.regionNames.displayName))
             titleObservable.onNext(errorTitle)
             subTitleObservable.onNext(getToolbarSubtitle(params))
         }
