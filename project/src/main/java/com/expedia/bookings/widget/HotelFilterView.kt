@@ -387,8 +387,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         //TODO server side filters WIP - this is temporary, will be added back soon
         vm.clientSideFilterObservable.subscribe { clientFilter ->
             if (!clientFilter) {
-                priceRangeContainer.visibility = View.GONE
-                priceHeader.visibility = View.GONE
                 optionLabel.visibility = View.GONE
                 filterVipContainer.visibility = View.GONE
             }

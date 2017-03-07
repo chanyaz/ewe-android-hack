@@ -24,6 +24,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 import rx.subjects.PublishSubject
+import java.util.HashMap
 
 open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -58,7 +59,8 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 		val regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
 
 		return hotelApi.search(regionId, lat, lng,
-				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString(), numberOfResults, params.getFiltersQueryMap())
+				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
+					params.filterUnavailable.toString(), numberOfResults, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext{
