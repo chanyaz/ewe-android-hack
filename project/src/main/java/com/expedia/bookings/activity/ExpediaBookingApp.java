@@ -13,6 +13,8 @@ import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -56,7 +58,6 @@ import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
@@ -70,9 +71,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
@@ -137,8 +135,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
-		FeatureToggleUtil.enableFeatureOnDebugBuild(this, R.string.preference_enable_new_cookies);
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		// Initialize some parts of the code that require a Context
+		initializePointOfSale();
+		startupTimer.addSplit("PointOfSale Init");
+
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
 			.build();
@@ -218,10 +220,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 
 		startupTimer.addSplit("Omniture Init");
-
-		// Initialize some parts of the code that require a Context
-		initializePointOfSale();
-		startupTimer.addSplit("PointOfSale Init");
 
 		AbacusHelperUtils.generateAbacusGuid(this);
 		startupTimer.addSplit("Generate Abacus GUID");
@@ -319,10 +317,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		String pointOfSaleKey = SettingUtils.get(this, getString(R.string.PointOfSaleKey), null);
 
-		boolean connectingToProduction = (appComponent().endpointProvider().getEndPoint() == EndPoint.PRODUCTION);
-
 		pointOfSaleKey =
-			PointOfSale.init(configHelper, pointOfSaleKey, connectingToProduction, isTablet());
+			PointOfSale.init(configHelper, pointOfSaleKey, isTablet());
 
 		SettingUtils.save(this, getString(R.string.PointOfSaleKey), pointOfSaleKey);
 

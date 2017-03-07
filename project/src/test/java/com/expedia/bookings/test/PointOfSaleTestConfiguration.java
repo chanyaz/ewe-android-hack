@@ -48,7 +48,7 @@ public class PointOfSaleTestConfiguration {
 		Mockito.doAnswer(createInputStreamAnswerForAssetFile(context, posConfigFilename))
 			.when(mockConfigHelper).openPointOfSaleConfiguration();
 
-		PointOfSale.init(mockConfigHelper, posKey, true, isTablet);
+		PointOfSale.init(mockConfigHelper, posKey, isTablet);
 	}
 
 

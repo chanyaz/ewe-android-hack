@@ -1,8 +1,12 @@
 package com.expedia.bookings.utils;
 
+import java.util.HashMap;
+import java.util.Locale;
+
 import android.content.Context;
 import android.location.LocationManager;
 import android.text.TextUtils;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -12,13 +16,11 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
-import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
-import java.util.HashMap;
-import java.util.Locale;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
@@ -129,7 +131,7 @@ public class DebugInfoUtils {
 
 	public static String getMC1CookieStr(Context context) {
 		PersistentCookiesCookieJar mCookieManager = new ExpediaServices(context).mCookieManager;
-		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
+		if (PointOfSale.getPointOfSale().shouldUseAutoWebViewSyncCookieStore()) {
 			String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
 			HttpUrl url = HttpUrl.parse(endpointUrl);
 			return ((PersistentCookieManagerV2) mCookieManager).getCookieValue(url, "MC1");

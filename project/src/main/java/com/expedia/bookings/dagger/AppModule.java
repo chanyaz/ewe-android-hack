@@ -1,19 +1,35 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import android.content.Context;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
-import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -31,18 +47,6 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import dagger.Module;
 import dagger.Provides;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.FormBody;
@@ -145,7 +149,7 @@ public class AppModule {
 		PersistentCookiesCookieJar cookieManager;
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
+		if (PointOfSale.getPointOfSale().shouldUseAutoWebViewSyncCookieStore()) {
 			cookieManager = new PersistentCookieManagerV2(storage, oldStorage);
 		}
 		else {

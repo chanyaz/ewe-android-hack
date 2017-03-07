@@ -71,12 +71,6 @@
             android:title="Enable Universal Checkout Material Forms" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_new_cookies"
-            android:layout="@layout/preference"
-            android:summary="Please restart the app"
-            android:title="Enable new cookies sync" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_3DS_checkout"
             android:layout="@layout/preference"
             android:summary="Enable 3DS payment webview checkout"
