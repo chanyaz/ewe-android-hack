@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
@@ -16,6 +18,8 @@ import kotlin.test.assertEquals
 class LXDetailsPresenterTest {
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY,
+            MultiBrand.AIRASIAGO, MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testSetToolbarTitles() {
         Ui.getApplication(RuntimeEnvironment.application).defaultLXComponents()
         val lxDetailsPresenter = LayoutInflater.from(RuntimeEnvironment.application).inflate(R.layout.lx_details_presenter, null) as LXDetailsPresenter

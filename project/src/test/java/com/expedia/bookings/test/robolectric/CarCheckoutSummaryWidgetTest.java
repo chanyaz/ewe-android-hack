@@ -26,6 +26,8 @@ import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.widget.CarCheckoutSummaryWidget;
 import com.expedia.bookings.widget.TextView;
@@ -72,6 +74,7 @@ public class CarCheckoutSummaryWidgetTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY })
 	public void testCheckoutSummaryViews() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		CarCheckoutSummaryWidget checkoutSummaryWidget = (CarCheckoutSummaryWidget) LayoutInflater.from(activity)

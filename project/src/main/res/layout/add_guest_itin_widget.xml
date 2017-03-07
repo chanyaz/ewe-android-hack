@@ -2,6 +2,22 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/exp_launch_blue"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+
+    <com.expedia.bookings.widget.itin.ItinPOSHeader
+        android:id="@+id/itin_pos_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <LinearLayout
         android:id="@+id/outer_container"
         style="@style/MarginPoint"
@@ -23,13 +39,13 @@
             android:layout_marginTop="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:hint="@string/email_address"
             app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email_address"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:nextFocusDown="@+id/password_edit_text"
@@ -102,7 +118,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:background="@color/itin_unable_to_find_error_color"
+        android:background="@color/exp_action_required_red"
         android:gravity="center"
         android:padding="16dp"
         android:textColor="@android:color/white"

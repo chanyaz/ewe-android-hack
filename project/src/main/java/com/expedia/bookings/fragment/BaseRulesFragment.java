@@ -153,7 +153,7 @@ public abstract class BaseRulesFragment extends Fragment {
 
 					String message = getString(R.string.lawyer_label_atol_long_message);
 					String html;
-					if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+					if (ExpediaBookingApp.useTabletInterface()) {
 						html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
 					}
 					else {

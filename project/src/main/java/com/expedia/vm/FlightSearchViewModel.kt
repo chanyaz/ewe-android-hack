@@ -4,9 +4,11 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -45,6 +47,9 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
             getParamsBuilder().maxStay = getMaxSearchDurationDays()
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightByotSearch, R.string.preference_flight_byot)) {
+                getParamsBuilder().legNo(if (isRoundTripSearch) 0 else null)
+            }
             if (selectedDates.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
@@ -61,7 +66,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val performSearchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
-        if (getParamsBuilder().areRequiredParamsFilled()) {
+        if (getParamsBuilder().areRequiredParamsFilled() && !getParamsBuilder().isOriginSameAsDestination()) {
             val flightSearchParams = getParamsBuilder().build()
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)

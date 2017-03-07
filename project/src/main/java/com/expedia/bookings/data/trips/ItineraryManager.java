@@ -191,6 +191,17 @@ public class ItineraryManager implements JSONable {
 		return mItinCardDatas;
 	}
 
+	public String getDeepLinkItinIdByTripNumber(String tripNumber) {
+		if (!TextUtils.isEmpty(tripNumber)) {
+			for (int i = 0; i < mItinCardDatas.size(); i++) {
+				if (tripNumber.equals(mItinCardDatas.get(i).getTripNumber())) {
+					return mItinCardDatas.get(i).getId();
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Get a TripComponent object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
@@ -722,14 +733,16 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private void onTripFailedFetchingGuestItinerary() {
+	@VisibleForTesting
+	public void onTripFailedFetchingGuestItinerary() {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingGuestItinerary();
 		}
 	}
 
-	private void onTripFailedFetchingRegisteredUserItinerary() {
+	@VisibleForTesting
+	public void onTripFailedFetchingRegisteredUserItinerary() {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingRegisteredUserItinerary();

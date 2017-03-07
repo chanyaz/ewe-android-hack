@@ -9,11 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -45,7 +42,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         FLIGHT_CELL_VIEW
     }
 
-    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>): this(context, flightSelectedSubject, true) {
+    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) : this(context, flightSelectedSubject, true) {
         isRoundTripSearchSubject.subscribe({ isRoundTripSearch = it })
     }
 
@@ -126,7 +123,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_loading_header_cell, parent, false)
                 return LoadingFlightsHeaderViewHolder(view)
             }
-            ViewTypes.LOADING_FLIGHTS_VIEW.ordinal-> {
+            ViewTypes.LOADING_FLIGHTS_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_loading_tile_widget, parent, false)
                 return LoadingViewHolder(view)
             }
@@ -188,6 +185,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val flightAirlineWidget: FlightAirlineWidget by root.bindView(R.id.flight_airline_widget)
         val bestFlightView: ViewGroup by root.bindView(R.id.package_best_flight)
         val flightEarnMessage: TextView by root.bindView(R.id.flight_earn_message_text_view)
+        val flightCabinCodeTextView: TextView by root.bindView(R.id.flight_class_text_view)
         val urgencyMessageTextView: TextView by root.bindView(R.id.urgency_message)
         val urgencyMessageContainer: LinearLayout by root.bindView(R.id.urgency_message_layout)
         val roundTripTextView: TextView by root.bindView(R.id.trip_type_text_view)
@@ -215,9 +213,15 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
             flightAirlineWidget.update(viewModel.airline, isRoundTripSearch && viewModel.getRoundTripMessageVisibilty(), viewModel.isEarnMessageVisible(viewModel.earnMessage))
-            if (viewModel.getUrgencyMessageVisibilty() && Strings.isNotEmpty(viewModel.seatsLeft)) {
+            if (viewModel.getFlightCabinPreferenceVisibility() && Strings.isNotEmpty(viewModel.flightCabinPreferences)) {
+                flightCabinCodeTextView.visibility = View.VISIBLE
+                flightCabinCodeTextView.text = viewModel.flightCabinPreferences
+            } else {
+                flightCabinCodeTextView.visibility = View.GONE
+            }
+            if (viewModel.getUrgencyMessageVisibility(viewModel.seatsLeftUrgencyMessage)) {
                 urgencyMessageContainer.visibility = View.VISIBLE
-                urgencyMessageTextView.text = viewModel.seatsLeft
+                urgencyMessageTextView.text = viewModel.seatsLeftUrgencyMessage
             } else {
                 urgencyMessageContainer.visibility = View.GONE
             }
@@ -232,7 +236,6 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                     flightEarnMessage.visibility = View.GONE
                 }
             }
-
             cardView.contentDescription = viewModel.contentDescription
         }
     }

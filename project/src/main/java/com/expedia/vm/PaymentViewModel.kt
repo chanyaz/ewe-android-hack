@@ -38,6 +38,7 @@ open class PaymentViewModel(val context: Context) {
     val newCheckoutIsEnabled = BehaviorSubject.create<Boolean>(false)
     val enableMenuItem = PublishSubject.create<Boolean>()
     val menuVisibility = PublishSubject.create<Boolean>()
+    val updateBackgroundColor = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<PaymentType?>()
     val cardBIN = BehaviorSubject.create<String>("")

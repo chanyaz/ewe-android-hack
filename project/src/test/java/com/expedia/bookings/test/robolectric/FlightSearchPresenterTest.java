@@ -1,13 +1,15 @@
 package com.expedia.bookings.test.robolectric;
 
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.annotation.Config;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +24,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CalendarWidgetV2;
@@ -32,7 +36,6 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import rx.observers.TestSubscriber;
@@ -44,13 +47,14 @@ import static org.junit.Assert.assertNotEquals;
  * Created by vsuriyal on 12/30/16.
  */
 @RunWith(RobolectricRunner.class)
+@Config(shadows = {ShadowGCM.class,ShadowUserManager.class})
 public class FlightSearchPresenterTest {
 	private FlightSearchPresenter widget;
-	private Activity activity;
+	private FragmentActivity activity;
 
 	@Before
 	public void before() {
-		activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity = Robolectric.buildActivity(FragmentActivity.class).create().get();
 		activity.setTheme(R.style.V2_Theme_Packages);
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
@@ -102,7 +106,6 @@ public class FlightSearchPresenterTest {
 		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
 		assertEquals(searchBtn.getText().toString(), activity.getResources().getString(R.string.search));
 
-		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 
 		Ui.getApplication(activity).defaultFlightComponents();
@@ -232,18 +235,16 @@ public class FlightSearchPresenterTest {
 	}
 
 	private void testFlightCabinClassWidgetVisibility() {
-		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 
 		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
 
 		ViewStub flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
 		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
 		assertEquals(flightCabinClassWidget.getVisibility(), View.VISIBLE);
 
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
@@ -254,7 +255,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testFlightCabinClassValue() {
-		SettingUtils.save(activity, R.string.preference_flight_premium_class, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 		String cabinClassCoachName =  activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
 		String cabinClassBusinessName = activity.getResources().getString(FlightServiceClassType.CabinCode.BUSINESS.getResId());
@@ -294,5 +294,35 @@ public class FlightSearchPresenterTest {
 	private String getCabinClassContentDescription(String cabinClassName) {
 		return Phrase.from(activity.getResources().getString(R.string.select_preferred_flight_class_cont_desc_TEMPLATE)).
 			put("seatingclass", cabinClassName).format().toString();
+	}
+
+	@Test
+	public void testOriginFlightContentDescription() {
+		// When flight is not selected
+		SearchInputTextView originFlight = widget.getOriginCardView();
+		assertEquals(originFlight.getContentDescription(), "Flying from. Button");
+
+		// When flight is selected
+		Ui.getApplication(activity).defaultTravelerComponent();
+		widget.setSearchViewModel(new FlightSearchViewModel(activity));
+		widget.getSearchViewModel().getFormattedOriginObservable().onNext("San Francisco");
+		assertEquals(originFlight.getContentDescription(), "Flying from. Button. San Francisco");
+	}
+
+	@Test
+	public void testDestinationFlightContentDescription() {
+		// When flight is not selected
+		SearchInputTextView destinationFlight = widget.getDestinationCardView();
+		assertEquals(destinationFlight.getContentDescription(), "Flying to. Button");
+
+		// When flight is selected
+		Ui.getApplication(activity).defaultTravelerComponent();
+		// TODO calendarWidgetV2.showCalendarDialog() in FlightSearchPresenter is failing in robolectric.
+		// Adding this workaround to not show dialog in this test till we figure out the reason for failure.
+		FlightSearchViewModel flightSearchViewModel = new FlightSearchViewModel(activity);
+		flightSearchViewModel.datesUpdated(LocalDate.now(), LocalDate.now());
+		widget.setSearchViewModel(flightSearchViewModel);
+		widget.getSearchViewModel().getFormattedDestinationObservable().onNext("San Francisco");
+		assertEquals(destinationFlight.getContentDescription(), "Flying to. Button. San Francisco");
 	}
 }

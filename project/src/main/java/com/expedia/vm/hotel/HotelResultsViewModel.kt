@@ -20,8 +20,8 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractHotelFilterViewModel
 import com.squareup.phrase.Phrase
-import org.joda.time.DateTime
 import rx.Observer
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -48,6 +48,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val sortByDeepLinkSubject = PublishSubject.create<AbstractHotelFilterViewModel.Sort>()
 
     var isFavoritingSupported: Boolean = lob == LineOfBusiness.HOTELS
+
+    private var hotelSearchSubscription: Subscription? = null
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
@@ -77,6 +79,10 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         }
     }
 
+    fun unsubscribeSearchResponse() {
+        hotelSearchSubscription?.unsubscribe()
+    }
+
     private fun doSearch(params: HotelSearchParams) {
         val isPackages = lob == LineOfBusiness.PACKAGES
         titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
@@ -93,7 +99,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
         val isPerceivedInstant = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
         val makeMultipleCalls = isInitial && isPerceivedInstant
-        hotelServices?.search(params,if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
+
+        hotelSearchSubscription = hotelServices?.search(params,if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isInitial)
                 if (makeMultipleCalls) {
@@ -105,7 +112,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 if (params.sortType != null) {
                     val sortType = getSortTypeFromString(params.sortType)
                     sortByDeepLinkSubject.onNext(sortType)
-
                 }
             }
 
@@ -160,5 +166,4 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             }
         }
     }
-
 }

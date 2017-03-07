@@ -91,4 +91,10 @@ public class PackageCreateTripResponse extends TripResponse {
 	public Money getBundleTotal() {
 		return packageDetails.pricing.bundleTotal != null ? packageDetails.pricing.bundleTotal : tripTotalPayableIncludingFeeIfZeroPayableByPoints();
 	}
+
+	@Override
+	public Money newPrice() {
+		return getBundleTotal();
+	}
+
 }

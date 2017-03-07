@@ -9,6 +9,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.rail.util.RailUtils
 import com.expedia.bookings.rail.widget.RailLegOptionViewModel
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.mobiata.flightlib.utils.DateTimeUtils
 import org.joda.time.DateTime
 import org.junit.Test
@@ -88,6 +90,7 @@ class RailLegOptionViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testRoundTripOutboundTotalPrice() {
         val testViewModel = RailLegOptionViewModel(context, false)
         val legOption = buildMockLegOption()
@@ -102,6 +105,7 @@ class RailLegOptionViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testRoundTripInboundDeltaPrice() {
         val testViewModel = RailLegOptionViewModel(context, true)
         val legOption = buildMockLegOption()
@@ -116,6 +120,7 @@ class RailLegOptionViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testOpenReturnPrice() {
         val testViewModel = RailLegOptionViewModel(context, true)
         val legOption = buildMockLegOption()

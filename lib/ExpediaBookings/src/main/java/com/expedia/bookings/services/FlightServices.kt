@@ -51,7 +51,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                           resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
         searchRequestSubscription?.unsubscribe()
 
-        searchRequestSubscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass)
+        searchRequestSubscription = flightApi.flightSearch(params.toQueryMap(), params.children, params.flightCabinClass, params.legNo, params.selectedOutboundLegId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }

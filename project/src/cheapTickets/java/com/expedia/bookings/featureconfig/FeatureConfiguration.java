@@ -137,11 +137,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isLeanPlumEnabled() {
-		return true;
-	}
-
-	@Override
 	public boolean isTuneEnabled() {
 		return true;
 	}
@@ -431,4 +426,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
+	public boolean forceShowHotelLoyaltyEarnMessage() {
+		return true;
+	}
 }

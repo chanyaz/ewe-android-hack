@@ -4,4 +4,8 @@
     <style name="Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
+
+    <style name="ProgressBar.AddGuestItinNewScreen" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">true</item>
+    </style>
 </resources>

@@ -11,15 +11,20 @@ import org.hamcrest.TypeSafeMatcher;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -117,7 +122,31 @@ public class CustomMatchers {
 			Bitmap otherBitmap = ((BitmapDrawable) otherDrawable).getBitmap();
 			return bitmap.sameAs(otherBitmap);
 		}
+		if (drawable instanceof VectorDrawable) {
+			VectorDrawable bitmap = ((VectorDrawable) drawable);
+			VectorDrawable otherBitmap = ((VectorDrawable) otherDrawable);
+			return bitmap.getConstantState().equals(otherBitmap.getConstantState());
+		}
+		if (drawable instanceof VectorDrawableCompat) {
+			Bitmap bitmap = getBitmapFromVectorDrawable(drawable);
+			Bitmap otherBitmap = getBitmapFromVectorDrawable(otherDrawable);
+			return bitmap.sameAs(otherBitmap);
+		}
 		return false;
+	}
+
+	public static Bitmap getBitmapFromVectorDrawable(Drawable drawable) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+			drawable = (DrawableCompat.wrap(drawable)).mutate();
+		}
+
+		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+			drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+		drawable.draw(canvas);
+
+		return bitmap;
 	}
 
 	public static Matcher<View> withHint(final String str) {

@@ -16,7 +16,6 @@ apply from: '../jacoco.gradle'
 repositories {
     jcenter()
     maven { url 'https://maven.fabric.io/public' }
-    maven { url 'http://www.leanplum.com/leanplum-sdks/' }
     maven {
         url "s3://mobiata-maven/release"
         credentials(AwsCredentials) {
@@ -38,7 +37,7 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:1.0.0'
-    compile 'com.expedia:android-account-lib:1.1.15'
+    compile 'com.expedia:android-account-lib:1.1.16'
     compile 'com.mobiata:android-utils:1.1.0'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
@@ -70,7 +69,6 @@ dependencies {
     compile 'com.squareup.phrase:phrase:1.1.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.jakewharton:butterknife:6.1.0'
-    compile 'com.leanplum:Leanplum:1.2.24'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile "io.reactivex:rxjava:${rxjava_version}"
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
@@ -220,7 +218,7 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 8
-            def minor = 11
+            def minor = 13
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -382,7 +380,7 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled = true
+            testCoverageEnabled = GradleUtil.shouldEnableTestCoverage(project)
 
             applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
 
@@ -460,26 +458,34 @@ public class GradleUtil {
     }
 
     static def shouldEnableProguard(Project project) {
+        return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "runProguard")
+    }
+
+    static def shouldEnableTestCoverage(Project project) {
+        return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "enableTestCoverage")
+    }
+
+    private static def shouldEnableOnJenkinsOrIfManuallyEnabled(Project project, String manualEnableKey) {
         def buildNumber = "${System.env.BUILD_NUMBER}"
         def ci = "${System.env.CI}"
-        def boolean shouldRunProguard = false
+        def boolean shouldEnable = false
 
         // If BUILD_NUMBER defined turn on proguard
         if (isDefined(buildNumber)) {
-            shouldRunProguard = true
+            shouldEnable = true
         }
 
         // If CI defined turn on proguard
         if (isDefined(ci)) {
-            shouldRunProguard = true
+            shouldEnable = true
         }
 
         // This setting supercedes BUILD_NUMBER
-        if (project.hasProperty("runProguard")) {
-            shouldRunProguard = project.getProperty("runProguard").toBoolean()
+        if (project.hasProperty(manualEnableKey)) {
+            shouldEnable = project.getProperty(manualEnableKey).toBoolean()
         }
 
-        return shouldRunProguard;
+        return shouldEnable;
     }
 
     static def getPropertyWithDefault(Project project, String key, String thedefault) {

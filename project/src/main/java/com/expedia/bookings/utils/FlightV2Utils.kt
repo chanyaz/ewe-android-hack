@@ -6,10 +6,10 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
@@ -38,8 +38,7 @@ object FlightV2Utils {
 
         if (showFlightDistance) {
             return getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
-        }
-        else {
+        } else {
             return getTotalDurationString(context, flightDuration)
         }
     }
@@ -210,7 +209,7 @@ object FlightV2Utils {
     }
 
     @JvmStatic fun getDistinctiveAirline(airlines: List<Airline>): List<Airline> {
-        if (airlines.all { it.airlineName == airlines[0].airlineName } ) {
+        if (airlines.all { it.airlineName == airlines[0].airlineName }) {
             return airlines.subList(0, 1)
         }
         return airlines
@@ -252,5 +251,41 @@ object FlightV2Utils {
                 return "";
         } else
             return "";
+    }
+
+    @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
+        if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
+                flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode.size > 0) {
+            var flightCabinPreferences = ""
+            val seatClassAndBookingCodeList = flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode
+            if (seatClassAndBookingCodeList.size == 1) {
+                flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
+            } else if (seatClassAndBookingCodeList.size == 2) {
+                flightCabinPreferences = Phrase.from(context, R.string.flight_cabin_class_for_two_segment_TEMPLATE)
+                        .put("cabin_class_one", context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass)))
+                        .put("cabin_class_second", context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[1].seatClass)))
+                        .format()
+                        .toString()
+            } else if (isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList)) {
+                flightCabinPreferences = context.resources.getString(FlightServiceClassType.getCabinCodeResourceId(seatClassAndBookingCodeList[0].seatClass))
+            } else {
+                flightCabinPreferences = context.resources.getString(R.string.flight_cabin_mixed_classes);
+            }
+
+            return flightCabinPreferences
+        } else {
+            return ""
+        }
+    }
+
+    private fun isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): Boolean {
+        val previousCabinVal = seatClassAndBookingCodeList[0].seatClass
+        for (seatClassAndBookingCode in seatClassAndBookingCodeList) {
+            val cabinVal = seatClassAndBookingCode.seatClass
+            if (cabinVal != previousCabinVal) {
+                return false
+            }
+        }
+        return true
     }
 }

@@ -651,15 +651,13 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackFlightV2InBoundResults(
-		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
-		List<FlightLeg> flightLegList) {
+	public static void trackFlightV2InBoundResults(FlightSearchTrackingData trackingData) {
 		if (initialized) {
 			TuneEvent event = new TuneEvent("flight_inbound_result");
 			TuneEventItem eventItem = new TuneEventItem("flight_inbound_result_item");
-			eventItem.withAttribute2(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode)
-				.withAttribute3(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode);
-
+			eventItem.withAttribute2(trackingData.getArrivalAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute3(trackingData.getDepartureAirport().hierarchyInfo.airport.airportCode);
+			List<FlightLeg> flightLegList = trackingData.getFlightLegList();
 			if (flightLegList != null && !flightLegList.isEmpty()) {
 				int propertiesCount = flightLegList.size();
 				StringBuilder sb = new StringBuilder();
@@ -668,9 +666,9 @@ public class TuneUtils {
 						String carrier = flightLegList.get(i).segments.get(0).airlineCode;
 						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
 						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
-						String routeType = flightSearchParams.getReturnDate() != null ? "RT" : "OW";
-						String route = String.format("%s-%s", flightSearchParams.getArrivalAirport().gaiaId,
-							flightSearchParams.getDepartureAirport().gaiaId);
+						String routeType = trackingData.getReturnDate() != null ? "RT" : "OW";
+						String route = String.format("%s-%s", trackingData.getArrivalAirport().gaiaId,
+							trackingData.getDepartureAirport().gaiaId);
 
 						sb.append(
 							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
@@ -681,9 +679,9 @@ public class TuneUtils {
 				}
 				eventItem.withAttribute5(sb.toString());
 			}
-			Date departureDate = flightSearchParams.getDepartureDate().toDate();
-			if (flightSearchParams.getReturnDate() != null) {
-				Date returnDate = flightSearchParams.getReturnDate().toDate();
+			Date departureDate = trackingData.getDepartureDate().toDate();
+			if (trackingData.getReturnDate() != null) {
+				Date returnDate = trackingData.getReturnDate().toDate();
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)

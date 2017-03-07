@@ -110,6 +110,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun notPayLaterHoteldueNowIsTotalPrice() {
         givenHappyHotelProductResponse()
         setup()
@@ -134,6 +135,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceChangeUp() {
         givenPriceChangedUpResponse()
         setup()
@@ -145,6 +147,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceChangeDown() {
         givenPriceChangedDownResponse()
         setup()
@@ -156,6 +159,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBurningRewardPointsForLoggedInUserWithEnoughRedeemablePointsResponse() {
         setup()
 
@@ -179,7 +183,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals("$3.70", sut.tripTotalPrice.value)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBurningRewardPointsForLoggedInUserWithRedeemablePointsLessThanTripTotalResponse() {
         setup()
 

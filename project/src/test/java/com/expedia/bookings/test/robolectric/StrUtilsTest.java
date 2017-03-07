@@ -22,6 +22,8 @@ import com.expedia.bookings.data.GaiaSuggestion.LocalizedName;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
@@ -110,6 +112,7 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void testLoyaltyLegalTextContent() {
 
 		SpannableStringBuilder legalText = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
@@ -119,6 +122,7 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void testLoyaltyLegalTextSpans() {
 		SpannableStringBuilder loyaltyLegalSpanBuilder = StrUtils.generateLoyaltyRewardsLegalLink(getContext());
 
@@ -227,6 +231,8 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testWaypointFormatting() {
 		Waypoint waypoint = new Waypoint(Waypoint.ACTION_ARRIVAL);
 		waypoint.mAirportCode = "YVR";
@@ -242,6 +248,8 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testAirportFormatting() {
 		Airport airport = new Airport();
 		airport.mCountryCode = "GB";
@@ -295,6 +303,8 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testRoundOff() {
 		float testNumber = 4.0481f;
 		assertEquals("4", StrUtils.roundOff(testNumber, 0));

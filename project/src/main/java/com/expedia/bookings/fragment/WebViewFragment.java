@@ -8,7 +8,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.net.MailTo;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -20,18 +19,16 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.webview.BaseWebViewClient;
 import com.mobiata.android.Log;
-import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 
 import okhttp3.Cookie;
@@ -313,7 +310,7 @@ public class WebViewFragment extends DialogFragment {
 		}
 		mWebView.getSettings().setDisplayZoomControls(false);
 
-		mWebView.setWebViewClient(new WebViewClient() {
+		mWebView.setWebViewClient(new BaseWebViewClient(getActivity(), mLoadCookies) {
 
 			@Override
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -386,27 +383,7 @@ public class WebViewFragment extends DialogFragment {
 					}, 50);
 				}
 			}
-
-			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				if (url.startsWith("mailto:")) {
-					doSupportEmail(url);
-					return true;
-				}
-				else if (mLoadCookies) {
-					view.loadUrl(url);
-					return false;
-				}
-				else {
-					return super.shouldOverrideUrlLoading(view, url);
-				}
-			}
 		});
-	}
-
-	private void doSupportEmail(String url) {
-		MailTo mt = MailTo.parse(url);
-		SocialUtils.email(getActivity(), mt.getTo(), "", DebugInfoUtils.generateEmailBody(getActivity()));
 	}
 
 	private void attachWebView() {

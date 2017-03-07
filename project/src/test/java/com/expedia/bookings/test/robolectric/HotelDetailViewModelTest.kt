@@ -7,6 +7,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -26,6 +27,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
@@ -103,7 +105,9 @@ class HotelDetailViewModelTest {
         offer3.hotelRoomResponse = emptyList()
     }
 
-    @Test fun strikeThroughPriceShouldShow() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun strikeThroughPriceShouldShow() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val df = DecimalFormat("#")
         chargeableRateInfo.priceToShowUsers = 110f
@@ -142,7 +146,9 @@ class HotelDetailViewModelTest {
     }
 
 
-    @Test fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val testSubscriberText = TestSubscriber<CharSequence>()
         chargeableRateInfo.priceToShowUsers = 110f
@@ -248,41 +254,52 @@ class HotelDetailViewModelTest {
         assertTrue(vm.showAirAttachSWPImageObservable.value)
     }
 
-    @Test fun earnMessagePriceIsShownWithDecimalPoints() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun earnMessagePriceIsShownWithDecimalPoints() {
+        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320.56")
         vm.hotelOffersSubject.onNext(offer1)
-        assertFalse(vm.promoMessageVisibilityObservable.value)
         assertTrue(vm.earnMessageVisibilityObservable.value)
         assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
     }
 
-    @Test fun earnMessagePriceIsShownWithoutDecimalPoints() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun earnMessagePriceIsShownWithoutDecimalPoints() {
+        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320")
         vm.hotelOffersSubject.onNext(offer1)
-        assertFalse(vm.promoMessageVisibilityObservable.value)
         assertTrue(vm.earnMessageVisibilityObservable.value)
         assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
     }
 
-    @Test fun earnMessagePointsIsShown() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+    fun earnMessagePointsIsShown() {
+        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
-        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 1000, 1320), null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.earnMessageVisibilityObservable.value)
-        assertEquals("Earn 420 points", vm.earnMessageObservable.value.toString())
-        assertFalse(vm.promoMessageVisibilityObservable.value)
+        assertEquals("Earn 1,320 points", vm.earnMessageObservable.value.toString())
     }
 
     @Test fun earnMessagePointsIsNotShown() {
+        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.earnMessageVisibilityObservable.value)
-        assertTrue(vm.promoMessageVisibilityObservable.value)
     }
 
     /**
@@ -375,7 +392,9 @@ class HotelDetailViewModelTest {
         assertEquals(0, vm.promoImageObservable.value)
     }
 
-    @Test fun priceShownToCustomerIncludesCustomerFees() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun priceShownToCustomerIncludesCustomerFees() {
         vm.hotelOffersSubject.onNext(offer2)
         val df = DecimalFormat("#")
         val expectedPrice = "$" + df.format(expectedTotalPriceWithMandatoryFees)

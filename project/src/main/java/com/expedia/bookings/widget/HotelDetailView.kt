@@ -305,7 +305,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)
         vm.hasRegularLoyaltyPointsAppliedObservable.subscribeVisibility(regularLoyaltyMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
-        vm.promoMessageVisibilityObservable.subscribeVisibility(promoMessage)
         vm.earnMessageObservable.subscribeText(earnMessage)
         vm.promoImageObservable.subscribe { promoImage ->
             promoMessage.setCompoundDrawablesWithIntrinsicBounds(promoImage, 0, 0, 0)

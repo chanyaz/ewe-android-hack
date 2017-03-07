@@ -5,7 +5,10 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.flights.FlightViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,46 +55,23 @@ class FlightViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceString() {
         createExpectedFlightLeg()
         createSystemUnderTest()
         assertEquals("$200", sut.price())
     }
-
-    @Test
-    fun testFlightContentDesc() {
-        createExpectedFlightLeg()
-        flightLeg.flightSegments = ArrayList<FlightLeg.FlightSegment>()
-        flightLeg.flightSegments.add(createFlightSegment1("San Francisco", "SFO", "Honolulu", "HNL", 1, 34))
-        flightLeg.flightSegments.add(createFlightSegment1("Honolulu", "HNL", "Tokyo", "NRT", 1, 34))
-        createSystemUnderTest()
-        assertEquals("Flight time is 01:10:00 to 12:20:00 plus 1d with price difference of $200. Flying with UnitedDelta. The flight duration is 19 hours 10 minutes with 1 stops\\u0020SFO to HNL. 2 hours 2 minutes. \\u0020Layover 1 hour 34 minutes. \\u0020HNL to NRT. 2 hours 2 minutes. \\u0020Layover 1 hour 34 minutes. \\u0020Button", sut.getFlightContentDesc())
-    }
-
-    private fun createFlightSegment1(departureCity: String, departureAirport: String, arrivalCity: String, arrivalAirport: String, layoverHrs: Int, layoverMins: Int): FlightLeg.FlightSegment {
-        val airlineSegment = FlightLeg.FlightSegment()
-        airlineSegment.flightNumber = "51"
-        airlineSegment.airplaneType = "Airbus A320"
-        airlineSegment.carrier = "Virgin America"
-        airlineSegment.operatingAirlineCode = ""
-        airlineSegment.operatingAirlineName = ""
-        airlineSegment.departureDateTimeISO = ""
-        airlineSegment.arrivalDateTimeISO = ""
-        airlineSegment.departureCity = departureCity
-        airlineSegment.arrivalCity = arrivalCity
-        airlineSegment.departureAirportCode = departureAirport
-        airlineSegment.arrivalAirportCode = arrivalAirport
-        airlineSegment.durationHours = 2
-        airlineSegment.durationMinutes = 2
-        airlineSegment.layoverDurationHours = layoverHrs
-        airlineSegment.layoverDurationMinutes = layoverMins
-        airlineSegment.elapsedDays = 0
-        airlineSegment.seatClass = "coach"
-        airlineSegment.bookingCode = "O"
-        return airlineSegment
-    }
-
     private fun getContext(): Context {
         return RuntimeEnvironment.application
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testFlightOfferContentDescription() {
+        createExpectedFlightLeg()
+        createSystemUnderTest()
+        val expectedResult = SpannableBuilder()
+        expectedResult.append("Flight time is 01:10:00 to 12:20:00 plus 1d with price $200. Flying with UnitedDelta. The flight duration is 19 hours 10 minutes with 1 stops\\u0020Button")
+        assertEquals(sut.getFlightContentDesc(), expectedResult.build())
     }
 }

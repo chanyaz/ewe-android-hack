@@ -95,6 +95,19 @@ class AbstractMaterialFlightResultsPresenterTest {
     }
 
     @Test
+    fun obFeeDetailsUrlNotSetWhenOBFeeNotShown() {
+        createSystemUnderTest(false)
+
+        val testSubscriber = TestSubscriber<String>()
+        val expectedUrl = "http://url"
+        sut.paymentFeeInfoWebView.viewModel.webViewURLObservable.subscribe(testSubscriber)
+
+        sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext(expectedUrl)
+
+        testSubscriber.assertValueCount(0)
+    }
+
+    @Test
     fun obFeeDetailsUrlSet() {
         createSystemUnderTest(false)
 
@@ -104,6 +117,7 @@ class AbstractMaterialFlightResultsPresenterTest {
 
         sut.flightOfferViewModel.obFeeDetailsUrlObservable.onNext(expectedUrl)
 
+        sut.overviewPresenter.showPaymentFeesObservable.onNext(Unit)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(expectedUrl)
     }

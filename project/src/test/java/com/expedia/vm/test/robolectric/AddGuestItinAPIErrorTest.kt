@@ -1,73 +1,68 @@
-package com.expedia.bookings.presenter.flight
+package com.expedia.vm.test.robolectric
 
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.ItinTripServices
+import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.vm.itin.AddGuestItinViewModel
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.mockwebserver.MockWebServer
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import java.io.File
 import java.util.concurrent.TimeUnit
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
 class AddGuestItinAPIErrorTest {
-
-    private var server: MockWebServer = MockWebServer()
-        @Rule get
-
     private val context = RuntimeEnvironment.application
 
-    lateinit private var sut: AddGuestItinViewModel
-    lateinit private var tripServices: ItinTripServices
+    lateinit private var sut: TestAddGuestItinViewModel
+
+    lateinit private var mockItineraryManager: ItineraryManager
 
     @Before
     fun before() {
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        server.setDispatcher(ExpediaDispatcher(opener))
+        sut = TestAddGuestItinViewModel(context)
+        mockItineraryManager = sut.mockItineraryManager
+        sut.addItinSyncListener()
 
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-
-        val interceptor = MockInterceptor()
-        tripServices = ItinTripServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
-
-        Ui.getApplication(context).defaultTripComponents()
-        sut = AddGuestItinViewModel(context)
-        sut.tripServices = tripServices
+        SettingUtils.save(context, context.getString(R.string.preference_which_api_to_use_key), "Mock Mode")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun notAuthenticatedGuestItinError() {
         val showErrorMessageSubscriber = TestSubscriber<String>()
-        val showSearchDialogSubscriber = TestSubscriber<Boolean>()
+        val showSearchDialogSubscriber = TestSubscriber<Unit>()
 
-        sut.showSearchDialogObservable.subscribe(showSearchDialogSubscriber)
+        val email = "trip_error@mobiata.com"
+        val tripNumber = "error_trip_response"
+
+        sut.showItinFetchProgressObservable.subscribe(showSearchDialogSubscriber)
         sut.showErrorMessageObservable.subscribe(showErrorMessageSubscriber)
 
-        sut.performGuestTripSearch.onNext(Pair("trip_error@mobiata.com", "error_trip_response"))
-        assertTrue(showSearchDialogSubscriber.onNextEvents[0]) // true -> show progress bar
-        assertFalse(showSearchDialogSubscriber.onNextEvents[1]) // false -> after search returns hide progress bar
+        Mockito.doNothing().`when`(mockItineraryManager).addGuestTrip(email, tripNumber)
 
-        showErrorMessageSubscriber.awaitTerminalEvent(1000, TimeUnit.MILLISECONDS)
+        sut.performGuestTripSearch.onNext(Pair(email, tripNumber))
+        mockItineraryManager.onTripFailedFetchingRegisteredUserItinerary()
+
+        showSearchDialogSubscriber.requestMore(100L)
+        showSearchDialogSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        showSearchDialogSubscriber.assertValueCount(1)
+
+        showErrorMessageSubscriber.requestMore(100L)
+        showErrorMessageSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         showErrorMessageSubscriber.assertValue("This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.")
     }
 
@@ -75,17 +70,34 @@ class AddGuestItinAPIErrorTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun badGuestItinRequestError() {
         val showErrorMessageSubscriber = TestSubscriber<String>()
-        val showSearchDialogSubscriber = TestSubscriber<Boolean>()
+        val showSearchDialogSubscriber = TestSubscriber<Unit>()
 
-        sut.showSearchDialogObservable.subscribe(showSearchDialogSubscriber)
+        val email = "trip_error@mobiata.com"
+        val tripNumber = "error_bad_request_trip_response"
+
+        sut.showItinFetchProgressObservable.subscribe(showSearchDialogSubscriber)
         sut.showErrorMessageObservable.subscribe(showErrorMessageSubscriber)
 
-        sut.performGuestTripSearch.onNext(Pair("trip_error@mobiata.com", "error_bad_request_trip_response"))
-        assertTrue(showSearchDialogSubscriber.onNextEvents[0]) // true -> show progress bar
-        assertFalse(showSearchDialogSubscriber.onNextEvents[1]) // false -> after search returns hide progress bar
+        Mockito.doNothing().`when`(mockItineraryManager).addGuestTrip(email, tripNumber)
 
-        showErrorMessageSubscriber.awaitTerminalEvent(1000, TimeUnit.MILLISECONDS)
+        sut.performGuestTripSearch.onNext(Pair(email, tripNumber))
+        mockItineraryManager.onTripFailedFetchingGuestItinerary()
+
+        showSearchDialogSubscriber.requestMore(100L)
+        showSearchDialogSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+
+        showSearchDialogSubscriber.assertValueCount(1)
+
+        showErrorMessageSubscriber.requestMore(100L)
+        showErrorMessageSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         showErrorMessageSubscriber.assertValue("Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.")
     }
 
+    class TestAddGuestItinViewModel(context: Context) : AddGuestItinViewModel(context) {
+        var mockItineraryManager: ItineraryManager = Mockito.spy(ItineraryManager.getInstance())
+
+        override fun getItinManager(): ItineraryManager {
+            return mockItineraryManager
+        }
+    }
 }

@@ -91,12 +91,8 @@ public class AccountLibActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
-
-		if (savedInstanceState == null) {
-			AdTracker.trackSignInUpStarted();
 		}
 
 		Config.InitialState startState = Config.InitialState.SignIn;
@@ -263,8 +259,6 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void userSucceededInCreatingAccount() {
 			OmnitureTracking.trackAccountCreateSuccess();
-			AdTracker.trackAccountCreated();
-			//Don't track the adtracker login here, as it happens once we fetch the profile
 		}
 
 		@Override

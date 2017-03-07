@@ -79,7 +79,11 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
                 .debounce(1, TimeUnit.SECONDS, getScheduler()) // subscribe on ui thread as we're affecting ui elements
                 .subscribe {
                     selectedCardFee ->
-                    if (selectedCardFee != null && !selectedCardFee.isZero) {
+                    if (selectedCardFee.isZero) {
+                        paymentTypeSelectedHasCardFee.onNext(false)
+                        cardFeeTextSubject.onNext(SpannedString(""))
+                        cardFeeWarningTextSubject.onNext(SpannedString(""))
+                    } else {
                         val cardFeeText = Phrase.from(context, R.string.airline_processing_fee_TEMPLATE)
                                 .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
@@ -89,10 +93,6 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
                         paymentTypeSelectedHasCardFee.onNext(true)
                         cardFeeTextSubject.onNext(HtmlCompat.fromHtml(cardFeeText))
                         cardFeeWarningTextSubject.onNext(HtmlCompat.fromHtml(cardFeeWarningText))
-                    } else {
-                        paymentTypeSelectedHasCardFee.onNext(false)
-                        cardFeeTextSubject.onNext(SpannedString(""))
-                        cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
                     }
                 }
     }

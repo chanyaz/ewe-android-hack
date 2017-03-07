@@ -18,17 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.PaymentType;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
 
 public class SectionStoredCreditCard extends LinearLayout implements ISection<StoredCreditCard> {
 
@@ -184,7 +184,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			int iconResId;
 
 			// Show a credit card logo on tablet
-			if (AndroidUtils.isTablet(getContext())) {
+			if (ExpediaBookingApp.useTabletInterface()) {
 				iconResId = BookingInfoUtils.getTabletCardIcon(data.getType());
 			}
 			else {
@@ -216,7 +216,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				if (!item.isPaymentTypeSupported(type)) {
 					Resources res = getResources();
 					int errorIconResId;
-					if (AndroidUtils.isTablet(getContext())) {
+					if (ExpediaBookingApp.useTabletInterface()) {
 						errorIconResId = R.drawable.ic_checkout_error_state;
 					}
 					else {

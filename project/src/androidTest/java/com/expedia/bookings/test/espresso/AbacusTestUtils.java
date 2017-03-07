@@ -15,7 +15,7 @@ public class AbacusTestUtils {
 	public static void bucketTests(int... tests) {
 		AbacusResponse abacusResponse = new AbacusResponse();
 		for (int test : tests) {
-			abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+			abacusResponse.updateABTestForDebug(test, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		Db.setAbacusResponse(abacusResponse);
 	}

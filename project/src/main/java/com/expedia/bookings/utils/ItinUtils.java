@@ -6,15 +6,15 @@ import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.trips.TripComponent;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinUtils {
 
 	public static boolean shouldShowCheckInLink(Context context, TripComponent.Type type, DateTime flightTime,
 		String checkInLink) {
-		if (AndroidUtils.isTablet(context) || !type.equals(TripComponent.Type.FLIGHT) || Strings.isEmpty(checkInLink)) {
+		if (ExpediaBookingApp.useTabletInterface() || !type.equals(TripComponent.Type.FLIGHT) || Strings.isEmpty(checkInLink)) {
 			return false;
 		}
 

@@ -4,8 +4,11 @@ import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import com.mobiata.android.util.SettingUtils
@@ -33,7 +36,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonOpensWebView() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder()
                                 .withBookingChangeUrl(getBookingChangeUrl())
@@ -53,6 +56,7 @@ class HotelItinContentGeneratorTest {
         val webViewTitle = intent.getStringExtra("ARG_TITLE")
         val isWebViewSendingCookies = intent.getBooleanExtra("ARG_INJECT_EXPEDIA_COOKIES", false)
         val tripNumberToRefresh = intent.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
+        val resultExtra = intent.getBooleanExtra("ARG_RETURN_FROM_SOFT_CHANGE_ROOM_BOOKING", false)
 
         assertEquals("com.expedia.bookings.activity.WebViewActivity", intent.component.className)
         assertEquals(Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE, nextStartedActivityForResult.requestCode)
@@ -61,11 +65,47 @@ class HotelItinContentGeneratorTest {
         assertEquals("Edit Room Info", webViewTitle)
         assertTrue(isWebViewSendingCookies)
         assertEquals("1103274148635", tripNumberToRefresh)
+        assertTrue(resultExtra)
+    }
+
+    @Test
+    fun hotelRoomUpgradeButtonOpensWebView() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
+
+
+        val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false)
+                .withRoomUpgradeWebUrl(getRoomUpgradeWebUrl())
+                .build()
+        itinCardDataHotel.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
+        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
+        val container = FrameLayout(activity)
+        val detailsView = hotelItinGenerator.getDetailsView(null, container)
+
+        val roomUpgradeButton = detailsView.findViewById(R.id.room_upgrade_button)
+        roomUpgradeButton.performClick()
+
+        val shadowActivity = shadowOf(activity)
+        val nextStartedActivityForResult = shadowActivity.nextStartedActivityForResult
+        val intent = nextStartedActivityForResult.intent
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        val webViewTitle = intent.getStringExtra("ARG_TITLE")
+        val isWebViewSendingCookies = intent.getBooleanExtra("ARG_INJECT_EXPEDIA_COOKIES", false)
+        val tripNumberToRefresh = intent.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
+
+        assertEquals("com.expedia.bookings.activity.WebViewActivity", intent.component.className)
+        assertEquals(Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE, nextStartedActivityForResult.requestCode)
+        // note: WebViewActivity adds appvi param, hence contains() (not equals()) here
+        assertTrue(intentUrl.contains(getRoomUpgradeWebUrl()))
+        assertEquals("Upgrade hotel room", webViewTitle)
+        assertTrue(isWebViewSendingCookies)
+        assertEquals("1103274148635", tripNumberToRefresh)
     }
 
     @Test
     fun hotelSoftChangeButtonAvailable() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
+
         val itinCardDataHotel = ItinCardDataHotelBuilder().withBookingChangeUrl(getBookingChangeUrl()).build()
         itinCardDataHotel.tripComponent.parentTrip.setIsShared(false)
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -76,8 +116,9 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
-    fun hotelSoftChangeButtonGoneFeatureOff() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, false)
+    fun hotelSoftChangeButtonGoneAbTestOff() {
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
+
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
         val container = FrameLayout(activity)
@@ -88,7 +129,7 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonGoneForSharedItin() {
-        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(true).build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -101,8 +142,11 @@ class HotelItinContentGeneratorTest {
     @Test
     fun roomUpgradeButtonVisible() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
-        val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false).build()
+        val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false)
+                .withRoomUpgradeWebUrl(getRoomUpgradeWebUrl()).build()
+        itinCardDataHotel.property.roomUpgradeOfferType = Property.RoomUpgradeType.HAS_UPGRADE_OFFERS
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
         val container = FrameLayout(activity)
         val detailsView = hotelItinGenerator.getDetailsView(null, container)
@@ -113,6 +157,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun roomUpgradeButtonGoneFeatureOff() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -125,6 +170,7 @@ class HotelItinContentGeneratorTest {
     @Test
     fun roomUpgradeButtonGoneForSharedItin() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(true).build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
@@ -257,6 +303,11 @@ class HotelItinContentGeneratorTest {
                 "ordernumber/8098107084358/" +
                 "orderlinenumber/32001010-8848-4389-956f-25b615826802" +
                 "/change?blockHardChange=true&mobileWebView=true"
+    }
+
+    private fun getRoomUpgradeWebUrl(): String {
+        return "https://www.expedia.com/trips/547796b5-7839-49d4-a10f-d860966a1396/" +
+                "roomupgrade"
     }
 
     private fun makeHotelItinGenerator(itinCardDataHotel: ItinCardDataHotel): HotelItinContentGenerator {

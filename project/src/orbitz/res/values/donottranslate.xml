@@ -19,13 +19,6 @@
     <string name="tune_sdk_app_advertiser_id">189060</string>
     <string name="tune_sdk_app_conversion_key">8f7dc538871c8297bf3e2d9485856044</string>
 
-    <!-- Lean Plum SDK -->
-    <string name="lean_plum_sdk_dev_appid">app_wPSl9WUaP2P3yTdYuCP8NJC11ZUlRRU9NaZaJEvFlRk</string>
-    <string name="lean_plum_sdk_dev_key">dev_jPFhTOGUa9KW4ifBLTjG56YXxY7A9JlGymp3xp0f7YU</string>
-
-    <string name="lean_plum_sdk_prod_appid">app_J53CmKbY3S1vMo2MST9Bgd50a4G7ZBO3Vq1GT2VVvzU</string>
-    <string name="lean_plum_sdk_prod_key">prod_NmjBXjshFUza8aCpSvSQyiL2JLG9ie9zRafYToEmxM8</string>
-
     <!-- Brand reward name -->
     <string name="brand_reward_name">Orbitz Rewards</string>
 

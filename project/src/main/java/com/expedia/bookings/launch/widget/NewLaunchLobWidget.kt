@@ -67,7 +67,7 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                 }
             }
         }
-        viewModel.hasInternetConnectionChangeSubject.subscribe {
+        viewModel.hasInternetConnectionChangeSubject?.subscribe {
             adapter.enableLobs(it)
         }
         viewModel.refreshLobsObserver.onNext(Unit)

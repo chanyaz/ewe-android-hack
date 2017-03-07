@@ -22,6 +22,11 @@ class UserReviewDialogViewModel(val context: Context) {
     val noSubject = PublishSubject.create<Unit>()
     val closeSubject = PublishSubject.create<Unit>()
 
+    val titleTextSubject = PublishSubject.create<String>()
+    val reviewTextSubject = PublishSubject.create<String>()
+    val feedbackTextSubject = PublishSubject.create<String>()
+    val closeTextSubject = PublishSubject.create<String>()
+
     init {
         reviewSubject.subscribe {
             val packageName = context.packageName
@@ -30,7 +35,7 @@ class UserReviewDialogViewModel(val context: Context) {
         }
         feedbackSubject.subscribe {
             val scheme = BuildConfig.DEEPLINK_SCHEME
-            feedbackLinkSubject.onNext(scheme +"://supportEmail")
+            feedbackLinkSubject.onNext(scheme + "://supportEmail")
             OmnitureTracking.trackItinAppRatingClickFeedback()
         }
         reviewLinkSubject.subscribe { link ->
@@ -48,6 +53,20 @@ class UserReviewDialogViewModel(val context: Context) {
         rx.Observable.merge(reviewSubject, feedbackSubject, noSubject).subscribe(closeSubject)
     }
 
+    fun bindText() {
+        if (isBucketedForTest()) {
+            titleTextSubject.onNext(context.getString(R.string.dialog_app_rating_title_alt))
+            reviewTextSubject.onNext(context.getString(R.string.dialog_app_rating_review_button_alt))
+            feedbackTextSubject.onNext(context.getString(R.string.dialog_app_rating_feedback_button_alt))
+            closeTextSubject.onNext(context.getString(R.string.dialog_app_rating_no_button_alt))
+        } else {
+            titleTextSubject.onNext(context.getString(R.string.dialog_app_rating_title))
+            reviewTextSubject.onNext(context.getString(R.string.dialog_app_rating_review_button))
+            feedbackTextSubject.onNext(context.getString(R.string.dialog_app_rating_feedback_button))
+            closeTextSubject.onNext(context.getString(R.string.dialog_app_rating_no_button))
+        }
+    }
+
     private fun startIntent(link: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(link)
@@ -61,17 +80,18 @@ class UserReviewDialogViewModel(val context: Context) {
         fun shouldShowReviewDialog(context: Context): Boolean {
             val hasShownUserReview = SettingUtils.get(context, R.string.preference_user_has_seen_review_prompt, false)
             val hasBookedHotelOrFlight = SettingUtils.get(context, R.string.preference_user_has_booked_hotel_or_flight, false)
-            val isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsUserReviews)
             val lastDate = DateTime(SettingUtils.get(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().millis))
             val hasBeenAtLeast3Months = Period(lastDate, DateTime.now(), PeriodType.yearMonthDayTime()).months >= 3
 
             if ((!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight) {
                 OmnitureTracking.trackItinUserRating()
-                if (isBucketed) {
-                    return true
-                }
+                return true
             }
             return false
         }
+    }
+
+    private fun isBucketedForTest() : Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsUserReviews)
     }
 }

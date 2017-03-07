@@ -18,13 +18,6 @@
     <string name="tune_sdk_app_advertiser_id">192083</string>
     <string name="tune_sdk_app_conversion_key">228c80cd100c2f4bc041146f24c4c326</string>
 
-    <!-- Lean Plum SDK -->
-    <string name="lean_plum_sdk_dev_appid">app_kuDZDldpnlsgYGX97PGDaDdEAd30lpsNyxBJcbH9ewQ</string>
-    <string name="lean_plum_sdk_dev_key">dev_btM9geKq04QX9sPNcm79yzBQzQ9JaozlDLCfuVbaZnc</string>
-
-    <string name="lean_plum_sdk_prod_appid">app_CbvfsE7SIsC7fRau8eHQDhbOxzty7l5vmnOcKFR5i0s</string>
-    <string name="lean_plum_sdk_prod_key">prod_OUkgf7BD5AtJ40DF62YVyBT6FHrtlATTFq4JA18aRrA</string>
-
     <!-- Brand reward currency -->
     <string name="brand_reward_currency">MrJet Rewards</string>
 

@@ -13,11 +13,13 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
+
+import static com.google.android.gms.gcm.GoogleCloudMessaging.INSTANCE_ID_SCOPE;
 
 /**
  * If a client receives a new RegistrationId from GCM
@@ -152,9 +154,8 @@ public class GCMRegistrationKeeper implements JSONable {
 		new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
-				GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
 				try {
-					String regId = gcm.register(PushNotificationUtils.SENDER_ID);
+					String regId = InstanceID.getInstance(context).getToken(PushNotificationUtils.SENDER_ID, INSTANCE_ID_SCOPE);
 					setRegistrationId(context, regId);
 				}
 				catch (IOException e) {

@@ -53,7 +53,7 @@ public class FlightSegmentSection extends LinearLayout {
 					attrs.getBookingCode(), flight.mAircraftType));
 		}
 
-		if (ExpediaBookingApp.useTabletInterface(getContext())) {
+		if (ExpediaBookingApp.useTabletInterface()) {
 			// Strip the bold formatting for tablets
 			text = text.toString();
 		}

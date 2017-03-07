@@ -104,6 +104,7 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun slideToPurchaseTotalLabel() {
         givenGoodCheckoutParams()
         setupCardFeeService()
@@ -193,6 +194,11 @@ class FlightCheckoutViewModelTest {
         cardFeeWarningTestSubscriber.assertValueCount(3)
         assertEquals("An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment.",
                 cardFeeWarningTestSubscriber.onNextEvents[2].toString())
+
+        sut.selectedCardFeeObservable.onNext(Money())
+        cardFeeWarningTestSubscriber.assertValueCount(4)
+        assertEquals("",
+                cardFeeWarningTestSubscriber.onNextEvents[3].toString())
     }
 
     private fun setPOS(pos: PointOfSaleId) {

@@ -22,6 +22,8 @@ import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
 import com.expedia.bookings.deeplink.DeepLink;
 import com.expedia.bookings.deeplink.DeepLinkParser;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
@@ -90,10 +92,10 @@ public class LXDataUtilsTest {
 
 	@Test
 	public void testBuildLXSearchParamsFromDeeplinkSearch() {
-		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco";
+		final String expectedURL = "expda://activitySearch?startDate=2050-08-08&location=San+Francisco";
 		final String location = "San Francisco";
 		final String startDate = DateUtils
-			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2050-08-08")));
 
 		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
 
@@ -102,14 +104,15 @@ public class LXDataUtilsTest {
 
 		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
 		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
+		assertEquals(expectedLxSearchParams.getActivityEndDate(), obtainedLxSearchParams.getActivityEndDate());
 	}
 
 	@Test
 	public void testBuildLXSearchParamsFromDeeplinkSearchWithFilters() {
-		final String expectedURL = "expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
+		final String expectedURL = "expda://activitySearch?startDate=2050-08-08&location=San+Francisco&filters=Private+Transfers|Shared+Transfers";
 		final String location = "San Francisco";
 		final String startDate = DateUtils
-			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2015-08-08")));
+			.localDateToyyyyMMdd(DateUtils.ensureDateIsTodayOrInFuture(DateUtils.yyyyMMddToLocalDate("2050-08-08")));
 		final String filters = "Private Transfers|Shared Transfers";
 
 		LxSearchParams obtainedLxSearchParams = getLxSearchParamsFromDeeplink(expectedURL);
@@ -120,6 +123,7 @@ public class LXDataUtilsTest {
 		assertEquals(expectedLxSearchParams.getLocation(), obtainedLxSearchParams.getLocation());
 		assertEquals(expectedLxSearchParams.getFilters(), obtainedLxSearchParams.getFilters());
 		assertEquals(expectedLxSearchParams.getActivityStartDate(), obtainedLxSearchParams.getActivityStartDate());
+		assertEquals(expectedLxSearchParams.getActivityEndDate(), obtainedLxSearchParams.getActivityEndDate());
 	}
 
 	@Test
@@ -164,6 +168,8 @@ public class LXDataUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void getToolbarSearchDateTextTest() {
 		LocalDate startDate = new LocalDate(2016, 4, 23);
 		LocalDate endDate = new LocalDate(2016, 4, 23).plusDays(2);
@@ -178,12 +184,13 @@ public class LXDataUtilsTest {
 	}
 
 	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
-		DeepLinkParser deepLinkParser = new DeepLinkParser();
+		DeepLinkParser deepLinkParser = new DeepLinkParser(RuntimeEnvironment.application.getAssets());
 		DeepLink deepLink = deepLinkParser.parseDeepLink(Uri.parse(expectedURL));
 		return LXDataUtils.buildLXSearchParamsFromDeeplink((ActivityDeepLink) deepLink);
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY })
 	public void bindPriceAndTicketTypeTest() {
 		TextView activityPrice = new TextView(getContext());
 		TextView fromPriceTicketType = new TextView(getContext());

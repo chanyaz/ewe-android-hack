@@ -8,6 +8,8 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -21,6 +23,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
@@ -52,15 +55,14 @@ class WebCheckoutViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutUsed() {
-        featureToggleWebCheckout(true)
-        setPOSWithWebCheckoutEnabled(true)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
+        getToWebCheckoutView()
         webCheckoutViewObservable.assertValueCount(1)
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOS() {
         featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(false)
@@ -70,6 +72,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedWithFeatureToggleOff() {
         featureToggleWebCheckout(false)
         setPOSWithWebCheckoutEnabled(true)
@@ -79,6 +82,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOSAndFeatureToggleOff() {
         featureToggleWebCheckout(false)
         setPOSWithWebCheckoutEnabled(true)
@@ -88,6 +92,7 @@ class WebCheckoutViewTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestSubscriber<String>()
         val fectchTripIDSubscriber = TestSubscriber<String>()
@@ -111,6 +116,68 @@ class WebCheckoutViewTest {
         fectchTripIDSubscriber.assertValueCount(1)
         fectchTripIDSubscriber.assertValue(tripID)
         bookingTripIDSubscriber.assertValue(tripID)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewRefreshUserOnBackPress() {
+        val closeViewSubscriber = TestSubscriber<Unit>()
+        featureToggleWebCheckout(true)
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).userAccountRefresher = userAccountRefresherMock
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(1)
+        closeViewSubscriber.assertValueCount(0)
+        verify(userAccountRefresherMock, times(0)).forceAccountRefreshForWebView()
+
+        hotelPresenter.webCheckoutView.back()
+        verify(userAccountRefresherMock, times(1)).forceAccountRefreshForWebView()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+        closeViewSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewURLWithoutParamsContainsAppVID() {
+        getToWebCheckoutView()
+        val testURL = "abcdefg"
+        hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
+        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL?appvi="))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewURLWithParamsContainsAppVID() {
+        getToWebCheckoutView()
+        val testURL = "abcdefg?ab=c"
+        hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
+        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL&appvi="))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webViewClearsPageGoingBack() {
+        val closeViewSubscriber = TestSubscriber<Unit>()
+        val urlSubscriber = TestSubscriber<String>()
+        getToWebCheckoutView()
+
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).webViewURLObservable.subscribe(urlSubscriber)
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
+        hotelPresenter.webCheckoutView.back()
+        (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).onUserAccountRefreshed()
+
+        closeViewSubscriber.assertValueCount(1)
+        urlSubscriber.assertValueCount(1)
+        urlSubscriber.assertValue("about:blank")
+    }
+
+    private fun getToWebCheckoutView() {
+        featureToggleWebCheckout(true)
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
     }
 
     private fun selectHotelRoom() {

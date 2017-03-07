@@ -19,10 +19,14 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
+import com.expedia.vm.traveler.FlightTravelersViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -37,9 +41,11 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class FlightPriceChangeTest {
 
 
@@ -120,6 +126,45 @@ class FlightPriceChangeTest {
         checkout.flightCheckoutViewModel.checkoutPriceChangeObservable.onNext(getDummyFlightCheckoutResponse())
         priceChangeSubscriber.assertValueCount(1)
         priceChangeSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun testCheckoutPriceChangeDoesNotCrashWithoutOldOffer() {
+        val priceChangeSubscriber = TestSubscriber<Boolean>()
+        val oldMoneySubscriber = TestSubscriber<Money>()
+        val priceChangeTextSubscriber = TestSubscriber<String>()
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.priceChangeWidget.viewmodel.originalPrice.subscribe(oldMoneySubscriber)
+        overview.priceChangeWidget.viewmodel.priceChangeText.subscribe(priceChangeTextSubscriber)
+
+        val responseWithoutOldOffer = getDummyFlightCheckoutResponse()
+        responseWithoutOldOffer?.details?.oldOffer = null
+        checkout.flightCheckoutViewModel.checkoutPriceChangeObservable.onNext(responseWithoutOldOffer)
+
+        priceChangeSubscriber.assertValueCount(1)
+        priceChangeSubscriber.assertValue(true)
+        assertNull(oldMoneySubscriber.onNextEvents[0])
+        priceChangeTextSubscriber.assertNoValues()
+    }
+
+    @Test
+    fun testCreateTripPriceChangeDoesNotCrashWithoutOldOffer() {
+        val priceChangeSubscriber = TestSubscriber<Boolean>()
+        val oldMoneySubscriber = TestSubscriber<Money>()
+        val priceChangeTextSubscriber = TestSubscriber<String>()
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.priceChangeWidget.viewmodel.originalPrice.subscribe(oldMoneySubscriber)
+        overview.priceChangeWidget.viewmodel.priceChangeText.subscribe(priceChangeTextSubscriber)
+
+        val responseWithoutOldOffer = getDummyFlightCreateTripPriceChangeResponse(9.0, 10.0)
+        val flightTripItem = TripBucketItemFlightV2(responseWithoutOldOffer)
+        Db.getTripBucket().add(flightTripItem)
+        responseWithoutOldOffer?.details?.oldOffer = null
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(responseWithoutOldOffer)
+
+        priceChangeSubscriber.assertNoValues()
+        assertNull(oldMoneySubscriber.onNextEvents[0])
+        priceChangeTextSubscriber.assertNoValues()
     }
 
     private fun getDummyFlightCheckoutResponse(): FlightCheckoutResponse? {

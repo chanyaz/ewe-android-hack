@@ -9,7 +9,6 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -25,7 +24,6 @@ object FlightsV2Tracking {
 
     fun trackResultOutBoundFlights(trackingData: FlightSearchTrackingData) {
         OmnitureTracking.trackResultOutBoundFlights(trackingData)
-        LeanPlumUtils.trackFlightV2Search(trackingData)
         TuneUtils.trackFlightV2OutBoundResults(trackingData)
         FacebookEvents().trackFlightV2Search(trackingData)
     }
@@ -34,9 +32,9 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
     }
 
-    fun trackResultInBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
-        OmnitureTracking.trackResultInBoundFlights()
-        TuneUtils.trackFlightV2InBoundResults(flightSearchParams, flightLegs)
+    fun trackResultInBoundFlights(trackingData: FlightSearchTrackingData) {
+        OmnitureTracking.trackResultInBoundFlights(trackingData)
+        TuneUtils.trackFlightV2InBoundResults(trackingData)
     }
 
     fun trackFlightBaggageFeeClick() {
@@ -97,7 +95,6 @@ object FlightsV2Tracking {
         val tripResponse = Db.getTripBucket().flightV2.flightCreateTripResponse
         val searchParams = Db.getFlightSearchParams()
         OmnitureTracking.trackFlightCheckoutInfoPageLoad(tripResponse)
-        LeanPlumUtils.trackFlightV2CheckoutStarted(tripResponse, searchParams)
         FacebookEvents().trackFlightV2Checkout(tripResponse, searchParams)
     }
 
@@ -154,7 +151,6 @@ object FlightsV2Tracking {
     fun trackCheckoutConfirmationPageLoad(flightCheckoutResponse: FlightCheckoutResponse) {
         val searchParams = Db.getFlightSearchParams()
         OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
-        LeanPlumUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
         TuneUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
         FacebookEvents().trackFlightV2Confirmation(flightCheckoutResponse, searchParams)
     }

@@ -15,9 +15,11 @@ import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -25,8 +27,10 @@ import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
+import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
@@ -36,9 +40,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.testrule.ServicesRule;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
+import com.mobiata.android.util.SettingUtils;
 
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
@@ -218,6 +224,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY })
 	public void zeroIsDisplayedWhenPriceToShowUsersIsNegative() {
 		hotel.lowRateInfo.priceToShowUsers = -10f;
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
@@ -228,6 +235,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY })
 	public void distanceFromLocationObservableNonZeroDistance() {
 		double distanceInMiles = 0.42;
 		givenHotelWithProximityDistance(distanceInMiles);
@@ -433,9 +441,12 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	public void sponsoredPriorityOverEarnMessaging() {
+	public void bothSponsoredEarnMessagingShow() {
 		givenIsSponsoredListing(true);
 		setupSystemUnderTest();
+
+		SettingUtils.save(getContext(), R.string.preference_enable_hotel_loyalty_earn_message, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
 
 		PointOfSaleTestConfiguration
 			.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json", false);
@@ -444,11 +455,26 @@ public class HotelViewModelTest {
 
 		TestSubscriber earnMessageTestSubscriber = TestSubscriber.create();
 		vm.getEarnMessagingVisibilityObservable().subscribe(earnMessageTestSubscriber);
-		assertFalse((Boolean) earnMessageTestSubscriber.getOnNextEvents().get(0));
+		assertTrue((Boolean) earnMessageTestSubscriber.getOnNextEvents().get(0));
 
 		TestSubscriber topAmenityTestSubscriber = TestSubscriber.create();
 		vm.getTopAmenityVisibilityObservable().subscribe(topAmenityTestSubscriber);
 		assertTrue((Boolean) topAmenityTestSubscriber.getOnNextEvents().get(0));
+	}
+
+	@Test
+	@RunForBrands( brands = { MultiBrand.ORBITZ })
+	public void testEarnMessgingVisibility() {
+		setPOS(PointOfSaleId.ORBITZ);
+		TestSubscriber<Boolean> subscriber = new TestSubscriber<Boolean>();
+
+		Money base = new Money("11.03", "USD");
+		Money bonus = new Money("00.00", "USD");
+		Money total = new Money("11.03", "USD");
+		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, new PriceEarnInfo(base, bonus, total)), false);
+		setupSystemUnderTest();
+		vm.getEarnMessagingVisibilityObservable().subscribe(subscriber);
+		assertEquals(true, subscriber.getOnNextEvents().get(0) );
 	}
 
 	private void givenSoldOutHotel() {
@@ -502,6 +528,11 @@ public class HotelViewModelTest {
 		user.setPrimaryTraveler(traveler);
 		user.getPrimaryTraveler().setLoyaltyMembershipTier(LoyaltyMembershipTier.TOP);
 		return user;
+	}
+
+	private void setPOS(PointOfSaleId pos) {
+		SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.getId() + "");
+		PointOfSale.onPointOfSaleChanged(getContext());
 	}
 
 }
