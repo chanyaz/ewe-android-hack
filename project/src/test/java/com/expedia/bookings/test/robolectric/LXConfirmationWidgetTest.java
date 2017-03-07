@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.Ui;
 
 import static org.junit.Assert.assertEquals;
@@ -43,6 +45,8 @@ public class LXConfirmationWidgetTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testConfirmationWidgetViews() {
 		Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().visible().get();
 		mockConfirmationLXState();

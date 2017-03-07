@@ -4,6 +4,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,6 +41,7 @@ class RailFareOptionViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testRoundTripOutboundTotalFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
@@ -63,6 +66,7 @@ class RailFareOptionViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testInboundOpenReturnFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 
@@ -75,6 +79,7 @@ class RailFareOptionViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testRoundTripInboundDeltaPriceFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 

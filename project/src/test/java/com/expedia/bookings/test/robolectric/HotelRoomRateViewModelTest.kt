@@ -10,7 +10,9 @@ import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -59,6 +61,7 @@ class HotelRoomRateViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun happy() {
         setupNonSoldOutRoomUnderTest()
 
@@ -87,6 +90,7 @@ class HotelRoomRateViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun payLaterOfferShowPerNightPrice() {
         givenOfferIsPayLater()
         setupNonSoldOutRoomUnderTest()
@@ -123,6 +127,7 @@ class HotelRoomRateViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun showStrikeThroughPrice() {
         val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
         val newValidStrikeThroughPrice = chargeableRateInfo.priceToShowUsers + 10f
@@ -158,6 +163,7 @@ class HotelRoomRateViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun userSeesZeroPriceWhenPriceToShowUsersIsNegative() {
         givenPriceToShowUsersIsNegative()
         setupNonSoldOutRoomUnderTest()
@@ -165,6 +171,7 @@ class HotelRoomRateViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessageIsShown() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)

@@ -224,6 +224,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY })
 	public void zeroIsDisplayedWhenPriceToShowUsersIsNegative() {
 		hotel.lowRateInfo.priceToShowUsers = -10f;
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
@@ -234,6 +235,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY })
 	public void distanceFromLocationObservableNonZeroDistance() {
 		double distanceInMiles = 0.42;
 		givenHotelWithProximityDistance(distanceInMiles);

@@ -4,6 +4,8 @@ import com.expedia.bookings.data.rail.responses.RailDateTime
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.data.rail.responses.RailTripProduct
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailTripSummaryViewModel
 import org.junit.Test
@@ -16,6 +18,8 @@ import kotlin.test.assertEquals
 class RailTripSummaryViewModelTest {
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY,
+            MultiBrand.AIRASIAGO, MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testOutputs() {
         val viewModel = RailTripSummaryViewModel(RuntimeEnvironment.application)
 

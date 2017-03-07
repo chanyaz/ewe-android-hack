@@ -104,6 +104,7 @@ class AccountButtonTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testSignInTextWithRewards() {
         val rewardsInfo = RewardsInfo()
         rewardsInfo.totalAmountToEarn = Money("12", "USD")
@@ -145,6 +146,7 @@ class AccountButtonTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testSignInTextWithRewardsContentDescription() {
         val rewardsInfo = RewardsInfo()
         rewardsInfo.totalAmountToEarn = Money("12", "USD")
