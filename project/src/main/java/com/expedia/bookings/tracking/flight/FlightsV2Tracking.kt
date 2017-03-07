@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking.flight
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
@@ -195,32 +196,8 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightError(errorType)
     }
 
-    fun trackFlightCheckoutUnknownError() {
-        trackFlightCheckoutError("Flight Checkout Unknown Error")
-    }
-
-    fun trackFlightCheckoutPaymentError() {
-        trackFlightCheckoutError("Flight Checkout Payment Error")
-    }
-
-    fun trackFlightCheckoutSessionTimeOutError() {
-        trackFlightCheckoutError("Flight Checkout Session Timeout Error")
-    }
-
-    fun trackFlightCheckoutTravelerFormInputError() {
-        trackFlightCheckoutError("Flight Checkout Traveler Form Input Error")
-    }
-
-    fun trackFlightCheckoutPaymentFormInputError() {
-        trackFlightCheckoutError("Flight Checkout Payment Form Input Error")
-    }
-
-    fun trackFlightTripBookedError() {
-        trackFlightCheckoutError("Flight Trip Already Booked Error")
-    }
-
-    private fun trackFlightCheckoutError(errorType: String) {
-        OmnitureTracking.trackFlightCheckoutError(errorType)
+    fun trackFlightCheckoutError(error: ApiError) {
+        OmnitureTracking.trackFlightCheckoutError(createCheckoutError(error))
     }
 
     fun trackFlightCreateTripPriceChange(diffPercentage: Int) {
@@ -235,4 +212,10 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCabinClassSelect(cabinClass);
     }
 
+    fun createCheckoutError(error: ApiError): String {
+        var errorType = "CKO:"
+        val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"
+        val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
+        return "$errorType$eSource$eSourceErrorId"
+    }
 }

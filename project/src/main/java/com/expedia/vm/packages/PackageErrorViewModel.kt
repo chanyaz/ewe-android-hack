@@ -143,7 +143,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
         return endlessObserver {
             error = it
-            PackagesTracking().trackCheckoutError(error.errorCode.toString())
+            PackagesTracking().trackCheckoutError(error)
             when (error.errorCode) {
                 ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)

@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking.hotel
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -249,36 +250,8 @@ open class HotelTracking {
             OmnitureTracking.trackHotelV2SlideToPurchase(paymentType, paymentSplitsType)
         }
 
-        fun trackHotelsCardError() {
-            trackHotelsCheckoutError("Payment Info Error")
-        }
-
-        fun trackHotelsTravelerError() {
-            trackHotelsCheckoutError("Traveler Info Error")
-        }
-
-        fun trackHotelsProductExpiredError() {
-            trackHotelsCheckoutError("Product Expired")
-        }
-
-        fun trackHotelsTripAlreadyBookedError() {
-            trackHotelsCheckoutError("Trip Already Booked")
-        }
-
-        fun trackHotelsPaymentFailedError() {
-            trackHotelsCheckoutError("Payment Failed")
-        }
-
-        fun trackHotelsSessionTimeOutError() {
-            trackHotelsCheckoutError("Session Timeout")
-        }
-
-        fun trackHotelsUnknownError() {
-            trackHotelsCheckoutError("Unknown Error")
-        }
-
-        private fun trackHotelsCheckoutError(errorType: String) {
-            OmnitureTracking.trackHotelV2CheckoutError(errorType)
+        fun trackHotelsCheckoutError(error: ApiError) {
+            OmnitureTracking.trackHotelV2CheckoutError(createCheckoutError(error))
         }
 
         fun trackHotelsCheckoutErrorRetry() {
@@ -341,6 +314,13 @@ open class HotelTracking {
 
         open fun trackHotelFavoriteClick(hotelId: String, favorite: Boolean, page: PageName) {
             OmnitureTracking.trackHotelFavoriteClick(hotelId, favorite, page)
+        }
+
+        fun createCheckoutError(error: ApiError): String {
+            var errorType = "CKO:"
+            val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"
+            val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
+            return "$errorType$eSource$eSourceErrorId"
         }
     }
 }

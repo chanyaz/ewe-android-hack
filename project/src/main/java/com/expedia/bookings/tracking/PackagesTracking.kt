@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -220,8 +221,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesSearchError(errorType)
     }
 
-    fun trackCheckoutError(errorType: String) {
-        OmnitureTracking.trackPackagesCheckoutError(errorType)
+    fun trackCheckoutError(error: ApiError) {
+        OmnitureTracking.trackPackagesCheckoutError(createCheckoutError(error))
     }
 
     fun trackCheckoutErrorRetry() {
@@ -259,5 +260,12 @@ class PackagesTracking {
 
     fun trackBundleEditItemClick(itemType: String) {
         OmnitureTracking.trackPackagesBundleEditItemClick(itemType)
+    }
+
+    fun createCheckoutError(error: ApiError): String {
+        var errorType = "CKO:"
+        val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"
+        val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
+        return "$errorType$eSource$eSourceErrorId"
     }
 }

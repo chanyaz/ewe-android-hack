@@ -95,6 +95,9 @@ public class ApiError extends RuntimeException {
 
 	public static class ErrorInfo {
 		public String summary;
+		public String source;
+		public String sourceErrorId;
+		public String sourceErrorMessage;
 		public String field;
 		public String cause;
 		public String couponErrorType;
