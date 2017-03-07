@@ -272,6 +272,9 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 alphaAnimation.duration = animationDuration
                 it.startAnimation(alphaAnimation)
             }
+            collapsedBedType.visibility = View.GONE
+            collapsedUrgency.visibility = View.GONE
+
             viewsToShowInExpandedState.forEach {
                 if (it is TextView && Strings.isEmpty(it.text)) {
                     it.visibility = View.GONE
@@ -322,6 +325,9 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 alphaAnimation.duration = animationDuration
                 it.startAnimation(alphaAnimation)
             }
+
+            expandedBedType.visibility = View.GONE
+            freeCancellation.visibility = View.GONE
 
             row.isEnabled = !viewModel.roomSoldOut.value
 
