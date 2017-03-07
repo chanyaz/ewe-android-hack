@@ -3119,9 +3119,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Clear Private Data?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">This removes all saved billing and contact information.</string>
+    <string name="dialog_clear_private_data_msg">This will remove all search history.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove all saved billing and contact information.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove search history.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Private data cleared</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
