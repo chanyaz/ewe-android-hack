@@ -98,6 +98,7 @@ public class HotelPwpTest extends HotelTestCase {
 		PaymentOptionsScreen.clickAmountForPointsCalculation();
 		PaymentOptionsScreen.enterAmountForPointsCalculation("100");
 		PaymentOptionsScreen.tapPointsAppliedLabel();
+		Common.delay(1);
 		PaymentOptionsScreen.assertPointsAppliedMatches("100");
 		PaymentOptionsScreen.assertRemainingDueMatches("$4,294.88");
 		PaymentOptionsScreen.assertMenuDoneClickable();
