@@ -13,8 +13,8 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.vm.hotel.HotelViewModel
 import rx.subjects.PublishSubject
 
-class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>) :
-        BaseHotelListAdapter(hotelSelectedSubject, headerSubject) {
+class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
+        BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {
 
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
         val bucketedForFavoriteTest = HotelFavoriteHelper.showHotelFavoriteTest(true)

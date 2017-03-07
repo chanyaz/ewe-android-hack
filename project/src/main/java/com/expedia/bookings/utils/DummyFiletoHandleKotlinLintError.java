@@ -149,7 +149,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_tonight_only_color,
 		R.color.hotel_mobile_exclusive_color,
 		R.color.hotelsv2_detail_star_color,
-		R.layout.hotel_results_pricing_structure_header_cell,
+		R.layout.hotel_results_header_cell,
 		R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE,
 		R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE,
 		R.layout.hotel_cost_summary_date_row,
@@ -903,5 +903,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.dialog_app_rating_feedback_button_alt,
 		R.string.dialog_app_rating_no_button_alt,
 		R.dimen.hotel_carousel_fab_vertical_offset,
+		R.string.how_we_determine_sort_order
 	};
 }

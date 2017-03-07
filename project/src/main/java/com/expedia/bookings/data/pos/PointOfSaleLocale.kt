@@ -98,4 +98,7 @@ class PointOfSaleLocale(private val data: JSONObject) {
 
     /** Rails Payment and Ticket Delivery Fees URL */
     val railsPaymentAndTicketDeliveryFeesURL by lazy { data.optString("railsPaymentAndTicketDeliveryFeesURL") }
+
+    /** Hotel Results Sort FAQ URL */
+    val hotelResultsSortFaqUrl by lazy { data.optString("resultsSortFAQLegalLink") }
 }

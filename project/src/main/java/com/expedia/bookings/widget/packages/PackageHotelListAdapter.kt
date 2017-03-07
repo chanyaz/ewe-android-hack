@@ -10,8 +10,8 @@ import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.vm.packages.PackageHotelViewModel
 import rx.subjects.PublishSubject
 
-class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>) :
-        BaseHotelListAdapter(hotelSelectedSubject, headerSubject) {
+class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>, pricingHeaderSelectedSubject: PublishSubject<Unit>) :
+        BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {
 
     override fun getHotelCellHolder(parent: ViewGroup): PackageHotelCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.package_hotel_cell, parent, false)

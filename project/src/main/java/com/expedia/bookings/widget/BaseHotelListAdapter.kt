@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -21,16 +22,14 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
-import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.util.AndroidUtils
-import org.joda.time.DateTime
-import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
-                                    val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                    val headerSubject: PublishSubject<Unit>,
+                                    val pricingHeaderSelectedSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
 
@@ -158,7 +157,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_loading_cell, parent, false)
             return LoadingViewHolder(view)
         } else if (viewType == PRICING_STRUCTURE_HEADER_VIEW) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_results_pricing_structure_header_cell, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_results_header_cell, parent, false)
             val vm = HotelResultsPricingStructureHeaderViewModel(view.resources)
             loadingSubject.subscribe(vm.loadingStartedObserver)
             resultsSubject.subscribe(vm.resultsDeliveredObserver)
@@ -189,16 +188,35 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
-        val pricingStructureHeader: TextView by root.bindView(R.id.pricing_structure_header)
+        val resultsDescriptionHeader: TextView by root.bindView(R.id.results_description_header)
         val loyaltyPointsAppliedHeader: TextView by root.bindView(R.id.loyalty_points_applied_message)
+        val infoIcon: ImageView by root.bindView(R.id.results_header_info_icon)
         val shadow: View by root.bindView(R.id.drop_shadow)
 
         init {
             if (ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
             }
-            vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)
+
+            vm.resultsDescriptionHeaderObservable.subscribeText(resultsDescriptionHeader)
             vm.loyaltyAvailableObservable.subscribeVisibility(loyaltyPointsAppliedHeader)
+
+            vm.sortFaqLinkAvailableObservable.subscribe { faqLinkAvailable ->
+                if (faqLinkAvailable) {
+                    infoIcon.visibility = View.VISIBLE
+                    resultsDescriptionHeader.setOnClickListener {
+                        pricingHeaderSelectedSubject.onNext(Unit)
+                    }
+                    infoIcon.setOnClickListener {
+                        pricingHeaderSelectedSubject.onNext(Unit)
+                    }
+
+                } else {
+                    infoIcon.visibility = View.GONE
+                    resultsDescriptionHeader.setOnClickListener(null)
+                    infoIcon.setOnClickListener(null)
+                }
+            }
         }
     }
 

@@ -46,6 +46,7 @@ import com.expedia.bookings.hotel.animation.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
@@ -62,6 +63,7 @@ import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.HotelMarkerIconGenerator
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
@@ -109,6 +111,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var adapter: BaseHotelListAdapter by Delegates.notNull()
     open val searchThisArea: Button? = null
     var isMapReady = false
+    val sortFaqWebView: HotelResultsSortFaqWebView by lazy {
+        val webView = findViewById(R.id.sort_faq_web_view) as HotelResultsSortFaqWebView
+        webView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        webView
+    }
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -130,6 +137,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
+    val pricingHeaderSelectedSubject = PublishSubject.create<Unit>()
     val showSearchMenu = PublishSubject.create<Boolean>()
     val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
@@ -347,6 +355,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     init {
         inflate()
+
         mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
         mapViewModel.clusterChangeSubject.subscribe {
             updateCarouselItems()
@@ -389,6 +398,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     })
                 }
             }
+        }
+
+        pricingHeaderSelectedSubject.subscribe {
+            sortFaqWebView.loadUrl()
+            show(ResultsSortFaqWebView())
         }
     }
 
@@ -466,6 +480,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         addTransition(mapToResultsTransition)
         addTransition(listFilterTransition)
         addTransition(mapFilterTransition)
+        addTransition(sortFaqWebViewTransition)
 
         animateMapCarouselOut()
         val screen = Ui.getScreenSize(context)
@@ -747,6 +762,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 fab.visibility = View.INVISIBLE
             }
             filterView.visibility = View.INVISIBLE
+
+            sortFaqWebView.visibility = View.GONE
 
             postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
@@ -1051,6 +1068,32 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
+    private val sortFaqWebViewTransition = object : ScaleTransition(this, recyclerView, sortFaqWebView, ResultsList::class.java, ResultsSortFaqWebView::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                fab.visibility = View.GONE
+            } else {
+                toolbar.visibility = View.VISIBLE
+                mapView.visibility = View.VISIBLE
+            }
+            hideBundlePriceOverview(forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (forward) {
+                toolbar.visibility = View.GONE
+                mapView.visibility = View.GONE
+            } else {
+                if (!fabShouldBeHiddenOnList()) {
+                    fab.visibility = View.VISIBLE
+                    getFabAnimIn().start()
+                }
+            }
+        }
+    }
+
     val touchListener = object : RecyclerView.OnItemTouchListener {
         override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
 
@@ -1159,6 +1202,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     class ResultsMap
     class ResultsFilter
+    class ResultsSortFaqWebView
 
     fun setMapToInitialState(suggestion: SuggestionV4?) {
         if (isMapReady) {

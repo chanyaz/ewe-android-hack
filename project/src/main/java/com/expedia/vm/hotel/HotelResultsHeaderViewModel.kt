@@ -2,8 +2,11 @@ package com.expedia.vm.hotel
 
 import android.content.res.Resources
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.pos.PointOfSale
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -13,13 +16,15 @@ class HotelResultsPricingStructureHeaderViewModel(private val resources: Resourc
     val resultsDeliveredObserver = PublishSubject.create<HotelSearchResponse>()
 
     // Outputs
-    val pricingStructureHeaderObservable = BehaviorSubject.create<String>()
+    val resultsDescriptionHeaderObservable = BehaviorSubject.create<String>()
     val loyaltyAvailableObservable = BehaviorSubject.create<Boolean>()
+    val sortFaqLinkAvailableObservable = BehaviorSubject.create<Boolean>()
 
     init {
         loadingStartedObserver.subscribe {
-            pricingStructureHeaderObservable.onNext(resources.getString(R.string.progress_searching_hotels_hundreds))
+            resultsDescriptionHeaderObservable.onNext(resources.getString(R.string.progress_searching_hotels_hundreds))
             loyaltyAvailableObservable.onNext(false)
+            sortFaqLinkAvailableObservable.onNext(false)
         }
 
         resultsDeliveredObserver.subscribe { response ->
@@ -34,8 +39,12 @@ class HotelResultsPricingStructureHeaderViewModel(private val resources: Resourc
                         else -> resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
                     }
 
-            pricingStructureHeaderObservable.onNext(header)
+            resultsDescriptionHeaderObservable.onNext(header)
             loyaltyAvailableObservable.onNext(doesSearchResultsHaveLoyaltyInformation)
+
+            val faqUrl = PointOfSale.getPointOfSale().hotelsResultsSortFaqUrl
+            val userBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsSortFaq)
+            sortFaqLinkAvailableObservable.onNext(faqUrl.isNotEmpty() && userBucketed)
         }
     }
 }

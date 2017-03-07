@@ -62,7 +62,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction hotelResultsHeader() {
-		return onView(withId(R.id.pricing_structure_header));
+		return onView(withId(R.id.results_description_header));
 	}
 
 	public static ViewInteraction searchToolbar() {
@@ -228,7 +228,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction resultsHeader() {
-		return onView(withId(R.id.pricing_structure_header));
+		return onView(withId(R.id.results_description_header));
 	}
 
 	public static ViewInteraction slidingBundleWidget() {

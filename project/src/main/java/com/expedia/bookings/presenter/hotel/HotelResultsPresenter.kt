@@ -288,7 +288,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {
-        return HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
+        return HotelListAdapter(hotelSelectedSubject, headerClickedSubject, pricingHeaderSelectedSubject)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

@@ -233,7 +233,7 @@ public class HotelScreen {
 		hotelResultsList().perform(waitForViewToDisplay());
 
 		Matcher<View> pshMatcher = hasDescendant(
-			allOf(withId(R.id.pricing_structure_header), not(withText(R.string.progress_searching_hotels_hundreds)),
+			allOf(withId(R.id.results_description_header), not(withText(R.string.progress_searching_hotels_hundreds)),
 				isDisplayed()));
 		hotelResultsList().perform(ViewActions.waitFor(pshMatcher, seconds, TimeUnit.SECONDS));
 	}
