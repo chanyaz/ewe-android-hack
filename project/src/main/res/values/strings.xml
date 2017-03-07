@@ -240,6 +240,8 @@
     <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
+    <!-- Text for missing enter payment details !-->
+    <string name="enter_missing_payment_details">Enter missing payment details</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Paying with Points</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
