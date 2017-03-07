@@ -3,6 +3,7 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 import java.util.concurrent.TimeUnit;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 
 import cucumber.api.java.en.And;
@@ -26,9 +27,20 @@ public class SearchResultsScreenSteps {
 		FlightsScreen.selectOutboundFlight().perform(click());
 	}
 
+	@And("^I select first inbound flight$")
+	public void selectFirstInboundFlight() throws Throwable {
+		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(),0);
+		FlightsScreen.selectInboundFlight().perform(click());
+	}
+
 	@And("^I wait for results to load$")
 	public void waitForResultsToLoad() throws Throwable {
 		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 30, TimeUnit.SECONDS));
+	}
+
+	@And("^I wait for inbound flights results to load$")
+	public void waitForInboundFlightsToLoad() throws Throwable {
+		Common.delay(1); //As there is API call and Sort and filter button overlaps with previous one, we are using common delay
 	}
 
 	@Then("^on FSR the destination is \"(.*?)\"$")

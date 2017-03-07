@@ -211,3 +211,37 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
     And Validate that round trip header at cell 1 is displayed: false and isOutBound : true
+
+  @Flights @Search @FlightResults @Prod
+  Scenario: Passport field is mandatory on checkout in international flights
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select first flight
+    And I wait for inbound flights results to load
+    And I select first inbound flight
+    When I click on checkout button
+    And I open traveller details
+    Then Passport field is present on the traveler info form
+    When I fill the following details in the traveller details form:
+      | firstName   | Expedia      |
+      | lastName    | Automaton    |
+      | email       | abc@exp.com  |
+      | phoneNumber | 3432234      |
+      | year        | 1990         |
+      | month       | 3            |
+      | date        | 23           |
+      | gender      | Male         |
+    And I save the traveller details by hitting done
+    Then Traveller details are not saved
+    And Passport field is shown as a mandatory field
