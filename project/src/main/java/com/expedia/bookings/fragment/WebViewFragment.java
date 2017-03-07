@@ -26,7 +26,6 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -462,12 +461,12 @@ public class WebViewFragment extends DialogFragment {
 		cookieSyncManager.sync();
 	}
 
-	private boolean isTripsPageUrl(String url) {
-		return url.contains(PointOfSale.getPointOfSale().getHotelsWebCheckoutURL() + "?tripid");
+	private boolean isItinPageUrl(String url) {
+		return url.contains("/trips/");
 	}
 
 	public boolean canGoBack() {
-		if (isTripsPageUrl(mWebView.getUrl()) || !handleBack) {
+		if (isItinPageUrl(mWebView.getUrl()) || !handleBack) {
 			return false;
 		}
 		return mWebView.canGoBack();
