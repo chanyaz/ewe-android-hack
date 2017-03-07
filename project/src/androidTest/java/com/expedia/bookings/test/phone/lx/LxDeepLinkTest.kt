@@ -32,40 +32,42 @@ class LxDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(
         SearchScreen.selectDestinationTextView().check(matches(withText("San Francisco")))
     }
 
-    fun testDeeplinkForLXSearchWithoutFilters() {
-        AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP)
+//    2017-03-03 -- removed for excessive flakiness
+//    fun testDeeplinkForLXSearchWithoutFilters() {
+//        AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP)
+//
+//        val intent = Intent()
+//        val deepLinkText = Uri.parse("expda://activitySearch?location=San%20Francisco&startDate=" + DateUtils.localDateToyyyyMMdd(LocalDate.now()))
+//        intent.data = deepLinkText
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//        intent.component = ComponentName(BuildConfig.APPLICATION_ID,
+//                "com.expedia.bookings.activity.DeepLinkRouterActivity")
+//        setActivityIntent(intent)
+//        activity
+//
+//        LXScreen.didOpenResults()
+//        Common.delay(1)
+//        LXScreen.resultList().check(matches(LXScreen.withResults(4)))
+//    }
 
-        val intent = Intent()
-        val deepLinkText = Uri.parse("expda://activitySearch?location=San%20Francisco&startDate=" + DateUtils.localDateToyyyyMMdd(LocalDate.now()))
-        intent.data = deepLinkText
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.component = ComponentName(BuildConfig.APPLICATION_ID,
-                "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
-
-        LXScreen.didOpenResults()
-        Common.delay(1)
-        LXScreen.resultList().check(matches(LXScreen.withResults(4)))
-    }
-
-    fun testDeeplinkForLXSearchWithFilters() {
-        AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP)
-
-        val intent = Intent()
-        val deepLinkText = Uri.parse("expda://activitySearch?location=San%20Francisco&startDate=" + DateUtils.localDateToyyyyMMdd(LocalDate.now()) + "&filters=Private+Transfers|Shared+Transfers")
-        intent.data = deepLinkText
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        intent.component = ComponentName(BuildConfig.APPLICATION_ID,
-                "com.expedia.bookings.activity.DeepLinkRouterActivity")
-        setActivityIntent(intent)
-        activity
-
-        LXScreen.didOpenResults()
-        Common.delay(1)
-        LXScreen.resultList().check(matches(LXScreen.withResults(1)))
-
-    }
+//    2017-03-01 -- removed for excessive flakiness
+//    fun testDeeplinkForLXSearchWithFilters() {
+//        AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP)
+//
+//        val intent = Intent()
+//        val deepLinkText = Uri.parse("expda://activitySearch?location=San%20Francisco&startDate=" + DateUtils.localDateToyyyyMMdd(LocalDate.now()) + "&filters=Private+Transfers|Shared+Transfers")
+//        intent.data = deepLinkText
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//        intent.component = ComponentName(BuildConfig.APPLICATION_ID,
+//                "com.expedia.bookings.activity.DeepLinkRouterActivity")
+//        setActivityIntent(intent)
+//        activity
+//
+//        LXScreen.didOpenResults()
+//        Common.delay(1)
+//        LXScreen.resultList().check(matches(LXScreen.withResults(1)))
+//
+//    }
 }
