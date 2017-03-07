@@ -151,7 +151,7 @@ Feature: Flights Search Results
     And Validate the toolbar header text on the selected outbound docked view
 
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightSearchResults
   Scenario: Validate urgency message is displayed when seats left is less than 6
     Given I launch the App
     And I bucket the following tests
@@ -172,7 +172,7 @@ Feature: Flights Search Results
 
 
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightSearchResults
   Scenario: Validate urgency message is not displayed when seats left is greater than 6
     Given I launch the App
     And I bucket the following tests
@@ -192,7 +192,7 @@ Feature: Flights Search Results
     Then urgency message on cell 2 isDisplayed : false
 
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightSearchResults
   Scenario: Verify roundtrip messaging not shown for one way trip
     Given I launch the App
     And I bucket the following tests
@@ -212,36 +212,30 @@ Feature: Flights Search Results
     And Validate that flight search results are displayed
     And Validate that round trip header at cell 1 is displayed: false and isOutBound : true
 
-  @Flights @Search @FlightResults @Prod
-  Scenario: Passport field is mandatory on checkout in international flights
 
-    Given I launch the App
-    And I launch "Flights" LOB
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
-      | adults              | 1                                        |
-      | child               | 0                                        |
-    And I wait for results to load
-    And I select first flight
-    And I wait for inbound flights results to load
-    And I select first inbound flight
-    When I click on checkout button
-    And I open traveller details
-    Then Passport field is present on the traveler info form
-    When I fill the following details in the traveller details form:
-      | firstName   | Expedia      |
-      | lastName    | Automaton    |
-      | email       | abc@exp.com  |
-      | phoneNumber | 3432234      |
-      | year        | 1990         |
-      | month       | 3            |
-      | date        | 23           |
-      | gender      | Male         |
-    And I save the traveller details by hitting done
-    Then Traveller details are not saved
-    And Passport field is shown as a mandatory field
+
+
+    @Flights @Search @FlightSearchResults
+  Scenario: Validate legal compliance messaging FSR for AU POS
+      Given I launch the App
+      And I set the POS to "Australia"
+      And I launch "Flights" LOB
+      When I make a flight search with following parameters
+        | source              | SFO                                      |
+        | destination         | DEL                                      |
+        | source_suggest      | San Francisco, CA                        |
+        | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+        | start_date          | 5                                        |
+        | end_date            | 10                                       |
+        | adults              | 3                                        |
+        | child               | 2                                        |
+      And I wait for results to load
+      Then Validate legal compliance messaging on SRP and isOutbound : true
+      And Validate the Per person roundtrip text and isOutbound : true
+      Then Select first outbound flight from SRP
+      And Validate legal compliance message on flight detail screen and isOutbound : true
+      Then Select outbound flight from Overview
+      And Validate legal compliance messaging on SRP and isOutbound : false
+      And Validate the Per person roundtrip text and isOutbound : false
+      Then Select first inbound flight from SRP
+      And Validate legal compliance message on flight detail screen and isOutbound : false

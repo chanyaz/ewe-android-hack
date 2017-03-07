@@ -32,12 +32,12 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -609,7 +609,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (!forward) {
                 Ui.hideKeyboard(travelersPresenter)
                 travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-                travelersPresenter.viewModel.updateCompletionStatus()
+                if(!travelersPresenter.viewModel.areTravelersEmpty()) {
+                    travelersPresenter.viewModel.updateCompletionStatus()
+                }
                 setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
                 travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))

@@ -1,20 +1,33 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
+import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+
+import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -116,6 +129,41 @@ public class FlightsSearchResultsSingleCellSteps {
 	@Then("^urgency message on cell (\\d+) isDisplayed : (true|false)$")
 	public void lookForUrgencyMessage(int cellNumber, boolean isDisplayed) throws Throwable {
 		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.urgency_message,isDisplayed,true);
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText("Select return flight"))).check(matches(isDisplayed()));
+
 	}
+
+	private void legalComplianceAU(int resid, String text, boolean outBound) {
+		onView(allOf(withId(resid), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound))))).check(matches(withText(containsString(text))));
+	}
+
+	@And("^Validate legal compliance messaging on SRP and isOutbound : (true|false)$")
+	public void validatelegalSRPOutbound(boolean outBound) throws Throwable {
+		legalComplianceAU(R.id.airline_charges_fees_header, "Airlines charge an additional fee based on payment method.", outBound);
+	}
+
+	@And("^Validate the Per person roundtrip text and isOutbound : (true|false)$")
+	public void validateperpersonOutbound(boolean outBound) throws Throwable {
+		legalComplianceAU(R.id.flight_results_price_header, "Prices roundtrip, per person, from", outBound);
+	}
+
+	@And("^Validate legal compliance message on flight detail screen and isOutbound : (true|false)$")
+	public void validatelegalcomplaianceoutboundoverview(boolean outBound) throws Throwable {
+		legalComplianceAU(R.id.show_payment_fees, "Airline fee applies based on payment method", outBound);
+	}
+
+	@Then("^Select first outbound flight from SRP$")
+	public void selectoutboundflightSRP() throws Throwable {
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
+	}
+	@Then("^Select outbound flight from Overview$")
+	public void selectoutboundflightoverview() throws Throwable {
+		FlightsScreen.selectOutboundFlight().perform(waitFor(isDisplayed(), 4, TimeUnit.SECONDS),click());
+	}
+	@Then("^Select first inbound flight from SRP$")
+	public void selectinboundflightSRP() throws Throwable {
+		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
+	}
+
 }
 

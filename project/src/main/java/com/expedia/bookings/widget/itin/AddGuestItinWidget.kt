@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.itin.ItinPOSHeader
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeMaterialFormsError
@@ -31,6 +32,8 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     val addGuestFormFieldContainer: LinearLayout by bindView(R.id.outer_container)
     val unableToFindItinErrorText: TextView by bindView(R.id.unable_to_find_itin_error_message)
     val toolbar: Toolbar by bindView(R.id.toolbar)
+
+    val signInToolbar: ItinPOSHeader by bindView(R.id.itin_pos_header)
 
     var viewModel: AddGuestItinViewModel by notNullAndObservable { vm ->
         vm.showSearchDialogObservable.subscribe { show ->
@@ -110,6 +113,14 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             viewModel.toolBarVisibilityObservable.onNext(true)
             (context as Activity).onBackPressed()
         }
+    }
+
+    fun resetFields() {
+        guestEmailEditText.setText("")
+        itinNumberEditText.setText("")
+        viewModel.hasItinErrorObservable.onNext(false)
+        viewModel.hasEmailErrorObservable.onNext(false)
+        viewModel.guestItinFetchButtonEnabledObservable.onNext(false)
     }
 
     override fun onFinishInflate() {
