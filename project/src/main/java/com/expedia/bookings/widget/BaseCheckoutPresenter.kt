@@ -353,30 +353,26 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 paymentWidget.viewmodel.invalidPaymentTypeWarning,
                 { showingGuestPaymentForm, invalidPaymentTypeWarning ->
                     val hasPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
-                    val visibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                    val visibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.INVISIBLE
                     invalidPaymentTypeWarningTextView.text = invalidPaymentTypeWarning
-                    if (visibility == View.VISIBLE && invalidPaymentTypeWarningTextView.visibility == View.GONE) {
+                    if (visibility == View.VISIBLE && invalidPaymentTypeWarningTextView.visibility == View.INVISIBLE) {
                         invalidPaymentTypeWarningTextView.visibility = visibility
-                        if (!ExpediaBookingApp.isAutomation()) {
-                            AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
-                        }
+                        AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
                         toolbarDropShadow.visibility = visibility
-                    } else if (visibility == View.GONE && invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
-                        if (!ExpediaBookingApp.isAutomation()) {
-                            AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
-                        }
+                    } else if (visibility == View.INVISIBLE && invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
+                        AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
                     }
                 }).subscribe()
 
         Observable.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
                 paymentWidget.viewmodel.showingPaymentForm,
                 { haveCardFee, showingGuestPaymentForm ->
-                    val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
-                    if (cardFeeVisibility == View.VISIBLE && cardProcessingFeeTextView.visibility == View.GONE) {
+                    val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.INVISIBLE
+                    if (cardFeeVisibility == View.VISIBLE && cardProcessingFeeTextView.visibility == View.INVISIBLE) {
                         cardProcessingFeeTextView.visibility = cardFeeVisibility
                         AnimUtils.slideIn(cardProcessingFeeTextView)
                         toolbarDropShadow.visibility = cardFeeVisibility
-                    } else if (cardFeeVisibility == View.GONE && cardProcessingFeeTextView.visibility == View.VISIBLE) {
+                    } else if (cardFeeVisibility == View.INVISIBLE && cardProcessingFeeTextView.visibility == View.VISIBLE) {
                         AnimUtils.slideOut(cardProcessingFeeTextView)
                     }
                 }).subscribe()
@@ -434,9 +430,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
         if (!forward) {
             Ui.hideKeyboard(paymentWidget)
-            invalidPaymentTypeWarningTextView.visibility = View.GONE
-            cardProcessingFeeTextView.visibility = View.GONE
-            debitCardsNotAcceptedTextView.visibility = View.GONE
+            invalidPaymentTypeWarningTextView.visibility = View.INVISIBLE
+            cardProcessingFeeTextView.visibility = View.INVISIBLE
+            debitCardsNotAcceptedTextView.visibility = View.INVISIBLE
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             scrollView.layoutParams.height = height
             paymentWidget.viewmodel.showingPaymentForm.onNext(false)

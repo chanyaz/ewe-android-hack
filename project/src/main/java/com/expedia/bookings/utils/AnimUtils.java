@@ -164,22 +164,21 @@ public class AnimUtils {
 	}
 
 	public static void slideOut(final View v) {
-		Animation slideUp = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_out);
-		slideUp.setDuration(200);
-		v.startAnimation(slideUp);
+		ObjectAnimator animator = ObjectAnimator.ofFloat(v, "translationY", 0, -v.getHeight());
+		animator.setDuration(200);
+		animator.start();
 		v.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				v.setVisibility(View.GONE);
+				v.setVisibility(View.INVISIBLE);
 			}
 		}, 200L);
 	}
 
 	public static void slideIn(View v) {
-		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_in);
-		slideDown.setDuration(200);
-		slideDown.setFillAfter(true);
-		v.startAnimation(slideDown);
+		ObjectAnimator animator = ObjectAnimator.ofFloat(v, "translationY", -v.getHeight(), 0);
+		animator.setDuration(200);
+		animator.start();
 	}
 
 	public static Animation slideInAbove(final View view, final View child) {

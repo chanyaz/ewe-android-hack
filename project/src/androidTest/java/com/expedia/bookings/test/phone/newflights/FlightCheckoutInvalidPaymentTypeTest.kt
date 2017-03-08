@@ -49,7 +49,7 @@ class FlightCheckoutInvalidPaymentTypeTest: NewFlightTestCase() {
 
     private fun assertWarningNotShown() {
         invalidPaymentTextView()
-                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
     }
 
     private fun assertWarningWarningShown() {

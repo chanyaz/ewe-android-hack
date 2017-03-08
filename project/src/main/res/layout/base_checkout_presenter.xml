@@ -152,7 +152,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -162,7 +162,7 @@
                         android:id="@+id/card_processing_fee"
                         style="@style/WarningBar"
                         android:maxLines="1"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flights_debit_cards_not_accepted"
@@ -174,9 +174,9 @@
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/invalid_payment_type_warning"
                         style="@style/FlightWarningBarRed"
-                        android:visibility="gone" />
+                        android:visibility="invisible" />
 
-                </LinearLayout>
+                </FrameLayout>
 
             </FrameLayout>
 
