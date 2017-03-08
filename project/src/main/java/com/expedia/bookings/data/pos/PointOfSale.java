@@ -793,9 +793,6 @@ public class PointOfSale {
 	}
 
 	public boolean shouldUseAutoWebViewSyncCookieStore() {
-		if (ExpediaBookingApp.isAutomation()) {
-			return false;
-		}
 		return shouldShowWebCheckout;
 	}
 
