@@ -862,6 +862,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.passport_validation_error_message,
 		R.string.email_validation_error_message,
 		R.string.first_name_validation_error_message,
+		R.string.middle_name_validation_error_message,
 		R.string.date_of_birth_validation_error_message,
 		R.string.last_name_validation_error_message,
 		R.string.phone_validation_error_message,
@@ -900,6 +901,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.dialog_app_rating_review_button_alt,
 		R.string.dialog_app_rating_feedback_button_alt,
 		R.string.dialog_app_rating_no_button_alt,
-		R.dimen.hotel_carousel_fab_vertical_offset
+		R.dimen.hotel_carousel_fab_vertical_offset,
 	};
 }

@@ -4856,6 +4856,8 @@
     <string name="email_validation_error_message">Enter a valid email address</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">Enter first name using letters only</string>
+    <!-- Checkout validation error message for middle name -->
+    <string name="middle_name_validation_error_message">Enter middle name using letters only</string>
     <!-- Checkout validation error message for last name -->
     <string name="last_name_validation_error_message">Enter last name using letters only (minimum 2 characters)</string>
     <!-- Checkout validation error message for phone number -->

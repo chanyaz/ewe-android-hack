@@ -39,7 +39,8 @@ public class NameEntryViewTest {
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	@Rule
-	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_name_entry_view, R.style.V2_Theme_Packages);
+	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_name_entry_view,
+		R.style.V2_Theme_Packages);
 
 	@Before
 	public void setUp() {
@@ -120,10 +121,10 @@ public class NameEntryViewTest {
 
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());
-		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
-			nameView.getFirstName().getErrorIcon());
-		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
-			nameView.getFirstName().getErrorIcon());
+		assertEquals(nameView.getMiddleName().getCompoundDrawables()[2],
+			nameView.getMiddleName().getErrorIcon());
+		assertEquals(nameView.getLastName().getCompoundDrawables()[2],
+			nameView.getLastName().getErrorIcon());
 
 		onView(withId(R.id.first_name_input)).perform(typeText(testFirstName));
 		onView(withId(R.id.middle_name_input)).perform(typeText(testMiddleInitial));
@@ -132,6 +133,33 @@ public class NameEntryViewTest {
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2], null);
 		assertEquals(nameView.getMiddleName().getCompoundDrawables()[2], null);
 		assertEquals(nameView.getLastName().getCompoundDrawables()[2], null);
+	}
+
+	@Test
+	public void testMiddleNameError() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
+		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+					.inflate(R.layout.test_name_entry_view, null);
+
+				TravelerNameViewModel testViewModel = new TravelerNameViewModel(InstrumentationRegistry.getTargetContext());
+				TravelerName traveler = new TravelerName();
+				testViewModel.updateTravelerName(traveler);
+
+				nameEntryView.setViewModel(testViewModel);
+				testViewModel.getMiddleNameViewModel().getErrorSubject().onNext(true);
+
+				TextInputLayout textInputLayout = (TextInputLayout) nameEntryView.findViewById(R.id.middle_name_layout_input);
+				assertEquals("Enter middle name using letters only", textInputLayout.getError());
+			}
+		});
+
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
+		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
 	}
 
 	@Test
