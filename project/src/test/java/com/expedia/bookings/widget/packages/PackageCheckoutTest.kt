@@ -109,7 +109,7 @@ class PackageCheckoutTest {
         checkout.paymentWidget.validateAndBind()
         checkout.onSlideAllTheWay()
 
-        errorResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        errorResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         errorResponseSubscriber.assertValueCount(1)
         errorResponseSubscriber.assertValue(ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS))
 
@@ -117,7 +117,7 @@ class PackageCheckoutTest {
         checkout.paymentWidget.validateAndBind()
         checkout.onSlideAllTheWay()
 
-        checkoutResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        checkoutResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         checkoutResponseSubscriber.assertValueCount(1)
 
         assertEquals("malcolmnguyen@gmail.com", checkoutResponseSubscriber.onNextEvents[0].second)
@@ -167,7 +167,7 @@ class PackageCheckoutTest {
 
         checkout.onLoginSuccess()
 
-        testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(true, testUserLoggedIn.onNextEvents[0])
         assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, null)
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
@@ -194,7 +194,7 @@ class PackageCheckoutTest {
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
         checkout.onLoginSuccess()
 
-        testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(true, testUserLoggedIn.onNextEvents[0])
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
@@ -207,7 +207,7 @@ class PackageCheckoutTest {
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
 
-        tripResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        tripResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         tripResponseSubscriber.assertValueCount(1)
 
         checkout.updateTravelerPresenter()
