@@ -35,14 +35,15 @@ class HotelMapViewTest {
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Hotels_Control)
         val viewGroup = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_map_widget, null) as FrameLayout
         hotelMapView = viewGroup.findViewById(R.id.hotel_map_view) as HotelMapView
         val detailsMapView = viewGroup.findViewById(R.id.details_map_view) as MapView
-        var detailsStub = hotelMapView.findViewById(R.id.stub_map) as FrameLayout
-        viewGroup.removeView(detailsMapView);
+        val detailsStub = hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        viewGroup.removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
         hotelMapView.mapView = detailsMapView
-        hotelMapView.mapView.getMapAsync(hotelMapView);
+        hotelMapView.mapView.getMapAsync(hotelMapView)
         hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)
     }
 

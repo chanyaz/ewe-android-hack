@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.lx
 
+import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LXState
@@ -9,6 +10,7 @@ import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
@@ -18,7 +20,9 @@ class LXDetailsPresenterTest {
     @Test
     fun testSetToolbarTitles() {
         Ui.getApplication(RuntimeEnvironment.application).defaultLXComponents()
-        val lxDetailsPresenter = LayoutInflater.from(RuntimeEnvironment.application).inflate(R.layout.lx_details_presenter, null) as LXDetailsPresenter
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_LX)
+        val lxDetailsPresenter = LayoutInflater.from(activity).inflate(R.layout.lx_details_presenter, null) as LXDetailsPresenter
 
         val startDate = LocalDate(2016, 4, 23)
         val endDate = LocalDate(2016, 4, 23).plusDays(2)

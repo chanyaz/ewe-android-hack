@@ -4,15 +4,17 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewStub
-import android.widget.Button
-import com.expedia.bookings.utils.Ui
-import org.junit.Before
-import org.robolectric.RuntimeEnvironment
 import com.expedia.bookings.R
-import com.expedia.bookings.data.*
-import com.expedia.bookings.data.flights.*
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripBucketItemFlightV2
+import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
@@ -22,7 +24,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
-import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.TextView
@@ -33,16 +35,17 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
-import java.util.*
+import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class FlightOverviewPresenterTest {
 

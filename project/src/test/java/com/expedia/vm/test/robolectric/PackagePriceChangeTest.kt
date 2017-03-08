@@ -3,8 +3,8 @@ package com.expedia.bookings.widget.packages
 import android.support.v4.app.FragmentActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -34,7 +34,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -42,7 +41,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PackagePriceChangeTest {
 
 

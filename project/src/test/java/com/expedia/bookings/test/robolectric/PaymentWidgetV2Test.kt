@@ -120,7 +120,7 @@ class PaymentWidgetV2Test {
 
     @Test
     fun testUnsupportedCardIsNotSelected() {
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         assertTrue(User.isLoggedIn(getContext()))
         sut.validateAndBind()
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))

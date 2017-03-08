@@ -12,7 +12,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -23,6 +22,7 @@ class CheckoutToolbarTest {
     @Test
     fun testToolbarMenuItem() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Rail)
         val toolbar = LayoutInflater.from(activity).inflate(R.layout.test_checkout_toolbar, null) as CheckoutToolbar
         toolbar.viewModel = CheckoutToolbarViewModel(activity)
         val actionMenuView = toolbar.getChildAt(0) as ActionMenuView
@@ -40,7 +40,9 @@ class CheckoutToolbarTest {
 
     @Test
     fun testToolbarMenuItemWithAccessibility() {
-        val spyContext = Mockito.spy(RuntimeEnvironment.application)
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Rail)
+        val spyContext = Mockito.spy(activity)
         val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
 
         Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)

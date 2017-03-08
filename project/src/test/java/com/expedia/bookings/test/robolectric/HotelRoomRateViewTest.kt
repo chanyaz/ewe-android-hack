@@ -13,12 +13,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class HotelRoomRateViewTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get

@@ -49,8 +49,8 @@ class LXTicketPickerTest {
 
         assertEquals("1", ticketCount.text)
         assertEquals("$99 Adult (16+ years)", ticketDetails.text)
-        assertEquals("Add Adult", ticketAdd.contentDescription)
-        assertEquals("Remove Adult", ticketRemove.contentDescription)
+        assertEquals("Add Adult", ticketAdd.contentDescription.toString())
+        assertEquals("Remove Adult", ticketRemove.contentDescription.toString())
     }
 
 

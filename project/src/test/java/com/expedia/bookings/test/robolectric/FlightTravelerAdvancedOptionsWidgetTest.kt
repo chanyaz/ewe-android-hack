@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -23,25 +24,24 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class))
 
 class FlightTravelerAdvancedOptionsWidgetTest {
 
-    private val context = RuntimeEnvironment.application.applicationContext
+    private lateinit var context: FragmentActivity
     private lateinit var widget: FlightTravelerAdvancedOptionsWidget
 
     @Before
     fun setup() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, false)
+        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_universal_checkout_material_forms, false)
 
-        val activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Packages)
+        context = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
+        context.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
     }

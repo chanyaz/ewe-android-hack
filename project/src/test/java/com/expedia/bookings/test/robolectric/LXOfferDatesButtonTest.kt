@@ -13,7 +13,8 @@ import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
-@RunWith(RobolectricRunner::class) class LXOfferDatesButtonTest {
+@RunWith(RobolectricRunner::class)
+class LXOfferDatesButtonTest {
     private var datesButton: LXOfferDatesButton by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 
@@ -27,13 +28,13 @@ import kotlin.test.assertEquals
 
     @Test fun testLXDatesWidget() {
         datesButton.bind(LocalDate(1989, 1, 14), false)
-        assertEquals("Saturday\n14\n", datesButton.contentDescription)
+        assertEquals("Saturday\n14\n", datesButton.contentDescription.toString())
         assertEquals("Sat\n14\n", datesButton.text.toString())
 
         datesButton.bind(LocalDate(1989, 1, 14), true)
         datesButton.isChecked = true
         
-        assertEquals("Saturday\n14\nJanuary", datesButton.contentDescription)
+        assertEquals("Saturday\n14\nJanuary", datesButton.contentDescription.toString())
         assertEquals("Sat\n14\nJan", datesButton.text.toString())
     }
 }

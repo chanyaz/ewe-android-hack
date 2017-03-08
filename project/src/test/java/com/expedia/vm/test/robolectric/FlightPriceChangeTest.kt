@@ -4,12 +4,12 @@ import android.support.v4.app.FragmentActivity
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.TripBucketItemFlightV2
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -17,16 +17,14 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.traveler.FlightTravelersViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +33,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
@@ -44,7 +41,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class FlightPriceChangeTest {
 

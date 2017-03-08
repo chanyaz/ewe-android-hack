@@ -29,16 +29,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class LxCheckoutErrorTests {
 
@@ -61,7 +59,7 @@ class LxCheckoutErrorTests {
         activity.setTheme(R.style.V2_Theme_LX)
         Ui.getApplication(activity).defaultLXComponents()
 
-        checkoutPresenter = LayoutInflater.from(RuntimeEnvironment.application).inflate(R.layout.test_lx_checkout_presenter, null) as LXCheckoutPresenter
+        checkoutPresenter = LayoutInflater.from(activity).inflate(R.layout.test_lx_checkout_presenter, null) as LXCheckoutPresenter
         errorWidget = checkoutPresenter.findViewById(R.id.lx_checkout_error_widget) as LXErrorWidget
         errorText = errorWidget.findViewById(R.id.error_text) as android.widget.TextView
         errorImage = errorWidget.findViewById(R.id.error_image) as ImageView

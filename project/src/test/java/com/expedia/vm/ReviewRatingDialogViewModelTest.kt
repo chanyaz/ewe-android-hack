@@ -1,12 +1,9 @@
 package com.expedia.vm
 
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -45,18 +42,16 @@ class ReviewRatingDialogViewModelTest {
 
         var shadowActivity = Shadows.shadowOf(context)
         var intent = shadowActivity.nextStartedActivity
-        var shadowIntent = Shadows.shadowOf(intent)
-        assertEquals("android.intent.action.VIEW", shadowIntent.action)
-        assertEquals("market://details?id=com.expedia.bookings", shadowIntent.dataString)
+        assertEquals("android.intent.action.VIEW", intent.action)
+        assertEquals("market://details?id=com.expedia.bookings", intent.dataString)
 
         vm.feedbackSubject.onNext(Unit)
         testFeedbackLink.assertValue("expda://supportEmail")
 
         shadowActivity = Shadows.shadowOf(context)
         intent = shadowActivity.nextStartedActivity
-        shadowIntent = Shadows.shadowOf(intent)
-        assertEquals("android.intent.action.VIEW", shadowIntent.action)
-        assertEquals("expda://supportEmail", shadowIntent.dataString)
+        assertEquals("android.intent.action.VIEW", intent.action)
+        assertEquals("expda://supportEmail", intent.dataString)
 
     }
 

@@ -154,7 +154,7 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.LX);
 
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
 		LXCreateTripResponse response = new LXCreateTripResponse();
 		response.validFormsOfPayment = setupValidPayments();
@@ -175,7 +175,7 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
 
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
 		PackageCreateTripResponse response = new PackageCreateTripResponse();
 		response.setValidFormsOfPayment(setupValidFormsOfPayment());
@@ -196,7 +196,7 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.CARS);
 
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
 		CarCreateTripResponse response = new CarCreateTripResponse();
 		response.validFormsOfPayment = setupValidPayments();
@@ -218,7 +218,7 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.FLIGHTS_V2);
 
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
 		FlightCreateTripResponse response = new FlightCreateTripResponse();
 		response.setValidFormsOfPayment(setupValidFormsOfPayment());

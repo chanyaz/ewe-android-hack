@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.robolectric</groupId>
             <artifactId>android-all</artifactId>
-            <version>4.3_r2-robolectric-0</version>
+            <version>6.0.1_r3-robolectric-0</version>
         </dependency>
         <dependency>
             <groupId>org.robolectric</groupId>

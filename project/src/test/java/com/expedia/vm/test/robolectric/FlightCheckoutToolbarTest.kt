@@ -31,7 +31,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -39,7 +38,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class FlightCheckoutToolbarTest {
 
 

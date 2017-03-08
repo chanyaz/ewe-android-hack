@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.Toolbar
@@ -12,6 +13,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -115,7 +117,9 @@ class AccessibilityUtilTest {
 
     @Test
     fun testToolbarMenuItemContentDescription() {
-        val spyContext = Mockito.spy(RuntimeEnvironment.application)
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Rail)
+        val spyContext = Mockito.spy(activity)
         val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
 
         Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)

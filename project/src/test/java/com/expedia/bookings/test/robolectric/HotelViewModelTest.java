@@ -89,7 +89,7 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 2 stars of 5 rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc(hotel).toString());
+		assertEquals("Test Hotel with 2 stars of 5 rating.\u0020Regularly $12, now $10.\u0020Button", vm.getHotelContentDesc(hotel).toString());
 	}
 
 	@Test
@@ -105,7 +105,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getShowDiscountObservable().getValue());
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020Original price discounted 10%.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc(hotel).toString());
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\u0020Original price discounted 10%.\u0020Regularly $12, now $10.\u0020Button", vm.getHotelContentDesc(hotel).toString());
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 0;
 		hotel.hotelGuestRating = 3;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc(hotel));
+		assertEquals("Test Hotel with 3.0 of 5 guest rating.\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -122,7 +122,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 0;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 4 stars of 5 rating.\\u0020", vm.getRatingContentDesc(hotel));
+		assertEquals("Test Hotel with 4 stars of 5 rating.\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 0;
 		hotel.hotelGuestRating = 0;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel.\\u0020", vm.getRatingContentDesc(hotel));
+		assertEquals("Test Hotel.\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class HotelViewModelTest {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 3;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc(hotel));
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\u0020", vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
@@ -334,7 +334,7 @@ public class HotelViewModelTest {
 	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void vipMessageWithNoLoyaltyMessage() {
 		givenHotelWithVipAccess();
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
+		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
 		assertTrue(vm.getVipMessageVisibilityObservable().getValue());
@@ -346,7 +346,7 @@ public class HotelViewModelTest {
 	public void vipLoyaltyMessageVisible() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
+		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
 		assertTrue(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
@@ -357,18 +357,18 @@ public class HotelViewModelTest {
 	public void vipLoyaltyMessageDisplayedOnMaps() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
+		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
-		assertEquals(HtmlCompat.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)),
-			vm.getMapLoyaltyMessageTextObservable().getValue());
+		assertEquals(HtmlCompat.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)).toString(),
+			vm.getMapLoyaltyMessageTextObservable().getValue().toString());
 	}
 
 	@Test
 	public void regularLoyaltyMessageDisplayedOnMaps() {
 		givenHotelWithShopWithPointsAvailable();
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
+		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());

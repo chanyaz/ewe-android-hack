@@ -24,15 +24,15 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class) @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class FlightCostSummaryBreakdownViewModelTest {
 
-    private val context = RuntimeEnvironment.application
+    lateinit private var activity: Activity
     lateinit private var newTripResponse: FlightCreateTripResponse
     lateinit private var sut: FlightCostSummaryBreakdownViewModel
 
     private fun setupSystemUnderTest() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.FlightTheme)
-        Ui.getApplication(context).defaultTravelerComponent()
-        sut = FlightCostSummaryBreakdownViewModel(context)
+        Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
+        sut = FlightCostSummaryBreakdownViewModel(activity)
     }
 
     @Test
@@ -114,7 +114,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder()
                 .title("Flight Protection")
                 .cost("$10.00")
-                .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
+                .color(Ui.obtainThemeColor(activity, R.attr.primary_color)).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$65.00").build())
 
@@ -154,7 +154,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder()
                 .title("Flight Protection")
                 .cost("$10.00")
-                .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
+                .color(Ui.obtainThemeColor(activity, R.attr.primary_color)).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Airline Card Fee").cost("$2.50").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$67.50").build())

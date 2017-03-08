@@ -47,7 +47,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -55,7 +54,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class PackageCheckoutTest {
 
@@ -140,7 +139,7 @@ class PackageCheckoutTest {
         testUser.addStoredCreditCard(testCard2)
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         checkout.onLoginSuccess()
 
@@ -164,7 +163,7 @@ class PackageCheckoutTest {
         testUser.addStoredCreditCard(testThirdInvalidCard)
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         checkout.onLoginSuccess()
 
@@ -192,7 +191,7 @@ class PackageCheckoutTest {
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
         checkout.onLoginSuccess()
 
         testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)

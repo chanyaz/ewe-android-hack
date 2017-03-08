@@ -10,7 +10,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricRunner::class)
 class HotelErrorPresenterTest {
@@ -18,8 +17,8 @@ class HotelErrorPresenterTest {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Control)
 
-        val hotelErrorPresenter = HotelErrorPresenter(RuntimeEnvironment.application, null)
-        hotelErrorPresenter.viewmodel = HotelErrorViewModel(RuntimeEnvironment.application)
+        val hotelErrorPresenter = HotelErrorPresenter(activity, null)
+        hotelErrorPresenter.viewmodel = HotelErrorViewModel(activity)
         hotelErrorPresenter.getViewModel().apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
         hotelErrorPresenter.errorButton.performClick()
 
@@ -27,8 +26,8 @@ class HotelErrorPresenterTest {
         Assert.assertEquals(View.VISIBLE, hotelErrorPresenter.errorImage.visibility)
         Assert.assertEquals(View.VISIBLE, hotelErrorPresenter.errorText.visibility)
 
-        Assert.assertEquals(RuntimeEnvironment.application.getString(R.string.error_room_sold_out), hotelErrorPresenter.errorText.text)
-        Assert.assertEquals(RuntimeEnvironment.application.getString(R.string.select_another_room), hotelErrorPresenter.errorButton.text)
+        Assert.assertEquals(activity.getString(R.string.error_room_sold_out), hotelErrorPresenter.errorText.text)
+        Assert.assertEquals(activity.getString(R.string.select_another_room), hotelErrorPresenter.errorButton.text)
         val errorImageShadow = org.robolectric.Shadows.shadowOf(hotelErrorPresenter.errorImage)
         Assert.assertEquals(R.drawable.error_default, errorImageShadow.imageResourceId)
     }

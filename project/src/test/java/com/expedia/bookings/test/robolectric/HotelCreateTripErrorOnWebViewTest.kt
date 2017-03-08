@@ -26,11 +26,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelCreateTripErrorOnWebViewTest {
 
     lateinit var hotelPresenter: HotelPresenter

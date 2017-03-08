@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.RoboLayoutInflater;
 
 import android.content.Context;
@@ -337,7 +336,7 @@ public class FlightSearchPresenterTest {
 	@Test
 	public void testSearchButtonState() {
 		AccessibilityManager mockAccessibilityManager = Mockito.mock(AccessibilityManager.class);
-		Context spyContext = Mockito.spy(RuntimeEnvironment.application);
+		Context spyContext = Mockito.spy(activity);
 		Mockito.when(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager);
 		Mockito.when(mockAccessibilityManager.isEnabled()).thenReturn(true);
 		Mockito.when(mockAccessibilityManager.isTouchExplorationEnabled()).thenReturn(true);

@@ -10,12 +10,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 
 class GalleryActivityTest {
     private lateinit var galleryActivity: GalleryActivity

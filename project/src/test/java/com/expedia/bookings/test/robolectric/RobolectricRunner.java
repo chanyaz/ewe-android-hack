@@ -10,23 +10,20 @@ import org.junit.Before;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.DefaultTestLifecycle;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.TestLifecycle;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.internal.bytecode.InstrumentationConfiguration;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 import org.robolectric.res.FsFile;
 
-import android.accounts.AccountManager;
 import android.app.Application;
-import android.os.UserManager;
+import android.support.annotation.NonNull;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.test.RunForBrands;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-public class RobolectricRunner extends RobolectricGradleTestRunner {
+public class RobolectricRunner extends RobolectricTestRunner {
 
 	public RobolectricRunner(Class<?> testClass) throws InitializationError {
 		super(testClass);
@@ -40,21 +37,10 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 		FsFile res = Fs.fileFromPath("build/intermediates/res/merged/" + brandName + "/debug/");
 		FsFile assets = Fs.fileFromPath("build/intermediates/assets/" + brandName + "/debug/");
 
-		AndroidManifest manifest = new AndroidManifest(mani, res, assets);
-		manifest.setPackageName("com.expedia.bookings");
-
-		return manifest;
+		return new AndroidManifest(mani, res, assets, "com.expedia.bookings");
 	}
 
-	@Override
-	public InstrumentationConfiguration createClassLoaderConfig() {
-		InstrumentationConfiguration.Builder builder = InstrumentationConfiguration.newBuilder();
-		builder.addInstrumentedClass(GoogleCloudMessaging.class.getName());
-		builder.addInstrumentedClass(UserManager.class.getName());
-		builder.addInstrumentedClass(AccountManager.class.getName());
-		return builder.build();
-	}
-
+	@NonNull
 	@Override
 	protected Class<? extends TestLifecycle> getTestLifecycleClass() {
 		return CustomTestLifecycle.class;
@@ -72,7 +58,7 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 		final RunForBrands runClassForBrands = getTestClass().getAnnotation(RunForBrands.class);
 		if (runClassForBrands != null) {
 			if (!shouldRunForCurrentBrand(runClassForBrands)) {
-				return new ArrayList<FrameworkMethod>();
+				return new ArrayList<>();
 			}
 		}
 		List<FrameworkMethod> allMethods = super.computeTestMethods();
@@ -80,7 +66,7 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 			return allMethods;
 		}
 
-		final List<FrameworkMethod> filteredMethods = new ArrayList<FrameworkMethod>(allMethods.size());
+		final List<FrameworkMethod> filteredMethods = new ArrayList<>(allMethods.size());
 		for (final FrameworkMethod method : allMethods) {
 			final RunForBrands runForBrands = method.getAnnotation(RunForBrands.class);
 			if (runForBrands != null) {

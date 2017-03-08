@@ -30,7 +30,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelItinCardTest {
 
     val server = MockWebServer()

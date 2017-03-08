@@ -42,7 +42,7 @@ class FlightConfirmationViewModelTest {
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Control)
         Ui.getApplication(activity).defaultHotelComponents()
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         assertTrue(User.isLoggedIn(activity))
         shadowApplication = ShadowApplication.getInstance()
     }
@@ -133,7 +133,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun zeroFlightLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "0"
@@ -147,7 +147,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun nullFlightLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = null
@@ -161,7 +161,7 @@ class FlightConfirmationViewModelTest {
 
     @Test
     fun noShowFlightLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"

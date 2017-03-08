@@ -18,13 +18,10 @@ import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import java.io.File
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class FlightItinCardTest {
 
     lateinit private var sut: FlightItinCard

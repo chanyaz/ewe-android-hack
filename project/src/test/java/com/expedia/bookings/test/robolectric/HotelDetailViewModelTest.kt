@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -13,7 +12,6 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
@@ -29,15 +27,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
-import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,10 +44,10 @@ import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
-import kotlin.test.assertNull
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -111,7 +105,7 @@ class HotelDetailViewModelTest {
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
         vm.hotelOffersSubject.onNext(offer1)
-        assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value)
+        assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value.toString())
     }
 
     @Test fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
@@ -139,7 +133,7 @@ class HotelDetailViewModelTest {
         vm.hotelPriceContentDesc.subscribe(testSubscriberText)
         vm.hotelOffersSubject.onNext(offer2)
 
-        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\\u0020",
+        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\u0020",
                 testSubscriberText.onNextEvents[0])
     }
 
@@ -298,7 +292,7 @@ class HotelDetailViewModelTest {
      */
     private fun setMemberDeal(loginUser: Boolean, isMemberDeal: Boolean) {
         if (loginUser) {
-            UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+            UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         } else if (User.isLoggedIn(context)) {
             User.signOut(context)
         }

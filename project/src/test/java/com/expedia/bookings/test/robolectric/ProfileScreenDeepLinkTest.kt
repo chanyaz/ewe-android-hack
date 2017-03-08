@@ -3,11 +3,9 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -17,14 +15,12 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import org.robolectric.util.ActivityController
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class ProfileScreenDeepLinkTest {
 

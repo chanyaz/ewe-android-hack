@@ -4,9 +4,9 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
@@ -122,7 +122,7 @@ class PayWithPointsViewModelTest {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("The points value exceeds your available balance.\\nPlease enter $100.00 or less.", false))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("The points value exceeds your available balance.\nPlease enter $100.00 or less.", false))
     }
 
     @Test
@@ -335,7 +335,7 @@ class PayWithPointsViewModelTest {
 
         payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
-        expectedMessagesList.add(Pair("The points value exceeds your available balance.\\nPlease enter $100.00 or less.", false))
+        expectedMessagesList.add(Pair("The points value exceeds your available balance.\nPlease enter $100.00 or less.", false))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User entered amount 20

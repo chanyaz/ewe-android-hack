@@ -12,13 +12,10 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class CVVEntryWidgetTest {
 	var cvvEntryWidget by Delegates.notNull<CVVEntryWidget>()
 
