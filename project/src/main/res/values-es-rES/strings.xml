@@ -920,7 +920,7 @@
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">No hay suficientes adultos de más de 12 años para que todos los bebés viajen en regazo. Es necesario adquirir asientos para el resto de bebés.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
-    <string name="max_two_infants_seated_per_adult">Solo podemos reservar billetes con derecho a asiento para un máximo de dos bebés sentados por cada viajero de más de 12 años.</string>
+    <string name="max_two_infants_seated_per_adult">Solo podemos reservar billetes con derecho a asiento para un máximo de dos bebés sentados por cada viajero a partir de 12 años.</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Preferencia de asiento para bebés de menos de 2 años</string>
     <!-- Description for infant seating preference message -->
@@ -1123,6 +1123,14 @@
     <string name="nav_car_rentals">Alquiler de coches</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Qué hacer</string>
+    <!-- Text for active itin card on signed-in user launch screen -->
+    <string name="launch_upcoming_trips_signed_in">¡Queda muy poco para tu próximo viaje!</string>
+    <!-- Subtext for active itin card on signed-in user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_signed_in">Accede a tu itinerario móvil y recibe notificaciones si se produce algún cambio</string>
+    <!-- Text for itin card on guest user launch screen -->
+    <string name="launch_upcoming_trips_guest_user">¿Vas a viajar dentro de poco?</string>
+    <!-- Subtext for active itin card on guest user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_guest_user">Comprueba el estado de tu viaje y recibe notificaciones si se produce algún cambio</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">No ha sido posible conectarse</string>
@@ -1872,7 +1880,7 @@
     <string name="edit_search">Editar búsqueda</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Selecciona las fechas</string>
-    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Fechas de viaje</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Buscar destino</string>
@@ -3845,8 +3853,6 @@
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Pulsa para ver información sobre las tasas de equipaje</string>
     <!-- Checkout screen -->
-    <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Pulsa para terminar la reserva</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Pulsa para introducir un cupón o un código promocional</string>
     <!-- Extra traveler information - flights -->
@@ -4505,6 +4511,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Datos del bebé en asiento {number}</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Ofertas para miembros</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">¡Se han aplicado los puntos de Expedia+! (impuestos y tasas no incluidos)</string>
     <string name="regular_loyalty_applied_message">¡Se han aplicado los puntos de Expedia+!</string>
@@ -4541,10 +4550,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">Estás utilizando {amount} en Orbucks\nSe te cargarán {dueamount} en tu tarjeta</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Búsqueda de vuelos</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">a través de Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Buscar hoteles</string>
 
@@ -4871,12 +4876,16 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Encuentra hoteles cerca de ti</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Los más buscados para hoy</string>
+    <string name="launch_find_recommended_hotels">Hoteles recomendados para hoy</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">¡Reserva realizada!</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Consulta tu correo electrónico para ver el itinerario.</string>
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Recuperando viajes…</string>
+
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Ofertas para miembros</string>
+    <string name="member_deal_subtitle">Descuentos en ciudades seleccionadas</string>
 
 </resources>
