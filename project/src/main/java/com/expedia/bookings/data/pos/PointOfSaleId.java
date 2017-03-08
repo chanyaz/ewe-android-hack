@@ -69,7 +69,7 @@ public enum PointOfSaleId {
 
 	private int mId;
 
-	private PointOfSaleId(int id) {
+	PointOfSaleId(int id) {
 		mId = id;
 	}
 
@@ -81,7 +81,7 @@ public enum PointOfSaleId {
 
 	public static PointOfSaleId getPointOfSaleFromId(int id) {
 		if (sIdToPOS == null) {
-			sIdToPOS = new SparseArray<PointOfSaleId>();
+			sIdToPOS = new SparseArray<>();
 			for (PointOfSaleId pos : PointOfSaleId.values()) {
 				sIdToPOS.put(pos.mId, pos);
 			}
