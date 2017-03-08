@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
+import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -35,6 +36,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     val hotelLatLng = BehaviorSubject.create<DoubleArray>()
     val resetCameraPosition = PublishSubject.create<Unit>()
     val selectARoomInvisibility = BehaviorSubject.create<Boolean>(false)
+    var selectRoomContDescription = PublishSubject.create<String>()
 
     //Setup the data I need to behave as a View Model for my View
     val offersObserver = endlessObserver<HotelOffersResponse> { response ->
@@ -54,6 +56,10 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
 
     init {
         hotelSoldOut.subscribe(selectARoomInvisibility)
+        fromPrice.subscribe { it ->
+            selectRoomContDescription.onNext(Phrase.from(context, R.string.map_select_a_room_cont_desc_TEMPLATE)
+                    .put("price", it).format().toString())
+        }
     }
 
     companion object {

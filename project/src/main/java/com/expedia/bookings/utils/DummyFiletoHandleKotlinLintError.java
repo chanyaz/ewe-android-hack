@@ -646,6 +646,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.menu.menu_search_item,
 		R.string.accessibility_cont_desc_role_button_expand,
 		R.string.accessibility_cont_desc_role_button_collapse,
+		R.string.map_select_a_room_cont_desc_TEMPLATE,
 		R.string.flights_card_fee_warning_TEMPLATE,
 		R.dimen.package_suggestion_margin_top,
 		R.dimen.package_suggestion_margin_bottom,
