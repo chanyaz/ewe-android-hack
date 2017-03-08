@@ -29,15 +29,15 @@ import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
-import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -50,6 +50,7 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
+import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
@@ -101,6 +102,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open protected fun init(vm: PaymentViewModel) {
         vm.cardTitle.subscribeText(cardInfoName)
         vm.cardSubtitle.subscribeTextAndVisibility(cardInfoExpiration)
+        vm.subtitleColorObservable.subscribeTextColor(cardInfoExpiration)
         vm.paymentType.subscribeImageDrawable(cardInfoIcon)
 
         vm.tempCard.subscribe { it ->

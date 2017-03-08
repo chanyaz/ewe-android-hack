@@ -60,6 +60,8 @@ open class PaymentViewModel(val context: Context) {
     val paymentType = PublishSubject.create<Drawable>()
     val cardTitle = PublishSubject.create<String>()
     val cardSubtitle = PublishSubject.create<String>()
+    val subtitleColorObservable = BehaviorSubject.create<Int>()
+
     val pwpSmallIcon = PublishSubject.create<Boolean>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val paymentTypeWarningHandledByCkoView = BehaviorSubject.create<Boolean>(false)
@@ -82,6 +84,8 @@ open class PaymentViewModel(val context: Context) {
                 val splitsType = splitsType
             }
         }.subscribe {
+            subtitleColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
+
             if (it.isRedeemable && it.splitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
                 setPaymentTileInfo(PaymentType.POINTS_REWARDS,
                         resources.getString(R.string.checkout_paying_with_points_only_line1),
@@ -178,7 +182,8 @@ open class PaymentViewModel(val context: Context) {
             if (billingInfoAndStatusUpdate.value.second == ContactDetailsCompletenessStatus.DEFAULT) {
                 subTitle = ""
             } else {
-                subTitle = resources.getString(R.string.checkout_hotelsv2_enter_payment_details_line2)
+                subTitle = resources.getString(R.string.enter_missing_payment_details)
+                subtitleColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
             }
         } else {
             title = resources.getString(R.string.checkout_enter_payment_details)

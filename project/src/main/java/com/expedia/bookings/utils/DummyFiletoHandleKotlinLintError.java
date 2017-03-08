@@ -374,6 +374,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.checkout_hotelsv2_enter_payment_details_line2,
 		R.menu.checkout_menu,
 		R.drawable.ic_hotel_credit_card,
+		R.string.enter_missing_payment_details,
 		R.string.lx_does_not_accept_cardtype_TEMPLATE,
 		R.string.new_credit_debit_card,
 		R.layout.material_flight_traveler_entry_widget,

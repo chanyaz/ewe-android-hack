@@ -275,9 +275,9 @@ class PaymentViewModelTest {
         SettingUtils.save(getContext(), R.string.preference_enable_payment_traveler_updated_strings, true)
 
         var viewModel: PaymentViewModel = PaymentViewModel(getContext())
+
         viewModel.cardTitle.subscribe(cardTitleTestSubscriber)
         viewModel.cardSubtitle.subscribe(cardSubtitleTestSubscriber)
-
         viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
 
         viewModel.isRedeemable.onNext(false)
@@ -288,7 +288,7 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.INCOMPLETE))
-        cardSubtitleTestSubscriber.assertValues("","Enter credit card")
+        cardSubtitleTestSubscriber.assertValues("","Enter missing payment details")
         cardTitleTestSubscriber.assertValues("Enter payment details", "Enter payment details")
     }
 
