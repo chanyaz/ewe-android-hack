@@ -99,12 +99,6 @@
         android:title="Itin Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_itin_hotel_upgrade"
-            android:layout="@layout/preference"
-            android:summary="Upgrade your hotel room booking"
-            android:title="Enable Hotel Upgrade Feature" />
-
-        <CheckBoxPreference
             android:key="@string/preference_itin_card_detail"
             android:layout="@layout/preference"
             android:summary="Itinerary card detail view"
