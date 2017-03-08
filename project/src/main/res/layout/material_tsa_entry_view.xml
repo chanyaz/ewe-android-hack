@@ -8,7 +8,9 @@
         android:id="@+id/edit_birth_date_text_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:hint="@string/date_of_birth"
+        android:labelFor="@+id/edit_birth_date_text_btn">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_birth_date_text_btn"
@@ -16,9 +18,8 @@
             android:layout_height="wrap_content"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
-            android:hint="@string/date_of_birth"
             android:inputType="none"
-            android:nextFocusForward="@+id/edit_gender_spinner"
+            android:nextFocusForward="@+id/edit_gender_layout_btn"
             android:textSize="@dimen/traveler_input_text_size"
             app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
 
@@ -28,7 +29,9 @@
         android:id="@+id/edit_gender_layout_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:hint="@string/gender"
+        android:labelFor="@+id/edit_gender_btn">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_gender_btn"
@@ -36,7 +39,6 @@
             android:layout_height="wrap_content"
             android:cursorVisible="false"
             android:drawableRight="@drawable/material_dropdown"
-            android:hint="@string/gender"
             android:textIsSelectable="true"
             android:nextFocusForward="@+id/first_name_input"
             android:textSize="@dimen/traveler_input_text_size"
