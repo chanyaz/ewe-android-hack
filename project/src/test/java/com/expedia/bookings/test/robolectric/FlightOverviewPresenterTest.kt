@@ -172,7 +172,7 @@ class FlightOverviewPresenterTest {
         flightCheckoutOverviewViewModel.params.onNext(setupFlightSearchParams())
         checkoutOverviewHeaderToolbar.viewmodel = flightCheckoutOverviewViewModel
         val destinationText = checkoutOverviewHeaderToolbar.destinationText
-        val city = SuggestionStrUtils.formatCityName(flightSearchParams.arrivalAirport.regionNames.fullName).trim()
+        val city = SuggestionStrUtils.formatCityName(flightSearchParams.arrivalAirport.regionNames.displayName).trim()
         assertEquals(destinationText.text.toString(), city)
 
         val checkInOutDates = checkoutOverviewHeaderToolbar.checkInOutDates
