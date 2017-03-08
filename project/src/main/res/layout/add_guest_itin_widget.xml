@@ -46,6 +46,7 @@
                 android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/email_address"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:nextFocusDown="@+id/password_edit_text"
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:contentDescription="@string/itinerary_number_cont_desc"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="@string/itinerary_number"
@@ -67,6 +69,7 @@
                 android:id="@+id/itin_number_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/itinerary_number_cont_desc"
                 android:imeOptions="actionDone"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>

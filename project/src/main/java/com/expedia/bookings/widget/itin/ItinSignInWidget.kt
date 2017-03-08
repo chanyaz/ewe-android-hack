@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeBackgroundColor
@@ -34,6 +35,7 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
 
     init {
         View.inflate(context, R.layout.itin_sign_in_widget, this)
+        AccessibilityUtil.appendRoleContDesc(addGuestItinTextButton, addGuestItinTextButton.text.toString(), R.string.accessibility_cont_desc_role_button)
     }
 
     override fun onFinishInflate() {
