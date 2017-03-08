@@ -721,8 +721,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			showUserReview();
 			if (isResumed()) {
 				if (mSignInPresenter != null) {
-					mSignInPresenter.getSignInWidget().getSignInToolbar().setCurrentPOS();
-					mSignInPresenter.getAddGuestItinWidget().getSignInToolbar().setCurrentPOS();
+					mSignInPresenter.getSignInWidget().getItinPOSHeader().setCurrentPOS();
+					mSignInPresenter.getAddGuestItinWidget().getItinPOSHeader().setCurrentPOS();
 				}
 			}
 		}

@@ -34,7 +34,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     val unableToFindItinErrorText: TextView by bindView(R.id.unable_to_find_itin_error_message)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    val signInToolbar: ItinPOSHeader by bindView(R.id.itin_pos_header)
+    val itinPOSHeader: ItinPOSHeader by bindView(R.id.itin_pos_header)
 
     var viewModel: AddGuestItinViewModel by notNullAndObservable { vm ->
         vm.showSearchDialogObservable.subscribe { show ->
@@ -117,6 +117,13 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         toolbar.setNavigationOnClickListener {
             viewModel.toolBarVisibilityObservable.onNext(true)
             (context as Activity).onBackPressed()
+        }
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE && changedView == this) {
+            itinPOSHeader.setCurrentPOS()
         }
     }
 

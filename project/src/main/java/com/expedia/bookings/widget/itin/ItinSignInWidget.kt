@@ -29,7 +29,7 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
     val statusImage: ImageView by bindView(R.id.status_image)
     val buttonImage: ImageView by bindView(R.id.exp_logo)
 
-    val signInToolbar: ItinPOSHeader by bindView(R.id.sign_in_toolbar)
+    val itinPOSHeader: ItinPOSHeader by bindView(R.id.sign_in_toolbar)
 
     val viewModel = ItinSignInViewModel(context)
 
@@ -59,5 +59,12 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
         viewModel.updateButtonTextColorSubject.subscribeTextColor(signInText)
         viewModel.updateButtonImageVisibilitySubject.subscribeVisibility(buttonImage)
         viewModel.updateButtonColorSubject.subscribeBackgroundColor(signInContainer)
+    }
+
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE && changedView == this) {
+            itinPOSHeader.setCurrentPOS()
+        }
     }
 }

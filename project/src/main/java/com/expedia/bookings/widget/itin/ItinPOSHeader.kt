@@ -48,8 +48,6 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
                 OmnitureTracking.trackItinChangePOS()
             }
         }
-
-        setPOSAdapterPosition(position)
     }
 
     fun setCurrentPOS() {
