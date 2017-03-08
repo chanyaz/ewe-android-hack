@@ -108,10 +108,11 @@ dependencies {
 
     // Test dependencies
     testCompile 'junit:junit:4.12'
-    def roboVersion = '3.0'
+    def roboVersion = '3.2'
     testCompile "org.robolectric:robolectric:${roboVersion}"
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
     testCompile "org.robolectric:shadows-support-v4:${roboVersion}"
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
 
     def espressoVersion = '2.2.2'
@@ -140,6 +141,7 @@ dependencies {
     androidTestCompile 'info.cukes:cucumber-html:0.2.3'
     androidTestCompile "tools.fastlane:screengrab:0.5.5"
     androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 android {

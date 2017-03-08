@@ -67,7 +67,7 @@ class FlightCheckoutPresenterTest {
         val shadowActivity = shadowOf(activity)
         val intent = shadowActivity.getNextStartedActivity()
         val shadowIntent = shadowOf(intent)
-        assertEquals(FlightAndPackagesRulesActivity::class.java!!.getName(), shadowIntent.getComponent().getClassName())
+        assertEquals(FlightAndPackagesRulesActivity::class.java!!.name, shadowIntent.intentClass.name)
     }
 
     @Test

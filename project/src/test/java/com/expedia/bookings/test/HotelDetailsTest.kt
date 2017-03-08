@@ -36,7 +36,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
+//@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class HotelDetailsTest {
 
     private var vm: HotelDetailViewModel by Delegates.notNull()

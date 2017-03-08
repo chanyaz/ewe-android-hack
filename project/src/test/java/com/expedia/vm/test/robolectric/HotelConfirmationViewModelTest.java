@@ -56,7 +56,7 @@ public class HotelConfirmationViewModelTest {
 	public void before() {
 		Ui.getApplication(getContext()).defaultHotelComponents();
 		vm = new HotelConfirmationViewModel(getContext(), false);
-		shadowApplication = Shadows.shadowOf(getContext()).getShadowApplication();
+		shadowApplication = ShadowApplication.getInstance();
 	}
 
 	private Context getContext() {

@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.robolectric.DefaultTestLifecycle;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.TestLifecycle;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.internal.bytecode.InstrumentationConfiguration;
 import org.robolectric.manifest.AndroidManifest;
@@ -26,7 +26,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.test.RunForBrands;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-public class RobolectricRunner extends RobolectricGradleTestRunner {
+public class RobolectricRunner extends RobolectricTestRunner {
 
 	public RobolectricRunner(Class<?> testClass) throws InitializationError {
 		super(testClass);
@@ -40,13 +40,13 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 		FsFile res = Fs.fileFromPath("build/intermediates/res/merged/" + brandName + "/debug/");
 		FsFile assets = Fs.fileFromPath("build/intermediates/assets/" + brandName + "/debug/");
 
-		AndroidManifest manifest = new AndroidManifest(mani, res, assets);
-		manifest.setPackageName("com.expedia.bookings");
+		AndroidManifest manifest = new AndroidManifest(mani, res, assets, "com.expedia.bookings");
+		//manifest.setPackageName("com.expedia.bookings.debug");
 
 		return manifest;
 	}
 
-	@Override
+	//@Override
 	public InstrumentationConfiguration createClassLoaderConfig() {
 		InstrumentationConfiguration.Builder builder = InstrumentationConfiguration.newBuilder();
 		builder.addInstrumentedClass(GoogleCloudMessaging.class.getName());

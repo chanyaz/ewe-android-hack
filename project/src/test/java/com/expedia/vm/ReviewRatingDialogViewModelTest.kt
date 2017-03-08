@@ -45,18 +45,18 @@ class ReviewRatingDialogViewModelTest {
 
         var shadowActivity = Shadows.shadowOf(context)
         var intent = shadowActivity.nextStartedActivity
-        var shadowIntent = Shadows.shadowOf(intent)
-        assertEquals("android.intent.action.VIEW", shadowIntent.action)
-        assertEquals("market://details?id=com.expedia.bookings", shadowIntent.dataString)
+        //var shadowIntent = Shadows.shadowOf(intent)
+        assertEquals("android.intent.action.VIEW", intent.action)
+        assertEquals("market://details?id=com.expedia.bookings", intent.dataString)
 
         vm.feedbackSubject.onNext(Unit)
         testFeedbackLink.assertValue("expda://supportEmail")
 
         shadowActivity = Shadows.shadowOf(context)
         intent = shadowActivity.nextStartedActivity
-        shadowIntent = Shadows.shadowOf(intent)
-        assertEquals("android.intent.action.VIEW", shadowIntent.action)
-        assertEquals("expda://supportEmail", shadowIntent.dataString)
+        //shadowIntent = Shadows.shadowOf(intent)
+        assertEquals("android.intent.action.VIEW", intent.action)
+        assertEquals("expda://supportEmail", intent.dataString)
 
     }
 

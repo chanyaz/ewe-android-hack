@@ -26,7 +26,7 @@ public class ShadowResourcesEB extends ShadowResources {
 				}
 			}
 		}
-		return super.createTypedArray(set, attrs);
+		return null; //super.createTypedArray(set, attrs);
 	}
 
 	private boolean isDrawableAttribute(Attribute attribute) {
