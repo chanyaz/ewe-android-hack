@@ -22,6 +22,15 @@
             android:layout_alignBottom="@+id/big_image_container"
             tools:src="@color/app_primary"/>
 
+        <View
+            android:id="@+id/image_background_gradient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/big_image_background"
+            android:layout_alignBottom="@+id/big_image_background"
+            android:layout_alignLeft="@+id/big_image_background"
+            android:layout_alignRight="@+id/big_image_background"/>
+
         <LinearLayout
             android:id="@+id/big_image_container"
             android:layout_width="match_parent"

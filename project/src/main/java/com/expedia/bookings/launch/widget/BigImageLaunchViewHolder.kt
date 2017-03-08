@@ -1,6 +1,5 @@
 package com.expedia.bookings.launch.widget
 
-import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -17,6 +16,7 @@ class BigImageLaunchViewHolder(private val view: View): RecyclerView.ViewHolder(
     val subTitleView: TextView by bindView(R.id.big_image_subtitle)
     val iconImageView: ImageView by bindView(R.id.big_image_icons)
     val bgImageView: ImageView by bindView(R.id.big_image_background)
+    val gradientView: View by bindView(R.id.image_background_gradient)
 
     fun bind(vm: BigImageLaunchViewModel) {
         titleView.setText(vm.titleId)
@@ -29,6 +29,6 @@ class BigImageLaunchViewHolder(private val view: View): RecyclerView.ViewHolder(
         } else {
             bgImageView.setImageResource(vm.backgroundFallback)
         }
-        bgImageView.setColorFilter(ContextCompat.getColor(view.context, vm.bgGradient), PorterDuff.Mode.DARKEN)
+        gradientView.setBackgroundColor(ContextCompat.getColor(view.context, vm.bgGradient))
     }
 }
