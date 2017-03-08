@@ -195,7 +195,7 @@
 
     <!-- Checkout -->
     <!-- Car model templates-->
-    <string name="car_model_name_template">%1$s oder vergleichbar</string>
+    <string name="car_model_name_template">%1$s o. vergleichbar</string>
     <string name="car_model_unknown_template">Keine Angabe zum genauen Fahrzeugmodell</string>
     <!-- Car checkout cost breakdown total due today -->
     <string name="car_cost_breakdown_due_today">Heute fälliger Betrag</string>
@@ -231,7 +231,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Wegbeschreibung für %1$s</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
-    <string name="shortened_checkout_payment_option_credit_debit_label">Bitte geben Sie eine neue Debit-/Kreditkarte ein</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">Neue Debit-/Kreditkarte eingeben</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Angaben zum Gast</string>
     <!-- Text for enter guest details line 2 -->
@@ -1123,6 +1123,14 @@
     <string name="nav_car_rentals">Mietwagen</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Aktivitäten</string>
+    <!-- Text for active itin card on signed-in user launch screen -->
+    <string name="launch_upcoming_trips_signed_in">Ihnen steht eine Reise bevor!</string>
+    <!-- Subtext for active itin card on signed-in user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_signed_in">Rufen Sie Ihren Reiseplan unterwegs ab und bleiben Sie über Änderungen auf dem Laufenden</string>
+    <!-- Text for itin card on guest user launch screen -->
+    <string name="launch_upcoming_trips_guest_user">Steht Ihnen eine Reise bevor?</string>
+    <!-- Subtext for active itin card on guest user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_guest_user">Prüfen Sie den Status Ihrer bestehenden Reise und erhalten Sie über die App Updates</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Leider können wir keine Verbindung aufbauen.</string>
@@ -1872,7 +1880,7 @@
     <string name="edit_search">Suche bearbeiten</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Wählen Sie einen Zeitraum aus</string>
-    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Reisezeitraum</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Reiseziel suchen</string>
@@ -2257,7 +2265,7 @@
     <string name="last_name_field_text">Nachname</string>
 
     <!-- Cardholder -->
-    <string name="cardholder">Karteninhaber</string>
+    <string name="cardholder">Inhaber</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Die Bestätigungsmail geht an diese Adresse</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
@@ -3846,8 +3854,6 @@
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Gepäckgebühren anzeigen</string>
     <!-- Checkout screen -->
-    <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Buchen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Gutschein- oder Angebotscode eingeben</string>
     <!-- Extra traveler information - flights -->
@@ -4506,6 +4512,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Angaben zum {number}. Kleinkind auf eigenem Sitzplatz</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Angebote für Mitglieder</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ Punkte wurden eingelöst! (zzgl. Steuern und Gebühren)</string>
     <string name="regular_loyalty_applied_message">Expedia+ Punkte wurden eingelöst!</string>
@@ -4542,10 +4551,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">Sie nutzen {amount} in Orbucks\nIhre Karte wird mit {dueamount} belastet</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Flugsuche</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">per Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Hotels durchsuchen</string>
 
@@ -4872,12 +4877,16 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Hotels in Ihrer Nähe finden</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Hotels für heute Abend</string>
+    <string name="launch_find_recommended_hotels">Empfohlene Hotels für heute Abend</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Buchung erfolgreich!</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Bitte suchen Sie in Ihrem Postfach nach dem Reiseplan.</string>
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Ihre Reisen werden abgerufen …</string>
+
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Angebote für Mitglieder</string>
+    <string name="member_deal_subtitle">Rabatte auf ausgewählte Städte</string>
 
 </resources>

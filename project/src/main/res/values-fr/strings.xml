@@ -1123,6 +1123,14 @@
     <string name="nav_car_rentals">Locations de voitures</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Choses à faire</string>
+    <!-- Text for active itin card on signed-in user launch screen -->
+    <string name="launch_upcoming_trips_signed_in">Vous avez un voyage à venir !</string>
+    <!-- Subtext for active itin card on signed-in user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_signed_in">Accédez à vos voyages où que vous soyez et restez informé en cas de changement.</string>
+    <!-- Text for itin card on guest user launch screen -->
+    <string name="launch_upcoming_trips_guest_user">Vous avez un voyage à venir ?</string>
+    <!-- Subtext for active itin card on guest user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_guest_user">Vérifiez le statut de votre voyage et recevez des mises à jour avec l\&apos;appli.</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Nous ne sommes pas en mesure de nous connecter.</string>
@@ -1872,7 +1880,7 @@
     <string name="edit_search">Modifier la recherche</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Choisir les dates</string>
-    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Dates du voyage</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Rechercher une destination</string>
@@ -1895,6 +1903,7 @@
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
+    <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
@@ -2044,7 +2053,7 @@
     <string name="includes_flights_hotel">Inclut les vols + hôtel</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d voyageur</item>
+        <item quantity="zero">%1$d voyageurs</item>
         <item quantity="one">%1$d voyageur</item>
         <item quantity="two">%1$d voyageurs</item>
         <item quantity="few">%1$d voyageurs</item>
@@ -3844,8 +3853,6 @@
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Appuyez pour afficher les frais de bagages</string>
     <!-- Checkout screen -->
-    <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Appuyez pour passer au paiement</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Appuyez pour saisir un code promotionnel</string>
     <!-- Extra traveler information - flights -->
@@ -4389,7 +4396,7 @@
     <string name="rail_station_info_TEMPLATE">de {departure} à {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4504,6 +4511,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Informations Jeune enfant sur le siège {number}</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Offres membres</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Points Expedia+ appliqués ! (taxes et frais non compris)</string>
     <string name="regular_loyalty_applied_message">Points Expedia+ appliqués !</string>
@@ -4540,10 +4550,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">Vous allez utiliser {amount} en Orbucks.\nUn montant de {dueamount} sera facturé sur votre carte.</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Recherche de vols</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">via Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Consulter les hôtels</string>
 
@@ -4870,12 +4876,16 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Trouvez des hôtels près de vous</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Hôtels prisés ce soir</string>
+    <string name="launch_find_recommended_hotels">Hôtels recommandés ce soir</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Réservation réussie !</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Veuillez vérifier votre boîte e-mail pour accéder au voyage.</string>
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Recherche de vos voyages…</string>
+
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Offres membres</string>
+    <string name="member_deal_subtitle">Des remises sur une sélection de villes</string>
 
 </resources>
