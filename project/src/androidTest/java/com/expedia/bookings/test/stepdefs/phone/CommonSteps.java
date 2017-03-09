@@ -18,15 +18,18 @@ public class CommonSteps {
 	@And("^I set the POS to \"(.*?)\"$")
 	public void setPOS(String name) throws Throwable {
 		switch (name) {
-		case "Indonesia":
-			Common.setPOS(PointOfSaleId.INDONESIA);
-			break;
-		case "United States":
-			Common.setPOS(PointOfSaleId.UNITED_STATES);
-			break;
-		case "Canada":
-			Common.setPOS(PointOfSaleId.CANADA);
-			break;
+			case "Indonesia":
+				Common.setPOS(PointOfSaleId.INDONESIA);
+				break;
+			case "United States":
+				Common.setPOS(PointOfSaleId.UNITED_STATES);
+				break;
+			case "Canada":
+				Common.setPOS(PointOfSaleId.CANADA);
+				break;
+			case "Australia":
+				Common.setPOS(PointOfSaleId.AUSTRALIA);
+				break;
 		}
 	}
 
