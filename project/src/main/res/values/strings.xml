@@ -1368,7 +1368,7 @@
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">Signing out of %1$s will remove any itinerary items associated with this account. Are you sure you want to sign out?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
-    <string name="flight_overview_TEMPLATE_cont_desc">{airline} departs {departs} and arrives {arrives}</string>
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline} departs {departureairport} at {departuretime} and arrives {arrivalairport} at {arrivaltime}</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
     <!-- Terminal Map -->
