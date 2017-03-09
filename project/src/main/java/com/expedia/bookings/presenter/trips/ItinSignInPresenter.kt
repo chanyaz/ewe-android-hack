@@ -9,6 +9,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
@@ -24,7 +25,14 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
     }
 
-    private val signInToAddGuestTransition = object : VisibilityTransition(this, ItinSignInWidget::class.java, AddGuestItinWidget::class.java) {}
+    private val signInToAddGuestTransition = object : VisibilityTransition(this, ItinSignInWidget::class.java, AddGuestItinWidget::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (forward) {
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(addGuestItinWidget.toolbar, 300)
+            }
+        }
+    }
     private val addGuestToProgressTransition = object : VisibilityTransition(this, AddGuestItinWidget::class.java, ItinFetchProgressWidget::class.java) {}
     private val signInToProgressTransition = object : VisibilityTransition(this, ItinSignInWidget::class.java, ItinFetchProgressWidget::class.java) {}
 

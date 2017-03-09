@@ -3129,6 +3129,8 @@
     <string name="confirmation_number">Confirmation #</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Itinerary #</string>
+    <!-- Itinerary number label content description -->
+    <string name="itinerary_number_cont_desc">Itinerary Number</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">If you have questions about your reservation, please call {brand} at {phone}.</string>
     <!-- Webview title for password recovery -->

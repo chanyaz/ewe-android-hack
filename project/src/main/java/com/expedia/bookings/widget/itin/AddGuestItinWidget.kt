@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.itin.ItinPOSHeader
 import com.expedia.util.notNullAndObservable
@@ -50,8 +51,10 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         vm.showErrorObservable.subscribeVisibility(unableToFindItinErrorText)
         vm.showErrorMessageObservable.subscribeText(unableToFindItinErrorText)
         vm.emailFieldFocusObservable.subscribe {
-            guestEmailEditText.requestFocus()
-            Ui.showKeyboard(guestEmailEditText, null)
+            if (!AccessibilityUtil.isTalkBackEnabled(getContext())) {
+                guestEmailEditText.requestFocus()
+                Ui.showKeyboard(guestEmailEditText, null)
+            }
         }
     }
 
@@ -64,6 +67,8 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             Ui.hideKeyboard(this)
             viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))
         }
+
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_cont_desc)
 
         itinNumberEditText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
