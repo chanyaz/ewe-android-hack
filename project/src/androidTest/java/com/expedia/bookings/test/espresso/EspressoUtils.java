@@ -218,6 +218,10 @@ public class EspressoUtils {
 		onView(withId(viewId)).check(matches(allOf(withCompoundDrawable(drawableId), isDisplayed())));
 	}
 
+	public static void assertViewDoesNotHaveCompoundDrawable(@IdRes int viewId, @DrawableRes int drawableId) {
+		onView(withId(viewId)).check(matches(not(withCompoundDrawable(drawableId))));
+	}
+
 	public static void waitForViewNotYetInLayoutToDisplay(Matcher<View> matcher, long howLong, TimeUnit timeUnit) {
 		Throwable lastException = null;
 

@@ -84,7 +84,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         phoneEntryView.phoneNumber.addOnFocusChangeListener(this)
         if (phoneEntryView.materialFormTestEnabled) {
             phoneEntryView.phoneEditBox.setOnFocusChangeListener { view, hasFocus ->
-                if(hasFocus){
+                if (hasFocus) {
                     Ui.hideKeyboard(this)
                     phoneEntryView.phoneEditBox.performClick()
                 }
@@ -92,7 +92,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
             }
         } else {
             phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
-                if(hasFocus){
+                if (hasFocus) {
                     Ui.hideKeyboard(this)
                     phoneEntryView.phoneSpinner.performClick()
                 }
@@ -158,6 +158,13 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         } else {
             travelerButton.updateSelectTravelerText(resources.getString(R.string.traveler_saved_contacts_text))
         }
+    }
+
+    open fun resetErrorState() {
+        nameEntryView.viewModel.firstNameViewModel.errorSubject.onNext(false)
+        nameEntryView.viewModel.lastNameViewModel.errorSubject.onNext(false)
+        emailEntryView.viewModel.errorSubject.onNext(false)
+        phoneEntryView.phoneNumber.viewModel.errorSubject.onNext(false)
     }
 
 }

@@ -11,6 +11,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable
 import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
 import com.expedia.bookings.test.espresso.EspressoUser
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -35,6 +36,21 @@ class FlightCheckoutMultiTravelerTest : NewFlightTestCase() {
         onView(allOf(withImageDrawable(R.drawable.invalid),
                 isDescendantOfA(withId(R.id.traveler_default_state)))).check(
                 doesNotExist())
+
+        PackageScreen.travelerInfo().perform(click())
+        onView(allOf(withImageDrawable(R.drawable.invalid),
+                isDescendantOfA(withId(R.id.additional_traveler_container)))).check(
+                doesNotExist())
+        EspressoUser.clickOnText("Edit Traveler 1 (Adult)")
+        Espresso.closeSoftKeyboard()
+        PackageScreen.clickTravelerDone()
+        Common.delay(1)
+        onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
+        onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
+
+        Common.pressBack()
+        Common.pressBack()
+
         CheckoutViewModel.signInOnCheckout()
         EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
@@ -50,13 +66,28 @@ class FlightCheckoutMultiTravelerTest : NewFlightTestCase() {
         onView(allOf(withImageDrawable(R.drawable.invalid),
                 isDescendantOfA(withId(R.id.additional_traveler_container)))).check(
                 doesNotExist())
-        EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
+
+        Common.delay(1)
+        EspressoUser.clickOnText("11/01/1985")
         Espresso.closeSoftKeyboard()
+        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.first_name_input, R.drawable.invalid)
+        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
         Common.pressBack()
 
-        onView(allOf(withImageDrawable(R.drawable.invalid),
-                isDescendantOfA(withId(R.id.traveler_default_state)))).check(
-                doesNotExist())
+        EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
+        Espresso.closeSoftKeyboard()
+        PackageScreen.clickTravelerDone()
+        Common.delay(1)
+        onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
+        onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)))
+
+
+        Common.pressBack()
+        EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
+        Espresso.closeSoftKeyboard()
+        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.first_name_input, R.drawable.invalid)
+        EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
+        Common.pressBack()
 
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
         Espresso.closeSoftKeyboard()

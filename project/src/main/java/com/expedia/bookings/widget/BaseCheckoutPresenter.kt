@@ -609,8 +609,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (!forward) {
                 Ui.hideKeyboard(travelersPresenter)
                 travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-                if(!travelersPresenter.viewModel.areTravelersEmpty()) {
+                if (!travelersPresenter.viewModel.areTravelersEmpty()) {
                     travelersPresenter.viewModel.updateCompletionStatus()
+                } else {
+                    travelersPresenter.travelerEntryWidget.resetErrorState()
                 }
                 setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
