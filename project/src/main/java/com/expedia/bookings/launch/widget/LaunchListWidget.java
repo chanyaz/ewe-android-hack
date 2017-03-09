@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class LaunchListWidget extends RecyclerView {
 
@@ -83,7 +84,7 @@ public class LaunchListWidget extends RecyclerView {
 		ItineraryManager.getInstance().addSyncListener(itinerarySyncListener);
 
 		userLoginStateChangedModel.getUserLoginStateChanged().debounce(200, TimeUnit.MILLISECONDS)
-			.delay(3, TimeUnit.SECONDS)
+			.observeOn(AndroidSchedulers.mainThread())
 			.subscribe(new Observer<Boolean>() {
 
 				@Override
