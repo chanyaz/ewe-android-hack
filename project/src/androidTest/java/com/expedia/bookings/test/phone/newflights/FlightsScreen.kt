@@ -40,6 +40,12 @@ object FlightsScreen {
         return list.perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
     }
 
+    @JvmStatic fun selectFlight(list: ViewInteraction, airline: String, airlineTime: String): ViewInteraction? {
+        list.perform(waitForViewToDisplay())
+        val viewMatcher = allOf(hasDescendant(withText(airline)), hasDescendant(withText(airlineTime)))
+        return list.perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
+    }
+
 
     @JvmStatic fun selectFlight(list: ViewInteraction, index: Int): ViewInteraction {
         list.perform(waitForViewToDisplay())

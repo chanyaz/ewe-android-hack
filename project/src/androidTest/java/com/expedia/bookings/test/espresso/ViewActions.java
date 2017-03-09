@@ -381,6 +381,8 @@ public final class ViewActions {
 		};
 	}
 
+
+
 	public static ViewAction getFlightTimeAtPosition(final int position, final AtomicReference<String> time) {
 		return new ViewAction() {
 			@Override
