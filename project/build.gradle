@@ -106,6 +106,14 @@ dependencies {
     debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
     debugCompile "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 
+    def chuckVersion='1.0.4'
+    debugCompile ("com.readystatesoftware.chuck:library:${chuckVersion}"){
+        exclude group: 'com.android.support'
+    }
+    releaseCompile ("com.readystatesoftware.chuck:library-no-op:${chuckVersion}"){
+        exclude group: 'com.android.support'
+    }
+
     // Test dependencies
     testCompile 'junit:junit:4.12'
     def roboVersion = '3.2.2'
