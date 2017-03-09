@@ -151,4 +151,5 @@
     <color name="filter_number_text_color">@color/packages_primary_color</color>
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
+    <color name="flights_error_message_infants">#b80000</color>
 </resources>
