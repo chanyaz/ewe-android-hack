@@ -18,7 +18,7 @@ class FlightCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewVi
     init {
         params.subscribe { params ->
             val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val city = SuggestionStrUtils.formatCityName(params.arrivalAirport?.regionNames?.fullName).trim()
+            val city = SuggestionStrUtils.formatCityName(params.arrivalAirport.regionNames.displayName).trim()
             val link = Akeakamai(Images.getFlightDestination(params?.arrivalAirport?.hierarchyInfo?.airport?.airportCode))
                     .resizeExactly(width, height)
                     .build()
