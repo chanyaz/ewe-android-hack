@@ -6,7 +6,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.model.UserLoginStateChangedModel
@@ -19,7 +18,7 @@ import java.text.NumberFormat
 
 class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>, userLoginChangedModel: UserLoginStateChangedModel) {
 
-    lateinit var subscription: Subscription
+    var subscription: Subscription
     val isShopWithPointsAvailableObservable = BehaviorSubject.create<Boolean>()
     val isShopWithPointsAvailableObservableIntermediateStream =
             Observable.concat(
@@ -35,7 +34,7 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
     val swpEffectiveAvailability = BehaviorSubject.create<Boolean>()
 
     val pointsDetailStringObservable = isShopWithPointsAvailableObservable.map {
-        var value: String?;
+        var value: String?
         if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
             val pointsAvailable = Db.getUser()?.loyaltyMembershipInformation?.loyaltyPointsAvailable?.toInt() ?: null
             value = if (pointsAvailable != null) NumberFormat.getInstance().format(pointsAvailable) else null

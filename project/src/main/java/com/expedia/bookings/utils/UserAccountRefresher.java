@@ -63,6 +63,7 @@ public class UserAccountRefresher {
 	private final BackgroundDownloader.OnDownloadComplete<SignInResponse> mRefreshUserCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse results) {
+			boolean resultsNoError = false;
 			if (results != null) {
 				if (results.hasErrors()) {
 					//The refresh failed, so we just log them out. They can always try to login again.
@@ -78,11 +79,15 @@ public class UserAccountRefresher {
 				else {
 					// Update our existing saved data
 					onSuccessfulUserAuthentication(results);
+					resultsNoError = true;
 				}
 			}
 
 			if (userAccountRefreshListener != null) {
 				userAccountRefreshListener.onUserAccountRefreshed();
+			}
+			if (resultsNoError) {
+				userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
 			}
 		}
 	};
@@ -134,6 +139,7 @@ public class UserAccountRefresher {
 	private final BackgroundDownloader.OnDownloadComplete<SignInResponse> mRefreshUserCallbackForWebView = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse results) {
+			boolean resultsNoError = false;
 			if (results != null) {
 				if (results.hasErrors()) {
 					//The refresh failed, so we just log them out. They can always try to login again.
@@ -145,10 +151,14 @@ public class UserAccountRefresher {
 				}
 				else {
 					onSuccessfulUserAuthentication(results);
+					resultsNoError = true;
 				}
 			}
 			if (userAccountRefreshListener != null) {
 				userAccountRefreshListener.onUserAccountRefreshed();
+			}
+			if (resultsNoError) {
+				userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
 			}
 		}
 	};
@@ -158,7 +168,6 @@ public class UserAccountRefresher {
 		User user = results.getUser();
 		user.save(context);
 		Db.setUser(user);
-		userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
 	}
 
 	private void logOut(boolean clearCookies) {

@@ -25,7 +25,7 @@ class ShopWithPointsWidget(context: Context, val attrs: AttributeSet?) : LinearL
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
 
-    lateinit  var subscription: Subscription
+    var subscription: Subscription
 
     init {
         var layoutId = R.layout.widget_shop_with_points
