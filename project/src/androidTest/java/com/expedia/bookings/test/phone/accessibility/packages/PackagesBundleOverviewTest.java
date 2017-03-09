@@ -154,8 +154,11 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 	private void checkBundleSlidingWidgetContentDescription(String pricePerPerson, boolean isOpened) {
 		String str;
+		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		String endDate =  DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
+
 		if (isOpened) {
-			str = "Showing bundle details. Button to close.";
+			str = "Trip to Detroit, MI. " + startDate + " to " + endDate + ", 1 Traveler";
 		}
 		else {
 			str = "Bundle price is " + pricePerPerson + " per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.";

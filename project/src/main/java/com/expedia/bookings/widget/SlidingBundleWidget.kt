@@ -234,23 +234,6 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         updateBundleViews(product)
     }
 
-    fun addBundleTransitionFrom(fromClass: String): Presenter.Transition {
-        val transition = object : Presenter.Transition(fromClass, SlidingBundleWidget::class.java.name, AccelerateDecelerateInterpolator(), REGULAR_ANIMATION_DURATION) {
-            override fun startTransition(forward: Boolean) {
-                startBundleTransition(forward)
-            }
-
-            override fun updateTransition(f: Float, forward: Boolean) {
-                updateBundleTransition(f, forward)
-            }
-
-            override fun endTransition(forward: Boolean) {
-                finalizeBundleTransition(forward)
-            }
-        }
-        return transition
-    }
-
     private fun updateBundlePricing() {
         val currentOffer: PackageOfferModel = Db.getPackageResponse().packageResult.currentSelectedOffer
         val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
