@@ -312,6 +312,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 		mHeaderView = mItinContentGenerator.getTitleView(mHeaderView, mTitleContentLayout);
 		if (wasNull && mHeaderView != null) {
+			mHeaderView.setFocusable(true);
+			mHeaderView.setFocusableInTouchMode(true);
 			mTitleContentLayout.addView(mHeaderView);
 		}
 
