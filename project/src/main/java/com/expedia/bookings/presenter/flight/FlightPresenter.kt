@@ -394,6 +394,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(errorToSearch)
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
+        addTransition(inboundToError)
     }
 
     private fun flightListToOverviewTransition() {
@@ -485,7 +486,30 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : LeftToRightTransition(presenter, left, right) {
+    private val inboundToError = object : Presenter.Transition(FlightInboundPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), 200) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            errorPresenter.visibility = View.VISIBLE
+            inboundPresenter.visibility = View.GONE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            errorPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            inboundPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            errorPresenter.animationFinalize()
+            if (!forward) {
+                inboundPresenter.showResults()
+            }
+        }
+    }
+
+    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>): LeftToRightTransition(presenter, left, right) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {

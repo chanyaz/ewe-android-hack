@@ -58,7 +58,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             return this
         }
 
-        fun flightCabinClass(cabinClass: String): Builder {
+        fun flightCabinClass(cabinClass: String?): Builder {
             this.flightCabinClass = cabinClass
             return this
         }
@@ -75,7 +75,7 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
     }
 
     fun buildParamsForInboundSearch(maxStay: Int, maxRange: Int, selectedOutboundLegId: String?): FlightSearchParams {
-        return Builder(maxStay, maxRange).roundTrip(true).legNo(1).selectedLegID(selectedOutboundLegId)
+        return Builder(maxStay, maxRange).roundTrip(true).legNo(1).selectedLegID(selectedOutboundLegId).flightCabinClass(flightCabinClass)
                 .infantSeatingInLap(infantSeatingInLap).origin(departureAirport)
                 .destination(arrivalAirport).startDate(departureDate).endDate(returnDate)
                 .adults(adults).children(children)
