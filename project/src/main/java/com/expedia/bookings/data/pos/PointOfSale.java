@@ -75,6 +75,9 @@ public class PointOfSale {
 	// The base URL of the POS
 	private String mUrl;
 
+	// The Image Url of the POS for home screen Member Only Deal
+	private String mMemberDealCardImageUrl;
+
 	// The POS's TPID (Travel Product Identifier)
 	private int mTPID;
 
@@ -494,6 +497,10 @@ public class PointOfSale {
 
 	public String getUrl() {
 		return mUrl;
+	}
+
+	public String getmMemberDealCardImageUrl() {
+		return mMemberDealCardImageUrl;
 	}
 
 	public int getTpid() {
@@ -1242,6 +1249,7 @@ public class PointOfSale {
 		pos.mTwoLetterCountryCode = data.optString("twoLetterCountryCode", posName).toLowerCase(Locale.ENGLISH);
 		// Server access
 		pos.mUrl = data.optString("url", null);
+		pos.mMemberDealCardImageUrl = data.optString("memberDealCardImageUrl", null);
 		pos.mTPID = data.optInt("TPID");
 		pos.mSiteId = data.optInt("siteId", INVALID_SITE_ID);
 		pos.mEAPID = data.optInt("EAPID", INVALID_EAPID);

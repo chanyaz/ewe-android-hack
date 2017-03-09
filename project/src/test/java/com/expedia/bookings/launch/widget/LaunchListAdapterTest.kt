@@ -62,6 +62,38 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    fun itemViewPosition_showing_hotels_activeItin_memberDeals_popularHotels() {
+        AbacusTestUtils.bucketTests( AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
+                AbacusUtils.EBAndroidAppLaunchShowActiveItinCard )
+
+        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
+        SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, true)
+        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
+
+        createSystemUnderTest()
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.ACTIVE_ITIN_VIEW, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
+
+        val fifthPosition = sut.getItemViewType(4)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
+
+        val sixthPosition = sut.getItemViewType(5)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+    }
+
+    @Test
     fun itemViewPosition_showing_hotels_activeItin_signInCard_memberDeals_popularHotels() {
         givenSignInCardEnabled()
         givenPopularHotelsCardEnabled()
@@ -80,16 +112,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.ACTIVE_ITIN_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, fourthPosition)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, fifthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
 
         val sixthPosition = sut.getItemViewType(5)
-        assertEquals(LaunchDataItem.HEADER_VIEW, sixthPosition)
-
-        val seventhPosition = sut.getItemViewType(6)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, seventhPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
     }
 
     @Test

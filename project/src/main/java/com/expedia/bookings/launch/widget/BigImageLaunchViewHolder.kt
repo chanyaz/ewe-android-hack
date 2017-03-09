@@ -22,6 +22,17 @@ class BigImageLaunchViewHolder(private val view: View): RecyclerView.ViewHolder(
         titleView.setText(vm.titleId)
         subTitleView.setText(vm.subtitleId)
         iconImageView.setImageDrawable(ContextCompat.getDrawable(view.context, vm.icon))
+        vm.backgroundUrlChangeSubject.subscribe { url ->
+            if (url != null) {
+                vm.backgroundUrl = url
+                updateBackgroundImage(vm)
+            }
+        }
+        updateBackgroundImage(vm)
+        bgImageView.setColorFilter(ContextCompat.getColor(view.context, vm.bgGradient), PorterDuff.Mode.SRC_ATOP)
+    }
+
+    fun updateBackgroundImage(vm: BigImageLaunchViewModel) {
         if (vm.backgroundUrl != null) {
             Picasso.with(view.context).load(vm.backgroundUrl).into(bgImageView)
         } else if (vm.backgroundResId != null) {
@@ -29,6 +40,5 @@ class BigImageLaunchViewHolder(private val view: View): RecyclerView.ViewHolder(
         } else {
             bgImageView.setImageResource(vm.backgroundFallback)
         }
-        bgImageView.setColorFilter(ContextCompat.getColor(view.context, vm.bgGradient), PorterDuff.Mode.DARKEN)
     }
 }

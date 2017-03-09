@@ -28,6 +28,8 @@
     <dimen name="launch_list_corner_radius">2dp</dimen>
     <dimen name="launch_tile_margin_top">8dp</dimen>
     <dimen name="launch_toolbar_elevation">10dp</dimen>
+    <dimen name="launch_mod_card_width">336dp</dimen>
+    <dimen name="launch_mod_card_height">147dp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>
