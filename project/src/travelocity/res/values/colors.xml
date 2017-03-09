@@ -118,6 +118,7 @@
     <color name="flights_details_layover_color">@color/lob_primary_color</color>
     <color name="filter_number_text_color">@color/lob_primary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
+    <color name="flights_error_message_infants">#b80000</color>
 
     <!-- Splash screen -->
     <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
