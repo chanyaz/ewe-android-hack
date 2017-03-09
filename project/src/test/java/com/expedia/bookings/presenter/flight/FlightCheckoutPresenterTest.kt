@@ -21,8 +21,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -30,7 +28,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner :: class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 
 class FlightCheckoutPresenterTest {
@@ -66,8 +63,7 @@ class FlightCheckoutPresenterTest {
         checkoutPresenter.legalInformationText.performClick()
         val shadowActivity = shadowOf(activity)
         val intent = shadowActivity.getNextStartedActivity()
-        val shadowIntent = shadowOf(intent)
-        assertEquals(FlightAndPackagesRulesActivity::class.java!!.getName(), shadowIntent.getComponent().getClassName())
+        assertEquals(FlightAndPackagesRulesActivity::class.java!!.getName(), intent.component.className)
     }
 
     @Test

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowApplication;
 
@@ -56,7 +57,7 @@ public class HotelConfirmationViewModelTest {
 	public void before() {
 		Ui.getApplication(getContext()).defaultHotelComponents();
 		vm = new HotelConfirmationViewModel(getContext(), false);
-		shadowApplication = Shadows.shadowOf(getContext()).getShadowApplication();
+		shadowApplication = Shadows.shadowOf(RuntimeEnvironment.application);
 	}
 
 	private Context getContext() {

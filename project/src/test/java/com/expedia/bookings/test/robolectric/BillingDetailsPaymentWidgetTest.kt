@@ -272,7 +272,7 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testSavedPaymentOffForRail() {
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(getUserWithStoredCard())
+        UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
         // Make sure we meet all other requirements before asserting rail
         assertTrue(billingDetailsPaymentWidget.shouldShowPaymentOptions())
 

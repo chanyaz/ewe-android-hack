@@ -18,7 +18,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
-import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -28,15 +27,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class HotelDetailsTest {
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
@@ -54,7 +50,7 @@ class HotelDetailsTest {
         activity.setTheme(R.style.Theme_Hotels_Control)
         CurrencyUtils.initMap(activity)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = HotelDetailViewModel(activity.applicationContext)
+        vm = HotelDetailViewModel(activity)
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()

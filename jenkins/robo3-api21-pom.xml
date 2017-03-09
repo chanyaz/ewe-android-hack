@@ -6,7 +6,7 @@
 
     <groupId>org.robolectric</groupId>
     <artifactId>robolectric-files</artifactId>
-    <version>3.0</version>
+    <version>3.2.2</version>
     <packaging>pom</packaging>
     <description>Robolectric Test Runner files.</description>
     <url>http://robolectric.org/</url>
@@ -20,8 +20,7 @@
         <dependency>
             <groupId>org.robolectric</groupId>
             <artifactId>shadows-core</artifactId>
-            <version>3.0</version>
-            <classifier>21</classifier>
+            <version>3.2.2</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>

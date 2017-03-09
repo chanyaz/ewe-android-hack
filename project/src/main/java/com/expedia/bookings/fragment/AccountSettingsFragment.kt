@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
-import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
@@ -188,7 +187,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
         gestureDetector = GestureDetectorCompat(context, mOnGestureListener)
         var builder: AboutSectionFragment.Builder
-        val ft = activity.supportFragmentManager.beginTransaction()
+        val ft = childFragmentManager.beginTransaction()
         setGoogleAccountChangeVisiblity(googleAccountChange)
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
 

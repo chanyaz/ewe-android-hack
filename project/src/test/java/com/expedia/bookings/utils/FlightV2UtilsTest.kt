@@ -121,11 +121,11 @@ class FlightV2UtilsTest {
         var showDistance = false
 
         val controlString = FlightV2Utils.getStylizedFlightDurationString(activity, testFlightLeg, R.color.packages_total_duration_text, showDistance)
-        assertEquals("Total Duration: 2h 20m", controlString)
+        assertEquals("Total Duration: 2h 20m", controlString.toString())
 
         showDistance = true
         val variantString = FlightV2Utils.getStylizedFlightDurationString(activity, testFlightLeg, R.color.packages_total_duration_text, showDistance)
-        assertEquals("Total Duration: 2h 20m • 939 miles", variantString)
+        assertEquals("Total Duration: 2h 20m • 939 miles", variantString.toString())
     }
 
     @Test

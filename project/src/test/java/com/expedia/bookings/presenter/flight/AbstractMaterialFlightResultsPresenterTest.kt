@@ -1,8 +1,10 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
+import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
@@ -20,6 +22,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -137,8 +140,10 @@ class AbstractMaterialFlightResultsPresenterTest {
     }
 
     private fun createSystemUnderTest(isOutboundPresenter: Boolean) {
-        sut = TestFlightResultsPresenter(context, null, isOutboundPresenter)
-        sut.flightOfferViewModel = FlightOffersViewModel(context, service)
+        val activity = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Packages)
+        sut = TestFlightResultsPresenter(activity, null, isOutboundPresenter)
+        sut.flightOfferViewModel = FlightOffersViewModel(activity, service)
         sut.setupComplete()
     }
 

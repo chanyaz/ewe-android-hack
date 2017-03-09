@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -21,7 +20,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
-import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -35,7 +33,6 @@ class HotelCheckoutOverviewViewModelTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
-    lateinit var context: Context
     lateinit var hotelProductResponse: HotelCreateTripResponse.HotelProductResponse
     lateinit var hotelcreateTripResponse: HotelCreateTripResponse
     lateinit var sut: HotelCheckoutOverviewViewModel
@@ -45,9 +42,8 @@ class HotelCheckoutOverviewViewModelTest {
     fun setup() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Control)
-        context = activity.application
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        sut = HotelCheckoutOverviewViewModel(context, paymentModel)
+        sut = HotelCheckoutOverviewViewModel(activity, paymentModel)
     }
 
     @Test
@@ -96,13 +92,7 @@ class HotelCheckoutOverviewViewModelTest {
 
         paymentSplitsSubscriber.assertValueCount(4)
 
-        totalPriceChargedSubscriber.assertValues("You are using 2,500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2,500 ($1,000.00) Expedia+ points" ,"You are using 14,005 ($100.00) Expedia+ points\\nYour card will be charged $3.70")
-    }
-
-    @Test
-    fun totalPriceChargedWithPayLater() {
-        //TODO
-        //When user chooses the option of PayLater or changes the splits
+        totalPriceChargedSubscriber.assertValues("You are using 2,500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2,500 ($1,000.00) Expedia+ points" ,"You are using 14,005 ($100.00) Expedia+ points\nYour card will be charged $3.70")
     }
 
     @Test
@@ -121,12 +111,6 @@ class HotelCheckoutOverviewViewModelTest {
         hotelProductResponse.hotelRoomResponse.isPayLater = true
     }
 
-    private fun givenHotelHasDepositAmountToShowUsers(amountToShow: Double) {
-        val df = DecimalFormat("#")
-
-        hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.depositAmount = df.format(amountToShow).toString()
-    }
-
     private fun givenHotelMustShowResortFee() {
         givenHappyCreateTripResponse()
         hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage = true
@@ -138,7 +122,7 @@ class HotelCheckoutOverviewViewModelTest {
     }
 
     private fun getCreateTripResponse(hasRedeemablePoints: Boolean): HotelCreateTripResponse {
-        var createTripResponse: HotelCreateTripResponse
+        val createTripResponse: HotelCreateTripResponse
         if (hasRedeemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         else

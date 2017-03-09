@@ -345,7 +345,7 @@ class TravelerValidatorTest {
         user.primaryTraveler = traveler
         user.primaryTraveler.passengerCategory = PassengerCategory.ADULT
 
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
         assertTrue(User.isLoggedIn(getContext()))
 
         assertTrue(travelerValidator.isValidForFlightBooking(traveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
@@ -365,7 +365,7 @@ class TravelerValidatorTest {
         user.primaryTraveler = traveler
         user.primaryTraveler.passengerCategory = PassengerCategory.ADULT
 
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
         assertTrue(User.isLoggedIn(getContext()))
 
         assertTrue(travelerValidator.isValidForFlightBooking(guestTraveler, addTravelerIndex, false, User.isLoggedIn(getContext())))

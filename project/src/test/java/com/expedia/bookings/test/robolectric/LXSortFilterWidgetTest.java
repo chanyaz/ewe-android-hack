@@ -50,6 +50,7 @@ public class LXSortFilterWidgetTest {
 	@Test
 	public void testLXSortAndFilterWidgetViews() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
 		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.test_lx_sort_filter_widget, null);
 		assertNotNull(widget);
@@ -85,6 +86,7 @@ public class LXSortFilterWidgetTest {
 	@Test
 	public void testClearFilter() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
 		LXSortFilterWidget widget = (LXSortFilterWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.test_lx_sort_filter_widget, null);
 		assertNotNull(widget);

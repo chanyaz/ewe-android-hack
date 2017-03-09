@@ -280,9 +280,9 @@ public class HotelsV2DataUtilTest {
 	private void signInUserWithPoints() {
 		UserLoyaltyMembershipInformation loyaltyInfo = new UserLoyaltyMembershipInformation();
 		loyaltyInfo.setAllowedToShopWithPoints(true);
-		User user = UserLoginTestUtil.Companion.mockUser();
+		User user = UserLoginTestUtil.mockUser();
 		user.setLoyaltyMembershipInformation(loyaltyInfo);
-		UserLoginTestUtil.Companion.setupUserAndMockLogin(user);
+		UserLoginTestUtil.setupUserAndMockLogin(user);
 		Assert.assertTrue(User.isLoggedIn(context));
 	}
 

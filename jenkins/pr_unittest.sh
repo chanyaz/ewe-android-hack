@@ -16,6 +16,7 @@ function prepareLocalMavenRepo() {
   if [ -n `which mvn` ]; then
     mvn -f jenkins/robo3-api18-pom.xml dependency:go-offline
     mvn -f jenkins/robo3-api21-pom.xml dependency:go-offline
+    mvn -f jenkins/robo3-api23-pom.xml dependency:go-offline
   fi
 }
 

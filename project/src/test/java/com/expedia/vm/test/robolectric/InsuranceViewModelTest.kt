@@ -29,10 +29,10 @@ class InsuranceViewModelTest {
 
     @Before
     fun setup() {
-        Robolectric.buildActivity(Activity::class.java).create().get().setTheme(R.style.NewLaunchTheme)
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.NewLaunchTheme)
 
-        val context = org.robolectric.RuntimeEnvironment.application
-        sut = InsuranceViewModel(context, Mockito.mock(InsuranceServices::class.java))
+        sut = InsuranceViewModel(activity, Mockito.mock(InsuranceServices::class.java))
     }
 
     @Test
@@ -66,11 +66,7 @@ class InsuranceViewModelTest {
 
     @Test
     fun widgetIsVisibleWhenInsuranceIsAvailableAndBucketed() {
-        Robolectric.buildActivity(Activity::class.java).create().get().setTheme(R.style.NewLaunchTheme)
-
-        val context = org.robolectric.RuntimeEnvironment.application
         val widgetVisibilitySubscriber = TestSubscriber<Boolean>()
-        val sut = InsuranceViewModel(context, Mockito.mock(InsuranceServices::class.java))
         sut.widgetVisibilityObservable.subscribe(widgetVisibilitySubscriber)
 
         sut.tripObservable.onNext(tripResponseWithInsuranceAvailableButNotSelected(FlightType.DOMESTIC))

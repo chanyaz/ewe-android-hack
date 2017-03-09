@@ -36,17 +36,27 @@ class DeepLinkRouterActivityTest {
         val hotelSearchUrl = "expda://hotelSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(hotelSearchUrl)
 
-        val expectedIntent = Intent(deepLinkRouterActivity, HotelActivity::class.java)
-        expectedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        expectedIntent.putExtra(Codes.FROM_DEEPLINK, true)
         val params = HotelSearchParams()
         val v2params = HotelsV2DataUtil.getHotelV2SearchParams(context, params)
         val gson = HotelsV2DataUtil.generateGson()
-        expectedIntent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(v2params))
-        expectedIntent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true)
 
-        val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
-        assertEquals(expectedIntent, nextStartedActivity)
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+        assertIntentForActivity(HotelActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, Codes.FROM_DEEPLINK, startedIntent)
+        assertStringExtraEquals(gson.toJson(v2params), HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, startedIntent)
+        assertBooleanExtraEquals(true, Codes.TAG_EXTERNAL_SEARCH_PARAMS, startedIntent)
+    }
+
+    private fun assertBooleanExtraEquals(expected: Boolean, extraName: String, startedIntent: Intent) {
+        assertEquals(expected, startedIntent.getBooleanExtra(extraName, !expected))
+    }
+
+    private fun assertStringExtraEquals(expected: String, extraName: String, startedIntent: Intent) {
+        assertEquals(expected, startedIntent.getStringExtra(extraName))
+    }
+
+    private fun assertIntentForActivity(expectedActivityClass: Class<*>, startedIntent: Intent) {
+        assertEquals(expectedActivityClass.name, startedIntent.component.className)
     }
 
     @Test
@@ -54,13 +64,12 @@ class DeepLinkRouterActivityTest {
         val hotelSearchUrl = "expda://flightSearch"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(hotelSearchUrl)
 
-        val expectedIntent = Intent(deepLinkRouterActivity, FlightActivity::class.java)
         val params = FlightSearchParams()
         val gson = FlightsV2DataUtil.generateGson()
-        expectedIntent.putExtra(Codes.SEARCH_PARAMS, gson.toJson(params))
 
-        val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
-        assertEquals(expectedIntent, nextStartedActivity)
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+        assertIntentForActivity(FlightActivity::class.java, startedIntent)
+        assertStringExtraEquals(gson.toJson(params), Codes.SEARCH_PARAMS, startedIntent)
     }
 
     @Test
@@ -68,16 +77,16 @@ class DeepLinkRouterActivityTest {
         val homeUrl = "expda://home"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(homeUrl)
 
-        val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
-        val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
-        expectedIntent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true)
-        assertEquals(expectedIntent, nextStartedActivity)
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+
+        assertIntentForActivity(NewPhoneLaunchActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, startedIntent)
     }
 
     @Test
     fun forceBucketDeepLink() {
         val forceBucketUrl = "expda://forceBucket?key=1111&value=0"
-        val deepLinkRouterActivity = getDeepLinkRouterActivity(forceBucketUrl)
+        getDeepLinkRouterActivity(forceBucketUrl)
         assertEquals(0, ForceBucketPref.getForceBucketedTestValue(context, "1111", -1))
     }
 
@@ -153,10 +162,10 @@ class DeepLinkRouterActivityTest {
     }
 
     private fun assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity: TestDeepLinkRouterActivity) {
-        val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
-        val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
-        expectedIntent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true)
-        assertEquals(expectedIntent, nextStartedActivity)
+        val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+
+        assertIntentForActivity(NewPhoneLaunchActivity::class.java, startedIntent)
+        assertBooleanExtraEquals(true, NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, startedIntent)
     }
 
     private fun createMockItineraryManager(): ItineraryManager {

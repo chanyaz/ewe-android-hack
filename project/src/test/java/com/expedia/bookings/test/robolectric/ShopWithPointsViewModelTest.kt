@@ -60,8 +60,7 @@ class ShopWithPointsViewModelTest {
 
     @Test
     fun loggedInUserWithoutLoyaltyPoints() {
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(mockUser())
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(mockUser())
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
@@ -79,7 +78,7 @@ class ShopWithPointsViewModelTest {
         loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
         loyaltyInfo.isAllowedToShopWithPoints = true
         user.loyaltyMembershipInformation = loyaltyInfo
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
 
@@ -102,7 +101,7 @@ class ShopWithPointsViewModelTest {
         loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
         loyaltyInfo.isAllowedToShopWithPoints = true
         user.loyaltyMembershipInformation = loyaltyInfo
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(user)
 
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)

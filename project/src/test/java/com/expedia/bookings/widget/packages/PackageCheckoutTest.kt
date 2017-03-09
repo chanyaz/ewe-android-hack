@@ -47,7 +47,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -55,7 +54,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class PackageCheckoutTest {
 
@@ -110,7 +109,7 @@ class PackageCheckoutTest {
         checkout.paymentWidget.validateAndBind()
         checkout.onSlideAllTheWay()
 
-        errorResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        errorResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         errorResponseSubscriber.assertValueCount(1)
         errorResponseSubscriber.assertValue(ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS))
 
@@ -118,7 +117,7 @@ class PackageCheckoutTest {
         checkout.paymentWidget.validateAndBind()
         checkout.onSlideAllTheWay()
 
-        checkoutResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        checkoutResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         checkoutResponseSubscriber.assertValueCount(1)
 
         assertEquals("malcolmnguyen@gmail.com", checkoutResponseSubscriber.onNextEvents[0].second)
@@ -140,7 +139,7 @@ class PackageCheckoutTest {
         testUser.addStoredCreditCard(testCard2)
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         checkout.onLoginSuccess()
 
@@ -164,11 +163,11 @@ class PackageCheckoutTest {
         testUser.addStoredCreditCard(testThirdInvalidCard)
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         checkout.onLoginSuccess()
 
-        testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(true, testUserLoggedIn.onNextEvents[0])
         assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, null)
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
@@ -192,10 +191,10 @@ class PackageCheckoutTest {
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
         checkout.onLoginSuccess()
 
-        testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        testUserLoggedIn.awaitValueCount(1, 1, TimeUnit.SECONDS)
         assertEquals(true, testUserLoggedIn.onNextEvents[0])
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
@@ -208,7 +207,7 @@ class PackageCheckoutTest {
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
 
-        tripResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
+        tripResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         tripResponseSubscriber.assertValueCount(1)
 
         checkout.updateTravelerPresenter()

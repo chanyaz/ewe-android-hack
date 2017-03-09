@@ -1,15 +1,6 @@
 package com.expedia.bookings.test
 
 import android.app.Activity
-import java.util.ArrayList
-
-import org.joda.time.LocalDate
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.robolectric.Shadows
-import org.robolectric.shadows.ShadowApplication
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
@@ -26,11 +17,18 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.CarActivity
 import com.expedia.vm.packages.PackageConfirmationViewModel
+import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -54,7 +52,7 @@ class PackageConfirmationViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pkgLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"
@@ -68,7 +66,7 @@ class PackageConfirmationViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun zeroPkgLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "0"
@@ -81,7 +79,7 @@ class PackageConfirmationViewModelTest {
 
     @Test
     fun nullPkgLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = null
@@ -94,7 +92,7 @@ class PackageConfirmationViewModelTest {
 
     @Test
     fun noShowPkgLoyaltyPoints(){
-        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"

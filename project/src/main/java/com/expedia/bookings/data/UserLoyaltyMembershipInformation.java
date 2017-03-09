@@ -48,6 +48,10 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		return loyaltyMonetaryValue;
 	}
 
+	public void setLoyaltyMonetaryValue(LoyaltyMonetaryValue monetaryValue) {
+		loyaltyMonetaryValue = monetaryValue;
+	}
+
 	public boolean isLoyaltyMembershipActive() {
 		return isLoyaltyMembershipActive;
 	}
@@ -110,7 +114,7 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		return true;
 	}
 
-	public class LoyaltyMonetaryValue extends Money implements JSONable {
+	public static class LoyaltyMonetaryValue extends Money implements JSONable {
 
 		private String apiFormattedPrice;
 
@@ -120,6 +124,10 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 
 		public LoyaltyMonetaryValue(Money money) {
 			super(money.amount, money.currencyCode);
+		}
+
+		public void setApiFormattedPrice(String apiFormattedPrice) {
+			this.apiFormattedPrice = apiFormattedPrice;
 		}
 
 		@Override

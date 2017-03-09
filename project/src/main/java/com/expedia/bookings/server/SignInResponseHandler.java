@@ -53,7 +53,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					loc.setPostalCode(addr.optString("postalCode", null));
 					loc.setCountryCode(addr.optString("countryAlpha3Code", null));
 
-					List<String> addrLines = new ArrayList<String>();
+					List<String> addrLines = new ArrayList<>();
 					for (String key : new String[] { "firstAddressLine", "secondAddressLine" }) {
 						String line = addr.optString(key, null);
 						if (line != null) {

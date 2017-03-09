@@ -21,6 +21,7 @@ class CarFilterWidgetTest {
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Cars)
         carFilterWidget = LayoutInflater.from(activity).inflate(R.layout.test_car_filter_widget, null) as CarFilterWidget
     }
 

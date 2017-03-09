@@ -19,7 +19,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.packages.PackageHotelCellViewHolder
-import com.expedia.vm.packages.PackageHotelViewModel
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -27,11 +26,10 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PackageUnrealDealTest {
     private var hotelCellView: ViewGroup by Delegates.notNull()
     private var packageHotelHolder: PackageHotelCellViewHolder by Delegates.notNull()

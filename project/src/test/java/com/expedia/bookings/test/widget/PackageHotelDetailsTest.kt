@@ -12,7 +12,6 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.HotelDetailView
-import com.expedia.util.endlessObserver
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import org.joda.time.LocalDate
 import org.junit.Assert
@@ -20,14 +19,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowResourcesEB
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class PackageHotelDetailsTest {
 
     private var vm: PackageHotelDetailViewModel by Delegates.notNull()
@@ -44,7 +40,7 @@ class PackageHotelDetailsTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = PackageHotelDetailViewModel(activity.applicationContext)
+        vm = PackageHotelDetailViewModel(activity)
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()
