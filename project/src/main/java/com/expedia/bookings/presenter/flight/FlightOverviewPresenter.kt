@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
@@ -26,7 +27,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val viewModel = FlightCheckoutSummaryViewModel()
     val isBucketedForExpandedRateDetailsTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
-
+    val overviewContainer : LinearLayout by bindView(R.id.overview_container)
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
@@ -47,13 +48,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.flight_overview, this)
+        View.inflate(context, R.layout.flight_overview_v2, this)
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        removeView(flightSummary)
-        bundleOverviewHeader.nestedScrollView.addView(flightSummary)
+        removeView(overviewContainer)
+        bundleOverviewHeader.nestedScrollView.addView(overviewContainer)
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationLabelTextView)
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)

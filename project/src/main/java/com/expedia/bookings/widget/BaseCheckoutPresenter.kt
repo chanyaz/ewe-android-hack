@@ -400,17 +400,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
 
-    open inner class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, paymentWidget.javaClass) {
-
-        override fun startTransition(forward: Boolean) {
-            presenter.startDefaultToPaymentTransition(forward)
-        }
-
-        override fun endTransition(forward: Boolean) {
-            presenter.endDefaultToPaymentTransition(forward)
-        }
-    }
-
+    open inner class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, paymentWidget.javaClass)
     private fun endDefaultToPaymentTransition(forward: Boolean) {
         if (!forward) {
             ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)

@@ -180,7 +180,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.toolbarDropShadow.visibility = View.GONE
-            checkoutPresenter.mainContent.visibility = View.GONE
+            //checkoutPresenter.mainContent.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
             trackShowBundleOverview()

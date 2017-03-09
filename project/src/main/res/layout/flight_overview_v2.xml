@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.widget.BundleOverviewHeader
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" />
+
+    <LinearLayout
+        android:id="@+id/overview_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <com.expedia.bookings.presenter.flight.FlightSummaryWidget
+        android:id="@+id/flight_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
+        android:id="@+id/checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fitsSystemWindows="true" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/checkout_button"
+            style="@style/MaterialFooterRoundButtonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_margin="9dp"
+            android:text="@string/Checkout" />
+    </FrameLayout>
+
+
+    <com.expedia.bookings.widget.CVVEntryWidget
+        android:id="@+id/cvv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3A424C"
+        android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/payment_fee_info_webview_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/payment_fee_info_webview"
+        android:layout="@layout/payment_fee_info_webview_stub" />
+
+</merge>
