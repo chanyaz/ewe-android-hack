@@ -270,6 +270,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.rail_confirmation_presenter,
 		R.layout.widget_rail_search_params,
 		R.color.hotel_favorite_button,
+		R.string.continue_booking,
 		R.layout.widget_rail_outbound_results,
 		R.layout.rail_details_presenter,
 		R.layout.rail_checkout_presenter,

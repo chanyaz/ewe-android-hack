@@ -15,7 +15,9 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -155,6 +157,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppCheckoutButtonText)
+        if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
+            checkoutButton.text = context.getString(R.string.continue_booking)
+        } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
+            checkoutButton.text = context.getString(R.string.next)
+        }
         addDefaultTransition(defaultTransition)
         addTransition(checkoutTransition)
         addTransition(checkoutToCvv)

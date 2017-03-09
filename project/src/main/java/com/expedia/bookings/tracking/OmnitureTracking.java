@@ -1523,7 +1523,6 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN = "App.Flight.Search.Roundtrip.In";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS = "App.Flight.Search.Roundtrip.In.Details";
 	private static final String FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE = "App.Flight.Search.Roundtrip.In.BaggageFee";
-	private static final String FLIGHT_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHT_CHECKOUT_INFO = "App.Flight.Checkout.Info";
 	private static final String FLIGHT_CHECKOUT_LOGIN = "App.Flight.Checkout.Login";
 	private static final String FLIGHT_CHECKOUT_TRAVELER_SELECT = "App.Flight.Checkout.Traveler.Select";
@@ -5643,6 +5642,8 @@ public class OmnitureTracking {
 		LocalDate returnDate = flightSearchParams.getReturnDate();
 
 		setDateValues(s, departureDate, returnDate);
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
 
 		s.setProducts(getFlightProductString(false));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);
