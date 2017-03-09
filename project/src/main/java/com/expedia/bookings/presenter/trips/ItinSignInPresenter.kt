@@ -79,11 +79,6 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             signInWidget.viewModel.syncFailure(error)
         }
 
-        override fun onTripAdded(trip: Trip?) {
-            super.onTripAdded(trip)
-            show(signInWidget, Presenter.FLAG_CLEAR_TOP)
-        }
-
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             signInWidget.viewModel.syncError(trips)
             if (trips?.size == 0 && currentState != addGuestItinWidget.javaClass.name){
