@@ -34,7 +34,7 @@ public class PackageHotelResultsTest extends PackageTestCase {
 		onView(withId(R.id.menu_open_search)).check(doesNotExist());
 		onView(withId(R.id.filter_count_text)).check(matches(not(isDisplayed())));
 		onView(withId(R.id.filter_btn)).perform(click());
-		onView(withId(R.id.rating_four_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_four)).perform(click());
 		pressBack();
 		assertViewWithTextIsDisplayed(R.id.filter_count_text, "1");
 		onView(withId(R.id.filter_text)).check(matches(not(isDisplayed())));

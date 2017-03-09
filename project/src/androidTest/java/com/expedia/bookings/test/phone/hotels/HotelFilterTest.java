@@ -39,7 +39,7 @@ public class HotelFilterTest extends HotelTestCase {
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
 		onView(withId(R.id.filter_vip_container)).perform(click());
-		onView(withId(R.id.rating_one_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
 		onView(withId(R.id.collapsed_container)).perform(scrollTo());
 		onView(withText("Civic Center")).perform(click());
 
@@ -58,18 +58,18 @@ public class HotelFilterTest extends HotelTestCase {
 		onView(withId(R.id.filter_vip_container)).perform(click());
 		filterResultsSnackBarCounter().check(matches(withText("1 Result")));
 
-		onView(withId(R.id.rating_one_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
 		filterResultsSnackBar().check(matches(isDisplayed()));
 		filterResultsSnackBarCounter().check(matches(withText("0 Results")));
 
 		//deselect the filters, results snack bar hides
-		onView(withId(R.id.rating_one_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
 		onView(withId(R.id.collapsed_container)).perform(scrollTo());
 		onView(withId(R.id.filter_vip_container)).perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 
 		//clear filter,results snack bar hides
-		onView(withId(R.id.rating_one_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
 		HotelScreen.clearFilter().perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 	}
@@ -83,13 +83,13 @@ public class HotelFilterTest extends HotelTestCase {
 		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
-		onView(withId(R.id.rating_one_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
 		doneButton().perform(click());
 		doneButton().check(matches(isDisplayed()));
 
 		//from list to filter, return to result list
 		HotelScreen.clearFilter().perform(click());
-		onView(withId(R.id.rating_four_background)).perform(click());
+		onView(withId(R.id.hotel_filter_rating_four)).perform(click());
 		doneButton().perform(click());
 		HotelScreen.waitForResultsLoaded();
 		assertResultsViewVisibility(true);
