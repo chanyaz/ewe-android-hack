@@ -5,7 +5,8 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelFavoriteHelper
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -153,6 +154,9 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = 0f
         hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = 0f
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelDetailsGalleryPeak)) {
+            hotelDetailView.gallery.peakSecondImage()
+        }
     }
 
     override fun back(): Boolean {
