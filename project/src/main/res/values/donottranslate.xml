@@ -112,7 +112,6 @@
     <string name="preference_enable_hotel_loyalty_earn_message">preference_enable_hotel_loyalty_earn_message</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
-    <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
     <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
