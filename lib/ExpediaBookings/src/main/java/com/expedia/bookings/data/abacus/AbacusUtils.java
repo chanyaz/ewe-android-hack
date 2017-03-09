@@ -62,6 +62,7 @@ public class AbacusUtils {
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppLaunchShowActiveItinCard = 13357;
 	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
+	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariant {
@@ -121,6 +122,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
 		testIDs.add(EBAndroidAppLaunchShowActiveItinCard);
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
+		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		return testIDs;
 	}
 

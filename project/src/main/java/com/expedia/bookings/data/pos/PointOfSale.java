@@ -901,6 +901,10 @@ public class PointOfSale {
 		return mShouldFormatTravelerPhoneNumber;
 	}
 
+	public String getHotelsResultsSortFaqUrl() {
+		return getPosLocale().getHotelResultsSortFaqUrl();
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
