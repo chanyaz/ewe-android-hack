@@ -8,24 +8,10 @@ import java.util.HashMap
 
 open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, val shopWithPoints: Boolean, val filterUnavailable: Boolean, val sortType: String? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
-    var filterHotelName: String? = null
-    var filterStarRatings: List<Int> = emptyList()
+    var filterOptions: HotelFilterOptions? = null
 
     fun isCurrentLocationSearch(): Boolean {
         return suggestion.isCurrentLocationSearch
-    }
-
-    fun getFiltersQueryMap(): Map<String, Any?> {
-        val params = HashMap<String, Any?>()
-        if (!filterHotelName.isNullOrEmpty()) {
-            params.put("filterHotelName", filterHotelName)
-        }
-
-        if (filterStarRatings.isNotEmpty()) {
-            params.put("filterStarRatings", filterStarRatings.joinToString(","))
-        }
-
-        return params
     }
 
     class Builder(maxStay: Int, maxRange: Int, val filterUnavailable: Boolean = true) : BaseSearchParams.Builder(maxStay, maxRange) {
@@ -33,6 +19,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         private var shopWithPoints: Boolean = false
         var hotelName: String? = null
         var starRatings: List<Int> = emptyList()
+        var priceRange: PriceRange? = null
 
         fun forPackage(pkg: Boolean): Builder {
             this.isPackage = pkg
@@ -51,8 +38,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             val checkOutDate = endDate ?: throw IllegalArgumentException()
             var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children, shopWithPoints, filterUnavailable)
             params.forPackage = isPackage
-            params.filterHotelName = hotelName
-            params.filterStarRatings = starRatings
+            params.filterOptions = buildFilterOptions()
             return params
         }
 
@@ -66,6 +52,52 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
 
         override fun isOriginSameAsDestination(): Boolean {
             return false // not possible for hotel search
+        }
+
+        private fun buildFilterOptions() : HotelFilterOptions {
+            val filterOptions = HotelFilterOptions()
+            filterOptions.filterHotelName = hotelName
+            filterOptions.filterStarRatings = starRatings
+            filterOptions.filterPrice = priceRange
+            return filterOptions
+        }
+    }
+
+    class HotelFilterOptions {
+        var filterHotelName: String? = null
+        var filterStarRatings: List<Int> = emptyList()
+        var filterPrice: PriceRange? = null
+
+        fun getFiltersQueryMap(): Map<String, Any?> {
+            val params = HashMap<String, Any?>()
+            if (!filterHotelName.isNullOrEmpty()) {
+                params.put("filterHotelName", filterHotelName)
+            }
+
+            if (filterStarRatings.isNotEmpty()) {
+                params.put("filterStarRatings", filterStarRatings.joinToString(","))
+            }
+
+            if (filterPrice != null && filterPrice!!.isValid()) {
+                params.put("filterPrice", filterPrice!!.getPriceBuckets())
+            }
+
+            return params
+        }
+    }
+
+    data class PriceRange(val minPrice: Int, val maxPrice: Int) {
+        fun isValid(): Boolean {
+            return minPrice > 0 || maxPrice > 0
+        }
+
+        fun getPriceBuckets(): String {
+            val sb = StringBuffer()
+            sb.append(minPrice)
+            if (maxPrice > 0) {
+                sb.append(",").append(maxPrice)
+            }
+            return sb.toString()
         }
     }
 }

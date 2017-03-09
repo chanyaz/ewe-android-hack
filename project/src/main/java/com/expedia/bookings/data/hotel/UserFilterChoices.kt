@@ -30,6 +30,10 @@ data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfigurat
         return filterCount() == 0
     }
 
+    fun hasPriceRange(): Boolean {
+        return minPrice > 0 || maxPrice > 0
+    }
+
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false) {
         fun getStarRatingParamsAsList(): List<Int> {
             val ratings = ArrayList<Int>()

@@ -28,12 +28,12 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val neighborhoodExpandObservable = BehaviorSubject.create<Boolean>()
-    val sortContainerObservable = BehaviorSubject.create<Boolean>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
     val sortByObservable = PublishSubject.create<Sort>()
     val sortSpinnerObservable = PublishSubject.create<Sort>()
     val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
     val clientSideFilterObservable = BehaviorSubject.create<Boolean>()
+    val sortContainerObservable = BehaviorSubject.create<Boolean>()
     val sortContainerVisibilityObservable = sortContainerObservable.withLatestFrom(clientSideFilterObservable, { showSort, clientSide ->
         showSort && clientSide
     })

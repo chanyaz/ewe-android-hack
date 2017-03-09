@@ -190,7 +190,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             searchBuilder.starRatings = filterParams.hotelStarRating.getStarRatingParamsAsList()
         }
 
-        //TODO - add the rest of the filters...
+        if (filterParams.hasPriceRange()) {
+            searchBuilder.priceRange = HotelSearchParams.PriceRange(filterParams.minPrice, filterParams.maxPrice)
+        }
+
+        //TODO - add neighborhoods
     }
 
     private fun getSortTypeFromString(sortType: String?): Sort {
