@@ -240,4 +240,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             onFocusChange(view, hasFocus)
         }
     }
+
+    override fun resetErrorState() {
+        super.resetErrorState()
+        tsaEntryView.dateOfBirth.viewModel.errorSubject.onNext(false)
+        (viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(true)
+        tsaEntryView.genderEditText?.viewModel?.errorSubject?.onNext(false)
+    }
+
 }

@@ -61,6 +61,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
             if (viewModel.isTravelerEmpty(viewModel.getTraveler(travelerSelectItemViewModel.index))) {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.CLEAN)
+                travelerEntryWidget.resetErrorState()
             } else {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
             }
