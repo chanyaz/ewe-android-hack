@@ -13,7 +13,7 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.HotelFilterView
+import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.HotelClientFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
@@ -33,7 +33,7 @@ class HotelFilterViewTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
-    var hotelFilterView: HotelFilterView by Delegates.notNull()
+    var hotelFilterView: HotelClientFilterView by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
     private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
@@ -97,7 +97,7 @@ class HotelFilterViewTest {
     }
 
     private fun initViewModel() {
-        hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
+        hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelClientFilterView
         hotelFilterView.viewModel = HotelClientFilterViewModel(activity)
         hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
         hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }

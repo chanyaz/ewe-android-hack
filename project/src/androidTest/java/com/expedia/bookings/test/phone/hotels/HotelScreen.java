@@ -255,7 +255,7 @@ public class HotelScreen {
 	}
 
 	public static void waitForFilterDisplayed() {
-		onView(withId(R.id.filter_view)).perform(waitForViewToDisplay());
+		onView(withId(R.id.hotel_filter_view)).perform(waitForViewToDisplay());
 	}
 
 	public static void assertCalendarShown() {

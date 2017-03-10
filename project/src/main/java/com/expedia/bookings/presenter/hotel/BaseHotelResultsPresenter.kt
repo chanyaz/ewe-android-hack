@@ -26,6 +26,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -55,9 +56,10 @@ import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelCarouselRecycler
-import com.expedia.bookings.widget.HotelFilterView
+import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.HotelMarkerIconGenerator
@@ -99,7 +101,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     var mapView: MapView by Delegates.notNull()
     open val loadingOverlay: MapLoadingOverlayWidget? = null
-    val filterView: HotelFilterView by bindView(R.id.filter_view)
+
     val toolbar: Toolbar by bindView(R.id.hotel_results_toolbar)
     val toolbarTitle: android.widget.TextView by bindView(R.id.title)
     val toolbarSubtitle: android.widget.TextView by bindView(R.id.subtitle)
@@ -108,14 +110,25 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
 
-    var adapter: BaseHotelListAdapter by Delegates.notNull()
-    open val searchThisArea: Button? = null
-    var isMapReady = false
-    val sortFaqWebView: HotelResultsSortFaqWebView by lazy {
+    open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
+
+    var filterCountText: TextView by Delegates.notNull()
+    var filterPlaceholderImageView: ImageView by Delegates.notNull()
+
+    protected val filterView: BaseHotelFilterView by lazy {
+        inflateFilterView(filterViewStub)
+    }
+    private val filterViewStub: ViewStub by bindView(R.id.hotel_filter_view_stub)
+
+    private val sortFaqWebView: HotelResultsSortFaqWebView by lazy {
         val webView = findViewById(R.id.sort_faq_web_view) as HotelResultsSortFaqWebView
         webView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         webView
     }
+
+    var adapter: BaseHotelListAdapter by Delegates.notNull()
+    open val searchThisArea: Button? = null
+    var isMapReady = false
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -143,10 +156,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     var googleMap: GoogleMap? = null
 
-    open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
-
-    var filterCountText: TextView by Delegates.notNull()
-    var filterPlaceholderImageView: ImageView by Delegates.notNull()
     var filterBtn: LinearLayout? = null
 
     val searchOverlaySubject = PublishSubject.create<Unit>()
@@ -215,6 +224,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (animateCarousel && currentState == ResultsMap::class.java.name) {
             animateMapCarouselIn()
         }
+    }
+
+    protected fun inflateClientFilterView(viewStub: ViewStub) : HotelClientFilterView {
+        viewStub.layoutResource = R.layout.hotel_client_filter_stub;
+        return viewStub.inflate() as HotelClientFilterView
     }
 
     protected fun animateMapCarouselIn() {
@@ -341,7 +355,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     override fun back(): Boolean {
         if (ResultsFilter().javaClass.name == currentState) {
             if (filterView.viewModel.isFilteredToZeroResults()) {
-                filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+                filterView.shakeForError()
                 return true
             } else {
                 filterView.viewModel.doneObservable.onNext(Unit)
@@ -366,10 +380,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         recyclerView.adapter = adapter
         filterView.viewModel = createFilterViewModel()
+        filterView.viewModel.filterObservable.subscribe(filterObserver)
 
-        if (filterView.viewModel.isClientSideFiltering()) {
-            filterView.viewModel.filterObservable.subscribe(filterObserver)
-        } else {
+        if (!filterView.viewModel.isClientSideFiltering()) {
             filterView.viewModel.filterByParamsObservable.subscribe { params ->
                 viewModel.filterParamsSubject.onNext(params)
             }
@@ -1009,6 +1022,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.visibility = View.VISIBLE
             filterScreenShown = forward
             if (forward) {
+                sortFilterButtonTransition?.jumpToTarget()
                 fab.visibility = View.GONE
             } else {
                 recyclerView.visibility = View.VISIBLE
@@ -1022,12 +1036,16 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             super.updateTransition(f, forward)
             val translatePercentage = if (forward) 1 - f else f
             filterView.translationY = filterView.height * translatePercentage
+            if (!forward) {
+                sortFilterButtonTransition?.toOrigin(f)
+            }
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
+            if (!forward) sortFilterButtonTransition?.jumpToOrigin()
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
@@ -1253,6 +1271,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     abstract fun inflate()
+    abstract fun inflateFilterView(viewStub: ViewStub) : BaseHotelFilterView
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()

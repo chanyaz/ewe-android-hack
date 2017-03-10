@@ -4674,7 +4674,7 @@
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_less_cont_desc">แสดงสายการบินน้อยลง ปุ่ม</string>
     <!--Content description for clear button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_clear_button_cont_desc">นำตัวกรองออก ปุ่ม</string>
+    <string name="search_filter_clear_button_cont_desc">นำตัวกรองออก ปุ่ม</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">ยอดรวมแพ็คเกจ {totalprice} ราคานี้รวมภาษี ค่าธรรมเนียม ของทั้งเที่ยวบินและโรงแรม {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->

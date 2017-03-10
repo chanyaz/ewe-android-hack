@@ -7,9 +7,13 @@ class HotelServerFilterViewModel(context: Context) : BaseHotelFilterViewModel(co
     init {
         doneButtonEnableObservable.onNext(true)
         doneObservable.subscribe {
+            val filterCount = userFilterChoices.filterCount()
             filterCountObservable.onNext(userFilterChoices.filterCount())
-            //TODO Handle the case when filter criteria are reset - show original response to prevent searching again
-            filterByParamsObservable.onNext(userFilterChoices)
+            if (filterCount != 0) {
+                filterByParamsObservable.onNext(userFilterChoices)
+            } else {
+                filterObservable.onNext(originalResponse)
+            }
         }
     }
 

@@ -37,7 +37,7 @@
                 android:textColor="?attr/primary_color"
                 android:textSize="13sp"
                 app:textStyle="normal"
-                android:contentDescription="@string/packages_flight_search_filter_clear_button_cont_desc"/>
+                android:contentDescription="@string/search_filter_clear_button_cont_desc"/>
 
         </LinearLayout>
 </merge>

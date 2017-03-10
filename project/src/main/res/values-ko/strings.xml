@@ -4674,7 +4674,7 @@
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_less_cont_desc">항공사 간단히 보기. 버튼</string>
     <!--Content description for clear button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_clear_button_cont_desc">필터 지우기. 버튼</string>
+    <string name="search_filter_clear_button_cont_desc">필터 지우기. 버튼</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">패키지 총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->

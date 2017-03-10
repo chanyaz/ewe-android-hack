@@ -4674,7 +4674,7 @@
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_less_cont_desc">隐藏其他航空公司。按钮</string>
     <!--Content description for clear button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_clear_button_cont_desc">清除筛选条件。按钮</string>
+    <string name="search_filter_clear_button_cont_desc">清除筛选条件。按钮</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">套餐总价为{totalprice}。此价格不含机票和酒店的税费。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->

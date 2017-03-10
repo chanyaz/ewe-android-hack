@@ -42,7 +42,7 @@ import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import rx.Observer
 
-class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterHotelFavorite: CheckBox by bindView(R.id.filter_hotel_favorite)
@@ -54,8 +54,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: AccessibleEditText by bindView(R.id.filter_hotel_name_edit_text)
     val clearNameButton: ImageView by bindView(R.id.clear_search_button)
-    val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
-    val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
 
     val doneButton: Button by lazy {
@@ -125,6 +123,50 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
+        bindViewModel(vm)
+    }
+
+    init {
+        inflate()
+        if (PointOfSale.getPointOfSale().supportsVipAccess()) {
+            filterVipContainer.visibility = View.VISIBLE
+            optionLabel.visibility = View.VISIBLE
+        }
+
+        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        if (statusBarHeight > 0) {
+            val color = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
+            val statusBar = Ui.setUpStatusBar(context, toolbar, filterContainer, color)
+            addView(statusBar)
+        }
+
+        toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
+        toolbar.title = resources.getString(R.string.sort_and_filter)
+        toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
+        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
+
+        toolbar.menu.findItem(R.id.apply_check).actionView = doneButton
+
+        filterContainer.viewTreeObserver.addOnScrollChangedListener {
+            val scrollY = filterContainer.scrollY
+            val ratio = (scrollY).toFloat() / 100
+            toolbarDropshadow.alpha = ratio
+        }
+
+        sortByAdapter.setNotifyOnChange(false)
+        sortByButtonGroup.adapter = sortByAdapter
+        resetStars()
+    }
+
+    open fun shakeForError() {}
+
+    protected val clearFilterClickListener = View.OnClickListener { view ->
+        view?.announceForAccessibility(context.getString(R.string.filters_cleared))
+        viewModel.clearObservable.onNext(Unit)
+        viewModel.trackClearFilter()
+    }
+
+    open protected fun bindViewModel(vm: BaseHotelFilterViewModel) {
         doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerObservable.subscribeVisibility(priceRangeContainer)
         vm.priceRangeContainerObservable.subscribeVisibility(priceHeader)
@@ -140,12 +182,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 updateFavoriteFilter()
                 HotelTracking.trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
             }
-        }
-
-        dynamicFeedbackClearButton.setOnClickListener {
-            dynamicFeedbackClearButton.announceForAccessibility(context.getString(R.string.filters_cleared))
-            vm.clearObservable.onNext(Unit)
-            vm.trackClearFilter()
         }
 
         vm.finishClear.subscribe {
@@ -165,7 +201,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }
             }
 
-            dynamicFeedbackWidget.hideDynamicFeedback()
             neighborhoodMoreLessView.visibility = View.GONE
         }
 
@@ -229,19 +264,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             doneButton.isEnabled = enable
         }
 
-        vm.updateDynamicFeedbackWidget.subscribe {
-            if (it < 0) {
-                dynamicFeedbackWidget.hideDynamicFeedback()
-            } else {
-                dynamicFeedbackWidget.showDynamicFeedback()
-                dynamicFeedbackWidget.setDynamicCounterText(it)
-            }
-        }
-
-        vm.filteredZeroResultObservable.subscribe {
-            dynamicFeedbackWidget.animateDynamicFeedbackWidget()
-        }
-
         filterHotelName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
             }
@@ -257,7 +279,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         filterHotelName.setOnFocusChangeListener { view, isFocus ->
             if (!isFocus) {
-                com.mobiata.android.util.Ui.hideKeyboard(this)
+                Ui.hideKeyboard(this)
             }
         }
 
@@ -362,39 +384,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
-    init {
-        View.inflate(getContext(), R.layout.widget_hotel_filter, this)
-
-        if (PointOfSale.getPointOfSale().supportsVipAccess()) {
-            filterVipContainer.visibility = View.VISIBLE
-            optionLabel.visibility = View.VISIBLE
-        }
-
-        dynamicFeedbackWidget.hideDynamicFeedback()
-
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
-            val statusBar = Ui.setUpStatusBar(context, toolbar, filterContainer, color)
-            addView(statusBar)
-        }
-
-        toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
-        toolbar.title = resources.getString(R.string.sort_and_filter)
-        toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
-        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
-
-        toolbar.menu.findItem(R.id.apply_check).actionView = doneButton
-
-        filterContainer.viewTreeObserver.addOnScrollChangedListener {
-            val scrollY = filterContainer.scrollY
-            val ratio = (scrollY).toFloat() / 100
-            toolbarDropshadow.alpha = ratio
-        }
-
-        sortByAdapter.setNotifyOnChange(false)
-        sortByButtonGroup.adapter = sortByAdapter
-        resetStars()
+    open protected fun inflate() {
     }
 
     fun resetStars() {

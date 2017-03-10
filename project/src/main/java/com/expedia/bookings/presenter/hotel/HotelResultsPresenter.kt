@@ -12,6 +12,7 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewStub
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -29,9 +30,12 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
+import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
@@ -56,6 +60,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
+
     val searchMenu: MenuItem by lazy {
         val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
         searchMenu
@@ -219,6 +224,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_results, this)
+    }
+
+    override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters)) {
+            viewStub.layoutResource = R.layout.hotel_server_filter_view_stub;
+            return viewStub.inflate() as HotelServerFilterView
+        }
+
+        return inflateClientFilterView(viewStub)
     }
 
     override fun back(): Boolean {
