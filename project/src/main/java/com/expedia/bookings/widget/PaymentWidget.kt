@@ -133,6 +133,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
             if (lob.isMaterialFormEnabled(context)) {
                 sectionBillingInfo.setMaterialErrorStrings()
+                sectionBillingInfo.setMaterialDropdownResources()
                 sectionLocation.setMaterialErrorStrings()
             }
         }

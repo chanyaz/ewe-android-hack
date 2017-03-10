@@ -75,8 +75,8 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             creditCardNumber.setText(text)
             creditCardNumber.setSelection(text.length)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) {
-                defaultCreditCardNumberLayout?.visibility = VISIBLE
-                maskedCreditLayout?.visibility = GONE
+                defaultCreditCardNumberLayout?.visibility = GONE
+                maskedCreditLayout?.visibility = VISIBLE
             } else {
                 creditCardNumber.visibility = VISIBLE
                 maskedCreditCard.visibility = GONE
@@ -170,22 +170,23 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             onFocusChange(view, hasFocus)
         }
 
-        editCountryEditText?.subscribeMaterialFormsError(sectionLocation.billingCountryErrorSubject.map { it }, R.string.error_select_a_billing_country)
+        editCountryEditText?.subscribeMaterialFormsError(sectionLocation.billingCountryErrorSubject.map { it }, R.string.error_select_a_billing_country, R.drawable.material_dropdown)
 
         sectionLocation.billingCountryCodeSubject.subscribe { countryCode ->
             var billingCountry = countryCode
             if (billingCountry.isNullOrBlank()) {
                 editCountryEditText?.setText(billingCountry)
                 billingCountry = PointOfSale.getPointOfSale().threeLetterCountryCode
+                updateCountryDependantFields(billingCountry)
+                sectionLocation.updateMaterialPostalFields(PointOfSale.getPointOfSale().pointOfSaleId)
             } else {
                 val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(billingCountry)
                 val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
                 editCountryEditText?.setText(countryName)
                 sectionLocation.billingCountryErrorSubject.onNext(false)
+                updateCountryDependantFields(billingCountry)
+                sectionLocation.validateCountryDependantFields()
             }
-            sectionLocation.updateCountryDependantValidation()
-            sectionLocation.rebindCountryDependantFields()
-            sectionLocation.updateStateFieldBasedOnBillingCountry(billingCountry)
         }
     }
 
@@ -207,5 +208,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             val alert = builder.create()
             alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
             alert.show()
+    }
+
+    private fun updateCountryDependantFields(billingCountry: String) {
+        sectionLocation.updateCountryDependantValidation()
+        sectionLocation.rebindCountryDependantFields()
+        sectionLocation.updateStateFieldBasedOnBillingCountry(billingCountry)
     }
 }

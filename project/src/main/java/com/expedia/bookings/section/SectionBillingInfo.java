@@ -35,6 +35,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -211,11 +212,23 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	}
 
+	public void setMaterialDropdownResources() {
+		mValidExpiration.setMaterialDropdownResource(R.drawable.material_dropdown);
+	}
+
 	public void setMaterialErrorStrings() {
-		mValidCCNum.setErrorString(R.string.error_enter_a_valid_card_number);
-		mValidNameOnCard.setErrorString(R.string.error_enter_a_valid_card_name);
-		mValidExpiration.setErrorString(R.string.error_enter_a_valid_month_and_year);
-		mValidSecurityCode.setErrorString(R.string.error_enter_valid_cvv);
+		mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		mValidNameOnCard.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_name));
+		mValidExpiration.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_month_and_year));
+		mValidSecurityCode.setErrorString(getContext().getResources().getString(R.string.error_enter_valid_cvv));
+	}
+
+	public void resetMaterialErrorString() {
+		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+			mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+			mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		}
 	}
 
 	//////////////////////////////////////
@@ -285,6 +298,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
 						if (!hasValidPaymentType(mLineOfBusiness, getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
+							if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+								String errorMessage = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), getData().getPaymentType(), mLineOfBusiness);
+								mValidCCNum.setErrorString(errorMessage);
+								mValidMaskedCCNum.setErrorString(errorMessage);
+							}
 						}
 						else {
 							field.setImageResource(BookingInfoUtils.getGreyCardIcon(cardType));
@@ -296,10 +314,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 				else {
 					field.setImageResource(R.drawable.ic_generic_card);
+					resetMaterialErrorString();
 				}
 			}
 			else {
 				field.setImageResource(R.drawable.ic_generic_card);
+				resetMaterialErrorString();
 			}
 		}
 	};
@@ -464,6 +484,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							if (isCreditField && getData().getNumber().isEmpty()) {
 								getData().setBrandCode(null);
 								getData().setBrandName(null);
+								resetMaterialErrorString();
 							}
 
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
@@ -474,6 +495,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
 									field.setTextColor(mOriginalTextColors);
+									resetMaterialErrorString();
 								}
 								else {
 									if (mEditCreditCardSecurityCode.getField() != null) {
@@ -506,6 +528,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 			else {
 				field.setText("");
+				resetMaterialErrorString();
 			}
 			mOriginalTextColors = field.getTextColors();
 		}
