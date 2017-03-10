@@ -315,7 +315,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		// ItinListView will take care of executing these in order.
 		mItinListView.hideDetails(false);
-		mItinListView.showDetails(id, animate);
+		String itinId = mItinManager.getItinIdByTripNumber(id);
+		if (itinId == null) {
+			itinId = id;
+		}
+		mItinListView.showDetails(itinId, animate);
 
 		mJumpToItinId = null;
 	}

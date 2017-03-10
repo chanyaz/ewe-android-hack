@@ -145,7 +145,7 @@ public class NavUtils {
 		goToItin(context, null);
 	}
 
-	public static void goToItin(Context context, String itinId) {
+	public static void goToItin(Context context, String itinNum) {
 		Intent intent;
 		if (ExpediaBookingApp.useTabletInterface()) {
 			TaskStackBuilder builder = TaskStackBuilder.create(context);
@@ -162,8 +162,8 @@ public class NavUtils {
 			intent = getLaunchIntent(context);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
-			if (itinId != null) {
-				intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_ID, itinId);
+			if (itinNum != null) {
+				intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
 			}
 			context.startActivity(intent);
 		}

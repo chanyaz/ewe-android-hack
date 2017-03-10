@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.deeplink.TripDeepLink
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -115,7 +116,7 @@ class DeepLinkRouterActivityTest {
         setIntentOnActivity(deepLinkRouterActivityController, sharedItinUrl)
         deepLinkRouterActivityController.setup()
         Mockito.verify(mockItineraryManager).fetchSharedItin(Mockito.eq(sharedItinUrl))
-        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity)
+        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, null)
     }
 
     @Test
@@ -130,7 +131,7 @@ class DeepLinkRouterActivityTest {
         setIntentOnActivity(deepLinkRouterActivityController, shortUrl)
         deepLinkRouterActivityController.setup()
         Mockito.verify(mockItineraryManager).fetchSharedItin(Mockito.eq(sharedItinUrl))
-        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity)
+        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, null)
     }
 
     @Test
@@ -145,8 +146,7 @@ class DeepLinkRouterActivityTest {
 
         setIntentOnActivity(deepLinkRouterActivityController, tripUrl)
         deepLinkRouterActivityController.setup()
-        Mockito.verify(mockItineraryManager).getDeepLinkItinIdByTripNumber(Mockito.eq("7238447666975"))
-        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity)
+        assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity, "7238447666975")
     }
 
     private fun getDeepLinkRouterActivity(deepLinkUrl : String): TestDeepLinkRouterActivity {
@@ -161,11 +161,14 @@ class DeepLinkRouterActivityTest {
         return deepLinkRouterActivity
     }
 
-    private fun assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity: TestDeepLinkRouterActivity) {
+    private fun assertPhoneLaunchActivityStartedToItin(deepLinkRouterActivity: TestDeepLinkRouterActivity, itinNum: String?) {
         val startedIntent = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
 
         assertIntentForActivity(NewPhoneLaunchActivity::class.java, startedIntent)
         assertBooleanExtraEquals(true, NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, startedIntent)
+        if (itinNum != null) {
+            assertStringExtraEquals(itinNum, NewPhoneLaunchActivity.ARG_ITIN_NUM, startedIntent)
+        }
     }
 
     private fun createMockItineraryManager(): ItineraryManager {

@@ -110,6 +110,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         setSupportActionBar(toolBar)
         supportActionBar?.elevation = 0f
 
+        if (intent.hasExtra(ARG_ITIN_NUM)) {
+            jumpToItinId = intent.getStringExtra(ARG_ITIN_NUM)
+        }
+
         val lineOfBusiness = intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED) as LineOfBusiness?
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
             // No need to do anything special, waterfall is the default behavior anyway
@@ -140,9 +144,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        if (intent.hasExtra(ARG_ITIN_ID)) {
-            jumpToItinId = intent.getStringExtra(ARG_ITIN_ID)
-            intent.removeExtra(ARG_ITIN_ID)
+        if (intent.hasExtra(ARG_ITIN_NUM)) {
+            jumpToItinId = intent.getStringExtra(ARG_ITIN_NUM)
         }
 
         if (intent.getBooleanExtra(ARG_FORCE_SHOW_WATERFALL, false)) {
@@ -558,7 +561,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
         @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
         @JvmField val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
-        @JvmField val ARG_ITIN_ID = "ARG_ITIN_ID"
+        @JvmField val ARG_ITIN_NUM = "ARG_ITIN_NUM"
 
         /** Create intent to open this activity and jump straight to a particular itin item.
          */
