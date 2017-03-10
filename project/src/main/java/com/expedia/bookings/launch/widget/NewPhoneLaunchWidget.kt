@@ -18,6 +18,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
@@ -34,7 +35,6 @@ import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
@@ -509,8 +509,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun userBucketedForPopularHotels(): Boolean {
-        return FeatureToggleUtil
-                .isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
-                        R.string.preference_show_popular_hotels_on_launch_screen)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
     }
 }

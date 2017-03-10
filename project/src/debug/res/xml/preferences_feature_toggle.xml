@@ -11,12 +11,6 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_show_popular_hotels_on_launch_screen"
-            android:layout="@layout/preference"
-            android:summary="Show popular hotels card to users on launch screen"
-            android:title="Enable Popular Hotels Card on Launch Screen" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
