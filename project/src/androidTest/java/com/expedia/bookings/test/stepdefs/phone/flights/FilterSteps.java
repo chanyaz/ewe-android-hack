@@ -13,6 +13,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.widget.FilterSeekBar;
 import com.expedia.bookings.widget.TextView;
 
@@ -23,6 +24,7 @@ import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -57,9 +59,9 @@ public class FilterSteps {
 	}
 
 	@And("^I select \"(.*?)\" checkbox$")
-	public void checkStopsOption(String optionText) throws Throwable {
+	public void selectSortAndFilterCheckbox(String optionText) throws Throwable {
 		onView(allOf(withId(R.id.check_box), hasSibling(withText(optionText))))
-			.perform(click());
+			.perform(scrollTo(), ViewActions.waitForViewToDisplay(), click());
 	}
 
 	@And("^I click on sort and filter screen done button$")
@@ -89,6 +91,11 @@ public class FilterSteps {
 	@And("^Validate that the Dynamic Feedback TextView is Visible$")
 	public void validateDynamicFeedbackTextView() throws Throwable {
 		onView(withId(R.id.dynamic_feedback_counter)).check(matches(isDisplayed()));
+	}
+
+	@And("^I scroll to Airline Section$")
+	public void scrollToAirlineSection() throws Throwable {
+		onView(withId(R.id.airlines_label)).perform(scrollTo());
 	}
 
 	public static ViewAssertion getDynamicResultCountOnSortAndFilterScreen() {

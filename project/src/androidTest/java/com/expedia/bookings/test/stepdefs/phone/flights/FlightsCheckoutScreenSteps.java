@@ -10,14 +10,11 @@ import cucumber.api.java.en.And;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
-import static org.hamcrest.core.AllOf.allOf;
-
 public class FlightsCheckoutScreenSteps {
 	@And("^I open traveller details$")
 	public void openTravellerDetails() throws Throwable {
@@ -55,6 +52,6 @@ public class FlightsCheckoutScreenSteps {
 
 	@And("^Passport field is shown as a mandatory field$")
 	public void isPassportFieldMandatory() throws Throwable {
-		onView(allOf(withSpinnerText("Passport: Country"), withCompoundDrawable(R.drawable.invalid))).check(doesNotExist());
+		onView(withText("Passport: Country")).check(matches(withCompoundDrawable(R.drawable.invalid)));
 	}
 }

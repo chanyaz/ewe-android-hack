@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 
 import cucumber.api.java.en.And;
@@ -30,7 +31,7 @@ public class SearchResultsScreenSteps {
 	@And("^I select first inbound flight$")
 	public void selectFirstInboundFlight() throws Throwable {
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(),0);
-		FlightsScreen.selectInboundFlight().perform(click());
+		FlightsScreen.selectInboundFlight().perform(ViewActions.waitForViewToDisplay(), click());
 	}
 
 	@And("^I wait for results to load$")
