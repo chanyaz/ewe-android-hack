@@ -59,7 +59,9 @@
             android:layout_width="match_parent"
             android:visibility="gone"
             android:layout_height="wrap_content"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            android:hint="@string/passport_country"
+            android:labelFor="@+id/passport_country_btn">
 
             <EditText
                 android:id="@+id/passport_country_btn"
@@ -67,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
                 android:drawableRight="@drawable/material_dropdown"
-                android:hint="@string/passport_country"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/traveler_input_text_size" />
 

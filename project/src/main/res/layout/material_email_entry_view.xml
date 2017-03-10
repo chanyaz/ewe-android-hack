@@ -8,13 +8,14 @@
         android:id="@+id/edit_email_layout_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3">
+        android:layout_weight="3"
+        android:hint="@string/email_address_hint_confirmation"
+        android:labelFor="@+id/edit_email_address">
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
             android:id="@+id/edit_email_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email_address_hint_confirmation"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:maxLines="1"
