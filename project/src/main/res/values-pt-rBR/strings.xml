@@ -1123,6 +1123,14 @@
     <string name="nav_car_rentals">Aluguéis de carros</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Atividades</string>
+    <!-- Text for active itin card on signed-in user launch screen -->
+    <string name="launch_upcoming_trips_signed_in">Você tem uma viagem programada!</string>
+    <!-- Subtext for active itin card on signed-in user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_signed_in">Acesse seus itinerários de onde estiver e receba atualizações sobre quaisquer alterações</string>
+    <!-- Text for itin card on guest user launch screen -->
+    <string name="launch_upcoming_trips_guest_user">Já tem uma viagem programada?</string>
+    <!-- Subtext for active itin card on guest user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_guest_user">Verifique o status da viagem e obtenha atualizações no aplicativo</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Não é possível conectar.</string>
@@ -1872,7 +1880,7 @@
     <string name="edit_search">Editar pesquisa</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Selecionar datas</string>
-    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Datas de viagem</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Buscar destino</string>
@@ -3845,8 +3853,6 @@
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Pressione para ir para as informações sobre taxas de bagagem</string>
     <!-- Checkout screen -->
-    <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Pressione para efetuar a reserva</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Pressione para inserir um código promocional ou de cupom</string>
     <!-- Extra traveler information - flights -->
@@ -4505,6 +4511,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Detalhes da criança no assento {number}</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Ofertas para associados</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Pontos do Expedia+ aplicados! (impostos e taxas não incluídos)</string>
     <string name="regular_loyalty_applied_message">Pontos do Expedia+ aplicados!</string>
@@ -4541,10 +4550,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">Você está usando {amount} em Orbucks\nO valor de {dueamount} será debitado em seu cartão</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Buscar voos</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">através do Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Buscar hotéis</string>
 
@@ -4871,12 +4876,16 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Encontre hotéis perto de você</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Hotéis populares esta noite</string>
+    <string name="launch_find_recommended_hotels">Hotéis recomendados para esta noite</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Reserva efetuada com sucesso!</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Verifique seu e-mail para ver o itinerário.</string>
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Buscando suas viagens…</string>
+
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Ofertas para associados</string>
+    <string name="member_deal_subtitle">Descontos em cidades selecionadas</string>
 
 </resources>

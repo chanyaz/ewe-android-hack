@@ -1,5 +1,9 @@
 package com.expedia.bookings.services;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,17 +17,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
-import com.google.gson.reflect.TypeToken;
-
 import okhttp3.Cookie;
-import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 
-public class PersistentCookieManager implements CookieJar {
+public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	private HashMap<String, HashMap<String, Cookie>> cookieStore = new HashMap<>();
 	private File storage;
 	private Gson gson;
@@ -86,6 +83,7 @@ public class PersistentCookieManager implements CookieJar {
 		return cookieStore;
 	}
 
+	@Override
 	public void clear() {
 		cookieStore.clear();
 		storage.delete();
@@ -102,12 +100,18 @@ public class PersistentCookieManager implements CookieJar {
 		save();
 	}
 
+	@Override
+	public void removeNamedCookies(String endpointURL, String[] names) {
+		removeNamedCookies(names);
+	}
+
 	/**
 	 * This method is used to set the specified POS URL
 	 * Entry's MC1 Cookie to the input GUID
 	 * @param guid Must take the format: "GUID=1234abcd..."
 	 * @param posUrl Must take the format: "expedia.com"
 	 */
+	@Override
 	public void setMC1Cookie(String guid, String posUrl) {
 		String urlKey = posUrl;
 		if (cookieStore.containsKey(urlKey)) {

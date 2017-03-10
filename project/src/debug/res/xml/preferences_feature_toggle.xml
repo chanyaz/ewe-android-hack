@@ -66,12 +66,6 @@
             android:title="Enable Universal Checkout Material Forms" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_new_cookies"
-            android:layout="@layout/preference"
-            android:summary="Please restart the app"
-            android:title="Enable new cookies sync" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_3DS_checkout"
             android:layout="@layout/preference"
             android:summary="Enable 3DS payment webview checkout"
@@ -98,12 +92,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Itin Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_itin_hotel_upgrade"
-            android:layout="@layout/preference"
-            android:summary="Upgrade your hotel room booking"
-            android:title="Enable Hotel Upgrade Feature" />
 
         <CheckBoxPreference
             android:key="@string/preference_itin_card_detail"

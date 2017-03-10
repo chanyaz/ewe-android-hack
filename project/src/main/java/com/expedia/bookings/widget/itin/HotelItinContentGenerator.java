@@ -46,7 +46,6 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
@@ -368,8 +367,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		//Upgrade hotel booking
-		boolean showRoomUpgradeButton =
-			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade) && !isSharedItin();
+		boolean showRoomUpgradeButton = !isSharedItin();
 		if (showRoomUpgradeButton) {
 			//hasUpgradeAvailable set to true until API is ready
 			boolean hasUpgradeAvailable = itinCardData.hasRoomUpgradeOffers();

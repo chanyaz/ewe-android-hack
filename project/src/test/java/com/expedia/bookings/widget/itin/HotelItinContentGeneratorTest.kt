@@ -11,7 +11,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.junit.Assert
 import org.junit.Assert.assertTrue
@@ -70,7 +69,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelRoomUpgradeButtonOpensWebView() {
-        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
 
@@ -141,7 +139,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun roomUpgradeButtonVisible() {
-        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(false)
@@ -156,7 +153,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun roomUpgradeButtonGoneFeatureOff() {
-        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().build()
@@ -169,7 +165,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun roomUpgradeButtonGoneForSharedItin() {
-        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelUpgrade)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(true).build()

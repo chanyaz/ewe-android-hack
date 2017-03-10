@@ -21,16 +21,18 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -146,20 +148,17 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	PersistentCookieManagerV2 provideCookieManagerV2(Context context) {
+	PersistentCookiesCookieJar provideCookieManager(Context context) {
+		PersistentCookiesCookieJar cookieManager;
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManagerV2 manager = new PersistentCookieManagerV2(storage, oldStorage);
-		return manager;
-	}
-
-	@Provides
-	@Singleton
-	PersistentCookieManager provideCookieManagerV1(Context context) {
-		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
-		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage);
-		return manager;
+		if (PointOfSale.getPointOfSale().shouldUseAutoWebViewSyncCookieStore()) {
+			cookieManager = new PersistentCookieManagerV2(storage, oldStorage);
+		}
+		else {
+			cookieManager = new PersistentCookieManager(storage, oldStorage);
+		}
+		return cookieManager;
 	}
 
 	@Provides
@@ -180,8 +179,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager1,
-		PersistentCookieManagerV2 cookieManager2, Cache cache,
+	OkHttpClient provideOkHttpClient(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
 		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled, ChuckInterceptor chuckInterceptor) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
@@ -200,13 +198,7 @@ public class AppModule {
 			client.addInterceptor(chuckInterceptor);
 		}
 		client.followRedirects(true);
-		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_cookies)) {
-			client.cookieJar(cookieManager2);
-		}
-		else {
-			client.cookieJar(cookieManager1);
-		}
-
+		client.cookieJar(cookieManager);
 		client.connectTimeout(10, TimeUnit.SECONDS);
 		client.readTimeout(60L, TimeUnit.SECONDS);
 

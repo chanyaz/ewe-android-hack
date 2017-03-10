@@ -280,6 +280,8 @@ public class OmnitureTracking {
 			s.setEvents("event118");
 		}
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
+
 		// Send the tracking data
 		s.track();
 
@@ -371,7 +373,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMemberPricingBadge);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsSortFaq);
 
 		// Send the tracking data
@@ -5753,7 +5754,8 @@ public class OmnitureTracking {
 		str += "|L";
 		str += childrenInLap;
 
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)
+			&& searchTrackingData.getFlightCabinClass() != null) {
 			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
 		return str;

@@ -1123,6 +1123,14 @@
     <string name="nav_car_rentals">Autonvuokraus</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Aktiviteetit</string>
+    <!-- Text for active itin card on signed-in user launch screen -->
+    <string name="launch_upcoming_trips_signed_in">Sinulla on tuleva matka!</string>
+    <!-- Subtext for active itin card on signed-in user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_signed_in">Tarkista matkasuunnitelmasi tien päällä ollessasi ja pysy ajantasalla muutoksista</string>
+    <!-- Text for itin card on guest user launch screen -->
+    <string name="launch_upcoming_trips_guest_user">Oletko lähdössä matkalle?</string>
+    <!-- Subtext for active itin card on guest user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_guest_user">Tarkista tulevan matkasi status ja tilaa päivitykset sovelluksen kautta</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Valitettavasti emme voi muodostaa yhteyttä.</string>
@@ -1872,7 +1880,7 @@
     <string name="edit_search">Muokkaa hakua</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Valitse päivät</string>
-    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Matkustuspäivät</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Hae kohteesta</string>
@@ -3845,8 +3853,6 @@
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Napauta siirtyäksesi matkatavaramaksutietoihin</string>
     <!-- Checkout screen -->
-    <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Napauta aloittaaksesi maksaminen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Napauta antaaksesi kuponki- tai mainoskoodi</string>
     <!-- Extra traveler information - flights -->
@@ -4505,6 +4511,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Istuinpaikalla matkustavan vauvan {number} tiedot</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Jäsentarjoukset</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+-pisteet käytetty! (ei sisällä veroja ja maksuja)</string>
     <string name="regular_loyalty_applied_message">Expedia+-pisteet käytetty!</string>
@@ -4541,10 +4550,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">Käytät {amount} Orbucks-pisteinä\nKortiltasi veloitetaan {dueamount}</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Lentohaku</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">Scratchpadin kautta</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Selaa hotelleja</string>
 
@@ -4871,12 +4876,16 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Löydä hotelleja läheltäsi</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Suosittuja hotelleja täksi yöksi</string>
+    <string name="launch_find_recommended_hotels">Suositeltuja hotelleja täksi yöksi</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Varaus tehty!</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Saat matkasuunnitelman sähköpostiisi.</string>
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Matkoja haetaan…</string>
+
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Jäsentarjoukset</string>
+    <string name="member_deal_subtitle">Tarjouksia valituista kaupungeista</string>
 
 </resources>

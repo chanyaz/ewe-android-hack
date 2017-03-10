@@ -1,5 +1,12 @@
 package com.expedia.bookings.server;
 
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
+import com.expedia.bookings.utils.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+import com.google.gson.reflect.TypeToken;
+import com.mobiata.android.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,18 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.expedia.bookings.utils.Strings;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
-import com.google.gson.reflect.TypeToken;
-import com.mobiata.android.Log;
 import okhttp3.Cookie;
-import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 
-public class PersistentCookieManagerV2 extends CookieManager implements CookieJar {
+public class PersistentCookieManagerV2 extends CookieManager implements PersistentCookiesCookieJar {
 	private android.webkit.CookieManager webkitCookieManager;
 	private File storage;
 	private Gson gson;
@@ -142,11 +141,13 @@ public class PersistentCookieManagerV2 extends CookieManager implements CookieJa
 		return "";
 	}
 
+	@Override
 	public void clear() {
 		webkitCookieManager.removeAllCookie();
 		storage.delete();
 	}
 
+	@Override
 	public void removeNamedCookies(String endpointUrl, String[] names) {
 		for (String cookieName : names) {
 			clearCookies(endpointUrl, cookieName);
@@ -176,6 +177,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements CookieJa
 	 * @param guid   Must take the format: "GUID=1234abcd..."
 	 * @param posUrl Must take the format: "expedia.com"
 	 */
+	@Override
 	public void setMC1Cookie(String guid, String posUrl) {
 		Map<String, List<String>> value = new HashMap<>();
 		List<String> headers = new ArrayList<>();

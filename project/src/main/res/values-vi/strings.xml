@@ -34,9 +34,9 @@
 
     <!-- Hotels v2 -->
     <!-- slide to reserve -->
-    <string name="hotelsv2_slide_reserve">Kéo để đặt</string>
+    <string name="hotelsv2_slide_reserve">Trượt để đặt</string>
     <!-- slide to purchase -->
-    <string name="hotelsv2_slide_purchase">Kéo để đặt</string>
+    <string name="hotelsv2_slide_purchase">Trượt để đặt</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">Thay đổi ngày</string>
     <!-- checkout view toolbar title -->
@@ -641,7 +641,7 @@
     <string name="per_ticket_type_limousine">/ 1 limousin</string>
     <string name="per_ticket_type_towncar">/ 1 TownCar</string>
     <string name="per_ticket_type_vehicle_parking_spot">/ 1 chỗ đậu xe</string>
-    <string name="per_ticket_type_book">/ 1 quyển sách</string>
+    <string name="per_ticket_type_book">/ 1 quyển</string>
     <string name="per_ticket_type_guide">/ 1 hướng dẫn</string>
     <string name="per_ticket_type_travel_card">/ 1 travel card</string>
     <string name="per_ticket_type_boat">/ 1 thuyền</string>
@@ -1123,6 +1123,14 @@
     <string name="nav_car_rentals">Thuê xe</string>
     <!-- Label for button to navigate to the Activities / Things to Do line of business -->
     <string name="nav_things_to_do">Hoạt động giải trí</string>
+    <!-- Text for active itin card on signed-in user launch screen -->
+    <string name="launch_upcoming_trips_signed_in">Gần đến chuyến đi của quý vị!</string>
+    <!-- Subtext for active itin card on signed-in user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_signed_in">Xem lịch trình và cập nhật thay đổi trên đường</string>
+    <!-- Text for itin card on guest user launch screen -->
+    <string name="launch_upcoming_trips_guest_user">Chuẩn bị lên đường?</string>
+    <!-- Subtext for active itin card on guest user's launch screen -->
+    <string name="launch_upcoming_trips_subtext_guest_user">Cập nhật thông tin chuyến đi trong app</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
@@ -1872,7 +1880,7 @@
     <string name="edit_search">Thay đổi tìm kiếm</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Chọn ngày</string>
-    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <!-- Accessibility labeling to the user the trip dates card. -->
     <string name="trip_dates_cont_desc">Ngày chuyến đi</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Tìm điểm đến</string>
@@ -2045,12 +2053,12 @@
     <string name="includes_flights_hotel">Bao gồm chuyến bay + khách sạn</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d Khách</item>
+        <item quantity="zero">%1$d khách</item>
         <item quantity="one">%1$d Khách</item>
         <item quantity="two">%1$d Khách</item>
         <item quantity="few">%1$d Khách</item>
         <item quantity="many">%1$d Khách</item>
-        <item quantity="other">%1$d Khách</item>
+        <item quantity="other">%1$d khách</item>
     </plurals>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Đang kiểm tra thay đổi giá…</string>
@@ -2079,7 +2087,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Tôi đồng ý</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Trượt để thanh toán</string>
+    <string name="slide_to_purchase">Trượt để đặt.</string>
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">trượt để đặt phòng</string>
     <!-- Slide-to-book widget prompt for flights -->
@@ -3845,8 +3853,6 @@
     <!-- Content description for action: Press to go to baggage fee information -->
     <string name="flight_leg_baggage_fee_info_cont_desc">Bấm để đến trang thông tin phí hành lý</string>
     <!-- Checkout screen -->
-    <!-- Content description for action: Press to begin checkout -->
-    <string name="checkout_cont_desc">Bấm để bắt đầu thanh toán</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="checkout_enter_coupon_cont_desc">Bấm để nhập mã coupon hoặc khuyến mãi</string>
     <!-- Extra traveler information - flights -->
@@ -4505,6 +4511,9 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Chi tiết trẻ sơ sinh có chỗ ngồi riêng {number}</string>
 
+    <!--MIA - Member Only Deals-->
+    <string name="member_deals_toolbar_title">Ưu đãi Thành viên</string>
+
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Đã áp dụng Điểm Expedia+! (không gồm thuế và phí)</string>
     <string name="regular_loyalty_applied_message">Đã áp dụng Điểm Expedia+!</string>
@@ -4541,10 +4550,6 @@
     <string name="payment_through_card_and_bucks_TEMPLATE">Quý vị đang sử dụng {amount} Orbucks\nSẽ thu {dueamount} từ thẻ của quý vị</string>
 
     <!-- Feeds -->
-    <!-- Flight search title card -->
-    <string name="flight_search_card_title">Tìm Chuyến bay</string>
-    <!-- Label for feeds/scratchpad card indicating source of given information -->
-    <string name="via_scratchpad_label">từ Scratchpad</string>
     <!-- Label for Browse hotels card for staff picked city/destination -->
     <string name="browse_hotels_label">Tìm khách sạn</string>
 
@@ -4871,12 +4876,16 @@
     <!-- find hotels header text-->
     <string name="launch_find_hotels_near_you">Tìm khách sạn gần quý vị</string>
     <!-- Popular hotels header text-->
-    <string name="launch_find_popular_hotels">Khách sạn nhiều người quan tâm tối nay</string>
+    <string name="launch_find_recommended_hotels">Khách sạn được đề xuất cho đêm nay</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Đã đặt thành công!</string>
     <!-- Check your email for itinerary alert message-->
     <string name="check_your_email_for_itin">Hãy kiểm tra email để xem lịch trình.</string>
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Đang tải thông tin chuyến đi…</string>
+
+    <!-- Member Deal Only -->
+    <string name="member_deal_title">Ưu đãi Thành viên</string>
+    <string name="member_deal_subtitle">Giảm giá tại nhiều thành phố</string>
 
 </resources>
