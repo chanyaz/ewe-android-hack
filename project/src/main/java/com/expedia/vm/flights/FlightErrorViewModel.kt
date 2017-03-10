@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
@@ -15,7 +16,7 @@ import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
+class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     private val MAX_RETRY_CREATE_TRIP_ATTEMPTS = 2
 
@@ -36,13 +37,14 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     init {
         clickBack.subscribe {
-            when(error.errorCode) {
-                ApiError.Code.PAYMENT_FAILED, ApiError.Code.INVALID_INPUT  -> errorButtonClickedObservable.onNext(Unit)
+            when (error.errorCode) {
+                ApiError.Code.PAYMENT_FAILED, ApiError.Code.INVALID_INPUT -> errorButtonClickedObservable.onNext(Unit)
                 else -> defaultErrorObservable.onNext(Unit)
             }
         }
         paramsSubject.subscribe { params ->
-            val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport.regionNames.displayName))
+            val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to,
+                    HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName)))
             titleObservable.onNext(errorTitle)
             subTitleObservable.onNext(getToolbarSubtitle(params))
         }
@@ -164,8 +166,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         subscribeActionToButtonPress(showTravelerForm)
                         buttonOneTextObservable.onNext(context.getString(R.string.edit_traveler_details))
                         FlightsV2Tracking.trackFlightCheckoutTravelerFormInputError()
-                    }
-                    else {
+                    } else {
                         subscribeActionToButtonPress(showPaymentForm)
                         buttonOneTextObservable.onNext(context.resources.getString(R.string.edit_payment))
                         FlightsV2Tracking.trackFlightCheckoutPaymentFormInputError()
@@ -220,8 +221,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
         retryCreateTripBtnClicked.subscribe {
             if (retryCreateTripBtnCount++ < MAX_RETRY_CREATE_TRIP_ATTEMPTS) {
                 fireRetryCreateTrip.onNext(Unit)
-            }
-            else {
+            } else {
                 defaultErrorObservable.onNext(Unit)
                 retryCreateTripBtnCount = 0
             }

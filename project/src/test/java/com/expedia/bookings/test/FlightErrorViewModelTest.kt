@@ -114,7 +114,7 @@ class FlightErrorViewModelTest {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "Los Angles (LA)"
+        suggestion.regionNames.displayName = "Los <B>Ang</B>les (LA)"
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = "Los Angles"
         suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
