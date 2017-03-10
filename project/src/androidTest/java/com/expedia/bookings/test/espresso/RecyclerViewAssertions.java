@@ -9,8 +9,8 @@ import android.support.test.espresso.PerformException;
 import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.util.HumanReadables;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.View;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

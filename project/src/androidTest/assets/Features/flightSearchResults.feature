@@ -272,9 +272,9 @@ Feature: Flights Search Results
     Then Select first inbound flight from SRP
     And Validate legal compliance message on flight detail screen and isOutbound : false
 
+
   @Flights @Search @FlightResults @Prod @FlightCheckout
   Scenario: Passport field is mandatory on checkout in domestic flights for AirAsia
-
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
@@ -309,4 +309,39 @@ Feature: Flights Search Results
     And I save the traveller details by hitting done
     Then Traveller details are not saved
     And Passport field is shown as a mandatory field
+
     
+  @Flights @Search @FlightSearchResults
+  Scenario: Multi-Carrier as airline name text for more than 3 airlines
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    Then multi carrier text is shown instead of Airline Name on cell 5 isOutbound : true
+
+
+  @Flights @Search @FlightSearchResults
+  Scenario: Multi-Carrier as airline name text for more than 2 airlines when bucketed for RoundTripOnFlightsFSR AB test
+    Given I launch the App
+    And I bucket the following tests
+      | RoundTripOnFlightsFSR |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    Then multi carrier text is shown instead of Airline Name on cell 4 isOutbound : true
