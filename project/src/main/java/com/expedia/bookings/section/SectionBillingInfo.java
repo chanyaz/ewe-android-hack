@@ -35,6 +35,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -212,10 +213,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	}
 
 	public void setMaterialErrorStrings() {
-		mValidCCNum.setErrorString(R.string.error_enter_a_valid_card_number);
-		mValidNameOnCard.setErrorString(R.string.error_enter_a_valid_card_name);
-		mValidExpiration.setErrorString(R.string.error_enter_a_valid_month_and_year);
-		mValidSecurityCode.setErrorString(R.string.error_enter_valid_cvv);
+		mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		mValidNameOnCard.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_name));
+		mValidExpiration.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_month_and_year));
+		mValidSecurityCode.setErrorString(getContext().getResources().getString(R.string.error_enter_valid_cvv));
 		mValidExpiration.setmDropDownInt(R.drawable.material_dropdown);
 	}
 
@@ -286,6 +287,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
 						if (!hasValidPaymentType(mLineOfBusiness, getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
+							if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+								String errorMessage = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), getData().getPaymentType(), mLineOfBusiness);
+								mValidCCNum.setErrorString(errorMessage);
+							}
 						}
 						else {
 							field.setImageResource(BookingInfoUtils.getGreyCardIcon(cardType));

@@ -216,10 +216,10 @@ public class SectionLocation extends LinearLayout
 	}
 
 	public void setMaterialErrorStrings() {
-		mValidAddrLineOne.setErrorString(R.string.error_enter_a_valid_billing_address);
-		mValidCity.setErrorString(R.string.error_enter_a_valid_city);
-		mValidState.setErrorString(R.string.error_enter_a_valid_state);
-		mValidPostalCode.setErrorString(R.string.error_enter_a_valid_postal_code);
+		mValidAddrLineOne.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_billing_address));
+		mValidCity.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_city));
+		mValidState.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_state));
+		mValidPostalCode.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_postal_code));
 	}
 
 	//////////////////////////////////////
@@ -830,7 +830,7 @@ public class SectionLocation extends LinearLayout
 		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
 			TextInputLayout stateLayout = (TextInputLayout) findViewById(R.id.material_edit_address_state);
 			stateLayout.setHint(getContext().getString(hintString));
-			mValidState.setErrorString(errorString);
+			mValidState.setErrorString(getContext().getResources().getString(errorString));
 		}
 		else {
 			mEditAddressState.mField.setHint(hintString);
@@ -874,6 +874,6 @@ public class SectionLocation extends LinearLayout
 		}
 
 		postalLayout.setHint(getContext().getString(postalHintString));
-		mValidPostalCode.setErrorString(postalErrorString);
+		mValidPostalCode.setErrorString(getContext().getString(postalErrorString));
 	}
 }
