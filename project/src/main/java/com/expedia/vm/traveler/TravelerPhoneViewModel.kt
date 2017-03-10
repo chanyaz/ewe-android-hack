@@ -13,6 +13,7 @@ open class TravelerPhoneViewModel(val context: Context) {
     val phoneViewModel = PhoneViewModel(context)
     val phoneCountryCodeSubject = BehaviorSubject.create<String>()
     val phoneCountryNameSubject = BehaviorSubject.create<String>()
+    val phoneCountryCodeErrorSubject = BehaviorSubject.create<Boolean>()
 
     val countryNameObserver = endlessObserver<String> { countryName ->
         phone.countryName = countryName
@@ -35,8 +36,10 @@ open class TravelerPhoneViewModel(val context: Context) {
     }
 
     open fun validate(): Boolean {
+        val validCountryCode = phoneCountryCodeSubject.value.isNullOrBlank()
+        phoneCountryCodeErrorSubject.onNext(validCountryCode)
         val validPhone = phoneViewModel.validate()
-        return validPhone
+        return validPhone && validCountryCode
     }
 
     open fun getCountryName(phone:Phone) : String {

@@ -58,7 +58,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         vm.phoneCountryCodeSubject.subscribe { countryCode ->
             if (materialFormTestEnabled) {
                 if (TextUtils.isEmpty(countryCode)) {
-                    sendPointOfSaleCountryToViewModel()
+                    setPointOfSaleAsCountry()
                 } else {
                     phoneEditBox.setText("+$countryCode")
                 }
@@ -73,6 +73,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
         if (materialFormTestEnabled) {
             phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, R.string.phone_validation_error_message)
+            phoneEditBox.subscribeMaterialFormsError(viewModel.phoneCountryCodeErrorSubject, R.string.error_enter_a_valid_country_code)
             phoneEditBox.setOnClickListener {
                 countryDialog.show()
             }
@@ -133,7 +134,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
     }
 
-    private fun sendPointOfSaleCountryToViewModel() {
+    private fun setPointOfSaleAsCountry() {
         val pointOfSaleCountryName = context.getString(PointOfSale.getPointOfSale().countryNameResId)
         val countryAdapter = TelephoneSpinnerAdapter(context)
         val pointOfSaleCountryCode = countryAdapter.getCountryCodeFromCountryName(pointOfSaleCountryName)
