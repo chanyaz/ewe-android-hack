@@ -559,11 +559,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	private void resizeImageViews(int index) {
 		if (index >= 0 && index < activityGallery.getAdapter().getItemCount()) {
 			RecyclerGallery.RecyclerAdapter.ViewHolder holder = (RecyclerGallery.RecyclerAdapter.ViewHolder)activityGallery.findViewHolderForAdapterPosition(index);
-			if (holder != null) {
-				if (holder.mImageView != null) {
-					holder.mImageView.setIntermediateValue(getHeight() - mInitialScrollTop, getHeight(),
-							(float) activityDetailsContainer.getScrollY() / mInitialScrollTop);
-				}
+			if (holder != null && holder.mImageView != null) {
+				holder.mImageView.setIntermediateValue(getHeight() - mInitialScrollTop, getHeight(),
+					(float) activityDetailsContainer.getScrollY() / mInitialScrollTop);
 			}
 		}
 	}

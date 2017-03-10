@@ -12,6 +12,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 import static org.hamcrest.Matchers.allOf;
 
 public class LXCreateTripErrorTest extends LxTestCase {
@@ -22,7 +23,7 @@ public class LXCreateTripErrorTest extends LxTestCase {
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(productPosition, click()));
 
 		LXInfositeScreen.selectOffer(ticketName).perform(scrollTo(), click());
-		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo(), click());
+		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 	}
 
 	public void testCreateTripError() throws Throwable {

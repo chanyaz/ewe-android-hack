@@ -24,6 +24,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.containsString;
 
@@ -135,8 +136,8 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 	private void selectOffers() throws Throwable {
 		final String ticketName = "2-Day";
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
-		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
-		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo(), click());
+		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(clickWhenEnabled());
+		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 		Espresso.onView(withId(R.id.login_widget)).perform(waitForViewToDisplay());
 	}
 

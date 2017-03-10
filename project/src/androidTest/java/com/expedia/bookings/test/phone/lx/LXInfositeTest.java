@@ -26,6 +26,7 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withChildCount;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withDateCaptionAtIndex;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withOneEnabled;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withTotalPrice;
+import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 import static com.expedia.bookings.test.espresso.ViewActions.customScroll;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.CoreMatchers.allOf;
@@ -73,14 +74,13 @@ public class LXInfositeTest extends LxTestCase {
 			not(isEmpty())));
 		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
 			withText(R.string.description_activity_details)))))
-			.perform(scrollTo())
 			.check(matches(not(isEmpty())));
 		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
 			withText(R.string.location_activity_details)))))
-			.perform(scrollTo()).check(matches(not(isEmpty())));
+			.check(matches(not(isEmpty())));
 		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
 			withText(R.string.cancellation_policy)))))
-			.perform(scrollTo()).check(matches(not(isEmpty())));
+			.check(matches(not(isEmpty())));
 		screenshot("LX validated 4 sections");
 
 		LXInfositeScreen.detailsDateContainer().perform(scrollTo());
@@ -100,7 +100,6 @@ public class LXInfositeTest extends LxTestCase {
 		LXInfositeScreen.offersWidgetContainer().check(matches(withAtLeastChildCount(1)));
 
 		TicketSummaryDataModel ticketSummary = new TicketSummaryDataModel();
-		LXInfositeScreen.offersWidgetContainer().perform(scrollTo());
 		LXInfositeScreen.offersWidgetContainer().perform(LXInfositeScreen.loadTicketSummary(0, ticketSummary));
 		mExpectedDataTktWdgt = new ExpectedDataSupplierForTicketWidget(ticketSummary);
 
@@ -122,14 +121,11 @@ public class LXInfositeTest extends LxTestCase {
 				LXInfositeScreen.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.check(matches(withText(containsString("1"))));
 				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
-				LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(isDisplayed()));
+				LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(isEnabled()));
 				//now bring back the counter to zero so that all the rows have zero tickets
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(scrollTo(), click());
-				LXInfositeScreen
-					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(scrollTo(), click());
+					.perform(clickWhenEnabled());
 				//check in this situation where we dont have any ticket we dont have the book now button nor the ticket summary
 				LXInfositeScreen.priceSummary(mExpectedDataTktWdgt.getTicketName()).check(
 					matches(not(isDisplayed())));
@@ -157,17 +153,13 @@ public class LXInfositeTest extends LxTestCase {
 			}
 		}
 
-		for (int currentClickCounter = 1; currentClickCounter <= 9; currentClickCounter++) {
+		for (int currentClickCounter = 1; currentClickCounter <= 8; currentClickCounter++) {
 			for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
 				int count = currentClickCounter;
-				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen
 					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(scrollTo());
-				LXInfositeScreen
-					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
-				if (currentClickCounter == 9) {
+					.perform(clickWhenEnabled());
+				if (currentClickCounter == 8) {
 					count = 8;
 					LXInfositeScreen.ticketAddButton(mExpectedDataTktWdgt.getTicketName(),
 						ticket.travellerType)
@@ -180,13 +172,13 @@ public class LXInfositeTest extends LxTestCase {
 						count))));
 			}
 		}
-		for (int currentClickCounter = 1; currentClickCounter <= 9; currentClickCounter++) {
+		for (int currentClickCounter = 1; currentClickCounter <= 8; currentClickCounter++) {
 			for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
 				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
-				if (currentClickCounter == 9) {
+					.perform(clickWhenEnabled());
+				if (currentClickCounter == 8) {
 					LXInfositeScreen.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(),
 						ticket.travellerType)
 						.check(matches(not(
@@ -201,7 +193,7 @@ public class LXInfositeTest extends LxTestCase {
 				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen
 					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
+					.perform(clickWhenEnabled());
 				mExpectedDataTktWdgt.updateTravellers(currentClickCounter, ticket.travellerType);
 			}
 		}
@@ -210,7 +202,7 @@ public class LXInfositeTest extends LxTestCase {
 		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(
 			withTotalPrice(mExpectedDataTktWdgt.getTotalPrice())));
 		LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
-		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).perform(click());
+		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).perform(clickWhenEnabled());
 		screenshot("LX validated the offers widget");
 	}
 }
