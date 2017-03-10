@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -86,6 +87,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
+		Toast.makeText(context, "NotificationReceiver: Got a notification y'all", Toast.LENGTH_LONG).show();
+
 		Notification notification = null;
 		try {
 			Notification deserialized = makeNotification();
@@ -148,9 +151,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 	}
 
 	private void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
-		getItineraryManagerInstance()
-			.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
-		getItineraryManagerInstance().startSync(false);
+		Toast.makeText(context, "NotificationReceiver: called showNotification", Toast.LENGTH_LONG).show();
+		showNotification(finalNotification, context);
+//		getItineraryManagerInstance()
+//			.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
+//		getItineraryManagerInstance().startSync(false);
 	}
 
 	@VisibleForTesting
@@ -173,12 +178,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 				itineraryManager.removeSyncListener(this);
 				boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips);
-				if (!validTripForScheduledNotification) {
-					finalNotification.cancelNotification(context);
-				}
-				else {
 					showNotification(finalNotification, context);
-				}
 			}
 
 			private boolean isValidTripForScheduledNotification(Collection<Trip> trips) {
