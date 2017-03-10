@@ -104,6 +104,10 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.launch_header_root, parent, false);
 			FrameLayout layout = (FrameLayout) view.findViewById(R.id.parent_layout);
+			ViewGroup parentView = (ViewGroup) headerView.getParent();
+			if (parentView != null) {
+				parentView.removeView(headerView);
+			}
 			layout.addView(headerView);
 			return new LaunchHeaderViewHolder(view);
 		}
@@ -272,9 +276,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (userBucketedForPopularHotels()) {
 			items.add(new LaunchDataItem(LaunchDataItem.POPULAR_HOTELS));
 		}
-
 		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
-
 		return items;
 	}
 
@@ -286,6 +288,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		listData.addAll(dynamicCards);
 		setSeeAllButtonVisibility(objects, headerTitle);
 		notifyDataSetChanged();
+	}
+
+	private void addDelayedStaticCards(final ArrayList<LaunchDataItem> cards) {
+		staticCards.addAll(cards);
+		listData.addAll(1, cards);
+		notifyItemRangeInserted(1, cards.size());
 	}
 
 	private void setSeeAllButtonVisibility(List<LaunchDataItem> listData, String headerTitle) {
@@ -411,12 +419,33 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 				R.string.preference_active_itin_on_launch);
 	}
 
-	private static class HeaderViewModel {
-	}
-
-
 	public int getOffset() {
 		return staticCards.size();
+	}
+
+	private class ItinSyncListener extends ItineraryManager.ItinerarySyncAdapter {
+		@Override
+		public void onSyncFinished(Collection<Trip> trips) {
+			if (isStaticCardAlreadyShown(LaunchDataItem.ACTIVE_ITIN_VIEW)) {
+				return;
+			}
+
+			ArrayList<LaunchDataItem> items = new ArrayList<>();
+			if (showActiveItin()) {
+				items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
+			}
+			addDelayedStaticCards(items);
+		}
+	}
+
+	@VisibleForTesting
+	protected boolean isStaticCardAlreadyShown(int key) {
+		for (LaunchDataItem item: staticCards) {
+			if (item.getKey() == key) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private class MemberDealClickListener implements View.OnClickListener {
@@ -425,6 +454,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Intent intent = new Intent(context, MemberDealActivity.class);
 			context.startActivity(intent);
 		}
+	}
+
+	public void addSyncListener() {
+		getItinManager().addSyncListener(new ItinSyncListener());
+	}
+
+	protected ItineraryManager getItinManager() {
+		return ItineraryManager.getInstance();
 	}
 }
 

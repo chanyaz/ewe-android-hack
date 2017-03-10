@@ -43,7 +43,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (isResumed && newPhoneLaunchWidget != null) {
-            newPhoneLaunchWidget.refreshState(isVisible = isVisibleToUser)
+            newPhoneLaunchWidget.refreshState()
         }
     }
 

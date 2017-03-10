@@ -13,6 +13,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.CollectionLocation
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -26,6 +28,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import java.util.ArrayList
@@ -37,7 +40,8 @@ import kotlin.test.assertTrue
 @Config(sdk = intArrayOf(21), shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class LaunchListAdapterTest {
 
-    lateinit private var sut: LaunchListAdapter
+    lateinit private var sut: TestLaunchListAdapter
+
     lateinit private var context: Context
     lateinit private var parentView: ViewGroup
     lateinit private var headerView: View
@@ -364,6 +368,53 @@ class LaunchListAdapterTest {
     }
 
     @Test
+    fun testItinManagerSyncShowsActiveItin() {
+        givenActiveItinCardEnabled()
+        createSystemUnderTest(hasTripsInTwoWeeks = false)
+        givenWeHaveStaffPicks()
+
+        val mockItineraryManager: ItineraryManager = Mockito.spy(ItineraryManager.getInstance())
+        sut.addSyncListener()
+
+        var firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        var secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
+
+        var thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
+
+        sut.hasTripsInTwoWeeks = true
+        mockItineraryManager.onSyncFinished(ArrayList<Trip>())
+
+        firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.ACTIVE_ITIN_VIEW, secondPosition)
+
+        thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
+    }
+
+    @Test
+    fun testCardAlreadyShown() {
+        createSystemUnderTest()
+        givenWeHaveStaffPicks()
+
+        assertFalse(sut.isStaticCardAlreadyShown(LaunchDataItem.ACTIVE_ITIN_VIEW))
+
+        givenActiveItinCardEnabled()
+        givenWeHaveStaffPicks()
+
+        assertTrue(sut.isStaticCardAlreadyShown(LaunchDataItem.ACTIVE_ITIN_VIEW))
+    }
+
+    @Test
     fun onBindViewHolder_FullWidthViews() {
         givenSignInCardEnabled()
         createSystemUnderTest()
@@ -504,8 +555,8 @@ class LaunchListAdapterTest {
         return hotel
     }
 
-    private fun createSystemUnderTest() {
-        sut = TestLaunchListAdapter(context, headerView)
+    private fun createSystemUnderTest(hasTripsInTwoWeeks: Boolean = true) {
+        sut = TestLaunchListAdapter(context, headerView, hasTripsInTwoWeeks)
         sut.onCreateViewHolder(parentView, 0)
     }
 
@@ -542,10 +593,9 @@ class LaunchListAdapterTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen, 1)
     }
 
-    class TestLaunchListAdapter(context: Context?, header: View?) : LaunchListAdapter(context, header) {
-
+    class TestLaunchListAdapter(context: Context?, header: View?, var hasTripsInTwoWeeks: Boolean = true) : LaunchListAdapter(context, header) {
         override fun customerHasTripsInNextTwoWeeks(): Boolean {
-            return true
+            return hasTripsInTwoWeeks
         }
     }
 }

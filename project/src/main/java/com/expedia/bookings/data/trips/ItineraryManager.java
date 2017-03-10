@@ -777,7 +777,8 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private void onSyncFinished(Collection<Trip> trips) {
+	@VisibleForTesting
+	public void onSyncFinished(Collection<Trip> trips) {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
