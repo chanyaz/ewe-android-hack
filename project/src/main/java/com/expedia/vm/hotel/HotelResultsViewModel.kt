@@ -183,18 +183,20 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         }
 
         if (filterParams.name.isNotEmpty()) {
-            searchBuilder.hotelName = filterParams.name
+            searchBuilder.hotelName(filterParams.name)
         }
 
         if (filterParams.hotelStarRating.getStarRatingParamsAsList().isNotEmpty()) {
-            searchBuilder.starRatings = filterParams.hotelStarRating.getStarRatingParamsAsList()
+            searchBuilder.starRatings(filterParams.hotelStarRating.getStarRatingParamsAsList())
         }
 
         if (filterParams.hasPriceRange()) {
-            searchBuilder.priceRange = HotelSearchParams.PriceRange(filterParams.minPrice, filterParams.maxPrice)
+            searchBuilder.priceRange(HotelSearchParams.PriceRange(filterParams.minPrice, filterParams.maxPrice))
         }
 
-        //TODO - add neighborhoods
+        if (filterParams.isVipOnlyAccess) {
+            searchBuilder.vipOnly(filterParams.isVipOnlyAccess)
+        }
     }
 
     private fun getSortTypeFromString(sortType: String?): Sort {

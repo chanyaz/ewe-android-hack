@@ -26,7 +26,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -41,7 +40,6 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.squareup.phrase.Phrase
 import rx.Observer
 
 class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -335,15 +333,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 setupNeighborhoodView()
             }
         }
-
-        //TODO server side filters WIP - this is temporary, will be added back soon
-        vm.clientSideFilterObservable.subscribe { clientFilter ->
-            if (!clientFilter) {
-                optionLabel.visibility = View.GONE
-                filterVipContainer.visibility = View.GONE
-            }
-        }
-
         starRatingView.viewModel = viewModel
     }
 
