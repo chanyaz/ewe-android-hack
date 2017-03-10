@@ -606,7 +606,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripFailedFetchingRegisteredUserItinerary() {
-		startAddRegisteredUserItinActivity();
+		if (!isNewSignInScreen()) {
+			startAddRegisteredUserItinActivity();
+		}
 	}
 
 	@Override
