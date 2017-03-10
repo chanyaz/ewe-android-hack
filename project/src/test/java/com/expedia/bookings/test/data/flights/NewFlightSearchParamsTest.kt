@@ -195,7 +195,7 @@ class NewFlightSearchParamsTest {
     }
 
     @Test
-    fun testBuildParamsForInboundSearch() {
+    fun testBuildParamsForInboundSearchWithoutSeatClassPreference() {
         val params = giveSearchParams()
         val inboundSearchParams = giveSearchParams().buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
         Assert.assertEquals(params.adults, inboundSearchParams.adults)
@@ -205,7 +205,22 @@ class NewFlightSearchParamsTest {
         Assert.assertEquals(params.departureAirport, inboundSearchParams.departureAirport)
         Assert.assertEquals(params.arrivalAirport, inboundSearchParams.arrivalAirport)
         Assert.assertEquals(1, inboundSearchParams.legNo)
+        Assert.assertNull(inboundSearchParams.flightCabinClass)
         Assert.assertEquals("outboundleg", inboundSearchParams.selectedOutboundLegId)
+    }
+
+    @Test
+    fun testBuildParamsForInboundSearchWithSeatClassPreference() {
+        builder.adults(expectedNumAdults)
+        builder.startDate(tomorrow)
+        builder.endDate(expectedReturnDate)
+        builder.origin(expectedOrigin)
+        builder.destination(expectedDestination)
+        builder.flightCabinClass("BUSINESS")
+        val params = builder.build()
+        val inboundSearchParams = params.buildParamsForInboundSearch(maxStay, maxRange, "outboundleg")
+
+        Assert.assertEquals("BUSINESS", inboundSearchParams.flightCabinClass)
     }
 
     private fun giveSearchParams(): FlightSearchParams {
