@@ -5,6 +5,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.section.CommonSectionValidators
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.validation.ValidationError
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -55,12 +56,14 @@ open class AddGuestItinViewModel(val context: Context) {
         override fun onTripFailedFetchingGuestItinerary() {
             showErrorObservable.onNext(true)
             showErrorMessageObservable.onNext(context.getString(R.string.unable_to_find_guest_itinerary))
+            OmnitureTracking.trackItinError()
         }
 
         override fun onTripFailedFetchingRegisteredUserItinerary() {
             showErrorObservable.onNext(true)
             showErrorMessageObservable.onNext(Phrase.from(context.getString(R.string.unable_to_find_registered_user_itinerary_template))
                     .put("brand", BuildConfig.brand).format().toString())
+            OmnitureTracking.trackItinError()
         }
     }
 

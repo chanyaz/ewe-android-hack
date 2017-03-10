@@ -47,6 +47,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
             showAddGuestItinScreen(false)
             addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
+            OmnitureTracking.trackFindGuestItin()
         }
 
         addGuestItinWidget.viewModel.showItinFetchProgressObservable.subscribe {
@@ -69,7 +70,6 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
 
         show(addGuestItinWidget, Presenter.FLAG_CLEAR_TOP)
-        OmnitureTracking.trackFindGuestItin()
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(false)
         if (!hasError) {
             addGuestItinWidget.resetFields()
