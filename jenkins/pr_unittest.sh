@@ -119,9 +119,11 @@ function printTestStatus() {
 }
 
 function printResultsAndExit() {
-  if [[ "$flavor" == "Expedia" && (($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) || ($kotlinUnusedResourcesStatus -ne 0)) ]]; then
+  if [[ "$flavor" == "Expedia" && ($prPoliceStatus -ne 0) ]]; then
+    echo "WARNING: PR Police has flagged potential problems."
+  fi
+  if [[ "$flavor" == "Expedia" && (($unitTestStatus -ne 0) || ($kotlinUnusedResourcesStatus -ne 0)) ]]; then
     printTestStatus $unitTestStatus "Unit tests"
-    printTestStatus $prPoliceStatus "PR police"
     printTestStatus $kotlinUnusedResourcesStatus "Kotlin unused resources"
     echo "============ FAILURE - PLEASE SEE DETAILS ABOVE ============"
     exit 1
