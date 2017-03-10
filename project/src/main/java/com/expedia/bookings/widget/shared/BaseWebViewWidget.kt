@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.adobe.adms.measurement.ADMS_Measurement
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -90,6 +91,9 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun toggleLoading(loading: Boolean) {
+        if (ExpediaBookingApp.isAutomation()) {
+            return
+        }
         if (loading) {
             webView.visibility = View.GONE
             progressView.visibility = View.VISIBLE
