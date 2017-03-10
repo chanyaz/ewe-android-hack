@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -92,6 +93,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			String jsonString = intent.getStringExtra(EXTRA_NOTIFICATION);
 			deserialized.fromJson(new JSONObject(jsonString));
 			notification = findExistingNotification(deserialized);
+			Toast.makeText(context, notification.getNotificationType().toString(), Toast.LENGTH_LONG).show();
 		}
 		catch (JSONException e) {
 			Log.w("JSONException, unable to create notification. Ignoring", e);
@@ -147,10 +149,20 @@ public class NotificationReceiver extends BroadcastReceiver {
 		return Notification.findExisting(deserialized);
 	}
 
-	private void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
-		getItineraryManagerInstance()
-			.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
-		getItineraryManagerInstance().startSync(false);
+	@VisibleForTesting
+	protected void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
+
+		boolean isNotificationNotBooking = !finalNotification.getNotificationType().equals(NotificationType.DESKTOP_BOOKING);
+
+		if (isNotificationNotBooking) { // check trip is still valid (i.e. not cancelled)
+			getItineraryManagerInstance()
+				.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
+			getItineraryManagerInstance().startSync(false);
+		}
+		else {
+			showNotification(finalNotification, context); //show booking notification
+		}
+
 	}
 
 	@VisibleForTesting
@@ -184,7 +196,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 			private boolean isValidTripForScheduledNotification(Collection<Trip> trips) {
 				for (Trip trip : trips) {
 					for (TripComponent tripComponent : trip.getTripComponents()) {
-						boolean isValidTripForNotification = finalNotification.getNotificationType().equals(NotificationType.DESKTOP_BOOKING) || finalNotification.getUniqueId().contains(tripComponent.getUniqueId());
+						boolean isValidTripForNotification = finalNotification.getUniqueId().contains(tripComponent.getUniqueId());
 						if (isValidTripForNotification) {
 							return true;
 						}
