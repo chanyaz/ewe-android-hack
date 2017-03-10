@@ -186,7 +186,7 @@ class HotelItinCardTest {
         sut.bind(itinCardData)
 
         testSubscriber.requestMore(100L)
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(Property.RoomUpgradeType.HAS_UPGRADE_OFFERS)
 
@@ -206,7 +206,7 @@ class HotelItinCardTest {
         sut.bind(itinCardData)
 
         testSubscriber.requestMore(100L)
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(Property.RoomUpgradeType.NO_UPGRADE_OFFERS)
 

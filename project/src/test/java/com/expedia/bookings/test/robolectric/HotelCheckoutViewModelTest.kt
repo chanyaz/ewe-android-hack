@@ -43,9 +43,8 @@ class HotelCheckoutViewModelTest {
         val errorObservableTestSubscriber = TestSubscriber.create<ApiError>()
         subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)
 
-        val checkoutSubscriber = TestSubscriber(subjectUnderTest.getCheckoutResponseObserver())
         subjectUnderTest.checkoutParams.onNext(checkoutParams)
-        checkoutSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        errorObservableTestSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         errorObservableTestSubscriber.assertValue(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
     }

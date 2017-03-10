@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -81,8 +81,8 @@ class HotelCouponTest {
 
     @Test
     fun applyCouponWithUserPreference() {
-        var pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
-        var couponParams = HotelApplyCouponParameters.Builder()
+        val pointsDetails = UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000f, PointsType.BURN, Money("100", "USD")))
+        val couponParams = HotelApplyCouponParameters.Builder()
                 .tripId("b33f3017-6f65-4b02-8f73-87c9bf39ea76")
                 .isFromNotSignedInToSignedIn(false)
                 .couponCode("hotel_coupon_with_user_points_preference")
@@ -94,10 +94,10 @@ class HotelCouponTest {
 
         vm.couponParamsObservable.onNext(couponParams)
 
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
 
-        var tripResponse = testSubscriber.onNextEvents[0]
+        val tripResponse = testSubscriber.onNextEvents[0]
         assertNotNull(tripResponse.coupon)
         assertNotNull(tripResponse.newHotelProductResponse)
         assertNotNull(tripResponse.pointsDetails)

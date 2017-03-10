@@ -56,12 +56,12 @@ class AddGuestItinAPIErrorTest {
         mockItineraryManager.onTripFailedFetchingRegisteredUserItinerary()
 
         showSearchDialogSubscriber.requestMore(100L)
-        showSearchDialogSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        showSearchDialogSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         showSearchDialogSubscriber.assertValueCount(1)
 
         showErrorMessageSubscriber.requestMore(100L)
-        showErrorMessageSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        showErrorMessageSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         showErrorMessageSubscriber.assertValue("This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.")
     }
 
@@ -83,12 +83,12 @@ class AddGuestItinAPIErrorTest {
         mockItineraryManager.onTripFailedFetchingGuestItinerary()
 
         showSearchDialogSubscriber.requestMore(100L)
-        showSearchDialogSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        showSearchDialogSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         showSearchDialogSubscriber.assertValueCount(1)
 
         showErrorMessageSubscriber.requestMore(100L)
-        showErrorMessageSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        showErrorMessageSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
         showErrorMessageSubscriber.assertValue("Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.")
     }
 

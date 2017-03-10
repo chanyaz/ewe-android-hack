@@ -77,7 +77,7 @@ class HotelConfirmationPresenterTest {
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
         hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.itinDetailsResponseObservable.subscribe(testObserver)
         serviceRule.services!!.getTripDetails("web_view_hotel_trip_details", makeItinResponseObserver)
-        testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testObserver.awaitValueCount(1, 10, TimeUnit.SECONDS)
         assertEquals("CitiGarden Hotel", hotelPresenter.confirmationPresenter.hotelNameTextView.text)
         assertEquals("Feb 10 – 11, 2017", hotelPresenter.confirmationPresenter.checkInOutDateTextView.text)
         assertEquals("245 S Airport Blvd", hotelPresenter.confirmationPresenter.addressL1TextView.text)
