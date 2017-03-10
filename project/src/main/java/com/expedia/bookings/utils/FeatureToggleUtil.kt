@@ -21,12 +21,6 @@ class FeatureToggleUtil {
             return isFeatureEnabled
         }
 
-        @JvmStatic fun enableFeatureOnDebugBuild(context: Context, featureKey: Int) {
-            if (BuildConfig.DEBUG) {
-                SettingUtils.save(context, featureKey, true)
-            }
-        }
-
         private fun isTestBucketed(abacusTestKey: Int): Boolean {
             val isTestBucketed = Db.getAbacusResponse().isUserBucketedForTest(abacusTestKey)
             return isTestBucketed

@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
@@ -10,7 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -85,7 +85,6 @@ import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.notification.PushNotificationUtils;
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -104,7 +103,6 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import okhttp3.Call;
 import okhttp3.ConnectionSpec;
-import okhttp3.Cookie;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -164,10 +162,7 @@ public class ExpediaServices implements DownloadListener {
 	public OkHttpClient mCachedClient;
 
 	@Inject
-	public PersistentCookieManager mCookieManager;
-
-	@Inject
-	public PersistentCookieManagerV2 mCookieManagerV2;
+	public PersistentCookiesCookieJar mCookieManager;
 
 	@Inject
 	public EndpointProvider mEndpointProvider;
@@ -224,16 +219,6 @@ public class ExpediaServices implements DownloadListener {
 		return client.build();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Cookies
-
-	// Allows one to get the cookie store out of services, in case we need to
-	// inject the cookies elsewhere (e.g., a WebView)
-	public static HashMap<String, HashMap<String, Cookie>> getCookies(Context context) {
-		ExpediaServices services = new ExpediaServices(context);
-		return services.mCookieManager.getCookieStore();
-	}
-
 	public static void removeUserLoginCookies(Context context) {
 		Log.d("Cookies: Removing user login cookies");
 		String[] userCookieNames = {
@@ -247,8 +232,7 @@ public class ExpediaServices implements DownloadListener {
 	private static void removeUserLoginCookies(Context context, String[] userCookieNames) {
 		ExpediaServices services = new ExpediaServices(context);
 		String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
-		services.mCookieManager.removeNamedCookies(userCookieNames);
-		services.mCookieManagerV2.removeNamedCookies(endpointUrl, userCookieNames);
+		services.mCookieManager.removeNamedCookies(endpointUrl, userCookieNames);
 	}
 
 	public static void removeUserCookieFromUserLoginCookies(Context context) {
@@ -264,7 +248,6 @@ public class ExpediaServices implements DownloadListener {
 	public void clearCookies() {
 		Log.d("Cookies: Clearing!");
 		mCookieManager.clear();
-		mCookieManagerV2.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

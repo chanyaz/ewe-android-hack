@@ -37,12 +37,10 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -801,6 +799,10 @@ public class PointOfSale {
 		return shouldShowWebCheckout;
 	}
 
+	public boolean shouldUseAutoWebViewSyncCookieStore() {
+		return shouldShowWebCheckout;
+	}
+
 	public String getHotelsWebCheckoutURL() {
 		return hotelsWebCheckoutURL;
 	}
@@ -1042,12 +1044,11 @@ public class PointOfSale {
 	 *
 	 * @param configHelper a prepared PointOfSaleConfigHelper.
 	 * @param pointOfSaleKey the configured point of sale, or null if an appropriate default should be picked.
-	 * @param connectingToProduction whether the app is connecting to the production endpoint
 	 * @param usingTabletInterface whether the app is using the tablet interface
 	 * @return the configured point of sale key to be saved in settings as desired
 	 */
-	public static String init(PointOfSaleConfigHelper configHelper, String pointOfSaleKey, boolean connectingToProduction,
-			boolean usingTabletInterface) {
+	public static String init(PointOfSaleConfigHelper configHelper, String pointOfSaleKey,
+		boolean usingTabletInterface) {
 
 		sIsTablet = usingTabletInterface;
 
@@ -1061,7 +1062,7 @@ public class PointOfSale {
 		loadExpediaPaymentPostalCodeOptionalCountries(configHelper);
 
 		// Init the cache
-		return updateCurrentPointOfSaleId(pointOfSaleKey, connectingToProduction);
+		return updateCurrentPointOfSaleId(pointOfSaleKey);
 	}
 
 	/**
@@ -1070,7 +1071,7 @@ public class PointOfSale {
 	 *
 	 * @return the new point of sale key
 	 */
-	private static String updateCurrentPointOfSaleId(String pointOfSaleKey, boolean connectingToProduction) {
+	private static String updateCurrentPointOfSaleId(String pointOfSaleKey) {
 		sCurrentPOSId = null;
 
 		if (Strings.isEmpty(pointOfSaleKey)) {
@@ -1140,9 +1141,7 @@ public class PointOfSale {
 
 		// Update the cache
 		String posKey = SettingUtils.get(context, context.getString(R.string.PointOfSaleKey), null);
-		boolean connectingToProduction =
-				Ui.getApplication(context).appComponent().endpointProvider().getEndPoint() == EndPoint.PRODUCTION;
-		posKey = updateCurrentPointOfSaleId(posKey, connectingToProduction);
+		posKey = updateCurrentPointOfSaleId(posKey);
 		SettingUtils.save(context, context.getString(R.string.PointOfSaleKey), posKey);
 
 		// clear all data

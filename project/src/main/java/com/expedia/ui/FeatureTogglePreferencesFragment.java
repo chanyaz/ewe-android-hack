@@ -25,15 +25,12 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
 		initializeFeatureCheck(R.string.preference_enable_hotel_loyalty_earn_message);
-		initializeFeatureCheck(R.string.preference_itin_hotel_upgrade);
 		initializeFeatureCheck(R.string.preference_itin_card_detail);
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
 		initializeFeatureCheck(R.string.preference_enable_3DS_checkout);
 		initializeFeatureCheck(R.string.preference_universal_checkout_material_forms);
 		initializeFeatureCheck(R.string.preference_itin_new_sign_in_screen);
 		initializeFeatureCheck(R.string.preference_flight_byot);
-		initializeFeatureCheck(R.string.preference_enable_new_cookies);
-		initializeFeatureCheck(R.string.preference_hotel_server_side_filters);
 		initializeFeatureCheck(R.string.preference_member_deal_on_launch_screen);
 		initializeFeatureCheck(R.string.preference_show_popular_hotels_on_launch_screen);
 		initializeFeatureCheck(R.string.preference_enable_payment_traveler_updated_strings);

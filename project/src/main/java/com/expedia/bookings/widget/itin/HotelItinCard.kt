@@ -17,7 +17,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.services.RoomUpgradeOffersService
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery
@@ -94,7 +93,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
 
     public fun isRoomUpgradable(): Boolean {
         val itinCardData = mItinContentGenerator.itinCardData as ItinCardDataHotel
-        val isFeatureOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelUpgrade, R.string.preference_itin_hotel_upgrade)
+        val isFeatureOn = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUpgrade)
         val hasRoomOffersApi = itinCardData.property.roomUpgradeOffersApiUrl != null
         val isRoomUpgradable = isFeatureOn && !itinCardData.isSharedItin && hasRoomOffersApi
         return isRoomUpgradable

@@ -96,7 +96,7 @@ class FlightErrorViewModelTest {
         val flightSearchParams = doFlightSearch()
         val expectedDate = DateFormatUtils.formatLocalDateToShortDayAndDate(flightSearchParams.departureDate)
         subjectUnderTest.paramsSubject.onNext(flightSearchParams)
-        assertEquals("Select flight to Los Angles", subjectUnderTest.titleObservable.value)
+        assertEquals("Select flight to Los Angles (LA)", subjectUnderTest.titleObservable.value)
         assertEquals(expectedDate + ", 1 Traveler", subjectUnderTest.subTitleObservable.value)
     }
 
@@ -114,7 +114,7 @@ class FlightErrorViewModelTest {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
         suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = ""
+        suggestion.regionNames.displayName = "Los Angles (LA)"
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = "Los Angles"
         suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()

@@ -73,6 +73,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.ExpediaAndroidAppPhablet);
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightPremiumClass);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
