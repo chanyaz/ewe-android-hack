@@ -22,9 +22,14 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 	//Was this valid last time - this is to improve performance
 	Drawable mDrawableRight;
 	private int mErrorString = -1;
+	private int mDropDownInt = 0;
 
 	public void setErrorString(int fieldId) {
 		mErrorString = fieldId;
+	}
+
+	public void setmDropDownInt(int dropdownId) {
+		mDropDownInt = dropdownId;
 	}
 
 	public ValidationIndicatorExclaimation(int fieldId) {
@@ -45,7 +50,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 			AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms);
 
 		if (materialFormTestEnabled && mErrorString != -1) {
-			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString);
+			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}
 		else {
 			if (!isValid) {

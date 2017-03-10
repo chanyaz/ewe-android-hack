@@ -160,24 +160,14 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:orientation="vertical"
-                        android:paddingBottom="@dimen/checkout_form_padding"
-                        android:paddingLeft="@dimen/checkout_form_padding"
-                        android:paddingRight="@dimen/checkout_form_padding"
-                        android:paddingTop="10dp">
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                             android:orientation="horizontal"
                             android:gravity="center_vertical|left">
-
-                            <ImageView
-                                android:id="@+id/display_credit_card_brand_icon_grey"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center_vertical|left"
-                                android:src="@drawable/ic_generic_card" />
 
                             <android.support.design.widget.TextInputLayout
                                 android:id="@+id/material_edit_credit_card_number"
@@ -225,12 +215,18 @@
 
                             </android.support.design.widget.TextInputLayout>
 
+                            <ImageView
+                                android:id="@+id/display_credit_card_brand_icon_grey"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="center_vertical|right"
+                                android:src="@drawable/ic_generic_card" />
+
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                             android:orientation="horizontal">
 
                             <android.support.design.widget.TextInputLayout
@@ -242,7 +238,6 @@
 
                                 <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
                                     android:id="@+id/edit_creditcard_exp_text_btn"
-                                    style="@style/FakeSpinner.Light"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:bufferType="spannable"
@@ -288,7 +283,6 @@
                                 android:id="@+id/edit_name_on_card"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                                 android:focusable="true"
                                 android:focusableInTouchMode="true"
                                 android:imeOptions="actionNext"
@@ -302,10 +296,14 @@
                     </LinearLayout>
 
                     <com.expedia.bookings.widget.TextView
-                        style="@style/HeaderTextAboveCardviews"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/billing_address" />
+                        android:text="@string/billing_address"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="12dp" />
 
                     <!--Billing Address section-->
                     <FrameLayout

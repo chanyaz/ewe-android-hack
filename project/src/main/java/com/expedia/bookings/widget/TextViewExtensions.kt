@@ -25,10 +25,12 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
     this.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], newDrawableRight, drawables[3])
 }
 
-fun TextView.setMaterialFormsError(isValid: Boolean, errorMessageId: Int) {
+
+fun TextView.setMaterialFormsError(isValid: Boolean, errorMessageId: Int, rightDrawableId: Int) {
     val errorMessage = this.context.resources.getString(errorMessageId)
+    val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
     val compounds = this.compoundDrawables
-    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3])
+    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
     (this.parent as TextInputLayout).isErrorEnabled = !isValid
 
     if (!isValid) {

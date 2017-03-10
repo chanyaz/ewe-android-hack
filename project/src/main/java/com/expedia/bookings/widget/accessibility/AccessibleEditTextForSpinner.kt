@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.accessibility
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
@@ -16,7 +17,7 @@ class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet)
             info.text = hint + ", " + context.resources.getString(R.string.accessibility_cont_desc_opens_dialog) + ", " + context.resources.getString(R.string.accessibility_cont_desc_role_error)
         } else {
             val text = this.text.toString()
-            val hint = this.hint.toString()
+            val hint = (this.parent as TextInputLayout).hint ?: this.hint.toString() ?: ""
             if (text.isEmpty()) {
                 info.text = " $hint" + ", " + context.resources.getString(R.string.accessibility_cont_desc_opens_dialog)
             } else {

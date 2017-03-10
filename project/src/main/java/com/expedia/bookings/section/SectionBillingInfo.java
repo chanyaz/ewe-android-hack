@@ -216,6 +216,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mValidNameOnCard.setErrorString(R.string.error_enter_a_valid_card_name);
 		mValidExpiration.setErrorString(R.string.error_enter_a_valid_month_and_year);
 		mValidSecurityCode.setErrorString(R.string.error_enter_valid_cvv);
+		mValidExpiration.setmDropDownInt(R.drawable.material_dropdown);
 	}
 
 	//////////////////////////////////////

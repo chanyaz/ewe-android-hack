@@ -2,7 +2,6 @@
 <com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
@@ -15,7 +14,6 @@
             android:id="@+id/edit_address_line_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:imeOptions="actionNext"
@@ -37,7 +35,6 @@
             android:id="@+id/edit_address_line_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
             android:imeOptions="actionNext"
             android:inputType="textPostalAddress|textCapWords"
             android:nextFocusForward="@id/edit_address_city"
@@ -70,7 +67,6 @@
                     android:id="@id/edit_address_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:nextFocusForward="@+id/edit_address_state"
@@ -115,7 +111,6 @@
                     android:id="@id/edit_address_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
                     android:imeOptions="actionNext"
                     android:inputType="textCapCharacters"
                     android:nextFocusForward="@+id/edit_address_postal_code"
@@ -137,7 +132,6 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:minHeight="40dp"
-
                     android:nextFocusForward="@id/edit_creditcard_number"
                     android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size" />

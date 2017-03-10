@@ -4929,4 +4929,6 @@
     <string name="error_enter_valid_cvv">Enter a valid CVV number</string>
     <!-- Material payment form error for credit card name -->
     <string name="error_enter_a_valid_card_name">Enter name as it appears on the card</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_country_code">Select a country code</string>
 </resources>

@@ -170,7 +170,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             onFocusChange(view, hasFocus)
         }
 
-        editCountryEditText?.subscribeMaterialFormsError(sectionLocation.billingCountryErrorSubject.map { it }, R.string.error_select_a_billing_country)
+        editCountryEditText?.subscribeMaterialFormsError(sectionLocation.billingCountryErrorSubject.map { it }, R.string.error_select_a_billing_country, R.drawable.material_dropdown)
 
         sectionLocation.billingCountryCodeSubject.subscribe { countryCode ->
             var billingCountry = countryCode
