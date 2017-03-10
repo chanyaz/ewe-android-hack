@@ -3,10 +3,10 @@ package com.expedia.bookings.widget.accessibility
 import android.content.Context
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityNodeInfo
-import android.widget.TextView
+import android.widget.EditText
 import com.expedia.bookings.R
 
-class AccessibleTextViewForSpinner(context: Context, attributeSet: AttributeSet) : TextView(context, attributeSet) {
+class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet) : EditText(context, attributeSet) {
     var valid: Boolean = true
 
     override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {

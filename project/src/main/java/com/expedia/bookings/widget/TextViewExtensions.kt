@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.widget.TextView
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -22,6 +23,19 @@ fun TextView.addErrorExclamation() {
 fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
     val drawables = this.compoundDrawables
     this.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1], newDrawableRight, drawables[3])
+}
+
+fun TextView.setMaterialFormsError(isValid: Boolean, errorMessageId: Int) {
+    val errorMessage = this.context.resources.getString(errorMessageId)
+    val compounds = this.compoundDrawables
+    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3])
+    (this.parent as TextInputLayout).isErrorEnabled = !isValid
+
+    if (!isValid) {
+        (this.parent as TextInputLayout).error = errorMessage
+    } else {
+        (this.parent as TextInputLayout).error = null
+    }
 }
 
 

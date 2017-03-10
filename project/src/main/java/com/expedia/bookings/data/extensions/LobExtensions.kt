@@ -31,3 +31,7 @@ fun LineOfBusiness.hasBillingInfo(): Boolean {
     return this == LineOfBusiness.FLIGHTS_V2 || this == LineOfBusiness.PACKAGES || this == LineOfBusiness.FLIGHTS
 }
 
+fun LineOfBusiness.isMaterialFormEnabled(context: Context) : Boolean {
+    return LineOfBusinessExtensions.isUniversalCheckout(this, context) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
+}

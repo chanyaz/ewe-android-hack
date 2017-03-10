@@ -2385,6 +2385,8 @@
     <string name="country">Country</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
+    <!-- Billing country label -->
+    <string name="billing_country">Billing Country</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Redress # (if applicable)</string>
     <!-- traveler number hint -->
@@ -4898,4 +4900,28 @@
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">How we determine sort order</string>
+    <!-- Material payment form error for credit card number-->
+    <string name="error_enter_a_valid_card_number">Enter a valid card number</string>
+    <!-- Material payment form error for credit card expiration date -->
+    <string name="error_enter_a_valid_month_and_year">Enter a valid month and year</string>
+    <!-- Material payment form error for billing address-->
+    <string name="error_enter_a_valid_billing_address">Enter a valid billing address (using letters and numbers only)</string>
+    <!-- Material payment form error for billing address zip code-->
+    <string name="error_enter_a_zip_code">Enter a valid zip code</string>
+    <!-- Material payment form error for billing address state-->
+    <string name="error_enter_a_valid_state">Enter a valid state</string>
+    <!-- Material payment form error for billing address city-->
+    <string name="error_enter_a_valid_city">Enter a valid city</string>
+    <!-- Material payment form error for billing address postal code-->
+    <string name="error_enter_a_valid_postal_code">Enter a valid postal code</string>
+    <!-- Material payment form error for billing address province -->
+    <string name="error_enter_a_valid_province">Enter a valid province</string>
+    <!-- Material payment form error for billing address zip code -->
+    <string name="error_enter_a_valid_province_state_country">Enter a valid county/state/province</string>
+    <!-- Material payment form error for billing address country -->
+    <string name="error_select_a_billing_country">Select a billing country</string>
+    <!-- Material payment form error for credit card security code -->
+    <string name="error_enter_valid_cvv">Enter a valid CVV number</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_card_name">Enter name as it appears on the card</string>
 </resources>

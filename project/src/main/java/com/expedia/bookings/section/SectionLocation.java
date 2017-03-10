@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import android.content.Context;
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -49,7 +50,9 @@ public class SectionLocation extends LinearLayout
 	Location mLocation;
 	Context mContext;
 	LineOfBusiness mLineOfBusiness;
-	public BehaviorSubject countrySubject = BehaviorSubject.create();
+	public BehaviorSubject<String> billingCountryCodeSubject = BehaviorSubject.create();
+	public BehaviorSubject<Boolean> billingCountryErrorSubject = BehaviorSubject.create();
+	CountrySpinnerAdapter materialCountryAdapter;
 
 	public SectionLocation(Context context) {
 		super(context);
@@ -118,6 +121,9 @@ public class SectionLocation extends LinearLayout
 			throw new RuntimeException(
 				"Attempting to validate the SectionLocation without knowing the LOB. Proper validation requires a LOB to be set");
 		}
+		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+			validateBillingCountry();
+		}
 		return mFields.hasValidInput();
 	}
 
@@ -131,6 +137,22 @@ public class SectionLocation extends LinearLayout
 
 	public void resetValidation() {
 		mFields.setValidationIndicatorState(true);
+		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+			billingCountryCodeSubject.onNext("");
+			billingCountryErrorSubject.onNext(false);
+		}
+	}
+
+	public void setMaterialCountryAdapter(CountrySpinnerAdapter adapter) {
+		materialCountryAdapter = adapter;
+	}
+
+	public CountrySpinnerAdapter getMaterialCountryAdapter() {
+		return materialCountryAdapter;
+	}
+
+	public void removeNonMaterialFields() {
+		mFields.removeField(mEditCountrySpinner);
 	}
 
 	public void resetValidation(int fieldID, boolean status) {
@@ -163,14 +185,41 @@ public class SectionLocation extends LinearLayout
 		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 			return true;
 		}
-		CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
-		String selectedCountryCode = countryAdapter
-			.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER);
+		CountrySpinnerAdapter countryAdapter;
+		String selectedCountryCode;
+		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+			if (billingCountryCodeSubject.getValue() == null || billingCountryCodeSubject.getValue().isEmpty()) {
+				countryAdapter = materialCountryAdapter;
+				selectedCountryCode = countryAdapter.getItemValue(countryAdapter.getDefaultLocalePosition(), CountryDisplayType.THREE_LETTER);
+			}
+			else {
+				selectedCountryCode = billingCountryCodeSubject.getValue();
+			}
+		}
+		else {
+			countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
+			selectedCountryCode = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER);
+		}
 		return mCountriesWithStates.contains(selectedCountryCode);
 	}
 
-	protected void rebindCountryDependantFields() {
+	public void rebindCountryDependantFields() {
 		mEditAddressPostalCode.bindData(mLocation);
+	}
+
+	public void updateCountryDependantValidation() {
+		// Force the postal code section to update its validator
+		mEditAddressPostalCode.onChange(null);
+
+		// Force the State/Province section to update its validator
+		mEditAddressState.onChange(null);
+	}
+
+	public void setMaterialErrorStrings() {
+		mValidAddrLineOne.setErrorString(R.string.error_enter_a_valid_billing_address);
+		mValidCity.setErrorString(R.string.error_enter_a_valid_city);
+		mValidState.setErrorString(R.string.error_enter_a_valid_state);
+		mValidPostalCode.setErrorString(R.string.error_enter_a_valid_postal_code);
 	}
 
 	//////////////////////////////////////
@@ -516,21 +565,26 @@ public class SectionLocation extends LinearLayout
 				Location location = this.getData();
 				PointOfSaleId posId = PointOfSale.getPointOfSale().getPointOfSaleId();
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
-				if ((location != null && location.getCountryCode() != null
-					&& location.getCountryCode().equalsIgnoreCase("USA"))
-					|| (!mEditCountrySpinner.hasBoundField() && posId == ProductFlavorFeatureConfiguration.getInstance()
-					.getUSPointOfSaleId())) {
-					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
-					if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
-						this.getField().setHint(R.string.address_zip_code_hint);
-					}
-					else {
-						this.getField().setHint(R.string.address_postal_code_hint_US);
-					}
+				if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+					updateMaterialPostalFields(posId);
 				}
 				else {
-					this.getField().setInputType(InputType.TYPE_CLASS_TEXT);
-					this.getField().setHint(R.string.address_postal_code_hint);
+					if ((location != null && location.getCountryCode() != null
+						&& location.getCountryCode().equalsIgnoreCase("USA"))
+						|| (!mEditCountrySpinner.hasBoundField() && posId == ProductFlavorFeatureConfiguration.getInstance()
+						.getUSPointOfSaleId())) {
+						this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
+						if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+							this.getField().setHint(R.string.address_zip_code_hint);
+						}
+						else {
+							this.getField().setHint(R.string.address_postal_code_hint_US);
+						}
+					}
+					else {
+						this.getField().setInputType(InputType.TYPE_CLASS_TEXT);
+						this.getField().setHint(R.string.address_postal_code_hint);
+					}
 				}
 			}
 		}
@@ -543,9 +597,22 @@ public class SectionLocation extends LinearLayout
 	private boolean requiresPostalCode() {
 		// #1056. Postal code check depends on the country, of billing, selected.
 		if (LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
-			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
-			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
-				CountryDisplayType.THREE_LETTER);
+			String selectedCountry;
+			if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+				CountrySpinnerAdapter countryAdapter = new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
+					R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false);
+				int position = (billingCountryCodeSubject.getValue() != null
+					&& !billingCountryCodeSubject.getValue().isEmpty())
+					? countryAdapter.getPositionByCountryThreeLetterCode(billingCountryCodeSubject.getValue())
+					: countryAdapter.getDefaultLocalePosition();
+				selectedCountry = countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER);
+			}
+			else {
+				CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
+				selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
+					CountryDisplayType.THREE_LETTER);
+			}
+
 			return PointOfSale.countryPaymentRequiresPostalCode(selectedCountry);
 		}
 
@@ -566,26 +633,16 @@ public class SectionLocation extends LinearLayout
 
 		private void updateData(int position) {
 			if (getData() != null && getField() != null) {
-				CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) getField().getAdapter();
+				CountrySpinnerAdapter countryAdapter = LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())
+					? materialCountryAdapter : (CountrySpinnerAdapter) getField().getAdapter();
 				getData()
 					.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
 				updateCountryDependantValidation();
 				rebindCountryDependantFields();
 				if (mEditAddressState.mField != null) {
 					String countryCode = getData().getCountryCode();
-					countrySubject.onNext(countryCode);
-					if (countryCode.equals(mCountriesWithStates.get(0))) {
-						mEditAddressState.mField.setHint(R.string.address_state_hint);
-						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-					}
-					else if (countryCode.equals(mCountriesWithStates.get(1))) {
-						mEditAddressState.mField.setHint(R.string.address_province_hint);
-						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-					}
-					else {
-						mEditAddressState.mField.setHint(R.string.address_county_hint);
-						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT);
-					}
+					billingCountryCodeSubject.onNext(countryCode);
+					updateStateFieldBasedOnBillingCountry(countryCode);
 				}
 			}
 		}
@@ -621,17 +678,10 @@ public class SectionLocation extends LinearLayout
 			});
 		}
 
-		protected void updateCountryDependantValidation() {
-			// Force the postal code section to update its validator
-			mEditAddressPostalCode.onChange(null);
-
-			// Force the State/Province section to update its validator
-			mEditAddressState.onChange(null);
-		}
-
 		@Override
 		protected void onHasFieldAndData(Spinner field, Location data) {
-			CountrySpinnerAdapter adapter = (CountrySpinnerAdapter) field.getAdapter();
+			CountrySpinnerAdapter adapter = LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())
+				? materialCountryAdapter : (CountrySpinnerAdapter) getField().getAdapter();
 			if (data instanceof RailLocation && ((RailLocation) data).getTicketDeliveryCountryCodes() != null) {
 				adapter.dataSetChanged(((RailLocation) data).getTicketDeliveryCountryCodes());
 			}
@@ -746,4 +796,84 @@ public class SectionLocation extends LinearLayout
 			return retArr;
 		}
 	};
+
+	private void validateBillingCountry() {
+		boolean hasError = true;
+		if (billingCountryCodeSubject.getValue() != null) {
+			if (!billingCountryCodeSubject.getValue().isEmpty()) {
+				hasError = false;
+			}
+		}
+		billingCountryErrorSubject.onNext(hasError);
+	}
+
+	public void updateStateFieldBasedOnBillingCountry(String countryCode) {
+		int hintString;
+		int errorString;
+
+		if (countryCode.equals(mCountriesWithStates.get(0))) {
+			hintString = R.string.address_state_hint;
+			errorString = R.string.error_enter_a_valid_state;
+			mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+		}
+		else if (countryCode.equals(mCountriesWithStates.get(1))) {
+			hintString = R.string.address_province_hint;
+			errorString = R.string.error_enter_a_valid_province;
+			mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+		}
+		else {
+			hintString = R.string.address_county_hint;
+			errorString = R.string.error_enter_a_valid_province_state_country;
+			mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT);
+		}
+
+		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+			TextInputLayout stateLayout = (TextInputLayout) findViewById(R.id.material_edit_address_state);
+			stateLayout.setHint(getContext().getString(hintString));
+			mValidState.setErrorString(errorString);
+		}
+		else {
+			mEditAddressState.mField.setHint(hintString);
+		}
+	}
+
+	public void updateMaterialPostalFields(PointOfSaleId pointOfSaleId) {
+		int postalHintString;
+		int postalErrorString;
+		TextInputLayout postalLayout = (TextInputLayout) findViewById(R.id.material_edit_address_postal_code);
+
+		if  (billingCountryCodeSubject.getValue() != null  && !billingCountryCodeSubject.getValue().isEmpty()) {
+			if (materialCountryAdapter.getItemValue(materialCountryAdapter
+				.getPositionByCountryThreeLetterCode(billingCountryCodeSubject.getValue()), CountryDisplayType.THREE_LETTER)
+				.equalsIgnoreCase("USA")) {
+				if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+					postalHintString = R.string.address_zip_code_hint;
+				}
+				else {
+					postalHintString = R.string.address_postal_code_hint_US;
+				}
+				postalErrorString = R.string.error_enter_a_zip_code;
+			}
+			else {
+				postalHintString = R.string.address_postal_code_hint;
+				postalErrorString = R.string.error_enter_a_valid_postal_code;
+			}
+		}
+		else if (pointOfSaleId.equals(ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
+			if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+				postalHintString = R.string.address_zip_code_hint;
+			}
+			else {
+				postalHintString = R.string.address_postal_code_hint_US;
+			}
+			postalErrorString = R.string.error_enter_a_zip_code;
+		}
+		else {
+			postalHintString = R.string.address_postal_code_hint;
+			postalErrorString = R.string.error_enter_a_valid_postal_code;
+		}
+
+		postalLayout.setHint(getContext().getString(postalHintString));
+		mValidPostalCode.setErrorString(postalErrorString);
+	}
 }
