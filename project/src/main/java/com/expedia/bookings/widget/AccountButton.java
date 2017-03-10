@@ -1,19 +1,17 @@
 package com.expedia.bookings.widget;
 
-import java.text.NumberFormat;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -27,6 +25,7 @@ import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -46,6 +45,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
+import java.text.NumberFormat;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -174,9 +174,24 @@ public class AccountButton extends LinearLayout {
 			if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
+				int textColor;
+				int drawableSkinAttribute;
+				if (LobExtensionsKt.isUniversalCheckout(lob, getContext()) && Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInButtonYellow)) {
+					textColor = R.color.material_checkout_yellow_account_button_text_color;
+					((CardView) mLoginContainer).setCardBackgroundColor(
+						ContextCompat
+							.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
+					drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
+				}
+				else {
+					textColor = R.color.material_checkout_account_button_text_color;
+					drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
+				}
+
 				mLoginTextView.setTextColor(
-					ContextCompat.getColor(getContext(), R.color.material_checkout_account_button_text_color));
-				int[] attrs = {R.attr.skin_material_checkout_account_logo};
+					ContextCompat.getColor(getContext(), textColor));
+				int[] attrs = { drawableSkinAttribute };
 				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
 				mLoginTextView
 					.setCompoundDrawablesWithIntrinsicBounds(ta.getDrawable(0), null, null, null);
