@@ -169,7 +169,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		guestItinTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startAddGuestItinActivity(false);
+				showAddGuestItinScreen();
 			}
 		});
 
@@ -180,13 +180,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startAddGuestItinActivity(false);
+				showAddGuestItinScreen();
 			}
 		});
 		mFindItineraryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startAddGuestItinActivity(false);
+				showAddGuestItinScreen();
 			}
 		});
 
@@ -384,7 +384,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity());
 	}
 
-	public synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
+	public synchronized void showAddGuestItinScreen() {
+		if (isNewSignInScreen()) {
+			mSignInPresenter.getSignInWidget().getViewModel().getAddGuestItinClickSubject().onNext(Unit.INSTANCE);
+		}
+		else {
+			startAddGuestItinActivity(false);
+		}
+	}
+
+	private synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		if (isFetchGuestItinFailure) {
 			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_GUEST_ITINERARY);
@@ -393,7 +402,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		startActivity(intent);
 	}
 
-	public synchronized void startAddRegisteredUserItinActivity() {
+	private synchronized void startAddRegisteredUserItinActivity() {
 
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
@@ -598,15 +607,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripFailedFetchingGuestItinerary() {
-		boolean isFetchGuestItinFailure = true;
 		if (!isNewSignInScreen()) {
-			startAddGuestItinActivity(isFetchGuestItinFailure);
+			startAddGuestItinActivity(true);
 		}
 	}
 
 	@Override
 	public void onTripFailedFetchingRegisteredUserItinerary() {
-		startAddRegisteredUserItinActivity();
+		if (!isNewSignInScreen()) {
+			startAddRegisteredUserItinActivity();
+		}
 	}
 
 	@Override

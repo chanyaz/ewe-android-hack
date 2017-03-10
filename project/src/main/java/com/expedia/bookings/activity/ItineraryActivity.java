@@ -336,7 +336,7 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 			return true;
 		}
 		case R.id.menu_add_guest_itinerary: {
-			mItinListFragment.startAddGuestItinActivity(false);
+			mItinListFragment.showAddGuestItinScreen();
 			return true;
 		}
 		case R.id.menu_log_in: {
