@@ -5,7 +5,7 @@
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/filter_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/packages_flight_filter_background_color"
         android:focusable="false"
         android:focusableInTouchMode="false"
