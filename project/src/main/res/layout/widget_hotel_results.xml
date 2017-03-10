@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.expedia.bookings.widget.FrameLayout
         android:id="@+id/stub_map"
@@ -35,6 +36,7 @@
         android:overScrollMode="never" />
 
     <LinearLayout
+        android:id="@+id/hotel_results_top_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -68,6 +70,38 @@
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:id="@+id/hotel_urgency_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone"
+            android:background="?attr/hotel_urgency_background_color"
+            tools:visibility="visible">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/urgency_percentage_view"
+                style="@style/Core.Text.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:drawablePadding="8dp"
+                android:drawableLeft="@drawable/ic_trending_up_white_18px"
+                tools:text="30% Booked"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/urgency_destination_description_view"
+                style="@style/Core.Text.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                tools:text="San Fransisco is a popular location on your dates"/>
+        </LinearLayout>
 
         <View
             android:id="@+id/toolbar_dropshadow"

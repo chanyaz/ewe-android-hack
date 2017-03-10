@@ -35,7 +35,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_new_cookies);
 		initializeFeatureCheck(R.string.preference_hotel_server_side_filters);
 		initializeFeatureCheck(R.string.preference_member_deal_on_launch_screen);
-		initializeFeatureCheck(R.string.preference_urgency_hotel_results);
 		initializeFeatureCheck(R.string.preference_show_popular_hotels_on_launch_screen);
 		initializeFeatureCheck(R.string.preference_enable_payment_traveler_updated_strings);
 		initializeFeatureCheck(R.string.preference_open_car_web_view);

@@ -215,6 +215,8 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CAROUSEL_SCROLL = "App.Hotels.Search.ShowNext";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
+	private static final String HOTEL_URGENCY_COMPRESSION_SCORE = "HOT.SR.RegionCompression.Score.";
+
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
 	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
@@ -368,6 +370,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideNoReviewRating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelMemberPricingBadge);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsSortFaq);
 
@@ -4631,6 +4634,16 @@ public class OmnitureTracking {
 		s.setProp(16, PAY_WITH_POINTS_ERROR);
 		s.setProp(36, errorMessage);
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackUrgencyScore(int score) {
+		String compressionVar = new StringBuilder(HOTEL_URGENCY_COMPRESSION_SCORE).append(score).toString();
+		Log.d(TAG, "Tracking \"" + compressionVar);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, compressionVar);
+		s.setProp(16, compressionVar);
+		s.trackLink(null, "o", "Compression Score", null, null);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

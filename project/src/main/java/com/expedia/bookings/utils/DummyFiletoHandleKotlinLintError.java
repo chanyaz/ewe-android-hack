@@ -146,6 +146,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.brand_secondary,
 		R.color.hotelsv2_amenity_icon_color,
 		R.color.hotel_urgency_message_color,
+		R.string.urgency_percent_booked_TEMPLATE,
+		R.string.urgency_destination_description_TEMPLATE,
 		R.color.hotel_tonight_only_color,
 		R.color.hotel_mobile_exclusive_color,
 		R.color.hotelsv2_detail_star_color,
