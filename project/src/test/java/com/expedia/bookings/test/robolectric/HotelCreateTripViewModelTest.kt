@@ -30,9 +30,8 @@ class HotelCreateTripViewModelTest {
         val errorObservableTestSubscriber = TestSubscriber.create<ApiError>()
         subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)
 
-        val createTripSubscriber = TestSubscriber(subjectUnderTest.getCreateTripResponseObserver())
         subjectUnderTest.tripParams.onNext(HotelCreateTripParams("error_room_unavailable_0", false, 1, emptyList()))
-        createTripSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        errorObservableTestSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         errorObservableTestSubscriber.assertValue(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
     }

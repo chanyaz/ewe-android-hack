@@ -253,7 +253,7 @@ class FlightOffersViewModelTest {
         sut.outboundResultsObservable.subscribe(testSubscriber)
 
         performFlightSearch(true)
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
+        testSubscriber.awaitValueCount(1, 10, TimeUnit.SECONDS)
 
         val legs = testSubscriber.onNextEvents[0]
         assertEquals(3, legs.size)
@@ -274,7 +274,7 @@ class FlightOffersViewModelTest {
         sut.outboundResultsObservable.subscribe(searchSubscriber)
 
         performFlightSearch(true)
-        searchSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
+        searchSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
 
         val testSubscriber = TestSubscriber<List<FlightLeg>>()
         sut.inboundResultsObservable.take(2).subscribe(testSubscriber)
@@ -288,7 +288,7 @@ class FlightOffersViewModelTest {
         val outboundFlight2 = FlightLeg()
         outboundFlight2.legId = secondOutboundFlightId
 
-        testSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
+        testSubscriber.awaitValueCount(2, 2, TimeUnit.SECONDS)
         val inboundFlights1 = testSubscriber.onNextEvents[0]
         val inboundFlights2 = testSubscriber.onNextEvents[1]
         assertEquals(1, inboundFlights1.size)

@@ -151,14 +151,12 @@ class PayWithPointsViewModelTest {
     fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
         createTripWithShopWithPointsOpted(true)
         optForPwp(true)
-        val latch = CountDownLatch(3)
-        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch.countDown() }
 
         createTripResponse.tripId = "happy|5000"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         createTripResponse.tripId = "happy_avaliable_points_less_than_trip"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
-        latch.await(10, TimeUnit.SECONDS)
+        pointsAppliedMessageTestSubscriber.awaitValueCount(4, 10, TimeUnit.SECONDS)
 
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("Calculating points…", true), Pair("Calculating points…", true), Pair("300 points applied", true))
     }
@@ -169,15 +167,13 @@ class PayWithPointsViewModelTest {
         //Toggle switch off
         optForPwp(false)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValuesAndClear(Pair("1,000 points applied", true), Pair("0 points applied", true))
 
         //Toggle switch on
-        val latch1 = CountDownLatch(2)
-        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch1.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
-        latch1.await(10, TimeUnit.SECONDS)
+        pointsAppliedMessageTestSubscriber.awaitValueCount(2, 10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14,005 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValuesAndClear(Pair("Calculating points…", true), Pair("14,005 points applied", true))
 
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
         createTripResponse.tripId = "happy|500"
@@ -185,18 +181,14 @@ class PayWithPointsViewModelTest {
 
         payWithPointsViewModel.pwpOpted.onNext(false)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
-                Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValuesAndClear(Pair("Calculating points…", true), Pair("0 points applied", true))
 
         //Toggle switch on, last entered value in pwp edit box is used to make API call
         createTripResponse.tripId = "happy"
-        val latch3 = CountDownLatch(1)
-        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch3.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
-        latch3.await(10, TimeUnit.SECONDS)
+        pointsAppliedMessageTestSubscriber.awaitValueCount(2, 10, TimeUnit.SECONDS)
 
-        pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
-                Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14,005 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("Calculating points…", true), Pair("14,005 points applied", true))
     }
 
     @Test
