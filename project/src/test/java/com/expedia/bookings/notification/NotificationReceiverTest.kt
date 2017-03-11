@@ -14,6 +14,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.mockito.Mockito.never
+import org.mockito.verification.VerificationMode
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 import kotlin.test.assertEquals
@@ -106,10 +108,30 @@ class NotificationReceiverTest {
         assertEquals(0, allNotifications.size)
     }
 
-    private fun makeNotification(uniqueId: String): Notification {
+    @Test
+    fun notificationShowsForBookingStatusNotificationTypeAndInvalidTrip() {
+        val context = Robolectric.buildActivity(Activity::class.java).create().get()
+        val invalidUniqueId = "4321 legTwo"
+        val notificationType = Notification.NotificationType.DESKTOP_BOOKING
+        val mockItineraryManager = Mockito.mock(ItineraryManager::class.java)
+        val notificationReceiver = TestNotificationReceiver(mockItineraryManager, null)
+
+        notificationReceiver.checkTripValidAndShowNotification(context, makeNotification(invalidUniqueId, notificationType))
+
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val shadowNotificationManager = shadowOf(notificationManager)
+        val allNotifications = shadowNotificationManager.allNotifications
+
+        Mockito.verify(mockItineraryManager, never()).addSyncListener(Mockito.any(ItineraryManager.ItinerarySyncAdapter::class.java))
+        Mockito.verify(mockItineraryManager, never()).startSync(false)
+        assertEquals(1, allNotifications.size)
+    }
+
+    private fun makeNotification(uniqueId: String, type: Notification.NotificationType = Notification.NotificationType.FLIGHT_CANCELLED): Notification {
         val ourNotification = Mockito.mock(Notification::class.java)
 
         Mockito.`when`(ourNotification.uniqueId).thenReturn(uniqueId)
+        Mockito.`when`(ourNotification.notificationType).thenReturn(type)
         Mockito.doNothing().`when`(ourNotification).didNotify()
         Mockito.`when`(ourNotification.imageType).thenReturn(Notification.ImageType.NONE)
         Mockito.`when`(ourNotification.toJson()).thenReturn(JSONObject())

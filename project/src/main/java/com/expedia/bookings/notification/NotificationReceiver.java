@@ -147,10 +147,20 @@ public class NotificationReceiver extends BroadcastReceiver {
 		return Notification.findExisting(deserialized);
 	}
 
-	private void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
-		getItineraryManagerInstance()
-			.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
-		getItineraryManagerInstance().startSync(false);
+	@VisibleForTesting
+	protected void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
+
+		boolean isNotificationNotBooking = !finalNotification.getNotificationType().equals(NotificationType.DESKTOP_BOOKING);
+
+		if (isNotificationNotBooking) { // check trip is still valid (i.e. not cancelled)
+			getItineraryManagerInstance()
+				.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
+			getItineraryManagerInstance().startSync(false);
+		}
+		else {
+			showNotification(finalNotification, context); //show booking notification
+		}
+
 	}
 
 	@VisibleForTesting
