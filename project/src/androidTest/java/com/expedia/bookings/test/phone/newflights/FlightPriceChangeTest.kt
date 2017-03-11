@@ -57,7 +57,7 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         getToCheckoutOverview(PriceChangeType.CHECKOUT, false)
 
         assertInsuranceIsVisible()
-        PackageScreen.toggleInsurance()
+        PackageScreen.toggleInsuranceSwitch()
         assertInsuranceBeforePriceChange()
 
         PackageScreen.enterTravelerInfo()
