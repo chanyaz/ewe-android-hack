@@ -333,8 +333,7 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		new CarWebViewTracking().trackAppCarWebViewABTest();
 		if (PointOfSale.getPointOfSale().supportsCarsWebView()
-			&& FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowCarWebView,
-			R.string.preference_open_car_web_view)) {
+			&& Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebView)) {
 			String carEndPointUrl = Ui.getApplication(context).appComponent()
 				.endpointProvider().getE3EndpointUrlWithPath("car-hire?mcicid=App.Cars.WebView");
 			CarWebViewActivity.IntentBuilder builder = new CarWebViewActivity.IntentBuilder(context);

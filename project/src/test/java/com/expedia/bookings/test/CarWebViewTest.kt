@@ -44,7 +44,6 @@ class CarWebViewTest {
 
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppShowCarWebView)
         setPOSWithCarWebViewEnabled()
-        SettingUtils.save(activity, R.string.preference_open_car_web_view, true)
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
@@ -57,17 +56,6 @@ class CarWebViewTest {
     fun carsLaunchButtonOpensNativeAbTestOff() {
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppShowCarWebView)
         setPOSWithCarWebViewEnabled()
-        SettingUtils.save(activity, R.string.preference_open_car_web_view, true)
-        goToCars()
-        val intent = shadowApplication!!.nextStartedActivity
-        assertEquals(CarActivity::class.java.name, intent.component.className)
-    }
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun carsLaunchButtonOpensNativeFeatureOff() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppShowCarWebView)
-        setPOSWithCarWebViewEnabled()
-        SettingUtils.save(activity, R.string.preference_open_car_web_view, false)
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         assertEquals(CarActivity::class.java.name, intent.component.className)

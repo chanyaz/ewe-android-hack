@@ -463,7 +463,10 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	private boolean isItinPageUrl(String url) {
-		return url.contains("/trips/");
+		if (url != null && url.contains("/trips/")) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean canGoBack() {
