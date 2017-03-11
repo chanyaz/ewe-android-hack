@@ -14,7 +14,8 @@ class AccessibleEditTextForSpinner(context: Context, attributeSet: AttributeSet)
         super.onInitializeAccessibilityNodeInfo(info)
         if (!valid) {
             val hint = this.hint.toString()
-            info.text = hint + ", " + context.resources.getString(R.string.accessibility_cont_desc_opens_dialog) + ", " + context.resources.getString(R.string.accessibility_cont_desc_role_error)
+            val error = (this.parent as? TextInputLayout)?.error ?: context.resources.getString(R.string.accessibility_cont_desc_role_error)
+            info.text = hint + ", " + context.resources.getString(R.string.accessibility_cont_desc_opens_dialog) + ", " +  error
         } else {
             val text = this.text.toString()
             val hint = (this.parent as TextInputLayout).hint ?: this.hint.toString() ?: ""

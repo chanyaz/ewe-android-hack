@@ -155,6 +155,11 @@ public class SectionLocation extends LinearLayout
 		mFields.removeField(mEditCountrySpinner);
 	}
 
+	public void validateCountryDependantFields() {
+		mEditAddressState.isValid();
+		mEditAddressPostalCode.isValid();
+	}
+
 	public void resetValidation(int fieldID, boolean status) {
 		mFields.setValidationIndicatorState(fieldID, status);
 	}

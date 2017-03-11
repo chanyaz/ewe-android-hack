@@ -122,8 +122,9 @@
                 android:id="@+id/section_billing_info_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_view_container_margin"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp">
 
                 <com.expedia.bookings.section.SectionBillingInfo
                     android:id="@+id/section_billing_info"
@@ -136,6 +137,8 @@
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/card_info_label"
                         style="@style/HeaderTextAboveCardviews"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginLeft="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
@@ -159,9 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:orientation="vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -175,17 +176,18 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|left"
                                 android:hint="@string/credit_debit_card_hint"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
+                                android:labelFor="@+id/edit_creditcard_number"
                                 android:layout_weight="1">
 
                                 <com.expedia.bookings.widget.NumberMaskEditText
                                     android:id="@+id/edit_creditcard_number"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:focusable="true"
-                                    android:focusableInTouchMode="true"
                                     android:imeOptions="actionNext"
                                     android:maxLines="1"
-                                    android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
                                     android:textSize="@dimen/traveler_input_text_size"
                                     android:layout_gravity="left"
                                     app:numberFormat="creditcard" />
@@ -198,19 +200,20 @@
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:visibility="gone"
-                                android:hint="@string/credit_card_hint">
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
+                                android:hint="@string/credit_card_hint"
+                                android:labelFor="@+id/edit_masked_creditcard_number">
 
                                 <com.expedia.bookings.widget.MaskedCreditCardEditText
                                     android:id="@+id/edit_masked_creditcard_number"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
-                                    android:focusable="true"
-                                    android:focusableInTouchMode="true"
                                     android:imeOptions="actionNext"
                                     android:inputType="number"
                                     android:maxLines="1"
-                                    android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
                                     android:textSize="@dimen/traveler_input_text_size" />
 
                             </android.support.design.widget.TextInputLayout>
@@ -234,17 +237,17 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="@string/expiration_date">
+                                android:hint="@string/expiration_date"
+                                android:focusableInTouchMode="true"
+                                android:focusable="true"
+                                android:nextFocusForward="@+id/edit_creditcard_cvv"
+                                android:labelFor="@+id/edit_creditcard_exp_text_btn">
 
                                 <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
                                     android:id="@+id/edit_creditcard_exp_text_btn"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:bufferType="spannable"
-                                    android:drawableRight="@drawable/material_dropdown"
-                                    android:focusableInTouchMode="true"
-                                    android:focusable="true"
-                                    android:nextFocusForward="@+id/edit_creditcard_cvv"
                                     android:textSize="@dimen/traveler_input_text_size" />
 
                             </android.support.design.widget.TextInputLayout>
@@ -254,19 +257,20 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:nextFocusForward="@+id/edit_name_on_card"
+                                android:labelFor="@+id/edit_creditcard_cvv"
                                 android:hint="@string/cvv_enter_security_code_v2">
 
                                 <com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
                                     android:id="@+id/edit_creditcard_cvv"
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
-                                    android:focusable="true"
-                                    android:focusableInTouchMode="true"
                                     android:imeOptions="actionNext"
                                     android:inputType="numberPassword"
                                     android:maxLength="4"
                                     android:maxLines="1"
-                                    android:nextFocusForward="@+id/edit_name_on_card"
                                     android:textSize="@dimen/traveler_input_text_size" />
 
                             </android.support.design.widget.TextInputLayout>
@@ -277,14 +281,15 @@
                         android:id="@+id/edit_name_on_card_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/cardholder_name_hint">
+                        android:hint="@string/cardholder_name_hint"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:labelFor="@+id/edit_name_on_card">
 
                             <com.expedia.bookings.widget.accessibility.AccessibleEditText
                                 android:id="@+id/edit_name_on_card"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusable="true"
-                                android:focusableInTouchMode="true"
                                 android:imeOptions="actionNext"
                                 android:inputType="textPersonName|textCapWords"
                                 android:maxLines="1"
@@ -301,8 +306,6 @@
                         android:text="@string/billing_address"
                         android:textColor="@color/black"
                         android:textSize="18dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
                         android:paddingTop="12dp" />
 
                     <!--Billing Address section-->
@@ -310,8 +313,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:orientation="vertical"
-                        android:padding="@dimen/checkout_form_padding">
+                        android:orientation="vertical">
 
                         <include
                             android:id="@+id/section_location_address"

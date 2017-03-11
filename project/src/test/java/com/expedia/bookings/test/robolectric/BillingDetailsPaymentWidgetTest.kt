@@ -57,7 +57,7 @@ class BillingDetailsPaymentWidgetTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, false)
+        SettingUtils.save(activity, R.string.preference_universal_checkout_material_forms, false)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
     }
@@ -477,27 +477,27 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingStateValidation() {
         givenMaterialPaymentBillingWidget()
         val stateLayout = billingDetailsPaymentWidget.addressState.parent as TextInputLayout
-//        Only US & CA POS require state
-        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("MEX")
+        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("USA")
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(stateLayout, "County/State/Province")
 
-        validateInvalidBillingInfo()
-        assertValidState(stateLayout, "County/State/Province")
-
-        billingDetailsPaymentWidget.sectionLocation.resetValidation()
-        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         assertValidState(stateLayout, "State")
-
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        validateInvalidBillingInfo()
         assertErrorState(stateLayout, "Enter a valid state")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
-        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
+        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("CAN")
         assertValidState(stateLayout, "Province")
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertErrorState(stateLayout, "Enter a valid province")
+
+        billingDetailsPaymentWidget.sectionLocation.resetValidation()
+        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("SWE")
+        assertValidState(stateLayout, "County/State/Province")
+
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("MEX")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertValidState(stateLayout, "County/State/Province")
     }
 
     @Test
@@ -531,10 +531,11 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun testMaterialBillingZipValidation() {
+    fun testMaterialBillingZipValidationUsPos() {
         givenMaterialPaymentBillingWidget()
-        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
+        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
+
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(postalLayout, "Zip Code")
 
@@ -543,14 +544,14 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
-        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
+        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
         assertValidState(postalLayout, "Zip")
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertErrorState(postalLayout, "Enter a valid zip code")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
-        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("FRA")
+        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.MEXICO)
         assertValidState(postalLayout, "Postal Code")
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
@@ -638,7 +639,6 @@ class BillingDetailsPaymentWidgetTest {
 
     private fun givenMaterialPaymentBillingWidget() {
         SettingUtils.save(activity, R.string.preference_universal_checkout_material_forms, true)
-        SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.UNITED_STATES.id.toString())
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)

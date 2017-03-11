@@ -28,7 +28,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 		mErrorString = fieldId;
 	}
 
-	public void setmDropDownInt(int dropdownId) {
+	public void setMaterialDropdownResource(int dropdownId) {
 		mDropDownInt = dropdownId;
 	}
 

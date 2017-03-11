@@ -38,6 +38,7 @@ fun TextView.setMaterialFormsError(isValid: Boolean, errorMessageId: String, rig
         (this.parent as TextInputLayout).error = errorMessage
     } else {
         (this.parent as TextInputLayout).error = null
+        if (this.text.isBlank()) this.text = null
     }
 }
 
