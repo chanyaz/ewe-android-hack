@@ -55,6 +55,7 @@ public class NavUtils {
 	public static final int FLAG_DEEPLINK = 1;
 	public static final int FLAG_OPEN_SEARCH = 2;
 	public static final int FLAG_OPEN_RESULTS = 3;
+	public static final int MEMBER_ONLY_DEAL_SEARCH = 4;
 
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
@@ -195,6 +196,10 @@ public class NavUtils {
 		User.signIn((Activity) context, new Bundle());
 	}
 
+	public static void goToHotels(Context context, int flags) {
+		goToHotels(context, null, null, flags);
+	}
+
 	public static void goToHotels(Context context, HotelSearchParams params) {
 		goToHotels(context, params, null, 0);
 	}
@@ -215,6 +220,10 @@ public class NavUtils {
 
 		if ((flags & FLAG_OPEN_SEARCH) != 0) {
 			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		if ((flags & MEMBER_ONLY_DEAL_SEARCH) != 0) {
+			intent.putExtra(Codes.MEMBER_ONLY_DEALS, true);
 		}
 
 		Class<HotelActivity> routingTarget = HotelActivity.class;

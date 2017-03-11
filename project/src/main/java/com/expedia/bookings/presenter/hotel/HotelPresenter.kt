@@ -830,6 +830,11 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
+        if (searchPresenter.memberDealsSearch) {
+            hotelSearchParams.sortType = "Discounts"
+            hotelSearchParams.shopWithPoints = false
+            resultsPresenter.shopWithPointsViewModel.isShopWithPointsAvailableObservable.onNext(false)
+        }
         errorPresenter.getViewModel().paramsSubject.onNext(params)
         if (params.suggestion.hotelId != null) {
             // Hotel name search - go straight to details

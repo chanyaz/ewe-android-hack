@@ -3,11 +3,13 @@ package com.expedia.bookings.mia.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.mia.vm.SmartOfferViewModel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
+import com.expedia.bookings.utils.NavUtils
 
 class MemberDealActivity : AppCompatActivity() {
     val dealsStatusView: TextView by lazy {
@@ -23,6 +25,11 @@ class MemberDealActivity : AppCompatActivity() {
         val toolBar = findViewById(R.id.mod_search_toolbar) as Toolbar
         toolBar.setNavigationOnClickListener { view ->
             onBackPressed()
+        }
+
+        val shopButton = findViewById(R.id.mod_shop_button) as Button
+        shopButton.setOnClickListener { view ->
+            NavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
         }
 
         smartOfferViewModel = SmartOfferViewModel(Ui.getApplication(this).appComponent().smartOfferService())

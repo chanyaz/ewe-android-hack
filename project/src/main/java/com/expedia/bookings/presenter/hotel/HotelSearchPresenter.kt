@@ -30,6 +30,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
 
+    var memberDealsSearch: Boolean = false
+
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
@@ -102,7 +104,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         View.inflate(context, R.layout.widget_search_params, this)
         travelerCardView.visibility = View.VISIBLE
         shopWithPointsWidget = swpWidgetStub.inflate().findViewById(R.id.widget_points_details) as ShopWithPointsWidget
-
     }
 
     override fun getSuggestionHistoryFileName(): String {
