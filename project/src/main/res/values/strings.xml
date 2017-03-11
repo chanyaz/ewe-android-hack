@@ -3881,7 +3881,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Press to view itinerary sharing options</string>
-
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">Press to view hide options</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Hotel Search Results</string>

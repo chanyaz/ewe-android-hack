@@ -119,6 +119,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/hide_menu_btn_cont_desc"
                     android:scaleType="centerInside"
                     android:gravity="top"
                     android:src="@drawable/ic_itin_action_overflow_white"
