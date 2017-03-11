@@ -4902,6 +4902,7 @@
     <!-- Member Deal Only -->
     <string name="member_deal_title">Member Deals</string>
     <string name="member_deal_subtitle">Discounts off select hotels</string>
+    <string name="continue_booking">Continue Booking</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">How we determine sort order</string>
