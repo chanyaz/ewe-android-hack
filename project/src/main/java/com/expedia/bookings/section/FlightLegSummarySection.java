@@ -293,8 +293,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 		adjustLayout(leg, isIndividualFlight);
 		this.setContentDescription(Phrase.from(context, R.string.flight_overview_TEMPLATE_cont_desc)
 			.put("airline", getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight))
-			.put("departs", formatTime(leg.getFirstWaypoint().getBestSearchDateTime()))
-			.put("arrives", formatTime(leg.getLastWaypoint().getBestSearchDateTime()))
+			.put("departuretime", formatTime(leg.getFirstWaypoint().getBestSearchDateTime()))
+			.put("arrivaltime", formatTime(leg.getLastWaypoint().getBestSearchDateTime()))
+			.put("departureairport", leg.getLastWaypoint().getAirport().mName)
+			.put("arrivalairport", leg.getLastWaypoint().getAirport().mName)
 			.format().toString());
 	}
 
