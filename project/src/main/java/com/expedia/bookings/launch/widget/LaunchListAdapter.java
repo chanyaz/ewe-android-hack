@@ -400,9 +400,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForPopularHotels() {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
-				R.string.preference_show_popular_hotels_on_launch_screen);
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 	}
 
 	private boolean userBucketedForSignIn(Context context) {

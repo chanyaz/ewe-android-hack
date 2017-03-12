@@ -62,7 +62,6 @@ class LaunchListAdapterTest {
 
         SettingUtils.save(context, R.string.preference_active_itin_on_launch, false)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, false)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, false)
     }
 
     @Test
@@ -72,7 +71,6 @@ class LaunchListAdapterTest {
 
         SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, true)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
 
         createSystemUnderTest()
         givenCustomerSignedIn()
@@ -586,7 +584,6 @@ class LaunchListAdapterTest {
 
     private fun givenPopularHotelsCardEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen, 1)
-        SettingUtils.save(context, R.string.preference_show_popular_hotels_on_launch_screen, true)
     }
 
     private fun givenSignInCardEnabled() {
