@@ -100,7 +100,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking.trackHotelsCardError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_default)
@@ -117,13 +117,13 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking.trackHotelsTravelerError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
                     buttonOneTextObservable.onNext(context.getString(R.string.search_again))
-                    HotelTracking.trackHotelsProductExpiredError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
                     hotelSoldOutErrorObservable.onNext(true)
@@ -138,7 +138,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking.trackHotelsPaymentFailedError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
                     imageObservable.onNext(R.drawable.error_trip_booked)
@@ -146,7 +146,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.my_trips))
                     titleObservable.onNext(context.getString(R.string.booking_complete))
                     subTitleObservable.onNext("")
-                    HotelTracking.trackHotelsTripAlreadyBookedError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 ApiError.Code.HOTEL_CHECKOUT_UNKNOWN -> {
                     imageObservable.onNext(R.drawable.no_hotel_error)
@@ -154,7 +154,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.retry))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking.trackHotelsUnknownError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 ApiError.Code.SESSION_TIMEOUT -> {
                     imageObservable.onNext(R.drawable.error_timeout)
@@ -163,7 +163,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     titleObservable.onNext(context.getString(R.string.session_timeout))
                     subTitleObservable.onNext("")
                     buttonOneTextObservable.onNext(context.getString(R.string.search_again))
-                    HotelTracking.trackHotelsSessionTimeOutError()
+                    HotelTracking.trackHotelsCheckoutError(error)
                 }
                 else -> {
                     makeDefaultError()

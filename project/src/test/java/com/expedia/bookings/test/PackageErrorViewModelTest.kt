@@ -9,6 +9,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
@@ -16,6 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class PackageErrorViewModelTest {
@@ -144,6 +146,10 @@ class PackageErrorViewModelTest {
 
         val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN);
 
+        val checkoutError = PackagesTracking().createCheckoutError(apiError)
+
+        assertEquals("CKO::PACKAGE_CHECKOUT_UNKNOWN", checkoutError)
+
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
@@ -173,6 +179,12 @@ class PackageErrorViewModelTest {
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
+        apiError.errorInfo = ApiError.ErrorInfo()
+        apiError.errorInfo.source = "UK"
+
+        val checkoutError = PackagesTracking().createCheckoutError(apiError)
+
+        assertEquals("CKO:UK:UNKNOWN_ERROR", checkoutError)
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
@@ -203,6 +215,13 @@ class PackageErrorViewModelTest {
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         val apiError = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR);
+        apiError.errorInfo = ApiError.ErrorInfo()
+        apiError.errorInfo.source = "Atlantis"
+        apiError.errorInfo.sourceErrorId = "K2401"
+
+        val checkoutError = PackagesTracking().createCheckoutError(apiError)
+
+        assertEquals("CKO:Atlantis:K2401", checkoutError)
 
         subjectUnderTest.hotelOffersApiErrorObserver.onNext(apiError.errorCode)
         subjectUnderTest.defaultErrorObservable.onNext(Unit)

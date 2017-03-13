@@ -132,10 +132,10 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
         return endlessObserver {
             error = it
+            FlightsV2Tracking.trackFlightCheckoutError(error)
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     handleCheckoutUnknownError()
-                    FlightsV2Tracking.trackFlightCheckoutUnknownError()
                 }
 
                 ApiError.Code.PAYMENT_FAILED -> {
@@ -146,17 +146,14 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
                     titleObservable.onNext(context.resources.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                     subscribeActionToButtonPress(showPaymentForm)
-                    FlightsV2Tracking.trackFlightCheckoutPaymentError()
                 }
 
                 ApiError.Code.SESSION_TIMEOUT -> {
                     handleSessionTimeout()
-                    FlightsV2Tracking.trackFlightCheckoutSessionTimeOutError()
                 }
 
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
                     showConfirmation.onNext(Unit)
-                    FlightsV2Tracking.trackFlightTripBookedError()
                 }
 
                 ApiError.Code.INVALID_INPUT -> {
@@ -165,11 +162,10 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
                     if (isTravelerFormInputError) {
                         subscribeActionToButtonPress(showTravelerForm)
                         buttonOneTextObservable.onNext(context.getString(R.string.edit_traveler_details))
-                        FlightsV2Tracking.trackFlightCheckoutTravelerFormInputError()
-                    } else {
+                    }
+                    else {
                         subscribeActionToButtonPress(showPaymentForm)
                         buttonOneTextObservable.onNext(context.resources.getString(R.string.edit_payment))
-                        FlightsV2Tracking.trackFlightCheckoutPaymentFormInputError()
                     }
                     errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
                     checkoutUnknownErrorObservable.onNext(Unit)
@@ -180,7 +176,6 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
                 else -> {
                     handleCheckoutUnknownError()
-                    FlightsV2Tracking.trackFlightCheckoutUnknownError()
                 }
             }
         }

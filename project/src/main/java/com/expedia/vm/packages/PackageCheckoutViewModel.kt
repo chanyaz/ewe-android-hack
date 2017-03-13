@@ -106,6 +106,8 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                         ApiError.Code.CID_DID_NOT_MATCHED,
                         ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
                         ApiError.Code.CARD_LIMIT_EXCEEDED,
+                        ApiError.Code.UNKNOWN_ERROR,
+                        ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN,
                         ApiError.Code.PAYMENT_FAILED -> {
                             checkoutErrorObservable.onNext(response.firstError)
                         }

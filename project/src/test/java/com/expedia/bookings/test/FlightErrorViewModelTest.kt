@@ -6,6 +6,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.vm.flights.FlightErrorViewModel
 import org.joda.time.LocalDate
@@ -40,7 +41,12 @@ class FlightErrorViewModelTest {
         val apiCheckoutErrorBadCard = ApiError(ApiError.Code.INVALID_INPUT)
         apiCheckoutErrorBadCard.errorInfo = ApiError.ErrorInfo()
         apiCheckoutErrorBadCard.errorInfo.field = "creditCardNumber"
+        apiCheckoutErrorBadCard.errorInfo.source = "London"
+        apiCheckoutErrorBadCard.errorInfo.sourceErrorId = "44232"
 
+        val checkoutError = FlightsV2Tracking.createCheckoutError(apiCheckoutErrorBadCard)
+
+        assertEquals("CKO:London:44232", checkoutError)
         assertErrorMessageMatchesCheckoutError(apiCheckoutErrorBadCard, errorMessage)
     }
 
@@ -49,7 +55,11 @@ class FlightErrorViewModelTest {
         val apiCheckoutErrorBadCard = ApiError(ApiError.Code.INVALID_INPUT)
         apiCheckoutErrorBadCard.errorInfo = ApiError.ErrorInfo()
         apiCheckoutErrorBadCard.errorInfo.field = "mainFlightPassenger.firstName"
+        apiCheckoutErrorBadCard.errorInfo.source = "USA"
 
+        val checkoutError = FlightsV2Tracking.createCheckoutError(apiCheckoutErrorBadCard)
+
+        assertEquals("CKO:USA:INVALID_INPUT", checkoutError)
         assertButtonTextMatchesCheckoutError(apiCheckoutErrorBadCard, errorMessage)
     }
 
@@ -59,6 +69,9 @@ class FlightErrorViewModelTest {
         apiCheckoutErrorBadCard.errorInfo = ApiError.ErrorInfo()
         apiCheckoutErrorBadCard.errorInfo.field = "creditCardNumber"
 
+        val checkoutError = FlightsV2Tracking.createCheckoutError(apiCheckoutErrorBadCard)
+
+        assertEquals("CKO::INVALID_INPUT", checkoutError)
         assertButtonTextMatchesCheckoutError(apiCheckoutErrorBadCard, errorMessage)
     }
 
