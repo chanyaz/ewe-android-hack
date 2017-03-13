@@ -51,7 +51,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
 
     override fun init(paymentViewModel: PaymentViewModel) {
         super.init(paymentViewModel)
-        paymentViewModel.onTemporarySavedCreditCardChosen.subscribe { close() }
         paymentViewModel.ccFeeDisclaimer.subscribeTextAndVisibility(creditCardFeeDisclaimer)
 
         creditCardFeeDisclaimer.setOnClickListener {

@@ -90,6 +90,7 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
         params.put("expectedTotalFare", expectedTotalFare)
         params.put("expectedFareCurrencyCode", expectedFareCurrencyCode)
         params.put("suppressFinalBooking", suppressFinalBooking)
+        params.put("storeCreditCardInUserProfile", billingInfo.saveCardToExpediaAccount)
 
         //BILLING
         val hasStoredCard = billingInfo.hasStoredCard()
