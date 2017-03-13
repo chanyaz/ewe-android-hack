@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
@@ -124,8 +125,12 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         MapsInitializer.initialize(context)
         googleMap = map
         googleMap?.uiSettings?.isMapToolbarEnabled = false
-        googleMap?.uiSettings?.isMyLocationButtonEnabled = false
         googleMap?.uiSettings?.isZoomControlsEnabled = false
         googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
+        if (havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = true
+        } else {
+            googleMap?.isMyLocationEnabled = false
+        }
     }
 }
