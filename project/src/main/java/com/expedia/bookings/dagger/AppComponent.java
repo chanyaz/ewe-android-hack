@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 import android.content.Context;
 
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
-import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
@@ -15,6 +14,7 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
+
 import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -26,7 +26,6 @@ public interface AppComponent {
 	void inject(UserAccountRefresher userAccountRefresher);
 	void inject(NewPhoneLaunchActivity activity);
 	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
-	void inject(LaunchListWidget launchListWidget);
 
 	Context appContext();
 	EndpointProvider endpointProvider();
