@@ -417,6 +417,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.bundle_widget,
 		R.string.billing_country,
 		R.string.error_select_a_billing_country,
+		R.string.error_select_a_valid_country_code,
 		R.string.seat_preference,
 		R.layout.test_flight_advanced_options_entry_widget,
 		R.dimen.airlines_filter_height,

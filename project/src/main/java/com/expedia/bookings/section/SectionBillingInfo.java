@@ -224,6 +224,13 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mValidSecurityCode.setErrorString(getContext().getResources().getString(R.string.error_enter_valid_cvv));
 	}
 
+	public void resetMaterialErrorString() {
+		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+			mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+			mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
+		}
+	}
+
 	//////////////////////////////////////
 	//////INVALID CHARACTER STUFF
 	//////////////////////////////////////
@@ -307,18 +314,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 				else {
 					field.setImageResource(R.drawable.ic_generic_card);
-					if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-						mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-						mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-					}
+					resetMaterialErrorString();
 				}
 			}
 			else {
 				field.setImageResource(R.drawable.ic_generic_card);
-				if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-					mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-					mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-				}
+				resetMaterialErrorString();
 			}
 		}
 	};
@@ -483,10 +484,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							if (isCreditField && getData().getNumber().isEmpty()) {
 								getData().setBrandCode(null);
 								getData().setBrandName(null);
-								if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-									mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-									mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-								}
+								resetMaterialErrorString();
 
 							}
 
@@ -498,10 +496,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
 									field.setTextColor(mOriginalTextColors);
-									if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-										mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-										mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-									}
+									resetMaterialErrorString();
 								}
 								else {
 									if (mEditCreditCardSecurityCode.getField() != null) {
@@ -534,10 +529,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 			else {
 				field.setText("");
-				if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-					mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-					mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
-				}
+				resetMaterialErrorString();
 			}
 			mOriginalTextColors = field.getTextColors();
 		}

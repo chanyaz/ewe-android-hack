@@ -249,6 +249,7 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
             (this.parent as TextInputLayout).error = errorMessage
         } else {
             (this.parent as TextInputLayout).error = null
+            if (this.text.isNullOrBlank()) this.setText("")
         }
     }
 }
