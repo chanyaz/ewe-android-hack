@@ -33,6 +33,7 @@ import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -196,7 +197,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeText(depositPolicyText)
-        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        if (getLineOfBusiness() != LineOfBusiness.FLIGHTS_V2) {
+            vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        }
+        vm.animateInSlideToPurchaseObservable.subscribe { isVisible ->
+            if (Strings.isEmpty(vm.sliderPurchaseTotalText.value)) {
+                addBottomMarginInSlider()
+            }
+        }
         vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.showCheckoutDialogObservable.subscribe { show ->
             if (show) {
@@ -299,6 +307,16 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         setupKeyboardListeners()
         setUpErrorMessaging()
         initLoggedInState(User.isLoggedIn(context))
+        if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
+            addBottomMarginInSlider()
+        }
+    }
+
+    private fun addBottomMarginInSlider() {
+        slideTotalText.visibility = View.GONE
+        val layoutParams = slideToPurchase.layoutParams as LinearLayout.LayoutParams
+        layoutParams.bottomMargin = context.resources.getDimensionPixelOffset(R.dimen.checkout_slider_bottom_margin)
+        slideToPurchase.layoutParams = layoutParams
     }
 
     private fun setUpViewModels() {
