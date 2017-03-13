@@ -485,7 +485,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 								getData().setBrandCode(null);
 								getData().setBrandName(null);
 								resetMaterialErrorString();
-
 							}
 
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode

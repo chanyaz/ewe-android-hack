@@ -16,6 +16,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
@@ -477,26 +478,26 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingStateValidation() {
         givenMaterialPaymentBillingWidget()
         val stateLayout = billingDetailsPaymentWidget.addressState.parent as TextInputLayout
-        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("USA")
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
+        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("USA")
         assertValidState(stateLayout, "State")
-        validateInvalidBillingInfo()
+
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         assertErrorState(stateLayout, "Enter a valid state")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("CAN")
         assertValidState(stateLayout, "Province")
 
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
         assertErrorState(stateLayout, "Enter a valid province")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
-        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("SWE")
+        billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("MEX")
         assertValidState(stateLayout, "County/State/Province")
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("MEX")
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertValidState(stateLayout, "County/State/Province")
     }
 
@@ -534,12 +535,11 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingZipValidationUsPos() {
         givenMaterialPaymentBillingWidget()
         val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
-        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
-
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
         assertValidState(postalLayout, "Zip Code")
 
-        validateInvalidBillingInfo()
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         assertErrorState(postalLayout, "Enter a valid zip code")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
@@ -547,17 +547,26 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
         assertValidState(postalLayout, "Zip")
 
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         assertErrorState(postalLayout, "Enter a valid zip code")
-
-        billingDetailsPaymentWidget.sectionLocation.resetValidation()
-        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.MEXICO)
-        assertValidState(postalLayout, "Postal Code")
-
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        assertErrorState(postalLayout, "Enter a valid postal code")
     }
 
+    @Test
+    fun tesetMaterialBillingZipValidationNonUsPos() {
+        givenMaterialPaymentBillingWidget()
+        val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.IRELAND)
+        assertValidState(postalLayout, "Postal Code")
+
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("IRL")
+        assertValidState(postalLayout, "Postal Code")
+
+        billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
+        assertErrorState(postalLayout, "Enter a valid postal code")
+
+
+    }
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())

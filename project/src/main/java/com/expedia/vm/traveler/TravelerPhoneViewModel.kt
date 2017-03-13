@@ -36,10 +36,10 @@ open class TravelerPhoneViewModel(val context: Context) {
     }
 
     open fun validate(): Boolean {
-        val validCountryCode = phoneCountryCodeSubject.value.isNullOrBlank()
-        phoneCountryCodeErrorSubject.onNext(validCountryCode)
+        val hasError = phoneCountryCodeSubject.value.isNullOrBlank()
+        phoneCountryCodeErrorSubject.onNext(hasError)
         val validPhone = phoneViewModel.validate()
-        return validPhone && validCountryCode
+        return validPhone && !hasError
     }
 
     open fun getCountryName(phone:Phone) : String {

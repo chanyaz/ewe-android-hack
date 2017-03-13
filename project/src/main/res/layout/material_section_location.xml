@@ -8,11 +8,8 @@
         android:id="@+id/material_edit_address_line_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:hint="@string/address_line_one_hint"
-        android:labelFor="@+id/edit_address_line_one"
-        android:nextFocusForward="@+id/edit_address_city">
+        android:labelFor="@+id/edit_address_line_one">
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditText
             android:id="@+id/edit_address_line_one"
@@ -20,6 +17,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:inputType="textPostalAddress|textCapWords"
+            android:nextFocusForward="@+id/edit_address_city"
             android:maxLength="@integer/max_billing_address_length"
             android:maxLines="1"
             android:paddingBottom="11dp"
@@ -31,9 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/address_line_two_hint"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:nextFocusForward="@id/edit_address_city"
         android:labelFor="@+id/edit_address_line_two">
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -45,6 +40,7 @@
             android:paddingBottom="11dp"
             android:maxLength="@integer/max_billing_address_length"
             android:maxLines="1"
+            android:nextFocusForward="@id/edit_address_city"
             android:textSize="@dimen/traveler_input_text_size" />
 
     </android.support.design.widget.TextInputLayout>
@@ -65,9 +61,6 @@
                 android:id="@+id/material_address_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nextFocusForward="@+id/edit_address_state"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:labelFor="@+id/edit_address_city"
                 android:hint="@string/address_city_hint">
 
@@ -77,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
+                    android:nextFocusForward="@+id/edit_address_state"
                     android:paddingBottom="11dp"
                     android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size" />
@@ -87,8 +81,6 @@
                 android:id="@+id/material_country_spinner_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:labelFor="@+id/material_edit_country_button"
                 android:hint="@string/country">
 
@@ -98,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
                     android:textIsSelectable="true"
+                    android:nextFocusForward="@+id/edit_address_postal_code"
                     android:textSize="@dimen/traveler_input_text_size" />
 
             </android.support.design.widget.TextInputLayout>
@@ -114,9 +107,6 @@
                 android:id="@+id/material_edit_address_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nextFocusForward="@+id/edit_address_postal_code"
-                android:focusableInTouchMode="true"
-                android:focusable="true"
                 android:labelFor="@+id/edit_address_state"
                 android:hint="@string/address_state_hint">
 
@@ -128,6 +118,7 @@
                     android:inputType="textCapCharacters"
                     android:maxLength="@integer/max_billing_address_length"
                     android:maxLines="1"
+                    android:nextFocusForward="@+id/edit_address_postal_code"
                     android:textSize="@dimen/traveler_input_text_size" />
 
             </android.support.design.widget.TextInputLayout>
@@ -136,9 +127,6 @@
                 android:id="@+id/material_edit_address_postal_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nextFocusForward="@id/edit_creditcard_number"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:labelFor="@+id/edit_address_postal_code"
                 android:hint="@string/address_zip_code_hint">
 
@@ -149,6 +137,7 @@
                     android:imeOptions="actionDone"
                     android:minHeight="40dp"
                     android:maxLines="1"
+                    android:nextFocusForward="@id/edit_creditcard_number"
                     android:textSize="@dimen/traveler_input_text_size" />
 
             </android.support.design.widget.TextInputLayout>
