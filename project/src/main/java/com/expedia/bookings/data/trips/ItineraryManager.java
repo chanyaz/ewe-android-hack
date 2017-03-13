@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.concurrent.PriorityBlockingQueue;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -931,7 +931,7 @@ public class ItineraryManager implements JSONable {
 
 	// Priority queue that doesn't allow duplicates to be added
 	@SuppressWarnings("serial")
-	private static class TaskPriorityQueue extends PriorityQueue<Task> {
+	private static class TaskPriorityQueue extends PriorityBlockingQueue<Task> {
 		@Override
 		public boolean add(Task o) {
 			if (!contains(o)) {
