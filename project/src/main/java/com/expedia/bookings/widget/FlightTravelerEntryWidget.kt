@@ -244,7 +244,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     override fun resetErrorState() {
         super.resetErrorState()
         tsaEntryView.dateOfBirth.viewModel.errorSubject.onNext(false)
-        (viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(true)
+        val requiresPassport = (viewModel as FlightTravelerEntryWidgetViewModel).showPassportCountryObservable.value ?: false
+        if (requiresPassport) {
+            (viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(true)
+        }
         tsaEntryView.genderEditText?.viewModel?.errorSubject?.onNext(false)
     }
 
