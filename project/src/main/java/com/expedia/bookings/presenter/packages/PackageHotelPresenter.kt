@@ -430,7 +430,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private fun trackSearchResult() {
-        PackagesTracking().trackHotelSearchResultLoad(Db.getPackageResponse())
+        PackagesTracking().trackHotelSearchResultLoad(PackageResponseUtils.loadPackageResponse(context,
+                PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
