@@ -176,7 +176,7 @@ class CustomDeepLinkParserTest {
         Assert.assertEquals(LocalDate(2017, 5, 27), output.startDate)
         Assert.assertEquals("Las%20Vegas,%20NV", output.location)
 
-        data = data.buildUpon().appendQueryParameter("activityID", "346110").build()
+        data = data.buildUpon().appendQueryParameter("activityId", "346110").build()
         output = parser.parseDeepLink(data) as ActivityDeepLink
         Assert.assertEquals(LocalDate(2017, 5, 27), output.startDate)
         Assert.assertEquals("Las%20Vegas,%20NV", output.location)

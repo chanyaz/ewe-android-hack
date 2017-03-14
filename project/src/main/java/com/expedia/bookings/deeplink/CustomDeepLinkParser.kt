@@ -93,7 +93,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
 
         activityDeepLink.startDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "startDate", DateTimeFormat.forPattern("yyyy-MM-dd"))
         activityDeepLink.location = getQueryParameterIfExists(data, queryParameterNames, "location")
-        activityDeepLink.activityID = getQueryParameterIfExists(data, queryParameterNames, "activityID")
+        activityDeepLink.activityID = getQueryParameterIfExists(data, queryParameterNames, "activityId")
         activityDeepLink.filters = getQueryParameterIfExists(data, queryParameterNames, "filters")
 
         return activityDeepLink
