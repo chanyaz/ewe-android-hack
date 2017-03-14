@@ -9,7 +9,7 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.ImageButton
 
 object AccessibilityUtil {
-    @JvmStatic fun isTalkBackEnabled(context: Context) : Boolean {
+    @JvmStatic fun isTalkBackEnabled(context: Context): Boolean {
         val accessbilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager;
         return accessbilityManager.isEnabled && accessbilityManager.isTouchExplorationEnabled
     }
@@ -19,8 +19,8 @@ object AccessibilityUtil {
             for (i in 0..toolbar.childCount - 1) {
                 val v = toolbar.getChildAt(i)
                 if (v is ImageButton) {
-                    v.setFocusableInTouchMode(true)
-                    v.setFocusable(true)
+                    v.isFocusableInTouchMode = true
+                    v.isFocusable = true
                     v.clearFocus()
                     v.requestFocus()
                     v.setBackgroundColor(android.R.color.transparent)
@@ -49,7 +49,7 @@ object AccessibilityUtil {
 
     @JvmStatic fun delayedFocusToView(view: View, delayMillis: Long) {
         if (AccessibilityUtil.isTalkBackEnabled(view.context)) {
-            view.postDelayed(Runnable {
+            view.postDelayed({
                 view.isFocusableInTouchMode = true
                 view.isFocusable = true
                 view.clearFocus()
@@ -62,7 +62,7 @@ object AccessibilityUtil {
         view.contentDescription = StringBuilder(string).append(" ").append(view.context.getString(roleResId))
     }
 
-    @JvmStatic fun getNumberOfInvalidFields(vararg isValid : Boolean) : Int {
+    @JvmStatic fun getNumberOfInvalidFields(vararg isValid: Boolean): Int {
         var sum = 0
         for (item in isValid) {
             sum += if (item) 0 else 1
@@ -78,4 +78,8 @@ fun View.setFocusForView() {
 
 fun View.setAccessibilityHoverFocus() {
     this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+}
+
+fun View.setAccessibilityHoverFocus(delayMillis: Long) {
+    postDelayed({ this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER) }, delayMillis)
 }

@@ -5,10 +5,14 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.DatePicker
+import android.widget.ImageButton
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
@@ -55,7 +59,32 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
             setSelectableDateRange(dialog, currentDate, maxDate)
         }
 
+        setAccessibilityOnFirstElement(dialog)
+
         return dialog
+    }
+
+    fun setAccessibilityOnFirstElement(dialog: DatePickerDialog) {
+        if (baseSearchViewModel.isTalkbackActive()) {
+            // Here, Plus ImageButton of Month is present in View Hierarchy starting from
+            // dialog.datePicker -> LinearLayout -> NumberPicker -> Month widget -> ImageButton(Plus)
+            // Also, accessing view directly using findViewById() returns NULL as, the View is not painted on Screen at this point
+            var childView = getChildView(dialog.datePicker)
+            while (childView != null && childView is ViewGroup) {
+                childView = getChildView(childView)
+            }
+
+            if (childView != null && childView.visibility == View.VISIBLE && childView is ImageButton) {
+                dialog.setOnShowListener { (childView as View).setAccessibilityHoverFocus(200) }
+            }
+        }
+    }
+
+    fun getChildView(viewGroup: ViewGroup): View? {
+        if (viewGroup.childCount > 0) {
+            return viewGroup.getChildAt(0)
+        }
+        return null
     }
 
     fun minimumDateRange(startDate: LocalDate, maxDate: LocalDate): LocalDate {
@@ -106,5 +135,4 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
         val date = LocalDate(year, month.plus(1), dayOfMonth)
         view.announceForAccessibility(DateFormatUtils.formatLocalDateToShortDayAndDate(date))
     }
-
 }
