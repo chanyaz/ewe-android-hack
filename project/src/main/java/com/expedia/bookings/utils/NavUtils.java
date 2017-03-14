@@ -40,6 +40,7 @@ import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.CarWebViewTracking;
+import com.expedia.bookings.widget.ItinerarySyncLoginExtender;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.CarWebViewActivity;
 import com.expedia.ui.FlightActivity;
@@ -172,15 +173,15 @@ public class NavUtils {
 
 	public static void goToAccount(Activity activity) {
 		Bundle args = AccountLibActivity
-			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null);
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, new ItinerarySyncLoginExtender());
 		User.signIn(activity, args);
 	}
 
 	public static void goToSignIn(Context context) {
-		goToSignIn(context, true);
+		goToSignIn(context, true, false);
 	}
 
-	public static void goToSignIn(Context context, Boolean showAccount) {
+	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender) {
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
 		if (ExpediaBookingApp.useTabletInterface()) {
@@ -193,7 +194,11 @@ public class NavUtils {
 		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, showAccount);
 		builder.addNextIntent(intent);
 		builder.startActivities();
-		User.signIn((Activity) context, new Bundle());
+		Bundle bundle = new Bundle();
+		if (useItinSyncExtender) {
+			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItinerarySyncLoginExtender());
+		}
+		User.signIn((Activity) context, bundle);
 	}
 
 	public static void goToHotels(Context context, int flags) {
