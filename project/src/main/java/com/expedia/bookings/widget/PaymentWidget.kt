@@ -483,9 +483,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                         .put("brand", BuildConfig.brand)
                         .format())
                 .setPositiveButton(R.string.save, { dialogInterface, i ->
+                    OmnitureTracking.trackUserChoosesToSaveCard()
                     userChoosesToSaveCard()
                 })
                 .setNegativeButton(R.string.no_thanks, { dialogInterface, i ->
+                    OmnitureTracking.trackUserChoosesNotToSaveCard()
                     userChoosesNotToSaveCard()
                 }).create()
         dialog.show()
