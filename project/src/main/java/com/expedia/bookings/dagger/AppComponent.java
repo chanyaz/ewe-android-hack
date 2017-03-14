@@ -29,7 +29,6 @@ public interface AppComponent {
 	void inject(UserAccountRefresher userAccountRefresher);
 	void inject(NewPhoneLaunchActivity activity);
 	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
-	void inject(LaunchListWidget launchListWidget);
 	void inject(EBPreferencesFragment ebPreferencesFragment);
 
 	Context appContext();
