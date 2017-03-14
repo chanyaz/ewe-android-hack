@@ -13,6 +13,8 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
@@ -141,7 +143,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
-
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -184,6 +186,29 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceToggleIsEnabled();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
+
+		onView(withId(R.id.first_name_input)).perform(click());
+		onView(withId(R.id.last_name_input)).perform(click());
+		onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()));
+		onView(withId(R.id.edit_email_address)).perform(click());
+		onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()));
+		onView(withId(R.id.edit_phone_number)).perform(click());
+		onView(withText(R.string.email_validation_error_message)).check(matches(isDisplayed()));
+		onView(withId(R.id.middle_name_input)).perform(click());
+		Espresso.closeSoftKeyboard();
+		onView(withText(R.string.phone_validation_error_message)).check(matches(isDisplayed()));
+		Espresso.pressBack();
+
+		onView(withText("Enter missing traveler details")).check(doesNotExist());
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		onView(withText(R.string.first_name_validation_error_message)).check(doesNotExist());
+		onView(withText(R.string.last_name_validation_error_message)).check(doesNotExist());
+		onView(withText(R.string.email_validation_error_message)).check(doesNotExist());
+		onView(withText(R.string.phone_validation_error_message)).check(doesNotExist());
+		Espresso.pressBack();
+
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
 		PackageScreen.enterEmail("test@gmail.com");
@@ -191,8 +216,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.enterPhoneNumber("4155554321");
 		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989, 6, 9);
-		PackageScreen.selectGender("Male");
-		PackageScreen.clickTravelerAdvanced();
+		PackageScreen.materialSelectGender("Male");
 		PackageScreen.enterRedressNumber("1234567");
 		PackageScreen.clickTravelerDone();
 
@@ -206,10 +230,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertLegalInformation();
 		Common.pressBack();
 
-		// TODO - assert checkout overview information
-		CheckoutViewModel.performSlideToPurchase();
-
-		assertConfirmationView();
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
+		SettingUtils.save(getActivity(), R.string.preference_universal_checkout_material_forms, false);
 	}
 
 	public void testNewFlightHappyPathSignedIn() throws Throwable {
