@@ -215,7 +215,7 @@
     <!-- Insurance included -->
     <string name="insurance_included">Gồm bảo hiểm</string>
     <!-- Checkout confirmation message (temporary) -->
-    <string name="successful_checkout_TEMPLATE">Lịch trình số %1$s</string>
+    <string name="successful_checkout_TEMPLATE">Số lịch trình %1$s</string>
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">Thiếu thông tin.</string>
     <!--Adding hotel from Car Confirmation -->
@@ -240,6 +240,8 @@
     <string name="checkout_enter_payment_details">Phương thức thanh toán</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Nhập thẻ tín dụng</string>
+    <!-- Text for missing enter payment details !-->
+    <string name="enter_missing_payment_details">Nhập chi tiết thẻ còn thiếu</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Thanh toán bằng điểm thưởng</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1366,7 +1368,7 @@
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">Thoát khỏi %1$s sẽ xóa toàn bộ lịch trình liên kết với tài khoản này. Quý vị có chắc chắn muốn thoát không?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
-    <string name="flight_overview_TEMPLATE_cont_desc">{airline} khởi hành lúc {departs} và đến lúc {arrives}</string>
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline} khởi hành từ {departureairport} lúc {departuretime} và đến {arrivalairport} lúc {arrivaltime}</string>
     <!-- Directions -->
     <string name="directions">Hướng dẫn đường đi</string>
     <!-- Terminal Map -->
@@ -2383,6 +2385,8 @@
     <string name="country">Quốc gia</string>
     <!-- Passport country label -->
     <string name="passport_country">Quốc gia cấp hộ chiếu</string>
+    <!-- Billing country label -->
+    <string name="billing_country">Quốc gia thanh toán</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Số redress (nếu có)</string>
     <!-- traveler number hint -->
@@ -3058,6 +3062,11 @@
         <item quantity="many">Chỉ còn %d phòng!</item>
         <item quantity="other">Chỉ còn %d phòng!</item>
     </plurals>
+    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
+    <string name="urgency_percent_booked_TEMPLATE">Đã đặt {percentage}%</string>
+    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
+    <string name="urgency_destination_description_TEMPLATE">{destination} là điểm đến được nhiều người lựa chọn cùng ngày với quý vị</string>
+
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Thông tin phòng</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
@@ -3074,6 +3083,8 @@
     <string name="common_value_add_template">Tất cả phòng gồm %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Chọn phòng</string>
+    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
+    <string name="map_select_a_room_cont_desc_TEMPLATE">Nút chọn phòng {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Hủy miễn phí</string>
     <!-- Top line of resort fee text -->
@@ -3104,13 +3115,13 @@
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">Phí khách bổ sung</string>
     <!-- Label for clearing private data -->
-    <string name="clear_private_data">Xóa Dữ liệu Cá nhân</string>
+    <string name="clear_private_data">Xóa dữ liệu cá nhân</string>
     <!-- Title for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_title">Xóa Dữ liệu Cá nhân?</string>
+    <string name="dialog_clear_private_data_title">Xóa dữ liệu cá nhân?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">Thao tác này sẽ xóa tất cả thông tin thanh toán và liên hệ đã lưu.</string>
+    <string name="dialog_clear_private_data_msg">Thao tác này sẽ xóa toàn bộ thông tin tìm kiếm.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">Với thao tác này quý vị sẽ thoát và xóa mọi thông tin thanh toán và liên hệ đã lưu.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">Với thao tác này, quý vị sẽ thoát tài khoản và xóa toàn bộ thông tin tìm kiếm.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Đã xóa dữ liệu cá nhân</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -3125,6 +3136,8 @@
     <string name="confirmation_number">Số xác nhận</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Số lịch trình</string>
+    <!-- Itinerary number label content description -->
+    <string name="itinerary_number_cont_desc">Số lịch trình</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Nếu có câu hỏi về đặt phòng/đặt chỗ của mình, vui lòng gọi {brand} qua số {phone}.</string>
     <!-- Webview title for password recovery -->
@@ -3868,7 +3881,6 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Bấm để xem các tùy chọn chia sẻ lịch trình</string>
-
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Kết quả tìm khách sạn</string>
@@ -4669,8 +4681,8 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Tổng giá gói là {totalprice}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. {savings}. Hộp thoại chi tiết phí. Nút.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Giá gói là {price_per_person} mỗi người. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. Nút để xem gói.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Hiển thị chi tiết gói. Nút để đóng.</string>
+    <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
+    <string name="bundle_overview_price_widget_expanded_TEMPLATE">Chuyến đi đến {city_name}. {startdate} đến {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4854,6 +4866,8 @@
     <string name="email_validation_error_message">Nhập địa chỉ email hợp lệ</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">Nhập tên chỉ gồm chữ cái không dấu</string>
+    <!-- Checkout validation error message for middle name -->
+    <string name="middle_name_validation_error_message">Nhập tên đệm chỉ gồm chữ cái không dấu</string>
     <!-- Checkout validation error message for last name -->
     <string name="last_name_validation_error_message">Nhập họ chỉ gồm chữ cái không dấu (tối thiểu 2 ký tự)</string>
     <!-- Checkout validation error message for phone number -->
@@ -4886,6 +4900,33 @@
 
     <!-- Member Deal Only -->
     <string name="member_deal_title">Ưu đãi Thành viên</string>
-    <string name="member_deal_subtitle">Giảm giá tại nhiều thành phố</string>
+    <string name="member_deal_subtitle">Giảm giá tại nhiều khách sạn</string>
+    <string name="continue_booking">Tiếp tục đặt</string>
 
+    <!-- Hotel results sorting faq webview title -->
+    <string name="how_we_determine_sort_order">Cách xác định thứ tự sắp xếp</string>
+    <!-- Material payment form error for credit card number-->
+    <string name="error_enter_a_valid_card_number">Nhập số thẻ hợp lệ</string>
+    <!-- Material payment form error for credit card expiration date -->
+    <string name="error_enter_a_valid_month_and_year">Nhập tháng và năm hợp lệ</string>
+    <!-- Material payment form error for billing address-->
+    <string name="error_enter_a_valid_billing_address">Nhập địa chỉ thanh toán hợp lệ (chỉ số và chữ không dấu)</string>
+    <!-- Material payment form error for billing address zip code-->
+    <string name="error_enter_a_zip_code">Nhập mã zip hợp lệ</string>
+    <!-- Material payment form error for billing address state-->
+    <string name="error_enter_a_valid_state">Nhập bang hợp lệ</string>
+    <!-- Material payment form error for billing address city-->
+    <string name="error_enter_a_valid_city">Nhập thành phố hợp lệ</string>
+    <!-- Material payment form error for billing address postal code-->
+    <string name="error_enter_a_valid_postal_code">Nhập mã bưu điện hợp lệ</string>
+    <!-- Material payment form error for billing address province -->
+    <string name="error_enter_a_valid_province">Nhập tỉnh hợp lệ</string>
+    <!-- Material payment form error for billing address zip code -->
+    <string name="error_enter_a_valid_province_state_country">Nhập hạt/bang/tỉnh hợp lệ</string>
+    <!-- Material payment form error for billing address country -->
+    <string name="error_select_a_billing_country">Chọn quốc gia thanh toán</string>
+    <!-- Material payment form error for credit card security code -->
+    <string name="error_enter_valid_cvv">Nhập số CVV hợp lệ</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_card_name">Nhập tên trùng khớp với tên trên thẻ</string>
 </resources>
