@@ -240,6 +240,8 @@
     <string name="checkout_enter_payment_details">결제 방법</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">신용카드 입력</string>
+    <!-- Text for missing enter payment details !-->
+    <string name="enter_missing_payment_details">누락된 결제 정보 입력</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">포인트로 결제</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1366,7 +1368,7 @@
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">%1$s에서 로그아웃하시면 이 계정과 연결된 모든 일정 항목이 삭제됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
-    <string name="flight_overview_TEMPLATE_cont_desc">{airline}편이 {departs}에 출발하고 {arrives}에 도착합니다.</string>
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline}편이 {departureairport}에서 {departuretime}에 출발하고 {arrivalairport}에 {arrivaltime}에 도착합니다.</string>
     <!-- Directions -->
     <string name="directions">길 안내</string>
     <!-- Terminal Map -->
@@ -2383,6 +2385,8 @@
     <string name="country">국가</string>
     <!-- Passport country label -->
     <string name="passport_country">여권 국가</string>
+    <!-- Billing country label -->
+    <string name="billing_country">청구지 국가</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">리드레스 번호(해당하는 경우)</string>
     <!-- traveler number hint -->
@@ -3058,6 +3062,11 @@
         <item quantity="many">객실이 %d개 남았습니다!</item>
         <item quantity="other">객실이 %d개 남았습니다!</item>
     </plurals>
+    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
+    <string name="urgency_percent_booked_TEMPLATE">{percentage}% 예약됨</string>
+    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
+    <string name="urgency_destination_description_TEMPLATE">{destination}의 경우 선택된 날짜에 인기 있는 지역입니다.</string>
+
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">객실 정보</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
@@ -3074,6 +3083,8 @@
     <string name="common_value_add_template">모든 객실에 포함된 항목: %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">객실 선택</string>
+    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
+    <string name="map_select_a_room_cont_desc_TEMPLATE">최저 {price}의 객실을 선택할 수 있는 버튼입니다.</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">무료 취소</string>
     <!-- Top line of resort fee text -->
@@ -3108,9 +3119,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">개인 정보를 삭제하시겠어요?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">그러면 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
+    <string name="dialog_clear_private_data_msg">그러면 모든 검색 기록이 삭제됩니다.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">그러면 로그아웃되고 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">그러면 로그아웃되고 검색 기록이 삭제됩니다.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">개인 정보가 삭제되었습니다.</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -3125,6 +3136,8 @@
     <string name="confirmation_number">확인 번호</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">일정 번호</string>
+    <!-- Itinerary number label content description -->
+    <string name="itinerary_number_cont_desc">일정 번호</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">예약 관련 문의 사항이 있으시면 {brand}({phone})에 전화해 주시기 바랍니다.</string>
     <!-- Webview title for password recovery -->
@@ -3868,7 +3881,6 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">누르면 일정 공유 옵션이 표시됩니다.</string>
-
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">호텔 검색 결과</string>
@@ -4396,7 +4408,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4669,8 +4681,8 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">패키지 총 금액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}. 요금 내역 대화상자. 버튼.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 총 금액은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지 상품을 보려면 버튼을 탭하세요.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">패키지 상품 세부 정보 표시 중. 닫으려면 버튼을 탭하세요.</string>
+    <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
+    <string name="bundle_overview_price_widget_expanded_TEMPLATE">{city_name} 여행. {startdate}부터 {enddate}까지, 여행객 {guests}명</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4854,6 +4866,8 @@
     <string name="email_validation_error_message">유효한 이메일 주소를 입력해 주세요.</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">이름은 문자로만 입력해 주세요.</string>
+    <!-- Checkout validation error message for middle name -->
+    <string name="middle_name_validation_error_message">중간 이름은 문자로만 입력해 주세요.</string>
     <!-- Checkout validation error message for last name -->
     <string name="last_name_validation_error_message">성은 문자로만 입력해 주세요(2자 이상).</string>
     <!-- Checkout validation error message for phone number -->
@@ -4886,6 +4900,33 @@
 
     <!-- Member Deal Only -->
     <string name="member_deal_title">회원 한정 특가 상품</string>
-    <string name="member_deal_subtitle">인기 도시 할인 특가</string>
+    <string name="member_deal_subtitle">엄선된 호텔 특별 할인</string>
+    <string name="continue_booking">예약 계속하기</string>
 
+    <!-- Hotel results sorting faq webview title -->
+    <string name="how_we_determine_sort_order">정렬 순서가 결정되는 방식</string>
+    <!-- Material payment form error for credit card number-->
+    <string name="error_enter_a_valid_card_number">올바른 카드 번호를 입력해 주세요.</string>
+    <!-- Material payment form error for credit card expiration date -->
+    <string name="error_enter_a_valid_month_and_year">올바른 월과 연도를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address-->
+    <string name="error_enter_a_valid_billing_address">올바른 청구 주소를 입력해 주세요(문자와 숫자만 사용).</string>
+    <!-- Material payment form error for billing address zip code-->
+    <string name="error_enter_a_zip_code">올바른 우편 번호를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address state-->
+    <string name="error_enter_a_valid_state">올바른 도를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address city-->
+    <string name="error_enter_a_valid_city">올바른 도시를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address postal code-->
+    <string name="error_enter_a_valid_postal_code">올바른 우편 번호를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address province -->
+    <string name="error_enter_a_valid_province">올바른 주를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address zip code -->
+    <string name="error_enter_a_valid_province_state_country">올바른 주/도를 입력해 주세요.</string>
+    <!-- Material payment form error for billing address country -->
+    <string name="error_select_a_billing_country">청구지 국가를 선택해 주세요.</string>
+    <!-- Material payment form error for credit card security code -->
+    <string name="error_enter_valid_cvv">올바른 CVC 번호를 입력해 주세요.</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_card_name">카드에 표시된 것과 동일한 이름을 입력해 주세요.</string>
 </resources>

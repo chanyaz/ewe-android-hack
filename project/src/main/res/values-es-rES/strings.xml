@@ -240,6 +240,8 @@
     <string name="checkout_enter_payment_details">Forma de pago</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Introduce la tarjeta de crédito</string>
+    <!-- Text for missing enter payment details !-->
+    <string name="enter_missing_payment_details">Introduce la información de pago que falta</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Pago con puntos</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1366,7 +1368,7 @@
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">Si cierras la sesión de %1$s se eliminarán todos los artículos de itinerarios asociados a esta cuenta. ¿Quieres cerrar sesión?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
-    <string name="flight_overview_TEMPLATE_cont_desc">{airline} con salida a las {departs} y llegada a las {arrives}</string>
+    <string name="flight_overview_TEMPLATE_cont_desc">El vuelo de {airline} despega de {departureairport} a las {departuretime} y aterriza en {arrivalairport} a las {arrivaltime}</string>
     <!-- Directions -->
     <string name="directions">Cómo llegar</string>
     <!-- Terminal Map -->
@@ -2061,7 +2063,7 @@
         <item quantity="other">%1$d viajeros</item>
     </plurals>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Comprobando cambios en el precio…</string>
+    <string name="loading_flight_details">Comprobando si hay cambios en el precio…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">El precio ha cambiado, ahora es %1$s</string>
     <!-- Price dropped from -->
@@ -2383,6 +2385,8 @@
     <string name="country">País</string>
     <!-- Passport country label -->
     <string name="passport_country">País de expedición</string>
+    <!-- Billing country label -->
+    <string name="billing_country">País de facturación</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Núm. de compensación (si es aplicable)</string>
     <!-- traveler number hint -->
@@ -3058,6 +3062,11 @@
         <item quantity="many">¡Solo quedan %d habitaciones!</item>
         <item quantity="other">¡Solo quedan %d habitaciones!</item>
     </plurals>
+    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
+    <string name="urgency_percent_booked_TEMPLATE">{percentage} % reservado</string>
+    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
+    <string name="urgency_destination_description_TEMPLATE">{destination} es un destino muy popular en estas fechas</string>
+
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Información de la habitación</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
@@ -3074,6 +3083,8 @@
     <string name="common_value_add_template">Todas las habitaciones incluyen %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Elige habitación</string>
+    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
+    <string name="map_select_a_room_cont_desc_TEMPLATE">Botón para seleccionar habitación desde {price}</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Cancelación gratuita</string>
     <!-- Top line of resort fee text -->
@@ -3108,9 +3119,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">¿Quieres borrar los datos privados?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">Se eliminarán todos los datos de facturación y contacto guardados.</string>
+    <string name="dialog_clear_private_data_msg">Esta acción eliminará tu historial de búsquedas.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">Se cerrará la sesión y se eliminará toda la información de contacto y facturación guardada.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">Esta acción cerrará la sesión y eliminará tu historial de búsquedas.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Datos privados borrados</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -3125,6 +3136,8 @@
     <string name="confirmation_number">Número de confirmación</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Núm. de itinerario</string>
+    <!-- Itinerary number label content description -->
+    <string name="itinerary_number_cont_desc">Número de itinerario</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">Si tienes alguna pregunta sobre la reserva, ponte en contacto con {brand}llamando al {phone}.</string>
     <!-- Webview title for password recovery -->
@@ -3868,7 +3881,6 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Pulsa para ver las opciones de compartir itinerario</string>
-
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Resultados de la búsqueda de hotel</string>
@@ -4669,8 +4681,8 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El total del paquete es {totalprice}. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. {savings}. Diálogo del desglose de costes. Botón.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
+    <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
+    <string name="bundle_overview_price_widget_expanded_TEMPLATE">Viaje a {city_name}. Del {startdate} al {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4854,6 +4866,8 @@
     <string name="email_validation_error_message">Introduce una dirección de correo electrónico válida</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">Introduce tu nombre utilizando solo letras</string>
+    <!-- Checkout validation error message for middle name -->
+    <string name="middle_name_validation_error_message">Introduce tu segundo nombre utilizando solo letras</string>
     <!-- Checkout validation error message for last name -->
     <string name="last_name_validation_error_message">Introduce tus apellidos utilizando solo letras (dos caracteres como mínimo)</string>
     <!-- Checkout validation error message for phone number -->
@@ -4886,6 +4900,33 @@
 
     <!-- Member Deal Only -->
     <string name="member_deal_title">Ofertas para miembros</string>
-    <string name="member_deal_subtitle">Descuentos en ciudades seleccionadas</string>
+    <string name="member_deal_subtitle">Descuentos en hoteles seleccionados</string>
+    <string name="continue_booking">Continuar la reserva</string>
 
+    <!-- Hotel results sorting faq webview title -->
+    <string name="how_we_determine_sort_order">Cómo funciona el orden de búsquedas</string>
+    <!-- Material payment form error for credit card number-->
+    <string name="error_enter_a_valid_card_number">Introduce un número de tarjeta válido</string>
+    <!-- Material payment form error for credit card expiration date -->
+    <string name="error_enter_a_valid_month_and_year">Introduce un mes y año válidos</string>
+    <!-- Material payment form error for billing address-->
+    <string name="error_enter_a_valid_billing_address">Introduce una dirección de facturación válida (solo letras y números)</string>
+    <!-- Material payment form error for billing address zip code-->
+    <string name="error_enter_a_zip_code">Introduce un código postal válido</string>
+    <!-- Material payment form error for billing address state-->
+    <string name="error_enter_a_valid_state">Introduce un estado válido</string>
+    <!-- Material payment form error for billing address city-->
+    <string name="error_enter_a_valid_city">Introduce una ciudad válida</string>
+    <!-- Material payment form error for billing address postal code-->
+    <string name="error_enter_a_valid_postal_code">Introduce un código postal válido</string>
+    <!-- Material payment form error for billing address province -->
+    <string name="error_enter_a_valid_province">Introduce una provincia válida</string>
+    <!-- Material payment form error for billing address zip code -->
+    <string name="error_enter_a_valid_province_state_country">Introduce un condado, estado o provincia válidos</string>
+    <!-- Material payment form error for billing address country -->
+    <string name="error_select_a_billing_country">Selecciona el país de facturación</string>
+    <!-- Material payment form error for credit card security code -->
+    <string name="error_enter_valid_cvv">Introduce un CVV válido</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_card_name">Introduce el nombre tal y como aparece en la tarjeta</string>
 </resources>
