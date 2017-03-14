@@ -43,6 +43,7 @@ class AddGuestItinViewModelTest {
 
         sut.emailValidateObservable.onNext("testing@expedia.com")
         assertFalse(hasEmailErrorSubscriber.onNextEvents[1])
+        assertFalse(guestItinFetchButtonEnabledSubscriber.onNextEvents[1])
         sut.itinNumberValidateObservable.onNext("12345678")
         assertTrue(hasItinErrorSubscriber.onNextEvents[1])
         assertFalse(guestItinFetchButtonEnabledSubscriber.onNextEvents[2])

@@ -29,6 +29,9 @@ open class AddGuestItinViewModel(val context: Context) {
     val emailFieldFocusObservable = PublishSubject.create<Unit>()
     val showItinFetchProgressObservable = PublishSubject.create<Unit>()
 
+    var guestEmail: String = ""
+    var itineraryNumber: String = ""
+
     init {
         performGuestTripSearch.subscribe { guestEmailItinNumPair ->
             showItinFetchProgressObservable.onNext(Unit)
@@ -36,17 +39,19 @@ open class AddGuestItinViewModel(val context: Context) {
         }
 
         emailValidateObservable.subscribe { email ->
+            guestEmail = email
             var isValid = CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
             hasEmailErrorObservable.onNext(!isValid)
         }
 
         itinNumberValidateObservable.subscribe { itinNumber ->
+            itineraryNumber = itinNumber
             var isValid = itinNumber != null && itinNumber.length >= ITIN_NUMBER_MIN_LENGTH
             hasItinErrorObservable.onNext(!isValid)
         }
 
         Observable.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { hasEmailError, hasItinError ->
-            guestItinFetchButtonEnabledObservable.onNext(!hasEmailError && !hasItinError)
+            guestItinFetchButtonEnabledObservable.onNext(!hasEmailError && !hasItinError && itineraryNumber.isNotEmpty() && guestEmail.isNotEmpty())
             showErrorObservable.onNext(false)
         }).subscribe()
     }
