@@ -1,5 +1,6 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.hotel.HotelServerFilterViewModel
 import org.junit.Before
@@ -49,8 +50,9 @@ class HotelServerFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        var region = "Civic Center"
-        vm.selectNeighborhood.onNext(region)
+        var neighborhood = HotelSearchResponse.Neighborhood()
+        neighborhood.name = "Civic Center"
+        vm.selectNeighborhood.onNext(neighborhood)
 
         assertEquals(5, vm.userFilterChoices.filterCount())
         assertEquals(str, vm.userFilterChoices.name)
@@ -74,8 +76,9 @@ class HotelServerFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        var region = "Civic Center"
-        vm.selectNeighborhood.onNext(region)
+        var neighborhood = HotelSearchResponse.Neighborhood()
+        neighborhood.name = "Civic Center"
+        vm.selectNeighborhood.onNext(neighborhood)
 
         vm.clearObservable.onNext(Unit)
 

@@ -4,7 +4,10 @@ import android.content.Context
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
+import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 
@@ -16,7 +19,7 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
     }
 
     override fun inflate() {
-        View.inflate(getContext(), R.layout.hotel_server_filter_view, this)
+        View.inflate(context, R.layout.hotel_server_filter_view, this)
     }
 
     override fun bindViewModel(vm: BaseHotelFilterViewModel) {
@@ -32,5 +35,10 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
                 staticClearFilterButton.visibility = VISIBLE
             }
         }
+    }
+
+    override fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
+        stub.layoutResource = R.layout.server_neighborhood_filter_stub;
+        return stub.inflate() as ServerNeighborhoodFilterView
     }
 }

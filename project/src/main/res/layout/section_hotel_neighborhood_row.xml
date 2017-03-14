@@ -2,11 +2,10 @@
 <com.expedia.bookings.widget.HotelsNeighborhoodFilter xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/filter_categories_widget"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/hotel_neighborhood_height"
+    android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:paddingBottom="5dp"
-    android:paddingLeft="@dimen/lx_sort_filter_padding"
     android:paddingRight="@dimen/lx_sort_filter_padding"
     android:paddingTop="5dp">
 

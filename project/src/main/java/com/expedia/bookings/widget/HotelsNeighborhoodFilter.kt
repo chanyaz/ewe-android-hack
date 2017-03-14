@@ -6,34 +6,45 @@ import android.widget.CheckBox
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.util.subscribeOnClick
 import rx.Observer
-import kotlin.properties.Delegates
+import rx.subjects.PublishSubject
 
 class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
-    val neighborhoodName: TextView by bindView(R.id.neighborhood_name)
-    val neighborhoodCheckBox: CheckBox by bindView(R.id.neighborhood_check_box)
+    val neighborhoodSelectedSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
+    val neighborhoodDeselectedSubject = PublishSubject.create<HotelSearchResponse.Neighborhood>()
 
-    var neighborhood: Neighborhood ?= null
-    var hotelFilterViewModel: BaseHotelFilterViewModel by Delegates.notNull()
+    private lateinit var neighborhood: Neighborhood
 
-    val checkObserver : Observer<Unit> = endlessObserver {
+    private val neighborhoodName: TextView by bindView(R.id.neighborhood_name)
+    private val neighborhoodCheckBox: CheckBox by bindView(R.id.neighborhood_check_box)
+
+    private val checkObserver : Observer<Unit> = endlessObserver {
         neighborhoodCheckBox.isChecked = !neighborhoodCheckBox.isChecked
-        hotelFilterViewModel.selectNeighborhood.onNext(neighborhoodName.text.toString())
+        neighborhoodSelectedSubject.onNext(neighborhood)
         if (neighborhoodCheckBox.isChecked) {
-            hotelFilterViewModel.trackHotelFilterNeighborhood()
+            neighborhoodSelectedSubject.onNext(neighborhood)
+        } else {
+            neighborhoodDeselectedSubject.onNext(neighborhood)
         }
     }
 
-    fun bind(neighborhood: Neighborhood, vm: BaseHotelFilterViewModel) {
-        this.hotelFilterViewModel = vm
+    fun clear() {
+        neighborhoodCheckBox.isChecked = false
+        neighborhoodDeselectedSubject.onNext(neighborhood)
+    }
+
+    fun bind(neighborhood: Neighborhood) {
         this.neighborhood = neighborhood
         neighborhoodName.text = neighborhood.name
         neighborhoodCheckBox.isChecked = false
+
+        subscribeOnClick(checkObserver)
     }
 }
 

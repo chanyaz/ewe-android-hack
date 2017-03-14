@@ -19,6 +19,8 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -26,9 +28,13 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
+import com.expedia.bookings.hotel.widget.ClientNeighborhoodFilterView
+import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -74,10 +80,12 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val priceRangeMinText: TextView by bindView(R.id.price_range_min_text)
     val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
     val neighborhoodLabel: TextView by bindView(R.id.neighborhood_label)
-    val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
-    val neighborhoodMoreLessLabel: TextView by bindView(R.id.show_more_less_text)
-    val neighborhoodMoreLessIcon: ImageButton by bindView(R.id.show_more_less_icon)
-    val neighborhoodMoreLessView: RelativeLayout by bindView(R.id.collapsed_container)
+
+    private val neighborhoodView: BaseNeighborhoodFilterView by lazy {
+        inflateNeighborhoodView(neighborhoodViewStub)
+    }
+
+    private val neighborhoodViewStub: ViewStub by bindView(R.id.neighborhood_view_stub)
 
     val priceRangeStub: ViewStub by bindView(R.id.price_range_stub)
     val a11yPriceRangeStub: ViewStub by bindView(R.id.a11y_price_range_stub)
@@ -86,7 +94,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val a11yPriceRangeEndSeekBar: FilterSeekBar by bindView(R.id.price_a11y_end_bar)
     val a11yPriceRangeEndText: TextView by bindView(R.id.price_a11y_end_text)
 
-    val rowHeight = resources.getDimensionPixelSize(R.dimen.hotel_neighborhood_height)
     val ANIMATION_DURATION = 500L
 
     val sortByAdapter = object : ArrayAdapter<Sort>(getContext(), R.layout.spinner_sort_dropdown_item) {
@@ -184,6 +191,9 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             }
         }
 
+        neighborhoodView.neighborhoodOnSubject.subscribe(vm.selectNeighborhood)
+        neighborhoodView.neighborhoodOffSubject.subscribe(vm.deselectNeighborhood)
+
         vm.finishClear.subscribe {
             //check if filterHotelName is empty to avoid calling handleFiltering
             if (filterHotelName.text.length > 0) filterHotelName.text.clear()
@@ -194,14 +204,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
                 filterHotelFavorite.isChecked = false
             }
 
-            for (i in 0..neighborhoodContainer.childCount - 1) {
-                val v = neighborhoodContainer.getChildAt(i)
-                if (v is HotelsNeighborhoodFilter) {
-                    v.neighborhoodCheckBox.isChecked = false
-                }
-            }
-
-            neighborhoodMoreLessView.visibility = View.GONE
+            neighborhoodView.clear()
         }
 
         var priceStartCurrentProgress: Int
@@ -309,70 +312,16 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
 
         vm.neighborhoodListObservable.subscribe { list ->
-            neighborhoodContainer.removeAllViews()
-            if (list != null && list.size > 1 && vm.isClientSideFiltering()) {
+            if (list != null && list.size > 1) {
                 neighborhoodLabel.visibility = View.VISIBLE
-                if (list.size > 4) {
-                    neighborhoodMoreLessView.visibility = View.VISIBLE
-                }
-
-                for (i in 1..list.size - 1) {
-                    val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, neighborhoodContainer, false) as HotelsNeighborhoodFilter
-                    neighborhoodView.bind(list[i], vm)
-                    neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
-                    neighborhoodContainer.addView(neighborhoodView)
-                }
-
-                setupNeighborhoodView()
+                neighborhoodView.updateNeighborhoods(list)
             } else {
                 neighborhoodLabel.visibility = View.GONE
-                neighborhoodMoreLessView.visibility = View.GONE
             }
         }
-
-        neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObservable)
 
         vm.sortContainerVisibilityObservable.subscribeVisibility(sortContainer)
-
-        vm.neighborhoodExpandObservable.subscribe { isSectionExpanded ->
-            if (isSectionExpanded) {
-                AnimUtils.rotate(neighborhoodMoreLessIcon)
-                neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
-                neighborhoodMoreLessView.contentDescription = resources.getString(R.string.hotels_filter_show_less_cont_desc)
-
-                for (i in 3..neighborhoodContainer.childCount - 1) {
-                    val v = neighborhoodContainer.getChildAt(i)
-                    if (v is HotelsNeighborhoodFilter) {
-                        v.visibility = View.VISIBLE
-                    }
-                }
-
-                val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
-                resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * neighborhoodContainer.childCount)
-                resizeAnimator.start()
-
-            } else {
-                setupNeighborhoodView()
-            }
-        }
         starRatingView.viewModel = viewModel
-    }
-
-    private fun setupNeighborhoodView() {
-        AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
-        neighborhoodMoreLessLabel.text = resources.getString(R.string.show_more)
-        neighborhoodMoreLessView.contentDescription = resources.getString(R.string.hotels_filter_show_more_cont_desc)
-
-        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
-        resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * 3)
-        resizeAnimator.start()
-
-        for (i in 3..neighborhoodContainer.childCount - 1) {
-            val v = neighborhoodContainer.getChildAt(i)
-            if (v is HotelsNeighborhoodFilter) {
-                v.visibility = View.GONE
-            }
-        }
     }
 
     override fun onFinishInflate() {
@@ -382,9 +331,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         } else {
             priceRangeStub.inflate()
         }
-    }
-
-    open protected fun inflate() {
     }
 
     fun resetStars() {
@@ -403,6 +349,14 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
                 optionLabel.text = context.resources.getString(R.string.vip)
             }
         }
+    }
+
+    open protected fun inflate() {
+    }
+
+    open protected fun inflateNeighborhoodView(stub: ViewStub) : BaseNeighborhoodFilterView {
+        stub.layoutResource = R.layout.client_neighborhood_filter_stub;
+        return stub.inflate() as ClientNeighborhoodFilterView
     }
 
     private fun clearHotelNameFocus() {

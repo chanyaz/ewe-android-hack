@@ -104,6 +104,35 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testNeighborhoodFilterOverridesRegionId() {
+		final boolean[] testResult = { false };
+		final String expectedNeighborhoodId = "12345";
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsRegionId = request.getPath().contains("regionId=" + expectedNeighborhoodId + "&");
+				testResult[0] = containsRegionId;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.gaiaId = "7732025862";
+		suggestion.coordinates = new SuggestionV4.LatLng();
+		HotelSearchParams hotelSearchParams = (HotelSearchParams) new HotelSearchParams.Builder(0, 0, true)
+			.neighborhood(expectedNeighborhoodId)
+			.destination(suggestion)
+			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
+
+		TestSubscriber testSubscriber = new TestSubscriber();
+		service.search(hotelSearchParams, 200, null).subscribe(testSubscriber);
+		testSubscriber.awaitTerminalEvent();
+
+		assertTrue("Failure: Region Id expected to match neighborhood id if set", testResult[0]);
+	}
+
+	@Test
 	public void testHotelSearchForceV2FlagPassedInRequest() throws IOException {
 		// final array to make the test result flag/boolean accessible in the anonymous dispatch
 		final boolean[] testResult = { false };
@@ -354,26 +383,6 @@ public class HotelServicesTest {
 		HotelCheckoutResponse response = observer.getOnNextEvents().get(0);
 		assertEquals(1, response.pointsDetails.size());
 		assertEquals(ProgramName.ExpediaRewards, response.pointsDetails.get(0).getProgramName());
-	}
-
-	@Test
-	public void testCheckoutFailed() throws Throwable {
-		givenServerUsingMockResponses();
-
-		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
-
-		String tripId = "happypath_0";
-		TripDetails tripDetails = new TripDetails(tripId, "12,33", "USD", true);
-
-		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
-			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
-			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId))
-			.build();
-
-		service.checkout(params, observer);
-		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
-
-		observer.assertNotCompleted();
 	}
 
 	@Test

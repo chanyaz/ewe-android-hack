@@ -66,6 +66,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         private var priceRange: PriceRange? = null
         private var hotelName: String? = null
         private var starRatings: List<Int> = emptyList()
+        private var neighborhoodRegionId: String? = null
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
 
@@ -96,6 +97,11 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
 
         fun vipOnly(vipOnly: Boolean): Builder {
             this.vipOnly = vipOnly
+            return this
+        }
+
+        fun neighborhood(neighborhoodRegionId : String) : Builder {
+            this.neighborhoodRegionId = neighborhoodRegionId
             return this
         }
 
@@ -133,6 +139,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             filterOptions.filterStarRatings = starRatings
             filterOptions.filterPrice = priceRange
             filterOptions.filterVipOnly = vipOnly
+            filterOptions.filterByNeighborhoodId = neighborhoodRegionId
             filterOptions.userSort = userSort
             return filterOptions
         }
@@ -143,6 +150,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         var filterStarRatings: List<Int> = emptyList()
         var filterPrice: PriceRange? = null
         var filterVipOnly: Boolean = false
+        var filterByNeighborhoodId: String? = null
         var userSort: SortType? = null
 
         fun getFiltersQueryMap(): Map<String, Any?> {
