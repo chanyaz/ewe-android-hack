@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.widget.CheckoutLoginExtender;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
+import com.expedia.bookings.widget.ItinerarySyncLoginExtender;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 
 /**
@@ -21,7 +22,8 @@ public abstract class LoginExtender {
 	public enum LoginExtenderType {
 		CHECKOUT,
 		USER_TO_TRIP_ASSOC,
-		ITINERARY_LOADER
+		ITINERARY_LOADER,
+		ITINERARY_SYNC
 	}
 
 	/**
@@ -60,6 +62,9 @@ public abstract class LoginExtender {
 		}
 		case ITINERARY_LOADER: {
 			return new ItineraryLoaderLoginExtender(data);
+		}
+		case ITINERARY_SYNC: {
+			return new ItinerarySyncLoginExtender(data);
 		}
 		case CHECKOUT:
 			return new CheckoutLoginExtender(data);

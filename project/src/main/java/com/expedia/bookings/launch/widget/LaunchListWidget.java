@@ -1,6 +1,8 @@
 package com.expedia.bookings.launch.widget;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,16 +20,9 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.model.UserLoginStateChangedModel;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import rx.Observer;
 
 public class LaunchListWidget extends RecyclerView {
 
@@ -44,9 +39,6 @@ public class LaunchListWidget extends RecyclerView {
 			notifyDataSetChanged();
 		}
 	};
-
-	@Inject
-	UserLoginStateChangedModel userLoginStateChangedModel;
 
 	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -69,7 +61,6 @@ public class LaunchListWidget extends RecyclerView {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Ui.getApplication(getContext()).appComponent().inject(this);
 
 		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);
@@ -81,26 +72,6 @@ public class LaunchListWidget extends RecyclerView {
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 
 		ItineraryManager.getInstance().addSyncListener(itinerarySyncListener);
-
-		userLoginStateChangedModel.getUserLoginStateChanged().debounce(200, TimeUnit.MILLISECONDS)
-			.delay(3, TimeUnit.SECONDS)
-			.subscribe(new Observer<Boolean>() {
-
-				@Override
-				public void onCompleted() {
-				}
-
-				@Override
-				public void onError(Throwable e) {
-				}
-
-				@Override
-				public void onNext(Boolean signedIn) {
-					if (signedIn) {
-						ItineraryManager.getInstance().startSync(false, false, true);
-					}
-				}
-			});
 	}
 
 	@NonNull
