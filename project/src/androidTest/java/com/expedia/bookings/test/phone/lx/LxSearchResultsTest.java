@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
@@ -65,6 +66,7 @@ public class LxSearchResultsTest extends LxTestCase {
 	public void testSearchResultsFromOverlayOnDetails() throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
+		Common.delay(1);
 		LXScreen.searchButtonOnDetailsToolbar().perform(click());
 		searchListDisplayed(false);
 	}
