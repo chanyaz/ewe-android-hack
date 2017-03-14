@@ -106,6 +106,18 @@ class UrgencyViewModelTest {
         assertEquals("$testMonth/$testDay/$testYear", testViewModel.getUrgencyDateFormat(testDate))
     }
 
+    @Test
+    fun testInvalidRegionId() {
+        server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
+
+        val testScoreSub = TestSubscriber<Int>()
+        testViewModel.rawSoldOutScoreSubject.subscribe(testScoreSub)
+
+        testViewModel.fetchCompressionScore("0", today.plusYears(1), today.plusYears(1).plusDays(1))
+
+        testScoreSub.assertNoValues()
+    }
+
     private fun getExpectedScoreText(score: Int) : String {
         return Phrase.from(RuntimeEnvironment.application, R.string.urgency_percent_booked_TEMPLATE)
                 .put("percentage", score)

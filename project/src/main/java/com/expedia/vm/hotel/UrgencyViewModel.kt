@@ -11,13 +11,14 @@ import rx.Observer
 import rx.subjects.PublishSubject
 
 class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices) {
-    private val scoreThreshold: Int = 30
 
     val rawSoldOutScoreSubject = PublishSubject.create<Int>()
     val percentSoldOutTextSubject = PublishSubject.create<String>()
     val urgencyDescriptionSubject = PublishSubject.create<String>()
 
     private val urgencyResponseObserver = UrgencyObserver()
+    private val scoreThreshold: Int = 30
+    private val invalidRegionId = "0";
 
     init {
         urgencyResponseObserver.scoreSubject.subscribe(rawSoldOutScoreSubject)
@@ -37,8 +38,10 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
     }
 
     fun fetchCompressionScore(regionId: String, checkIn: LocalDate, checkOut: LocalDate) {
-        urgencyService.compressionUrgency(regionId, getUrgencyDateFormat(checkIn), getUrgencyDateFormat(checkOut))
-                .subscribe(urgencyResponseObserver)
+        if (isValidRegionId(regionId)) {
+            urgencyService.compressionUrgency(regionId, getUrgencyDateFormat(checkIn), getUrgencyDateFormat(checkOut))
+                    .subscribe(urgencyResponseObserver)
+        }
     }
 
     @VisibleForTesting
@@ -70,5 +73,9 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
 
     private fun getRoundedScore(score: Int) : Int {
         return (5 * (Math.round(score.toDouble() / 5))).toInt()
+    }
+
+    private fun isValidRegionId(id: String) : Boolean {
+        return !invalidRegionId.equals(id)
     }
 }
