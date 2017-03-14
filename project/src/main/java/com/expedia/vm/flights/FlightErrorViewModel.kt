@@ -22,7 +22,6 @@ class FlightErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
 
     val fireRetryCreateTrip = PublishSubject.create<Unit>()
     val retryCheckout = PublishSubject.create<Unit>()
-    val showOutboundResults = PublishSubject.create<Unit>()
     val showPaymentForm = PublishSubject.create<Unit>()
     val showConfirmation = PublishSubject.create<Unit>()
     val showSearch = PublishSubject.create<Unit>()

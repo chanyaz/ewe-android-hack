@@ -5,15 +5,20 @@ import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
@@ -71,6 +76,27 @@ class AbstractMaterialFlightResultsPresenterTest {
 
         sut.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(emptyList())
 
+        assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
+    }
+
+    @Test
+    fun showOverviewWhenNotInSimplifyTest() {
+        createSystemUnderTest(isOutboundPresenter = true)
+
+        sut.resultsPresenter.flightSelectedSubject.onNext(setupFlightLeg())
+        assertEquals(com.expedia.bookings.presenter.shared.FlightOverviewPresenter::class.java.name, sut.currentState)
+    }
+
+    @Test
+    fun doNotShowOverviewWhenInSimplifyTest() {
+        SettingUtils.save(context, R.string.preference_simplify_flight_shopping, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSimplifyFlightShopping)
+        createSystemUnderTest(isOutboundPresenter = true)
+
+        sut.resultsPresenter.resultsViewModel.flightResultsObservable.onNext(emptyList())
+        assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
+
+        sut.resultsPresenter.flightSelectedSubject.onNext(setupFlightLeg())
         assertEquals(FlightResultsListViewPresenter::class.java.name, sut.currentState)
     }
 
@@ -147,6 +173,20 @@ class AbstractMaterialFlightResultsPresenterTest {
         sut.setupComplete()
     }
 
+    private fun setupFlightLeg(): FlightLeg {
+        val flightLeg = FlightLeg()
+        flightLeg.flightSegments = arrayListOf<FlightLeg.FlightSegment>()
+        flightLeg.legId = "leg-id"
+        flightLeg.baggageFeesUrl = "test"
+        flightLeg.packageOfferModel = PackageOfferModel()
+        flightLeg.packageOfferModel.urgencyMessage = PackageOfferModel.UrgencyMessage()
+        flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        flightLeg.packageOfferModel.price.differentialPriceFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("646.00", "USD")
+        return flightLeg
+    }
+
     private inner class TestFlightResultsPresenter(context: Context, attrs: AttributeSet?, val outboundPresenter: Boolean) : AbstractMaterialFlightResultsPresenter(context, attrs) {
         override fun isOutboundResultsPresenter(): Boolean {
             return outboundPresenter
@@ -157,7 +197,7 @@ class AbstractMaterialFlightResultsPresenterTest {
         }
 
         override fun trackFlightOverviewLoad() {
-            throw UnsupportedOperationException()
+            // Do nothing
         }
 
         override fun trackFlightSortFilterLoad() {

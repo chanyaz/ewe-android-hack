@@ -70,9 +70,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().defaultErrorObservable.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
-        presenter.getViewModel().showOutboundResults.subscribe {
-            show(outBoundPresenter)
-        }
         presenter.getViewModel().fireRetryCreateTrip.subscribe {
             flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
             show(presenter)
