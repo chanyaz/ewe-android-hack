@@ -51,16 +51,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
     val optionLabel: TextView by bindView(R.id.option_label)
     val filterFavoriteContainer: View by bindView(R.id.filter_favorite_container)
-    val filterStarOne: ImageButton by bindView(R.id.filter_hotel_star_rating_one)
-    val filterStarTwo: ImageButton by bindView(R.id.filter_hotel_star_rating_two)
-    val filterStarThree: ImageButton by bindView(R.id.filter_hotel_star_rating_three)
-    val filterStarFour: ImageButton by bindView(R.id.filter_hotel_star_rating_four)
-    val filterStarFive: ImageButton by bindView(R.id.filter_hotel_star_rating_five)
-    val ratingOneBackground: View by bindView(R.id.rating_one_background)
-    val ratingTwoBackground: View by bindView(R.id.rating_two_background)
-    val ratingThreeBackground: View by bindView(R.id.rating_three_background)
-    val ratingFourBackground: View by bindView(R.id.rating_four_background)
-    val ratingFiveBackground: View by bindView(R.id.rating_five_background)
+    val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
     val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: AccessibleEditText by bindView(R.id.filter_hotel_name_edit_text)
@@ -136,7 +127,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
-
         doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerObservable.subscribeVisibility(priceRangeContainer)
         vm.priceRangeContainerObservable.subscribeVisibility(priceHeader)
@@ -153,12 +143,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 HotelTracking.trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
             }
         }
-
-        filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)
-        filterStarTwo.subscribeOnClick(vm.twoStarFilterObserver)
-        filterStarThree.subscribeOnClick(vm.threeStarFilterObserver)
-        filterStarFour.subscribeOnClick(vm.fourStarFilterObserver)
-        filterStarFive.subscribeOnClick(vm.fiveStarFilterObserver)
 
         dynamicFeedbackClearButton.setOnClickListener {
             dynamicFeedbackClearButton.announceForAccessibility(context.getString(R.string.filters_cleared))
@@ -239,38 +223,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                         vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))
                     }
                 })
-            }
-        }
-
-        vm.hotelStarRatingBar.subscribe { rating ->
-            if (rating == 1) {
-                starSelection(filterStarOne, ratingOneBackground, -1, true)
-            } else if (rating == 6) {
-                starSelection(filterStarOne, ratingOneBackground, 1)
-            }
-            if (rating == 2) {
-                starSelection(filterStarTwo, ratingTwoBackground, -1, true)
-            } else if (rating == 7) {
-                starSelection(filterStarTwo, ratingTwoBackground, 2)
-            }
-            if (rating == 3) {
-                starSelection(filterStarThree, ratingThreeBackground, -1, true)
-            } else if (rating == 8) {
-                starSelection(filterStarThree, ratingThreeBackground, 3)
-            }
-            if (rating == 4) {
-                starSelection(filterStarFour, ratingFourBackground, -1, true)
-            } else if (rating == 9) {
-                starSelection(filterStarFour, ratingFourBackground, 4)
-            }
-            if (rating == 5) {
-                starSelection(filterStarFive, ratingFiveBackground, -1, true)
-            } else if (rating == 10) {
-                starSelection(filterStarFive, ratingFiveBackground, 5)
-            }
-
-            if (rating <= 5) {
-                vm.trackHotelRefineRating(rating.toString())
             }
         }
 
@@ -391,13 +343,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 filterVipContainer.visibility = View.GONE
             }
         }
-    }
 
-    private fun updateFilterStarContentDesc(starButton: ImageButton, contDescStringID: Int, isSelected: Boolean = false) {
-        starButton.contentDescription = Phrase.from(context,
-                if (isSelected) R.string.star_rating_selected_cont_desc_TEMPLATE else R.string.star_rating_not_selected_cont_desc_TEMPLATE)
-                .put("star_rating", context.getString(contDescStringID))
-                .format().toString()
+        starRatingView.viewModel = viewModel
     }
 
     private fun setupNeighborhoodView() {
@@ -434,10 +381,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             optionLabel.visibility = View.VISIBLE
         }
 
-        if (shouldShowCircleForRatings()) {
-            setCircleDrawableForRatingBtnBackground()
-        }
-
         dynamicFeedbackWidget.hideDynamicFeedback()
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
@@ -466,37 +409,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun resetStars() {
-        starSelection(filterStarOne, ratingOneBackground, 1)
-        starSelection(filterStarTwo, ratingTwoBackground, 2)
-        starSelection(filterStarThree, ratingThreeBackground, 3)
-        starSelection(filterStarFour, ratingFourBackground, 4)
-        starSelection(filterStarFive, ratingFiveBackground, 5)
-    }
-
-    fun starSelection(star: ImageButton, background: View, value: Int, isSelected: Boolean = false) {
-        var contDesc: Int = 0
-        var isStar: Boolean = true
-
-        if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
-            isStar = false
-        }
-        when (star.id) {
-            R.id.filter_hotel_star_rating_one -> contDesc = if (isStar) R.string.star_rating_one_cont_desc else R.string.star_circle_rating_one_cont_desc
-            R.id.filter_hotel_star_rating_two -> contDesc = if (isStar) R.string.star_rating_two_cont_desc else R.string.star_circle_rating_two_cont_desc
-            R.id.filter_hotel_star_rating_three -> contDesc = if (isStar) R.string.star_rating_three_cont_desc else R.string.star_circle_rating_three_cont_desc
-            R.id.filter_hotel_star_rating_four -> contDesc = if (isStar) R.string.star_rating_four_cont_desc else R.string.star_circle_rating_four_cont_desc
-            R.id.filter_hotel_star_rating_five -> contDesc = if (isStar) R.string.star_rating_five_cont_desc else R.string.star_circle_rating_five_cont_desc
-        }
-        updateFilterStarContentDesc(star, contDesc, isSelected)
-
-        clearHotelNameFocus()
-        if (value < 0) {
-            star.setColorFilter(ContextCompat.getColor(context, android.R.color.white))
-            background.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
-        } else {
-            star.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
-            background.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
-        }
+        starRatingView.reset()
     }
 
     fun refreshFavoriteCheckbox() {
@@ -516,14 +429,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private fun clearHotelNameFocus() {
         filterHotelName.clearFocus()
         com.mobiata.android.util.Ui.hideKeyboard(this)
-    }
-
-    private fun setCircleDrawableForRatingBtnBackground() {
-        filterStarOne.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_one_circle));
-        filterStarTwo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_two_circle));
-        filterStarThree.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_three_circle));
-        filterStarFour.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_four_circle));
-        filterStarFive.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_five_circle));
     }
 
     private fun updateFavoriteFilter() {

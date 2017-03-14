@@ -185,126 +185,13 @@
                         android:textSize="15sp"
                         app:textStyle="medium" />
 
-                    <android.support.v7.widget.CardView
+                    <com.expedia.bookings.widget.HotelStarRatingFilterView
                         android:id="@+id/star_rating_container"
                         style="@style/MaterialCardView"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="6dp"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center_vertical|center"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:id="@+id/rating_one_background"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:clickable="true">
-
-                                <ImageButton
-                                    android:id="@+id/filter_hotel_star_rating_one"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:src="@drawable/filter_1star" />
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1px"
-                                android:layout_height="match_parent"
-                                android:background="@color/divider_gray" />
-
-                            <LinearLayout
-                                android:id="@+id/rating_two_background"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1.5"
-                                android:clickable="true">
-
-                                <ImageButton
-                                    android:id="@+id/filter_hotel_star_rating_two"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:src="@drawable/filter_2star" />
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1px"
-                                android:layout_height="match_parent"
-                                android:background="@color/divider_gray" />
-
-                            <LinearLayout
-                                android:id="@+id/rating_three_background"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:clickable="true">
-
-                                <ImageButton
-                                    android:id="@+id/filter_hotel_star_rating_three"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:src="@drawable/filter_3star" />
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1px"
-                                android:layout_height="match_parent"
-                                android:background="@color/divider_gray" />
-
-                            <LinearLayout
-                                android:id="@+id/rating_four_background"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2.5"
-                                android:clickable="true">
-
-                                <ImageButton
-                                    android:id="@+id/filter_hotel_star_rating_four"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_centerVertical="true"
-                                    android:layout_gravity="center"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:src="@drawable/filter_4star" />
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1px"
-                                android:layout_height="match_parent"
-                                android:background="@color/divider_gray" />
-
-                            <LinearLayout
-                                android:id="@+id/rating_five_background"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="3"
-                                android:clickable="true">
-
-                                <ImageButton
-                                    android:id="@+id/filter_hotel_star_rating_five"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:src="@drawable/filter_5star" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
+                        app:cardUseCompatPadding="true"/>
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView

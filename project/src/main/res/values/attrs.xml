@@ -361,4 +361,11 @@
         <attr name="details_text" format="string" />
         <attr name="fees_visible" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="HotelStarRatingFilterItem">
+        <attr name="star_drawable_src" format="reference" />
+        <attr name="circle_drawable_src" format="reference" />
+        <attr name="star_cont_desc" format="string" />
+        <attr name="circle_cont_desc" format="string" />
+    </declare-styleable>
 </resources>

@@ -23,7 +23,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val clearObservable = PublishSubject.create<Unit>()
     val filterObservable = PublishSubject.create<HotelSearchResponse>()
     val filterByParamsObservable = PublishSubject.create<UserFilterChoices>()
-    val hotelStarRatingBar = BehaviorSubject.create<Int>()
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
@@ -65,10 +64,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelStarRating.one) {
             userFilterChoices.hotelStarRating.one = true
-            hotelStarRatingBar.onNext(1)
+            trackHotelRefineRating("1")
         } else {
             userFilterChoices.hotelStarRating.one = false
-            hotelStarRatingBar.onNext(6)
         }
 
         handleFiltering()
@@ -77,10 +75,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val twoStarFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelStarRating.two) {
             userFilterChoices.hotelStarRating.two = true
-            hotelStarRatingBar.onNext(2)
+            trackHotelRefineRating("2")
         } else {
             userFilterChoices.hotelStarRating.two = false
-            hotelStarRatingBar.onNext(7)
         }
 
         handleFiltering()
@@ -89,10 +86,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val threeStarFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelStarRating.three) {
             userFilterChoices.hotelStarRating.three = true
-            hotelStarRatingBar.onNext(3)
+            trackHotelRefineRating("3")
         } else {
             userFilterChoices.hotelStarRating.three = false
-            hotelStarRatingBar.onNext(8)
         }
 
         handleFiltering()
@@ -101,10 +97,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val fourStarFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelStarRating.four) {
             userFilterChoices.hotelStarRating.four = true
-            hotelStarRatingBar.onNext(4)
+            trackHotelRefineRating("4")
         } else {
             userFilterChoices.hotelStarRating.four = false
-            hotelStarRatingBar.onNext(9)
         }
 
         handleFiltering()
@@ -113,10 +108,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val fiveStarFilterObserver: Observer<Unit> = endlessObserver {
         if (!userFilterChoices.hotelStarRating.five) {
             userFilterChoices.hotelStarRating.five = true
-            hotelStarRatingBar.onNext(5)
+            trackHotelRefineRating("5")
         } else {
             userFilterChoices.hotelStarRating.five = false
-            hotelStarRatingBar.onNext(10)
         }
 
         handleFiltering()
