@@ -181,10 +181,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                     }).subscribe {
                 UrgencyAnimation(urgencyDropDownContainer, toolbarShadow).animate()
             }
-
-            urgencyViewModel.rawSoldOutScoreSubject.subscribe { score ->
-                HotelTracking.trackUrgencyScore(score)
-            }
         }
 
         searchMenu.setOnMenuItemClickListener({

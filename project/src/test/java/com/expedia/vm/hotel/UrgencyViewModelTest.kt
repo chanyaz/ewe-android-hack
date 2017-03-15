@@ -47,52 +47,60 @@ class UrgencyViewModelTest {
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
 
-        val testScoreSub = TestSubscriber<Int>()
         val testSoldOutTextSub = TestSubscriber<String>()
         val testDescriptionTextSub = TestSubscriber<String>()
-        testViewModel.rawSoldOutScoreSubject.subscribe(testScoreSub)
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
         testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
 
-        assertEquals(expectedScore, testScoreSub.onNextEvents[0])
-        assertEquals(expectedScoreText, testSoldOutTextSub.onNextEvents[0])
+        assertEquals(expectedScoreText, testSoldOutTextSub.onNextEvents[0], "Error Both score and description musht")
         assertEquals(expectedDescription, testDescriptionTextSub.onNextEvents[0])
     }
 
     @Test
     fun testUrgencyBelowThreshold() {
-        val expectedScore = 29
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_below_threshold.json"))
 
-        val testScoreSub = TestSubscriber<Int>()
         val testSoldOutTextSub = TestSubscriber<String>()
-        testViewModel.rawSoldOutScoreSubject.subscribe(testScoreSub)
+        val testDescriptionTextSub = TestSubscriber<String>()
+        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
+        testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
+
+        testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
+
+        testSoldOutTextSub.assertNoValues()
+        testDescriptionTextSub.assertNoValues()
+    }
+
+    @Test
+    fun testUrgencyAboveMaximum() {
+        val expectedRoundedScore = 95
+        val expectedScoreText = getExpectedScoreText(expectedRoundedScore)
+
+        server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_max_threshold.json"))
+
+        val testSoldOutTextSub = TestSubscriber<String>()
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
 
-        assertEquals(expectedScore, testScoreSub.onNextEvents[0])
-        testSoldOutTextSub.assertNoValues()
+        assertEquals(expectedScoreText, testSoldOutTextSub.onNextEvents[0], "Error: Expected Score to be capped at 95,"
+                + "the api sends 100 for some regions even though we have results")
     }
 
     @Test
     fun testUrgencyRounding() {
-        val expectedRawScore = 76
         val expectedRoundedScore = 75
         val expectedScoreText = getExpectedScoreText(expectedRoundedScore)
 
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_requires_rounding.json"))
 
-        val testScoreSub = TestSubscriber<Int>()
         val testSoldOutTextSub = TestSubscriber<String>()
-        testViewModel.rawSoldOutScoreSubject.subscribe(testScoreSub)
         testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
 
         testViewModel.fetchCompressionScore("12342", today.plusYears(1), today.plusYears(1).plusDays(1))
 
-        assertEquals(expectedRawScore, testScoreSub.onNextEvents[0])
         assertEquals(expectedScoreText, testSoldOutTextSub.onNextEvents[0], "Error: Rounding might be wrong.")
     }
 
@@ -110,12 +118,16 @@ class UrgencyViewModelTest {
     fun testInvalidRegionId() {
         server.setDispatcher(SimpleTestDispatcher("src/test/resources/raw/hotel/urgency_happy.json"))
 
-        val testScoreSub = TestSubscriber<Int>()
-        testViewModel.rawSoldOutScoreSubject.subscribe(testScoreSub)
+        val testSoldOutTextSub = TestSubscriber<String>()
+        val testDescriptionTextSub = TestSubscriber<String>()
+        testViewModel.percentSoldOutTextSubject.subscribe(testSoldOutTextSub)
+        testViewModel.urgencyDescriptionSubject.subscribe(testDescriptionTextSub)
+
 
         testViewModel.fetchCompressionScore("0", today.plusYears(1), today.plusYears(1).plusDays(1))
 
-        testScoreSub.assertNoValues()
+        testSoldOutTextSub.assertNoValues()
+        testDescriptionTextSub.assertNoValues()
     }
 
     private fun getExpectedScoreText(score: Int) : String {
