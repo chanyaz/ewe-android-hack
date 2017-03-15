@@ -210,6 +210,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     private val listToFiltersTransition = object : Presenter.Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            resultsPresenter.recyclerView.isEnabled = !forward
             filter.visibility = View.VISIBLE
             if (!forward) {
                 resultsPresenter.visibility = VISIBLE
