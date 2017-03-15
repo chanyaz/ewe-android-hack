@@ -83,6 +83,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         }
         hotelDeepLink.checkInDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkin", DateTimeFormat.forPattern(dateFormat))
         hotelDeepLink.checkOutDate = getParsedLocalDateQueryParameterIfExists(data, queryParameterNames, "chkout", DateTimeFormat.forPattern(dateFormat))
+        hotelDeepLink.mctc = getNullableIntegerParameterIfExists(data, queryParameterNames, "mctc")
         if (queryParameterNames.contains("rm1")) {
             val passengers = data.getQueryParameter("rm1").split(":".toRegex(), 2)
             if (passengers.size > 0) {
@@ -105,6 +106,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         hotelDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "adults")
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sort")
         hotelDeepLink.regionId = getQueryParameterIfExists(data, queryParameterNames, "regionId")
+        hotelDeepLink.mctc = getNullableIntegerParameterIfExists(data, queryParameterNames, "mctc")
 
         if (data.toString().toLowerCase().contains("/hotels") && queryParameterNames.size == 1 && hotelDeepLink.sortType?.toLowerCase() == "discounts") {
             hotelDeepLink.memberOnlyDealSearch = true

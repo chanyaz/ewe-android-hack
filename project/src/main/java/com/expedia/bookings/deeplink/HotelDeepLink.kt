@@ -7,6 +7,7 @@ class HotelDeepLink: DeepLink() {
     var location: String? = null
     var hotelId: String? = null
     var regionId: String? = null
+    var mctc: Int? = null
     var checkInDate: LocalDate? = null
     var checkOutDate: LocalDate? = null
     var numAdults: Int = 0
