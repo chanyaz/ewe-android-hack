@@ -125,9 +125,8 @@ fun Observable<String>.subscribeContentDescription(view: View?) {
 
 fun <T : CharSequence> Observable<T>.subscribeEditText(edittext: EditText) {
     this.subscribe { text ->
-        if (edittext.text.toString() != text.toString()) edittext.setText(text)
-        val selection = edittext.text?.length ?: 0
-        edittext.setSelection(selection)
+        if (edittext.text?.toString() != text?.toString()) edittext.setText(text)
+        edittext.setSelection(edittext.text?.length ?: 0)
     }
 }
 
