@@ -21,7 +21,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
@@ -94,13 +93,7 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 
 	private void init(Context context) {
 		// Initialize air attach data
-		mAirAttach = Db.getTripBucket().getAirAttach();
-		int daysRemaining = 0;
-		if (mAirAttach != null) { // can be null (see #5771)
-			mExpirationDate = mAirAttach.getExpirationDate();
-			DateTime currentDate = new DateTime();
-			daysRemaining = JodaUtils.daysBetween(currentDate, mExpirationDate);
-		}
+		int daysRemaining = getDaysRemaining();
 
 		// Get air attach button layout
 		inflate(context, R.layout.itin_air_attach_card, this);
@@ -133,6 +126,10 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 				showHidePopup();
 			}
 		});
+	}
+
+	public int getDaysRemaining() {
+		return Db.getTripBucket().getAirAttach().getDaysRemaining();
 	}
 
 	private final OnClickListener mOnClickListener = new OnClickListener() {

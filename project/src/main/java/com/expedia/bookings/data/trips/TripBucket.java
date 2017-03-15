@@ -458,7 +458,7 @@ public class TripBucket implements JSONable {
 	}
 
 	public boolean isUserAirAttachQualified() {
-		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow()
+		return mAirAttach != null && mAirAttach.isAirAttachQualified()
 			&& PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
 	}
 

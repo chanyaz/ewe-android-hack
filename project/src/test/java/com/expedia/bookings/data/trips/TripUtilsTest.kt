@@ -1,11 +1,24 @@
 package com.expedia.bookings.data.trips
 
+import com.expedia.bookings.data.AirAttach
+import com.expedia.bookings.data.FlightLeg
+import com.expedia.bookings.data.FlightTrip
+import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.mobiata.flightlib.data.Airport
+import com.mobiata.flightlib.data.Flight
+import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
+import org.json.JSONObject
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mockito
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricRunner::class)
 class TripUtilsTest {
 
     @Test
@@ -111,6 +124,164 @@ class TripUtilsTest {
         val anotherTrip = Trip()
         val result = TripUtils.hasTripStartDateBeforeDateTime(listOf(trip, anotherTrip), dateTimeTwoWeeksFromNow(), false)
         assertFalse(result)
+    }
+
+    @Test
+    fun upcomingFlightTripsWhenAirAttachNotQualified() {
+        val flightTrip = Trip()
+        flightTrip.addTripComponent(TripFlight())
+
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripFlight())
+        packageTrip.addTripComponent(TripHotel())
+
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(TripHotel())
+
+        val carTrip = Trip()
+        carTrip.addTripComponent(TripCar())
+
+        val trips = listOf(packageTrip, flightTrip, hotelTrip, carTrip)
+
+        val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
+
+        assertEquals(0, upcomingFlightTrips.size)
+    }
+
+    @Test
+    fun upcomingFlightTripsWhenAirAttachQualified() {
+
+        val epochSeconds = LocalDateTime.now().plusDays(1).toDateTime(DateTimeZone.UTC).millis
+        val jsonObj = setUpAirAttachObject(epochSeconds)
+
+        val flightTrip = Trip()
+        flightTrip.addTripComponent(TripFlight())
+        flightTrip.airAttach = AirAttach(jsonObj)
+
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripFlight())
+        packageTrip.addTripComponent(TripHotel())
+
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(TripHotel())
+
+        val carTrip = Trip()
+        carTrip.addTripComponent(TripCar())
+
+        val trips = listOf(packageTrip, flightTrip, hotelTrip, carTrip)
+
+        val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
+
+        assertEquals(1, upcomingFlightTrips.size)
+        assertEquals(flightTrip, upcomingFlightTrips[0])
+    }
+
+    @Test
+    fun flightTripWithExpiredAirAttach() {
+        val epochSeconds = 1481660245L
+        val jsonObj = setUpAirAttachObject(epochSeconds)
+
+        val flightTrip = Trip()
+        flightTrip.addTripComponent(TripFlight())
+        flightTrip.airAttach = AirAttach(jsonObj)
+
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripFlight())
+        packageTrip.addTripComponent(TripHotel())
+
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(TripHotel())
+
+        val trips = listOf(packageTrip, flightTrip, hotelTrip)
+        val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
+
+        assertEquals(0, upcomingFlightTrips.size)
+    }
+
+    @Test
+    fun recentUpcomingAirAttachFlightTrip() {
+        val epochSeconds = LocalDateTime.now().plusDays(1).toDateTime(DateTimeZone.UTC).millis
+        val jsonObj = setUpAirAttachObject(epochSeconds)
+
+        val recentUpcomingFlightTrip = Trip()
+        recentUpcomingFlightTrip.addTripComponent(TripFlight())
+        recentUpcomingFlightTrip.startDate = DateTime.now().plusDays(5)
+        recentUpcomingFlightTrip.airAttach = AirAttach(jsonObj)
+
+        val secondUpcomingFlightTrip = Trip()
+        secondUpcomingFlightTrip.addTripComponent(TripFlight())
+        secondUpcomingFlightTrip.startDate = DateTime.now().plusDays(10)
+        secondUpcomingFlightTrip.airAttach = AirAttach(jsonObj)
+
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripFlight())
+        packageTrip.addTripComponent(TripHotel())
+
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(TripHotel())
+
+        val trips = listOf(packageTrip, recentUpcomingFlightTrip, secondUpcomingFlightTrip, hotelTrip)
+        val recentFlightTrips = TripUtils.getRecentUpcomingFlightTrip(trips)
+        val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
+
+        assertEquals(2, upcomingFlightTrips.size)
+        assertEquals(recentUpcomingFlightTrip.startDate, recentFlightTrips.startDate)
+    }
+
+    @Test
+    fun firstFlightTripExpiredSecondFlightTripNotAAQualified() {
+        val epochSeconds = 1481660245L
+        val jsonObj = setUpAirAttachObject(epochSeconds)
+
+        val firstFlightTrip = Trip()
+        firstFlightTrip.addTripComponent(TripFlight())
+        firstFlightTrip.airAttach = AirAttach(jsonObj)
+
+        val secondFlightTrip = Trip()
+        secondFlightTrip.addTripComponent(TripFlight())
+
+        val trips = listOf(firstFlightTrip, secondFlightTrip)
+        val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
+
+        assertEquals(0, upcomingFlightTrips.size)
+    }
+
+    @Test
+    fun flightTripDestinationCity() {
+        val expectedCity = "San Francisco"
+        val tripFlight = TripFlight()
+        val flightTrip = FlightTrip()
+        val flightLeg = FlightLeg()
+        val segment = Flight()
+        val destinationWaypoint = Mockito.mock(Waypoint::class.java)
+        val destinationAirport = Airport()
+
+        destinationAirport.mCity = expectedCity
+        Mockito.`when`(destinationWaypoint.airport).thenReturn(destinationAirport)
+        segment.destinationWaypoint = destinationWaypoint
+        flightLeg.addSegment(segment)
+        flightTrip.addLeg(flightLeg)
+        tripFlight.flightTrip = flightTrip
+
+        val city = TripUtils.getFlightTripDestinationCity(tripFlight)
+        Mockito.verify(destinationWaypoint, Mockito.times(1)).airport
+        assertEquals(expectedCity, city)
+    }
+
+    private fun setUpAirAttachObject(expirationEpochSeconds: Long): JSONObject {
+        val jsonObj = JSONObject()
+        val offerExpiresObj = JSONObject()
+
+        offerExpiresObj.put("epochSeconds", expirationEpochSeconds)
+        offerExpiresObj.put("timeZoneOffsetSeconds", -28800)
+        jsonObj.put("airAttachQualified", true)
+        jsonObj.put("offerExpiresTime", offerExpiresObj)
+
+        val airAttach = AirAttach(jsonObj)
+        val toJson = airAttach.toJson()
+        val airAttachFromJson = AirAttach()
+        airAttachFromJson.fromJson(toJson)
+        return jsonObj
     }
 
     private fun dateTimeTwoWeeksFromNow() = DateTime.now().plusDays(14)

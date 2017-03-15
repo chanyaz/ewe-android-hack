@@ -12,7 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripUtils {
@@ -44,6 +47,12 @@ public class TripUtils {
 		}
 
 		return false;
+	}
+
+	public static List<Trip> getTripsInStartTimeAscendingOrder(List<Trip> trips) {
+		List<Trip> sortedList = new ArrayList<>(trips);
+		Collections.sort(sortedList, SORT_ASCENDING_ORDER_COMPARATOR);
+		return sortedList;
 	}
 
 	public static void putTripComponents(JSONObject obj, List<TripComponent> tripComponents) throws JSONException {
@@ -94,12 +103,13 @@ public class TripUtils {
 		return components;
 	}
 
+
 	private static final Comparator<Trip> SORT_ASCENDING_ORDER_COMPARATOR = new Comparator<Trip>() {
 		@Override
-		public int compare(Trip o1, Trip o2) {
+		public int compare(Trip trip1, Trip trip2) {
 
-			if (o1.getStartDate() == null) {
-				if (o1.getStartDate() == o2.getStartDate()) {
+			if (trip1.getStartDate() == null) {
+				if (trip1.getStartDate() == trip2.getStartDate()) {
 					return 0;
 				}
 				else {
@@ -107,10 +117,10 @@ public class TripUtils {
 				}
 			}
 
-			if (o1.getStartDate().isBefore(o2.getStartDate())) {
+			if (trip1.getStartDate().isBefore(trip2.getStartDate())) {
 				return -1;
 			}
-			else if (o1.getStartDate().isEqual(o2.getStartDate())) {
+			else if (trip1.getStartDate().isEqual(trip2.getStartDate())) {
 				return 0;
 			}
 			else {
@@ -118,4 +128,47 @@ public class TripUtils {
 			}
 		}
 	};
+
+	public static List<Trip> getUpcomingAirAttachQualifiedFlightTrips(@NotNull Collection<Trip> trips) {
+		List<Trip> flightTrips = new ArrayList<Trip>();
+		for (Trip trip : trips) {
+			boolean hasOneTripComponent = trip.getTripComponents().size() == 1;
+			boolean isFlightTrip = trip.getTripComponents().get(0) instanceof TripFlight;
+			boolean isNotShared = !trip.isShared();
+			if (hasOneTripComponent && isFlightTrip && isNotShared) {
+				if (trip.getAirAttach() != null && trip.getAirAttach().isAirAttachQualified()) {
+					flightTrips.add(trip);
+				}
+			}
+		}
+		return flightTrips;
+	}
+
+	public static Trip getRecentUpcomingFlightTrip(Collection<Trip> trips) {
+		List<Trip> allFlightTripswithAAQualified = getUpcomingAirAttachQualifiedFlightTrips(trips);
+		if (allFlightTripswithAAQualified.size() > 0) {
+			List<Trip> sortedRecentFlightTrips = getTripsInStartTimeAscendingOrder(allFlightTripswithAAQualified);
+			return sortedRecentFlightTrips.get(0);
+		}
+		return null;
+	}
+
+	public static String getFlightTripDestinationCity(TripFlight trip) {
+		if (trip != null) {
+			FlightLeg firstFlightLeg = trip.getFlightTrip().getLeg(0);
+			String cityName = firstFlightLeg.getSegment(firstFlightLeg.getSegmentCount() - 1).getDestinationWaypoint()
+				.getAirport().mCity;
+			return cityName;
+		}
+		return null;
+	}
+
+	public static HotelSearchParams getHotelSearchParamsForRecentFlightAirAttach(TripFlight tripFlight) {
+		if (tripFlight != null) {
+			FlightLeg firstFlightLeg = tripFlight.getFlightTrip().getLeg(0);
+			return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(tripFlight, firstFlightLeg, null);
+		}
+		return null;
+	}
+
 }

@@ -899,6 +899,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.dialog_app_rating_feedback_button_alt,
 		R.string.dialog_app_rating_no_button_alt,
 		R.dimen.hotel_carousel_fab_vertical_offset,
-		R.string.how_we_determine_sort_order
+		R.string.how_we_determine_sort_order,
+		R.string.air_attach_offer_expires_TEMPLATE,
+		R.string.air_attach_expires_soon,
+		R.string.air_attach_variant1_string1_TEMPLATE,
+		R.string.air_attach_variant2_string1_TEMPLATE,
+		R.string.air_attach_variant1_string,
+		R.string.air_attach_variant2_string2
 	};
 }

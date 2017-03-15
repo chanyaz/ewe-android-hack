@@ -101,6 +101,8 @@
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
     <string name="preference_abacus_setting_variant1">Variant1</string>
     <string name="preference_abacus_setting_variant2">Variant2</string>
+    <string name="preference_abacus_setting_upto_xx_off">Upto_XX_Percent_off</string>
+    <string name="preference_abacus_setting_because_you_booked_a_flight">Because_you_booked_a_flight</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
@@ -120,10 +122,12 @@
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
     <string name="preference_enable_payment_traveler_updated_strings">preference_enable_payment_traveler_updated_strings</string>
     <string name="preference_flight_byot">preference_flight_byot</string>
+    <string name="preference_show_air_attach_message_on_launch_screen">preference_show_air_attach_message_on_launch_screen</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
     <string name="preference_member_deal_on_launch_screen">preference_member_deal_on_launch_screen</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
     <string name="preference_active_itin_on_launch">preference_enable_active_itin_on_launch</string>
+
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

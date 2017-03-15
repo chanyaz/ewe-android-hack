@@ -23,11 +23,19 @@ public class AirAttach implements JSONable {
 	}
 
 	public boolean isAirAttachQualified() {
-		return mAirAttachQualified && mExpirationDate != null;
+		return mAirAttachQualified && mExpirationDate != null && mExpirationDate.isAfterNow();
 	}
 
 	public DateTime getExpirationDate() {
 		return mExpirationDate;
+	}
+
+	public int getDaysRemaining() {
+		return JodaUtils.daysBetween(DateTime.now(), mExpirationDate);
+	}
+
+	public int getHoursRemaining() {
+		return JodaUtils.hoursBetween(DateTime.now(), mExpirationDate);
 	}
 
 	@Override
