@@ -30,10 +30,9 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/member_deals_status_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/member_deal_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Loading data..."/>
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

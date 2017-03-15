@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.sos
 
-class MemberOnlyDealResponse {
+class MemberDealResponse {
     var offerInfo: OfferInfo? = null
     var offerErrorInfo: ErrorInfo? = null
     var debugInformation: DebugInformation? = null
@@ -20,7 +20,7 @@ class MemberOnlyDealResponse {
         }
 
     inner class OfferInfo {
-        internal var currency: String? = null
+        var currency: String? = null
         internal var language: String? = null
     }
 

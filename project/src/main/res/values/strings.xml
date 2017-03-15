@@ -4539,9 +4539,6 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Infant in seat {number} details</string>
 
-    <!--MIA - Member Only Deals-->
-    <string name="member_deals_toolbar_title">Member Deals</string>
-
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ Points applied! (excludes taxes and fees)</string>
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
@@ -4914,10 +4911,13 @@
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Fetching your trips…</string>
 
-    <!-- Member Deal Only -->
-    <string name="member_deal_title">Member Deals</string>
+    <!-- Member Pricing Only -->
+    <string name="member_deal_title">Member Pricing</string>
     <string name="member_deal_subtitle">Discounts off select hotels</string>
+    <string name="member_deal_landing_page_header">To see more member only deals tap shop</string>
+    <string name="member_deals_toolbar_title">Member Pricing</string>
     <string name="continue_booking">Continue Booking</string>
+    <string name="member_deal_hotel_only">Hotel Only</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">How we determine sort order</string>
