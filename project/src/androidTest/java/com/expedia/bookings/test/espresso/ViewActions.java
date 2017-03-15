@@ -47,6 +47,7 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 
 public final class ViewActions {
 
@@ -151,6 +152,27 @@ public final class ViewActions {
 		public String getDescription() {
 			return "selects dates";
 		}
+	}
+
+	//View Action for performing a click when the view is enabled
+
+	public static ViewAction clickWhenEnabled() {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return isEnabled();
+			}
+
+			@Override
+			public String getDescription() {
+				return "Single Click when Enabled";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				view.performClick();
+			}
+		};
 	}
 
 	// View Action for manipulating a seek bar

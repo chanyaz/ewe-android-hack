@@ -18,6 +18,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.not;
@@ -30,12 +31,11 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 
 		final String ticketName = "2-Day";
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
-		LXInfositeScreen.bookNowButton("2-Day New York Pass").perform(scrollTo());
 		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(waitFor(isDisplayed(), 2L,
-			TimeUnit.SECONDS), scrollTo(), click());
-		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
-		LXInfositeScreen.ticketAddButton(ticketName, "Child").perform(scrollTo(), click());
-		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo(), click());
+			TimeUnit.SECONDS), clickWhenEnabled());
+		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(clickWhenEnabled());
+		LXInfositeScreen.ticketAddButton(ticketName, "Child").perform(clickWhenEnabled());
+		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 	}
 
 	public void testVisibilitiesAndOfferDetailsOnCheckout() throws Throwable {
@@ -100,7 +100,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
 		Common.pressBack();
-		LXInfositeScreen.bookNowButton("2-Day").perform(scrollTo(), click());
+		LXInfositeScreen.bookNowButton("2-Day").perform(clickWhenEnabled());
 		CheckoutViewModel.travelerInfo().perform(waitForViewToDisplay());
 		LXScreen.acceptTermsWidget().check(matches(not(isDisplayed())));
 

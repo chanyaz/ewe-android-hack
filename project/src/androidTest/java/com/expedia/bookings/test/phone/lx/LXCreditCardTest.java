@@ -9,7 +9,7 @@ import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 
 public class LXCreditCardTest extends LxTestCase {
 
@@ -20,18 +20,16 @@ public class LXCreditCardTest extends LxTestCase {
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
-		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
-		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo());
-		LXInfositeScreen.bookNowButton(ticketName).perform(click());
+		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(clickWhenEnabled());
+		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(clickWhenEnabled());
+		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 		Common.delay(1);
 		screenshot("LX Checkout Started");
 		CheckoutViewModel.enterPaymentInfo();
 		screenshot("LX Checkout Ready");
 		Common.pressBack();
 		Common.delay(1);
-		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo());
-		LXInfositeScreen.bookNowButton(ticketName).perform(click());
+		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 		Common.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
