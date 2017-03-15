@@ -62,5 +62,5 @@ public class Constants {
 	public static final String MOD_PRODUCT_TYPE = "Hotel";
 	public static final String MOD_GROUP_BY = "destination";
 	public static final int MOD_DESTINATION_LIMIT = 10;
-	public static final String MOD_CLIENT_ID = "demo";
+	public static final String MOD_CLIENT_ID = "ebad";
 }
