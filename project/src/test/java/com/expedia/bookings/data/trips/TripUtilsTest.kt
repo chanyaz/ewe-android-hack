@@ -268,6 +268,14 @@ class TripUtilsTest {
         assertEquals(expectedCity, city)
     }
 
+    @Test
+    fun ignoreExpiredTrip() {
+        val trip = Trip()
+        trip.hasExpired(0)
+        val result = TripUtils.hasTripStartDateBeforeDateTime(listOf(trip), dateTimeTwoWeeksFromNow(), false)
+        assertFalse(result)
+    }
+
     private fun setUpAirAttachObject(expirationEpochSeconds: Long): JSONObject {
         val jsonObj = JSONObject()
         val offerExpiresObj = JSONObject()

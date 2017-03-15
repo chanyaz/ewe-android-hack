@@ -1,9 +1,5 @@
 package com.expedia.bookings.launch.widget;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,6 +47,10 @@ import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -61,7 +61,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public static boolean isStaticCard(int itemViewKey) {
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
-		    || itemViewKey == LaunchDataItem.ACTIVE_ITIN_VIEW
+			|| itemViewKey == LaunchDataItem.ITIN_VIEW
 			|| itemViewKey == LaunchDataItem.POPULAR_HOTELS
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
@@ -143,9 +143,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			holder.itemView.setOnClickListener(seeAllClickListener);
 			return holder;
 		}
-		else if (viewType == LaunchDataItem.ACTIVE_ITIN_VIEW) {
+		else if (viewType == LaunchDataItem.ITIN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.launch_active_itin, parent, false);
-			return new ActiveItinLaunchCard(view, context);
+			return new ItinLaunchCard(view, context);
 		}
 		else if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
@@ -199,17 +199,21 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
 		else if (holder instanceof LaunchScreenAirAttachCard) {
-			Trip recentUpcomingFlightTrip = TripUtils.getRecentUpcomingFlightTrip(ItineraryManager.getInstance().getTrips());
+			Trip recentUpcomingFlightTrip = TripUtils
+				.getRecentUpcomingFlightTrip(ItineraryManager.getInstance().getTrips());
 			TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
 			HotelSearchParams hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
 			String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
 
-			LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView, recentUpcomingFlightTrip, hotelSearchParams, cityName);
+			LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView,
+				recentUpcomingFlightTrip, hotelSearchParams, cityName);
 			((LaunchScreenAirAttachCard) holder).bind(viewModel);
 		}
-		else if (holder instanceof ActiveItinLaunchCard) {
-			((ActiveItinLaunchCard) holder).bind(" ", makeActiveItinViewModel());
+
+		else if (holder instanceof ItinLaunchCard) {
+			((ItinLaunchCard) holder).bind(context, makeActiveItinViewModel());
 		}
+
 		else if (holder instanceof LaunchLoadingViewHolder) {
 			((LaunchLoadingViewHolder) holder).bind();
 		}
@@ -285,8 +289,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showSignInCard()) {
 			items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 		}
-		if (showActiveItin()) {
-			items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
+		if (showItinCard()) {
+			items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
 		}
 		if (showAirAttachMessage()) {
 			items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
@@ -349,8 +353,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return TripUtils.customerHasTripsInNextTwoWeeks(customersTrips, includeSharedItins);
 	}
 
-	private Collection<Trip> getCustomerTrips() {
-		return ItineraryManager.getInstance().getTrips();
+	@VisibleForTesting
+	protected List<Trip> getCustomerTrips() {
+		ArrayList<Trip> customerTrips = new ArrayList<>(ItineraryManager.getInstance().getTrips());
+		if (customerTrips == null) {
+			return Collections.emptyList();
+		}
+
+		return customerTrips;
 	}
 
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
@@ -382,14 +392,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private BigImageLaunchViewModel getPopularHotelViewModel() {
-			return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
-				R.color.hotel_tonight_background_gradient,
-				R.string.launch_find_hotels_near_you,
-				R.string.launch_find_recommended_hotels);
+		return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
+			R.color.hotel_tonight_background_gradient,
+			R.string.launch_find_hotels_near_you,
+			R.string.launch_find_recommended_hotels);
 	}
 
 	private BigImageLaunchViewModel getMemberDealViewModel() {
-		return  new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon,
+		return new BigImageLaunchViewModel(R.drawable.ic_member_deals_icon,
 			R.color.member_deal_background_gradient,
 			R.string.member_deal_title,
 			R.string.member_deal_subtitle);
@@ -397,7 +407,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private String getMemberDealHomeScreenImageUrl() {
 		Akeakamai akeakamai = new Akeakamai(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl());
-		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width), context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
+		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width),
+			context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
 		return akeakamai.build();
 	}
 
@@ -426,12 +437,20 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return Db.getTripBucket().isUserAirAttachQualified();
 	}
 
-	private boolean showActiveItin() {
-		return userBucketedForActiveItin() && customerHasTripsInNextTwoWeeks();
+	private boolean showItinCard() {
+		boolean bucketedSignedInUserWithTripInTwoWeeks =
+			userBucketedForItinCardSignedIn() && customerHasTripsInNextTwoWeeks();
+		boolean bucketedGuestUserWithZeroTrips =
+			userBucketedForItinCardGuest() && !User.isLoggedIn(context) && getCustomerTrips().size() == 0;
+		if (bucketedSignedInUserWithTripInTwoWeeks || bucketedGuestUserWithZeroTrips) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean userBucketedForPopularHotels() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
+		return Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 	}
 
 	private boolean userBucketedForSignIn(Context context) {
@@ -446,10 +465,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
 	private boolean showMemberDeal() {
-		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen) && User.isLoggedIn(context);
+		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen) && User
+			.isLoggedIn(context);
 	}
 
-	private boolean userBucketedForActiveItin() {
+	private boolean userBucketedForItinCardSignedIn() {
 		return FeatureToggleUtil
 			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard,
 				R.string.preference_active_itin_on_launch);
@@ -459,16 +479,23 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return staticCards.size();
 	}
 
+	private boolean userBucketedForItinCardGuest() {
+		return FeatureToggleUtil.
+			isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard,
+				R.string.preference_guest_itin_on_launch);
+	}
+
+
 	private class ItinSyncListener extends ItineraryManager.ItinerarySyncAdapter {
 		@Override
 		public void onSyncFinished(Collection<Trip> trips) {
-			if (isStaticCardAlreadyShown(LaunchDataItem.ACTIVE_ITIN_VIEW)) {
+			if (isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW)) {
 				return;
 			}
 
 			ArrayList<LaunchDataItem> items = new ArrayList<>();
-			if (showActiveItin()) {
-				items.add(new LaunchDataItem(LaunchDataItem.ACTIVE_ITIN_VIEW));
+			if (showItinCard()) {
+				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
 			}
 			addDelayedStaticCards(items);
 		}
@@ -476,7 +503,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	protected boolean isStaticCardAlreadyShown(int key) {
-		for (LaunchDataItem item: staticCards) {
+		for (LaunchDataItem item : staticCards) {
 			if (item.getKey() == key) {
 				return true;
 			}

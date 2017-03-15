@@ -117,6 +117,12 @@
             android:summary="Enable active itin on launch screen"
             android:title="Launch Screen Active Itin" />
 
+        <CheckBoxPreference
+            android:key= "@string/preference_guest_itin_on_launch"
+            android:layout="@layout/preference"
+            android:summary="Enable guest itin on launch screen"
+            android:title="Launch Screen Guest Itin" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -59,6 +59,8 @@ class FlightOverviewPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
+        val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
+        validator.updateForNewSearch(setupFlightSearchParams())
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
     }
 

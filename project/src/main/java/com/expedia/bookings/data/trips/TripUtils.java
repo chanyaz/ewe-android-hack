@@ -32,7 +32,11 @@ public class TripUtils {
 
 		for (Trip trip : tripsSortedDateTimeAscending) {
 			if (trip.getStartDate() != null) {
-				if (trip.getStartDate().isBefore(dateTime) || trip.getStartDate().isEqual(dateTime)) {
+				boolean hasTripExpired = trip.hasExpired(0);
+				boolean startDateBefore = trip.getStartDate().isBefore(dateTime);
+				boolean startDateToday = trip.getStartDate().isEqual(dateTime);
+
+				if (!hasTripExpired && startDateBefore || startDateToday) {
 					if (!includeSharedItins && trip.isShared()) {
 						continue; // don't add shared itins to the list
 					}
@@ -45,7 +49,6 @@ public class TripUtils {
 				}
 			}
 		}
-
 		return false;
 	}
 
