@@ -299,7 +299,7 @@ public class WebViewFragment extends DialogFragment {
 		// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
 		// default user-agent string contains "Android" which tips off the redirect to mobile.
 		if (!mAllowUseableNetRedirects) {
-			String userAgentString = ServicesUtil.generateUserAgentString(getActivity());
+			String userAgentString = ServicesUtil.generateUserAgentString();
 			mWebView.getSettings().setUserAgentString(userAgentString);
 		}
 
