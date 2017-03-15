@@ -4,9 +4,9 @@
 
     <com.expedia.bookings.widget.itin.ItinPOSHeader
         android:id="@+id/sign_in_toolbar"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:id="@+id/error_container"
@@ -65,7 +65,7 @@
                 android:layout_toLeftOf="@+id/login_text_view"
                 android:scaleType="center"
                 android:src="@drawable/checkout_logout_logo"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/login_text_view"
@@ -103,11 +103,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:text="@string/or"
             android:textColor="@color/gray6"
-            android:textSize="14sp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp" />
+            android:textSize="14sp" />
 
         <View
             android:layout_width="0dp"
@@ -124,6 +124,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hint_container"
         android:layout_centerHorizontal="true"
+        android:background="?attr/selectableItemBackground"
+        android:padding="20dp"
         android:text="@string/itin_sign_in_add_guest_trip_message"
         android:textColor="@color/gray9"
         android:textSize="16sp" />
