@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.accessibility
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
@@ -11,8 +12,8 @@ open class AccessibleEditText(context: Context, attributeSet: AttributeSet?) : E
 
     open fun getAccessibilityNodeInfo(): String {
         val text = this.text.toString()
-        val hint = this.hint.toString()
-        val error = context.resources.getString(R.string.accessibility_cont_desc_role_error)
+        val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint.toString() ?: ""
+        val error = (this.parent as? TextInputLayout)?.error ?: context.resources.getString(R.string.accessibility_cont_desc_role_error)
         val sb: StringBuilder = StringBuilder(" $hint")
         if (!text.isEmpty()) {
             sb.append(", $text")

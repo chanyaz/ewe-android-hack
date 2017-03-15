@@ -3,6 +3,7 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.widget.TelephoneSpinnerAdapter
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
@@ -13,6 +14,7 @@ open class TravelerPhoneViewModel(val context: Context) {
     val phoneViewModel = PhoneViewModel(context)
     val phoneCountryCodeSubject = BehaviorSubject.create<String>()
     val phoneCountryNameSubject = BehaviorSubject.create<String>()
+    val phoneCountryCodeErrorSubject = BehaviorSubject.create<Boolean>()
 
     val countryNameObserver = endlessObserver<String> { countryName ->
         phone.countryName = countryName
@@ -29,14 +31,16 @@ open class TravelerPhoneViewModel(val context: Context) {
 
     fun updatePhone(phone: Phone) {
         this.phone = phone
-        phoneCountryCodeSubject.onNext(phone.countryCode)
+        phoneCountryCodeSubject.onNext(getCountryCode(phone))
         phoneCountryNameSubject.onNext(getCountryName(phone))
         phoneViewModel.textSubject.onNext(if (phone.number.isNullOrEmpty()) "" else phone.number)
     }
 
     open fun validate(): Boolean {
+        val hasError = phoneCountryCodeSubject.value.isNullOrBlank()
+        phoneCountryCodeErrorSubject.onNext(hasError)
         val validPhone = phoneViewModel.validate()
-        return validPhone
+        return validPhone && !hasError
     }
 
     open fun getCountryName(phone:Phone) : String {
@@ -44,6 +48,17 @@ open class TravelerPhoneViewModel(val context: Context) {
             context.getString(PointOfSale.getPointOfSale().countryNameResId)
         } else {
             phone.countryName
+        }
+    }
+
+    private fun getCountryCode(phone: Phone) : String {
+        return if (phone.countryCode.isNullOrEmpty()) {
+            val pointOfSaleCountryName = context.getString(PointOfSale.getPointOfSale().countryNameResId)
+            val countryAdapter = TelephoneSpinnerAdapter(context)
+            val pointOfSaleCountryCode = countryAdapter.getCountryCodeFromCountryName(pointOfSaleCountryName)
+            pointOfSaleCountryCode.toString()
+        } else {
+            phone.countryCode
         }
     }
 }
