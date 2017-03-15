@@ -228,7 +228,7 @@ public class AppModule {
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				HttpUrl.Builder url = chain.request().url().newBuilder();
 				Request.Builder request = chain.request().newBuilder();
-				request.header("User-Agent", ServicesUtil.generateUserAgentString(context));
+				request.header("User-Agent", ServicesUtil.generateUserAgentString());
 				if (!ExpediaBookingApp.isAutomation()) {
 					request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
 				}

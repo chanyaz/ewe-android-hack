@@ -215,6 +215,7 @@ android {
             buildConfigField "String", "brand", "\"Expedia\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
+            buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.expedia.bookings"
 
             def major = 8
@@ -231,6 +232,7 @@ android {
             buildConfigField "String", "brand", "\"ebookers\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
+            buildConfigField "String", "USER_AGENT", "\"Ebookers\""
             applicationId "com.ebookers"
 
             def major = 6
@@ -246,6 +248,7 @@ android {
             buildConfigField "String", "brand", "\"Agence Voyages-SNCF.com\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
+            buildConfigField "String", "USER_AGENT", "\"VSC\""
             applicationId "com.expedia.bookings.vsc"
 
             def major = 4
@@ -261,6 +264,7 @@ android {
             buildConfigField "String", "brand", "\"Travelocity\""
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"tvly\""
+            buildConfigField "String", "USER_AGENT", "\"TVLY\""
             applicationId "com.travelocity.android"
 
             def major = 9
@@ -276,6 +280,7 @@ android {
             buildConfigField "String", "brand", "\"AirAsiaGo\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
+            buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
             applicationId "com.airasiago.android"
 
             def major = 4
@@ -291,6 +296,7 @@ android {
             buildConfigField "String", "brand", "\"Wotif\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
+            buildConfigField "String", "USER_AGENT", "\"Wotif\""
             applicationId "com.wotif.android"
 
             def major = 4
@@ -306,6 +312,7 @@ android {
             buildConfigField "String", "brand", "\"LM AU & NZ\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
+            buildConfigField "String", "USER_AGENT", "\"LM\""
             applicationId "com.lastminute.android"
 
             def major = 4
@@ -321,6 +328,7 @@ android {
             buildConfigField "String", "brand", "\"Expedia\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
+            buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.samsung.travel.android"
 
             def major = 2
@@ -336,6 +344,7 @@ android {
             buildConfigField "String", "brand", "\"Orbitz\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
+            buildConfigField "String", "USER_AGENT", "\"Orbitz\""
             applicationId "com.orbitz"
 
             def major = 8
@@ -351,6 +360,7 @@ android {
             buildConfigField "String", "brand", "\"CheapTickets\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
+            buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
             applicationId "com.cheaptickets"
 
             def major = 6
@@ -366,6 +376,7 @@ android {
             buildConfigField "String", "brand", "\"MrJet\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
+            buildConfigField "String", "USER_AGENT", "\"MrJet\""
             applicationId "se.mrjet"
 
             def major = 6
