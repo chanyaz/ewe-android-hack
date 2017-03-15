@@ -6,7 +6,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.squareup.phrase.Phrase
@@ -14,7 +13,7 @@ import javax.inject.Inject
 
 class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context) {
 
-    val isFeatureEnabledForTravelerInfoTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo, R.string.preference_enable_payment_traveler_updated_strings)
+    val isFeatureEnabledForTravelerInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 

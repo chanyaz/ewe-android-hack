@@ -65,11 +65,6 @@
             android:summary="Enable 3DS payment webview checkout"
             android:title="Enable 3DS payment" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_payment_traveler_updated_strings"
-            android:layout="@layout/preference"
-            android:summary="Enable payment and traveler updated strings AB test"
-            android:title="Enable Traveler and Payment Info Test" />
     </PreferenceCategory>
 
     <PreferenceCategory
