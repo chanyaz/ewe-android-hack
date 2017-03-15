@@ -12,12 +12,16 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import rx.subjects.PublishSubject
 
 class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
     val signInWidget: ItinSignInWidget by bindView(R.id.sign_in_widget)
     val addGuestItinWidget: AddGuestItinWidget by bindView(R.id.add_guest_itin_widget)
     val itinFetchProgressWidget: ItinFetchProgressWidget by bindView(R.id.itin_fetch_progress_widget)
     val syncListenerAdapter = createSyncAdapter()
+
+    private var hasAddGuestItinErrors = false
+    var syncFinishedWithoutErrorsSubject = PublishSubject.create<Unit>()
 
     private val defaultTransition = object : Presenter.DefaultTransition(ItinSignInWidget::class.java.name) {
         override fun endTransition(forward: Boolean) {
@@ -60,6 +64,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     }
 
     private fun showItinFetchProgress() {
+        hasAddGuestItinErrors = false
         show(itinFetchProgressWidget)
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
@@ -92,13 +97,18 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             if (trips?.size == 0 && currentState != addGuestItinWidget.javaClass.name){
                 showSignInWidget()
             }
+            if (!hasAddGuestItinErrors) {
+                syncFinishedWithoutErrorsSubject.onNext(Unit)
+            }
         }
 
         override fun onTripFailedFetchingGuestItinerary() {
+            hasAddGuestItinErrors = true
             showAddGuestItinScreen(true)
         }
 
         override fun onTripFailedFetchingRegisteredUserItinerary() {
+            hasAddGuestItinErrors = true
             showAddGuestItinScreen(true)
         }
     }
