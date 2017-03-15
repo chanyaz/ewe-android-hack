@@ -16,8 +16,12 @@ abstract class AbstractTravelersViewModel() {
     abstract fun isValidForBooking(traveler: Traveler, index: Int) : Boolean
     abstract fun isTravelerEmpty(traveler: Traveler) : Boolean
 
+
     fun updateCompletionStatus() {
-        if (allTravelersValid()){
+        if (areTravelersEmpty()) {
+            invalidTravelersSubject.onNext(Unit)
+            travelersCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
+        } else if (allTravelersValid()) {
             allTravelersCompleteSubject.onNext(getTravelers())
             travelersCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
         } else if (Db.getTravelers().size > 1 && !isDirtyObservable.value) {
@@ -49,5 +53,15 @@ abstract class AbstractTravelersViewModel() {
     open fun getTraveler(index: Int) : Traveler {
         val travelerList = Db.getTravelers()
         return travelerList[index]
+    }
+
+    open fun areTravelersEmpty() : Boolean {
+        val travelerList = getTravelers()
+        for (traveler in travelerList) {
+            if (!isTravelerEmpty(traveler)) {
+                return false
+            }
+        }
+        return true
     }
 }

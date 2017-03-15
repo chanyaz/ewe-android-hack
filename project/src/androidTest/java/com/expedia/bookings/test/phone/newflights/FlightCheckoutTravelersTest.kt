@@ -24,10 +24,10 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
-class FlightCheckoutMultiTravelerTest : NewFlightTestCase() {
+class FlightCheckoutTravelersTest : NewFlightTestCase() {
     @Test
     fun testMultiTravelerGuestUserCheckout() {
-        flightSearchAndGoToCheckout()
+        flightSearchAndGoToCheckout(2)
         EspressoUtils.waitForViewNotYetInLayoutToDisplay((withId(R.id.traveler_default_state)), 10, TimeUnit.SECONDS)
         onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
                 matches(withText("Traveler Details")))
@@ -111,14 +111,35 @@ class FlightCheckoutMultiTravelerTest : NewFlightTestCase() {
 
     }
 
-    private fun flightSearchAndGoToCheckout() {
+    @Test
+    fun testSingleTravelerCheckout() {
+        flightSearchAndGoToCheckout(1)
+        CheckoutViewModel.signInOnCheckout()
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
+
+        onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
+                matches(withText("Mock Web Server")))
+
+        PackageScreen.travelerInfo().perform(click())
+
+        onView(withId(R.id.select_traveler_button)).perform(click())
+        onView(withText("Add New Traveler")).perform(click())
+
+        Common.pressBack();
+        onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
+                matches(withText("Traveler Details")))
+        onView(allOf(withId(R.id.secondary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
+                matches(withText("Enter traveler details")))
+    }
+
+    private fun flightSearchAndGoToCheckout(numberOfTravelers: Int) {
         SearchScreen.origin().perform(click())
         SearchScreen.selectFlightOriginAndDestination()
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         SearchScreen.selectDates(startDate, endDate)
         SearchScreen.selectGuestsButton().perform(click())
-        SearchScreen.setGuests(2, 0)
+        SearchScreen.setGuests(numberOfTravelers, 0)
         SearchScreen.searchButton().perform(click())
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
         FlightsScreen.selectOutboundFlight().perform(click())

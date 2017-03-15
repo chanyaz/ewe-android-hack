@@ -45,14 +45,5 @@ abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
         }
     }
 
-    open fun areTravelersEmpty() : Boolean {
-        val travelerList = getTravelers()
-        for (traveler in travelerList) {
-            if (!isTravelerEmpty(traveler)) {
-                return false
-            }
-        }
-        return true
-    }
     abstract fun createNewTravelerEntryWidgetModel(context: Context, index: Int, passportRequired: BehaviorSubject<Boolean>, currentStatus: TravelerCheckoutStatus): AbstractUniversalCKOTravelerEntryWidgetViewModel
 }
