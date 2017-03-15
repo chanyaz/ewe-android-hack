@@ -1,5 +1,10 @@
 package com.expedia.bookings.launch.widget;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,10 +52,6 @@ import com.expedia.vm.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -199,8 +200,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
 		else if (holder instanceof LaunchScreenAirAttachCard) {
-			Trip recentUpcomingFlightTrip = TripUtils
-				.getRecentUpcomingFlightTrip(ItineraryManager.getInstance().getTrips());
+			Trip recentUpcomingFlightTrip = getRecentUpcomingFlightTrip();
 			TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
 			HotelSearchParams hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
 			String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
@@ -429,7 +429,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean showAirAttachMessage() {
 		return userBucketedForAirAttach(context) && User.isLoggedIn(context)
-			&& isUserAirAttachQualified();
+			&& isUserAirAttachQualified() && getRecentUpcomingFlightTrip() != null;
+	}
+
+	@VisibleForTesting
+	public Trip getRecentUpcomingFlightTrip() {
+		return TripUtils.getRecentUpcomingFlightTrip(getCustomerTrips());
 	}
 
 	@VisibleForTesting

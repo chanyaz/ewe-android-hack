@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -147,6 +148,7 @@ public class TripUtils {
 		return flightTrips;
 	}
 
+	@Nullable
 	public static Trip getRecentUpcomingFlightTrip(Collection<Trip> trips) {
 		List<Trip> allFlightTripswithAAQualified = getUpcomingAirAttachQualifiedFlightTrips(trips);
 		if (allFlightTripswithAAQualified.size() > 0) {

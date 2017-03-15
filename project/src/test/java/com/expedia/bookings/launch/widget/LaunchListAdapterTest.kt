@@ -63,15 +63,6 @@ class LaunchListAdapterTest {
         SettingUtils.save(context, R.string.preference_active_itin_on_launch, false)
         SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, false)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, false)
-    }
-
-    @Test
-    fun itemViewPosition_showing_hotels_activeItin_memberDeals_popularHotels() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen,
-                AbacusUtils.EBAndroidAppLaunchShowActiveItinCard)
-
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
-        SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, true)
         SettingUtils.save(context, R.string.preference_guest_itin_on_launch, false)
     }
 
@@ -79,6 +70,7 @@ class LaunchListAdapterTest {
     fun itemViewPosition_showingHotels_signedInItin_memberDeals_popularHotels() {
         givenPopularHotelsCardEnabled()
         givenSignedInItinCardEnabled()
+        givenPopularHotelsCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
@@ -597,6 +589,28 @@ class LaunchListAdapterTest {
         assertEquals(expectedCount, sut.itemCount)
     }
 
+    @Test
+    fun getItemViewType_ShowingLobView_ShowingPopularHotels_NoFlightTrip() {
+        givenAirAttachCardEnabled()
+        givenPopularHotelsCardEnabled()
+        createSystemUnderTest(isCustomerAirAttachedQualified = true, recentAirAttachFlightTrip = null)
+        givenCustomerSignedIn()
+        givenWeHaveCurrentLocationAndHotels()
+
+
+        val firstPosition = sut.getItemViewType(0)
+        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
+
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, secondPosition)
+
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
+
+        val fourthPosition = sut.getItemViewType(3)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
+    }
+
     private fun assertViewHolderIsFullSpan(position: Int) {
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val recyclerView = RecyclerView(context)
@@ -682,8 +696,8 @@ class LaunchListAdapterTest {
         return hotel
     }
 
-    private fun createSystemUnderTest(hasTripsInTwoWeeks: Boolean = true) {
-        sut = TestLaunchListAdapter(context, headerView, hasTripsInTwoWeeks)
+    private fun createSystemUnderTest(hasTripsInTwoWeeks: Boolean = true, isCustomerAirAttachedQualified: Boolean = true, recentAirAttachFlightTrip: Trip? = Trip()) {
+        sut = TestLaunchListAdapter(context, headerView, hasTripsInTwoWeeks, null, isCustomerAirAttachedQualified, recentAirAttachFlightTrip)
         sut.onCreateViewHolder(parentView, 0)
     }
 
@@ -729,14 +743,17 @@ class LaunchListAdapterTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen, 1)
     }
 
-
-    class TestLaunchListAdapter(context: Context?, header: View?, var hasTripsInTwoWeeks: Boolean = true, val trips: List<Trip>? = null) : LaunchListAdapter(context, header) {
+    class TestLaunchListAdapter(context: Context?, header: View?, var hasTripsInTwoWeeks: Boolean = true, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {
         override fun customerHasTripsInNextTwoWeeks(): Boolean {
             return hasTripsInTwoWeeks
         }
 
         override fun isUserAirAttachQualified(): Boolean {
-            return true
+            return isCustomerAirAttachedQualified
+        }
+
+        override fun getRecentUpcomingFlightTrip(): Trip? {
+            return recentAirAttachFlightTrip
         }
 
         override fun getCustomerTrips(): List<Trip> {
