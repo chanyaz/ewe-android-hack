@@ -26,10 +26,6 @@ data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfigurat
         return count
     }
 
-    fun isDefault(): Boolean {
-        return filterCount() == 0
-    }
-
     fun hasPriceRange(): Boolean {
         return minPrice > 0 || maxPrice > 0
     }

@@ -29,7 +29,7 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&pageIndex=0&enableSponsoredListings=true&forceV2Search=true")
+	@GET("/m/api/hotel/search?pageIndex=0&enableSponsoredListings=true&forceV2Search=true")
 	Observable<HotelSearchResponse> search(
 		@Query("regionId") String regionId,
 		@Query("latitude") Double lat,
@@ -40,6 +40,7 @@ public interface HotelApi {
 		@Query("shopWithPoints") Boolean shopWithPoints,
 		@Query("filterUnavailable") String filterUnavailable,
 		@Query("resultsPerPage") Integer resultsPerPage,
+		@Query("sortOrder") String sortOrder,
 		@QueryMap(encoded = true) Map<String, Object> filterParams);
 
 	@GET("/m/api/hotel/info?forceV2Search=true")

@@ -1,7 +1,6 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
-import android.support.annotation.CallSuper
 import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
@@ -34,13 +33,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val sortSpinnerObservable = PublishSubject.create<Sort>()
     val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
     val clientSideFilterObservable = BehaviorSubject.create<Boolean>()
-    val sortContainerObservable = BehaviorSubject.create<Boolean>()
-    val sortContainerVisibilityObservable = sortContainerObservable.withLatestFrom(clientSideFilterObservable, { showSort, clientSide ->
-        showSort && clientSide
-    })
-    val priceRangeContainerObservable = priceRangeContainerVisibility.withLatestFrom(clientSideFilterObservable, { showPriceRange, clientSide ->
-        showPriceRange && clientSide
-    })
+    val sortContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
@@ -233,6 +226,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         //nothing by default
     }
 
+    protected fun defaultFilterOptions(): Boolean {
+        return userFilterChoices.filterCount() == 0 && userFilterChoices.userSort == getDefaultSort()
+    }
+
     protected open fun createFilterTracker(): FilterTracker {
         return HotelFilterTracker()
     }
@@ -261,9 +258,16 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         filterCountObservable.onNext(userFilterChoices.filterCount())
     }
 
+    private fun getDefaultSort(): Sort {
+        if (isCurrentLocationSearch.value) {
+            return Sort.DISTANCE
+        }
+        return ProductFlavorFeatureConfiguration.getInstance().getDefaultSort()
+    }
+
     private fun resetUserFilters() {
-        userFilterChoices.userSort = ProductFlavorFeatureConfiguration.getInstance().getDefaultSort()
-        sortSpinnerObservable.onNext(Sort.RECOMMENDED)
+        userFilterChoices.userSort = getDefaultSort()
+        sortSpinnerObservable.onNext(userFilterChoices.userSort)
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = UserFilterChoices.StarRatings()
         userFilterChoices.name = ""

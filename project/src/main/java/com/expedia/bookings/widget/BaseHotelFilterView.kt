@@ -168,8 +168,8 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
     open protected fun bindViewModel(vm: BaseHotelFilterViewModel) {
         doneButton.subscribeOnClick(vm.doneObservable)
-        vm.priceRangeContainerObservable.subscribeVisibility(priceRangeContainer)
-        vm.priceRangeContainerObservable.subscribeVisibility(priceHeader)
+        vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeContainer)
+        vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
         filterVipContainer.setOnClickListener {
             clearHotelNameFocus()
             filterHotelVip.isChecked = !filterHotelVip.isChecked

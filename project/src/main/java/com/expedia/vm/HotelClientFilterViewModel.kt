@@ -56,6 +56,7 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
 
         clearObservable.subscribe {
             setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty())
+            previousSortType = Sort.RECOMMENDED   //the original response is always sorted by Recommended
         }
     }
 

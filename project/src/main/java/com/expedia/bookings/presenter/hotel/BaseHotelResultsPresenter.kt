@@ -570,7 +570,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             showWithTracking(ResultsFilter())
             val isResults = currentState == ResultsList::class.java.name
             previousWasList = isResults
-            filterView.viewModel.sortContainerObservable.onNext(isResults)
+            filterView.viewModel.sortContainerVisibilityObservable.onNext(isResults)
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
         filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView

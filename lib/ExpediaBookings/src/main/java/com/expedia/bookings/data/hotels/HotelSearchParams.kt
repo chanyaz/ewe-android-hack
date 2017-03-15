@@ -3,15 +3,61 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 import java.util.HashMap
 
 open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, var shopWithPoints: Boolean, val filterUnavailable: Boolean, var sortType: String? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
+    var serverSort: Boolean = false
 
     fun isCurrentLocationSearch(): Boolean {
         return suggestion.isCurrentLocationSearch
+    }
+
+    /**
+     * if server side is off, always default to ExpertPicks
+     * if server side is on:
+     *  use user sort if set
+     *  else use sort type if set
+     *  else if current location search - set to distance
+     *  otherwise default to expert picks
+     */
+    fun getSortOrder(): SortType {
+        if (!serverSort) {
+            return SortType.EXPERT_PICKS
+        }
+
+        if (filterOptions?.userSort != null) {
+            return filterOptions?.userSort!!
+        }
+
+        var sort: SortType? = getSortTypeFromString(sortType)
+
+        if (sort != null) {
+            return sort
+        } else if (isCurrentLocationSearch()) {
+            return SortType.DISTANCE
+        }
+
+        return SortType.EXPERT_PICKS
+    }
+
+    private fun getSortTypeFromString(sortString: String?): SortType? {
+        if (Strings.isEmpty(sortString)) {
+            return null
+        }
+
+        when (sortString!!.toLowerCase()) {
+            "discounts" -> return SortType.MOBILE_DEALS
+            "deals" -> return SortType.MOBILE_DEALS
+            "price" -> return SortType.PRICE
+            "rating" -> return SortType.REVIEWS
+            else -> {
+                return null
+            }
+        }
     }
 
     class Builder(maxStay: Int, maxRange: Int, val filterUnavailable: Boolean = true) : BaseSearchParams.Builder(maxStay, maxRange) {
@@ -21,6 +67,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         private var hotelName: String? = null
         private var starRatings: List<Int> = emptyList()
         private var vipOnly: Boolean = false
+        private var userSort: SortType? = null
 
         fun forPackage(pkg: Boolean): Builder {
             this.isPackage = pkg
@@ -49,6 +96,11 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
 
         fun vipOnly(vipOnly: Boolean): Builder {
             this.vipOnly = vipOnly
+            return this
+        }
+
+        fun userSort(userSort: SortType): Builder {
+            this.userSort = userSort
             return this
         }
 
@@ -81,6 +133,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             filterOptions.filterStarRatings = starRatings
             filterOptions.filterPrice = priceRange
             filterOptions.filterVipOnly = vipOnly
+            filterOptions.userSort = userSort
             return filterOptions
         }
     }
@@ -90,6 +143,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         var filterStarRatings: List<Int> = emptyList()
         var filterPrice: PriceRange? = null
         var filterVipOnly: Boolean = false
+        var userSort: SortType? = null
 
         fun getFiltersQueryMap(): Map<String, Any?> {
             val params = HashMap<String, Any?>()
@@ -113,6 +167,15 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         }
 
 
+    }
+
+    enum class SortType(val sortName: String) {
+        EXPERT_PICKS("ExpertPicks"),
+        STARS("StarRatingDesc"),
+        PRICE("PriceAsc"),
+        REVIEWS("Reviews "),
+        DISTANCE("Distance"),
+        MOBILE_DEALS("MobileDeals ")
     }
 
     data class PriceRange(val minPrice: Int, val maxPrice: Int) {
