@@ -32,9 +32,10 @@ class HotelSearchParamsTest {
                 .destination(getDummySuggestion("Seattle", "SEA"))
                 .startDate(tomorrow)
                 .endDate(checkoutDate)
-        testParamBuilder.hotelName = name
-        testParamBuilder.starRatings = listOf(10, 20)
-        testParamBuilder.priceRange = HotelSearchParams.PriceRange(10, 30)
+        testParamBuilder
+                .hotelName(name)
+                .starRatings(listOf(10, 20))
+                .priceRange(HotelSearchParams.PriceRange(10, 30))
 
         val searchParams = testParamBuilder.build()
         val map = searchParams.filterOptions!!.getFiltersQueryMap()

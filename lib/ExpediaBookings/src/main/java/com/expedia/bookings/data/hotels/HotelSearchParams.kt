@@ -17,9 +17,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
     class Builder(maxStay: Int, maxRange: Int, val filterUnavailable: Boolean = true) : BaseSearchParams.Builder(maxStay, maxRange) {
         private var isPackage: Boolean = false
         private var shopWithPoints: Boolean = false
-        var hotelName: String? = null
-        var starRatings: List<Int> = emptyList()
-        var priceRange: PriceRange? = null
+        private var priceRange: PriceRange? = null
+        private var hotelName: String? = null
+        private var starRatings: List<Int> = emptyList()
+        private var vipOnly: Boolean = false
 
         fun forPackage(pkg: Boolean): Builder {
             this.isPackage = pkg
@@ -28,6 +29,26 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
 
         fun shopWithPoints(shopWithPoints: Boolean): Builder {
             this.shopWithPoints = shopWithPoints
+            return this
+        }
+
+        fun hotelName(name: String): Builder {
+            this.hotelName = name
+            return this
+        }
+
+        fun starRatings(starRatings: List<Int>): Builder {
+            this.starRatings = starRatings
+            return this
+        }
+
+        fun priceRange(priceRange: PriceRange): Builder {
+            this.priceRange = priceRange
+            return this
+        }
+
+        fun vipOnly(vipOnly: Boolean): Builder {
+            this.vipOnly = vipOnly
             return this
         }
 
@@ -54,11 +75,12 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return false // not possible for hotel search
         }
 
-        private fun buildFilterOptions() : HotelFilterOptions {
+        private fun buildFilterOptions(): HotelFilterOptions {
             val filterOptions = HotelFilterOptions()
             filterOptions.filterHotelName = hotelName
             filterOptions.filterStarRatings = starRatings
             filterOptions.filterPrice = priceRange
+            filterOptions.filterVipOnly = vipOnly
             return filterOptions
         }
     }
@@ -67,6 +89,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         var filterHotelName: String? = null
         var filterStarRatings: List<Int> = emptyList()
         var filterPrice: PriceRange? = null
+        var filterVipOnly: Boolean = false
 
         fun getFiltersQueryMap(): Map<String, Any?> {
             val params = HashMap<String, Any?>()
@@ -82,8 +105,14 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
                 params.put("filterPrice", filterPrice!!.getPriceBuckets())
             }
 
+            if (filterVipOnly) {
+                params.put("vipOnly", filterVipOnly.toString())
+            }
+
             return params
         }
+
+
     }
 
     data class PriceRange(val minPrice: Int, val maxPrice: Int) {
