@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AirAttach;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
@@ -65,9 +64,11 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public void bind(T itinCardData) {
+		// Initialize air attach data
 		mItinContentGenerator = (ItinButtonContentGenerator) ItinContentGenerator.createGenerator(getContext(),
 			itinCardData);
 		mTripId = itinCardData.getTripComponent().getParentTrip().getTripId();
+		mAirAttach = itinCardData.getTripComponent().getParentTrip().getAirAttach();
 
 		mItinButtonOnClickListener = mItinContentGenerator.getOnItemClickListener();
 
@@ -85,24 +86,8 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		}
 
 		Ui.setText(this, R.id.action_text_view, buttonText);
-	}
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE METHODS
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	private void init(Context context) {
-		// Initialize air attach data
 		int daysRemaining = getDaysRemaining();
-
-		// Get air attach button layout
-		inflate(context, R.layout.itin_air_attach_card, this);
-		mAirAttachContainerLayout = Ui.findView(this, R.id.itin_button_layout);
-		mAirAttachButton = mAirAttachContainerLayout.findViewById(R.id.button_action_layout);
-		mAirAttachButton.setOnClickListener(mOnClickListener);
-		mExpirationCountdown = Ui.findView(this, R.id.air_attach_countdown_view);
-		mExpirationTodayTv = Ui.findView(this, R.id.air_attach_expires_today_text_view);
-
 		// Air attach expiration message
 		if (daysRemaining > 0) {
 			mExpirationCountdown.setVisibility(View.VISIBLE);
@@ -128,8 +113,22 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 		});
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PRIVATE METHODS
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	private void init(Context context) {
+		// Get air attach button layout
+		inflate(context, R.layout.itin_air_attach_card, this);
+		mAirAttachContainerLayout = Ui.findView(this, R.id.itin_button_layout);
+		mAirAttachButton = mAirAttachContainerLayout.findViewById(R.id.button_action_layout);
+		mAirAttachButton.setOnClickListener(mOnClickListener);
+		mExpirationCountdown = Ui.findView(this, R.id.air_attach_countdown_view);
+		mExpirationTodayTv = Ui.findView(this, R.id.air_attach_expires_today_text_view);
+	}
+
 	public int getDaysRemaining() {
-		return Db.getTripBucket().getAirAttach().getDaysRemaining();
+		return mAirAttach != null ? mAirAttach.getDaysRemaining() : 0;
 	}
 
 	private final OnClickListener mOnClickListener = new OnClickListener() {
