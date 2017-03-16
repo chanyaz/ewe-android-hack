@@ -23,6 +23,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.itin.AddGuestItinViewModel
 import com.mobiata.android.util.Ui
+import rx.subjects.PublishSubject
 
 class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
@@ -35,6 +36,8 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
     val itinPOSHeader: ItinPOSHeader by bindView(R.id.itin_pos_header)
+
+    private var isResettingFields = false
 
     var viewModel: AddGuestItinViewModel by notNullAndObservable { vm ->
         vm.showSearchDialogObservable.subscribe { show ->
@@ -53,7 +56,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         vm.emailFieldFocusObservable.subscribe {
             if (!AccessibilityUtil.isTalkBackEnabled(getContext())) {
                 guestEmailEditText.requestFocus()
-                Ui.showKeyboard(guestEmailEditText, null)
+                postDelayed({ Ui.showKeyboard(guestEmailEditText, null) }, 200L)
             }
         }
     }
@@ -75,13 +78,13 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
                 (view as EditText).hint = context.getString(R.string.itinerary_number_hint)
             } else {
                 (view as EditText).hint = ""
-                viewModel.itinNumberValidateObservable.onNext(itinNumberEditText.text.toString())
+                validateField(viewModel.itinNumberValidateObservable, itinNumberEditText.text.toString())
             }
         }
 
         itinNumberEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.itinNumberValidateObservable.onNext(s.toString())
+                validateField(viewModel.itinNumberValidateObservable, s.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -94,13 +97,13 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
 
         guestEmailEditText.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
-                viewModel.emailValidateObservable.onNext(guestEmailEditText.text.toString())
+                validateField(viewModel.emailValidateObservable, guestEmailEditText.text.toString())
             }
         }
 
         guestEmailEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.emailValidateObservable.onNext(s.toString())
+                validateField(viewModel.emailValidateObservable,s.toString())
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -124,6 +127,12 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         }
     }
 
+    private fun validateField(validationObservable: PublishSubject<String>, string: String) {
+        if (!isResettingFields) {
+            validationObservable.onNext(string)
+        }
+    }
+
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE && changedView == this) {
@@ -132,11 +141,13 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     }
 
     fun resetFields() {
+        isResettingFields = true
         guestEmailEditText.setText("")
         itinNumberEditText.setText("")
         viewModel.hasItinErrorObservable.onNext(false)
         viewModel.hasEmailErrorObservable.onNext(false)
         viewModel.guestItinFetchButtonEnabledObservable.onNext(false)
+        isResettingFields = false
     }
 
     override fun onFinishInflate() {

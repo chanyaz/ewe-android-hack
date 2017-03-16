@@ -50,7 +50,6 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         showSignInWidget()
         signInWidget.viewModel.addGuestItinClickSubject.subscribe {
             showAddGuestItinScreen(false)
-            addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
             OmnitureTracking.trackFindGuestItin()
         }
 
@@ -78,6 +77,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(false)
         if (!hasError) {
             addGuestItinWidget.resetFields()
+            addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
         }
     }
 
