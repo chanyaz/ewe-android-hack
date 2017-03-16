@@ -30,6 +30,7 @@ import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
+import com.expedia.bookings.data.trips.TicketingStatus;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripActivity;
@@ -195,6 +196,23 @@ public class TripParser {
 		return null;
 	}
 
+	private TicketingStatus parseTicketingStatus(String status) {
+		if ("INPROGRESS".equals(status)) {
+			return TicketingStatus.INPROGRESS;
+		}
+		else if ("CANCELLED".equals(status)) {
+			return TicketingStatus.CANCELLED;
+		}
+		else if ("COMPLETE".equals(status)) {
+			return TicketingStatus.COMPLETE;
+		}
+		else if ("VOIDED".equals(status)) {
+			return TicketingStatus.VOIDED;
+		}
+
+		return TicketingStatus.NONE;
+	}
+
 	private TripHotel parseTripHotel(JSONObject obj) {
 		TripHotel hotel = new TripHotel();
 
@@ -309,6 +327,7 @@ public class TripParser {
 
 	public TripFlight parseTripFlight(JSONObject obj) {
 		TripFlight flight = new TripFlight();
+		flight.setTicketingStatus(parseTicketingStatus(obj.optString("ticketingStatus")));
 
 		parseTripCommon(obj, flight);
 

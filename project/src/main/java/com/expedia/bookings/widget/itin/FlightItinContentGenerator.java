@@ -44,6 +44,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.TicketingStatus;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.notification.Notification;
@@ -55,6 +56,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -571,8 +573,21 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	@Override
 	protected boolean addConfirmationNumber(ViewGroup container) {
 		Log.d("ITIN: addConfirmationNumber");
-		if (hasConfirmationNumber()) {
-			TripFlight tripFlight = (TripFlight) getItinCardData().getTripComponent();
+		TripFlight tripFlight = (TripFlight) getItinCardData().getTripComponent();
+		boolean isTicketingInProgress = tripFlight.getTicketingStatus() == TicketingStatus.INPROGRESS;
+		boolean isFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_pending_flight_itin);
+
+		if (isTicketingInProgress && isFeatureEnabled) {
+			int labelResId = this.getItinCardData().getConfirmationNumberLabelResId();
+			String pendingTicketing = getContext().getString(R.string.itin_flight_booking_status_pending);
+			View view = setItinDetailItemText(labelResId, pendingTicketing);
+			if (view != null) {
+				Log.d("ITIN: add booking pending status");
+				container.addView(view);
+				return true;
+			}
+		}
+		else if (hasConfirmationNumber()) {
 			List<FlightConfirmation> confs = tripFlight.getConfirmations();
 			if (confs.size() <= 1) {
 				return super.addConfirmationNumber(container);

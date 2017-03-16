@@ -21,7 +21,7 @@ public class TripFlight extends TripComponent {
 	private List<FlightConfirmation> mConfirmations = new ArrayList<FlightConfirmation>();
 
 	private String mDestinationRegionId;
-
+	private TicketingStatus mTicketingStatus = TicketingStatus.NONE;
 	private String mCheckInLink;
 
 	public TripFlight() {
@@ -84,6 +84,13 @@ public class TripFlight extends TripComponent {
 		this.mCheckInLink = mCheckInLink;
 	}
 
+	public TicketingStatus getTicketingStatus() {
+		return mTicketingStatus;
+	}
+
+	public void setTicketingStatus(TicketingStatus ticketingStatus) {
+		mTicketingStatus = ticketingStatus;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -100,6 +107,7 @@ public class TripFlight extends TripComponent {
 			JSONUtils.putJSONableList(obj, "confirmationNumbers", mConfirmations);
 			obj.put("destinationRegionId", mDestinationRegionId);
 			obj.put("checkInLink", mCheckInLink);
+			JSONUtils.putEnum(obj, "ticketingStatus", mTicketingStatus);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -115,6 +123,7 @@ public class TripFlight extends TripComponent {
 		mConfirmations = JSONUtils.getJSONableList(obj, "confirmationNumbers", FlightConfirmation.class);
 		mDestinationRegionId = obj.optString("destinationRegionId", "");
 		mCheckInLink = obj.optString("checkInLink", "");
+		mTicketingStatus = JSONUtils.getEnum(obj, "ticketingStatus", TicketingStatus.class);
 		return true;
 	}
 }

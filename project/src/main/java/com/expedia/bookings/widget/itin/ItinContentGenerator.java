@@ -533,6 +533,16 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return item;
 	}
 
+	protected View setItinDetailItemText(int headerResId, final String text) {
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
+		TextView headingTv = Ui.findView(item, R.id.item_label);
+		TextView textTv = Ui.findView(item, R.id.item_text);
+
+		headingTv.setText(getResources().getString(headerResId));
+		textTv.setText(text);
+		return item;
+	}
+
 	/**
 	 * @param container
 	 * @return true: details exist and we can show them, inflated booking details view and populated. false: otherwise
