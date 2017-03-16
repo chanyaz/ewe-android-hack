@@ -19,6 +19,7 @@ import android.content.Context;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -34,7 +35,6 @@ import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
@@ -282,9 +282,8 @@ public class AppModule {
 
 	private String getPageName(Request request) {
 		String pageName = request.url().encodedPath().replaceAll("/", "_");
-		if (pageName.contains("flight_search") && FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightByotSearch,
-				R.string.preference_flight_byot)) {
+		if (pageName.contains("flight_search") && Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)) {
 			FormBody body = (FormBody) request.body();
 
 			for (int index = body.size(); index > 0; index--) {

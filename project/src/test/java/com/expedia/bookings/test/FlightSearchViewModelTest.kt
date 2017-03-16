@@ -346,8 +346,6 @@ class FlightSearchViewModelTest {
     @Test
     fun testByotAbacusTest() {
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightByotSearch)
-        SettingUtils.save(context, R.string.preference_flight_byot, true)
-
         givenMockServer()
         givenDefaultTravelerComponent()
         createSystemUnderTest()
