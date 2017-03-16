@@ -60,11 +60,4 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
         viewModel.updateButtonImageVisibilitySubject.subscribeVisibility(buttonImage)
         viewModel.updateButtonColorSubject.subscribeBackgroundColor(signInContainer)
     }
-
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE && changedView == this) {
-            itinPOSHeader.setCurrentPOS()
-        }
-    }
 }
