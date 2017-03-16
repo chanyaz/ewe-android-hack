@@ -11,7 +11,7 @@ object RewardsUtil {
         var rewardsPointsText = ""
         if (Strings.isNotEmpty(rewardPoints) && rewardPoints.toFloat() > 0) {
             var rewardPointValue = rewardPoints
-            if (configuration.isRewardProgramPointsType == true) {
+            if (configuration.isRewardProgramPointsType) {
                 rewardPointValue = StrUtils.roundOff(rewardPoints.toFloat(), 0)
             }
             rewardsPointsText = Phrase.from(context, R.string.confirmation_reward_points_TEMPLATE)
