@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import android.support.test.espresso.contrib.RecyclerViewActions;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
@@ -51,14 +53,23 @@ public class FlightsSearchResultsSingleCellSteps {
 		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.trip_type_text_view, isDisplayed,outbound);
 	}
 
-	private void validateFlightSRPListViewCellItemVisibility(int cellNumber,int resId, boolean isDisplayed,boolean outBound) {
-		onView(allOf(withId(R.id.list_view),(outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound))))).check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
-			allOf(withId(resId), (isDisplayed ? isDisplayed() : not(isDisplayed()))))));
+	private void validateFlightSRPListViewCellItemVisibility(int cellNumber, int resId, boolean isDisplayed,
+		boolean outBound) {
+		onView(allOf(withId(R.id.list_view), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))
+			: isDescendantOfA(withId(R.id.widget_flight_inbound)))))
+			.check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
+				allOf(withId(resId), (isDisplayed ? isDisplayed() : not(isDisplayed()))))));
 	}
 
-	private void checkString(int cellNumber,int resID, String text,boolean outBound) {
-		onView(allOf(withId(R.id.list_view),(outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound))))).check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
-			allOf(withId(resID), withText(containsString(text))))));
+	private void checkString(int cellNumber, int resID, String text, boolean outBound) {
+		onView(allOf(withId(R.id.list_view), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))
+			: isDescendantOfA(withId(R.id.widget_flight_inbound)))))
+			.perform(RecyclerViewActions.scrollToPosition(cellNumber));
+
+		onView(allOf(withId(R.id.list_view), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))
+			: isDescendantOfA(withId(R.id.widget_flight_inbound)))))
+			.check(RecyclerViewAssertions.assertionOnItemAtPosition(cellNumber, hasDescendant(
+				allOf(withId(resID), withText(containsString(text))))));
 	}
 
 	@And("^Name of airline at cell (\\d+) is \"(.*?)\" and isOutBound : (true|false)$")
@@ -153,5 +164,11 @@ public class FlightsSearchResultsSingleCellSteps {
 	public void selectinboundflightSRP() throws Throwable {
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 	}
+
+	@Then("^multi carrier text is shown instead of Airline Name on cell (\\d+) isOutbound : (true|false)$")
+	public void checkMultiCarrierText(int cellNumber, boolean isOutBound) throws Throwable {
+		checkAirlineName(cellNumber, "Multiple Carriers", isOutBound);
+	}
+
 }
 
