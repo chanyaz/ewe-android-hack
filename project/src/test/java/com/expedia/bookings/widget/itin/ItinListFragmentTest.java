@@ -3,19 +3,25 @@ package com.expedia.bookings.widget.itin;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowAlertDialog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.ItinItemListFragment;
+import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.utils.AbacusTestUtils;
@@ -78,5 +84,25 @@ public class ItinListFragmentTest {
 	@NonNull
 	private String getDialogText(AlertDialog alertDialog, int id) {
 		return ((TextView) alertDialog.findViewById(id)).getText().toString();
+	}
+
+	@Test
+	public void testShowCorrectAddGuestItinActivity() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+
+		listFragment.showAddGuestItinScreen();
+		Intent startedIntent = Shadows.shadowOf(activity).getNextStartedActivity();
+		assertIntentForActivity(ItineraryGuestAddActivity.class, startedIntent);
+
+		SettingUtils.save(getContext(), R.string.preference_itin_new_sign_in_screen, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsNewSignInPage);
+
+		listFragment.showAddGuestItinScreen();
+		startedIntent = Shadows.shadowOf(activity).getNextStartedActivity();
+		assertIntentForActivity(NewAddGuestItinActivity.class, startedIntent);
+	}
+
+	private void assertIntentForActivity(Class expectedActivityClass, Intent startedIntent) {
+		assertEquals(expectedActivityClass.getName(), startedIntent.getComponent().getClassName());
 	}
 }

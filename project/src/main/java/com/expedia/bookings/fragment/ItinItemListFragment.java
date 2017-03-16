@@ -37,6 +37,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
@@ -169,7 +170,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		guestItinTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startAddGuestItinActivity(false);
+				showAddGuestItinScreen();
 			}
 		});
 
@@ -180,13 +181,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startAddGuestItinActivity(false);
+				showAddGuestItinScreen();
 			}
 		});
 		mFindItineraryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startAddGuestItinActivity(false);
+				showAddGuestItinScreen();
 			}
 		});
 
@@ -219,6 +220,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 
 		return view;
+	}
+
+	public void showAddGuestItinScreen() {
+		if (isNewSignInScreen()) {
+			Intent intent = new Intent(getActivity(), NewAddGuestItinActivity.class);
+			startActivity(intent);
+		}
+		else {
+			startAddGuestItinActivity(false);
+		}
 	}
 
 	private void setSignInView(View view) {
@@ -384,7 +395,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity());
 	}
 
-	public synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
+	private synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
 		if (isFetchGuestItinFailure) {
 			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_GUEST_ITINERARY);
