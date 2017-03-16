@@ -469,11 +469,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     /** Save card to account **/
     private fun shouldShowSaveDialog(): Boolean {
-        return (getLineOfBusiness() == LineOfBusiness.HOTELS
-                || getLineOfBusiness() == LineOfBusiness.LX
-                || getLineOfBusiness() == LineOfBusiness.CARS
-                || getLineOfBusiness() == LineOfBusiness.TRANSPORT
-                ) && User.isLoggedIn(context) &&
+        return User.isLoggedIn(context) &&
                 !sectionBillingInfo.billingInfo.saveCardToExpediaAccount &&
                 workingBillingInfoChanged() &&
                 Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard == null
@@ -486,10 +482,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 .setMessage(Phrase.from(context, R.string.save_billing_info_message_TEMPLATE)
                         .put("brand", BuildConfig.brand)
                         .format())
-                .setPositiveButton(R.string.save, DialogInterface.OnClickListener { dialogInterface, i ->
+                .setPositiveButton(R.string.save, { dialogInterface, i ->
+                    OmnitureTracking.trackUserChoosesToSaveCard()
                     userChoosesToSaveCard()
                 })
-                .setNegativeButton(R.string.no_thanks, DialogInterface.OnClickListener { dialogInterface, i ->
+                .setNegativeButton(R.string.no_thanks, { dialogInterface, i ->
+                    OmnitureTracking.trackUserChoosesNotToSaveCard()
                     userChoosesNotToSaveCard()
                 }).create()
         dialog.show()

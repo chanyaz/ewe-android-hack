@@ -195,7 +195,6 @@ public class OmnitureTracking {
 
 	private static final String HOTELV2_LOB = "hotels";
 	private static final String HOTELSV2_SEARCH_BOX = "App.Hotels.Dest-Search";
-	private static final String HOTELSV2_RECENT_SEARCH_CLICK = "App.Hotels.DS.RecentSearch";
 	private static final String HOTELSV2_GEO_SUGGESTION_CLICK = "App.Hotels.DS.DestSuggest";
 	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
 	private static final String HOTELSV2_RESULT = "App.Hotels.Search";
@@ -254,6 +253,11 @@ public class OmnitureTracking {
 	private static final String SHOP_WITH_POINTS_TOGGLE_STATE = "App.Hotels.DS.SWP.";
 	private static final String ITIN_RATE_APP = "App.RateApp";
 
+	public static final String APP_CKO_PAYMENT_SAVE = "App.CKO.Payment.Save";
+	public static final String APP_CKO_PAYMENT_DECLINE_SAVE = "App.CKO.Payment.DeclineSave";
+
+	public static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
+
 	public enum OmnitureEventName {
 		REWARD_PROGRAM_NAME,
 		HOTEL_CHECKOUT_START_REWARDS_REDEEMABLE,
@@ -308,6 +312,16 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_GEO_SUGGESTION_CLICK + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_GEO_SUGGESTION_CLICK);
 		s.trackLink(null, "o", "Search Results Update", null, null);
+	}
+
+	public static void trackUserChoosesNotToSaveCard() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_SAVE);
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+	}
+
+	public static void trackUserChoosesToSaveCard() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_DECLINE_SAVE);
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 
 	public static void trackHotelsV2Search(HotelSearchTrackingData searchTrackingData) {

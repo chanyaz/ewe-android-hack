@@ -3,7 +3,9 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.support.design.widget.TextInputLayout
 import android.view.LayoutInflater
+import android.widget.Button
 import butterknife.ButterKnife
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -20,12 +22,14 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
@@ -114,6 +118,27 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.addressLineOne.requestFocus()
         assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardCvv.compoundDrawables[2]).createdFromResId)
     }
+
+    @Test
+    fun testSavePromptDisplayed() {
+        UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
+        billingDetailsPaymentWidget.viewmodel.userLogin.onNext(true)
+        completelyFillBillingInfo()
+        billingDetailsPaymentWidget.sectionBillingInfo.billingInfo.storedCard = StoredCreditCard()
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        billingDetailsPaymentWidget.show(PaymentWidget.PaymentDetails(), Presenter.FLAG_CLEAR_BACKSTACK)
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
+        val cancelButton = alertDialog.findViewById(android.R.id.button2) as Button
+        val message = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        assertEquals(true, alertDialog.isShowing)
+        assertEquals("Save this payment method under your ${BuildConfig.brand} account to speed up future purchases?", message.text.toString())
+        assertEquals("Save", okButton.text)
+        assertEquals("No Thanks", cancelButton.text)
+    }
+
 
     @Test
     fun testAmexSecurityCodeValidator() {
@@ -254,6 +279,11 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
+        completelyFillBillingInfo()
+        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
+    private fun completelyFillBillingInfo() {
         val info = BillingInfo()
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
@@ -276,7 +306,6 @@ class BillingDetailsPaymentWidgetTest {
         val location = givenLocation()
         info.location = location
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
-        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
     }
 
     @Test

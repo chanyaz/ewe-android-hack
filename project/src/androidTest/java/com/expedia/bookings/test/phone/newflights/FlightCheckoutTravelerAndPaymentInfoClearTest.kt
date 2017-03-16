@@ -1,9 +1,12 @@
 package com.expedia.bookings.test.phone.newflights
 
 import android.support.test.espresso.Espresso
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -53,6 +56,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PaymentOptionsScreen.openCardPaymentSection()
         fillPaymentInfo()
 
+        onView(withId(android.R.id.button1)).perform(click())
         CheckoutViewModel.clickPaymentInfo()
         CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
 
