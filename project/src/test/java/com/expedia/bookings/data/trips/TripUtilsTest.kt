@@ -225,7 +225,7 @@ class TripUtilsTest {
         val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
 
         assertEquals(2, upcomingFlightTrips.size)
-        assertEquals(recentUpcomingFlightTrip.startDate, recentFlightTrips.startDate)
+        assertEquals(recentUpcomingFlightTrip.startDate, recentFlightTrips!!.startDate)
     }
 
     @Test
