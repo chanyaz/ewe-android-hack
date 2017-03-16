@@ -2916,6 +2916,7 @@ public class OmnitureTracking {
 	private static final String ITIN_ADD_SUCCESS = "App.Itinerary.Add.Success";
 	private static final String ITIN = "App.Itinerary";
 	private static final String ITIN_HOTEL = "App.Itinerary.Hotel";
+	private static final String ITIN_HOTEL_UPGRADE = "App.Itinerary.Hotel.Upgrade";
 	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotels.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
@@ -2964,6 +2965,10 @@ public class OmnitureTracking {
 
 	public static void trackHotelItinGalleryOpen() {
 		createAndtrackLinkEvent(ITIN_HOTEL_GALLERY_OPEN, "Itinerary Action");
+	}
+
+	public static void trackHotelItinRoomUpgradeClick() {
+		createAndtrackLinkEvent(ITIN_HOTEL_UPGRADE, "Itinerary Action");
 	}
 
 	public static void trackItinChangePOS() {
@@ -3130,6 +3135,7 @@ public class OmnitureTracking {
 		s.setEvents("event63");
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
 		s.track();
 	}
 
