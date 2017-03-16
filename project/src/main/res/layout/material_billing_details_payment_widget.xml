@@ -136,12 +136,11 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/card_info_label"
-                        style="@style/HeaderTextAboveCardviews"
-                        android:layout_marginRight="0dp"
-                        android:layout_marginLeft="0dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="4dp"
                         android:text="@string/card_info" />
 
                     <com.expedia.bookings.widget.TextView
@@ -293,6 +292,7 @@
                     <com.expedia.bookings.widget.TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
                         android:text="@string/billing_address"
                         android:textColor="@color/black"
                         android:textSize="18sp"
