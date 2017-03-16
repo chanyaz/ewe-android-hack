@@ -240,6 +240,8 @@
     <string name="checkout_enter_payment_details">付款方法</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">輸入信用卡</string>
+    <!-- Text for missing enter payment details !-->
+    <string name="enter_missing_payment_details">請輸入遺漏的付款資料</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">使用積分付款</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -985,12 +987,12 @@
     <string name="photos_for_TEMPLATE">%s的照片</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">我們的 App 尚餘 %s 間客房</item>
-        <item quantity="one">我們的 App 尚餘 %s 間客房</item>
-        <item quantity="two">我們的 App 尚餘 %s 間客房</item>
-        <item quantity="few">我們的 App 尚餘 %s 間客房</item>
-        <item quantity="many">我們的 App 尚餘 %s 間客房</item>
-        <item quantity="other">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="zero">尚餘 %s 間</item>
+        <item quantity="one">尚餘 %s 間</item>
+        <item quantity="two">尚餘 %s 間</item>
+        <item quantity="few">尚餘 %s 間</item>
+        <item quantity="many">尚餘 %s 間</item>
+        <item quantity="other">尚餘 %s 間</item>
     </plurals>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">%1$s的評價</string>
@@ -999,7 +1001,7 @@
 
     <!-- Tablet flight details -->
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
-    <string name="flight_cities_TEMPLATE">%1$s 至 %2$s</string>
+    <string name="flight_cities_TEMPLATE">%1$s至%2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% 準時</string>
 
@@ -1366,7 +1368,7 @@
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">登出 %1$s 將移除任何與此帳戶有關的行程項目。確定要登出嗎？</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
-    <string name="flight_overview_TEMPLATE_cont_desc">{airline} 出發時間 {departs} 抵達時間 {arrives}</string>
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline} 於 {departuretime} 從{departureairport}出發，於 {arrivaltime} 抵達{arrivalairport}</string>
     <!-- Directions -->
     <string name="directions">路線</string>
     <!-- Terminal Map -->
@@ -2383,6 +2385,8 @@
     <string name="country">國家/地區</string>
     <!-- Passport country label -->
     <string name="passport_country">護照國家/地區</string>
+    <!-- Billing country label -->
+    <string name="billing_country">帳單國家/地區</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">修改 # (如適用)</string>
     <!-- traveler number hint -->
@@ -2732,10 +2736,10 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">我們的 App 尚餘 %d 間客房！</item>
-        <item quantity="two">我們的 App 尚餘 %d 間客房</item>
-        <item quantity="many">我們的 App 尚餘 %d 間客房</item>
-        <item quantity="other">我們的 App 尚餘 %d 間客房</item>
+        <item quantity="one">尚餘 %d 間！</item>
+        <item quantity="two">尚餘 %d 間</item>
+        <item quantity="many">尚餘 %d 間</item>
+        <item quantity="other">尚餘 %d 間</item>
     </plurals>
 
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
@@ -3052,12 +3056,17 @@
 
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
-        <item quantity="zero">我們的 App 已沒有房！</item>
-        <item quantity="one">我們的 App 尚餘 1 間客房！</item>
-        <item quantity="two">我們的 App 尚餘 %d 間客房！</item>
-        <item quantity="many">我們的 App 尚餘 %d 間客房！</item>
-        <item quantity="other">我們的 App 尚餘 %d 間客房！</item>
+        <item quantity="zero">已沒有房！</item>
+        <item quantity="one">尚餘 1 間！</item>
+        <item quantity="two">尚餘 %d 間！</item>
+        <item quantity="many">尚餘 %d 間！</item>
+        <item quantity="other">尚餘 %d 間！</item>
     </plurals>
+    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
+    <string name="urgency_percent_booked_TEMPLATE">{percentage}% 已訂</string>
+    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
+    <string name="urgency_destination_description_TEMPLATE">{destination}於您所選的日期很受歡迎。</string>
+
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">客房資料</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
@@ -3074,6 +3083,8 @@
     <string name="common_value_add_template">所有客房均包括 %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">選擇客房</string>
+    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
+    <string name="map_select_a_room_cont_desc_TEMPLATE">選擇低至 {price} 客房按鈕</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免費取消</string>
     <!-- Top line of resort fee text -->
@@ -3106,11 +3117,11 @@
     <!-- Label for clearing private data -->
     <string name="clear_private_data">清除私人資料</string>
     <!-- Title for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_title">是否要清除私人資料？</string>
+    <string name="dialog_clear_private_data_title">清除私人資料？</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">這會移除所有已儲存的付款與聯絡資料。</string>
+    <string name="dialog_clear_private_data_msg">所有搜尋記錄均會被移除。</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">這樣您會登出，所有已儲存的帳單及聯絡資料均會被刪除。</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">您會被登出，搜尋記錄亦會被移除。</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">私人資料已清除</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -3125,6 +3136,8 @@
     <string name="confirmation_number">確認號碼</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">行程編號</string>
+    <!-- Itinerary number label content description -->
+    <string name="itinerary_number_cont_desc">行程編號</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">如對您的預訂有任何疑問，請致電 {brand}，電話：{phone}。</string>
     <!-- Webview title for password recovery -->
@@ -3261,7 +3274,7 @@
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">通訊</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">評價我們的 App！</string>
+    <string name="rate_our_app">請評價此 App。</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">條款與細則</string>
     <!-- Label for link to terms of use -->
@@ -3868,7 +3881,6 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">輕按以查看行程分享選項</string>
-
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">酒店搜尋結果</string>
@@ -4669,8 +4681,8 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套票行程合共 {totalprice}。此價格已包括機票和酒店的稅項及附加費。{savings}。費用明細對話框。按鈕。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套票行程價為 {price_per_person} 一位。此價格已包括機票和酒店的稅項及附加費。查看套票行程按鈕。</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">正在顯示套票行程資料。關閉按鈕。</string>
+    <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
+    <string name="bundle_overview_price_widget_expanded_TEMPLATE">前往{city_name}。{startdate}至 {enddate}，{guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4837,7 +4849,7 @@
     <!-- Alt. Title for App Rating Dialog -->
     <string name="dialog_app_rating_title_alt">喜歡此 App 嗎？</string>
     <!-- Message for App Rating Dialog -->
-    <string name="dialog_app_rating_message">如您喜歡使用我們的 App，請於 Play Store 留下評價通知我們。</string>
+    <string name="dialog_app_rating_message">如您喜歡使用此 App，請於 Play Store 給予評價。</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
     <string name="dialog_app_rating_review_button">評價</string>
     <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
@@ -4854,6 +4866,8 @@
     <string name="email_validation_error_message">請輸入有效的電郵地址</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">只可以英文字母輸入名字</string>
+    <!-- Checkout validation error message for middle name -->
+    <string name="middle_name_validation_error_message">只可以英文字母輸入中間名</string>
     <!-- Checkout validation error message for last name -->
     <string name="last_name_validation_error_message">只可以英文字母輸入姓氏 (最少 2 個字元)</string>
     <!-- Checkout validation error message for phone number -->
@@ -4886,6 +4900,33 @@
 
     <!-- Member Deal Only -->
     <string name="member_deal_title">會員優惠</string>
-    <string name="member_deal_subtitle">精選城市大減價</string>
+    <string name="member_deal_subtitle">精選酒店大減價</string>
+    <string name="continue_booking">繼續預訂</string>
 
+    <!-- Hotel results sorting faq webview title -->
+    <string name="how_we_determine_sort_order">我們如何決定排列次序</string>
+    <!-- Material payment form error for credit card number-->
+    <string name="error_enter_a_valid_card_number">請輸入有效的卡號</string>
+    <!-- Material payment form error for credit card expiration date -->
+    <string name="error_enter_a_valid_month_and_year">請輸入有效的月份和年份</string>
+    <!-- Material payment form error for billing address-->
+    <string name="error_enter_a_valid_billing_address">請輸入有效的帳單地址 (只可輸入英文字母和數目字)</string>
+    <!-- Material payment form error for billing address zip code-->
+    <string name="error_enter_a_zip_code">請輸入有效的郵遞區號</string>
+    <!-- Material payment form error for billing address state-->
+    <string name="error_enter_a_valid_state">請輸入有效的州份</string>
+    <!-- Material payment form error for billing address city-->
+    <string name="error_enter_a_valid_city">請輸入有效的城市</string>
+    <!-- Material payment form error for billing address postal code-->
+    <string name="error_enter_a_valid_postal_code">請輸入有效的郵遞區號</string>
+    <!-- Material payment form error for billing address province -->
+    <string name="error_enter_a_valid_province">請輸入有效的省份</string>
+    <!-- Material payment form error for billing address zip code -->
+    <string name="error_enter_a_valid_province_state_country">請輸入有效的縣/州/省</string>
+    <!-- Material payment form error for billing address country -->
+    <string name="error_select_a_billing_country">請選擇帳單國家/地區</string>
+    <!-- Material payment form error for credit card security code -->
+    <string name="error_enter_valid_cvv">請輸入有效的安全碼</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_card_name">請輸入卡上的姓名</string>
 </resources>

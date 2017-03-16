@@ -34,7 +34,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -272,7 +271,6 @@ class PaymentViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testPaymentTileWithPaymentABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
-        SettingUtils.save(getContext(), R.string.preference_enable_payment_traveler_updated_strings, true)
 
         var viewModel: PaymentViewModel = PaymentViewModel(getContext())
 

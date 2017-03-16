@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.traveler
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -16,7 +17,7 @@ import com.squareup.phrase.Phrase
 
 class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDetailsCard(context, attrs) {
 
-    val isFeatureEnabledForTravelerInfoTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo, R.string.preference_enable_payment_traveler_updated_strings)
+    val isFeatureEnabledForTravelerInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
 
     var viewModel: BaseSummaryViewModel by notNullAndObservable { vm ->
 

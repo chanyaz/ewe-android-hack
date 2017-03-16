@@ -19,7 +19,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -72,7 +71,7 @@ open class PaymentViewModel(val context: Context) {
     val onStoredCardChosen = PublishSubject.create<Unit>()
     val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
     val ccFeeDisclaimer = PublishSubject.create<String>()
-    val isFeatureEnabledForPaymentInfoTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo, R.string.preference_enable_payment_traveler_updated_strings)
+    val isFeatureEnabledForPaymentInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
 
     init {
         Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
