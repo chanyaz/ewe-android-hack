@@ -3,11 +3,14 @@ package com.expedia.bookings.presenter.packages
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
+import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
@@ -55,6 +58,10 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
         filterView.viewModel.priceRangeContainerVisibility.onNext(false)
+    }
+
+    override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
+        return inflateClientFilterView(viewStub)
     }
 
     override fun doAreaSearch() {

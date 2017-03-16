@@ -149,11 +149,11 @@
         android:background="?attr/primary_color"
         app:useCompatPadding="true" />
 
-    <com.expedia.bookings.widget.HotelFilterView
-        android:id="@+id/filter_view"
+    <ViewStub
+        android:id="@+id/hotel_filter_view_stub"
+        android:inflatedId="@+id/hotel_filter_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/hotel_filter_background_color" />
+        android:layout_height="match_parent"/>
 
     <com.expedia.bookings.widget.MapLoadingOverlayWidget
         android:id="@+id/map_loading_overlay"

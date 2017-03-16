@@ -68,11 +68,12 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
 
     override fun handleFiltering() {
         setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) })
+
         val filterCount = userFilterChoices.filterCount()
         val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
+
         doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
-        filterCountObservable.onNext(filterCount)
     }
 
     override fun isFilteredToZeroResults(): Boolean {

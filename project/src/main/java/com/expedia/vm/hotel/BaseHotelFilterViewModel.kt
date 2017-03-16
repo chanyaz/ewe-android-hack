@@ -1,6 +1,7 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import android.support.annotation.CallSuper
 import com.expedia.bookings.data.hotel.PriceRange
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
@@ -24,6 +25,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val filterObservable = PublishSubject.create<HotelSearchResponse>()
     val filterByParamsObservable = PublishSubject.create<UserFilterChoices>()
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
+
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val neighborhoodExpandObservable = BehaviorSubject.create<Boolean>()
@@ -69,6 +71,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.hotelStarRating.one = false
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -80,6 +83,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.hotelStarRating.two = false
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -91,6 +95,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.hotelStarRating.three = false
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -102,6 +107,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.hotelStarRating.four = false
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -113,6 +119,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.hotelStarRating.five = false
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -121,26 +128,31 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.maxPrice = minMaxPair.second
         trackHotelFilterPriceSlider()
 
+        updateFilterCount()
         handleFiltering()
     }
 
     val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
         userFilterChoices.name = s.toString()
-        handleFiltering()
         if (s.length == 1 && !trackingDone) {
             trackingDone = true
             trackHotelFilterByName()
         }
         if (s.length == 0) trackingDone = false
+
+        updateFilterCount()
+        handleFiltering()
     }
 
     val favoriteFilteredObserver: Observer<Boolean> = endlessObserver { filterFavorites ->
         userFilterChoices.favorites = filterFavorites
+        updateFilterCount()
         handleFiltering()
     }
 
     val vipFilteredObserver: Observer<Boolean> = endlessObserver { vipOnly ->
         userFilterChoices.isVipOnlyAccess = vipOnly
+        updateFilterCount()
         handleFiltering()
         trackHotelFilterVIP(vipOnly)
     }
@@ -152,6 +164,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.amenity.remove(amenityId)
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -162,6 +175,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             userFilterChoices.neighborhoods.remove(region)
         }
 
+        updateFilterCount()
         handleFiltering()
     }
 
@@ -177,9 +191,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     open fun isFilteredToZeroResults(): Boolean {
         return false
     }
-
-    open fun handleFiltering() {
-    }  //Do nothing by default
 
     open fun setHotelList(response: HotelSearchResponse) {
         originalResponse = response
@@ -206,6 +217,50 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         }
     }
 
+    open fun sortItemToRemove(): Sort {
+        return Sort.PACKAGE_DISCOUNT
+    }
+
+    fun trackClearFilter() {
+        filterTracker.trackClearFilter()
+    }
+
+    fun trackHotelFilterNeighborhood() {
+        filterTracker.trackHotelFilterNeighborhood()
+    }
+
+    open protected fun handleFiltering() {
+        //nothing by default
+    }
+
+    protected open fun createFilterTracker(): FilterTracker {
+        return HotelFilterTracker()
+    }
+
+    protected fun trackHotelSortBy(sortBy: String) {
+        filterTracker.trackHotelSortBy(sortBy)
+    }
+
+    private fun trackHotelFilterVIP(vipOnly: Boolean) {
+        filterTracker.trackHotelFilterVIP(vipOnly)
+    }
+
+    private fun trackHotelFilterPriceSlider() {
+        filterTracker.trackHotelFilterPriceSlider()
+    }
+
+    private fun trackHotelFilterByName() {
+        filterTracker.trackHotelFilterByName()
+    }
+
+    private fun trackHotelRefineRating(rating: String) {
+        filterTracker.trackHotelRefineRating(rating)
+    }
+
+    private fun updateFilterCount() {
+        filterCountObservable.onNext(userFilterChoices.filterCount())
+    }
+
     private fun resetUserFilters() {
         userFilterChoices.userSort = ProductFlavorFeatureConfiguration.getInstance().getDefaultSort()
         sortSpinnerObservable.onNext(Sort.RECOMMENDED)
@@ -217,42 +272,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<String>()
         userFilterChoices.favorites = false
-    }
-
-    fun trackHotelSortBy(sortBy: String) {
-        filterTracker.trackHotelSortBy(sortBy)
-    }
-
-    fun trackHotelFilterVIP(vipOnly: Boolean) {
-        filterTracker.trackHotelFilterVIP(vipOnly)
-    }
-
-    fun trackHotelFilterPriceSlider() {
-        filterTracker.trackHotelFilterPriceSlider()
-    }
-
-    fun trackHotelFilterByName() {
-        filterTracker.trackHotelFilterByName()
-    }
-
-    fun trackClearFilter() {
-        filterTracker.trackClearFilter()
-    }
-
-    fun trackHotelFilterNeighborhood() {
-        filterTracker.trackHotelFilterNeighborhood()
-    }
-
-    fun trackHotelRefineRating(rating: String) {
-        filterTracker.trackHotelRefineRating(rating)
-    }
-
-    open fun createFilterTracker(): FilterTracker {
-        return HotelFilterTracker()
-    }
-
-    open fun sortItemToRemove(): Sort {
-        return Sort.PACKAGE_DISCOUNT
     }
 
     abstract fun showHotelFavorite(): Boolean

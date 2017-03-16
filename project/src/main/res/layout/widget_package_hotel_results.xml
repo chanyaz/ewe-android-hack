@@ -101,12 +101,11 @@
         android:src="@drawable/ic_transition_map_list_fab"
         app:useCompatPadding="true" />
 
-    <com.expedia.bookings.widget.HotelFilterView
-        android:id="@+id/filter_view"
+    <ViewStub
+        android:id="@+id/hotel_filter_view_stub"
+        android:inflatedId="@+id/hotel_filter_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/hotel_filter_background_color"
-        android:visibility="gone" />
+        android:layout_height="match_parent"/>
 
     <com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
         android:id="@+id/sort_faq_web_view"

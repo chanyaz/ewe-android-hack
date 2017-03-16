@@ -4674,7 +4674,7 @@
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_less_cont_desc">その他の航空会社を非表示にします。ボタン</string>
     <!--Content description for clear button in filter used for Talkback-->
-    <string name="packages_flight_search_filter_clear_button_cont_desc">絞り込みを削除します。ボタン</string>
+    <string name="search_filter_clear_button_cont_desc">絞り込みを削除します。ボタン</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
