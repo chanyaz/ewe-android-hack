@@ -240,6 +240,8 @@
     <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
+    <!-- Text for missing enter payment details !-->
+    <string name="enter_missing_payment_details">Enter missing payment details</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Paying with Points</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1366,7 +1368,7 @@
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">Signing out of %1$s will remove any itinerary items associated with this account. Are you sure you want to sign out?</string>
     <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
-    <string name="flight_overview_TEMPLATE_cont_desc">{airline} departs {departs} and arrives {arrives}</string>
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline} departs {departureairport} at {departuretime} and arrives {arrivalairport} at {arrivaltime}</string>
     <!-- Directions -->
     <string name="directions">Directions</string>
     <!-- Terminal Map -->
@@ -2383,6 +2385,8 @@
     <string name="country">Country</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
+    <!-- Billing country label -->
+    <string name="billing_country">Billing Country</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Redress # (if applicable)</string>
     <!-- traveler number hint -->
@@ -3058,6 +3062,11 @@
         <item quantity="many">Only %d rooms left!</item>
         <item quantity="other">Only %d rooms left!</item>
     </plurals>
+    <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
+    <string name="urgency_percent_booked_TEMPLATE">{percentage}% booked</string>
+    <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
+    <string name="urgency_destination_description_TEMPLATE">{destination} is a popular location on your dates</string>
+
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Room Information</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
@@ -3074,6 +3083,8 @@
     <string name="common_value_add_template">All rooms include %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">Select a Room</string>
+    <!-- Content description for hotel map's select room button. Example: Select a room from $10 button -->
+    <string name="map_select_a_room_cont_desc_TEMPLATE">Select a Room {price} button</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Free Cancellation</string>
     <!-- Top line of resort fee text -->
@@ -3108,9 +3119,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Clear Private Data?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">This removes all saved billing and contact information.</string>
+    <string name="dialog_clear_private_data_msg">This will remove all search history.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove all saved billing and contact information.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove search history.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Private data cleared</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -3125,6 +3136,8 @@
     <string name="confirmation_number">Confirmation #</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Itinerary #</string>
+    <!-- Itinerary number label content description -->
+    <string name="itinerary_number_cont_desc">Itinerary Number</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_TEMPLATE">If you have questions about your reservation, please call {brand} at {phone}.</string>
     <!-- Webview title for password recovery -->
@@ -3868,7 +3881,6 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Press to view itinerary sharing options</string>
-
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Hotel Search Results</string>
@@ -4669,8 +4681,8 @@
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Bundle price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.</string>
-    <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
+    <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
+    <string name="bundle_overview_price_widget_expanded_TEMPLATE">Trip to {city_name}. {startdate} to {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4854,6 +4866,8 @@
     <string name="email_validation_error_message">Enter a valid email address</string>
     <!-- Checkout validation error message for first name -->
     <string name="first_name_validation_error_message">Enter first name using letters only</string>
+    <!-- Checkout validation error message for middle name -->
+    <string name="middle_name_validation_error_message">Enter middle name using letters only</string>
     <!-- Checkout validation error message for last name -->
     <string name="last_name_validation_error_message">Enter last name using letters only (minimum 2 characters)</string>
     <!-- Checkout validation error message for phone number -->
@@ -4886,6 +4900,33 @@
 
     <!-- Member Deal Only -->
     <string name="member_deal_title">Member Deals</string>
-    <string name="member_deal_subtitle">Discounts off select Cities</string>
+    <string name="member_deal_subtitle">Discounts off select hotels</string>
+    <string name="continue_booking">Continue Booking</string>
 
+    <!-- Hotel results sorting faq webview title -->
+    <string name="how_we_determine_sort_order">How we determine sort order</string>
+    <!-- Material payment form error for credit card number-->
+    <string name="error_enter_a_valid_card_number">Enter a valid card number</string>
+    <!-- Material payment form error for credit card expiration date -->
+    <string name="error_enter_a_valid_month_and_year">Enter a valid month and year</string>
+    <!-- Material payment form error for billing address-->
+    <string name="error_enter_a_valid_billing_address">Enter a valid billing address (using letters and numbers only)</string>
+    <!-- Material payment form error for billing address zip code-->
+    <string name="error_enter_a_zip_code">Enter a valid zip code</string>
+    <!-- Material payment form error for billing address state-->
+    <string name="error_enter_a_valid_state">Enter a valid state</string>
+    <!-- Material payment form error for billing address city-->
+    <string name="error_enter_a_valid_city">Enter a valid city</string>
+    <!-- Material payment form error for billing address postal code-->
+    <string name="error_enter_a_valid_postal_code">Enter a valid postal code</string>
+    <!-- Material payment form error for billing address province -->
+    <string name="error_enter_a_valid_province">Enter a valid province</string>
+    <!-- Material payment form error for billing address zip code -->
+    <string name="error_enter_a_valid_province_state_country">Enter a valid county/state/province</string>
+    <!-- Material payment form error for billing address country -->
+    <string name="error_select_a_billing_country">Select a billing country</string>
+    <!-- Material payment form error for credit card security code -->
+    <string name="error_enter_valid_cvv">Enter a valid CVV number</string>
+    <!-- Material payment form error for credit card name -->
+    <string name="error_enter_a_valid_card_name">Enter name as it appears on the card</string>
 </resources>

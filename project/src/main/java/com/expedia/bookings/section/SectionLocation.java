@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
@@ -36,7 +37,6 @@ import com.expedia.bookings.widget.SpinnerAdapterWithHint;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-
 import rx.subjects.BehaviorSubject;
 
 public class SectionLocation extends LinearLayout
@@ -570,7 +570,7 @@ public class SectionLocation extends LinearLayout
 				Location location = this.getData();
 				PointOfSaleId posId = PointOfSale.getPointOfSale().getPointOfSaleId();
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
-				if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+				if (isMaterialFormEnabled()) {
 					updateMaterialPostalFields(posId);
 				}
 				else {
@@ -594,6 +594,11 @@ public class SectionLocation extends LinearLayout
 			}
 		}
 	};
+
+	private boolean isMaterialFormEnabled() {
+		return !ExpediaBookingApp.useTabletInterface() && LobExtensionsKt
+			.isMaterialFormEnabled(mLineOfBusiness, getContext());
+	}
 
 	/**
 	 * Expedia has complicated logic for required payment fields. It differs for the country of payment billing.
@@ -638,7 +643,7 @@ public class SectionLocation extends LinearLayout
 
 		private void updateData(int position) {
 			if (getData() != null && getField() != null) {
-				CountrySpinnerAdapter countryAdapter = LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())
+				CountrySpinnerAdapter countryAdapter = isMaterialFormEnabled()
 					? materialCountryAdapter : (CountrySpinnerAdapter) getField().getAdapter();
 				getData()
 					.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
@@ -685,7 +690,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected void onHasFieldAndData(Spinner field, Location data) {
-			CountrySpinnerAdapter adapter = LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())
+			CountrySpinnerAdapter adapter = isMaterialFormEnabled()
 				? materialCountryAdapter : (CountrySpinnerAdapter) getField().getAdapter();
 			if (data instanceof RailLocation && ((RailLocation) data).getTicketDeliveryCountryCodes() != null) {
 				adapter.dataSetChanged(((RailLocation) data).getTicketDeliveryCountryCodes());
@@ -832,7 +837,7 @@ public class SectionLocation extends LinearLayout
 			mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT);
 		}
 
-		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
+		if (isMaterialFormEnabled()) {
 			TextInputLayout stateLayout = (TextInputLayout) findViewById(R.id.material_edit_address_state);
 			stateLayout.setHint(getContext().getString(hintString));
 			mValidState.setErrorString(getContext().getResources().getString(errorString));

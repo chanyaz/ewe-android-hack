@@ -54,6 +54,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
@@ -582,6 +583,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		String gcmId = GCMRegistrationKeeper.getInstance(context).getRegistrationId(context);
 		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
 		String abacusGuid = Db.getAbacusGuid();
+		boolean isAccessibilityOn = AccessibilityUtil.isTalkBackEnabled(this);
 
 		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		int memClass = am.getMemoryClass();
@@ -596,6 +598,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		Crashlytics.setString("api", api);
 		Crashlytics.setInt("memory class", memClass);
 		Crashlytics.setString("abacus guid", abacusGuid);
+		Crashlytics.setBool("a11y active", isAccessibilityOn);
 
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);

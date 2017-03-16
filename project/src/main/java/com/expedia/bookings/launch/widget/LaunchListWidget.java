@@ -2,9 +2,6 @@ package com.expedia.bookings.launch.widget;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,20 +12,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import butterknife.ButterKnife;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.SlideInItemAnimator;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.model.UserLoginStateChangedModel;
 import com.squareup.otto.Subscribe;
-
-import butterknife.ButterKnife;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class LaunchListWidget extends RecyclerView {
 
@@ -38,9 +29,6 @@ public class LaunchListWidget extends RecyclerView {
 
 	private View header;
 	boolean showLobHeader = false;
-
-	@Inject
-	UserLoginStateChangedModel userLoginStateChangedModel;
 
 	public LaunchListWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -53,7 +41,6 @@ public class LaunchListWidget extends RecyclerView {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
-		Ui.getApplication(getContext()).appComponent().inject(this);
 
 		StaggeredGridLayoutManager layoutManager = makeLayoutManager();
 		setLayoutManager(layoutManager);
@@ -66,25 +53,6 @@ public class LaunchListWidget extends RecyclerView {
 		addItemDecoration(new LaunchListDividerDecoration(getContext()));
 		addOnScrollListener(new PicassoScrollListener(getContext(), PICASSO_TAG));
 
-		userLoginStateChangedModel.getUserLoginStateChanged().debounce(200, TimeUnit.MILLISECONDS)
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe(new Observer<Boolean>() {
-
-				@Override
-				public void onCompleted() {
-				}
-
-				@Override
-				public void onError(Throwable e) {
-				}
-
-				@Override
-				public void onNext(Boolean signedIn) {
-					if (signedIn) {
-						ItineraryManager.getInstance().startSync(false, false, true);
-					}
-				}
-			});
 	}
 
 	@NonNull
