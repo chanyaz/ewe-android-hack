@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -78,8 +79,9 @@ object FlightsV2Tracking {
         FacebookEvents().trackFilteredFlightV2Search(flightSearchParams, flightLegs)
     }
 
-    fun trackShowFlightOverView(flightSearchParams: FlightSearchParams, flightCreateTripResponse: FlightCreateTripResponse) {
-        OmnitureTracking.trackShowFlightOverView(flightSearchParams)
+    fun trackShowFlightOverView(flightSearchParams: FlightSearchParams, flightCreateTripResponse: FlightCreateTripResponse,
+                                overviewPageUsableData: PageUsableData) {
+        OmnitureTracking.trackShowFlightOverView(flightSearchParams, overviewPageUsableData)
         TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
         FacebookEvents().trackFlightV2Detail(flightSearchParams, flightCreateTripResponse)
     }

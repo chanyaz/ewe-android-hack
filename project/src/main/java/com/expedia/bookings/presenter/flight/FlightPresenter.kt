@@ -315,6 +315,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
 
         viewModel.flightProductId.subscribe { productKey ->
+            flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
             val createTripParams = FlightCreateTripParams(productKey)
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
