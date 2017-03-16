@@ -8,11 +8,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.design.widget.TabLayout
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -370,7 +371,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         }
     }
 
-    inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             val frag: Fragment
@@ -399,6 +400,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             return title
         }
 
+        // By default a viewPager will bundle/restore all fragment states when destroyed/restored. This is unintuitive
+        // and also causes issues when the device language is changed while the app is running. This prevents that.
+        override fun restoreState(state: Parcelable?, loader: ClassLoader?) {}
     }
 
     private val hideToolbarAnimator = ValueAnimator.AnimatorUpdateListener { animation ->
