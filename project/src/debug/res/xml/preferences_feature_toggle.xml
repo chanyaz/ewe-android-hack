@@ -86,17 +86,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Material Flight Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_flight_byot"
-            android:layout="@layout/preference"
-            android:summary="Enable flight byot"
-            android:title="Enable Flight Byot" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Itin Features">
 
         <CheckBoxPreference

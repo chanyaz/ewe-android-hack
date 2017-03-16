@@ -121,7 +121,6 @@
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_3DS_checkout">preference_enable_3DS_checkout</string>
     <string name="preference_enable_payment_traveler_updated_strings">preference_enable_payment_traveler_updated_strings</string>
-    <string name="preference_flight_byot">preference_flight_byot</string>
     <string name="preference_show_air_attach_message_on_launch_screen">preference_show_air_attach_message_on_launch_screen</string>
     <string name="preference_itin_new_sign_in_screen">preference_itin_new_sign_in_screen</string>
     <string name="preference_member_deal_on_launch_screen">preference_member_deal_on_launch_screen</string>
