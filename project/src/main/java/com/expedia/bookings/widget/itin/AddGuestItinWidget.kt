@@ -118,6 +118,10 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             viewModel.toolBarVisibilityObservable.onNext(true)
             (context as Activity).onBackPressed()
         }
+
+        itinPOSHeader.onPrivateDataClearedSubject.subscribe {
+            resetFields()
+        }
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {

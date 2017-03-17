@@ -15,6 +15,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.bindView
 import com.mobiata.android.util.SettingUtils
+import rx.subjects.PublishSubject
 
 class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 
@@ -23,12 +24,12 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
     val posText: TextView by bindView(R.id.pos_trips_signin)
     var adapter = ItinPOSHeaderAdapter(context)
     var position = adapter.findPOSIndex(PointOfSale.getPointOfSale().pointOfSaleId.id)
+    var onPrivateDataClearedSubject = PublishSubject.create<Unit>()
     var lastPosition = position
 
     init {
         View.inflate(context, R.layout.itin_pos_header, this)
         spinner.adapter = adapter
-
     }
 
     override fun onFinishInflate() {
@@ -64,6 +65,7 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         SettingUtils.save(context, R.string.PointOfSaleKey, Integer.toString(adapter.pointOfSales[position].pointOfSaleId.id))
         PointOfSale.onPointOfSaleChanged(context)
         Events.post(Events.PhoneLaunchOnPOSChange())
+        onPrivateDataClearedSubject.onNext(Unit)
     }
 
     override fun onDialogCancel() {

@@ -10,6 +10,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -45,10 +47,13 @@ class ItinPOSHeaderAdapterTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun changePOSDisplayedOnTripsHeader() {
+        val testSubscriber = TestSubscriber<Unit>()
+        header.onPrivateDataClearedSubject.subscribe(testSubscriber)
         header.position = 1
         header.onPrivateDataCleared()
         pos = PointOfSale.getPointOfSale()
-
+        
+        testSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         val currentPOS = pos.threeLetterCountryCode
         val currentPOSUrl = header.posText.text
         header.setCurrentPOS()
