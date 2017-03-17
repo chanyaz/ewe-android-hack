@@ -40,7 +40,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
@@ -391,8 +390,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private boolean isNewSignInScreen() {
 		return
-			FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppTripsNewSignInPage,
-				R.string.preference_itin_new_sign_in_screen) && !AndroidUtils.isTablet(getActivity());
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsNewSignInPage) && !AndroidUtils.isTablet(getActivity());
 	}
 
 	private synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
