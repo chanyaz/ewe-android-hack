@@ -5,6 +5,7 @@ import android.support.annotation.VisibleForTesting
 import com.expedia.bookings.R
 import com.expedia.bookings.data.urgency.UrgencyResponse
 import com.expedia.bookings.services.urgency.UrgencyServices
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observer
@@ -12,28 +13,30 @@ import rx.subjects.PublishSubject
 
 class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices) {
 
-    val rawSoldOutScoreSubject = PublishSubject.create<Int>()
     val percentSoldOutTextSubject = PublishSubject.create<String>()
     val urgencyDescriptionSubject = PublishSubject.create<String>()
 
     private val urgencyResponseObserver = UrgencyObserver()
     private val scoreThreshold: Int = 30
+    private val scoreMaximum: Int = 95
     private val invalidRegionId = "0";
 
     init {
-        urgencyResponseObserver.scoreSubject.subscribe(rawSoldOutScoreSubject)
-        urgencyResponseObserver.scoreSubject.subscribe { score ->
-            val roundedScore = getRoundedScore(score)
-            if (roundedScore > scoreThreshold) {
+        urgencyResponseObserver.urgencyResponseSubject.subscribe { response ->
+            val regionTicker = response.firstRegionTicker
+            val rawScore = regionTicker.score
+
+            HotelTracking.trackUrgencyScore(rawScore)
+            val displayScore = getDisplayScore(rawScore)
+
+            if (displayScore > scoreThreshold) {
                 percentSoldOutTextSubject.onNext(Phrase.from(context, R.string.urgency_percent_booked_TEMPLATE)
-                        .put("percentage", roundedScore)
+                        .put("percentage", displayScore)
+                        .format().toString())
+                urgencyDescriptionSubject.onNext(Phrase.from(context, R.string.urgency_destination_description_TEMPLATE)
+                        .put("destination", regionTicker.displayName)
                         .format().toString())
             }
-        }
-        urgencyResponseObserver.displayNameSubject.subscribe { displayName ->
-            urgencyDescriptionSubject.onNext(Phrase.from(context, R.string.urgency_destination_description_TEMPLATE)
-                    .put("destination", displayName)
-                    .format().toString())
         }
     }
 
@@ -50,14 +53,11 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
     }
 
     private class UrgencyObserver : Observer<UrgencyResponse> {
-        val scoreSubject = PublishSubject.create<Int>()
-        val displayNameSubject = PublishSubject.create<String>()
+        val urgencyResponseSubject = PublishSubject.create<UrgencyResponse>()
 
         override fun onNext(response: UrgencyResponse?) {
             if (response != null && !response.hasError()) {
-                val regionTicker = response.firstRegionTicker
-                scoreSubject.onNext(regionTicker.score)
-                displayNameSubject.onNext((regionTicker.displayName))
+                urgencyResponseSubject.onNext(response)
             } else {
                 //nothing, swallow errors
             }
@@ -71,8 +71,12 @@ class UrgencyViewModel(val context: Context, val urgencyService: UrgencyServices
         }
     }
 
-    private fun getRoundedScore(score: Int) : Int {
-        return (5 * (Math.round(score.toDouble() / 5))).toInt()
+    private fun getDisplayScore(score: Int) : Int {
+        val roundedScore = (5 * (Math.round(score.toDouble() / 5))).toInt()
+        if (roundedScore > scoreMaximum) {
+            return scoreMaximum
+        }
+        return roundedScore
     }
 
     private fun isValidRegionId(id: String) : Boolean {
