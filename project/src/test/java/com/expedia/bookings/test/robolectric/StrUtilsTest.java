@@ -408,4 +408,9 @@ public class StrUtilsTest {
 		assertEquals("Madrid, Spain (XTI-Chamartin Train Station)",
 			StrUtils.getDisplayNameForGaiaNearby(suggestionName.getFriendlyName(), suggestionName.getAirportName()));
 	}
+
+	@Test
+	public void removeSpecialCharactersTest() {
+		assertEquals("123", StrUtils.removeSpecialCharactersFromRoundedAmount("1a-,.2*&3"));
+	}
 }

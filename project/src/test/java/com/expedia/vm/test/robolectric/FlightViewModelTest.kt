@@ -1,18 +1,23 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.flights.FlightViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
@@ -43,6 +48,7 @@ class FlightViewModelTest {
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = "201"
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
 
 
@@ -61,6 +67,16 @@ class FlightViewModelTest {
         createSystemUnderTest()
         assertEquals("$200", sut.price())
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun priceStringForFrance() {
+        setPOS(PointOfSaleId.FRANCE)
+        createExpectedFlightLeg()
+        createSystemUnderTest()
+        assertEquals("$201", sut.price())
+    }
+
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
@@ -73,5 +89,10 @@ class FlightViewModelTest {
         val expectedResult = SpannableBuilder()
         expectedResult.append("Flight time is 01:10:00 to 12:20:00 plus 1d with price $200. Flying with UnitedDelta. The flight duration is 19 hours 10 minutes with 1 stops\\u0020Button")
         assertEquals(sut.getFlightContentDesc(), expectedResult.build())
+    }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(getContext())
     }
 }
