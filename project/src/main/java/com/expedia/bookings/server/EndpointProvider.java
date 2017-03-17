@@ -197,7 +197,7 @@ public class EndpointProvider {
 	}
 
 	//Smart Offer Service
-	private static final String SMART_OFFER_SERVICE_ENDPOINT = "https://smart-offer-service.us-west-2.int.expedia.com";
+	private static final String SMART_OFFER_SERVICE_ENDPOINT = "https://www.expedia.com";
 
 	public String getSmartOfferServiceEndpoint() {
 		String endpoint;
