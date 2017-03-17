@@ -141,7 +141,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			vm.setBackgroundResId(R.drawable.popular_hotel_stock_image);
 			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
 			holder.bind(vm);
-			holder.itemView.setOnClickListener(seeAllClickListener);
+			holder.itemView.setOnClickListener(recommendedHotelsClickListener);
 			return holder;
 		}
 		else if (viewType == LaunchDataItem.ITIN_VIEW) {
@@ -240,7 +240,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((CollectionViewHolder) holder).bindListData(locationDataItem.getCollection(), fullWidthTile, false);
 		}
 		else if (holder instanceof LaunchHeaderViewHolder) {
-			headerView.setOnClickListener(seeAllClickListener);
 			if (BuildConfig.DEBUG && Db.getMemoryTestActive()) {
 				headerView.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -329,9 +328,11 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		launchListTitle.setText(headerTitle);
 		if (dataItem.getKey() == LaunchDataItem.HOTEL_VIEW) {
 			seeAllButton.setVisibility(View.VISIBLE);
+			headerView.setOnClickListener(seeAllClickListener);
 		}
 		else {
 			seeAllButton.setVisibility(View.GONE);
+			headerView.setOnClickListener(null);
 		}
 	}
 
@@ -363,21 +364,34 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return customerTrips;
 	}
 
+
+	private final View.OnClickListener recommendedHotelsClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			checkForPermissionAndGoToHotels(v);
+			OmnitureTracking.trackRecommendedHotelsClick();
+		}
+	};
+
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (PermissionsHelperKt.havePermissionToAccessLocation(context)) {
-				Bundle animBundle = AnimUtils.createActivityScaleBundle(v);
-				seeAllClickSubject.onNext(animBundle);
-			}
-			else {
-				NoLocationPermissionDialog dialog = NoLocationPermissionDialog.newInstance();
-				dialog.show(((FragmentActivity) context).getSupportFragmentManager(),
-					NoLocationPermissionDialog.TAG);
-			}
+			checkForPermissionAndGoToHotels(v);
 			OmnitureTracking.trackNewLaunchScreenSeeAllClick();
 		}
 	};
+
+	private void checkForPermissionAndGoToHotels(View v) {
+		if (PermissionsHelperKt.havePermissionToAccessLocation(context)) {
+			Bundle animBundle = AnimUtils.createActivityScaleBundle(v);
+			seeAllClickSubject.onNext(animBundle);
+		}
+		else {
+			NoLocationPermissionDialog dialog = NoLocationPermissionDialog.newInstance();
+			dialog.show(((FragmentActivity) context).getSupportFragmentManager(),
+				NoLocationPermissionDialog.TAG);
+		}
+	}
 
 	private String getBrandForSignInView() {
 		return Phrase.from(context, R.string.shop_as_a_member_TEMPLATE)
