@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.content.ContextCompat;
@@ -444,4 +445,32 @@ public class CustomMatchers {
 
 		};
 	}
+
+	public static Matcher<View> hasTextInputLayoutErrorText(final String expectedErrorText) {
+		return new TypeSafeMatcher<View>() {
+
+			@Override
+			public boolean matchesSafely(View view) {
+				if (!(view instanceof TextInputLayout)) {
+					return false;
+				}
+
+				CharSequence error = ((TextInputLayout) view).getError();
+
+				if (error == null) {
+					return expectedErrorText.equalsIgnoreCase("");
+				}
+
+				String hint = error.toString();
+
+				return expectedErrorText.equals(hint);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+			}
+		};
+	}
+
+
 }
