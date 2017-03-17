@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/MaterialCardView"
+    android:layout_marginBottom="12dp"
+    android:layout_marginLeft="@dimen/card_view_container_margin"
+    android:layout_marginRight="@dimen/card_view_container_margin"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/upper_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/member_deal_background"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"
+                android:scaleType="centerCrop"
+                tool:background="@color/exp_launch_blue"/>
+
+            <View
+                android:id="@+id/member_deal_foreground"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom|left"
+                android:paddingBottom="8dp"
+                android:paddingLeft="11dp"
+                android:paddingRight="25dp">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/member_deal_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:textColor="@color/white"
+                    style="@style/Core.Text.Large.Medium"
+                    tool:text="city"/>
+
+                <TextView
+                    android:id="@+id/member_deal_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    style="@style/Core.Text.Large.Medium"
+                    tool:text="Feb. 2017 - Mar. 2017"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/member_deal_discount_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/guest_rating_background"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:layout_marginRight="11dp"
+                android:layout_gravity="bottom|right"
+                android:textColor="@color/white"
+                style="@style/Core.Text.Small"
+                tool:text="-20%"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/member_deal_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingRight="14dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/member_deal_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/member_deal_hotel_only"
+                style="@style/Core.Text.Default"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical|left"
+                android:textColor="@color/member_deal_destination_card_text"/>
+
+            <LinearLayout
+                android:id="@+id/member_deal_price_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/member_deal_strike_through_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".7"
+                    android:paddingRight="4dp"
+                    android:textColor="@color/black"
+                    style="@style/Core.Text.Default"
+                    tool:text="$100"/>
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/member_deal_price_per_night"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Core.Text.Large.Medium"
+                    tool:text="$80"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

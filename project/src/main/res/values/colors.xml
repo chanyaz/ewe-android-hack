@@ -329,7 +329,6 @@
     <color name="new_launch_lob_divider_color">#dcdcdc</color>
     <color name="launch_screen_itin_divider">@color/white_70</color>
     <color name="hotel_tonight_background_gradient">#B3B31B63</color>
-    <color name="member_deal_background_gradient">@color/exp_launch_secondary_blue_70</color>
     <color name="launch_screen_active_itin_bg">@color/dark_navy</color>
 
     <!-- LX colors -->
@@ -562,4 +561,8 @@
     <color name="card_picker_add_button_color">@color/gray9</color>
     <color name="card_picker_remove_button_color">@color/gray3</color>
     <color name="card_fee_text_color">@color/gray5</color>
+
+    <!-- Member Only Deals colors-->
+    <color name="member_deal_background_gradient">@color/exp_launch_secondary_blue_70</color>
+    <color name="member_deal_destination_card_text">@color/gray8</color>
 </resources>

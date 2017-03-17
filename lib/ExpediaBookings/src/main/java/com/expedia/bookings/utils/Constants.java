@@ -58,9 +58,10 @@ public class Constants {
 	public static final String DEEPLINK_KEYWORD = "/mobile/deeplink";
 
 	// Member Only Deals
-	public static final String MOD_SITE_ID = "3";
+	public static final String MOD_SITE_ID = "1";
 	public static final String MOD_PRODUCT_TYPE = "Hotel";
 	public static final String MOD_GROUP_BY = "destination";
 	public static final int MOD_DESTINATION_LIMIT = 10;
 	public static final String MOD_CLIENT_ID = "ebad";
+	public static final String MOD_DESTINATION_IMAGE_BASE_URL = "https://a.travel-assets.com/dynamic_images/{regionId}.jpg";
 }

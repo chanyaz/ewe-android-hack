@@ -2,7 +2,7 @@ package com.expedia.bookings.data.sos
 
 import com.expedia.bookings.utils.Constants
 
-class MemberOnlyDealRequest {
+class MemberDealRequest {
 
     var siteId = Constants.MOD_SITE_ID
     var locale = "en_US"

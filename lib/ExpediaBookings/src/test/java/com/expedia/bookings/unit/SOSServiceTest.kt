@@ -1,7 +1,7 @@
 package com.expedia.bookings.unit
 
-import com.expedia.bookings.data.sos.MemberOnlyDealRequest
-import com.expedia.bookings.data.sos.MemberOnlyDealResponse
+import com.expedia.bookings.data.sos.MemberDealRequest
+import com.expedia.bookings.data.sos.MemberDealResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.sos.SmartOfferService
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -43,9 +43,9 @@ class SOSServiceTest {
     fun testMockSearchWorks() {
 
         val observer = TestMemberDealObsrver()
-        val params = MemberOnlyDealRequest()
+        val params = MemberDealRequest()
 
-        service!!.fetchMemberOnlyDeals(params,observer)
+        service!!.fetchMemberDeals(params,observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
@@ -56,9 +56,9 @@ class SOSServiceTest {
     @Test
     fun testSoSReturnedDealsAreCorrect() {
         val observer = TestMemberDealObsrver()
-        val params = MemberOnlyDealRequest()
+        val params = MemberDealRequest()
 
-        service!!.fetchMemberOnlyDeals(params, observer)
+        service!!.fetchMemberDeals(params, observer)
         observer.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
@@ -73,6 +73,6 @@ class SOSServiceTest {
         server.setDispatcher(ExpediaDispatcher(opener))
     }
 
-    class TestMemberDealObsrver : TestSubscriber<MemberOnlyDealResponse>() {
+    class TestMemberDealObsrver : TestSubscriber<MemberDealResponse>() {
     }
 }
