@@ -481,11 +481,15 @@ class LaunchListAdapterTest {
         givenWeHaveStaffPicks()
 
         assertFalse(sut.isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW))
+        assertFalse(sut.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
 
         givenSignedInItinCardEnabled()
+        givenAirAttachCardEnabled()
+        givenCustomerSignedIn()
         givenWeHaveStaffPicks()
 
         assertTrue(sut.isStaticCardAlreadyShown(LaunchDataItem.ITIN_VIEW))
+        assertTrue(sut.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
     }
 
     @Test

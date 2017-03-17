@@ -502,6 +502,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			if (showItinCard()) {
 				items.add(new LaunchDataItem(LaunchDataItem.ITIN_VIEW));
 			}
+
+			if (isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW)) {
+				return;
+			}
+
+			if (showAirAttachMessage()) {
+				items.add(new LaunchDataItem(LaunchDataItem.AIR_ATTACH_VIEW));
+			}
 			addDelayedStaticCards(items);
 		}
 	}
