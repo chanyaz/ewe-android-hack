@@ -1257,6 +1257,14 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="MaterialCheckoutTextHeader">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="HotelPromoMessaging">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/hotel_details_promo_messaging_text_size</item>
