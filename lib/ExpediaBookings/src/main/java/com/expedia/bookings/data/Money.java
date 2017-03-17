@@ -36,6 +36,7 @@ public class Money {
 	public String currencyCode;
 	public String formattedPrice;
 	public String formattedWholePrice;
+	public String roundedAmount;
 
 	public Money() {
 		amount = BigDecimal.ZERO;
