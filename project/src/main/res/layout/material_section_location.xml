@@ -136,6 +136,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
                     android:minHeight="40dp"
+                    android:inputType="textPostalAddress"
                     android:maxLines="1"
                     android:nextFocusForward="@id/edit_creditcard_number"
                     android:textSize="@dimen/traveler_input_text_size" />
