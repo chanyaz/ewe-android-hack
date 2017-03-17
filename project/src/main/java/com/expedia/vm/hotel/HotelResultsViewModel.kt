@@ -200,10 +200,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     }
 
     private fun getSortTypeFromString(sortType: String?): Sort {
-        when (sortType) {
-            "Discounts" -> return Sort.DEALS
-            "Price" -> return Sort.PRICE
-            "Rating" -> return Sort.RATING
+        when (sortType?.toLowerCase()) {
+            "discounts" -> return Sort.DEALS
+            "deals" -> return Sort.DEALS
+            "price" -> return Sort.PRICE
+            "rating" -> return Sort.RATING
             else -> {
                 return Sort.RECOMMENDED
             }
