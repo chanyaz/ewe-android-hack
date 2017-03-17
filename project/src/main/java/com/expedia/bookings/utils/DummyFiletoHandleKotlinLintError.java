@@ -59,7 +59,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.hotel_checkout_overview_TEMPLATE_cont_desc,
 		R.string.hotel_room_expand_cont_desc,
 		R.string.hotel_expanded_room_select_cont_desc,
-		R.string.launch_upcoming_trips_subtext_guest_user_cont_desc,
 		R.drawable.ic_amenity_pool,
 		R.drawable.ic_amenity_internet,
 		R.drawable.ic_amenity_breakfast,

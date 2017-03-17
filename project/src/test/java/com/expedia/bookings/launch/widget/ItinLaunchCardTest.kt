@@ -40,19 +40,6 @@ class ItinLaunchCardTest {
     }
 
     @Test
-    fun bindItemViewContDescGuest() {
-        val expectedFirstLine = "blah"
-        val expectedSecondLine = "blah"
-        val expectedGuestContDesc = "Sign in to check trip status or look up your trip by itinerary number Button"
-
-        createSystemUnderTest()
-        val activeItinViewModel = ActiveItinViewModel(expectedFirstLine, expectedSecondLine)
-        sut.bind(activity, activeItinViewModel)
-
-        assertEquals(expectedGuestContDesc, sut.itemView.contentDescription.toString())
-    }
-
-    @Test
     fun bindFirstLineSecondLineSignedIn() {
         val expectedFirstLine = "You Have An Upcoming Trip!"
         val expectedSecondLine = "Access your itineraries on the go and stay up to date on changes"
@@ -64,20 +51,6 @@ class ItinLaunchCardTest {
 
         assertEquals(expectedFirstLine, sut.firstLine.text)
         assertEquals(expectedSecondLine, sut.secondLine.text)
-    }
-
-    @Test
-    fun bindItemViewContDescSignedIn() {
-        val expectedFirstLine = ""
-        val expectedSecondLine = "Access your itineraries on the go and stay up to date on changes"
-        val expectedContDesc = "Access your itineraries on the go and stay up to date on changes Button"
-
-        createSystemUnderTest()
-        givenCustomerSignedIn()
-        val activeItinViewModel = ActiveItinViewModel(expectedFirstLine, expectedSecondLine)
-        sut.bind(activity, activeItinViewModel)
-
-        assertEquals(expectedContDesc, sut.itemView.contentDescription.toString())
     }
 
     @Test
