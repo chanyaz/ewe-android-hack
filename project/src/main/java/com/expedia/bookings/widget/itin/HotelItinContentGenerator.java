@@ -388,6 +388,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 						//Stubbed using cancel room data until API is ready
 						intent.putExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID, getItinCardData().getTripNumber());
 						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE);
+						OmnitureTracking.trackHotelItinRoomUpgradeClick();
 					}
 				});
 			}

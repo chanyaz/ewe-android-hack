@@ -91,7 +91,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
         mRoomUpgradeAvailableBanner.visibility = if (itinCardData.hasRoomUpgradeOffers()) View.VISIBLE else View.GONE
     }
 
-    public fun isRoomUpgradable(): Boolean {
+    fun isRoomUpgradable(): Boolean {
         val itinCardData = mItinContentGenerator.itinCardData as ItinCardDataHotel
         val isFeatureOn = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUpgrade)
         val hasRoomOffersApi = itinCardData.property.roomUpgradeOffersApiUrl != null
