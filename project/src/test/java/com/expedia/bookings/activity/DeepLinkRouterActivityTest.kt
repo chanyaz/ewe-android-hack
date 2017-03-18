@@ -92,6 +92,13 @@ class DeepLinkRouterActivityTest {
     }
 
     @Test
+    fun memberPricingDeepLink() {
+        val memberPricingUrl = "https://www.expedia.com/mobile/deeplink/member-pricing"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(memberPricingUrl)
+        assertEquals(1, deepLinkRouterActivity.memberPricingCount)
+    }
+
+    @Test
     fun signInDeepLink() {
         val signInUrl = "expda://signIn"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(signInUrl)
@@ -191,10 +198,15 @@ class DeepLinkRouterActivityTest {
 
         var signInCallsCount = 0
         var supportEmailCallsCount = 0
+        var memberPricingCount = 0
         lateinit var mockItineraryManager: ItineraryManager
 
         override fun startProcessing() {
             handleDeeplink()
+        }
+
+        override fun handleMemberPricing() {
+            memberPricingCount++
         }
 
         override fun handleSignIn() {

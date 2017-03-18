@@ -191,6 +191,14 @@ class UniversalDeepLinkParserTest() {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun memberPricingUniversalLinkParsing() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/member-pricing")
+        val output = parser.parseDeepLink(data)
+        Assert.assertTrue(output is MemberPricingDeepLink)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun signInUniversalLinkParsing() {
         val data = Uri.parse("https://www.expedia.com/mobile/deeplink/user/signin")
         val output = parser.parseDeepLink(data)
