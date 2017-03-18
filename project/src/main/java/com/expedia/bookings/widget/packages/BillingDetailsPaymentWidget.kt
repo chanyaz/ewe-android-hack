@@ -174,8 +174,10 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         sectionLocation.billingCountryCodeSubject.subscribe { countryCode ->
             var billingCountry = countryCode
             if (billingCountry.isNullOrBlank()) {
-                editCountryEditText?.setText(billingCountry)
                 billingCountry = PointOfSale.getPointOfSale().threeLetterCountryCode
+                val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(billingCountry)
+                val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
+                editCountryEditText?.setText(countryName)
                 updateCountryDependantFields(billingCountry)
                 sectionLocation.updateMaterialPostalFields(PointOfSale.getPointOfSale().pointOfSaleId)
             } else {
@@ -186,6 +188,10 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
                 updateCountryDependantFields(billingCountry)
                 sectionLocation.validateCountryDependantFields()
             }
+        }
+
+        sectionLocation.validateBillingCountrySubject.subscribe {
+            sectionLocation.billingCountryErrorSubject.onNext(editCountryEditText?.text.isNullOrBlank())
         }
     }
 
@@ -209,9 +215,9 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             alert.show()
     }
 
-    private fun updateCountryDependantFields(billingCountry: String) {
+    private fun updateCountryDependantFields(billingCountryCode: String) {
         sectionLocation.updateCountryDependantValidation()
         sectionLocation.rebindCountryDependantFields()
-        sectionLocation.updateStateFieldBasedOnBillingCountry(billingCountry)
+        sectionLocation.updateStateFieldBasedOnBillingCountry(billingCountryCode)
     }
 }

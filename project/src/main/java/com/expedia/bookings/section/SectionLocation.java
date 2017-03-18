@@ -37,7 +37,10 @@ import com.expedia.bookings.widget.SpinnerAdapterWithHint;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
+
+import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
+import rx.subjects.PublishSubject;
 
 public class SectionLocation extends LinearLayout
 	implements ISection<Location>, ISectionEditable, InvalidCharacterListener {
@@ -51,7 +54,8 @@ public class SectionLocation extends LinearLayout
 	Context mContext;
 	LineOfBusiness mLineOfBusiness;
 	public BehaviorSubject<String> billingCountryCodeSubject = BehaviorSubject.create();
-	public BehaviorSubject<Boolean> billingCountryErrorSubject = BehaviorSubject.create();
+	public PublishSubject<Boolean> billingCountryErrorSubject = PublishSubject.create();
+	public PublishSubject<Unit> validateBillingCountrySubject = PublishSubject.create();
 	CountrySpinnerAdapter materialCountryAdapter;
 
 	public SectionLocation(Context context) {
@@ -122,7 +126,7 @@ public class SectionLocation extends LinearLayout
 				"Attempting to validate the SectionLocation without knowing the LOB. Proper validation requires a LOB to be set");
 		}
 		if (LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext())) {
-			validateBillingCountry();
+			validateBillingCountrySubject.onNext(Unit.INSTANCE);
 		}
 		return mFields.hasValidInput();
 	}
@@ -806,16 +810,6 @@ public class SectionLocation extends LinearLayout
 			return retArr;
 		}
 	};
-
-	private void validateBillingCountry() {
-		boolean hasError = true;
-		if (billingCountryCodeSubject.getValue() != null) {
-			if (!billingCountryCodeSubject.getValue().isEmpty()) {
-				hasError = false;
-			}
-		}
-		billingCountryErrorSubject.onNext(hasError);
-	}
 
 	public void updateStateFieldBasedOnBillingCountry(String countryCode) {
 		int hintString;

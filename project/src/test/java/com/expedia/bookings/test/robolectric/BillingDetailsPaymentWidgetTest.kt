@@ -47,6 +47,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertNull
 
@@ -534,10 +535,34 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingCountryValidation() {
         givenMaterialPaymentBillingWidget()
         val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.parent as TextInputLayout
+        val testHasErrorSubscriber = TestSubscriber<Boolean>()
+        billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.subscribe(testHasErrorSubscriber)
+        val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
+        val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
+        val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
+
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(countryLayout, "Country")
+        assertFalse(testHasErrorSubscriber.onNextEvents.isNotEmpty())
 
-        billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.onNext(true)
+        validateInvalidBillingInfo()
+
+        assertTrue(testHasErrorSubscriber.onNextEvents.isNotEmpty())
+        assertFalse(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
+        assertValidState(countryLayout, "Country")
+        assertEquals(countryName, countryLayout.editText?.text.toString())
+
+        countryLayout.editText?.setText(null)
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertTrue(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
+        assertErrorState(countryLayout, "Select a billing country")
+
+        billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.onNext(false)
+        assertValidState(countryLayout, "Country")
+
+        countryLayout.editText?.setText("")
+        billingDetailsPaymentWidget.sectionLocation.validateBillingCountrySubject.onNext(Unit)
+        assertTrue(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
         assertErrorState(countryLayout, "Select a billing country")
     }
 
@@ -545,12 +570,15 @@ class BillingDetailsPaymentWidgetTest {
     fun testMaterialBillingCountryDialog(){
         givenMaterialPaymentBillingWidget()
         val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.parent as TextInputLayout
+        val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
+        val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
+        val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
+
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(countryLayout, "Country")
-        assertTrue(billingDetailsPaymentWidget.editCountryEditText?.text.isNullOrBlank())
+        assertEquals(countryName, countryLayout.editText?.text.toString())
 
         billingDetailsPaymentWidget.editCountryEditText?.performClick()
-
         val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
         assertNotNull(testAlert)
         assertEquals("Billing Country", testAlert.title)
@@ -679,6 +707,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.viewmodel.emptyBillingInfo.onNext(Unit)
     }
 
     private fun assertValidState(layout: TextInputLayout, hint: String?) {
