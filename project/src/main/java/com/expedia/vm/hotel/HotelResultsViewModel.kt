@@ -17,6 +17,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -103,14 +104,16 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
     private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false) {
         val isPackages = lob == LineOfBusiness.PACKAGES
-        titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
 
+        titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
                 .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
         searchingForHotelsDateTime.onNext(Unit)
+
+        params.serverSort = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters) && !isPackages
         searchHotels(params, isFilteredSearch)
     }
 
@@ -178,10 +181,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     }
 
     private fun addFilterCriteria(searchBuilder: HotelSearchParams.Builder, filterParams: UserFilterChoices) {
-        if (filterParams.isDefault()) {
-            return
-        }
-
         if (filterParams.name.isNotEmpty()) {
             searchBuilder.hotelName(filterParams.name)
         }
@@ -197,6 +196,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         if (filterParams.isVipOnlyAccess) {
             searchBuilder.vipOnly(filterParams.isVipOnlyAccess)
         }
+        searchBuilder.userSort(filterParams.userSort.toServerSort())
     }
 
     private fun getSortTypeFromString(sortType: String?): Sort {
