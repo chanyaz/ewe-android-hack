@@ -8,14 +8,14 @@ import com.mobiata.android.validation.ValidationError
 open class TravelerEmailViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
 
     init {
-        textSubject.subscribe { email -> traveler?.email = email }
+        textSubject.subscribe { email -> traveler.email = email }
         textSubject.onNext(if (traveler.email.isNullOrEmpty()) "" else traveler.email)
         updateEmail(traveler)
     }
 
     fun updateEmail(traveler: Traveler) {
         this.traveler = traveler
-        textSubject.onNext(traveler.email)
+        textSubject.onNext(if (traveler.email.isNullOrEmpty()) "" else traveler.email)
     }
 
     override fun isValid(): Boolean {

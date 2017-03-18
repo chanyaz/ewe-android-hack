@@ -39,14 +39,15 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
 
 
     override fun validate(): Boolean {
-        val tsaValid = tsaViewModel.validate()
+        val genderValid = tsaViewModel.genderViewModel.validate()
+        val birthDateValid = tsaViewModel.dateOfBirthViewModel.validate()
         val requiresPassport = showPassportCountryObservable.value ?: false
         val passportValid = !requiresPassport || (requiresPassport && Strings.isNotEmpty(getTraveler().primaryPassportCountry))
         passportValidSubject.onNext(passportValid)
 
-        val valid = super.validate() && tsaValid && passportValid
+        val valid = super.validate() && birthDateValid && genderValid && passportValid
 
-        additionalNumberOfInvalidFields.onNext(AccessibilityUtil.getNumberOfInvalidFields(tsaValid, passportValid))
+        additionalNumberOfInvalidFields.onNext(AccessibilityUtil.getNumberOfInvalidFields(genderValid, birthDateValid, passportValid))
         return valid
     }
 
