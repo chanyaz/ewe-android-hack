@@ -37,6 +37,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
 
         when(routingDestination) {
             "/hotel-search" -> return parseHotelUniversalDeepLink(data, dateFormat)
+            "/hotels" -> return parseHotelUniversalDeepLink(data, dateFormat)
             "hotel-infosite" -> return parseHotelInfoSiteUniversalDeepLink(data, dateFormat)
             "/flights-search" -> return parseFlightUniversalDeepLink(data, dateFormat)
             "/carsearch" -> return parseCarUniversalDeepLink(data, dateFormat)
@@ -104,6 +105,10 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
         hotelDeepLink.numAdults = getIntegerParameterIfExists(data, queryParameterNames, "adults")
         hotelDeepLink.sortType = getQueryParameterIfExists(data, queryParameterNames, "sort")
         hotelDeepLink.regionId = getQueryParameterIfExists(data, queryParameterNames, "regionId")
+
+        if (data.toString().toLowerCase().contains("/hotels") && queryParameterNames.size == 1 && hotelDeepLink.sortType?.toLowerCase() == "discounts") {
+            hotelDeepLink.memberOnlyDealSearch = true
+        }
 
         return hotelDeepLink
     }
