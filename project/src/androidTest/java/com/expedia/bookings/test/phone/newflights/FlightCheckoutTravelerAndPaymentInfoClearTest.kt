@@ -5,16 +5,21 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
+import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.CustomMatchers.hasTextInputLayoutErrorText
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -44,6 +49,25 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
 
         PackageScreen.clickPaymentInfo()
         assertPaymentInfoCleared()
+    }
+
+    @Test
+    fun testTravelerErrorsClearedAfterSignIn() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, true)
+        flightSearchAndGoToCheckout()
+
+        PackageScreen.travelerInfo().perform(ViewActions.click())
+        PackageScreen.enterFirstName("Eidur")
+        PackageScreen.clickTravelerDone()
+        onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("Enter last name using letters only (minimum 2 characters)")))
+        Common.pressBack()
+
+        CheckoutViewModel.signInOnCheckout()
+        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
+
+        PackageScreen.travelerInfo().perform(ViewActions.click())
+        onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("")))
     }
 
     @Test

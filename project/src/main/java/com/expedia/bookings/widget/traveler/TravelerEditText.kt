@@ -130,7 +130,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     private inner class TravelerTextWatcher(): TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
-            resetError()
+            viewModel.errorSubject.onNext(false)
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
