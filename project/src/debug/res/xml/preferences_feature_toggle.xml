@@ -90,12 +90,6 @@
             android:title="Enable new itinerary detail view" />
 
         <CheckBoxPreference
-            android:key="@string/preference_itin_new_sign_in_screen"
-            android:layout="@layout/preference"
-            android:summary="Itin new sign in screen"
-            android:title="Enable new Itin sign in screen" />
-
-        <CheckBoxPreference
             android:key= "@string/preference_active_itin_on_launch"
             android:layout="@layout/preference"
             android:summary="Enable active itin on launch screen"

@@ -94,7 +94,6 @@ public class ItinListFragmentTest {
 		Intent startedIntent = Shadows.shadowOf(activity).getNextStartedActivity();
 		assertIntentForActivity(ItineraryGuestAddActivity.class, startedIntent);
 
-		SettingUtils.save(getContext(), R.string.preference_itin_new_sign_in_screen, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsNewSignInPage);
 
 		listFragment.showAddGuestItinScreen();
