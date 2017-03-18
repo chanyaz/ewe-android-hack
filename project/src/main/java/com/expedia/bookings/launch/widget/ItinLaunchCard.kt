@@ -30,12 +30,6 @@ class ItinLaunchCard(itemView: View, context: Context) : RecyclerView.ViewHolder
     fun bind(context: Context, vm: ActiveItinViewModel) {
         firstLine.text = vm.firstLine
         secondLine.text = vm.secondLine
-        AccessibilityUtil.appendRoleContDesc(itemView, secondLine.text.toString(), R.string.accessibility_cont_desc_role_button)
-        if (User.isLoggedIn(context)) {
-            AccessibilityUtil.appendRoleContDesc(itemView, secondLine.text.toString(), R.string.accessibility_cont_desc_role_button)
-        } else {
-            val itemViewContDesc = context.getString(R.string.launch_upcoming_trips_subtext_guest_user_cont_desc)
-            AccessibilityUtil.appendRoleContDesc(itemView, itemViewContDesc.toString(), R.string.accessibility_cont_desc_role_button)
-        }
+        AccessibilityUtil.appendRoleContDesc(secondLine, secondLine.text.toString(), R.string.accessibility_cont_desc_role_button)
     }
 }
