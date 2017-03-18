@@ -37,6 +37,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
+import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.CarWebViewTracking;
@@ -175,6 +176,12 @@ public class NavUtils {
 		Bundle args = AccountLibActivity
 			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, new ItinerarySyncLoginExtender());
 		User.signIn(activity, args);
+	}
+
+	public static void goToMemberPricing(Context context) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, MemberDealActivity.class);
+		context.startActivity(intent);
 	}
 
 	public static void goToSignIn(Context context) {

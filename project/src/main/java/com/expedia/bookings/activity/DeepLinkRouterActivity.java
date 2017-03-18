@@ -33,6 +33,7 @@ import com.expedia.bookings.deeplink.FlightDeepLink;
 import com.expedia.bookings.deeplink.ForceBucketDeepLink;
 import com.expedia.bookings.deeplink.HomeDeepLink;
 import com.expedia.bookings.deeplink.HotelDeepLink;
+import com.expedia.bookings.deeplink.MemberPricingDeepLink;
 import com.expedia.bookings.deeplink.SharedItineraryDeepLink;
 import com.expedia.bookings.deeplink.ShortUrlDeepLink;
 import com.expedia.bookings.deeplink.SignInDeepLink;
@@ -157,6 +158,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 		else if (deepLink instanceof SignInDeepLink) {
 			handleSignIn();
+			finish = true;
+		}
+		else if (deepLink instanceof MemberPricingDeepLink) {
+			handleMemberPricing();
 			finish = true;
 		}
 		else if (deepLink instanceof TripDeepLink) {
@@ -501,6 +506,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			.getEmailIntent(this, getString(R.string.email_app_support), getString(R.string.email_app_support_headline),
 				DebugInfoUtils.generateEmailBody(this));
 		startActivity(intent);
+	}
+
+	@VisibleForTesting
+	protected void handleMemberPricing() {
+		NavUtils.goToMemberPricing(this);
 	}
 
 	protected ItineraryManager getItineraryManagerInstance() {
