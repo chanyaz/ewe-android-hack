@@ -87,7 +87,8 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLinkSection("Cars", R.color.cars_primary_color),
 		new DeepLink("Car Search", "expda://carSearch"),
 		new DeepLink("Car Search", "expda://carSearch?pickupLocation=DTW"),
-		new DeepLink("Car Search with Params", "expda://carSearch?pickupDateTime=2017-03-12T22:30:00&dropoffDateTime=2017-03-15T09:30:00&pickupLocation=DTW"),
+		new DeepLink("Car Search with expired dates (show pop-up msg)", "expda://carSearch?pickupDateTime=2017-03-12T22:30:00&dropoffDateTime=2017-03-15T09:30:00&pickupLocation=DTW"),
+		new DeepLink("Car Search with future date", "expda://carSearch?pickupLocation=DTW", "pickupDateTime", 14, "dropoffDateTime", 18, "yyyy-MM-dd", "22:30:00", "09:30:00"),
 
 		new DeepLinkSection("Deferred", R.color.launch_screen_primary),
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
@@ -119,10 +120,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Flight Search Round Trip", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT"),
 		new DeepLink("Flight Search With Passengers", "https://www.expedia.com/mobile/deeplink/Flights-Search?trip=roundtrip&leg1=from:Seattle, WA (SEA-Seattle - Tacoma Intl.),to:BKK,departure:09/27/2017TANYT&leg2=from:BKK,to:Seattle, WA (SEA-Seattle - Tacoma Intl.),departure:10/11/2017TANYT&passengers=children:0,adults:3,seniors:0,infantinlap:Y"),
 
-		new DeepLink("Car Search", "https://www.expedia.com/mobile/deeplink/carsearch"),
-		new DeepLink("Car Search Future Dates", "https://www.expedia.com/mobile/deeplink/carsearch?time1=700PM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
+		new DeepLink("Car Search (should go to Search form)", "https://www.expedia.com/mobile/deeplink/carsearch"),
+		new DeepLink("Car Search (should go to Search form)", "https://www.expedia.com/mobile/deeplink/carsearch?time1=700PM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
 		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&time1=700PM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
-		new DeepLink("Car Search with Location", "https://www.expedia.com/mobile/deeplink/carsearch?locn=Bangkok, Thailand (BKK-All Airports)&time1=700AM&time2=500PM", "date1", 90, "date2", 97, "MM/dd/yyyy"),
 
 		new DeepLink("Activity Search", "https://www.expedia.com/mobile/deeplink/things-to-do/search"),
 		new DeepLink("Activity Search with Location", "https://www.expedia.com/mobile/deeplink/things-to-do/search?location=Bangkok (and vicinity), Thailand"),
@@ -340,6 +340,18 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			Uri.Builder linkBuilder = Uri.parse(link).buildUpon().appendQueryParameter(startDateField, date1.toString(pattern));
 			LocalDate date2 = LocalDate.now().plusDays(endDayOffset);
 			linkBuilder.appendQueryParameter(endDateField, date2.toString(pattern));
+
+			this.link = linkBuilder.build().toString();
+
+		}
+
+		DeepLink(String label, String link, String startDateField, int startDayOffset, String endDateField, int endDayOffset, String pattern, String pickUpTime, String dropOffTime) {
+			this.label = label;
+
+			LocalDate date1 = LocalDate.now().plusDays(startDayOffset);
+			Uri.Builder linkBuilder = Uri.parse(link).buildUpon().appendQueryParameter(startDateField, date1.toString(pattern).concat("T").concat(pickUpTime));
+			LocalDate date2 = LocalDate.now().plusDays(endDayOffset);
+			linkBuilder.appendQueryParameter(endDateField, date2.toString(pattern).concat("T").concat(dropOffTime));
 
 			this.link = linkBuilder.build().toString();
 

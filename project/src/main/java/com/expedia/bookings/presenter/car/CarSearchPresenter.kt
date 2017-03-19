@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -45,11 +46,13 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
     var searchViewModel: CarSearchViewModel by notNullAndObservable { vm ->
         calendarWidget.viewModel = vm
         vm.formattedOriginObservable.subscribe {
-            text -> originCardView.setText(text)
-            originCardView.contentDescription = Phrase.from(context, R.string.location_edit_box_cont_desc_TEMPLATE)
-                    .put("location", text)
-                    .format().toString()
-
+            text ->
+            if (!TextUtils.isEmpty(text)) {
+                originCardView.setText(text)
+                originCardView.contentDescription = Phrase.from(context, R.string.location_edit_box_cont_desc_TEMPLATE)
+                        .put("location", text)
+                        .format().toString()
+            }
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidget.showCalendarDialog()
             }
