@@ -2323,7 +2323,7 @@ public class OmnitureTracking {
 
 	private static final String TABLET_COLLECTIONS_EVAR12 = "Launch.Search.Collections";
 	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
-	private static final String LAUNCH_GUEST_ITIN = "App.Ls.Itin.Guest";
+	private static final String LAUNCH_GUEST_ITIN = "App.LS.Itin.Guest";
 	private static final String LAUNCH_ACTIVE_ITIN = "App.LS.Itin.Active";
 	private static final String LAUNCH_NEARBY_HOTEL = "App.LS.Nearby.Hotel";
 
