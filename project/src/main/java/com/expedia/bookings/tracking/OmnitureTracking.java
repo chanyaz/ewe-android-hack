@@ -2325,6 +2325,7 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SIGN_IN = "App.LS.Account.SignIn";
 	private static final String LAUNCH_GUEST_ITIN = "App.Ls.Itin.Guest";
 	private static final String LAUNCH_ACTIVE_ITIN = "App.LS.Itin.Active";
+	private static final String LAUNCH_NEARBY_HOTEL = "App.LS.Nearby.Hotel";
 
 
 	public static void trackLaunchSignIn() {
@@ -2963,6 +2964,12 @@ public class OmnitureTracking {
 		s.setEvar(18, ITIN_ERROR);
 		s.setProp(36, "itin:unable to retrieve trip summary");
 		s.track();
+	}
+
+	public static void trackRecommendedHotelsClick() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_NEARBY_HOTEL);
+		s.setEvar(12, "Launch.Nearby.Hotel");
+		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
 	public static void trackHotelItinGalleryOpen() {
