@@ -857,13 +857,16 @@ public class SectionLocation extends LinearLayout
 					postalHintString = R.string.address_postal_code_hint_US;
 				}
 				postalErrorString = R.string.error_enter_a_zip_code;
+				mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 			}
 			else {
 				postalHintString = R.string.address_postal_code_hint;
 				postalErrorString = R.string.error_enter_a_valid_postal_code;
+				mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
 			}
 		}
 		else if (pointOfSaleId.equals(ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
+			mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 			if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
 				postalHintString = R.string.address_zip_code_hint;
 			}
@@ -873,6 +876,7 @@ public class SectionLocation extends LinearLayout
 			postalErrorString = R.string.error_enter_a_zip_code;
 		}
 		else {
+			mEditAddressPostalCode.getField().setInputType(InputType.TYPE_CLASS_TEXT);
 			postalHintString = R.string.address_postal_code_hint;
 			postalErrorString = R.string.error_enter_a_valid_postal_code;
 		}

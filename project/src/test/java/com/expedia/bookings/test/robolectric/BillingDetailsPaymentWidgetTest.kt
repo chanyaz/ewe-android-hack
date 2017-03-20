@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.support.design.widget.TextInputLayout
+import android.text.InputType
 import android.view.LayoutInflater
 import android.widget.Button
 import butterknife.ButterKnife
@@ -596,6 +597,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         billingDetailsPaymentWidget.sectionLocation.resetValidation(R.id.edit_address_postal_code, true)
         assertValidState(postalLayout, "Zip Code")
+        assertEquals(InputType.TYPE_CLASS_NUMBER, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertErrorState(postalLayout, "Enter a valid zip code")
@@ -604,6 +606,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionLocation.resetValidation(R.id.edit_address_postal_code, true)
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.UNITED_STATES)
         assertValidState(postalLayout, "Zip")
+        assertEquals(InputType.TYPE_CLASS_NUMBER, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertErrorState(postalLayout, "Enter a valid zip code")
@@ -616,12 +619,15 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.IRELAND)
         assertValidState(postalLayout, "Postal Code")
+        assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("IRL")
         assertValidState(postalLayout, "Postal Code")
+        assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
         assertErrorState(postalLayout, "Enter a valid postal code")
+        assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
     }
     private fun getUserWithStoredCard(): User {
         val user = User()
