@@ -8,15 +8,36 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.MemberDealDestination
 import com.expedia.bookings.data.sos.MemberDealResponse
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.widget.LoadingViewHolder
+import com.expedia.util.subscribeVisibility
+import rx.subjects.BehaviorSubject
+import java.util.ArrayList
 
 class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listData: List<MemberDealDestination> = emptyList()
     private var currency: String? = null
+    private var loading = true
+    val resultSubject = BehaviorSubject.create<MemberDealResponse>()
+    val headerVisibilitySubject = BehaviorSubject.create<Boolean>()
 
+    init {
+        listData = generateLoadingCells(3)
+        resultSubject.subscribe { response ->
+            if (response != null && response.destinations != null) {
+                loading = false
+                headerVisibilitySubject.onNext(true)
+                currency = response.offerInfo?.currency
+                listData = response.destinations!!
+                notifyDataSetChanged()
+            }
+        }
+    }
 
     enum class itemType {
         HEADER,
+        LOADING_VIEW,
         DESTINATION_CARD
     }
 
@@ -24,6 +45,11 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
         if (viewType == itemType.HEADER.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.member_deal_header, parent, false)
             val holder = MemberDealHeaderViewHolder(view)
+            return holder
+        }
+        else if (viewType == itemType.LOADING_VIEW.ordinal) {
+            val view = LayoutInflater.from(context).inflate(R.layout.member_deal_loading_cell, parent, false)
+            val holder = LoadingViewHolder(view)
             return holder
         }
         else if (viewType == itemType.DESTINATION_CARD.ordinal) {
@@ -37,13 +63,19 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        if (holder is MemberDealHeaderViewHolder) {
+            headerVisibilitySubject.subscribeVisibility(holder.headerText)
+        }
         if (holder is MemberDealDestinationViewHolder) {
-            val destination = listData[position]
+            val destination = listData[position - 1]
             val leadingHotel = destination.getLeadingHotel()
             if (leadingHotel != null) {
                 val vm = MemberDealDestinationViewModel(context, leadingHotel, currency)
                 holder.bind(vm)
             }
+        }
+        if (holder is LoadingViewHolder) {
+            holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, (position - 1) % 2 == 0))
         }
     }
 
@@ -52,23 +84,26 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
     }
 
     override fun getItemCount(): Int {
-        return listData.size
+        return listData.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
             return itemType.HEADER.ordinal
-        } else {
+        }
+        else if (loading){
+            return itemType.LOADING_VIEW.ordinal
+        }
+        else {
             return itemType.DESTINATION_CARD.ordinal
         }
     }
 
-    fun updateDealsList(listData: List<MemberDealDestination>) {
-        this.listData = listData
-        this.notifyDataSetChanged()
-    }
-
-    fun setCurrency(currency: String?) {
-        this.currency = currency
+    private fun generateLoadingCells (count: Int): List<MemberDealDestination> {
+        val listLoading = ArrayList<MemberDealDestination>()
+        for (i in 1..count) {
+            listLoading.add(MemberDealDestination())
+        }
+        return listLoading
     }
 }
