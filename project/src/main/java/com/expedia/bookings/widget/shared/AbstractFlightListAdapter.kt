@@ -54,12 +54,12 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     open fun setNewFlights(flights: List<FlightLeg>) {
         loadingState = false
         newResultsConsumed = false
+        maxFlightDuration = 0
         val newFlights = ArrayList(flights)
         for (flightLeg in newFlights) {
             if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
                 maxFlightDuration = flightLeg.durationHour * 60 + flightLeg.durationMinute
             }
-
         }
         this.flights = newFlights
         notifyDataSetChanged()
