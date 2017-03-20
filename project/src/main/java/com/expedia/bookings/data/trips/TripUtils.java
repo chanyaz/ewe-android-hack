@@ -45,9 +45,6 @@ public class TripUtils {
 						return true;
 					}
 				}
-				else { // we don't have any more trips within the time range. Break out of loop
-					break;
-				}
 			}
 		}
 		return false;
