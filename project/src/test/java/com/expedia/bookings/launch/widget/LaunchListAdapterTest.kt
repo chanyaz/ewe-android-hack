@@ -383,7 +383,7 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingLobView_showingCollectionView_guestItin() {
-        givenSignedInItinCardEnabled()
+        givenGuestItinCardEnabled()
         givenSignInCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
@@ -444,6 +444,7 @@ class LaunchListAdapterTest {
     @Test
     fun testItinManagerSyncShowsActiveItin() {
         givenSignedInItinCardEnabled()
+        givenCustomerSignedIn()
         createSystemUnderTest(hasTripsInTwoWeeks = false)
         givenWeHaveStaffPicks()
 
