@@ -51,7 +51,6 @@ class HotelConfirmationPresenterTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Control)
         Ui.getApplication(activity).defaultHotelComponents()
-        featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
         hotelPresenter.hotelSearchParams = getDummyHotelSearchParams()
@@ -113,10 +112,6 @@ class HotelConfirmationPresenterTest {
         val pointOfSale = if (enable) PointOfSaleId.INDIA else PointOfSaleId.UNITED_STATES
         SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
-    }
-
-    private fun featureToggleWebCheckout(enable: Boolean) {
-        SettingUtils.save(activity, R.string.preference_enable_3DS_checkout, enable)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
