@@ -17,7 +17,6 @@ class AddGuestItinViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: AddGuestItinViewModel
 
-    val guestItinFetchButtonEnabledSubscriber = TestSubscriber<Boolean>()
     val hasEmailErrorSubscriber = TestSubscriber<Boolean>()
     val hasItinErrorSubscriber = TestSubscriber<Boolean>()
 
@@ -30,7 +29,6 @@ class AddGuestItinViewModelTest {
 
     @Test
     fun testGuestFormFieldsErrorStates() {
-        sut.guestItinFetchButtonEnabledObservable.subscribe(guestItinFetchButtonEnabledSubscriber)
         sut.hasEmailErrorObservable.subscribe(hasEmailErrorSubscriber)
         sut.hasItinErrorObservable.subscribe(hasItinErrorSubscriber)
 
@@ -39,20 +37,27 @@ class AddGuestItinViewModelTest {
         assertTrue(hasEmailErrorSubscriber.onNextEvents[0])
         sut.itinNumberValidateObservable.onNext("12345678")
         assertTrue(hasItinErrorSubscriber.onNextEvents[0])
-        assertFalse(guestItinFetchButtonEnabledSubscriber.onNextEvents[0])
 
         sut.emailValidateObservable.onNext("testing@expedia.com")
         assertFalse(hasEmailErrorSubscriber.onNextEvents[1])
-        assertFalse(guestItinFetchButtonEnabledSubscriber.onNextEvents[1])
         sut.itinNumberValidateObservable.onNext("12345678")
         assertTrue(hasItinErrorSubscriber.onNextEvents[1])
-        assertFalse(guestItinFetchButtonEnabledSubscriber.onNextEvents[2])
 
         sut.emailValidateObservable.onNext("testing@expedia.com")
         assertFalse(hasEmailErrorSubscriber.onNextEvents[2])
         sut.itinNumberValidateObservable.onNext("12345678910")
         assertFalse(hasItinErrorSubscriber.onNextEvents[2])
-        assertTrue(guestItinFetchButtonEnabledSubscriber.onNextEvents[4])
     }
 
+    @Test
+    fun testEmailValidation() {
+        assertFalse(sut.isEmailValid("asd@"))
+        assertTrue(sut.isEmailValid("asd@gmail.com"))
+    }
+
+    @Test
+    fun testItinNumberValidation() {
+        assertFalse(sut.isItinNumberValid("12345678"))
+        assertTrue(sut.isItinNumberValid("123456789"))
+    }
 }
