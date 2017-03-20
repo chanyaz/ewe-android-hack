@@ -1,11 +1,14 @@
 package com.expedia.bookings.section;
 
+import java.util.ArrayList;
+
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.TextView;
+
 import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-import java.util.ArrayList;
 
 public abstract class SectionFieldEditable<FieldType extends View, Data extends Object> extends
 		SectionField<FieldType, Data> {
@@ -61,6 +64,9 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 		FieldType field = getField();
 		if (field instanceof TextView) {
 			TextViewExtensionsKt.removeErrorExclamation((TextView) field, null);
+		}
+		if (field != null && field.getParent() != null && field.getParent() instanceof TextInputLayout) {
+			((TextInputLayout) field.getParent()).setError(null);
 		}
 		if (parent != null) {
 			parent.onChange();
