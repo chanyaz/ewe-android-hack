@@ -485,8 +485,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
 	private boolean showMemberDeal() {
-		return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_member_deal_on_launch_screen) && User
-			.isLoggedIn(context);
+		return User.isLoggedIn(context) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen,
+				R.string.preference_member_deal_on_launch_screen);
 	}
 
 	private boolean userBucketedForItinCardSignedIn() {

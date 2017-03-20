@@ -60,6 +60,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
 	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
 	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
+	public static final int EBAndroidAppShowMemberPricingCardOnLaunchScreen = 13697;
 	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
 	public static final int EBAndroidAppShowCarWebView = 12913;
 	public static final int EBAndroidAppHotelUpgrade = 13196;
@@ -139,6 +140,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppTripsHotelSoftChangeWebView);
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
+		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppShowCarWebView);
 		testIDs.add(EBAndroidAppHotelUpgrade);

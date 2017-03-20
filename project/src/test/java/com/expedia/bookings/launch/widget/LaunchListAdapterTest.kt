@@ -729,6 +729,7 @@ class LaunchListAdapterTest {
 
     private fun givenMemberDealsCardEnabled() {
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, true)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen, 1)
     }
 
     private fun givenPopularHotelsCardEnabled() {
