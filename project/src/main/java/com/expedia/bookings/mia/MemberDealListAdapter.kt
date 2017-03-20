@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.MemberDealDestination
 import com.expedia.bookings.data.sos.MemberDealResponse
+import com.expedia.bookings.mia.activity.MemberDealActivity
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.util.subscribeVisibility
 import rx.subjects.BehaviorSubject
@@ -55,6 +57,13 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
         else if (viewType == itemType.DESTINATION_CARD.ordinal) {
             val view = LayoutInflater.from(context).inflate(R.layout.member_deal_card, parent, false)
             val holder = MemberDealDestinationViewHolder(view)
+
+            view.setOnClickListener { v ->
+                val memberDealActivity = context as MemberDealActivity
+                val animOptions = AnimUtils.createActivityScaleBundle(memberDealActivity.currentFocus)
+                NavUtils.goToHotels(this.context, holder.searchParams, animOptions, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
+            }
+
             return holder
         }
         else {

@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
@@ -27,6 +28,7 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
     val priceView: TextView by bindView(R.id.member_deal_price_per_night)
     val bgImageView: ImageView by bindView(R.id.member_deal_background)
     val gradient: View by bindView(R.id.member_deal_foreground)
+    lateinit var searchParams: HotelSearchParams
 
     val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .3f, .6f, 1f)
 
@@ -37,6 +39,19 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
         strikePriceView.text = vm.strikeOutPriceText
         priceView.text = vm.priceText
         Picasso.with(view.context).load(vm.backgroundUrl).error(vm.backgroundFallback).placeholder(vm.backgroundPlaceHolder).into(target)
+        searchParams = setSearchParams(vm)
+    }
+
+    fun setSearchParams(vm: MemberDealDestinationViewModel): HotelSearchParams {
+        var params = HotelSearchParams()
+        params.regionId = vm.regionId
+        params.checkInDate = vm.startDate
+        params.checkOutDate = vm.endDate
+        params.sortType = "discounts"
+        params.searchType = HotelSearchParams.SearchType.CITY
+        params.query = vm.cityName
+
+        return params
     }
 
     private val target = object : PicassoTarget() {

@@ -4,12 +4,11 @@ import android.content.Context
 import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.sos.MemberDealDestination
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.CurrencyUtils
 import com.mobiata.android.text.StrikethroughTagHandler
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
@@ -24,6 +23,16 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
     private val formatter = DateTimeFormat.forPattern("EEE, MMM dd")
 
     val cityName: String? = leadingHotel.destination?.shortName
+
+    val regionId: String? = leadingHotel.destination?.regionID
+
+    val startDate: LocalDate by lazy {
+        getDateInLocalDateFormat(leadingHotel.offerDateRange?.travelStartDate)
+    }
+
+    val endDate: LocalDate by lazy {
+        getDateInLocalDateFormat(leadingHotel.offerDateRange?.travelEndDate)
+    }
 
     val dateRangeText: String by lazy {
         getDateRangeText(leadingHotel.offerDateRange?.travelStartDate, leadingHotel.offerDateRange?.travelEndDate)
@@ -64,6 +73,15 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
 
         return dateRange.append(startDateStr).append(" - ").append(endDateStr).toString()
     }
+
+    fun getDateInLocalDateFormat(intDate: List<Int>?) : LocalDate {
+        if (intDate == null) {
+            return DateTime.now().toLocalDate()
+        }
+
+        return LocalDate(intDate[0], intDate[1], intDate[2])
+    }
+
 
     fun getPercentSavingsText(percentSavings: Double?): String {
         if (percentSavings == null) {
