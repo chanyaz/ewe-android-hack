@@ -269,9 +269,9 @@ class TripUtilsTest {
     }
 
     @Test
-    fun ignoreExpiredTrip() {
+    fun ignoreStartedTrip() {
         val trip = Trip()
-        trip.hasExpired(0)
+        trip.startDate = DateTime.now().minusDays(2)
         val result = TripUtils.hasTripStartDateBeforeDateTime(listOf(trip), dateTimeTwoWeeksFromNow(), false)
         assertFalse(result)
     }
