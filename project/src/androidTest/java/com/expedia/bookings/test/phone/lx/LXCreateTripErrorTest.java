@@ -9,11 +9,10 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
-import static org.hamcrest.Matchers.allOf;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToCompletelyDisplay;
 
 public class LXCreateTripErrorTest extends LxTestCase {
 
@@ -29,12 +28,12 @@ public class LXCreateTripErrorTest extends LxTestCase {
 	public void testCreateTripError() throws Throwable {
 		goToCheckout(1, "2-Day New York Pass");
 
-		onView(withId(R.id.lx_checkout_error_widget)).check(matches(isCompletelyDisplayed()));
+		onView(withId(R.id.lx_checkout_error_widget)).perform(waitForViewToCompletelyDisplay());
 	}
 
 	public void testCreateTripPriceChange() throws Throwable {
 		goToCheckout(2, "2-Day New York Pass");
 
-		onView(withId(R.id.price_change_text)).check(matches(allOf(isCompletelyDisplayed(), withText("Price changed from $130"))));
+		onView(withId(R.id.price_change_text)).perform(waitForViewToCompletelyDisplay()).check(matches(withText("Price changed from $130")));
 	}
 }
