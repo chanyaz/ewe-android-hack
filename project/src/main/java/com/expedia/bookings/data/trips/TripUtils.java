@@ -33,11 +33,11 @@ public class TripUtils {
 
 		for (Trip trip : tripsSortedDateTimeAscending) {
 			if (trip.getStartDate() != null) {
-				boolean hasTripExpired = trip.hasExpired(0);
+				boolean hasTripStarted = DateTime.now().isAfter(trip.getStartDate().plusDays(1));
 				boolean startDateBefore = trip.getStartDate().isBefore(dateTime);
 				boolean startDateToday = trip.getStartDate().isEqual(dateTime);
 
-				if (!hasTripExpired && startDateBefore || startDateToday) {
+				if (!hasTripStarted && startDateBefore || startDateToday) {
 					if (!includeSharedItins && trip.isShared()) {
 						continue; // don't add shared itins to the list
 					}

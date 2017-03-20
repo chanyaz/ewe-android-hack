@@ -61,28 +61,7 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOS() {
-        featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(false)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
-        webCheckoutViewObservable.assertValueCount(0)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun webCheckoutNotUsedWithFeatureToggleOff() {
-        featureToggleWebCheckout(false)
-        setPOSWithWebCheckoutEnabled(true)
-        setUpTestToStartAtDetailsScreen()
-        selectHotelRoom()
-        webCheckoutViewObservable.assertValueCount(0)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun webCheckoutNotUsedOnUnsupportedPOSAndFeatureToggleOff() {
-        featureToggleWebCheckout(false)
-        setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(0)
@@ -93,7 +72,6 @@ class WebCheckoutViewTest {
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestSubscriber<String>()
         val fectchTripIDSubscriber = TestSubscriber<String>()
-        featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
@@ -119,7 +97,6 @@ class WebCheckoutViewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewRefreshUserOnBackPress() {
         val closeViewSubscriber = TestSubscriber<Unit>()
-        featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
@@ -171,7 +148,6 @@ class WebCheckoutViewTest {
     }
 
     private fun getToWebCheckoutView() {
-        featureToggleWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
@@ -186,10 +162,6 @@ class WebCheckoutViewTest {
         val pointOfSale = if (enable) PointOfSaleId.INDIA else PointOfSaleId.UNITED_STATES
         SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
-    }
-
-    private fun featureToggleWebCheckout(enable: Boolean) {
-        SettingUtils.save(activity, R.string.preference_enable_3DS_checkout, enable)
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

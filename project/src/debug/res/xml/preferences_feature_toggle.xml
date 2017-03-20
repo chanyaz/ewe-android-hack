@@ -82,12 +82,6 @@
             android:summary="Universal Checkout Material Forms"
             android:title="Enable Universal Checkout Material Forms" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_3DS_checkout"
-            android:layout="@layout/preference"
-            android:summary="Enable 3DS payment webview checkout"
-            android:title="Enable 3DS payment" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

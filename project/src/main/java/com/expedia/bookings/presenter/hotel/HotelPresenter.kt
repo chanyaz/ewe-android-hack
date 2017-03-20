@@ -43,7 +43,6 @@ import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -226,7 +225,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
         presenter.hotelDetailView.viewmodel.changeDates.subscribe(goToSearchScreen)
 
-        if (shouldUseWebCheckout(context)) {
+        if (shouldUseWebCheckout()) {
             viewModel = HotelPresenterViewModel((webCheckoutView.viewModel as WebCheckoutViewViewModel).createTripViewModel, null, presenter.hotelDetailView.viewmodel)
         } else {
             viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
@@ -299,7 +298,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         createTripViewModel.errorObservable.subscribe { show(errorPresenter) }
         createTripViewModel.noResponseObservable.subscribe {
             val retryFun = fun() {
-                if (shouldUseWebCheckout(context)) {
+                if (shouldUseWebCheckout()) {
                     (webCheckoutView.viewModel as WebCheckoutViewViewModel).fireCreateTripObservable.onNext(Unit)
                 } else {
                     checkoutPresenter.hotelCheckoutWidget.doCreateTrip()
@@ -365,7 +364,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         hotelDetailViewModel.roomSelectedSubject.subscribe { offer ->
             checkoutPresenter.hotelCheckoutWidget.markRoomSelected()
-            if (shouldUseWebCheckout(context)) {
+            if (shouldUseWebCheckout()) {
                 val webCheckoutViewModel = webCheckoutView.viewModel as WebCheckoutViewViewModel
                 webCheckoutViewModel.hotelSearchParamsObservable.onNext(hotelSearchParams)
                 webCheckoutViewModel.offerObservable.onNext(offer)
@@ -408,8 +407,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         checkoutDialog.isIndeterminate = true
     }
 
-    private fun shouldUseWebCheckout(context: Context) = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_3DS_checkout)
-            && PointOfSale.getPointOfSale().shouldShowWebCheckout()
+    private fun shouldUseWebCheckout() = PointOfSale.getPointOfSale().shouldShowWebCheckout()
 
     fun setDefaultTransition(screen: Screen) {
         val defaultTransition = when (screen) {
@@ -442,7 +440,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(searchToError)
         addTransition(detailsToError)
 
-        if (shouldUseWebCheckout(context)) {
+        if (shouldUseWebCheckout()) {
             addTransition(detailsToWebCheckoutView)
             addTransition(webCheckoutViewToConfirmation)
             addTransition(webCheckoutViewToError)
