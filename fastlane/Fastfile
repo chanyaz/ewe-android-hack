@@ -96,6 +96,18 @@ platform :android do
 
   # You can define as many lanes as you want
 
+  desc "Runs tests with usage of emulator plugin"
+    lane :automation_integrationTests do
+
+    automated_test_emulator_run(
+        AVD_setup_path: "fastlane/AVD_configs/AVD_config.json",
+        shell_task: "./jenkins/fork.sh",
+        AVD_param_launch_timeout: "180",
+        AVD_adb_launch_timeout: "300",
+        AVD_recreate_new: "true"
+    )
+    end
+
   after_all do |lane|
     # This block is called, only if the executed lane was successful
 

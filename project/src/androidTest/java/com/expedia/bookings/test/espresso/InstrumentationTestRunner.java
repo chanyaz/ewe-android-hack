@@ -4,7 +4,11 @@ import android.app.Application;
 import android.app.KeyguardManager;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.Settings;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnitRunner;
+
+import com.linkedin.android.testbutler.TestButler;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.test.BuildConfig;
@@ -45,6 +49,28 @@ public class InstrumentationTestRunner extends AndroidJUnitRunner {
 			}
 		});
 
+		try {
+			TestButler.setup(InstrumentationRegistry.getTargetContext());
+			TestButler.setLocationMode(Settings.Secure.LOCATION_MODE_OFF);
+			TestButler.setWifiState(false);
+
+		}
+		catch (IllegalStateException e) {
+			//do not fail the tests if test butler apk is missing
+		}
 		super.onStart();
 	}
+
+	@Override
+	public void finish(int resultCode, Bundle results) {
+		try {
+			TestButler.teardown(InstrumentationRegistry.getTargetContext());
+		}
+		catch (IllegalStateException e) {
+			//do not fail the tests if test butler apk is missing
+		}
+
+		super.finish(resultCode, results);
+	}
+
 }
