@@ -19,7 +19,7 @@ class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightVi
         if (PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase(Locale.US).contains(Regex("FR"))) {
             return Money.getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal(StrUtils.removeSpecialCharactersFromRoundedAmount(price.roundedAmount)), price.currencyCode, Money.F_NO_DECIMAL)
         } else {
-            return return price.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL)
+            return price.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL)
         }
     }
 
