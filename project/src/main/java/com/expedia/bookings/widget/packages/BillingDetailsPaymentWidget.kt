@@ -71,16 +71,14 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         addressCity.onFocusChangeListener = this
         addressState.onFocusChangeListener = this
         maskedCreditCard.cardNumberTextSubject.subscribe { text ->
+            if (getLineOfBusiness().isMaterialFormEnabled(context)) {
+                defaultCreditCardNumberLayout?.visibility = VISIBLE
+                maskedCreditLayout?.visibility = GONE
+            }
             creditCardNumber.setText(text)
             creditCardNumber.setSelection(text.length)
-            if (getLineOfBusiness().isMaterialFormEnabled(context)) {
-                defaultCreditCardNumberLayout?.visibility = GONE
-                maskedCreditLayout?.visibility = VISIBLE
-            } else {
-                creditCardNumber.visibility = VISIBLE
-                maskedCreditCard.visibility = GONE
-            }
-
+            creditCardNumber.visibility = VISIBLE
+            maskedCreditCard.visibility = GONE
         }
         val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
         if (isExtraPaddingRequired) {
@@ -156,7 +154,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
         editCountryEditText = findViewById(R.id.material_edit_country_button) as EditText
         maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
-        maskedCreditLayout?.visibility = View.GONE
 
         editCountryEditText?.setOnClickListener{
             showCountryDialog()

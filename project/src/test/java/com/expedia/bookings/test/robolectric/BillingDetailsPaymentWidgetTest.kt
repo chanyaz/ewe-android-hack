@@ -4,6 +4,7 @@ import android.app.Activity
 import android.support.design.widget.TextInputLayout
 import android.text.InputType
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import butterknife.ButterKnife
 import com.expedia.bookings.BuildConfig
@@ -613,7 +614,7 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
-    fun tesetMaterialBillingZipValidationNonUsPos() {
+    fun testMaterialBillingZipValidationNonUsPos() {
         givenMaterialPaymentBillingWidget()
         val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
@@ -629,6 +630,32 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(postalLayout, "Enter a valid postal code")
         assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
     }
+
+    @Test
+    fun testMaterialBillingMaskedCreditCardAlternatesVisibility() {
+        givenMaterialPaymentBillingWidget()
+        val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.parent as TextInputLayout
+        val maskedCreditLayout = billingDetailsPaymentWidget.maskedCreditLayout as TextInputLayout
+
+        assertInverseLayoutVisibility(visibleLayout = creditCardLayout, hiddenLayout = maskedCreditLayout)
+        assertEquals("", billingDetailsPaymentWidget.creditCardNumber.text.toString())
+
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        billingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
+        billingDetailsPaymentWidget.showMaskedCreditCardNumber()
+
+        assertInverseLayoutVisibility(visibleLayout = maskedCreditLayout, hiddenLayout = creditCardLayout)
+        assertEquals("XXXX XXXX XXXX 1111", billingDetailsPaymentWidget.maskedCreditCard.text.toString())
+
+        billingDetailsPaymentWidget.maskedCreditCard.cardNumberTextSubject.onNext("1")
+
+        assertInverseLayoutVisibility(visibleLayout = creditCardLayout, hiddenLayout = maskedCreditLayout)
+        assertEquals("1", billingDetailsPaymentWidget.creditCardNumber.text.toString())
+
+        billingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
+        assertEquals("4111111111111111", billingDetailsPaymentWidget.creditCardNumber.text.toString())
+    }
+
     private fun getUserWithStoredCard(): User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -735,5 +762,12 @@ class BillingDetailsPaymentWidgetTest {
         incompleteCCNumberInfo.nameOnCard = ""
         billingDetailsPaymentWidget.sectionLocation.bind(incompleteCCNumberInfo.location)
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+    }
+
+    private fun assertInverseLayoutVisibility(visibleLayout: TextInputLayout, hiddenLayout: TextInputLayout) {
+        assertEquals(View.GONE, hiddenLayout.visibility)
+        assertEquals(View.GONE, hiddenLayout.editText?.visibility)
+        assertEquals(View.VISIBLE, visibleLayout.visibility)
+        assertEquals(View.VISIBLE, visibleLayout.editText?.visibility)
     }
 }
