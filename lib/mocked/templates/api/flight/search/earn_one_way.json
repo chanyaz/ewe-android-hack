@@ -89,7 +89,8 @@
       "averageTotalPricePerTicket": {
         "amount": "546.00",
         "formattedPrice": "$546.00",
-        "formattedWholePrice": "$546"
+        "formattedWholePrice": "$546",
+        "roundedAmount": "546"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "470.46",
@@ -177,7 +178,8 @@
       "averageTotalPricePerTicket": {
         "amount": "596.00",
         "formattedPrice": "$596.00",
-        "formattedWholePrice": "$596"
+        "formattedWholePrice": "$596",
+        "roundedAmount": "596"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "520.46",

@@ -524,7 +524,8 @@
         "amount": "696.00",
         "formattedPrice": "$696.00",
         "currencyCode": "USD",
-        "formattedWholePrice": "$696"
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "620.46",
@@ -654,7 +655,8 @@
         "amount": "800.00",
         "formattedPrice": "$800.00",
         "formattedWholePrice": "$800",
-        "currencyCode": "USD"
+        "currencyCode": "USD",
+        "roundedAmount": "800"
       },
       "numberOfTickets": 1,
       "taxes": "54.15",
@@ -707,7 +709,8 @@
         "amount": "696.00",
         "formattedPrice": "$696.00",
         "currencyCode": "USD",
-        "formattedWholePrice": "$696"
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "620.46",
@@ -795,7 +798,8 @@
         "amount": "696.00",
         "formattedPrice": "$696.00",
         "currencyCode": "USD",
-        "formattedWholePrice": "$696"
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "620.46",
@@ -883,7 +887,8 @@
         "amount": "696.00",
         "formattedPrice": "$696.00",
         "currencyCode": "USD",
-        "formattedWholePrice": "$696"
+        "formattedWholePrice": "$696",
+        "roundedAmount": "696"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
       "baseFare": "620.46",
