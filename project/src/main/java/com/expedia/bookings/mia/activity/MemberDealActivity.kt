@@ -38,12 +38,7 @@ class MemberDealActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         memberDealResponseProvider = MemberDealResponseProvider(Ui.getApplication(this).appComponent().smartOfferService())
-        memberDealResponseProvider.memberDealResponseSubject.subscribe { response ->
-            if (response != null && response.destinations != null) {
-                adapter.setCurrency(response.offerInfo?.currency)
-                adapter.updateDealsList(response.destinations!!)
-            }
-        }
+        memberDealResponseProvider.memberDealResponseSubject.subscribe(adapter.resultSubject)
     }
 
     override fun onStart() {

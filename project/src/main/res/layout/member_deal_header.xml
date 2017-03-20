@@ -12,6 +12,7 @@
         style="@style/ResultsDescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/member_deal_landing_page_header"/>
+        android:text="@string/member_deal_landing_page_header"
+        android:visibility="invisible"/>
 
 </LinearLayout>

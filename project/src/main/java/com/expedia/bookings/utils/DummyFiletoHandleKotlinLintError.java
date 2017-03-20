@@ -914,5 +914,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.air_attach_variant2_string2,
 		R.layout.member_deal_card,
 		R.layout.member_deal_header,
+		R.layout.member_deal_loading_cell
 	};
 }
