@@ -26,6 +26,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     private val defaultTransition = object : Presenter.DefaultTransition(ItinSignInWidget::class.java.name) {
         override fun endTransition(forward: Boolean) {
             signInWidget.visibility = View.VISIBLE
+            signInWidget.itinPOSHeader.setCurrentPOS()
         }
     }
 
@@ -34,6 +35,10 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             super.endTransition(forward)
             if (forward) {
                 AccessibilityUtil.delayFocusToToolbarNavigationIcon(addGuestItinWidget.toolbar, 300)
+                addGuestItinWidget.itinPOSHeader.setCurrentPOS()
+            }
+            else {
+                signInWidget.itinPOSHeader.setCurrentPOS()
             }
         }
     }

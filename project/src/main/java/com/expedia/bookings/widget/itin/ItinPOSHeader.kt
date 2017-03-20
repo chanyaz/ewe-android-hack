@@ -55,7 +55,6 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
         position = adapter.findPOSIndex(PointOfSale.getPointOfSale().pointOfSaleId.id)
         lastPosition = position
         posText.text = adapter.pointOfSales[position].url.capitalize()
-
         setPOSAdapterPosition(lastPosition)
     }
 
