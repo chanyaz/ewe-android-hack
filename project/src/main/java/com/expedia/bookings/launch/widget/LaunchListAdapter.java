@@ -458,7 +458,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean showItinCard() {
 		boolean bucketedSignedInUserWithTripInTwoWeeks =
-			userBucketedForItinCardSignedIn() && customerHasTripsInNextTwoWeeks();
+			userBucketedForItinCardSignedIn() && customerHasTripsInNextTwoWeeks() && User.isLoggedIn(context);
 		boolean bucketedGuestUserWithZeroTrips =
 			userBucketedForItinCardGuest() && !User.isLoggedIn(context) && getCustomerTrips().size() == 0;
 		if (bucketedSignedInUserWithTripInTwoWeeks || bucketedGuestUserWithZeroTrips) {
