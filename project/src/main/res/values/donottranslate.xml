@@ -126,6 +126,7 @@
     <string name="preference_simplify_flight_shopping">preference_simplify_flight_shopping</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_itin_flight_duration">preference_itin_flight_duration</string>
+    <string name="preference_lob_accentuating">preference_lob_accentuating</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

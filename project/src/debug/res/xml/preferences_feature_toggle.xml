@@ -23,6 +23,12 @@
         android:summary="Show air attach message to users on launch screen"
         android:title="Enable Air Attach Message on Launch Screen" />
 
+    <CheckBoxPreference
+        android:key="@string/preference_lob_accentuating"
+        android:layout="@layout/preference"
+        android:summary="Make the hotel and flight accentuated"
+        android:title="Enable Hotel and Flight Accentuating" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
