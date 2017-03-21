@@ -60,10 +60,8 @@ class LaunchListAdapterTest {
     fun tearDown() {
         AbacusTestUtils.resetABTests()
 
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, false)
         SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, false)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, false)
-        SettingUtils.save(context, R.string.preference_guest_itin_on_launch, false)
     }
 
     @Test
@@ -722,12 +720,10 @@ class LaunchListAdapterTest {
     }
 
     private fun givenSignedInItinCardEnabled() {
-        SettingUtils.save(context, R.string.preference_active_itin_on_launch, true)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard, 1)
     }
 
     private fun givenGuestItinCardEnabled() {
-        SettingUtils.save(context, R.string.preference_guest_itin_on_launch, true)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard, 1)
     }
 
