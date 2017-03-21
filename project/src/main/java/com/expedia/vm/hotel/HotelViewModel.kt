@@ -267,6 +267,8 @@ open class HotelViewModel(private val context: Context) {
                     .toString())
         }
 
+        result.append(earnMessagingObservable.value + " ")
+
         if (hotelStrikeThroughPriceVisibility.value) {
             result.append(Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
                     .put("strikethroughprice", hotelStrikeThroughPriceFormatted.value)
