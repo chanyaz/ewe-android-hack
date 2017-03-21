@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,9 +10,11 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -55,6 +58,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
+import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -64,9 +68,20 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
+import com.uber.sdk.android.core.UberSdk;
+import com.uber.sdk.android.rides.RideParameters;
+import com.uber.sdk.android.rides.RideRequestButton;
+import com.uber.sdk.android.rides.RideRequestButtonCallback;
+import com.uber.sdk.core.auth.Scope;
+import com.uber.sdk.rides.client.ServerTokenSession;
+import com.uber.sdk.rides.client.SessionConfiguration;
+import com.uber.sdk.rides.client.error.ApiError;
+
+import rx.Observer;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -592,9 +607,116 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 			Log.d("ITIN: addBookingInfo to container");
 			container.addView(item);
+
+			//Uber Ride request stuff
+			PackageManager pm = getContext().getPackageManager();
+			boolean hasUberInstalled = false;
+			try {
+					pm.getPackageInfo("com.ubercab", PackageManager.GET_ACTIVITIES);
+					hasUberInstalled = true;
+				} catch (PackageManager.NameNotFoundException e) {
+				// No Uber app! Open Mobile Website.
+					}
+			isUberable(getItinCardData() instanceof ItinCardData.UberRideable && hasUberInstalled, item);
 			return true;
 		}
 		return false;
+	}
+
+	private void isUberable(boolean hasUber, View item) {
+		final RideRequestButton uberRideRequestButton = Ui.findView(item, R.id.uber_ride_request_button);
+		if (hasUber) {
+
+			final SessionConfiguration uberConfig = new SessionConfiguration.Builder()
+				// mandatory
+				.setClientId("Ce3o-UZdGaU54A-UveMhsuF0w9_iUseH")
+				// required for enhanced button features
+				.setServerToken("f8X8Zq-m1oXHibSRub3lIFjrKvjFR2W336QFldOo")
+				// required for implicit grant authentication
+				.setRedirectUri("http://expda")
+				// required scope for Ride Request Widget features
+				.setScopes(Arrays.asList(Scope.RIDE_WIDGETS))
+				// optional: set Sandbox as operating environment
+				.setEnvironment(SessionConfiguration.Environment.SANDBOX)
+				.build();
+			UberSdk.initialize(uberConfig);
+
+			uberRideRequestButton.setVisibility(View.VISIBLE);
+
+			final LatLng latLng = getItinCardData().getLocation();
+
+			//Add ride request parameters
+			RideParameters rideParams = new RideParameters.Builder()
+				// Optional product_id from /v1/products endpoint (e.g. UberX). If not provided, most cost-efficient product will be used
+				//.setProductId("a1111c8c-c720-46c3-8534-2fcdd730040d")
+				// Required for price estimates; lat (Double), lng (Double), nickname (String), formatted address (String) of dropoff location
+				.setDropoffLocation(
+					latLng.latitude, latLng.longitude, ((ItinCardData.UberRideable)getItinCardData()).getNickName(), ((ItinCardData.UberRideable)getItinCardData()).getRideDestinationAddress())
+				// Required for pickup estimates; lat (Double), lng (Double), nickname (String), formatted address (String) of pickup location
+				//.setPickupLocation(37.775304, -122.417522, "Uber HQ", "1455 Market Street, San Francisco")
+				.build();
+			// set parameters for the RideRequestButton instance
+			uberRideRequestButton.setRideParameters(rideParams);
+
+			CurrentLocationObservable.create(getContext()).subscribe(new Observer<Location>() {
+				@Override
+				public void onCompleted() {
+					Log.i("Supreeth", "CurrentLocationObservable onCompleted");
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					Log.i("Supreeth", "CurrentLocationObservable onError " + e);
+				}
+
+				@Override
+				public void onNext(Location location) {
+					Log.i("Supreeth", "CurrentLocationObservable call " + location);
+					RideParameters rideParams2 = new RideParameters.Builder()
+						// Optional product_id from /v1/products endpoint (e.g. UberX). If not provided, most cost-efficient product will be used
+						.setProductId("a1111c8c-c720-46c3-8534-2fcdd730040d")
+						// Required for price estimates; lat (Double), lng (Double), nickname (String), formatted address (String) of dropoff location
+						.setDropoffLocation(
+							latLng.latitude, latLng.longitude, ((ItinCardData.UberRideable)getItinCardData()).getNickName(), ((ItinCardData.UberRideable)getItinCardData()).getRideDestinationAddress())
+						// Required for pickup estimates; lat (Double), lng (Double), nickname (String), formatted address (String) of pickup location
+						.setPickupLocation(location.getLatitude(), location.getLongitude(), "Current Location", null)
+						.setDropoffLocation(
+							latLng.latitude, latLng.longitude, ((ItinCardData.UberRideable)getItinCardData()).getNickName(), ((ItinCardData.UberRideable)getItinCardData()).getRideDestinationAddress())
+						.build();
+					ServerTokenSession session = new ServerTokenSession(uberConfig);
+					uberRideRequestButton.setSession(session);
+					// set parameters for the RideRequestButton instance
+					uberRideRequestButton.setRideParameters(rideParams2);
+
+					RideRequestButtonCallback callback = new RideRequestButtonCallback() {
+
+						@Override
+						public void onRideInformationLoaded() {
+							// react to the displayed estimates
+							Log.i("Supreeth", "onRideInformationLoaded");
+						}
+
+						@Override
+						public void onError(ApiError apiError) {
+							// API error details: /docs/riders/references/api#section-errors
+							Log.i("Supreeth", "onError apiError code = " + apiError.getClientErrors().get(0).getCode() + ", Title = " + apiError.getClientErrors().get(0).getTitle() + ", Status = " + apiError.getClientErrors().get(0).getStatus());
+						}
+
+						@Override
+						public void onError(Throwable throwable) {
+							// Unexpected error, very likely an IOException
+							Log.i("Supreeth", "onError throwable");
+						}
+					};
+					uberRideRequestButton.setCallback(callback);
+					uberRideRequestButton.loadRideInformation();
+
+				}
+			});
+		}
+		else {
+			uberRideRequestButton.setVisibility(View.GONE);
+		}
 	}
 
 	protected WebViewActivity.IntentBuilder buildWebViewIntent(@StringRes int titleResId, String url) {

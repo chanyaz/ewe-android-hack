@@ -15,7 +15,7 @@ import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 
-public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable {
+public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumberable, ItinCardData.UberRideable {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -250,5 +250,15 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		}
 
 		return super.getLocation();
+	}
+
+	@Override
+	public String getNickName() {
+		return mProperty.getName();
+	}
+
+	@Override
+	public String getRideDestinationAddress() {
+		return mProperty.getLocation().getStreetAddressString() + ", " + mProperty.getLocation().getCity() + ", " + mProperty.getLocation().getStateCode();
 	}
 }

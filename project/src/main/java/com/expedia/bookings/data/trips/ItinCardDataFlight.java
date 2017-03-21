@@ -15,7 +15,7 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
-public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumberable, ItinSharable {
+public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumberable, ItinSharable, ItinCardData.UberRideable {
 
 	private int mLegNumber;
 	private DateTime mEndDate;
@@ -196,5 +196,19 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public boolean getSharingEnabled() {
 		return true;
+	}
+
+	@Override
+	public String getNickName() {
+		Flight flight = getMostRelevantFlightSegment();
+		Airport airport = flight.getOriginWaypoint().getAirport();
+		return airport.mName;
+	}
+
+	@Override
+	public String getRideDestinationAddress() {
+		Flight flight = getMostRelevantFlightSegment();
+		Airport airport = flight.getOriginWaypoint().getAirport();
+		return airport.mName + ", " + airport.mCity + ", " + airport.mStateCode;
 	}
 }

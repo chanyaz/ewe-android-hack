@@ -96,4 +96,9 @@ public class ItinCardData {
 
 		String getFormattedConfirmationNumbers();
 	}
+
+	public interface UberRideable {
+		String getNickName();
+		String getRideDestinationAddress();
+	}
 }
