@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.support.design.widget.TextInputEditText
 import android.support.v7.widget.Toolbar
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
@@ -17,7 +15,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.itin.ItinPOSHeader
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
@@ -50,7 +47,6 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             }
             Ui.hideKeyboard(this)
         }
-        vm.guestItinFetchButtonEnabledObservable.subscribeEnabled(findItinButton)
         vm.showErrorObservable.subscribeVisibility(unableToFindItinErrorText)
         vm.showErrorMessageObservable.subscribeText(unableToFindItinErrorText)
         vm.emailFieldFocusObservable.subscribe {
@@ -67,8 +63,14 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         viewModel = AddGuestItinViewModel(context)
         viewModel.addItinSyncListener()
         findItinButton.setOnClickListener {
-            Ui.hideKeyboard(this)
-            viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))
+            if (!viewModel.isEmailValid(guestEmailEditText.text.toString()) ||
+                    !viewModel.isItinNumberValid(itinNumberEditText.text.toString()) ) {
+                validateField(viewModel.itinNumberValidateObservable, itinNumberEditText.text.toString())
+                validateField(viewModel.emailValidateObservable, guestEmailEditText.text.toString())
+            } else {
+                Ui.hideKeyboard(this)
+                viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))
+            }
         }
 
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_cont_desc)
@@ -82,37 +84,11 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             }
         }
 
-        itinNumberEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                validateField(viewModel.itinNumberValidateObservable, s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-        })
-
         guestEmailEditText.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
                 validateField(viewModel.emailValidateObservable, guestEmailEditText.text.toString())
             }
         }
-
-        guestEmailEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                validateField(viewModel.emailValidateObservable,s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-        })
 
         guestEmailEditText.subscribeMaterialFormsError(viewModel.hasEmailErrorObservable, R.string.email_validation_error_message)
         itinNumberEditText.subscribeMaterialFormsError(viewModel.hasItinErrorObservable, R.string.itinerary_number_error_message)
@@ -146,7 +122,6 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         itinNumberEditText.setText("")
         viewModel.hasItinErrorObservable.onNext(false)
         viewModel.hasEmailErrorObservable.onNext(false)
-        viewModel.guestItinFetchButtonEnabledObservable.onNext(false)
         isResettingFields = false
     }
 
