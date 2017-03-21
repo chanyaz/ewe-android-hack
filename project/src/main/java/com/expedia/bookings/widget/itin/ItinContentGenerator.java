@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -69,6 +70,12 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.model.LatLng;
+import com.lyft.deeplink.DeepLink;
+import com.lyft.deeplink.DeepLinkParams;
+import com.lyft.lyftbutton.LyftButton;
+import com.lyft.lyftbutton.RideParams;
+import com.lyft.lyftbutton.RideTypeEnum;
+import com.lyft.networking.ApiConfig;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
@@ -618,9 +625,87 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				// No Uber app! Open Mobile Website.
 					}
 			isUberable(getItinCardData() instanceof ItinCardData.UberRideable && hasUberInstalled, item);
+
+			//Lyft Ride request stuff
+			boolean isLyftInstalled = false;
+			try {
+				pm.getPackageInfo("me.lyft.android", PackageManager.GET_ACTIVITIES);
+				isLyftInstalled = true;
+			} catch (PackageManager.NameNotFoundException e) {
+				// No Uber app! Open Mobile Website.
+			}
+			isLyftAble(isLyftInstalled, item);
 			return true;
 		}
 		return false;
+	}
+
+	private void isLyftAble(boolean hasLyft, View item) {
+
+		final LyftButton lyftButton = Ui.findView(item, R.id.lyft_ride_request_button);
+
+		if (hasLyft) {
+
+			final LatLng destinationLatLng = getItinCardData().getLocation();
+			ApiConfig apiConfig = new ApiConfig.Builder()
+				.setClientId("hBh7ZEErBVJ4")
+				.setClientToken("gAAAAABY0avGLxYkpu-AwCo4SWR7uST9ES8AuY744ayOOyfFcrC6rhz2JeqGsv56mp_evP6kBODF6P-iXQX7SPEEqWk61GlrM7Zs5pwQtt_HXzeVHKqzAStDOnVcTsS6UPaOUIGFUaWo8lKNYGRsJesDzB4-oA3TGSOcSHv3j2UpjFbiQIFb8YU=")
+				.build();
+			lyftButton.setApiConfig(apiConfig);
+
+			lyftButton.setVisibility(View.VISIBLE);
+			CurrentLocationObservable.create(getContext()).subscribe(new Observer<Location>() {
+				@Override
+				public void onCompleted() {
+					Log.i("Supreeth", "CurrentLocationObservable onCompleted");
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					Log.i("Supreeth", "CurrentLocationObservable onError " + e);
+				}
+
+				@Override
+				public void onNext(final Location location) {
+					Log.i("Supreeth", "CurrentLocationObservable call " + location);
+					RideParams.Builder rideParamsBuilder = new RideParams.Builder()
+						.setPickupLocation(location.getLatitude(), location.getLongitude())
+						.setDropoffLocation(destinationLatLng.latitude, destinationLatLng.longitude);
+					rideParamsBuilder.setRideTypeEnum(RideTypeEnum.CLASSIC);
+
+					lyftButton.setRideParams(rideParamsBuilder.build());
+					lyftButton.load();
+					lyftButton.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							/*StringBuilder link = new StringBuilder();
+							link.append("lyft://ridetype?id=lyft");
+							link.append("&pickup[latitude]=").append(location.getLatitude()).append("&pickup[longitude]=").append(location.getLongitude());
+							link.append("&destination[latitude]=").append(destinationLatLng.latitude).append("&destination[longitude]=").append(destinationLatLng.longitude);
+
+							Log.i("Supreeth", "link = " + link);
+
+							Intent lyftIntent = new Intent(Intent.ACTION_VIEW);
+							lyftIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							lyftIntent.setData(Uri.parse(link.toString()));
+							getContext().startActivity(lyftIntent);*/
+
+							DeepLinkParams deepLinkParams = new DeepLinkParams.Builder()
+								.setClientId("hBh7ZEErBVJ4")
+								.setRideType("lyft")
+								.setPickupLocation(location.getLatitude(), location.getLongitude())
+								.setDropoffLocation(destinationLatLng.latitude, destinationLatLng.longitude)
+								.build();
+
+							DeepLink.launchLyftApp(getContext(), deepLinkParams);
+						}
+					});
+				}
+			});
+		}
+		else {
+			lyftButton.setVisibility(View.GONE);
+		}
 	}
 
 	private void isUberable(boolean hasUber, View item) {

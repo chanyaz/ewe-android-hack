@@ -74,6 +74,9 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.16.1'
 
     compile 'com.uber.sdk:rides-android:0.6.0'
+    compile 'com.lyft:lyft-android-sdk:1.0.3'
+    compile 'com.lyft:lyft-android-sdk-deeplink:1.0.3'    // Deeplink
+
 
     compile ('com.tune:tune-marketing-console-sdk:4.9.0') {
         exclude group: 'com.android.support', module: 'support-v4'
