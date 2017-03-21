@@ -1195,7 +1195,7 @@
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
     <!-- Shop -->
-    <string name="shop">預訂</string>
+    <string name="shop">搜尋</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
     <!-- Unable to find itinerary for guest user -->
@@ -2478,12 +2478,24 @@
     <string name="air_attach_amount_discounted_TEMPLATE">現在加訂飯店，可省 %s！</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">優惠只剩</string>
+    <!-- Air attach offer expiration. daysorhours is the number of days/hours remaining for the offer, e.g. Offer expires in 10 days -->
+    <string name="air_attach_offer_expires_TEMPLATE">優惠只剩 {daysorhours}</string>
+    <!-- Air attach offer expiration alert for less than an hour -->
+    <string name="air_attach_expires_soon">優惠即將結束</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">優惠只到今天</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">加訂飯店</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">享受折扣優惠</string>
+    <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
+    <string name="air_attach_variant1_string1_TEMPLATE">{location}飯店最高可享 45 折</string>
+    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
+    <string name="air_attach_variant2_string1_TEMPLATE">{location}飯店最高可享 45 折</string>
+    <!-- Air attach messaging variant1 string1 -->
+    <string name="air_attach_variant1_string">訂機票可享飯店特別優惠</string>
+    <!-- Air attach messaging variant2 string2 -->
+    <string name="air_attach_variant2_string2">預訂機票可享飯店優惠</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">抵達</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -4523,9 +4535,6 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">佔位嬰兒 {number} 資訊</string>
 
-    <!--MIA - Member Only Deals-->
-    <string name="member_deals_toolbar_title">會員優惠</string>
-
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 Expedia+ 獎勵計劃點數！(不含稅金和其他費用)</string>
     <string name="regular_loyalty_applied_message">已使用 Expedia+ 獎勵計劃點數！</string>
@@ -4898,35 +4907,40 @@
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">正在取得您的行程…</string>
 
-    <!-- Member Deal Only -->
-    <string name="member_deal_title">會員優惠</string>
+    <!-- Member Pricing Only -->
+    <string name="member_deal_title">會員價</string>
     <string name="member_deal_subtitle">精選飯店大特價</string>
+    <string name="member_deal_landing_page_header">輕觸搜尋即可查看更多會員專屬優惠</string>
+    <string name="member_deals_toolbar_title">會員價</string>
     <string name="continue_booking">繼續預訂</string>
+    <string name="member_deal_hotel_only">飯店價格</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">我們如何決定排列順序</string>
-    <!-- Material payment form error for credit card number-->
+    <!-- Checkout validation error message for credit card number-->
     <string name="error_enter_a_valid_card_number">請輸入有效的卡號</string>
-    <!-- Material payment form error for credit card expiration date -->
+    <!-- Checkout validation error message for credit card expiration date -->
     <string name="error_enter_a_valid_month_and_year">請輸入有效的月份和年份</string>
-    <!-- Material payment form error for billing address-->
+    <!-- Checkout validation error message for billing address-->
     <string name="error_enter_a_valid_billing_address">請輸入有效的帳單地址 (只能使用英文和數字)</string>
-    <!-- Material payment form error for billing address zip code-->
+    <!-- Checkout validation error message for billing address zip code-->
     <string name="error_enter_a_zip_code">請輸入有效的郵遞區號</string>
-    <!-- Material payment form error for billing address state-->
+    <!-- Checkout validation error message for billing address state-->
     <string name="error_enter_a_valid_state">請輸入有效的州份</string>
-    <!-- Material payment form error for billing address city-->
+    <!-- Checkout validation error message for billing address city-->
     <string name="error_enter_a_valid_city">請輸入有效的城市</string>
-    <!-- Material payment form error for billing address postal code-->
+    <!-- Checkout validation error message for billing address postal code-->
     <string name="error_enter_a_valid_postal_code">請輸入有效的郵遞區號</string>
-    <!-- Material payment form error for billing address province -->
+    <!-- Checkout validation error message for billing address province -->
     <string name="error_enter_a_valid_province">請輸入有效的省份</string>
-    <!-- Material payment form error for billing address zip code -->
+    <!-- Checkout validation error message for billing address zip code -->
     <string name="error_enter_a_valid_province_state_country">請輸入有效的縣/州/省</string>
-    <!-- Material payment form error for billing address country -->
+    <!-- Checkout validation error message for billing address country -->
     <string name="error_select_a_billing_country">請選擇帳單國家</string>
-    <!-- Material payment form error for credit card security code -->
+    <!-- Checkout validation error message for credit card security code -->
     <string name="error_enter_valid_cvv">請輸入有效的安全碼</string>
-    <!-- Material payment form error for credit card name -->
+    <!-- Checkout validation error message for credit card name -->
     <string name="error_enter_a_valid_card_name">請輸入信用卡上的姓名</string>
+    <!-- Checkout validation error message for phone country code -->
+    <string name="error_select_a_valid_country_code">請選擇國碼</string>
 </resources>
