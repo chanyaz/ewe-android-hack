@@ -50,6 +50,11 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightUrgencyMessage,
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("FlightPremiumClass")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightPremiumClass,
+					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
+
 		Db.setAbacusResponse(abacusResponse);
 	}
 }

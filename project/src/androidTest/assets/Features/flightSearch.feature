@@ -181,7 +181,7 @@ Feature: Flights Search
       | start_date | 5  |
       | end_date   | 10 |
     And Validate that Done button is enabled
-    And I Click on Done button
+    And I click on Done button
     And Validate the selected date on calender button
       | start_date | 5  |
       | end_date   | 10 |
@@ -195,7 +195,7 @@ Feature: Flights Search
     And I choose departure date for flights-roundtrip and validate the tool tip
       | start_date | 5  |
     And Validate that Done button is enabled
-    And I Click on Done button
+    And I click on Done button
     And Validate the selected date on calender button
       | start_date | 5  |
 
@@ -209,7 +209,7 @@ Feature: Flights Search
     And I choose departure date for flights-oneway and validate the tool tip
       | start_date | 5  |
     And Validate that Done button is enabled
-    And I Click on Done button
+    And I click on Done button
     And Validate the selected date on calender button
       | start_date | 5  |
       | isRoundTrip | false  |
@@ -259,3 +259,75 @@ Feature: Flights Search
     And on FSR the destination is "Madrid"
     And on FSR the date is as user selected
     And on outbound FSR the number of traveller are as user selected
+
+  @Flights @FlightSearch @Prod
+  Scenario: Verify user is able to select preferred class while booking flight for round trip under AB test
+    Given I launch the App
+    And I bucket the following tests
+      |FlightPremiumClass|
+    And I launch "Flights" LOB
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick dates for flights
+      | start_date | 5  |
+      | end_date   | 10 |
+    And I click on class widget
+    Then Validate "Economy" class is selected by default
+    Then I click on "First Class" as preferred class
+    And I click on Done button
+    And Validate "First Class" preferred class is displayed on search screen
+    And Validate Search button is enabled
+    And I click on class widget
+    And I click on "Business" as preferred class
+    And I click on Done button
+    And Validate "Business" preferred class is displayed on search screen
+    And Validate Search button is enabled
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    And Validate "Premium Economy" preferred class is displayed on search screen
+    And Validate Search button is enabled
+    And I click on class widget
+    And I click on "Economy" as preferred class
+    And I click on Done button
+    And Validate "Economy" preferred class is displayed on search screen
+    And Validate Search button is enabled
+
+  @Flights @FlightSearch @Prod
+  Scenario: Verify user is able to select preferred class while booking flight for one way trip under AB test
+    Given I launch the App
+    And I bucket the following tests
+      |FlightPremiumClass|
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I click on class widget
+    Then Validate "Economy" class is selected by default
+    Then I click on "First Class" as preferred class
+    And I click on Done button
+    And Validate "First Class" preferred class is displayed on search screen
+    And Validate Search button is enabled
+    And I click on class widget
+    And I click on "Business" as preferred class
+    And I click on Done button
+    And Validate "Business" preferred class is displayed on search screen
+    And Validate Search button is enabled
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    And Validate "Premium Economy" preferred class is displayed on search screen
+    And Validate Search button is enabled
+    And I click on class widget
+    And I click on "Economy" as preferred class
+    And I click on Done button
+    And Validate "Economy" preferred class is displayed on search screen
+    And Validate Search button is enabled
