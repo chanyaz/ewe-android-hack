@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.trips.ItinCardDataFlight
+import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.MultiBrand
@@ -16,6 +17,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
 import okio.Okio
 import org.json.JSONArray
@@ -77,6 +79,19 @@ class FlightItinContentGeneratorTest {
         assertFalse(airlinePhoneView)
     }
 
+    @Test
+    fun showPendingFlightStatus() {
+        SettingUtils.save(getContext(), R.string.preference_pending_flight_itin, true)
+        createSystemUnderTest()
+        givenTripFlightWithInProgressTicketingStatus()
+
+        itinCardData = ItinCardDataFlight(tripFlight, 0)
+        sut = FlightItinContentGenerator(getContext(), itinCardData)
+        val textView = flightDetailView.findViewById(R.id.item_text) as TextView
+
+        assertEquals("Booking Confirmed. Ticketing in progress.", textView.text)
+    }
+
     private fun givenTripFlightWithNoPrimaryFlightCode() {
         tripFlight = TripFlight()
         val flightTrip = FlightTrip()
@@ -84,6 +99,11 @@ class FlightItinContentGeneratorTest {
         flightLeg.addSegment(Flight())
         flightTrip.addLeg(flightLeg)
         tripFlight.flightTrip = flightTrip
+    }
+
+    private fun givenTripFlightWithInProgressTicketingStatus() {
+        tripFlight.ticketingStatus = TicketingStatus.INPROGRESS
+        givenGoodFlightItinDetailView()
     }
 
     private fun createSystemUnderTest() {

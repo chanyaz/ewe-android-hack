@@ -80,7 +80,9 @@
               "label": "Check-in time starts at",
               "value": "3 PM"
             },
-            "checkInEndTimePolicy": {},
+            "checkInEndTimePolicy": {
+
+            },
             "checkOutTimePolicy": {
               "label": "Check-out time is",
               "value": "Noon"
@@ -88,13 +90,19 @@
             "generalRules": [
               "Check-out time is Noon"
             ],
-            "restrictionPolicies": [],
+            "restrictionPolicies": [
+
+            ],
             "fees": [
               "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Breakfast fee: USD 14 per person (approximately)</li>       <li>Valet parking fee: USD 40 per night (in/out privileges)</li>       <li>Deposit: USD 100.00 per night</li>     <li>Crib (infant bed) fee: USD 10 per night</li><li>Rollaway beds are available for an additional fee</li>  </ul>",
               "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
             ],
-            "mandatoryFees": [],
-            "specialCheckInInstructions": [],
+            "mandatoryFees": [
+
+            ],
+            "specialCheckInInstructions": [
+
+            ],
             "latitude": 37.790248,
             "longitude": -122.408469,
             "isVipAccess": false,
@@ -147,12 +155,16 @@
                   "childCount": 0,
                   "infantCount": 0,
                   "childAndInfantCount": 0,
-                  "childAndInfantAges": []
+                  "childAndInfantAges": [
+
+                  ]
                 },
                 "occupantSelectedRoomOptions": {
                   "bedTypeName": "1 king bed",
                   "smokingPreference": "NONSMOKING_ROOM",
-                  "accessibilityOptions": [],
+                  "accessibilityOptions": [
+
+                  ],
                   "hasExtraBedAdult": false,
                   "hasExtraBedChild": false,
                   "hasExtraBedInfant": false,
@@ -337,11 +349,15 @@
               "gender": "Female",
               "dateOfBirth": "1990-1-14",
               "TSARedressNumber": "",
-              "phoneNumbers": [],
+              "phoneNumbers": [
+
+              ],
               "ticketNumbers": [
                 "0067586790128"
               ],
-              "frequentFlyerPlans": [],
+              "frequentFlyerPlans": [
+
+              ],
               "seats": [
                 {
                   "assigned": "30B",
@@ -777,8 +793,12 @@
                   "ticketNumbers": [
                     "2797597988510"
                   ],
-                  "frequentFlyerPlans": [],
-                  "seats": []
+                  "frequentFlyerPlans": [
+
+                  ],
+                  "seats": [
+
+                  ]
                 }
               ],
               "legs": [
@@ -976,7 +996,9 @@
                   "label": "Check-in time starts at",
                   "value": "4 PM"
                 },
-                "checkInEndTimePolicy": {},
+                "checkInEndTimePolicy": {
+
+                },
                 "checkOutTimePolicy": {
                   "label": "Check-out time is",
                   "value": "11 AM"
@@ -985,7 +1007,9 @@
                   "Check-out time is 11 AM",
                   "Maximum number of pets per room 2"
                 ],
-                "restrictionPolicies": [],
+                "restrictionPolicies": [
+
+                ],
                 "fees": [
                   "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul>  <li>Fee for in-room wireless Internet: USD 14.99 (for 24 hours, rates may vary)</li>  <li>Fee for wireless Internet in public areas: USD 24.99 (for 24 hours, rates may vary)</li>           <li>Deposit: USD 100 per day</li>       </ul>",
                   "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
@@ -997,14 +1021,18 @@
                   "&nbsp;",
                   "<p>We have included all charges provided to us by the property. However, charges can vary, for example, based on length of stay or the room you book. </p>"
                 ],
-                "specialCheckInInstructions": [],
+                "specialCheckInInstructions": [
+
+                ],
                 "latitude": 36.117367,
                 "longitude": -115.172988,
                 "isVipAccess": false,
                 "googleMapsLink": "http://maps.google.com?q=89109+Las+Vegas,+3570+Las+Vegas+Boulevard+South+",
                 "regionId": "800045"
               },
-              "appliedCoupons": [],
+              "appliedCoupons": [
+
+              ],
               "rooms": [
                 {
                   "uniqueID": "21EFC157-87D6-4DB7-AB2F-E2521A34EEDF_cbce3420-6aa4-4b02-84c9-ea6187bba165_0_12430748",
@@ -1028,12 +1056,16 @@
                       "childCount": 0,
                       "infantCount": 0,
                       "childAndInfantCount": 0,
-                      "childAndInfantAges": []
+                      "childAndInfantAges": [
+
+                      ]
                     },
                     "occupantSelectedRoomOptions": {
                       "bedTypeName": "1 king bed",
                       "smokingPreference": "NONSMOKING_ROOM",
-                      "accessibilityOptions": [],
+                      "accessibilityOptions": [
+
+                      ],
                       "hasExtraBedAdult": false,
                       "hasExtraBedChild": false,
                       "hasExtraBedInfant": false,
@@ -1041,7 +1073,9 @@
                       "isRoomOptionsAvailable": true
                     }
                   },
-                  "nonPricePromotionData": {}
+                  "nonPricePromotionData": {
+
+                  }
                 }
               ],
               "sharableItemDetailURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/69Ew7MwI9lWWrTPTsRYx0K5y1J0N1EYtYafcTcVdKl5ktMxse-QseMkdUuLD7LFm5U2wv6R_DpHVg0ipUErNpqrvN2hZP9X9UJo0XNtrgOyM9kN5MKorRTv4pTTKRS3ZqURei9_CZp2HesHWxIl6NwmCU6coLTvcdpqdrDYrHl0",
@@ -1107,8 +1141,12 @@
       "ownerId": 0,
       "bookingStatus": "BOOKED",
       "timePeriod": "INPROGRESS",
-      "hotels": [],
-      "flights": [],
+      "hotels": [
+
+      ],
+      "flights": [
+
+      ],
       "rails": [
         {
           "bookingStatusText": "BOOKED",
@@ -1140,6 +1178,259 @@
       "zetaTrip": false,
       "isMRP": false,
       "isTripUpgradable": false
+    },
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "e252dea4-1373-4278-b61b-f910bd99d446",
+      "webDetailsURL": "https://www.expedia.com/trips/1102138068718",
+      "tripNumber": 1102138068719,
+      "title": "Chicago",
+      "description": "",
+      "startTime": {
+        "raw": "4000-09-05T20:00:00-07:00",
+        "localized": "Sep 5, 4000 8:00:00 PM",
+        "epochSeconds": 1504666800,
+        "timeZoneOffsetSeconds": -25200,
+        "localizedShortDate": "9/5/4000",
+        "localizedMediumDate": "Sep 5",
+        "localizedFullDate": "Tue, Sep 5",
+        "localizedLongDate": "Sep 5, 4000",
+        "localizedShortTime": "8:00PM"
+      },
+      "endTime": {
+        "raw": "4000-09-05T21:33:00-07:00",
+        "localized": "Sep 5, 4000 9:33:00 PM",
+        "epochSeconds": 1504672380,
+        "timeZoneOffsetSeconds": -25200,
+        "localizedShortDate": "9/5/4000",
+        "localizedMediumDate": "Sep 5",
+        "localizedFullDate": "Tue, Sep 5",
+        "localizedLongDate": "Sep 5, 4000",
+        "localizedShortTime": "9:33PM"
+      },
+      "airAttachQualificationInfo": {
+        "airAttachQualified": false,
+        "offerExpires": "2018-02-07T15:57:11.407-08:00",
+        "offerExpiresTime": {
+          "raw": "2018-02-07T15:57:11-08:00",
+          "localized": "Feb 7, 2018 3:57:11 PM",
+          "epochSeconds": 1486511831,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "2/7/18",
+          "localizedMediumDate": "Feb 7, 2018",
+          "localizedFullDate": "Tuesday, February 7, 2018",
+          "localizedLongDate": "February 7, 2018",
+          "localizedShortTime": "3:57 PM"
+        }
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrl-0ktkRBF5hmKJR5jCRVF",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneInfo": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
+        ],
+        "customerSupportPhoneNumberDomestic": "+1-866-230-3837",
+        "customerSupportPhoneNumberInternational": "+1-417-520-5298",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ silver Priority Customer Care at 1-866-230-3837 or 1-417-520-5298.",
+          "For faster service, mention itinerary # <strong> 1102138068718 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "flights": [
+        {
+          "uniqueID": "3E9915B0-B622-4A5E-9953-95374B242BB2_0",
+          "bookingStatus": "BOOKED",
+          "ticketingStatus": "INPROGRESS",
+          "orderNumber": "8106875184294",
+          "confirmationNumbers": [
+            {
+              "airlineName": "Delta"
+            }
+          ],
+          "fareTotal": {
+            "subTotal": "1112.4",
+            "subTotalFormatted": "$1,112.40",
+            "currency": "USD",
+            "base": "982.32",
+            "baseFormatted": "$982.32",
+            "taxes": "130.08",
+            "taxesFormatted": "$130.08",
+            "total": "1112.4",
+            "totalFormatted": "$1,112.40"
+          },
+          "passengers": [
+            {
+              "typeCode": "ADULT",
+              "typeLocalized": "Adult",
+              "firstName": "Philip",
+              "middleName": "J",
+              "lastName": "Fry",
+              "fullName": "Philip J. Fry",
+              "age": 26,
+              "gender": "Male",
+              "dateOfBirth": "1989-4-12",
+              "TSARedressNumber": "",
+              "phoneNumbers": [
+                {
+                  "countryCode": "1",
+                  "phone": "9899482855"
+                }
+              ],
+              "ticketNumbers": [
+                "0067586790127"
+              ],
+              "frequentFlyerPlans": [
+                {
+                  "airlineCode": "DL",
+                  "programCode": "DL-SKY",
+                  "programName": "Delta SkyMiles",
+                  "membershipNumber": "9304336499"
+                }
+              ],
+              "seats": [
+                {
+                  "assigned": "30C",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 0,
+                  "segmentIndex": 0
+                },
+                {
+                  "assigned": "36F",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 1,
+                  "segmentIndex": 0
+                }
+              ]
+            },
+            {
+              "typeCode": "ADULT",
+              "typeLocalized": "Adult",
+              "firstName": "Turanga",
+              "lastName": "Leela",
+              "fullName": "Turanga Leela",
+              "age": 25,
+              "gender": "Female",
+              "dateOfBirth": "1990-1-14",
+              "TSARedressNumber": "",
+              "phoneNumbers": [
+
+              ],
+              "ticketNumbers": [
+                "0067586790128"
+              ],
+              "frequentFlyerPlans": [
+
+              ],
+              "seats": [
+                {
+                  "assigned": "30B",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 0,
+                  "segmentIndex": 0
+                },
+                {
+                  "assigned": "36G",
+                  "seatPreference": "",
+                  "seatPreferenceLocalized": "Unknown",
+                  "smokingAllowed": false,
+                  "legIndex": 1,
+                  "segmentIndex": 0
+                }
+              ]
+            }
+          ],
+          "legs": [
+            {
+              "type": "NONSTOP",
+              "state": "PRE_START_4",
+              "numberOfStops": 0,
+              "airlineLogoURL": "http://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smDL.gif",
+              "segments": [
+                {
+                  "transportationType": "FLIGHT",
+                  "departureType": "FLIGHT_DEPARTURE",
+                  "departureLocation": {
+                    "latitude": 37.61594,
+                    "longitude": -122.387996,
+                    "name": "San Francisco Intl.",
+                    "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                    "airportCode": "SFO",
+                    "airportMetroCode": "QSF",
+                    "city": "San Francisco",
+                    "countryCode": "USA"
+                  },
+                  "departureTime": {
+                    "raw": "4000-09-05T20:00:00-07:00",
+                    "localized": "Sep 5, 4000 8:00:00 PM",
+                    "epochSeconds": 1504666800,
+                    "timeZoneOffsetSeconds": -25200,
+                    "localizedShortDate": "9/5/4000",
+                    "localizedMediumDate": "Sep 5",
+                    "localizedFullDate": "Tue, Sep 5",
+                    "localizedLongDate": "Sep 5, 4000",
+                    "localizedShortTime": "8:00PM"
+                  },
+                  "arrivalType": "FLIGHT_ARRIVAL",
+                  "arrivalLocation": {
+                    "latitude": 42.221613,
+                    "longitude": -83.348916,
+                    "name": "Chicago - O'Hare",
+                    "longName": "Chicago, IL",
+                    "airportCode": "ORD",
+                    "airportMetroCode": "ORD",
+                    "city": "Chicago",
+                    "countryCode": "USA"
+                  },
+                  "arrivalTime": {
+                    "raw": "4000-09-05T21:33:00-07:00",
+                    "localized": "Sep 5, 4000 9:33:00 PM",
+                    "epochSeconds": 1504672380,
+                    "timeZoneOffsetSeconds": -25200,
+                    "localizedShortDate": "9/5/4000",
+                    "localizedMediumDate": "Sep 5",
+                    "localizedFullDate": "Tue, Sep 5",
+                    "localizedLongDate": "Sep 5, 4000",
+                    "localizedShortTime": "9:33PM"
+                  },
+                  "airlineCode": "DL",
+                  "externalAirlineCode": "DL",
+                  "airlineName": "Delta",
+                  "operatedByAirCarrierName": "",
+                  "confirmationAirline": "Delta",
+                  "flightNumber": "745",
+                  "equipmentCode": "739",
+                  "equipmentDescription": "Boeing 737-900",
+                  "distance": 2083,
+                  "distanceUnits": "mi",
+                  "duration": "PT4H32M",
+                  "formattedDuration": "4h 32m",
+                  "bookingCode": "V",
+                  "cabinCode": "coach",
+                  "cabinCodeLocalized": "Economy / Coach",
+                  "isSeatMapAvailable": true,
+                  "flightIdForSeatMap": "3E9915B0-B622-4A5E-9953-95374B242BB2_0_L1_S1_1",
+                  "status": "UNKNOWN",
+                  "airSegmentStatusCode": "HK",
+                  "isHidden": false
+                }
+              ],
+              "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1PmiJGMsrgOUFaAzyh7U1HgHxkxn4HJ1FTjqhxO8UAxhw",
+              "duration": "PT4H32M"
+            }
+          ],
+          "airlineCheckInURL": "https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1",
+          "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXoT4CVaDIV3l6MAmnjTM9quADdEIlr_pdtUQ8G4dauhfaX8qzxa5ZYnYK9DCvYcz1M7nkfGMpNuW45-jpNeURf3"
+        }
+      ]
     }
   ]
 }

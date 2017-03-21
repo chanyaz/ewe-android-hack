@@ -106,6 +106,12 @@
             android:summary="Enable guest itin on launch screen"
             android:title="Launch Screen Guest Itin" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_pending_flight_itin"
+            android:layout="@layout/preference"
+            android:summary="Enable Showing Pending Flight Itins"
+            android:title="Show Pending Flight Itins" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

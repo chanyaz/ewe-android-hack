@@ -4945,4 +4945,6 @@
     <string name="error_enter_a_valid_card_name">Enter name as it appears on the card</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">Select a country code</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">Booking Confirmed. Ticketing in progress.</string>
 </resources>
