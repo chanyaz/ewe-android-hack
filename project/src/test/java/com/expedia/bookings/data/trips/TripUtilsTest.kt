@@ -221,7 +221,7 @@ class TripUtilsTest {
         hotelTrip.addTripComponent(TripHotel())
 
         val trips = listOf(packageTrip, recentUpcomingFlightTrip, secondUpcomingFlightTrip, hotelTrip)
-        val recentFlightTrips = TripUtils.getRecentUpcomingFlightTrip(trips)
+        val recentFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrip(trips)
         val upcomingFlightTrips = TripUtils.getUpcomingAirAttachQualifiedFlightTrips(trips)
 
         assertEquals(2, upcomingFlightTrips.size)

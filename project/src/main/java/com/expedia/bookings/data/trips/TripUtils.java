@@ -146,7 +146,7 @@ public class TripUtils {
 	}
 
 	@Nullable
-	public static Trip getRecentUpcomingFlightTrip(Collection<Trip> trips) {
+	public static Trip getUpcomingAirAttachQualifiedFlightTrip(Collection<Trip> trips) {
 		List<Trip> allFlightTripswithAAQualified = getUpcomingAirAttachQualifiedFlightTrips(trips);
 		if (allFlightTripswithAAQualified.size() > 0) {
 			List<Trip> sortedRecentFlightTrips = getTripsInStartTimeAscendingOrder(allFlightTripswithAAQualified);
