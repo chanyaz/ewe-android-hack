@@ -4,12 +4,14 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -61,7 +63,28 @@ class WebCheckoutViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webCheckoutNotUsedOnUnsupportedPOS() {
+        enableWebCheckout(true)
         setPOSWithWebCheckoutEnabled(false)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(0)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webCheckoutNotUsedWhenBucketed() {
+        enableWebCheckout(false)
+        setPOSWithWebCheckoutEnabled(true)
+        setUpTestToStartAtDetailsScreen()
+        selectHotelRoom()
+        webCheckoutViewObservable.assertValueCount(0)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun webCheckoutNotUsedOnSupportedPOSWhenBucketed() {
+        enableWebCheckout(false)
+        setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
         webCheckoutViewObservable.assertValueCount(0)
@@ -72,6 +95,7 @@ class WebCheckoutViewTest {
     fun webViewTripIDOnSuccessfulBooking() {
         val bookingTripIDSubscriber = TestSubscriber<String>()
         val fectchTripIDSubscriber = TestSubscriber<String>()
+        enableWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.subscribe(bookingTripIDSubscriber)
@@ -97,6 +121,7 @@ class WebCheckoutViewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun webViewRefreshUserOnBackPress() {
         val closeViewSubscriber = TestSubscriber<Unit>()
+        enableWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         (hotelPresenter.webCheckoutView.viewModel as WebCheckoutViewViewModel).closeView.subscribe(closeViewSubscriber)
@@ -148,6 +173,7 @@ class WebCheckoutViewTest {
     }
 
     private fun getToWebCheckoutView() {
+        enableWebCheckout(true)
         setPOSWithWebCheckoutEnabled(true)
         setUpTestToStartAtDetailsScreen()
         selectHotelRoom()
@@ -162,6 +188,14 @@ class WebCheckoutViewTest {
         val pointOfSale = if (enable) PointOfSaleId.INDIA else PointOfSaleId.UNITED_STATES
         SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
+    }
+
+    private fun enableWebCheckout(enable: Boolean) {
+        if (enable) {
+            RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppWebViewCheckout)
+        } else {
+            RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppWebViewCheckout)
+        }
     }
 
     private fun getDummySuggestion(): SuggestionV4 {
