@@ -152,6 +152,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         return SuggestionV4Utils.RECENT_AIRPORT_SUGGESTIONS_FILE
     }
 
+    override fun shouldSaveSuggestionHierarchyChildInfo(): Boolean {
+        return true
+    }
+
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
         return if (isCustomerSelectingOrigin) originSuggestionViewModel else destinationSuggestionViewModel
     }
