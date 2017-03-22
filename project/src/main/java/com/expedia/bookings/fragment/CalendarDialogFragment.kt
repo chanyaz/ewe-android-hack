@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseSearchPresenter
@@ -104,9 +106,17 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
         calendar.hideToolTip()
     }
 
+    override fun onDestroyView() {
+        if (dialog != null && retainInstance) {
+            dialog.setDismissMessage(null)
+        }
+        super.onDestroyView()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
         calendar
+        removeParentView()
         builder.setView(calendarDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldCalendarSelection = null
@@ -134,6 +144,11 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
         calendar.setSelectedDates(baseSearchViewModel.startDate(), baseSearchViewModel.endDate())
 
         return dialog
+    }
+
+    private fun removeParentView() {
+        if (calendarDialogView.parent != null)
+            (calendarDialogView.parent as ViewGroup).removeAllViews()
     }
 
     private fun setMaxSelectableDateRange() {

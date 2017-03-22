@@ -14,6 +14,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.utils.AddToCalendarUtils
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
@@ -51,8 +52,9 @@ class HotelActivity : AbstractAppCompatActivity() {
         }
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
-        resultsMapView.onCreate(savedInstanceState)
-        detailsMapView.onCreate(savedInstanceState)
+        val mapState = savedInstanceState?.getBundle(Constants.HOTELS_MAP_STATE)
+        resultsMapView.onCreate(mapState)
+        detailsMapView.onCreate(mapState)
 
         if (intent.hasExtra(Codes.MEMBER_ONLY_DEALS)) {
             hotelPresenter.searchPresenter.memberDealsSearch = true
@@ -139,9 +141,11 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        resultsMapView.onSaveInstanceState(outState)
-        detailsMapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState, outPersistentState)
+        val mapState = Bundle();
+        resultsMapView.onSaveInstanceState(mapState)
+        detailsMapView.onSaveInstanceState(mapState)
+        outState!!.putBundle(Constants.HOTELS_MAP_STATE, mapState);
     }
 
     private val deepLinkSearchObserver = endlessObserver<HotelSearchParams?> { hotelSearchParams ->
