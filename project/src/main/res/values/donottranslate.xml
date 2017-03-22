@@ -126,6 +126,7 @@
     <string name="preference_active_itin_on_launch">preference_enable_active_itin_on_launch</string>
     <string name="preference_simplify_flight_shopping">preference_simplify_flight_shopping</string>
     <string name="preference_pending_flight_itin">preference_show_pending_flight</string>
+    <string name="preference_payment_legal_message">preference_payment_legal_message</string>
 
 
     <!-- Default values for preference keys -->
