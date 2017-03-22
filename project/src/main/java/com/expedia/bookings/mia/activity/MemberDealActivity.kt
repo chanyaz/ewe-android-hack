@@ -9,6 +9,7 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.mia.MemberDealListAdapter
 import com.expedia.bookings.mia.MemberDealResponseProvider
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 
@@ -32,6 +33,7 @@ class MemberDealActivity : AppCompatActivity() {
         val shopButton = findViewById(R.id.mod_shop_button) as Button
         shopButton.setOnClickListener { view ->
             NavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH)
+            OmnitureTracking.trackMemberPricingShop()
         }
         adapter = MemberDealListAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -48,6 +50,7 @@ class MemberDealActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         memberDealResponseProvider.fetchDeals()
+        OmnitureTracking.trackMemberPricingPageLoad()
     }
 
     override fun onStop() {

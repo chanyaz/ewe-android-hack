@@ -540,6 +540,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		public void onClick(View v) {
 			Intent intent = new Intent(context, MemberDealActivity.class);
 			context.startActivity(intent);
+			OmnitureTracking.trackLaunchMemberPricing();
 		}
 	}
 
