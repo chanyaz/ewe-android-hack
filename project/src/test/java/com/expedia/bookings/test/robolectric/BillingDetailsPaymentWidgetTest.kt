@@ -447,6 +447,9 @@ class BillingDetailsPaymentWidgetTest {
 
         validateInvalidBillingInfo()
         assertErrorState(creditCardLayout, "Enter a valid card number")
+
+        billingDetailsPaymentWidget.creditCardNumber.setText("4")
+        assertNull(creditCardLayout.error)
     }
 
     @Test
@@ -471,6 +474,9 @@ class BillingDetailsPaymentWidgetTest {
 
         validateInvalidBillingInfo()
         assertErrorState(cvvLayout, "Enter a valid CVV number")
+
+        billingDetailsPaymentWidget.creditCardCvv.setText("41")
+        assertNull(cvvLayout.error)
     }
 
     @Test
@@ -482,6 +488,9 @@ class BillingDetailsPaymentWidgetTest {
 
         validateInvalidBillingInfo()
         assertErrorState(nameLayout, "Enter name as it appears on the card")
+
+        billingDetailsPaymentWidget.creditCardName.setText("E")
+        assertNull(nameLayout.error)
     }
 
     @Test
@@ -493,6 +502,9 @@ class BillingDetailsPaymentWidgetTest {
 
         validateInvalidBillingInfo()
         assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)")
+
+        billingDetailsPaymentWidget.addressLineOne.setText("114 Sansome")
+        assertNull(addressLayout.error)
     }
 
     @Test
@@ -504,6 +516,9 @@ class BillingDetailsPaymentWidgetTest {
 
         validateInvalidBillingInfo()
         assertErrorState(cityLayout, "Enter a valid city")
+
+        billingDetailsPaymentWidget.addressCity.setText("San")
+        assertNull(cityLayout.error)
     }
 
     @Test
