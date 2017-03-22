@@ -32,6 +32,7 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelCheckoutMainViewModel
@@ -88,6 +89,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     var checkoutOverviewViewModel: HotelCheckoutOverviewViewModel by notNullAndObservable {
         checkoutOverviewViewModel.slideToText.subscribe { slideWidget.setText(it) }
         checkoutOverviewViewModel.legalTextInformation.subscribeText(legalInformationText)
+        checkoutOverviewViewModel.legalTextInformationContentDesc.subscribeContentDescription(legalInformationText)
         checkoutOverviewViewModel.disclaimerText.subscribeText(disclaimerText)
         checkoutOverviewViewModel.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
         checkoutOverviewViewModel.priceAboveSlider.subscribeText(sliderTotalText)
