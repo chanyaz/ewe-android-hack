@@ -1,3 +1,4 @@
+
 package com.expedia.ui;
 
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
 		initializeFeatureCheck(R.string.preference_itin_flight_duration);
 		initializeFeatureCheck(R.string.preference_lob_accentuating);
+		initializeFeatureCheck(R.string.preference_show_basic_economy);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

@@ -1970,8 +1970,16 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Price per person. For example: "$20.31 per person" -->
     <string name="flight_details_price_per_person_TEMPLATE">{price} per person</string>
+    <!-- Messaging on flight details for basic economy" -->
+    <string name="flight_details_basic_economy_message">This flight is &lt;b&gt;Basic Economy&lt;/b&gt;</string>
+    <!-- Messaging on flight checkout overview for basic economy" -->
+    <string name="flight_checkout_overview_basic_economy_message">Please Read Important Flight Restrictions</string>
+    <!-- Toolbar title for basic econonmy flight information -->
+    <string name="toolbar_flight_basic_economy_info_title">Important Flight Restrictions</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for Business Economy -->
+    <string name="cabin_code_basic_economy">Basic Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->

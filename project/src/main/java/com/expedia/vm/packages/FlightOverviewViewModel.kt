@@ -19,4 +19,8 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     override fun showFlightDistance(selectedFlight: FlightLeg): Boolean {
         return false
     }
+
+    override fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean {
+        return false
+    }
 }

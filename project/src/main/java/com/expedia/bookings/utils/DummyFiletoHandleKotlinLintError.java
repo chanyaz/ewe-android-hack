@@ -937,6 +937,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_cell_vip_message,
 		R.string.reset_filter,
 		R.string.error_no_filter_result_message,
-		R.string.member_deal_landing_page_header
+		R.string.member_deal_landing_page_header,
+		R.string.flight_details_basic_economy_message,
+		R.string.toolbar_flight_basic_economy_info_title,
+		R.string.cabin_code_basic_economy
 	};
 }
