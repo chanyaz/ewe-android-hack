@@ -40,7 +40,8 @@
             "state": "MI"
           }
         }
-      ]
+      ],
+      "isBasicEconomy": true
     },
     {
       "legId": "leg1",
@@ -82,7 +83,8 @@
             "state": "California"
           }
         }
-      ]
+      ],
+      "isBasicEconomy": true
     },
     {
       "legId": "34fa89938312d0fd8322ee27cb89f8a1",

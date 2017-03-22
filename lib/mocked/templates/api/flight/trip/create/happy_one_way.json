@@ -31,7 +31,8 @@
               "providerCode": "Amadeus",
               "stops": 0
             }
-          ]
+          ],
+          "isBasicEconomy": true
         }],
         "flightRules": [
             {

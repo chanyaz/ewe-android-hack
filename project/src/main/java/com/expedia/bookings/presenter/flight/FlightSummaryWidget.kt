@@ -11,7 +11,9 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
+import com.expedia.util.subscribeOnClick
 import com.expedia.vm.packages.BundleFlightViewModel
+import rx.subjects.PublishSubject
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -23,6 +25,8 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val splitTicketInfoContainer: View by bindView(R.id.split_ticket_info_container)
     val scrollSpaceView: View by bindView(R.id.scroll_space_flight)
     val airlineFeeWarningTextView: android.widget.TextView by bindView(R.id.airline_fee_warning_text)
+    val basicEconomyMessageTextView: View by bindView(R.id.basic_economy_info)
+    val basicEconomyInfoClickedSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
 
     init {
         View.inflate(context, R.layout.flight_summary, this)
@@ -33,6 +37,7 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
         outboundFlightWidget.showFlightCabinClass = true
         inboundFlightWidget.showFlightCabinClass = true
+        basicEconomyMessageTextView.subscribeOnClick(basicEconomyInfoClickedSubject)
     }
 
     override fun onFinishInflate() {

@@ -125,7 +125,7 @@
     <string name="preference_simplify_flight_shopping">preference_simplify_flight_shopping</string>
     <string name="preference_pending_flight_itin">preference_show_pending_flight</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
-
+    <string name="preference_show_basic_economy">preference_show_basic_economy</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

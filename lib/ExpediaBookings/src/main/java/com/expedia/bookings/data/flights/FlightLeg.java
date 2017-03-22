@@ -56,6 +56,7 @@ public class FlightLeg {
 	public List<Airline> airlines = new ArrayList<>();
 	public boolean isBestFlight;
 	public boolean mayChargeObFees;
+	public boolean isBasicEconomy;
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;

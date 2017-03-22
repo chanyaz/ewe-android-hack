@@ -254,7 +254,10 @@ object FlightV2Utils {
     }
 
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
-        if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy) && flightLeg.isBasicEconomy) {
+            return context.resources.getString(R.string.cabin_code_basic_economy)
+        }
+        else if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
                 flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode.size > 0) {
             var flightCabinPreferences = ""
             val seatClassAndBookingCodeList = flightLeg.packageOfferModel.segmentsSeatClassAndBookingCode

@@ -24,15 +24,22 @@
                     style="@style/ResultsDescriptionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="9dp"
                     android:paddingTop="8dp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_basic_economy_messaging"
+                    style="@style/ResultsDescriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp" />
 
                 <android.support.v7.widget.CardView
                     style="@style/MaterialCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_view_container_margin"
-                    android:layout_marginRight="@dimen/card_view_container_margin">
+                    android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:layout_marginTop="@dimen/card_view_container_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"

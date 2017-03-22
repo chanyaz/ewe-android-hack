@@ -8,6 +8,7 @@ import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -191,6 +192,15 @@ class FlightV2UtilsTest {
         testFlightLeg.packageOfferModel = PackageOfferModel()
         testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(0)
         assertEquals("", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    @Test
+    fun testGetFlightCabinPreferenceWithBasicEconomy() {
+        SettingUtils.save(activity, activity.getString(R.string.preference_show_basic_economy), true)
+        testFlightLeg.packageOfferModel = PackageOfferModel()
+        testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
+        testFlightLeg.isBasicEconomy = true
+        assertEquals("Basic Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
     }
 
     fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {

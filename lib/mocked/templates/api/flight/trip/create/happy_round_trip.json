@@ -54,7 +54,8 @@
                         "providerCode": "Amadeus",
                         "stops": 0
                     }
-                ]
+                ],
+                "isBasicEconomy": true
             },
             {
                 "legId": "731b8ff3da1b46fd7acf8b7c26f6d82f",
@@ -86,7 +87,8 @@
                         "providerCode": "Amadeus",
                         "stops": 0
                     }
-                ]
+                ],
+                "isBasicEconomy": true
             }
         ],
         "offer": {
@@ -182,7 +184,8 @@
                 "formattedWholePrice": "$696"
             }
         },
-        "productKey": "happy_round_trip"
+        "productKey": "happy_round_trip",
+        "basicEconomyFareRules": "<style> li.nobullet { list-style-type: none; } </style> <ul>    <li id=\"flight-important-msg-3\"><div class=\"indentation\">  <strong><strong>American Airlines Basic Economy Fare Rules:</strong></strong>  <div class=\"blockItem\">Restrictions include:  </div>  <div class=\"blockItem\">    <ul class=\"important-info-subrules\">      <li id=\"flight-important-msg-32\">1 personal item that fits under the seat (no access to overhead bin)      </li>      <li id=\"flight-important-msg-33\">Seats assigned at check-in*      </li>      <li id=\"flight-important-msg-34\">Not eligible for upgrades*      </li>      <li id=\"flight-important-msg-35\">No flight changes or refunds*      </li>      <li id=\"flight-important-msg-36\">Board in last group      </li>    </ul>  </div>  <div class=\"blockItem\">    <small>*Restrictions apply to all passengers, including AAdvantage elite members</small>  </div></div>    </li></ul>"
     },
     "isCustomerTitleRequired": false,
     "newTrip": {

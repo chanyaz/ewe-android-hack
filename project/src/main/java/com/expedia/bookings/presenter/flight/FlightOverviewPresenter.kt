@@ -3,8 +3,10 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
+import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
@@ -12,8 +14,14 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
+import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
+import com.expedia.bookings.rail.widget.RailSearchLegalInfoWebView
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
@@ -32,6 +40,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
     val overviewPageUsableData = PageUsableData()
 
+    private val basicEconomyInfoWebView: BasicEconomyInfoWebView by lazy {
+        val viewStub = findViewById(R.id.basic_economy_info_web_view) as ViewStub
+        val basicEconomyInfoView = viewStub.inflate() as BasicEconomyInfoWebView
+        basicEconomyInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        basicEconomyInfoView
+    }
+
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
@@ -49,6 +64,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                 return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
             }
         });
+        flightSummary.basicEconomyInfoClickedSubject.subscribe {
+            show(basicEconomyInfoWebView)
+        }
     }
 
     override fun inflate() {
@@ -63,12 +81,21 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
         viewModel.showAirlineFeeWarningObservable.subscribeVisibility(flightSummary.airlineFeeWarningTextView)
+        viewModel.showBasicEcononmyMessageObservable.subscribeVisibility(flightSummary.basicEconomyMessageTextView)
         viewModel.airlineFeeWarningTextObservable.subscribeText(flightSummary.airlineFeeWarningTextView)
         checkoutPresenter.getCreateTripViewModel().showCreateTripDialogObservable.subscribe {
             show ->
             if (!show && isBucketedForExpandedRateDetailsTest) {
                 bundleOverviewHeader.translateDatesTitleForHeaderToolbar()
             }
+        }
+        addTransition(overviewToBasicEconomyInfoWebView)
+    }
+
+    val overviewToBasicEconomyInfoWebView = object : VisibilityTransition(this, BaseTwoScreenOverviewPresenter.BundleDefault::class.java, BasicEconomyInfoWebView::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            basicEconomyInfoWebView.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
@@ -110,6 +137,8 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
+        viewModel.showBasicEcononmyMessageObservable.onNext(shouldShowBasicEcononmyMessage(tripResponse))
+        basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)
         overviewPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
     }
 
@@ -123,4 +152,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         return FlightTotalPriceViewModel(context)
     }
 
+    private fun shouldShowBasicEcononmyMessage(tripResponse: FlightTripResponse?): Boolean {
+        if (tripResponse != null) {
+            return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy) && tripResponse.details.legs.filter { it.isBasicEconomy }.any()
+        }
+        return false
+    }
 }
