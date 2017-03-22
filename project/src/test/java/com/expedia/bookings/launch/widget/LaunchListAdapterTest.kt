@@ -753,11 +753,11 @@ class LaunchListAdapterTest {
             return hasTripsInTwoWeeks
         }
 
-        override fun isUserAirAttachQualified(): Boolean {
+        override fun isPOSAndBrandAirAttachEnabled(): Boolean {
             return isCustomerAirAttachedQualified
         }
 
-        override fun getRecentUpcomingFlightTrip(): Trip? {
+        override fun getUpcomingAirAttachQualifiedFlightTrip(): Trip? {
             return recentAirAttachFlightTrip
         }
 
