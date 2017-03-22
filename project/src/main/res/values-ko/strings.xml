@@ -4682,7 +4682,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 총 금액은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지 상품을 보려면 버튼을 탭하세요.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="bundle_overview_price_widget_expanded_TEMPLATE">{city_name} 여행. {startdate}부터 {enddate}까지, 여행객 {guests}명</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name} 여행. {startdate}부터 {enddate}까지, 여행객 {guests}명</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

@@ -39,7 +39,7 @@ import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.packages.BundleTotalPriceViewModel
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import rx.Subscription
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
@@ -52,6 +52,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     abstract fun inflate()
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun onTripResponse(response: TripResponse?)
+    abstract fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel
+
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
     val ANIMATION_DURATION = 400
@@ -114,7 +116,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
     }
 
-    protected var bundleTotalPriceViewModel: BundleTotalPriceViewModel by notNullAndObservable { vm ->
+    protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
         totalPriceWidget.viewModel = vm
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
             vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
@@ -524,7 +526,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     private fun setupViewModels() {
         priceChangeViewModel = PriceChangeViewModel(context, checkoutPresenter.getLineOfBusiness())
-        bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
+        totalPriceViewModel = getPriceViewModel(context)
         baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
     }
 
