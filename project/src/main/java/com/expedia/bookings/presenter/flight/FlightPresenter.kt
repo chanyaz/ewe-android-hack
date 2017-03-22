@@ -26,6 +26,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -244,17 +245,26 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter.toggleCheckoutButtonAndSliderVisibility(false)
 
-        if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
-            presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
-            val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                R.string.airline_maybe_fee_notice
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+            if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
+                presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
             } else {
-                R.string.airline_fee_notice
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
             }
-            val message = context.getString(resId)
-            presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
         } else {
-            presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
+            if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
+                val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                    R.string.airline_maybe_fee_notice
+                } else {
+                    R.string.airline_fee_notice
+                }
+                val message = context.getString(resId)
+                presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
+            } else {
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
+            }
         }
 
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
@@ -505,7 +515,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>): LeftToRightTransition(presenter, left, right) {
+    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : LeftToRightTransition(presenter, left, right) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {

@@ -20,7 +20,7 @@ class FlightResultsViewModelTest {
 
     @Before
     fun setUp() {
-        sut = FlightResultsViewModel()
+        sut = FlightResultsViewModel(context)
     }
 
     @Test

@@ -19,12 +19,14 @@ import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
 import org.joda.time.LocalDate
 import org.junit.Test
 
-class FlightAirlineFeeTest: NewFlightTestCase() {
+class FlightAirlineFeeTest : NewFlightTestCase() {
 
     @Test
     fun testAirlineFeeStoredCard() {
@@ -86,6 +88,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
 
     @Test
     fun testAirlineMayChargeFeesAlwaysShownAustraliaPOS() {
+        SettingUtils.save(activity.applicationContext, R.string.preference_payment_legal_message, true)
         Common.setPOS(PointOfSaleId.AUSTRALIA)
 
         SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
@@ -96,11 +99,12 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
 
-        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_charge_notice)
+        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_additional_fee_notice)
     }
 
     @Test
     fun testAirlineMayChargeFeesAlwaysShownFrenchPOS() {
+        SettingUtils.save(activity.applicationContext, R.string.preference_payment_legal_message, false)
         Common.setPOS(PointOfSaleId.FRANCE)
 
         SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)

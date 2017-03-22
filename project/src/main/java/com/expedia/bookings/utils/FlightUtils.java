@@ -143,18 +143,28 @@ public class FlightUtils {
 		feesTv.setAllCaps(true);
 		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
-		boolean airlinesChargePaymentFees = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage();
+		boolean airlinesChargePaymentFees =
+			((FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) ?
+				PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage() :
+				PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage());
 		if (airlinesChargePaymentFees || trip.getMayChargeObFees()) {
 			final String feeString;
 			final String feeUrl;
 
 			if (airlinesChargePaymentFees) {
 				drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
-				if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-					textViewResId = R.string.airline_may_fee_notice_payment;
+				if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+					if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+						textViewResId = R.string.airline_fee_apply;
+					}
 				}
 				else {
-					textViewResId = R.string.airline_fee_notice_payment;
+					if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+						textViewResId = R.string.airline_may_fee_notice_payment;
+					}
+					else {
+						textViewResId = R.string.airline_fee_notice_payment;
+					}
 				}
 				feeString = context.getString(R.string.Airline_fee);
 				feeUrl = PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();

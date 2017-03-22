@@ -75,6 +75,7 @@
     "showMultiBrandCreateAccountText" : false,
     "realTimeReviewLXEnabled" : true,
     "adjustPricingMessagingForAirlinePaymentMethodFee": true,
-    "airlinePaymentMethodFeeMessageType": "WILL_CHARGE"
+    "airlinePaymentMethodFeeMessageType": "WILL_CHARGE",
+    "showAirlinePaymentMethodFeeLegalMessage": true
   }
 }
