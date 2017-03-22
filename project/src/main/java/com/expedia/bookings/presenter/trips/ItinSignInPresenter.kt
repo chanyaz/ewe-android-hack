@@ -99,7 +99,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
 
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             signInWidget.viewModel.syncError(trips)
-            if (trips?.size == 0 && currentState != addGuestItinWidget.javaClass.name){
+            if (currentState != addGuestItinWidget.javaClass.name){
                 showSignInWidget()
             }
             if (!hasAddGuestItinErrors) {

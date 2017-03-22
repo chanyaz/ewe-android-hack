@@ -159,7 +159,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mStatusImage = Ui.findView(view, R.id.no_trips_image);
 		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
-		setSignInView(view);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
 
@@ -231,31 +230,35 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 	}
 
-	private void setSignInView(View view) {
+	private void setSignInView(View rootView) {
 		View mEmptyView;
 		if (isNewSignInScreen()) {
-			ViewStub viewStub = Ui.findView(view, R.id.sign_in_presenter_stub);
-			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
-			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
-			mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
-				new Action1<Boolean>() {
-					@Override
-					public void call(Boolean show) {
-						toolBarVisibilitySubject.onNext(show);
-						Ui.hideKeyboard(getActivity());
-					}
-				});
-			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
-				new Action1<Unit>() {
-					@Override
-					public void call(Unit unit) {
-						syncItinManager(true, true);
-					}
-				});
+			if (mSignInPresenter == null) {
+				ViewStub viewStub = Ui.findView(rootView, R.id.sign_in_presenter_stub);
+				mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
+				mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
+				mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
+					new Action1<Boolean>() {
+						@Override
+						public void call(Boolean show) {
+							toolBarVisibilitySubject.onNext(show);
+							Ui.hideKeyboard(getActivity());
+						}
+					});
+				mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
+					new Action1<Unit>() {
+						@Override
+						public void call(Unit unit) {
+							syncItinManager(true, true);
+						}
+					});
+			}
 			mEmptyView = mSignInPresenter;
+			mEmptyView.setVisibility(View.GONE);
 		}
 		else {
-			mEmptyView = Ui.findView(view, R.id.old_sign_in_view);
+			mEmptyView = Ui.findView(rootView, R.id.old_sign_in_view);
+			mEmptyView.setVisibility(View.GONE);
 		}
 		mItinListView.setEmptyView(mEmptyView);
 	}
@@ -263,6 +266,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		setSignInView(getView());
 
 		syncItinManager(true, false);
 
@@ -349,6 +354,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			else {
 				invalidateOptionsMenu();
 				trackItins(true);
+				setIsLoading(false);
 				updateLoginState();
 			}
 		}
