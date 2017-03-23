@@ -10,7 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -43,6 +46,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -51,6 +55,7 @@ import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
+import okhttp3.CipherSuite;
 import okhttp3.ConnectionSpec;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
@@ -211,8 +216,14 @@ public class AppModule {
 			client.connectionSpecs(Collections.singletonList(spec));
 		}
 		else {
-			client.sslSocketFactory(sslContext.getSocketFactory());
+			if (BuildConfig.DEBUG) {
+				addSecurityExceptionsForExpediaSandboxEnvironments(client);
+			}
+			else {
+				client.sslSocketFactory(sslContext.getSocketFactory());
+			}
 		}
+
 		if (BuildConfig.DEBUG) {
 			StethoShim.install(client);
 		}
@@ -369,5 +380,52 @@ public class AppModule {
 		interceptor.showNotification(
 			SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false));
 		return interceptor;
+	}
+
+	private void addSecurityExceptionsForExpediaSandboxEnvironments(OkHttpClient.Builder client) {
+		try {
+			// Create a trust manager that does not validate certificate chains
+			final TrustManager[] trustAllCerts = new TrustManager[] {
+				new X509TrustManager() {
+					@Override
+					public void checkClientTrusted(X509Certificate[] chain, String authType) throws
+						CertificateException {
+					}
+
+					@Override
+					public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+					}
+
+					@Override
+					public X509Certificate[] getAcceptedIssuers() {
+						return new X509Certificate[]{};
+					}
+				}
+			};
+
+			// Install the all-trusting trust manager
+			final SSLContext ssContext = SSLContext.getInstance("SSL");
+			ssContext.init(null, trustAllCerts, new java.security.SecureRandom());
+			// Create an ssl socket factory with our all-trusting manager
+			final SSLSocketFactory ssSocketFactory = ssContext.getSocketFactory();
+
+			client.sslSocketFactory(ssSocketFactory, (X509TrustManager) trustAllCerts[0]);
+			HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+				@Override
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+			client.hostnameVerifier(hostnameVerifier);
+
+			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+				.cipherSuites(CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
+
+				.build();
+			client.connectionSpecs(Collections.singletonList(spec));
+		}
+		catch (Exception e) {
+			Log.d("", "Something went wrong and I couldn't setup the okhttp client to support Expedia's lab environment", e);
+		}
 	}
 }
