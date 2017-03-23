@@ -1,8 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
-
 import android.support.v4.app.FragmentActivity
-
 import android.view.ViewStub
 import android.widget.EditText
 import com.expedia.bookings.R
@@ -171,5 +169,6 @@ class FlightTravelerEntryWidgetTest {
                 TravelerCheckoutStatus.CLEAN)
 
         widget.viewModel = testVM
+        assertTrue(widget.materialFormTestEnabled)
     }
 }

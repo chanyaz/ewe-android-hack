@@ -348,6 +348,11 @@ public class PackageScreen {
 		onData(allOf(is(instanceOf(String.class)),is(genderType))).perform(click());
 	}
 
+	public static void materialSelectGender(String genderType) {
+		onView(withId(R.id.edit_gender_btn)).perform(click());
+		onView(withText(genderType)).perform(click());
+	}
+
 	public static void selectBirthDate(int year, int month, int day) {
 		onView(withId(R.id.edit_birth_date_text_btn)).perform(click());
 		Espresso.closeSoftKeyboard();
