@@ -27,8 +27,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.BundleTotalPriceViewModel
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.expedia.vm.packages.PackageTotalPriceViewModel
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
@@ -225,8 +226,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundleOverViewWidget.viewModel = BundleOverviewViewModel(context, null)
         bundleOverViewWidget.viewModel.toolbarTitleObservable.subscribeText(bundlePriceWidget.bundleTitle)
         bundleOverViewWidget.viewModel.toolbarSubtitleObservable.subscribeText(bundlePriceWidget.bundleSubtitle)
-        bundlePriceFooter.viewModel = BundleTotalPriceViewModel(context)
-        bundlePriceWidget.viewModel = BundleTotalPriceViewModel(context, true)
+        bundlePriceFooter.viewModel = PackageTotalPriceViewModel(context)
+        bundlePriceWidget.viewModel = PackageTotalPriceViewModel(context, true)
         bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

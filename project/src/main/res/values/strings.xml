@@ -4687,6 +4687,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Show fewer airlines. Button</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Clear Filters. Button</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">Trip total is {totalprice}. Includes taxes and fees. {savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Trip total is {totalprice}. Includes taxes and fees. {savings}. Cost Breakdown dialog. Button.</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">Trip price is {price_per_person} per person. Includes taxes and fees. Button to view flights.</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Bundle total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4694,7 +4703,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Bundle price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="bundle_overview_price_widget_expanded_TEMPLATE">Trip to {city_name}. {startdate} to {enddate}, {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">Trip to {city_name}. {startdate} to {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

@@ -4691,7 +4691,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix de l\&apos;offre groupée est de {price_per_person} par personne. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. Bouton d\&apos;affichage de l\&apos;offre groupée.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="bundle_overview_price_widget_expanded_TEMPLATE">Voyage à {city_name} Du {startdate} au {enddate}, {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">Voyage à {city_name} Du {startdate} au {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

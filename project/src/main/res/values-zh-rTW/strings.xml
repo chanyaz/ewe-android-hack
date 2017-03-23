@@ -4691,7 +4691,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套裝價格為每人 {price_per_person}。此價格包含機票與飯店的稅金和費用。查看套裝按鈕。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="bundle_overview_price_widget_expanded_TEMPLATE">前往{city_name}。{startdate}至 {enddate}，{guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">前往{city_name}。{startdate}至 {enddate}，{guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
