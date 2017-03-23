@@ -1005,6 +1005,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
                 recyclerView.translationY = 0f
                 mapView.translationY = -mapListSplitAnchor.toFloat()
+                sortFilterButtonTransition?.jumpToOrigin()
+
                 adjustGoogleMapLogo()
                 if (ExpediaBookingApp.isDeviceShitty()) {
                     lazyLoadMapAndMarkers()
@@ -1012,6 +1014,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             } else {
                 mapView.translationY = 0f
                 recyclerView.translationY = screenHeight.toFloat()
+                sortFilterButtonTransition?.jumpToTarget()
+
                 googleMap?.setPadding(0, toolbar.height, 0, fabHeightOffset().toInt())
                 if (ExpediaBookingApp.isDeviceShitty()) {
                     googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
