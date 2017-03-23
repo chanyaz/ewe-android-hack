@@ -38,6 +38,7 @@ import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
@@ -185,50 +186,10 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OkHttpClient provideOkHttpClient(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled, ChuckInterceptor chuckInterceptor) {
-		try {
-			ProviderInstaller.installIfNeeded(context);
-		}
-		catch (Exception e) {
-			// rely on the PlayServices checking code that runs when first activity starts
-			// to guide the user through the recovery process
-		}
+		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, ChuckInterceptor chuckInterceptor) {
 
-		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
-		client.cache(cache);
-		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
-		logger.setLevel(logLevel);
-		client.addInterceptor(logger);
-		if (BuildConfig.DEBUG && !ExpediaBookingApp.isAutomation()) {
-			client.addInterceptor(chuckInterceptor);
-		}
-		client.followRedirects(true);
-		client.cookieJar(cookieManager);
-		client.connectTimeout(10, TimeUnit.SECONDS);
-		client.readTimeout(60L, TimeUnit.SECONDS);
-
-		if (isModernTLSEnabled) {
-			TLSSocketFactory socketFactory = new TLSSocketFactory(sslContext);
-			client.sslSocketFactory(socketFactory);
-			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-				.tlsVersions(TlsVersion.TLS_1_2)
-				.build();
-			client.connectionSpecs(Collections.singletonList(spec));
-		}
-		else {
-			if (BuildConfig.DEBUG) {
-				addSecurityExceptionsForExpediaSandboxEnvironments(client);
-			}
-			else {
-				client.sslSocketFactory(sslContext.getSocketFactory());
-			}
-		}
-
-		if (BuildConfig.DEBUG) {
-			StethoShim.install(client);
-		}
-
-		return client.build();
+		OKHttpClientFactory okHttpClientFactory = new OKHttpClientFactory();
+		return okHttpClientFactory.getOkHttpClient(context, cookieManager, cache, logLevel, sslContext, chuckInterceptor);
 	}
 
 	@Provides
@@ -380,52 +341,5 @@ public class AppModule {
 		interceptor.showNotification(
 			SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false));
 		return interceptor;
-	}
-
-	private void addSecurityExceptionsForExpediaSandboxEnvironments(OkHttpClient.Builder client) {
-		try {
-			// Create a trust manager that does not validate certificate chains
-			final TrustManager[] trustAllCerts = new TrustManager[] {
-				new X509TrustManager() {
-					@Override
-					public void checkClientTrusted(X509Certificate[] chain, String authType) throws
-						CertificateException {
-					}
-
-					@Override
-					public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-					}
-
-					@Override
-					public X509Certificate[] getAcceptedIssuers() {
-						return new X509Certificate[]{};
-					}
-				}
-			};
-
-			// Install the all-trusting trust manager
-			final SSLContext ssContext = SSLContext.getInstance("SSL");
-			ssContext.init(null, trustAllCerts, new java.security.SecureRandom());
-			// Create an ssl socket factory with our all-trusting manager
-			final SSLSocketFactory ssSocketFactory = ssContext.getSocketFactory();
-
-			client.sslSocketFactory(ssSocketFactory, (X509TrustManager) trustAllCerts[0]);
-			HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-				@Override
-				public boolean verify(String hostname, SSLSession session) {
-					return true;
-				}
-			};
-			client.hostnameVerifier(hostnameVerifier);
-
-			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-				.cipherSuites(CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
-
-				.build();
-			client.connectionSpecs(Collections.singletonList(spec));
-		}
-		catch (Exception e) {
-			Log.d("", "Something went wrong and I couldn't setup the okhttp client to support Expedia's lab environment", e);
-		}
 	}
 }
