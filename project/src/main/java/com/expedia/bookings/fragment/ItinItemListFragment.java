@@ -81,6 +81,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ImageView mStatusImage;
 	private Button mFindItineraryButton;
 	public ItinSignInPresenter mSignInPresenter;
+	public View mOldEmptyView;
 	private FrameLayout mDeepRefreshLoadingView;
 
 	private boolean mAllowLoadItins = false;
@@ -161,6 +162,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
+		mOldEmptyView =  Ui.findView(view, R.id.old_sign_in_view);
 
 		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
 		mItinListView.addFooterView(guestItinView);
@@ -254,12 +256,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 					});
 			}
 			mEmptyView = mSignInPresenter;
-			mEmptyView.setVisibility(View.GONE);
 		}
 		else {
-			mEmptyView = Ui.findView(rootView, R.id.old_sign_in_view);
-			mEmptyView.setVisibility(View.GONE);
+			mEmptyView = mOldEmptyView;
 		}
+
+		if (mSignInPresenter != null) {
+			mSignInPresenter.setVisibility(View.GONE);
+		}
+		mOldEmptyView.setVisibility(View.GONE);
 		mItinListView.setEmptyView(mEmptyView);
 	}
 
