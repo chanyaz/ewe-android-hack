@@ -118,12 +118,16 @@ class FlightCheckoutViewModelTest {
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         assertEquals(BigDecimal("44.50"), sut.createTripResponseObservable.value!!.newPrice().amount)
-        sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
+        sliderPurchaseTotalTextTestSubscriber.assertValueCount(2)
         
+        assertEquals("Your card will be charged $42.00", sliderPurchaseTotalTextTestSubscriber.onNextEvents[0].toString())
+        assertEquals("Your card will be charged $44.50", sliderPurchaseTotalTextTestSubscriber.onNextEvents[1].toString())
+
         givenAirlineChargesFees()
 
         sut.createTripResponseObservable.onNext(newTripResponse)
-        sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
+        sliderPurchaseTotalTextTestSubscriber.assertValueCount(3)
+        assertEquals("Your card will be charged $44.50 (plus airline fee)", sliderPurchaseTotalTextTestSubscriber.onNextEvents[2].toString())
     }
 
     @Test

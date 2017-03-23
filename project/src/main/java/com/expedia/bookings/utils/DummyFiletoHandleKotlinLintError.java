@@ -317,7 +317,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_flight_overview,
 		R.string.select_return_flight,
 		R.string.flight_to_template,
-		R.dimen.checkout_slider_bottom_margin,
 		R.menu.package_flights_menu,
 		R.layout.package_confirmation_presenter,
 		R.layout.bundle_total_price_widget,

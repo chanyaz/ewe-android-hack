@@ -2478,12 +2478,24 @@
     <string name="air_attach_amount_discounted_TEMPLATE">Sie sparen %s, wenn Sie jetzt Ihr Hotel buchen!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">Angebot gilt noch</string>
+    <!-- Air attach offer expiration. daysorhours is the number of days/hours remaining for the offer, e.g. Offer expires in 10 days -->
+    <string name="air_attach_offer_expires_TEMPLATE">Angebot gilt noch {daysorhours}</string>
+    <!-- Air attach offer expiration alert for less than an hour -->
+    <string name="air_attach_expires_soon">Angebot gilt nicht mehr lange</string>
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Angebot gilt noch heute</string>
     <!-- Air attach add hotel button -->
     <string name="air_attach_add_hotel">Hotel hinzufügen</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">mit Rabatt</string>
+    <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
+    <string name="air_attach_variant1_string1_TEMPLATE">Bis zu 55% Rabatt auf Hotels in {location}</string>
+    <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
+    <string name="air_attach_variant2_string1_TEMPLATE">Bis zu 55% Rabatt auf Hotels in {location}</string>
+    <!-- Air attach messaging variant1 string1 -->
+    <string name="air_attach_variant1_string">Weil Sie einen Flug gebucht haben</string>
+    <!-- Air attach messaging variant2 string2 -->
+    <string name="air_attach_variant2_string2">Sie sparen beim Hotel, da Sie einen Flug gebucht haben.</string>
     <!-- Accessibility label for arriving icon on itin  -->
     <string name="itin_arriving_cont_desc">Ankunftsflughafen</string>
     <!-- Accessibility label for departing icon on itin  -->
@@ -4524,9 +4536,6 @@
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
     <string name="flight_add_infant_in_seat_number_TEMPLATE">Angaben zum {number}. Kleinkind auf eigenem Sitzplatz</string>
 
-    <!--MIA - Member Only Deals-->
-    <string name="member_deals_toolbar_title">Angebote für Mitglieder</string>
-
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ Punkte wurden eingelöst! (zzgl. Steuern und Gebühren)</string>
     <string name="regular_loyalty_applied_message">Expedia+ Punkte wurden eingelöst!</string>
@@ -4899,35 +4908,40 @@
     <!-- Fetching your trips in new signin screen -->
     <string name="fetching_your_trips">Ihre Reisen werden abgerufen …</string>
 
-    <!-- Member Deal Only -->
-    <string name="member_deal_title">Angebote für Mitglieder</string>
+    <!-- Member Pricing Only -->
+    <string name="member_deal_title">Mitgliederpreise</string>
     <string name="member_deal_subtitle">Rabatte auf ausgewählte Hotels</string>
+    <string name="member_deal_landing_page_header">Tippen Sie auf „Buchen“, um weitere Angebote für Mitglieder zu sehen</string>
+    <string name="member_deals_toolbar_title">Mitgliederpreise</string>
     <string name="continue_booking">Mit der Buchung fortfahren</string>
+    <string name="member_deal_hotel_only">Nur Hotel</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">So bestimmen wir die Sortierfolge</string>
-    <!-- Material payment form error for credit card number-->
+    <!-- Checkout validation error message for credit card number-->
     <string name="error_enter_a_valid_card_number">Geben Sie eine gültige Kartennummer ein</string>
-    <!-- Material payment form error for credit card expiration date -->
+    <!-- Checkout validation error message for credit card expiration date -->
     <string name="error_enter_a_valid_month_and_year">Geben Sie einen Monat und ein Jahr ein</string>
-    <!-- Material payment form error for billing address-->
+    <!-- Checkout validation error message for billing address-->
     <string name="error_enter_a_valid_billing_address">Geben Sie eine gültige Rechnungsadresse ein (nur Buchstaben und Ziffern)</string>
-    <!-- Material payment form error for billing address zip code-->
+    <!-- Checkout validation error message for billing address zip code-->
     <string name="error_enter_a_zip_code">Geben Sie eine gültige Postleitzahl ein</string>
-    <!-- Material payment form error for billing address state-->
+    <!-- Checkout validation error message for billing address state-->
     <string name="error_enter_a_valid_state">Geben Sie einen gültigen Staat ein</string>
-    <!-- Material payment form error for billing address city-->
+    <!-- Checkout validation error message for billing address city-->
     <string name="error_enter_a_valid_city">Geben Sie eine gültige Stadt ein</string>
-    <!-- Material payment form error for billing address postal code-->
+    <!-- Checkout validation error message for billing address postal code-->
     <string name="error_enter_a_valid_postal_code">Geben Sie eine gültige Postleitzahl ein</string>
-    <!-- Material payment form error for billing address province -->
+    <!-- Checkout validation error message for billing address province -->
     <string name="error_enter_a_valid_province">Geben Sie eine gültige Provinz ein</string>
-    <!-- Material payment form error for billing address zip code -->
+    <!-- Checkout validation error message for billing address zip code -->
     <string name="error_enter_a_valid_province_state_country">Geben Sie ein/e(n) Bezirk/Bundesland/Provinz ein</string>
-    <!-- Material payment form error for billing address country -->
+    <!-- Checkout validation error message for billing address country -->
     <string name="error_select_a_billing_country">Wählen Sie ein Rechnungsland</string>
-    <!-- Material payment form error for credit card security code -->
+    <!-- Checkout validation error message for credit card security code -->
     <string name="error_enter_valid_cvv">Geben Sie eine gültige Prüfnummer ein</string>
-    <!-- Material payment form error for credit card name -->
+    <!-- Checkout validation error message for credit card name -->
     <string name="error_enter_a_valid_card_name">Geben Sie den Namen wie auf der Karte ein</string>
+    <!-- Checkout validation error message for phone country code -->
+    <string name="error_select_a_valid_country_code">Wählen Sie eine Landesvorwahl</string>
 </resources>

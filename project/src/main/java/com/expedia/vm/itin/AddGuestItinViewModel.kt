@@ -22,7 +22,6 @@ open class AddGuestItinViewModel(val context: Context) {
     val hasEmailErrorObservable = BehaviorSubject.create<Boolean>()
     val itinNumberValidateObservable = PublishSubject.create<String>()
     val hasItinErrorObservable = BehaviorSubject.create<Boolean>()
-    val guestItinFetchButtonEnabledObservable = PublishSubject.create<Boolean>()
     val showErrorObservable = PublishSubject.create<Boolean>()
     val showErrorMessageObservable = PublishSubject.create<String>()
     val toolBarVisibilityObservable = PublishSubject.create<Boolean>()
@@ -40,20 +39,27 @@ open class AddGuestItinViewModel(val context: Context) {
 
         emailValidateObservable.subscribe { email ->
             guestEmail = email
-            var isValid = CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
+            val isValid = isEmailValid(email)
             hasEmailErrorObservable.onNext(!isValid)
         }
 
         itinNumberValidateObservable.subscribe { itinNumber ->
             itineraryNumber = itinNumber
-            var isValid = itinNumber != null && itinNumber.length >= ITIN_NUMBER_MIN_LENGTH
+            val isValid = isItinNumberValid(itinNumber)
             hasItinErrorObservable.onNext(!isValid)
         }
 
         Observable.combineLatest(hasEmailErrorObservable, hasItinErrorObservable, { hasEmailError, hasItinError ->
-            guestItinFetchButtonEnabledObservable.onNext(!hasEmailError && !hasItinError && itineraryNumber.isNotEmpty() && guestEmail.isNotEmpty())
             showErrorObservable.onNext(false)
         }).subscribe()
+    }
+
+    fun isItinNumberValid(itinNumber: String?): Boolean {
+        return itinNumber?.length ?: 0 >= ITIN_NUMBER_MIN_LENGTH
+    }
+
+    fun isEmailValid(email: String?): Boolean {
+        return CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
     }
 
 

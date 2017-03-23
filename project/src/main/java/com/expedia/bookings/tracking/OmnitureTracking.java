@@ -317,12 +317,12 @@ public class OmnitureTracking {
 	}
 
 	public static void trackUserChoosesNotToSaveCard() {
-		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_SAVE);
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_DECLINE_SAVE);
 		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 
 	public static void trackUserChoosesToSaveCard() {
-		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_DECLINE_SAVE);
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_SAVE);
 		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 

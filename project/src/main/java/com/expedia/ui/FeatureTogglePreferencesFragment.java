@@ -30,8 +30,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_universal_checkout_material_forms);
 		initializeFeatureCheck(R.string.preference_member_deal_on_launch_screen);
 		initializeFeatureCheck(R.string.preference_show_air_attach_message_on_launch_screen);
-		initializeFeatureCheck(R.string.preference_guest_itin_on_launch);
-		initializeFeatureCheck(R.string.preference_active_itin_on_launch);
 		initializeFeatureCheck(R.string.preference_pending_flight_itin);
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
 	}
