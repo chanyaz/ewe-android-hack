@@ -27,6 +27,7 @@ import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -47,6 +48,7 @@ import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.Observable
+import java.util.Date
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
@@ -63,6 +65,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var travelerManager: TravelerManager
 
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
+    val pageUsableData = PageUsableData()
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
@@ -267,13 +270,17 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
 
+        checkoutViewModel.checkoutRequestStartTimeObservable.subscribe { startTime ->
+            pageUsableData.markPageLoadStarted(startTime)
+        }
+
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second
-
             confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
             show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
+            pageUsableData.markAllViewsLoaded(Date().time)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->

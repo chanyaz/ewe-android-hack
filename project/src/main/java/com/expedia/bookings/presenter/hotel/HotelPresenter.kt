@@ -248,6 +248,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context)
+        presenter.hotelCheckoutViewModel.checkoutRequestCallObservable.subscribe(confirmationPresenter.hotelConfirmationViewModel.checkoutRequestStartTimeObservable)
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(confirmationPresenter.hotelConfirmationViewModel.checkoutResponseObservable)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
