@@ -21,8 +21,11 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.vm.packages.FlightTotalPriceViewModel
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
+
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
     val isBucketedForExpandedRateDetailsTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)
@@ -115,4 +118,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         val flightSearchParams = Db.getFlightSearchParams()
         FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse, overviewPageUsableData)
     }
+
+    override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {
+        return FlightTotalPriceViewModel(context)
+    }
+
 }

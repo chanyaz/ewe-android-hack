@@ -1,8 +1,5 @@
 package com.expedia.bookings.test.happy;
 
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -10,7 +7,6 @@ import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -26,6 +22,8 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.mobiata.android.util.SettingUtils;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -43,6 +41,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
@@ -450,6 +449,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(allOf(withId(R.id.bundle_total_savings), isDescendantOfA(withId(R.id.total_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
+		PackageScreen.bundleTotalFooterWidget().check((matches(withContentDescription(
+			"Trip total is $696. Includes taxes and fees. . Cost Breakdown dialog. Button."))));
 	}
 
 	private void assertInsuranceBenefits() {

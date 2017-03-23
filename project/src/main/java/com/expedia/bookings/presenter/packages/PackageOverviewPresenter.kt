@@ -22,6 +22,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribe
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import org.joda.time.format.DateTimeFormat
@@ -230,5 +232,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
         createTripResponse as PackageCreateTripResponse
         PackagesTracking().trackBundleOverviewPageLoad(createTripResponse.packageDetails)
+    }
+
+    override fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel {
+        return PackageTotalPriceViewModel(context)
     }
 }

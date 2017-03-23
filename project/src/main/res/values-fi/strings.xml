@@ -4682,7 +4682,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="bundle_overview_price_widget_expanded_TEMPLATE">Matka kohteeseen {city_name}. {startdate}–{enddate}, {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">Matka kohteeseen {city_name}. {startdate}–{enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
