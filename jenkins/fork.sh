@@ -29,12 +29,12 @@ internal_artifact() {
 }
 
 # exit if finds 'needs-human' label
-python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
-prLabeledAsNeedsHumanStatus=$?
-if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
-   echo "PR is labeled needs-human, so exiting..."
-   exit 1
-fi
+#python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+#prLabeledAsNeedsHumanStatus=$?
+#if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+#   echo "PR is labeled needs-human, so exiting..."
+#   exit 1
+#fi
 
 ./gradlew --no-daemon clean
 
@@ -71,5 +71,5 @@ for runCount in `seq 3`
 		fi
 	done
 
-python ./jenkins/pr_ui_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+#python ./jenkins/pr_ui_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
 exit $?
