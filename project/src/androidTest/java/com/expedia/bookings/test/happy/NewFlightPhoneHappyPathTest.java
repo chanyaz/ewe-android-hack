@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.happy;
 
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -7,6 +10,7 @@ import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -22,8 +26,6 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.mobiata.android.util.SettingUtils;
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -193,7 +195,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()));
 		onView(withId(R.id.edit_phone_number)).perform(click());
 		onView(withText(R.string.email_validation_error_message)).check(matches(isDisplayed()));
-		onView(withId(R.id.middle_name_input)).perform(click());
+		onView(withId(R.id.middle_name_input)).perform(scrollTo(),click());
 		Espresso.closeSoftKeyboard();
 		onView(withText(R.string.phone_validation_error_message)).check(matches(isDisplayed()));
 		Espresso.pressBack();

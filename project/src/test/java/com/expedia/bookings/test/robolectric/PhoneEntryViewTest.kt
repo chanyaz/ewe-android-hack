@@ -71,6 +71,7 @@ class PhoneEntryViewTest {
 
         testAlert.clickOnItem(0)
         assertWidgetIsCorrect(editBoxForDialog, "93")
+        assertEquals("93", widget.viewModel.getTravelerPhone().countryCode)
     }
 
     @Test
@@ -83,6 +84,7 @@ class PhoneEntryViewTest {
         widget.viewModel.updatePhone(Phone())
 
         assertWidgetIsCorrect(editBoxForDialog, "1")
+        assertEquals("1", widget.viewModel.getTravelerPhone().countryCode)
     }
 
     @Test

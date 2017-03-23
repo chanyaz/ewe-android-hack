@@ -185,6 +185,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
                 updateCountryDependantFields(billingCountry)
                 sectionLocation.validateCountryDependantFields()
             }
+            sectionLocation.location.countryCode = billingCountry
         }
 
         sectionLocation.validateBillingCountrySubject.subscribe {
