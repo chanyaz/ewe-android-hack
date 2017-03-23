@@ -68,10 +68,10 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
-        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyIcon.visibility)
+        Assert.assertEquals("Sold Out", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
 
-        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.ratingBar.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
 
@@ -87,10 +87,10 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertNotEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
+        Assert.assertNotEquals("Sold Out", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
 
-        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), hotelViewHolder.ratingBar.getStarColor())
+        Assert.assertEquals(ContextCompat.getColor(getContext(), R.color.hotelsv2_detail_star_color), hotelViewHolder.hotelNameStarAmenityDistance.ratingBar.getStarColor())
         Assert.assertNull(hotelViewHolder.imageView.colorFilter)
     }
 
@@ -104,8 +104,8 @@ class HotelCellViewTest {
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
-                               hotelViewHolder.urgencyMessageBox.text)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
+                               hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
     @Test fun testUrgencyMessageTonightOnly() {
@@ -116,8 +116,8 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals("Tonight Only!", hotelViewHolder.urgencyMessageBox.text)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
+        Assert.assertEquals("Tonight Only!", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
     @Test
@@ -129,8 +129,8 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals("Mobile Exclusive", hotelViewHolder.urgencyMessageBox.text)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
+        Assert.assertEquals("Mobile Exclusive", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
     @Test fun testNoUrgencyMessage() {
@@ -139,8 +139,8 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
 
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals("", hotelViewHolder.urgencyMessageBox.text)
-        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyIcon.visibility)
+        Assert.assertEquals("", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
+        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
     @Test fun testEarnMessaging() {
@@ -153,7 +153,7 @@ class HotelCellViewTest {
         PointOfSaleTestConfiguration.configurePointOfSale(getContext(), "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
 
         hotelViewHolder.bindHotelData(hotel)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.topAmenityTitle.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.hotelPriceTopAmenity.topAmenityTextView.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
     }
 

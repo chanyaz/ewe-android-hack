@@ -914,6 +914,14 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.air_attach_variant2_string2,
 		R.layout.member_deal_card,
 		R.layout.member_deal_header,
-		R.layout.member_deal_loading_cell
+		R.layout.member_deal_loading_cell,
+		R.layout.hotel_cell_content_below_image,
+		R.layout.hotel_cell_content_right_of_image,
+		R.dimen.hotel_results_content_right_image_height,
+		R.dimen.hotel_results_content_right_text_height,
+		R.layout.hotel_cell_name_star_amenity_distance,
+		R.layout.hotel_cell_price_top_amenity,
+		R.layout.hotel_cell_urgency_message,
+		R.layout.hotel_cell_vip_message
 	};
 }

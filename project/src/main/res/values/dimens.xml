@@ -225,6 +225,8 @@
     <dimen name="hotel_filter_height">58dp</dimen>
     <dimen name="hotel_map_loyalty_header_height">33dp</dimen>
     <dimen name="hotel_carousel_fab_vertical_offset">10dp</dimen>
+    <dimen name="hotel_results_content_right_image_height">96dp</dimen>
+    <dimen name="hotel_results_content_right_text_height">36dp</dimen>
 
     <!-- Dimensions for hotel details -->
     <dimen name="widget_hotel_info_padding">18dp</dimen>

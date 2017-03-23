@@ -368,4 +368,21 @@
         <attr name="star_cont_desc" format="string" />
         <attr name="circle_cont_desc" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="HotelCellPriceTopAmenity">
+        <attr name="strike_through_price_orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="HotelCellNameStarAmenityDistance">
+        <attr name="hotel_name_max_line" format="integer" />
+        <attr name="hotel_name_text_color" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="HotelCellVipMessage">
+        <attr name="vip_text_color" format="reference" />
+    </declare-styleable>
+
 </resources>
