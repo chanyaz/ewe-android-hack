@@ -95,7 +95,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		onView(withId(android.R.id.button1)).perform(click());
 		SearchScreen.searchButton().perform(waitForViewToDisplay());
 		SearchScreen.searchButton().perform(click());
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name,
 			"Package Happy Path");
 		Common.pressBack();
 		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
@@ -135,7 +135,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
 		EspressoUtils
-			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
+			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name,
 				"Package Happy Path");
 		EspressoUtils
 			.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price,

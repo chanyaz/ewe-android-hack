@@ -12,7 +12,6 @@ import android.support.annotation.CallSuper
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,20 +24,17 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeBackgroundColor
+import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellNameStarAmenityDistance
+import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellPriceTopAmenity
+import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
+import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellVipMessage
 import com.expedia.util.subscribeColorFilter
-import com.expedia.util.subscribeImageDrawable
-import com.expedia.util.subscribeStarColor
-import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.getGuestRatingText
 import com.expedia.util.getGuestRatingBackground
@@ -61,27 +57,19 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
     var hotelId: String by Delegates.notNull()
     val imageView: ImageView by root.bindView(R.id.background)
     val gradient: View by root.bindView(R.id.foreground)
-    val hotelName: TextView by root.bindView(R.id.hotel_name_text_view)
-    val pricePerNight: TextView by root.bindView(R.id.price_per_night)
-    val strikeThroughPricePerNight: TextView by root.bindView(R.id.strike_through_price)
+    val hotelNameStarAmenityDistance: HotelCellNameStarAmenityDistance by root.bindView(R.id.hotel_name_star_amenity_distance)
+    val hotelPriceTopAmenity: HotelCellPriceTopAmenity by root.bindView(R.id.hotel_price_top_amenity)
     val guestRating: TextView by root.bindView(R.id.guest_rating)
     val guestRatingRecommendedText: TextView by root.bindView(R.id.guest_rating_recommended_text)
     val noGuestRating: TextView by root.bindView(R.id.no_guest_rating)
-    val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
-    var ratingBar: StarRatingBar by Delegates.notNull()
     val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
-    val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
-
-    val urgencyMessageContainer: LinearLayout by root.bindView (R.id.urgency_message_layout)
-    val urgencyIcon: ImageView by root.bindView(R.id.urgency_icon)
-    val urgencyMessageBox: TextView by root.bindView(R.id.urgency_message)
-    val vipMessage: TextView by root.bindView(R.id.vip_message)
-    val vipLoyaltyMessage: TextView by root.bindView(R.id.vip_loyalty_message)
+    val ratingPointsContainer: LinearLayout by root.bindView (R.id.rating_earn_container)
+    val urgencyMessageContainer: HotelCellUrgencyMessage by root.bindView (R.id.urgency_message_layout)
+    val vipMessageContainer: HotelCellVipMessage by root.bindView(R.id.vip_message_container)
     val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
     val airAttachSVG: SVGView by root.bindView(R.id.air_attach_curve)
     val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
     val airAttachSWPImage: ImageView by root.bindView(R.id.air_attach_swp_image)
-    val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
     val earnMessagingText: TextView by root.bindView(R.id.earn_messaging)
 
     val cardView: CardView by root.bindView(R.id.card_view)
@@ -94,13 +82,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         itemView.setOnClickListener(this)
 
         LayoutUtils.setSVG(airAttachSVG, R.raw.air_attach_curve)
-
-        if (shouldShowCircleForRatings()) {
-            ratingBar = root.findViewById(R.id.circle_rating_bar) as StarRatingBar
-        } else {
-            ratingBar = root.findViewById(R.id.star_rating_bar) as StarRatingBar
-        }
-        ratingBar.visibility = View.VISIBLE
     }
 
     @CallSuper
@@ -109,43 +90,29 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             this.hotelId = hotelId
         }
 
-        viewModel.hotelNameObservable.subscribeText(hotelName)
-        viewModel.pricePerNightObservable.subscribeText(pricePerNight)
-        viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNight)
-        viewModel.pricePerNightFontSizeObservable.subscribe { pricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
+        hotelNameStarAmenityDistance.bindHotelViewModel(viewModel)
+        hotelPriceTopAmenity.bindHotelViewModel(viewModel)
+        vipMessageContainer.bindHotelViewModel(viewModel)
+        urgencyMessageContainer.bindHotelViewModel(viewModel)
+
         viewModel.hotelGuestRatingObservable.subscribe { rating ->
             guestRating.text = rating.toString()
             guestRating.background = getGuestRatingBackground(itemView.context)
             guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
         viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
-        viewModel.hotelStrikeThroughPriceFormatted.subscribeText(strikeThroughPricePerNight)
-        viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(strikeThroughPricePerNight)
         viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRating)
         viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRatingRecommendedText)
         viewModel.noGuestRatingVisibility.subscribeVisibility(noGuestRating)
         viewModel.showDiscountObservable.subscribeVisibility(discountPercentage)
-        viewModel.distanceFromCurrentLocation.subscribeText(hotelAmenityOrDistanceFromLocation)
-        viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
-        viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
-        viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
-        viewModel.urgencyIconVisibilityObservable.subscribeVisibility (urgencyIcon)
-        viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
-        viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
-        viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
-        viewModel.urgencyMessageTextColorObservable.subscribeTextColor(urgencyMessageBox)
-        viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
-        viewModel.vipLoyaltyMessageVisibilityObservable.subscribeVisibility(vipLoyaltyMessage)
         viewModel.airAttachWithDiscountLabelVisibilityObservable.subscribeVisibility(airAttachContainer)
         viewModel.airAttachIconWithoutDiscountLabelVisibility.subscribeVisibility(airAttachSWPImage)
         viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
-        viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
         viewModel.earnMessagingObservable.subscribeText(earnMessagingText)
         viewModel.earnMessagingVisibilityObservable.subscribeVisibility(earnMessagingText)
+        viewModel.ratingPointsContainerVisibilityObservable.subscribeVisibility(ratingPointsContainer)
 
-        viewModel.toolBarRatingColor.subscribeStarColor(ratingBar)
         viewModel.imageColorFilter.subscribeColorFilter(imageView)
-        viewModel.hotelStarRatingObservable.subscribeStarRating(ratingBar)
 
         viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
             PicassoHelper.Builder(itemView.context)
@@ -205,7 +172,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
 
-            if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(showHotelFavorite())) {
+            if (vipMessageContainer.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(showHotelFavorite())) {
                 drawable.shaderFactory = getShader(colorArrayFull)
             } else {
                 drawable.shaderFactory = getShader(colorArrayBottom)

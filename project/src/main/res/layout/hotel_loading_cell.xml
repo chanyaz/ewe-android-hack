@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:id="@id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray1">
@@ -31,13 +31,12 @@
                     android:layout_height="134dp"
                     android:scaleType="centerCrop" />
 
-
             </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/text_layout"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
+                android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="2dp"
@@ -47,5 +46,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </android.support.v7.widget.CardView>
+
 </FrameLayout>

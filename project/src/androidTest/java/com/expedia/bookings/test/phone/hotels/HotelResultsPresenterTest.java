@@ -41,7 +41,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		SearchScreen.searchButton().perform(click());
 
 		// Happy Path : First Item.
-		assertViewIsDisplayedAtPosition(2, R.id.hotel_name_text_view);
+		assertViewIsDisplayedAtPosition(2, R.id.hotel_name);
 		assertViewIsDisplayedAtPosition(2, R.id.price_per_night);
 		assertViewIsDisplayedAtPosition(2, R.id.background);
 		assertViewIsDisplayedAtPosition(2, R.id.star_rating_bar);
@@ -50,11 +50,11 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewNotDisplayedAtPosition(2, R.id.strike_through_price);
 
 		//test Top amenities
-		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity_title, "Sponsored");
-		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity_title, "Free Cancellation");
+		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity, "Sponsored");
+		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity, "Free Cancellation");
 
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
-		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity_title, "Book Now, Pay Later");
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity, "Book Now, Pay Later");
 
 		//test VIP message
 		assertViewWithTextIsNotDisplayedAtPosition(4, R.id.vip_message, "+VIP");
@@ -89,7 +89,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		HotelScreen.waitForResultsLoaded();
 
 		// Happy Path : First Item.
-		assertViewIsDisplayedAtPosition(2, R.id.hotel_name_text_view);
+		assertViewIsDisplayedAtPosition(2, R.id.hotel_name);
 		assertViewIsDisplayedAtPosition(2, R.id.price_per_night);
 		assertViewIsDisplayedAtPosition(2, R.id.background);
 		assertViewIsDisplayedAtPosition(2, R.id.star_rating_bar);
@@ -99,11 +99,11 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewNotDisplayedAtPosition(2, R.id.strike_through_price);
 
 		//test Top amenities
-		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity_title, "Sponsored");
-		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity_title, "Free Cancellation");
+		assertViewWithTextIsDisplayedAtPosition(2, R.id.top_amenity, "Sponsored");
+		assertViewWithTextIsDisplayedAtPosition(3, R.id.top_amenity, "Free Cancellation");
 
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
-		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity_title, "Book Now, Pay Later");
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity, "Book Now, Pay Later");
 
 		//test VIP message
 		assertViewWithTextIsNotDisplayedAtPosition(4, R.id.vip_message, "+VIP");

@@ -34,7 +34,7 @@ open class HotelViewModel(private val context: Context) {
 
     val hotelId = BehaviorSubject.create<String>()
     val soldOut = BehaviorSubject.create<Boolean>()
-    val toolBarRatingColor = soldOut.map { if (it) ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
+    val starRatingColor = soldOut.map { if (it) ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val imageColorFilter = soldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelPriceFormatted = BehaviorSubject.create<CharSequence>()
@@ -69,7 +69,9 @@ open class HotelViewModel(private val context: Context) {
     val urgencyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val urgencyMessageBoxObservable = BehaviorSubject.create<String>()
     val urgencyMessageTextColorObservable = BehaviorSubject.create<Int>()
-    val urgencyMessageBackgroundObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { ContextCompat.getColor(context, it!!.backgroundColorId) }
+    val urgencyMessageBackgroundObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map {
+        ContextCompat.getColor(context, it!!.backgroundColorId)
+    }
     val urgencyIconObservable = highestPriorityUrgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
     val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
 
@@ -87,9 +89,15 @@ open class HotelViewModel(private val context: Context) {
         topAmenityTitle.isNotBlank()
     }
 
+    val ratingPointsContainerVisibilityObservable = Observable.combineLatest(isHotelGuestRatingAvailableObservable, noGuestRatingVisibility, earnMessagingVisibilityObservable,
+            { guestRatingAvailable, noGuestRatingVisible, earnMessageVisible ->
+        guestRatingAvailable || noGuestRatingVisible || earnMessageVisible
+    })
+
     val hotelStarRatingObservable = BehaviorSubject.create<Float>()
     val hotelStarRatingContentDescriptionObservable = BehaviorSubject.create<String>()
-    val ratingAmenityContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val hotelStarRatingVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val hotelAmenityOrDistanceVisibilityObservable = BehaviorSubject.create<Boolean>()
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create<String>()
     val hotelDiscountPercentageObservable = BehaviorSubject.create<String>()
     val distanceFromCurrentLocation = BehaviorSubject.create<String>()
@@ -120,7 +128,8 @@ open class HotelViewModel(private val context: Context) {
         topAmenityTitleObservable.onNext(getTopAmenityTitle(hotel, resources))
 
         hotelStarRatingObservable.onNext(hotel.hotelStarRating)
-        ratingAmenityContainerVisibilityObservable.onNext(hotel.hotelStarRating > 0 || hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
+        hotelStarRatingVisibilityObservable.onNext(hotel.hotelStarRating > 0)
+        hotelAmenityOrDistanceVisibilityObservable.onNext(hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
         hotelDiscountPercentageObservable.onNext(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString())
         distanceFromCurrentLocation.onNext(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
 
@@ -195,7 +204,9 @@ open class HotelViewModel(private val context: Context) {
         }
 
         highestPriorityUrgencyMessageObservable.map { it != null }.subscribe(urgencyMessageVisibilityObservable)
-        highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }.subscribe(urgencyMessageBoxObservable)
+        highestPriorityUrgencyMessageObservable.filter { it != null }.map {
+            it!!.message
+        }.subscribe(urgencyMessageBoxObservable)
 
         hotelStarRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt()))
 

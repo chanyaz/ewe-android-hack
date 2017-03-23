@@ -69,6 +69,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
 	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
+	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariant {
@@ -147,7 +148,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
 		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
-
+		testIDs.add(EBAndroidAppHotelResultsCardReadability);
 		return testIDs;
 	}
 
@@ -172,5 +173,4 @@ public class AbacusUtils {
 			return String.format("%s|", key);
 		}
 	}
-
 }

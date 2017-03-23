@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/vip_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vip"
+        android:textSize="13sp"
+        app:textStyle="medium" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/vip_loyalty_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:text="@string/vip_short_loyalty_applied_message"
+        android:textSize="13sp"
+        app:textStyle="medium" />
+
+</merge>

@@ -130,7 +130,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
             viewModel.hotelPreviewRatingVisibility.subscribeVisibility(hotelPreviewRating)
             viewModel.hotelPreviewRating.subscribeRating(hotelPreviewRating)
-            viewModel.toolBarRatingColor.subscribeStarColor(hotelPreviewRating)
+            viewModel.starRatingColor.subscribeStarColor(hotelPreviewRating)
             viewModel.imageColorFilter.subscribeColorFilter(hotelPreviewImage)
             viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
             viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
