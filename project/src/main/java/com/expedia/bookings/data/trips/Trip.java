@@ -263,46 +263,45 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		return mLastFullUpdate;
 	}
 
-	public void updateFrom(Trip updatedTrip) {
+	public void updateFrom(Trip other) {
 		// For now, we assume that updateFrom() will always have more details than
 		// we have now, so we blow away most current data.  This may not be true
 		// once the API is fully fleshed otu.
 
-		mLevelOfDetail = updatedTrip.mLevelOfDetail;
+		mLevelOfDetail = other.mLevelOfDetail;
 
-		mTripId = updatedTrip.mTripId;
+		mTripId = other.mTripId;
 
-		mTitle = updatedTrip.mTitle;
-		mDescription = updatedTrip.mDescription;
+		mTitle = other.mTitle;
+		mDescription = other.mDescription;
 
-		mDetailsUrl = updatedTrip.mDetailsUrl;
+		mDetailsUrl = other.mDetailsUrl;
 
-		if (mShareInfo.hasSharableDetailsUrl() && updatedTrip.getShareInfo().hasSharableDetailsUrl()
-				&& !mShareInfo.getSharableDetailsUrl().equals(updatedTrip.getShareInfo().getSharableDetailsUrl())) {
+		if (mShareInfo.hasSharableDetailsUrl() && other.getShareInfo().hasSharableDetailsUrl()
+				&& !mShareInfo.getSharableDetailsUrl().equals(other.getShareInfo().getSharableDetailsUrl())) {
 			//The sharable details url has changed, so our shortened sharable details url is no longer valid.
 			mShareInfo.setShortSharableDetailsUrl(null);
 		}
 
-		if (!TextUtils.isEmpty(updatedTrip.getShareInfo().getSharableDetailsUrl())) {
-			mShareInfo.setSharableDetailsUrl(updatedTrip.getShareInfo().getSharableDetailsUrl());
+		if (!TextUtils.isEmpty(other.getShareInfo().getSharableDetailsUrl())) {
+			mShareInfo.setSharableDetailsUrl(other.getShareInfo().getSharableDetailsUrl());
 		}
 
 		//We dont squash the shortened url, if we dont have a new value for it
-		mShareInfo.setShortSharableDetailsUrl(updatedTrip.getShareInfo().hasShortSharableDetailsUrl() ? updatedTrip.getShareInfo()
+		mShareInfo.setShortSharableDetailsUrl(other.getShareInfo().hasShortSharableDetailsUrl() ? other.getShareInfo()
 				.getShortSharableDetailsUrl() : getShareInfo().getShortSharableDetailsUrl());
 
-		mStartDate = updatedTrip.mStartDate;
-		mEndDate = updatedTrip.mEndDate;
+		mStartDate = other.mStartDate;
+		mEndDate = other.mEndDate;
 
-		mCustomerSupport = updatedTrip.mCustomerSupport;
+		mCustomerSupport = other.mCustomerSupport;
 
-		mBookingStatus = updatedTrip.mBookingStatus;
+		mBookingStatus = other.mBookingStatus;
 
-		mTripComponents = updatedTrip.mTripComponents;
+		mTripComponents = other.mTripComponents;
 		associateTripWithComponents();
 
-		mTripInsurance = updatedTrip.getTripInsurance();
-		mAirAttach = updatedTrip.getAirAttach();
+		mTripInsurance = other.getTripInsurance();
 	}
 
 	public void markUpdated(boolean isFullUpdate) {
@@ -366,11 +365,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 			obj.putOpt("isShared", mIsShared);
 			obj.putOpt("isTripUpgradable", mIsTripUpgradable);
-
-			if (mAirAttach != null) {
-				obj.putOpt("airAttach", mAirAttach.toJson());
-			}
-
 			return obj;
 		}
 		catch (JSONException e) {
@@ -414,14 +408,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 		mIsShared = obj.optBoolean("isShared");
 		mIsTripUpgradable = obj.optBoolean("isTripUpgradable");
-
-		if (obj.has("airAttach")) {
-			JSONObject airAttachJson = obj.optJSONObject("airAttach");
-			if (airAttachJson != null) {
-				mAirAttach = new AirAttach(airAttachJson);
-			}
-		}
-
 		return true;
 	}
 

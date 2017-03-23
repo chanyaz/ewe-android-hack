@@ -29,7 +29,6 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
@@ -201,7 +200,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
 		}
 		else if (holder instanceof LaunchScreenAirAttachCard) {
-			Trip recentUpcomingFlightTrip = getUpcomingAirAttachQualifiedFlightTrip();
+			Trip recentUpcomingFlightTrip = getRecentUpcomingFlightTrip();
 			TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
 			HotelSearchParams hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
 			String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
@@ -444,17 +443,17 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private boolean showAirAttachMessage() {
 		return userBucketedForAirAttach(context) && User.isLoggedIn(context)
-			&& isPOSAndBrandAirAttachEnabled() && getUpcomingAirAttachQualifiedFlightTrip() != null;
+			&& isUserAirAttachQualified() && getRecentUpcomingFlightTrip() != null;
 	}
 
 	@VisibleForTesting
-	public Trip getUpcomingAirAttachQualifiedFlightTrip() {
-		return TripUtils.getUpcomingAirAttachQualifiedFlightTrip(getCustomerTrips());
+	public Trip getRecentUpcomingFlightTrip() {
+		return TripUtils.getRecentUpcomingFlightTrip(getCustomerTrips());
 	}
 
 	@VisibleForTesting
-	public boolean isPOSAndBrandAirAttachEnabled() {
-		return PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
+	public boolean isUserAirAttachQualified() {
+		return Db.getTripBucket().isUserAirAttachQualified();
 	}
 
 	private boolean showItinCard() {
