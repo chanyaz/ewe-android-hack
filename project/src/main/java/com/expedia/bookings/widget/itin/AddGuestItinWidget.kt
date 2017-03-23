@@ -109,13 +109,6 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
         }
     }
 
-    override fun onVisibilityChanged(changedView: View, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE && changedView == this) {
-            itinPOSHeader.setCurrentPOS()
-        }
-    }
-
     fun resetFields() {
         isResettingFields = true
         guestEmailEditText.setText("")
