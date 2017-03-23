@@ -1,24 +1,23 @@
 package com.expedia.bookings.test.phone.newflights
 
 import android.support.test.espresso.Espresso
-import android.support.test.espresso.FailureHandler
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.espresso.matcher.ViewMatchers.isClickable
+import android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
+import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
-import com.expedia.bookings.test.tablet.pagemodels.Checkout
-import com.mobiata.android.Log
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
-import org.junit.Assert
 import org.junit.Test
 
 class FlightCheckoutOverviewAcceptTermsTest : NewFlightTestCase() {
@@ -107,17 +106,16 @@ class FlightCheckoutOverviewAcceptTermsTest : NewFlightTestCase() {
     }
 
     private fun assertAcceptTermsWidgetIsShown() {
-        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.accept_terms_widget),
-                ViewMatchers.isCompletelyDisplayed()))
+        onView(Matchers.allOf(ViewMatchers.withId(R.id.accept_terms_widget))).perform(waitForViewToDisplay())
+        onView(Matchers.allOf(ViewMatchers.withId(R.id.accept_terms_widget))).check(ViewAssertions.matches(isCompletelyDisplayed()))
 
-        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.i_accept_terms_button),
-                ViewMatchers.isCompletelyDisplayed(),
-                ViewMatchers.isClickable(),
-                ViewMatchers.withText("I Accept")))
+        onView(Matchers.allOf(ViewMatchers.withId(R.id.i_accept_terms_button))).check(ViewAssertions.matches(isClickable()))
+        onView(Matchers.allOf(ViewMatchers.withId(R.id.i_accept_terms_button)))
+                .check(ViewAssertions.matches(Matchers.allOf(ViewMatchers.withText("I Accept"), isCompletelyDisplayed())))
 
-        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.do_you_accept_label),
-                ViewMatchers.isCompletelyDisplayed(),
-                ViewMatchers.withText("Do you accept all of the conditions outlined above?")))
+        onView(Matchers.allOf(ViewMatchers.withId(R.id.do_you_accept_label)))
+                .check(ViewAssertions.matches(ViewMatchers.withText("Do you accept all of the conditions outlined above?")))
+        onView(Matchers.allOf(ViewMatchers.withId(R.id.do_you_accept_label))).check(ViewAssertions.matches(isCompletelyDisplayed()))
     }
 
     private fun assertSlideToPurchaseWidgetIsVisible() {

@@ -25,8 +25,6 @@
         android:background="?attr/skin_rippleDrawable"
         android:clickable="true"
         android:gravity="center"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp"
         android:text="@string/I_Accept"
         android:textSize="16sp" />
 
