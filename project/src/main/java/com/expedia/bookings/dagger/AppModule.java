@@ -127,7 +127,6 @@ public class AppModule {
 	}
 
 	@Provides
-	@Singleton
 	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
 		HttpLoggingInterceptor.Level logLevel, ChuckInterceptor chuckInterceptor) {
 
