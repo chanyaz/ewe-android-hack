@@ -114,16 +114,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         alert.show()
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        val isExtraPaddingRequired = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP
-        if (isExtraPaddingRequired) {
-            val editTextSpacing = context.resources.getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
-            dateOfBirth.setPadding(dateOfBirth.paddingLeft, dateOfBirth.paddingTop, dateOfBirth.paddingRight, editTextSpacing)
-            genderEditText?.setPadding(dateOfBirth.paddingLeft, dateOfBirth.paddingTop, dateOfBirth.paddingRight, editTextSpacing)
-        }
-    }
-
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
         viewModel.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
     }

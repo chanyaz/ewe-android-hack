@@ -3,6 +3,7 @@ package com.expedia.util
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -15,6 +16,7 @@ import android.widget.ToggleButton
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
+import com.expedia.bookings.widget.updatePaddingForOldApi
 import com.google.android.gms.maps.GoogleMap
 import com.jakewharton.rxbinding.widget.RxTextView
 import rx.Observable
@@ -256,6 +258,9 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
             (this.parent as TextInputLayout).error = errorMessage
         } else {
             (this.parent as TextInputLayout).error = null
+        }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+            this.updatePaddingForOldApi()
         }
     }
 }

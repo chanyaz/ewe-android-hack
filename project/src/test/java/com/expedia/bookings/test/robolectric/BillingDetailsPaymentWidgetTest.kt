@@ -449,7 +449,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(creditCardLayout, "Enter a valid card number")
 
         billingDetailsPaymentWidget.creditCardNumber.setText("4")
-        assertNull(creditCardLayout.error)
+        assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
     }
 
     @Test
@@ -476,7 +476,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(cvvLayout, "Enter a valid CVV number")
 
         billingDetailsPaymentWidget.creditCardCvv.setText("41")
-        assertNull(cvvLayout.error)
+        assertValidState(cvvLayout, "CVV")
     }
 
     @Test
@@ -490,7 +490,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(nameLayout, "Enter name as it appears on the card")
 
         billingDetailsPaymentWidget.creditCardName.setText("E")
-        assertNull(nameLayout.error)
+        assertValidState(nameLayout, "Cardholder name")
     }
 
     @Test
@@ -504,7 +504,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)")
 
         billingDetailsPaymentWidget.addressLineOne.setText("114 Sansome")
-        assertNull(addressLayout.error)
+        assertValidState(addressLayout, "Address line 1")
     }
 
     @Test

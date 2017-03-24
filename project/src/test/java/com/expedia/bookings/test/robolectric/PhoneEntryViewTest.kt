@@ -57,7 +57,7 @@ class PhoneEntryViewTest {
     fun testCountryCodeChangesFromDialogSelection() {
         SettingUtils.save(appContext, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val editBoxForDialog = widget.findViewById(R.id.edit_phone_number_country_code_button) as EditText
+        val editBoxForDialog = widget.findViewById(R.id.material_edit_phone_number_country_code) as EditText
         widget.viewModel = setupViewModelWithPhone()
 
         assertWidgetIsCorrect(editBoxForDialog, testCodeString)
@@ -79,7 +79,7 @@ class PhoneEntryViewTest {
     fun testPointOfSaleCountryCodeUsedIfNoneProvided() {
         SettingUtils.save(appContext, R.string.preference_universal_checkout_material_forms, true)
         widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
-        val editBoxForDialog = widget.findViewById(R.id.edit_phone_number_country_code_button) as EditText
+        val editBoxForDialog = widget.findViewById(R.id.material_edit_phone_number_country_code) as EditText
         widget.viewModel = setupViewModelWithPhone()
         widget.viewModel.updatePhone(Phone())
 

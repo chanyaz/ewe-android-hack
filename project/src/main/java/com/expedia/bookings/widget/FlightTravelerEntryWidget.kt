@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.animation.Animator
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -150,6 +151,22 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                     hideAdvancedOptions()
                 }
             }
+        }
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        if (isExtraPaddingRequired) {
+            phoneEntryView.phoneNumber.updatePaddingForOldApi()
+            phoneEntryView.phoneEditBox?.updatePaddingForOldApi()
+            tsaEntryView.dateOfBirth.updatePaddingForOldApi()
+            tsaEntryView.genderEditText?.updatePaddingForOldApi()
+            if (materialFormTestEnabled) {
+                nameEntryView.firstName.updatePaddingForOldApi()
+                nameEntryView.middleName.updatePaddingForOldApi()
+                nameEntryView.lastName.updatePaddingForOldApi()
+                emailEntryView.emailAddress.updatePaddingForOldApi()
+                advancedOptionsWidget.travelerNumber.updatePaddingForOldApi()
+                advancedOptionsWidget.redressNumber.updatePaddingForOldApi()
+            }
+
         }
     }
 
