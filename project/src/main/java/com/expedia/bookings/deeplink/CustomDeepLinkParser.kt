@@ -28,6 +28,7 @@ class CustomDeepLinkParser(assets: AssetManager): DeepLinkParser(assets) {
             "trips" -> return parseTripCustomDeepLink(data)
             "showtrips" -> return TripDeepLink()
             "supportemail" -> return SupportEmailDeepLink()
+            "reviewsupportemail" -> return ReviewSupportEmailDeeplink()
             "forcebucket" -> return parseForceBucketDeepLink(data)
             else -> return HomeDeepLink()
         }

@@ -241,6 +241,13 @@ class CustomDeepLinkParserTest {
     }
 
     @Test
+    fun reviewSupportEmailDeepLinkParsing() {
+        val data = Uri.parse("expda://reviewSupportEmail")
+        val output = parser.parseDeepLink(data)
+        Assert.assertTrue(output is ReviewSupportEmailDeeplink)
+    }
+
+    @Test
     fun forceBucketDeepLinkParsing() {
         var data = Uri.parse("expda://forceBucket")
         var output = parser.parseDeepLink(data)

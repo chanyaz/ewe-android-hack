@@ -33,6 +33,7 @@ import com.expedia.bookings.deeplink.ForceBucketDeepLink;
 import com.expedia.bookings.deeplink.HomeDeepLink;
 import com.expedia.bookings.deeplink.HotelDeepLink;
 import com.expedia.bookings.deeplink.MemberPricingDeepLink;
+import com.expedia.bookings.deeplink.ReviewSupportEmailDeeplink;
 import com.expedia.bookings.deeplink.SharedItineraryDeepLink;
 import com.expedia.bookings.deeplink.ShortUrlDeepLink;
 import com.expedia.bookings.deeplink.SignInDeepLink;
@@ -175,6 +176,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 		else if (deepLink instanceof SupportEmailDeepLink) {
 			handleSupportEmail();
+			finish = true;
+		}
+		else if (deepLink instanceof ReviewSupportEmailDeeplink) {
+			handleReviewSupportEmail();
 			finish = true;
 		}
 		else if (deepLink instanceof ForceBucketDeepLink) {
@@ -508,6 +513,14 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	protected void handleSupportEmail() {
 		Intent intent = SocialUtils
 			.getEmailIntent(this, getString(R.string.email_app_support), getString(R.string.email_app_support_headline),
+				DebugInfoUtils.generateEmailBody(this));
+		startActivity(intent);
+	}
+
+	@VisibleForTesting
+	protected void handleReviewSupportEmail() {
+		Intent intent = SocialUtils
+			.getEmailIntent(this, getString(R.string.email_app_review_support), getString(R.string.email_app_support_headline),
 				DebugInfoUtils.generateEmailBody(this));
 		startActivity(intent);
 	}
