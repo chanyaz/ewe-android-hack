@@ -92,7 +92,7 @@
     <string name="preference_clear_user_cookies">preference_clear_user_cookies</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_enable_bugshaker">preference_enable_bugshaker</string>
-    <string name="preference_disable_modern_tls">preference_disable_modern_tls</string>
+    <string name="preference_disable_modern_https_security">preference_disable_modern_https_security</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_swp_flights_earn_messaging">preference_swp_flights_earn_messaging</string>
     <string name="preference_app_intro_shown_once">preference_app_intro_shown_once</string>

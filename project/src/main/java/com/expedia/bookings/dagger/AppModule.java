@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -40,14 +35,10 @@ import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
-import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.TLSSocketFactory;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.model.UserLoginStateChangedModel;
-import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -56,15 +47,12 @@ import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
-import okhttp3.CipherSuite;
-import okhttp3.ConnectionSpec;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -126,9 +114,9 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	SSLContext provideSSLContext(X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
+	SSLContext provideSSLContext(X509TrustManager x509TrustManager, boolean isModernHttpsSecurityEnabled) {
 		try {
-			if (isModernTLSEnabled) {
+			if (isModernHttpsSecurityEnabled) {
 				return SSLContext.getDefault();
 			}
 			else {
@@ -169,7 +157,7 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	boolean provideIsModernTLSEnabled(EndpointProvider endpointProvider) {
+	boolean provideIsModernHttpsSecurityEnabled(EndpointProvider endpointProvider) {
 		if (BuildConfig.RELEASE) {
 			return true;
 		}
@@ -180,7 +168,7 @@ public class AppModule {
 		}
 
 		return !SettingUtils
-			.get(context, context.getString(R.string.preference_disable_modern_tls), false);
+			.get(context, context.getString(R.string.preference_disable_modern_https_security), false);
 	}
 
 	@Provides

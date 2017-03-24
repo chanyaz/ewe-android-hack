@@ -32,14 +32,9 @@ open class InsecureOKHttpClientFactory : AbstractOKHttpClientFactory() {
         }
     }
 
-    override fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext, isModernTLSEnabled: Boolean, isDisableHttpsConnectionValidation: Boolean) {
+    override fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
 
-        if (isDisableHttpsConnectionValidation) {
-            configureClientToAcceptAnyServer(client)
-        }
-        else {
-            super.setupSSLSocketFactoryAndConnectionSpec(client, sslContext, isModernTLSEnabled, isDisableHttpsConnectionValidation = false)
-        }
+        configureClientToAcceptAnyServer(client)
     }
 
     private fun configureClientToAcceptAnyServer(client: OkHttpClient.Builder) {

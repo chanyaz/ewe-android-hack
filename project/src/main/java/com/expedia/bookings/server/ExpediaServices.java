@@ -174,7 +174,7 @@ public class ExpediaServices implements DownloadListener {
 	public X509TrustManager x509TrustManager;
 
 	@Inject
-	public boolean isModernTLSEnabled;
+	public boolean isModernHttpsSecurityEnabled;
 
 	private OkHttpClient mClient;
 	private Call call;
@@ -199,7 +199,7 @@ public class ExpediaServices implements DownloadListener {
 		// 1902 - Allow redirecting from API calls
 		client.followRedirects(true);
 
-		if (isModernTLSEnabled) {
+		if (isModernHttpsSecurityEnabled) {
 			TLSSocketFactory socketFactory = new TLSSocketFactory(mSSLContext);
 			client.sslSocketFactory(socketFactory, x509TrustManager);
 			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
