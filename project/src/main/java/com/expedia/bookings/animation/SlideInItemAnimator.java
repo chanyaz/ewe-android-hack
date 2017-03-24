@@ -53,8 +53,8 @@ public class SlideInItemAnimator extends DefaultItemAnimator {
 	}
 
 	private void runEnterAnimation(final RecyclerView.ViewHolder holder) {
-		holder.itemView.setTranslationY(-holder.itemView.getHeight());
-		holder.itemView.setTranslationZ(getTranslationYOffset(holder.getItemViewType()));
+		ViewCompat.setTranslationY(holder.itemView, -holder.itemView.getHeight());
+		ViewCompat.setTranslationZ(holder.itemView, getTranslationYOffset(holder.getItemViewType()));
 
 		ViewCompat.animate(holder.itemView)
 			.setInterpolator(new OvershootInterpolator(1.5f))
