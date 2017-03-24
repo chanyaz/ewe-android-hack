@@ -3,14 +3,9 @@ package com.expedia.bookings.dagger;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import android.content.Context;
 
@@ -67,23 +62,6 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	X509TrustManager provideX509TrustManager() {
-		return new X509TrustManager() {
-			public void checkClientTrusted(X509Certificate[] chain, String authType) throws
-				CertificateException {
-			}
-
-			public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-			}
-
-			public X509Certificate[] getAcceptedIssuers() {
-				return new X509Certificate[0];
-			}
-		};
-	}
-
-	@Provides
-	@Singleton
 	Context provideContext() {
 		return context;
 	}
@@ -110,29 +88,6 @@ public class AppModule {
 			return HttpLoggingInterceptor.Level.BODY;
 		}
 		return HttpLoggingInterceptor.Level.NONE;
-	}
-
-	@Provides
-	@Singleton
-	SSLContext provideSSLContext(X509TrustManager x509TrustManager, boolean isModernHttpsSecurityEnabled) {
-		try {
-			if (isModernHttpsSecurityEnabled) {
-				return SSLContext.getDefault();
-			}
-			else {
-				TrustManager[] easyTrustManager = new TrustManager[] {
-					x509TrustManager
-				};
-
-				SSLContext socketContext = SSLContext.getInstance("TLS");
-				socketContext.init(null, easyTrustManager, new java.security.SecureRandom());
-				return socketContext;
-
-			}
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	private static final String COOKIE_FILE_V5 = "cookies-5.dat";
@@ -173,11 +128,16 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, ChuckInterceptor chuckInterceptor) {
+	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
+		HttpLoggingInterceptor.Level logLevel, ChuckInterceptor chuckInterceptor) {
 
-		OKHttpClientFactory okHttpClientFactory = new OKHttpClientFactory();
-		return okHttpClientFactory.getOkHttpClient(context, cookieManager, cache, logLevel, sslContext, chuckInterceptor);
+		return new OKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor);
+	}
+
+	@Provides
+	@Singleton
+	OkHttpClient provideOkHttpClient(OKHttpClientFactory okHttpClientFactory) {
+		return okHttpClientFactory.getOkHttpClient(null);
 	}
 
 	@Provides

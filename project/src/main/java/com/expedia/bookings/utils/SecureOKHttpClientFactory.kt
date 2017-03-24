@@ -5,31 +5,29 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.google.android.gms.security.ProviderInstaller
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Cache
+import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 
 
-abstract class SecureOKHttpClientFactory {
+abstract class SecureOKHttpClientFactory(private val context: Context, private val cookieManager: PersistentCookiesCookieJar, private val cache: Cache,
+                                         private val logLevel: HttpLoggingInterceptor.Level, private val chuckInterceptor: ChuckInterceptor) {
 
-    fun getOkHttpClient(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache,
-                                   logLevel: HttpLoggingInterceptor.Level, sslContext: SSLContext,
-                                   chuckInterceptor: ChuckInterceptor): OkHttpClient {
-        try {
-            ProviderInstaller.installIfNeeded(context)
-        } catch (e: Exception) {
-            // rely on the PlayServices checking code that runs when first activity starts
-            // to guide the user through the recovery process
+    private var clientBuilder: OkHttpClient.Builder? = null
+
+
+    fun getOkHttpClient(cookieJar: CookieJar? = null): OkHttpClient {
+        if (clientBuilder == null) {
+            makeOkHttpClient()
         }
 
-        val client = OkHttpClient().newBuilder()
+        if (cookieJar != null) {
+            clientBuilder!!.cookieJar(cookieJar)
+        }
 
-        setupClient(client, cache, cookieManager)
-        addInterceptors(client, logLevel, chuckInterceptor)
-        setupSSLSocketFactoryAndConnectionSpec(client, sslContext)
-
-        return client.build()
+        return clientBuilder!!.build()
     }
 
     abstract protected fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext)
@@ -46,5 +44,29 @@ abstract class SecureOKHttpClientFactory {
         val logger = HttpLoggingInterceptor()
         logger.level = logLevel
         client.addInterceptor(logger)
+    }
+
+    private fun makeOkHttpClient() {
+        try {
+            ProviderInstaller.installIfNeeded(context)
+        } catch (e: Exception) {
+            // rely on the PlayServices checking code that runs when first activity starts
+            // to guide the user through the recovery process
+        }
+
+        val client = OkHttpClient().newBuilder()
+        setupClient(client, cache, cookieManager)
+        addInterceptors(client, logLevel, chuckInterceptor)
+        setupSSLSocketFactoryAndConnectionSpec(client, makeSslContext())
+
+        this.clientBuilder = client
+    }
+
+    private fun makeSslContext(): SSLContext {
+        try {
+            return SSLContext.getDefault()
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
     }
 }

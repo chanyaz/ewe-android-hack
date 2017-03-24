@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.mobiata.android.Log
@@ -15,7 +16,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-open class InsecureOKHttpClientFactory : SecureOKHttpClientFactory() {
+open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, logLevel: HttpLoggingInterceptor.Level, chuckInterceptor: ChuckInterceptor) : SecureOKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor) {
 
     override fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
         super.setupClient(client, cache, cookieManager)
