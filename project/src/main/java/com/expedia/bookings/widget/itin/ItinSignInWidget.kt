@@ -46,8 +46,6 @@ class ItinSignInWidget(context: Context, attr: AttributeSet?) : RelativeLayout(c
         signInContainer.subscribeOnClick(viewModel.signInClickSubject)
         addGuestItinTextButton.subscribeOnClick(viewModel.addGuestItinClickSubject)
 
-        signInContainer.subscribeOnClick(viewModel.signInClickSubject)
-
         viewModel.statusTextColorSubject.subscribeTextColor(statusText)
         viewModel.statusImageVisibilitySubject.subscribeVisibility(statusImage)
         viewModel.statusTextSubject.subscribeText(statusText)
