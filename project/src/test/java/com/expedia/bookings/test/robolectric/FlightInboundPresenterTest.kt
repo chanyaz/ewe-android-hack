@@ -18,6 +18,8 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightInboundPresenter
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
@@ -184,7 +186,7 @@ class FlightInboundPresenterTest {
         assertEquals("Baggage fee info", flightInboundPresenter.overviewPresenter.showBaggageFeesButton.text)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightUrgencyMessage() {
         val flightLeg = setupFlightLeg()
 
