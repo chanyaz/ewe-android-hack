@@ -611,7 +611,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
 		builder.setUrl(url);
 		builder.setTitle(titleResId);
-		builder.setTheme(R.style.ItineraryTheme);
 		builder.setInjectExpediaCookies(true);
 		builder.setAllowMobileRedirects(false);
 		builder.setAttemptForceMobileSite(true);

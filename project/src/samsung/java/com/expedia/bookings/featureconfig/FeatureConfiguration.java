@@ -118,7 +118,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 			public void onClick(View arg0) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
 				builder.setUrl(insuranceTermsUrl);
-				builder.setTheme(R.style.ItineraryTheme);
 				builder.setTitle(R.string.insurance);
 				builder.setAllowMobileRedirects(false);
 				context.startActivity(builder.getIntent());

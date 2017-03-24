@@ -267,7 +267,6 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	public void onBaggageFeeViewClicked(String title, String url) {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 		Intent intent = builder.setUrl(url) //
-			.setTheme(R.style.V2_Theme_Activity_TabletWeb) //
 			.setTitle(title) //
 			.setAllowMobileRedirects(false) //
 			.getIntent();

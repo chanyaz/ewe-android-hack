@@ -349,7 +349,6 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 		builder.setUrl(url);
-		builder.setTheme(R.style.FlightTheme);
 		builder.setTitle(title);
 		builder.setTrackingName(trackingName);
 		builder.setAllowMobileRedirects(false);

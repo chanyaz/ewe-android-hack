@@ -104,7 +104,6 @@ class FlightItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<I
         val builder = WebViewActivity.IntentBuilder(context)
         builder.setUrl(mItinContentGenerator.checkInLink)
         builder.setTitle(R.string.itin_card_flight_checkin_title)
-        builder.setTheme(R.style.ItineraryTheme)
         builder.setCheckInLink(true)
         builder.setInjectExpediaCookies(true)
         builder.setAllowMobileRedirects(false)

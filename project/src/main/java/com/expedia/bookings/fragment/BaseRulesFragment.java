@@ -82,7 +82,6 @@ public abstract class BaseRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(url);
-				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.rules_and_restrictions);
 				builder.setInjectExpediaCookies(true);
 				builder.setLoginEnabled(true);
@@ -105,7 +104,6 @@ public abstract class BaseRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getTermsAndConditionsUrl());
-				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.terms_and_conditions);
 				startActivity(builder.getIntent());
 			}
@@ -119,7 +117,6 @@ public abstract class BaseRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(pos.getTermsOfBookingUrl());
-					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.Terms_of_Booking);
 					startActivity(builder.getIntent());
 				}
@@ -137,7 +134,6 @@ public abstract class BaseRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getPrivacyPolicyUrl());
-				builder.setTheme(R.style.FlightTheme);
 				builder.setTitle(R.string.privacy_policy);
 				startActivity(builder.getIntent());
 			}
@@ -162,7 +158,6 @@ public abstract class BaseRulesFragment extends Fragment {
 					builder.setHtmlData(html);
 
 					builder.setTitle(R.string.lawyer_label_atol_information);
-					builder.setTheme(R.style.FlightTheme);
 					startActivity(builder.getIntent());
 				}
 			});
@@ -236,7 +231,6 @@ public abstract class BaseRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(url);
-					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.legal_information);
 					startActivity(builder.getIntent());
 				}
