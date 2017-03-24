@@ -3,6 +3,7 @@ package com.expedia.bookings.data.trips
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.FlightTrip
+import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.flightlib.data.Airport
 import com.mobiata.flightlib.data.Flight
@@ -266,6 +267,72 @@ class TripUtilsTest {
         val city = TripUtils.getFlightTripDestinationCity(tripFlight)
         Mockito.verify(destinationWaypoint, Mockito.times(1)).airport
         assertEquals(expectedCity, city)
+    }
+
+    @Test
+    fun hotelSearchParamsForDeeplinkAAOneWayFlight() {
+        val expectedAirportCode = "SFO"
+        val flightStartDate = DateTime.now().plusDays(10)
+        val tripFlight = TripFlight()
+        val flightTrip = FlightTrip()
+        val segment = Flight()
+        val flightLeg = FlightLeg()
+        val traveler = Traveler()
+        val destinationWaypoint = Mockito.mock(Waypoint::class.java)
+        val destinationAirport = Airport()
+
+        destinationAirport.mAirportCode = expectedAirportCode
+        Mockito.`when`(destinationWaypoint.airport).thenReturn(destinationAirport)
+        segment.destinationWaypoint = destinationWaypoint
+        flightLeg.addSegment(segment)
+
+        Mockito.`when`(flightLeg.lastWaypoint.bestSearchDateTime).thenReturn(flightStartDate)
+        flightTrip.addLeg(flightLeg)
+
+        tripFlight.addTraveler(traveler)
+        tripFlight.flightTrip = flightTrip
+
+        val hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight)
+
+        assertEquals(flightStartDate.toLocalDate(), hotelSearchParams.checkInDate)
+        assertEquals(flightStartDate.plusDays(1).toLocalDate(), hotelSearchParams.checkOutDate)
+    }
+
+    @Test
+    fun hotelSearchParamsForDeeplinkAARoundTripFlight() {
+        val expectedAirportCode = "SFO"
+        val flightStartDate = DateTime.now().plusDays(10)
+        val flightEndDate = DateTime.now().plusDays(13)
+        val tripFlight = TripFlight()
+        val flightTrip = FlightTrip()
+        val firstFlightLeg = FlightLeg()
+        val secondFlightLeg = FlightLeg()
+        val segment = Flight()
+        val traveler = Traveler()
+        val originWayPoint = Mockito.mock(Waypoint::class.java)
+        val destinationWaypoint = Mockito.mock(Waypoint::class.java)
+        val destinationAirport = Airport()
+
+        destinationAirport.mAirportCode = expectedAirportCode
+        Mockito.`when`(destinationWaypoint.airport).thenReturn(destinationAirport)
+        segment.originWaypoint = originWayPoint
+        segment.destinationWaypoint = destinationWaypoint
+        firstFlightLeg.addSegment(segment)
+        secondFlightLeg.addSegment(segment)
+
+        Mockito.`when`(firstFlightLeg.lastWaypoint.bestSearchDateTime).thenReturn(flightStartDate)
+        flightTrip.addLeg(firstFlightLeg)
+
+        Mockito.`when`(secondFlightLeg.firstWaypoint.mostRelevantDateTime).thenReturn(flightEndDate)
+        flightTrip.addLeg(secondFlightLeg)
+
+        tripFlight.addTraveler(traveler)
+        tripFlight.flightTrip = flightTrip
+
+        val hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight)
+
+        assertEquals(flightStartDate.toLocalDate(), hotelSearchParams.checkInDate)
+        assertEquals(flightEndDate.toLocalDate(), hotelSearchParams.checkOutDate)
     }
 
     @Test
