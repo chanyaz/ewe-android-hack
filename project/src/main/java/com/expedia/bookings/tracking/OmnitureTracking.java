@@ -3591,10 +3591,6 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
-		// deliberately using this check as we want to log the test exposure on all tablet devices, regardless of which experience is shown
-		if (AndroidUtils.isTablet(sContext)) {
-			trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppPhablet);
-		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		s.setProp(2, "storefront");
