@@ -7,8 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TableLayout;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.utils.Ui;
 
 public class CreditCardInputSection extends TableLayout implements View.OnClickListener {
@@ -39,7 +38,7 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 	private void init(Context context) {
 		setStretchAllColumns(true);
 		LayoutInflater inflater = LayoutInflater.from(context);
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet)) {
+		if (!ExpediaBookingApp.useTabletInterface()) {
 			inflater.inflate(R.layout.phone_section_credit_card_input, this, true);
 		}
 		else {

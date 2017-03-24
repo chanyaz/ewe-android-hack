@@ -20,7 +20,6 @@ import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -92,14 +91,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		@Override
 		public void onError(Throwable e) {
 			AbacusHelperUtils.updateAbacus(new AbacusResponse(), DeepLinkRouterActivity.this);
-			ExpediaBookingApp.setIsBucketedForPhablet(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet));
 			handleDeeplink();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
 			AbacusHelperUtils.updateAbacus(abacusResponse, DeepLinkRouterActivity.this);
-			ExpediaBookingApp.setIsBucketedForPhablet(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.ExpediaAndroidAppPhablet));
 		}
 	};
 

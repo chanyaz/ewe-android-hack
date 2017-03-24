@@ -94,7 +94,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static boolean sIsFirstLaunchEver = true;
 	private static boolean sIsFirstLaunchOfAppVersion = true;
 	private static boolean sIsTablet = false;
-	private static boolean sIsBucketedForPhablet = false;
 
 	public static boolean isFirstLaunchOfAppVersion() {
 		return sIsFirstLaunchOfAppVersion;
@@ -126,10 +125,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static void setIsRobolectric(boolean isRobolectric) {
 		sIsRobolectric = isRobolectric;
-	}
-
-	public static void setIsBucketedForPhablet(boolean isBucketedForPhablet) {
-		sIsBucketedForPhablet = isBucketedForPhablet;
 	}
 
 	private AppStartupTimeLogger appStartupTimeLogger;
@@ -368,12 +363,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	 * Use this method when you need to know whether or not to display the tablet user interface.
 	 */
 	public static boolean useTabletInterface() {
-		if (sIsBucketedForPhablet) {
-			return false;
-		}
-		else {
-			return isTablet();
-		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
