@@ -490,9 +490,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForItinCardSignedIn() {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard,
-				R.string.preference_active_itin_on_launch);
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 	}
 
 	public int getOffset() {
@@ -500,9 +498,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean userBucketedForItinCardGuest() {
-		return FeatureToggleUtil.
-			isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard,
-				R.string.preference_guest_itin_on_launch);
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 	}
 
 

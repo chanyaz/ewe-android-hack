@@ -56,6 +56,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
+	public static final int EBAndroidAppWebViewCheckout = 13741;
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
 	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
 	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
@@ -114,6 +115,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightUrgencyMessage);
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX);
 		testIDs.add(EBAndroidAppLXFilterSearch);
+		testIDs.add(EBAndroidAppWebViewCheckout);
 		testIDs.add(EBAndroidAppCheckoutButtonText);
 		testIDs.add(EBAndroidAppLXDisablePOISearch);
 		testIDs.add(EBAndroidAppTripsUserReviews);

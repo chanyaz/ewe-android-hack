@@ -274,7 +274,6 @@
     <dimen name="traveler_input_text_size">16sp</dimen>
     <dimen name="checkout_form_padding">14dp</dimen>
     <dimen name="checkout_earlier_api_version_edit_text_spacing">8dp</dimen>
-    <dimen name="checkout_slider_bottom_margin">8dp</dimen>
 
     <!-- Package Bundle Overview Footer -->
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
