@@ -56,7 +56,6 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -575,9 +574,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Log.d("ITIN: addConfirmationNumber");
 		TripFlight tripFlight = (TripFlight) getItinCardData().getTripComponent();
 		boolean isTicketingInProgress = tripFlight.getTicketingStatus() == TicketingStatus.INPROGRESS;
-		boolean isFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_pending_flight_itin);
 
-		if (isTicketingInProgress && isFeatureEnabled) {
+		if (isTicketingInProgress) {
 			int labelResId = this.getItinCardData().getConfirmationNumberLabelResId();
 			String pendingTicketing = getContext().getString(R.string.itin_flight_booking_status_pending);
 			View view = setItinDetailItemText(labelResId, pendingTicketing);

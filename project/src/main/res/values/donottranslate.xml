@@ -123,7 +123,6 @@
     <string name="preference_member_deal_on_launch_screen">preference_member_deal_on_launch_screen</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
     <string name="preference_simplify_flight_shopping">preference_simplify_flight_shopping</string>
-    <string name="preference_pending_flight_itin">preference_show_pending_flight</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
 
 
