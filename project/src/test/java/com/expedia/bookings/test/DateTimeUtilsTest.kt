@@ -47,6 +47,19 @@ class DateTimeUtilsTest {
         assertEquals("1h 10m", actualFormatDuration)
     }
 
+    @Test
+    fun formatTotalDurationHour() {
+        val resource = getContext().resources
+        val actualFormatDuration = DateTimeUtils.formatTotalDuration(resource, 10800000L)
+        assertEquals("Total Duration: 3 hr", actualFormatDuration)
+    }
+
+    @Test
+    fun formatTotalDurationMin() {
+        val resource = getContext().resources
+        val actualFormatDuration = DateTimeUtils.formatTotalDuration(resource, 1920000L)
+        assertEquals("Total Duration: 32 min", actualFormatDuration)
+    }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,

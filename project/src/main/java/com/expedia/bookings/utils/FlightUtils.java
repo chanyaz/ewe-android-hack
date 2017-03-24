@@ -74,6 +74,10 @@ public class FlightUtils {
 		return DateTimeUtils.formatDuration(context.getResources(), (int) (leg.getDuration() / 60000));
 	}
 
+	public static String formatTotalDuration(Context context, FlightLeg leg) {
+		return DateTimeUtils.formatTotalDuration(context.getResources(), leg.getDuration());
+	}
+
 	/**
 	 * Returns the string meant to be displayed below the slide-to-purchase view; i.e. the final
 	 * prompt displayed before the card is actually charged. We want this message to be consistent
