@@ -53,7 +53,7 @@
 
     <!-- Email addresses -->
     <string name="email_app_support">expedia-android@mobiata.com </string>
-    <string name="email_app_review_support">feedback-android@mobiata.com</string>
+    <string name="email_app_review_feedback">feedback-android@mobiata.com</string>
     <string name="email_app_support_headline">Feedback In-App Prompt</string>
 
     <!-- Fragment tags -->

@@ -241,10 +241,10 @@ class CustomDeepLinkParserTest {
     }
 
     @Test
-    fun reviewSupportEmailDeepLinkParsing() {
-        val data = Uri.parse("expda://reviewSupportEmail")
+    fun reviewFeedbackEmailDeepLinkParsing() {
+        val data = Uri.parse("expda://reviewFeedbackEmail")
         val output = parser.parseDeepLink(data)
-        Assert.assertTrue(output is ReviewSupportEmailDeeplink)
+        Assert.assertTrue(output is ReviewFeedbackEmailDeeplink)
     }
 
     @Test
