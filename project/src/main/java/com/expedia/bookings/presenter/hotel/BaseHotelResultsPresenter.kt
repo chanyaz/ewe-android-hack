@@ -140,11 +140,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
 
-    var filterScreenShown: Boolean = false
-    var mapTransitionRunning: Boolean = false
-    var hideFabAnimationRunning: Boolean = false
+    var filterScreenShown = false
+    var transitionRunning = false
+    var hideFabAnimationRunning = false
 
-    var previousWasList: Boolean = true
+    var previousWasList = true
 
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
 
@@ -290,7 +290,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun shouldBlockTransition(): Boolean {
-        return (mapTransitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
+        return (transitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
     val addListResultsObserver = endlessObserver<HotelSearchResponse> { response ->
@@ -535,12 +535,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         fabDrawable?.isCrossFadeEnabled = true
 
         fab.setOnClickListener { view ->
-            if (recyclerView.visibility == View.VISIBLE) {
-                showWithTracking(ResultsMap())
-                trackSearchMap()
-            } else {
-                show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
-                trackMapToList()
+            if (!transitionRunning) {
+                if (recyclerView.visibility == View.VISIBLE) {
+                    showWithTracking(ResultsMap())
+                    trackSearchMap()
+                } else {
+                    show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
+                    trackMapToList()
+                }
             }
         }
 
@@ -725,7 +727,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 hideBundlePriceOverview(true)
             }
 
-            if (!mapTransitionRunning && !filterScreenShown) {
+            if (!transitionRunning && !filterScreenShown) {
                 if (!fabShouldBeHiddenOnList() && fab.visibility != View.VISIBLE) {
                     fab.visibility = View.VISIBLE
                     fab.translationY = -filterHeight
@@ -814,7 +816,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            mapTransitionRunning = true
+            transitionRunning = true
             secondTransitionStarted = false
 
             setupToolbarMeasurements()
@@ -851,12 +853,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             secondTransition?.endTransition(forward)
-            mapTransitionRunning = false
+            transitionRunning = false
         }
     }
 
     private val carouselTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsList::class.java, DecelerateInterpolator(2f), 750 / 3) {
         override fun startTransition(forward: Boolean) {
+            transitionRunning = true
             mapCarouselTransition = HorizontalTranslateTransition(mapCarouselContainer, 0, screenWidth.toInt())
             if (mapItems.filter { it.isSelected }.isEmpty()) {
                 mapCarouselContainer.visibility = View.INVISIBLE
@@ -879,6 +882,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun endTransition(forward: Boolean) {
+            transitionRunning = false
             if (forward) {
                 mapCarouselTransition?.toTarget()
                 mapCarouselContainer.visibility = View.INVISIBLE
@@ -898,6 +902,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         override fun startTransition(forwardToList: Boolean) {
             super.startTransition(forwardToList)
+            transitionRunning = true
             //Map pin will always be selected for non-clustering behavior eventually
             val isMapPinSelected = mapItems.filter { it.isSelected }.isNotEmpty()
 
@@ -971,6 +976,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun endTransition(forward: Boolean) {
+            transitionRunning = false
             navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
             recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
 
@@ -1018,6 +1024,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            transitionRunning = true
             filterView.refreshFavoriteCheckbox()
             filterView.visibility = View.VISIBLE
             filterScreenShown = forward
@@ -1043,6 +1050,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            transitionRunning = false
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward) sortFilterButtonTransition?.jumpToOrigin()
@@ -1061,6 +1069,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            transitionRunning = true
             filterView.refreshFavoriteCheckbox()
             filterView.visibility = View.VISIBLE
             if (forward) {
@@ -1077,6 +1086,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            transitionRunning = false
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward) {
@@ -1089,6 +1099,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val sortFaqWebViewTransition = object : ScaleTransition(this, recyclerView, sortFaqWebView, ResultsList::class.java, ResultsSortFaqWebView::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            transitionRunning = true
             if (forward) {
                 fab.visibility = View.GONE
             } else {
@@ -1100,6 +1111,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            transitionRunning = false
             if (forward) {
                 toolbar.visibility = View.GONE
                 mapView.visibility = View.GONE
@@ -1118,7 +1130,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun onInterceptTouchEvent(rv: RecyclerView?, e: MotionEvent?): Boolean {
-            if (mapTransitionRunning) {
+            if (transitionRunning) {
                 return true
             }
             return false
