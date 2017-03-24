@@ -3,6 +3,8 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import org.junit.Rule
@@ -21,14 +23,18 @@ class HotelMapViewModelTest {
 
     lateinit private var hotelOffersResponse: HotelOffersResponse
 
-    @Test fun testFromPriceStyledString() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testFromPriceStyledString() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
 
         assertEquals("From $109", HotelMapViewModel.fromPriceStyledString(RuntimeEnvironment.application, hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo).toString())
         assertEquals("", HotelMapViewModel.fromPriceStyledString(RuntimeEnvironment.application, null).toString())
     }
 
-    @Test fun testFromPriceStyledStringWithNegativePriceToSowUsers() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testFromPriceStyledStringWithNegativePriceToSowUsers() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
 
         val hotelRate = hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
@@ -36,7 +42,9 @@ class HotelMapViewModelTest {
         assertEquals("From $0", HotelMapViewModel.fromPriceStyledString(RuntimeEnvironment.application, hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo).toString())
     }
 
-    @Test fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreSame() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreSame() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreSame()
         val strikeThroughPriceVisibilitySubscriber = TestSubscriber<Boolean>()
         val selectRoomContDescriptionSubscriber = TestSubscriber<String>()
@@ -63,7 +71,9 @@ class HotelMapViewModelTest {
         testSubscriber.assertValues(false, true)
     }
 
-    @Test fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreDifferent() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testViewModelOutputsForViewWhenStrikethroughPriceAndPriceAreDifferent() {
         givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreDifferent()
         val selectRoomContDescriptionSubscriber = TestSubscriber<String>()
 
@@ -87,7 +97,9 @@ class HotelMapViewModelTest {
         testSubscriber.assertValues(true, true)
     }
 
-    @Test fun testViewModelOutputsForViewWhenHotelStarRatingIsZero() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testViewModelOutputsForViewWhenHotelStarRatingIsZero() {
         givenHotelOffersResponseWhenHotelStarRatingIsZero()
 
         var subjectUnderTest = HotelMapViewModel(RuntimeEnvironment.application, endlessObserver {  }, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)

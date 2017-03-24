@@ -5,6 +5,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.sos.MemberDealDestination
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
@@ -34,7 +36,7 @@ class MemberDealDestinationViewModelTest {
         hotel.hotelPricingInfo?.crossOutPriceValue = 260.12
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testMemberDealDestinationViewModel() {
         setupSystemUnderTest()
         assertEquals("https://a.travel-assets.com/dynamic_images/800103.jpg", vm.backgroundUrl)

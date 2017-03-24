@@ -12,8 +12,11 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
@@ -210,6 +213,26 @@ class AbstractFlightListAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun testEarnMessageForMoney(){
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+        createTestFlightListAdapter()
+        createFlightLegWithThreeAirlines(true, "50")
+
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
+        val pos = PointOfSale.getPointOfSale()
+        assertTrue(pos.isEarnMessageEnabledForFlights)
+
+        //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
+        isRoundTripSubject.onNext(false)
+        var flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
+        // This will be tested for MB against different currency eg Orbucks
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.text, "Earn $50")
+    }
+
+    @Test
     fun testAirlineWidgetTextWithEarnMessagingAndRoundTripWithControlledTest(){
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
         createTestFlightListAdapter()
@@ -231,7 +254,7 @@ class AbstractFlightListAdapterTest {
         return flightViewHolder
     }
 
-    private fun createFlightLeg() {
+    private fun createFlightLeg(isCurrencyTypeMoney:Boolean, price:String) {
         flightLeg = FlightLeg()
         flightLeg.elapsedDays = 1
         flightLeg.durationHour = 19
@@ -250,8 +273,15 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
         val earnInfo = PointsEarnInfo(100, 100, 100)
-        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(earnInfo, null), false)
+
+        val loyaltyInfo = if (!isCurrencyTypeMoney) LoyaltyInformation(null, LoyaltyEarnInfo(earnInfo, null), false) else
+            LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money(price, "USD"), Money("0", "USD"), Money(price, "USD"))), true)
+
         flightLeg.packageOfferModel.loyaltyInfo = loyaltyInfo
+    }
+
+    private fun createFlightLeg(){
+        createFlightLeg(false, "")
     }
 
     private fun createFlightLegWithUrgencyMessage(seatsLeft: Int) {
@@ -290,8 +320,12 @@ class AbstractFlightListAdapterTest {
         flightLeg.flightSegments = segments
     }
 
-    private fun createFlightLegWithThreeAirlines() {
-        createFlightLeg()
+    private fun createFlightLegWithThreeAirlines(){
+        createFlightLegWithThreeAirlines(false, "")
+    }
+
+    private fun createFlightLegWithThreeAirlines(isCurrencyTypeMoney:Boolean, price: String) {
+        if (!isCurrencyTypeMoney) createFlightLeg() else createFlightLeg(true, price)
 
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)

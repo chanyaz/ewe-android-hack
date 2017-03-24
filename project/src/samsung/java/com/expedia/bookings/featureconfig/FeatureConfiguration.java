@@ -63,7 +63,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
-		return false;
+		return true;
 	}
 
 	public int getSearchProgressImageResId() {

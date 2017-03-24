@@ -22,4 +22,8 @@
     <!-- Brand reward name -->
     <string name="brand_reward_name">Orbitz Rewards</string>
 
+    <!-- Brand reward currency -->
+    <string name="brand_reward_currency">Orbucks</string>
+
+
 </resources>

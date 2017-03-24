@@ -19,6 +19,8 @@ public class DateFormatUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testyyyyMMddHHToDayDateFormat() {
 		String checkInDate = "2018-10-11";
 		String checkOutDate = "2018-10-15";

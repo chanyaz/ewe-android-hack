@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -497,13 +498,17 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 				View secondRowContainer = Ui.findView(this, R.id.second_row_container);
 				View rowDivider = Ui.findView(this, R.id.row_divider);
 				View firstRowCountry = Ui.findView(this, R.id.first_row_country);
+				firstRowCountry.findViewById(R.id.flagView).setVisibility(View.GONE);
+
 
 				if (userLoyaltyInfo.isAllowedToShopWithPoints() && ProductFlavorFeatureConfiguration.getInstance()
 					.isRewardProgramPointsType()) {
 					Money loyaltyMonetaryValue = userLoyaltyInfo.getLoyaltyMonetaryValue();
 					currencyTextView.setText(loyaltyMonetaryValue.getCurrency());
 					pointsMonetaryValueTextView.setText(loyaltyMonetaryValue.getFormattedMoney());
-					setupCountryView((TextView) secondRowContainer.findViewById(R.id.country));
+					TextView countryViewSecondRow = (TextView) secondRowContainer.findViewById(R.id.country);
+					removeMargin(countryViewSecondRow);
+					setupCountryView(countryViewSecondRow);
 					pointsMonetaryValueTextView.setVisibility(View.VISIBLE);
 					pointsMonetaryValueLabel.setVisibility(View.VISIBLE);
 					secondRowContainer.setVisibility(View.VISIBLE);
@@ -511,7 +516,9 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 					firstRowCountry.setVisibility(View.GONE);
 				}
 				else {
-					setupCountryView((TextView) firstRowCountry.findViewById(R.id.country));
+					TextView countryViewFirstRow = (TextView) firstRowCountry.findViewById(R.id.country);
+					removeMargin(countryViewFirstRow);
+					setupCountryView(countryViewFirstRow);
 					secondRowContainer.setVisibility(View.GONE);
 					pointsMonetaryValueTextView.setVisibility(View.GONE);
 					pointsMonetaryValueLabel.setVisibility(View.GONE);
@@ -766,6 +773,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			}
 			mDialog.show(fm, GOOGLE_SIGN_IN_SUPPORT);
 		}
+	}
+
+	private void removeMargin(TextView tv) {
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tv.getLayoutParams();
+		params.setMargins(0, 0, 0, 0);
+		tv.setLayoutParams(params);
 	}
 
 }

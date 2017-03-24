@@ -2245,6 +2245,8 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Código de país</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Código de país</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">Fecha de nacimiento %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Fecha de nacimiento %1$s</string>
 
@@ -4900,6 +4902,7 @@
     <string name="launch_find_hotels_near_you">Busca hoteles cerca de ti</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Hoteles recomendados para hoy</string>
+    <string name="launch_find_popular_hotels">Las mejores opciones para hoy</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">¡Reservaste!</string>
     <!-- Check your email for itinerary alert message-->

@@ -16,6 +16,8 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -78,6 +80,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeWithBundleTotalsPriceDecreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
@@ -88,6 +91,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeWithBundleTotalsPriceIncreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal, highBundleTotal, lowBundleTotal))
@@ -98,6 +102,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeWithoutBundleTotalsPriceDecreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal))
@@ -108,6 +113,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeIncreasedWithoutCardFee() {
         val newBundleTotal = Money(1000, "USD")
         val newPackageTotal = Money(900, "USD")
@@ -123,6 +129,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeDecreasedWithoutCardFee() {
         val newBundleTotal = Money(1000, "USD")
         val newPackageTotal = Money(900, "USD")
@@ -138,6 +145,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCreateTripPriceChangeWithoutBundleTotalsPriceIncreased() {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
@@ -148,6 +156,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCheckoutPriceChangeWithBundleTotalsPriceIncreased(){
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal, highBundleTotal, lowBundleTotal))
@@ -157,6 +166,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCheckoutPriceChangeWithBundleTotalsPriceDecreased(){
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
@@ -166,6 +176,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCheckoutPriceChangeWithoutBundleTotalsPriceDecreased(){
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal))
@@ -175,6 +186,7 @@ class PackagePriceChangeTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testCheckoutPriceChangeWithoutBundleTotalsPriceIncreased(){
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))

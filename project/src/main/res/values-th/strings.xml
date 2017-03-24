@@ -2245,6 +2245,8 @@
     <string name="phone_number_country_code_dropdown_cont_desc">รหัสประเทศ</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">รหัสประเทศ</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">วันเกิด %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">วันเกิด %1$s</string>
 
@@ -4900,6 +4902,7 @@
     <string name="launch_find_hotels_near_you">ค้นหาโรงแรมใกล้ตัวคุณ</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">โรงแรมแนะนำประจำคืนนี้</string>
+    <string name="launch_find_popular_hotels">โรงแรมยอดฮิตคืนนี้</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">จองเรียบร้อยแล้ว!</string>
     <!-- Check your email for itinerary alert message-->

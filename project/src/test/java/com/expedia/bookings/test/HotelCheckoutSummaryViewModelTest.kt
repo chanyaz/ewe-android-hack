@@ -110,6 +110,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun notPayLaterHoteldueNowIsTotalPrice() {
         givenHappyHotelProductResponse()
         setup()
@@ -134,6 +135,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceChangeUp() {
         givenPriceChangedUpResponse()
         setup()
@@ -145,6 +147,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceChangeDown() {
         givenPriceChangedDownResponse()
         setup()

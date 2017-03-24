@@ -163,8 +163,9 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 				String[] cookieParts = cookies[i].split("=");
 				final String nameOfCookie = cookieParts[0].trim();
 				if (nameOfCookie.equals(name)) {
+					String urlHost = url.host();
 					webkitCookieManager
-						.setCookie(domain, nameOfCookie + "=; domain=" + url.host().split("www.")[1] + ";");
+						.setCookie(domain, nameOfCookie + "=; domain=" + (urlHost.contains("www.") ? urlHost.split("www.")[1] : urlHost) + ";");
 				}
 			}
 		}
