@@ -59,9 +59,8 @@ open class InsecureOKHttpClientFactory : AbstractOKHttpClientFactory() {
             client.hostnameVerifier(hostnameVerifier)
 
             val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-                    .cipherSuites( CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
-                            CipherSuite.TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
-                            CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA).build()
+                                     .allEnabledCipherSuites()
+                                     .build()
             client.connectionSpecs(listOf(spec))
 
         } catch (e: Exception) {
