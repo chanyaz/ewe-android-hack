@@ -559,18 +559,16 @@ class BillingDetailsPaymentWidgetTest {
         val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        assertValidState(countryLayout, "Country")
-        assertFalse(testHasErrorSubscriber.onNextEvents.isNotEmpty())
 
-        validateInvalidBillingInfo()
-
-        assertTrue(testHasErrorSubscriber.onNextEvents.isNotEmpty())
-        assertFalse(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
         assertValidState(countryLayout, "Country")
+        assertEquals(true, testHasErrorSubscriber.onNextEvents.isEmpty())
         assertEquals(countryName, countryLayout.editText?.text.toString())
-
+        assertEquals(pointOfSale, billingDetailsPaymentWidget.sectionLocation.location.countryCode)
+        
         countryLayout.editText?.setText(null)
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+
+        assertEquals(false, testHasErrorSubscriber.onNextEvents.isEmpty())
         assertTrue(testHasErrorSubscriber.onNextEvents[testHasErrorSubscriber.onNextEvents.lastIndex])
         assertErrorState(countryLayout, "Select a billing country")
 
@@ -602,6 +600,7 @@ class BillingDetailsPaymentWidgetTest {
         testAlert.clickOnItem(0)
 
         assertEquals("Afghanistan", billingDetailsPaymentWidget.editCountryEditText?.text.toString())
+        assertEquals("AFG", billingDetailsPaymentWidget.sectionLocation.location.countryCode)
         assertValidState(countryLayout, "Country")
     }
 

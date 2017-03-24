@@ -32,6 +32,7 @@ open class TravelerPhoneViewModel(val context: Context) {
     fun updatePhone(phone: Phone) {
         this.phone = phone
         phoneCountryCodeSubject.onNext(getCountryCode(phone))
+        countryCodeObserver.onNext(getCountryCode(phone).toInt())
         phoneCountryNameSubject.onNext(getCountryName(phone))
         phoneViewModel.textSubject.onNext(if (phone.number.isNullOrEmpty()) "" else phone.number)
     }
@@ -60,5 +61,9 @@ open class TravelerPhoneViewModel(val context: Context) {
         } else {
             phone.countryCode
         }
+    }
+
+    fun getTravelerPhone() : Phone {
+        return phone
     }
 }
