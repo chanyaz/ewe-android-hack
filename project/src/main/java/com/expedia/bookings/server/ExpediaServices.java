@@ -151,10 +151,6 @@ public class ExpediaServices implements DownloadListener {
 
 	private Context mContext;
 
-	// We want to use the cached client for all our requests except the ones that ignore cookies
-	@Inject
-	public OkHttpClient mCachedClient;
-
 	@Inject
 	public PersistentCookiesCookieJar mCookieManager;
 
@@ -1395,7 +1391,7 @@ public class ExpediaServices implements DownloadListener {
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
 		final String userAgent = ServicesUtil.generateUserAgentString();
 
-		mClient = mCachedClient;
+		OkHttpClient okHttpClient = mClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 
@@ -1414,7 +1410,7 @@ public class ExpediaServices implements DownloadListener {
 			// We don't want cookies so we cannot use the cached client
 			JavaNetCookieJar cookieJar = new JavaNetCookieJar(sBlackHoleCookieManager);
 
-			mClient = mOkHttpClientFactory.getOkHttpClient(cookieJar);
+			okHttpClient = mOkHttpClientFactory.getOkHttpClient(cookieJar);
 		}
 
 		// Make the request
@@ -1423,7 +1419,7 @@ public class ExpediaServices implements DownloadListener {
 		okhttp3.Response response = null;
 		try {
 			mRequest = request.build();
-			call = mClient.newCall(mRequest);
+			call = okHttpClient.newCall(mRequest);
 			response = call.execute();
 			T processedResponse = responseHandler.handleResponse(response);
 			return processedResponse;
@@ -1453,7 +1449,6 @@ public class ExpediaServices implements DownloadListener {
 		Request.Builder request = createHttpGet(url, params);
 		final String userAgent = ServicesUtil.generateUserAgentString();
 
-		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 

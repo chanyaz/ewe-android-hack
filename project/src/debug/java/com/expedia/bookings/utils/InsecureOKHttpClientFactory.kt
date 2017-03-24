@@ -33,7 +33,6 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
     }
 
     override fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
-
         configureClientToAcceptAnyServer(client)
     }
 

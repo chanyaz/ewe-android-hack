@@ -5,8 +5,10 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.google.android.gms.security.ProviderInstaller
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Cache
+import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
+import okhttp3.TlsVersion
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
@@ -30,7 +32,14 @@ abstract class SecureOKHttpClientFactory(private val context: Context, private v
         return clientBuilder!!.build()
     }
 
-    abstract protected fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext)
+    protected open fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
+        val socketFactory = TLSSocketFactory(sslContext)
+        client.sslSocketFactory(socketFactory)
+        val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                .tlsVersions(TlsVersion.TLS_1_2)
+                .build()
+        client.connectionSpecs(listOf(spec))
+    }
 
     protected open fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
         client.cache(cache)
