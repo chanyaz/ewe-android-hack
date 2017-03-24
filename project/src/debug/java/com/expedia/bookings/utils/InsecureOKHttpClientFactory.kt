@@ -5,7 +5,6 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.mobiata.android.Log
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Cache
-import okhttp3.CipherSuite
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

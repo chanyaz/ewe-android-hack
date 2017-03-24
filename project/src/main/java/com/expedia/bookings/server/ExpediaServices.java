@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
@@ -85,6 +84,7 @@ import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -101,6 +101,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
+
 import okhttp3.Call;
 import okhttp3.ConnectionSpec;
 import okhttp3.JavaNetCookieJar;
