@@ -15,7 +15,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-open class InsecureOKHttpClientFactory : AbstractOKHttpClientFactory() {
+open class InsecureOKHttpClientFactory : SecureOKHttpClientFactory() {
 
     override fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
         super.setupClient(client, cache, cookieManager)

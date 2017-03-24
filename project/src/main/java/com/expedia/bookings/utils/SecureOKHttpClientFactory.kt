@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 
 
-abstract class AbstractOKHttpClientFactory {
+abstract class SecureOKHttpClientFactory {
 
     fun getOkHttpClient(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache,
                                    logLevel: HttpLoggingInterceptor.Level, sslContext: SSLContext,
