@@ -17,19 +17,15 @@ import javax.net.ssl.SSLContext
 abstract class SecureOKHttpClientFactory(private val context: Context, private val cookieManager: PersistentCookiesCookieJar, private val cache: Cache,
                                          private val logLevel: HttpLoggingInterceptor.Level, private val chuckInterceptor: ChuckInterceptor) {
 
-    private var clientBuilder: OkHttpClient.Builder? = null
-
 
     fun getOkHttpClient(cookieJar: CookieJar? = null): OkHttpClient {
-        if (clientBuilder == null) {
-            makeOkHttpClient()
-        }
+        val clientBuilder = makeOkHttpClientBuilder()
 
         if (cookieJar != null) {
-            clientBuilder!!.cookieJar(cookieJar)
+            clientBuilder.cookieJar(cookieJar)
         }
 
-        return clientBuilder!!.build()
+        return clientBuilder.build()
     }
 
     protected open fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
@@ -55,7 +51,7 @@ abstract class SecureOKHttpClientFactory(private val context: Context, private v
         client.addInterceptor(logger)
     }
 
-    private fun makeOkHttpClient() {
+    private fun makeOkHttpClientBuilder(): OkHttpClient.Builder {
         try {
             ProviderInstaller.installIfNeeded(context)
         } catch (e: Exception) {
@@ -63,12 +59,12 @@ abstract class SecureOKHttpClientFactory(private val context: Context, private v
             // to guide the user through the recovery process
         }
 
-        val client = OkHttpClient().newBuilder()
-        setupClient(client, cache, cookieManager)
-        addInterceptors(client, logLevel, chuckInterceptor)
-        setupSSLSocketFactoryAndConnectionSpec(client, makeSslContext())
+        val clientBuilder = OkHttpClient().newBuilder()
+        setupClient(clientBuilder, cache, cookieManager)
+        addInterceptors(clientBuilder, logLevel, chuckInterceptor)
+        setupSSLSocketFactoryAndConnectionSpec(clientBuilder, makeSslContext())
 
-        this.clientBuilder = client
+        return clientBuilder
     }
 
     private fun makeSslContext(): SSLContext {
