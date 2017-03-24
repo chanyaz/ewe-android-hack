@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="android.support.v7.widget.CardView">
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:parentTag="android.support.v7.widget.CardView"
-        android:id="@+id/hotel_room_row_button"
+    <Button
+        android:id="@+id/view_room_button"
+        android:background="@drawable/hotel_view_room_background_selector"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:focusable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/view_room_button_text"
+        android:visibility="gone"
+        android:textColor="?attr/primary_color" />
 
-        <Button
-            android:id="@+id/view_room_button"
-            style="@style/HotelViewRoomButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="3dp"
-            android:focusable="true"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="@string/view_room_button_text"
-            android:textColor="?attr/primary_color" />
+    <Button
+        android:id="@+id/book_button"
+        android:background="?attr/hotel_book_button_background_selector_drawable"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:focusable="true"
+        android:padding="5dp"
+        android:text="@string/book_room_button_text"
+        android:visibility="gone"
+        android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/book_button"
-            style="@style/HotelBookButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="3dp"
-            android:focusable="true"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="@string/book_room_button_text"
-            android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/sold_out_button"
-            style="@style/HotelSoldOutButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="3dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="@string/sold_out"
-            android:textColor="?attr/primary_color" />
-    </FrameLayout>
+    <Button
+        android:id="@+id/sold_out_button"
+        android:background="@drawable/hotel_sold_out_background_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/sold_out"
+        android:visibility="gone"
+        android:textColor="?attr/primary_color" />
+</merge>

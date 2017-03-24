@@ -101,7 +101,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     var viewModel: HotelRoomRateViewModel by notNullAndObservable { vm ->
 
         if (viewModel.lob == LineOfBusiness.PACKAGES) {
-            hotelRoomRateActionButton.changeViewRoomButtonTextToSelectForPackages()
+            hotelRoomRateActionButton.setSelectButtonText(context.getString(R.string.select))
             hotelRoomRateActionButton.showViewRoomButton()
         }
 

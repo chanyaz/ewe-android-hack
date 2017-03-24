@@ -72,8 +72,6 @@
         <item name="accept_terms_text_color">@color/hotels_primary_color</item>
         <item name="accept_terms_background_color">@color/white</item>
         <item name="hotel_book_button_background_selector_drawable">@drawable/old_hotel_book_background_selector</item>
-        <item name="hotel_view_room_button_background_selector_drawable">@drawable/old_hotel_view_room_background_selector</item>
-        <item name="hotel_sold_out_button_background_selector_drawable">@drawable/old_hotel_sold_out_background_selector</item>
     </style>
 
 
@@ -109,12 +107,11 @@
 
         <!-- Used for other styles -->
         <item name="hotel_toggle_background_selector_drawable">@drawable/new_hotel_toggle_background</item>
-        <item name="hotel_toggle_text_drawable">@drawable/new_hotel_select_room_toggle_text</item>
         <item name="accept_terms_text_color">@color/app_primary</item>
         <item name="accept_terms_background_color">@color/white</item>
         <item name="hotel_book_button_background_selector_drawable">@drawable/new_hotel_book_background_selector</item>
-        <item name="hotel_view_room_button_background_selector_drawable">@drawable/new_hotel_view_room_background_selector</item>
-        <item name="hotel_sold_out_button_background_selector_drawable">@drawable/new_hotel_sold_out_background_selector</item>
+
+        <item name="hotel_sold_out_button_background_selector_drawable">@drawable/hotel_sold_out_background_selector</item>
     </style>
 
     <style name="V2.Theme.Floating" parent="AppTheme.Base">
@@ -193,18 +190,9 @@
         <item name="android:layout_marginRight">8dp</item>
     </style>
 
-    <style name="HotelBookButtonStyle">
-        <item name="android:background">?attr/hotel_book_button_background_selector_drawable</item>
-    </style>
-
     <style name="HotelViewRoomButtonStyle">
         <item name="android:background">?attr/hotel_view_room_button_background_selector_drawable</item>
-        <item name="android:textColor">?attr/hotel_view_room_text_drawable</item>
-    </style>
-
-    <style name="HotelSoldOutButtonStyle">
-        <item name="android:background">?attr/hotel_sold_out_button_background_selector_drawable</item>
->>>>>>> s/10016-Bug-Triggering-room-information-expansion-books-room
+        <item name="hotel_view_room_button_background_selector_drawable">@drawable/hotel_view_room_background_selector</item>
     </style>
 
     <style name="HotelButtonStyle">

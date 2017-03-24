@@ -20,7 +20,7 @@ class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameL
         View.inflate(context, R.layout.hotel_room_rate_action_button, this)
         viewRoomButton.subscribeOnClick(viewRoomClickedSubject)
         bookButton.subscribeOnClick(bookButtonClickedSubject)
-        hideAllButtons()
+        soldOutButton.setStateListAnimator(null)
     }
 
     fun showSoldOutButton() {
@@ -32,15 +32,6 @@ class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameL
     fun hideSoldOutButton() {
         soldOutButton.visibility = View.GONE
     }
-
-    fun hideAllButtons() {
-        viewRoomButton.visibility = View.GONE
-        bookButton.visibility = View.GONE
-        soldOutButton.visibility = View.GONE
-        soldOutButton.setStateListAnimator(null)
-    }
-
-
 
     fun showBookButton() {
         if(soldOutButton.visibility == View.VISIBLE) {
@@ -71,7 +62,7 @@ class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameL
         bookButton.setPadding(padding, 0, padding, 0)
     }
 
-    fun changeViewRoomButtonTextToSelectForPackages() {
-        viewRoomButton.text = resources.getString(R.string.select)
+    fun setSelectButtonText(text: String) {
+        viewRoomButton.text = text
     }
 }
