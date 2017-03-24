@@ -61,6 +61,7 @@ class FlightViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun priceString() {
         createExpectedFlightLeg()
         createSystemUnderTest()
@@ -81,6 +82,7 @@ class FlightViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testFlightOfferContentDescription() {
         createExpectedFlightLeg()
         createSystemUnderTest()

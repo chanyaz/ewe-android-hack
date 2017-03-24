@@ -176,7 +176,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     fun doesRequestHaveValidUserAgent(request: RecordedRequest): Boolean {
         val userAgent = request.headers.get("user-agent")
-        val regExp = Regex("^ExpediaBookings\\/[0-9]\\.[0-9](\\.[0-9]){0,1}(.*) \\(EHad; Mobiata\\)$")
+        val regExp = Regex("^[a-zA-Z]+\\/[0-9]\\.[0-9](\\.[0-9]){0,1}(.*) \\(EHad; Mobiata\\)$")
         return regExp.matches(userAgent.toString())
     }
 

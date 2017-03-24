@@ -104,6 +104,7 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun slideToPurchaseTotalLabel() {
         givenGoodCheckoutParams()
         setupCardFeeService()

@@ -1429,7 +1429,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
-		final String userAgent = ServicesUtil.generateUserAgentString(mContext);
+		final String userAgent = ServicesUtil.generateUserAgentString();
 
 		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);
@@ -1487,7 +1487,7 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "" + url + "?" + NetUtils.getParamsForLogging(params));
 
 		Request.Builder request = createHttpGet(url, params);
-		final String userAgent = ServicesUtil.generateUserAgentString(mContext);
+		final String userAgent = ServicesUtil.generateUserAgentString();
 
 		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);

@@ -2245,6 +2245,8 @@
     <string name="phone_number_country_code_dropdown_cont_desc">國家地區代碼</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">國家地區代碼</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">出生日期：%1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">出生日期：%1$s</string>
 
@@ -4900,6 +4902,7 @@
     <string name="launch_find_hotels_near_you">搜尋您附近的酒店</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">今晚推薦酒店</string>
+    <string name="launch_find_popular_hotels">今晚人氣酒店</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">預訂成功！</string>
     <!-- Check your email for itinerary alert message-->

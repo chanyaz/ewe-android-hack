@@ -16,6 +16,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.JodaUtils;
 import com.squareup.phrase.Phrase;
@@ -115,6 +117,8 @@ public class ItinContentGeneratorTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+		MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS})
 	public void testHotelHeaderTextFuture4d() {
 		DateTime ci = mTodayAtNoon.plusDays(4);
 		DateTime co = mTodayAtNoon.plusDays(10);

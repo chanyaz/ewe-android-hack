@@ -164,6 +164,7 @@ class HotelBreakdownTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun verifyCostBreakDownForIncludedTaxes() {
         givenHotelWithTaxesIncludedResponse()
 

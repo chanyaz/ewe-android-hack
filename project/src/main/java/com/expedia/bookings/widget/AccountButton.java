@@ -229,6 +229,7 @@ public class AccountButton extends LinearLayout {
 				mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
 					.put("brand", BuildConfig.brand)
 					.format());
+				mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_bg);
 			}
 		}
 		else {

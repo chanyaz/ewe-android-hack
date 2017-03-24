@@ -201,15 +201,17 @@
                 android:drawableRight="@drawable/ic_checkout_info"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="16sp"
-                app:textStyle="medium" />
+                app:textStyle="medium"
+                android:layout_toLeftOf="@+id/total_price_with_tax_and_fees"
+                android:layout_alignParentLeft="true" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/total_price_with_tax_and_fees"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/amount_due_today_label"
                 android:layout_alignTop="@+id/amount_due_today_label"
-                android:layout_toRightOf="@id/amount_due_today_label"
+                android:layout_alignParentRight="true"
                 android:gravity="right|center_vertical"
                 android:textColor="?attr/primary_color"
                 android:textSize="16sp"

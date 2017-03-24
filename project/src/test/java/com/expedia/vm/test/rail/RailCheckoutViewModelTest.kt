@@ -8,6 +8,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailCheckoutViewModel
@@ -46,6 +48,7 @@ class RailCheckoutViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testTotalPriceText() {
         val testSubscriber = TestSubscriber<CharSequence>()
         testViewModel.sliderPurchaseTotalText.subscribe(testSubscriber)

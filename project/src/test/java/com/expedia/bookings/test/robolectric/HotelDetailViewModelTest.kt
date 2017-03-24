@@ -99,7 +99,9 @@ class HotelDetailViewModelTest {
         offer3.hotelRoomResponse = emptyList()
     }
 
-    @Test fun strikeThroughPriceShouldShow() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun strikeThroughPriceShouldShow() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val df = DecimalFormat("#")
         chargeableRateInfo.priceToShowUsers = 110f
@@ -138,7 +140,9 @@ class HotelDetailViewModelTest {
     }
 
 
-    @Test fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val testSubscriberText = TestSubscriber<CharSequence>()
         chargeableRateInfo.priceToShowUsers = 110f
@@ -244,7 +248,9 @@ class HotelDetailViewModelTest {
         assertTrue(vm.showAirAttachSWPImageObservable.value)
     }
 
-    @Test fun earnMessagePriceIsShownWithDecimalPoints() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun earnMessagePriceIsShownWithDecimalPoints() {
         SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320.56")
@@ -253,7 +259,9 @@ class HotelDetailViewModelTest {
         assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
     }
 
-    @Test fun earnMessagePriceIsShownWithoutDecimalPoints() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun earnMessagePriceIsShownWithoutDecimalPoints() {
         SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320")
@@ -262,7 +270,10 @@ class HotelDetailViewModelTest {
         assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
     }
 
-    @Test fun earnMessagePointsIsShown() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
+    fun earnMessagePointsIsShown() {
         SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
@@ -375,7 +386,9 @@ class HotelDetailViewModelTest {
         assertEquals(0, vm.promoImageObservable.value)
     }
 
-    @Test fun priceShownToCustomerIncludesCustomerFees() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun priceShownToCustomerIncludesCustomerFees() {
         vm.hotelOffersSubject.onNext(offer2)
         val df = DecimalFormat("#")
         val expectedPrice = "$" + df.format(expectedTotalPriceWithMandatoryFees)

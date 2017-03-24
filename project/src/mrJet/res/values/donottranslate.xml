@@ -18,5 +18,7 @@
     <string name="tune_sdk_app_advertiser_id">192083</string>
     <string name="tune_sdk_app_conversion_key">228c80cd100c2f4bc041146f24c4c326</string>
 
+    <!-- Brand reward currency -->
+    <string name="brand_reward_currency">MrJet Rewards</string>
 
 </resources>

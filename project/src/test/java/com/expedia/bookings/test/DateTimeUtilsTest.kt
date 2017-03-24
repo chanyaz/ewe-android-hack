@@ -49,6 +49,8 @@ class DateTimeUtilsTest {
 
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun formatIntervalTest() {
         var actualFormatInterval = DateTimeUtils.formatInterval(getContext(), DateTime(2017, 11, 28, 12, 13), DateTime(2017, 11, 28, 23, 14))
         assertEquals("12:13 PM – 11:14 PM", actualFormatInterval)

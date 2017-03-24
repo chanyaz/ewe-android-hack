@@ -59,6 +59,7 @@ class HotelCheckoutOverviewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun rateIsShowResortFeeMessage() {
         givenHotelMustShowResortFee()
         sut.newRateObserver.onNext(hotelProductResponse)
@@ -96,6 +97,7 @@ class HotelCheckoutOverviewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun roomIsPayLater() {
         givenHotelIsPayLater()
         sut.newRateObserver.onNext(hotelProductResponse)

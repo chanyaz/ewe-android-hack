@@ -29,8 +29,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -38,13 +40,16 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class AccountButtonTest {
-    private val context = RuntimeEnvironment.application
+    private val context = getContext()
     var accountButton by Delegates.notNull<AccountButton>()
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     fun getContext(): Context {
-        return RuntimeEnvironment.application
+        val spyContext = Mockito.spy(RuntimeEnvironment.application)
+        val spyResources = Mockito.spy(spyContext.resources)
+        Mockito.`when`(spyContext.resources).thenReturn(spyResources)
+        return spyContext
     }
 
     @Before
@@ -96,6 +101,7 @@ class AccountButtonTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testSignInTextWithRewards() {
         val rewardsInfo = RewardsInfo()
         rewardsInfo.totalAmountToEarn = Money("12", "USD")
@@ -137,6 +143,7 @@ class AccountButtonTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testSignInTextWithRewardsContentDescription() {
         val rewardsInfo = RewardsInfo()
         rewardsInfo.totalAmountToEarn = Money("12", "USD")
@@ -163,5 +170,18 @@ class AccountButtonTest {
         val noReward = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS_V2)
         assertNull(noReward)
 
+    }
+
+    // Tests the background drawable of the login AccountButton when there are no earn points for these Multibrands.
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.MRJET, MultiBrand.EBOOKERS))
+    fun testSignInBackgroundWithNoRewards() {
+        Mockito.`when`(context.getResources().getBoolean(R.bool.tablet)).thenReturn(false)
+        Db.getTripBucket().clear()
+
+        accountButton.bind(false, false, null, LineOfBusiness.HOTELS)
+        val loginContainer = accountButton.findViewById(R.id.account_login_container);
+        val shadowDrawable = Shadows.shadowOf(loginContainer.background);
+
+        assertEquals(R.drawable.material_cko_acct_btn_bg, shadowDrawable.createdFromResId)
     }
 }

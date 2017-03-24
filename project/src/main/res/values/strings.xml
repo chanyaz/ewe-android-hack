@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">Earn {points} points</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">Earn {price}</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">Earn {price} in {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Carry-on baggage fees apply</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->

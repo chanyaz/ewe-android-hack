@@ -26,15 +26,14 @@ public class ServicesUtil {
 	 * otherwise mobile redirects occur when we don't want them. This is useful for all API requests contained here
 	 * in ExpediaServices as well as certain requests through WebViewActivity in order to prevent the redirects.
 	 *
-	 * @param context
 	 * @return
 	 */
-	public static String generateUserAgentString(Context context) {
+	public static String generateUserAgentString() {
 		// Construct a proper user agent string
 		String versionName = BuildConfig.VERSION_NAME;
 		// Be careful not to use the word "Android" here
 		// https://mingle/projects/e3_mobile_web/cards/676
-		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
+		String userAgent = BuildConfig.USER_AGENT + "/" + versionName + " (EHad; Mobiata)";
 		return userAgent;
 	}
 
@@ -126,7 +125,7 @@ public class ServicesUtil {
 			PointOfSale.getPointOfSale().getSiteId(),
 			PointOfSale.getPointOfSale().getDualLanguageId(),
 			ServicesUtil.generateClientId(context),
-			generateUserAgentString(context));
+			generateUserAgentString());
 	}
 
 	public static String generateXDevLocationString(Context context) {

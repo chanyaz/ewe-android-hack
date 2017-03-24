@@ -110,6 +110,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testNightlyPriceGuestCount() {
         val hotel = makeHotel()
         val lowRateInfo = HotelRate()
@@ -342,6 +343,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testStrikethroughPriceAvailable() {
         val hotel = makeHotel()
         offers.isVipAccess = false
@@ -394,6 +396,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testResortFeeIncludedInPrice() {
         val hotel = makeHotel()
 
@@ -423,6 +426,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testResortFeeNotIncludedInPrice() {
         val hotel = makeHotel()
 

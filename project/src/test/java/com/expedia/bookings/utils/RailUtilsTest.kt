@@ -4,6 +4,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.rail.util.RailUtils
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.vm.test.rail.RailSearchRequestMock
 import com.squareup.phrase.Phrase
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
@@ -86,6 +88,8 @@ class RailUtilsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
+            MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun testFormatTimeInterval() {
         var start = DateTime().withTime(8, 30, 0, 0)
         var end   = DateTime().withTime(11, 10, 0, 0)

@@ -2245,6 +2245,8 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Country Code</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Born %1$s</string>
 
@@ -4900,6 +4902,7 @@
     <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Recommended hotels tonight</string>
+    <string name="launch_find_popular_hotels">Popular Hotels Tonight</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>
     <!-- Check your email for itinerary alert message-->

@@ -39,6 +39,7 @@ Feature: Testing sort and filter button of flight search screen
     And I move the scrubber by an hour
     Then Validate scrubber moves by an hour
 
+<<<<<<< HEAD
   @Flights @Search @FlightResults
   Scenario: Verify number of results after filter applied
 

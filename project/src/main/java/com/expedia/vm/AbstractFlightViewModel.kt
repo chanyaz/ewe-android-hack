@@ -16,7 +16,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val duration = FlightV2Utils.getFlightDurationStopString(context, flightLeg)
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
-    val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
+    val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context, false) ?: ""
     var seatsLeftUrgencyMessage = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
     var flightCabinPreferences = FlightV2Utils.getFlightCabinPreferences(context, flightLeg)
 

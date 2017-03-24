@@ -217,9 +217,6 @@ android {
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
         buildConfigField "boolean", "IS_SCREENSHOT_BUILD", project.hasProperty("SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
-
-        // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
-        resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
     }
 
     productFlavors {
@@ -227,6 +224,7 @@ android {
             buildConfigField "String", "brand", "\"Expedia\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
+            buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.expedia.bookings"
 
             def major = 8
@@ -235,96 +233,111 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
+            resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
         }
 
         ebookers {
             buildConfigField "String", "brand", "\"ebookers\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
+            buildConfigField "String", "USER_AGENT", "\"Ebookers\""
             applicationId "com.ebookers"
 
             def major = 6
-            def minor = 4
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "de", "en_GB", "fi", "fr"
         }
 
         voyages {
             buildConfigField "String", "brand", "\"Agence Voyages-SNCF.com\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
+            buildConfigField "String", "USER_AGENT", "\"VSC\""
             applicationId "com.expedia.bookings.vsc"
 
             def major = 4
-            def minor = 2
+            def minor = 3
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "fr"
         }
 
         travelocity {
             buildConfigField "String", "brand", "\"Travelocity\""
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"tvly\""
+            buildConfigField "String", "USER_AGENT", "\"TVLY\""
             applicationId "com.travelocity.android"
 
             def major = 9
-            def minor = 4
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en_CA", "fr_CA"
         }
 
         airAsiaGo {
             buildConfigField "String", "brand", "\"AirAsiaGo\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
+            buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
             applicationId "com.airasiago.android"
 
             def major = 4
-            def minor = 3
+            def minor = 5
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "th", "zh", "zh_HK", "in", "ja"
         }
 
         wotif {
             buildConfigField "String", "brand", "\"Wotif\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
+            buildConfigField "String", "USER_AGENT", "\"Wotif\""
             applicationId "com.wotif.android"
 
             def major = 4
-            def minor = 3
+            def minor = 5
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         lastMinute {
             buildConfigField "String", "brand", "\"LM AU & NZ\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
+            buildConfigField "String", "USER_AGENT", "\"LM\""
             applicationId "com.lastminute.android"
 
             def major = 4
-            def minor = 3
+            def minor = 5
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         samsung {
             buildConfigField "String", "brand", "\"Expedia\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
+            buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.samsung.travel.android"
 
             def major = 2
@@ -333,48 +346,55 @@ android {
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "ko", "fr", "fr_CA", "en_CA"
         }
 
         orbitz {
             buildConfigField "String", "brand", "\"Orbitz\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
+            buildConfigField "String", "USER_AGENT", "\"Orbitz\""
             applicationId "com.orbitz"
 
             def major = 8
-            def minor = 4
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         cheapTickets {
             buildConfigField "String", "brand", "\"CheapTickets\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
+            buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
             applicationId "com.cheaptickets"
 
             def major = 6
-            def minor = 4
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "en"
         }
 
         mrJet {
             buildConfigField "String", "brand", "\"MrJet\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
+            buildConfigField "String", "USER_AGENT", "\"MrJet\""
             applicationId "se.mrjet"
 
             def major = 6
-            def minor = 3
+            def minor = 5
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
+            resConfigs "sv"
         }
     }
 

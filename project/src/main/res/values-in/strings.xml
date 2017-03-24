@@ -2245,6 +2245,8 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Kode negara</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Kode Negara</string>
+    <!-- Born on -->
+    <string name="born_on_TEMPLATE">Tanggal Lahir %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Tanggal Lahir %1$s</string>
 
@@ -4080,6 +4082,7 @@
     <string name="airline_fee_notice">Sejumlah biaya maskapai, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga.</string>
     <string name="airline_charge_notice">Maskapai mengenakan biaya tambahan tergantung pada metode pembayaran.</string>
     <string name="airline_fee_notice_payment">Sejumlah biaya maskapai dikenakan berdasarkan metode pembayaran Anda</string>
+    <string name="airline_notice_fee_added">Sejumlah <u><b>biaya maskapai</b></u>, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
     <string name="airline_notice_fee_added_tablet">Sejumlah &lt;u&gt;&lt;b&gt;biaya maskapai&lt;/b&gt;&lt;/u&gt;, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
 
     <!-- French compliance warnings d/5810 -->
@@ -4900,6 +4903,7 @@
     <string name="launch_find_hotels_near_you">Cari Hotel di Sekitar Lokasi Anda</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Hotel yang direkomendasikan malam ini</string>
+    <string name="launch_find_popular_hotels">Hotel Populer Malam Ini</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Pemesanan Berhasil!</string>
     <!-- Check your email for itinerary alert message-->
