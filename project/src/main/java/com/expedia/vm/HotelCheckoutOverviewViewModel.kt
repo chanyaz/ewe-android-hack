@@ -25,6 +25,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
+    val legalTextInformationContentDesc = BehaviorSubject.create<String>()
     val disclaimerText = BehaviorSubject.create<Spanned>()
     val depositPolicyText = BehaviorSubject.create<Spanned>()
     val slideToText = BehaviorSubject.create<String>()
@@ -77,8 +78,9 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                 val depositText = HtmlCompat.fromHtml(it.roomResponse.depositPolicyAtIndex(0) + " " + it.roomResponse.depositPolicyAtIndex(1))
                 depositPolicyText.onNext(depositText)
             }
-
-            legalTextInformation.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
+            val legalInfoText = StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false)
+            legalTextInformation.onNext(legalInfoText)
+            legalTextInformationContentDesc.onNext(legalInfoText.toString().plus(" ").plus(context.resources.getString(R.string.accessibility_cont_desc_role_button)))
         }
     }
 
