@@ -370,7 +370,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
-		if (isNewSignInScreen() && isLoading) {
+		if (isNewSignInScreen() && isLoading && mSignInPresenter != null) {
 			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
 		}
 	}
