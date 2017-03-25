@@ -17,7 +17,6 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
 import okio.Okio
 import org.json.JSONArray
@@ -81,7 +80,6 @@ class FlightItinContentGeneratorTest {
 
     @Test
     fun showPendingFlightStatus() {
-        SettingUtils.save(getContext(), R.string.preference_pending_flight_itin, true)
         createSystemUnderTest()
         givenTripFlightWithInProgressTicketingStatus()
 
