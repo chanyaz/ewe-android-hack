@@ -8,7 +8,7 @@ import rx.subjects.BehaviorSubject
 
 class GenderViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
     val genderSubject = BehaviorSubject.create<Traveler.Gender>()
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     init {
         genderSubject.subscribe { gender ->

@@ -104,8 +104,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setText(HtmlCompat.fromHtml(String.format(mFormatString, getItem(position))));
 		TextViewExtensions.Companion.setTextColorBasedOnPosition(tv, mCurrentPosition, position);
-		Context context = tv.getContext();
-		if (isMaterialFormsEnabled(context)) {
+		if (isMaterialFormsEnabled()) {
 			tv.setSingleLine(false);
 		}
 

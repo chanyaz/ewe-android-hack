@@ -1,8 +1,5 @@
 package com.expedia.bookings.test.happy;
 
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -10,7 +7,6 @@ import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -25,7 +21,8 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.mobiata.android.util.SettingUtils;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -51,7 +48,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		SettingUtils.save(getActivity(), R.string.preference_universal_checkout_material_forms, true);
 		Method method = getClass().getMethod(getName(), (Class[]) null);
 		if (method.getName().equals("testNewFlightHappyPath") || method.getName()
 			.equals("testNewFlightHappyPathWithMaterialForms")) {
@@ -193,7 +189,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()));
 		onView(withId(R.id.edit_email_address)).perform(click());
 		onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()));
-		onView(withId(R.id.edit_phone_number)).perform(click());
+		onView(withId(R.id.edit_phone_number)).perform(scrollTo(), click());
 		onView(withText(R.string.email_validation_error_message)).check(matches(isDisplayed()));
 		onView(withId(R.id.middle_name_input)).perform(scrollTo(),click());
 		Espresso.closeSoftKeyboard();
@@ -232,7 +228,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Common.pressBack();
 
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-		SettingUtils.save(getActivity(), R.string.preference_universal_checkout_material_forms, false);
 	}
 
 	public void testNewFlightHappyPathSignedIn() throws Throwable {
@@ -262,25 +257,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Common.pressBack();
 		CheckoutViewModel.performSlideToPurchase(true);
 		assertSignedInConfirmationView();
-	}
-
-	private void assertDockedOutboundWidgetShown() {
-		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Delta");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
-	}
-
-	private void enterGuestTravelerDetails() {
-		PackageScreen.travelerInfo().perform(scrollTo(), click());
-		PackageScreen.enterFirstName("Eidur");
-		PackageScreen.enterLastName("Gudjohnsen");
-		PackageScreen.enterEmail("test@gmail.com");
-		PackageScreen.enterPhoneNumber("4155554321");
-		PackageScreen.selectBirthDate(1989, 6, 9);
-		PackageScreen.selectGender("Male");
-		PackageScreen.clickTravelerAdvanced();
-		PackageScreen.enterRedressNumber("1234567");
 	}
 
 	private void selectFirstInboundFlight() {
@@ -392,38 +368,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			matches(not(isDisplayed())));
 	}
 
-	private void assertConfirmationViewForOneWay() {
-		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
-
-		onView(allOf(withId(R.id.destination),
-			isDescendantOfA(withId(R.id.confirmation_container)))).check(
-			matches(withText("Detroit")));
-
-		onView(allOf(withId(R.id.expedia_points),
-			isDescendantOfA(withId(R.id.confirmation_container)))).check(
-			matches(isDisplayed()));
-
-		onView(allOf(withId(R.id.first_row),
-			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
-
-		onView(allOf(withId(R.id.first_row),
-			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
-			matches(not(isDisplayed())));
-
-		onView(allOf(withId(R.id.hotel_cross_sell_widget),
-			isDescendantOfA(withId(R.id.confirmation_container)))).check(
-			matches(isDisplayed()));
-
-		onView(allOf(withId(R.id.air_attach_countdown_view),
-			isDescendantOfA(withId(R.id.hotel_cross_sell_widget)))).check(
-			matches(isDisplayed()));
-
-		onView(allOf(withId(R.id.air_attach_expires_today_text_view),
-			isDescendantOfA(withId(R.id.hotel_cross_sell_widget)))).check(
-			matches(not(isDisplayed())));
-	}
-
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
 			withText("San Francisco, CA"))).check(matches(isDisplayed()));
@@ -492,14 +436,4 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		intended(hasComponent(WebViewActivity.class.getName()));
 	}
 
-	private void assertCheckoutOverviewForOneway() {
-		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("Detroit, MI (DTW-Detroit Metropolitan Wayne County)"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("1 Traveler"))).check(matches(isDisplayed()));
-
-		onView(allOf(withId(R.id.flight_card_view_text),
-			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
-	}
 }

@@ -22,7 +22,7 @@ class TravelerAdvancedOptionsViewModel(val context: Context) {
     val travelerNumberSubject = BehaviorSubject.create<String>()
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->
         traveler.seatPreference = seatPref
     }

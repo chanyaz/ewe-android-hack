@@ -18,7 +18,7 @@ import com.expedia.vm.traveler.TravelersViewModel
 class FlightTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractTravelersPresenter(context, attrs) {
 
     val boardingWarning: TextView by bindView(R.id.boarding_warning)
-    val materialFormsEnabled = isMaterialFormsEnabled(context)
+    val materialFormsEnabled = isMaterialFormsEnabled()
     private val selectToEntryFlights = object : SelectToEntryTransition(FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)

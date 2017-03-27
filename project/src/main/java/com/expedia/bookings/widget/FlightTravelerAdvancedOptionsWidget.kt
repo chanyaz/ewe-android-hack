@@ -6,8 +6,8 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
@@ -30,7 +30,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     val assistancePreferenceEditBox: EditText by bindView(R.id.edit_assistance_preference_button)
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
     val seatPreferenceEditBox: EditText by bindView(R.id.edit_seat_preference_button)
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     val travelerInfoDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)

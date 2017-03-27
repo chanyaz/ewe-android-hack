@@ -80,7 +80,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val filledInCardStatus: ContactDetailsCompletenessStatusImageView by bindView(R.id.filled_in_card_status)
     val spacerAboveFilledInCardDetailsMiniView: View by bindView(R.id.spacer_above_filled_in_card_details_mini_view)
     val pwpSmallIcon: ImageView? by bindOptionalView(R.id.pwp_small_icon)
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     val filledIn = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val toolbarTitle = PublishSubject.create<String>()

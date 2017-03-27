@@ -25,7 +25,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
     val phoneEditBox: EditText by bindView(R.id.edit_phone_number_country_code_button)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     var isFirstSelected = false
 
     val phoneAdapter : TelephoneSpinnerAdapter by lazy {

@@ -120,7 +120,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
     val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     val paymentWidget: PaymentWidget by lazy {
         val presenter = if (materialFormTestEnabled)  {
             materialPaymentViewStub.inflate() as PaymentWidget

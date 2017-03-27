@@ -45,7 +45,7 @@ class TextViewExtensions {
     companion object {
         fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {
             val context = tv.context
-            if (isMaterialFormsEnabled(context)) {
+            if (isMaterialFormsEnabled()) {
                 var textColor = ContextCompat.getColor(context, R.color.default_text_color)
                 if (currentPosition == position ) {
                     textColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))

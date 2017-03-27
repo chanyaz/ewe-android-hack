@@ -45,7 +45,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
-		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled(field.getContext());
+		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled();
 		if (materialFormTestEnabled && !Strings.isEmpty(mErrorString)) {
 			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}

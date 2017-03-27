@@ -16,7 +16,7 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val firstName: TravelerEditText by bindView(R.id.first_name_input)
     val middleName: TravelerEditText by bindView(R.id.middle_name_input)
     val lastName: TravelerEditText by bindView(R.id.last_name_input)
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerNameViewModel by notNullAndObservable { vm ->
         firstName.viewModel = vm.firstNameViewModel

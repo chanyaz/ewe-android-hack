@@ -14,7 +14,7 @@ import com.expedia.vm.traveler.TravelerEmailViewModel
 
 class EmailEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val emailAddress: TravelerEditText by bindView(R.id.edit_email_address)
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerEmailViewModel by notNullAndObservable { vm ->
         emailAddress.viewModel = vm

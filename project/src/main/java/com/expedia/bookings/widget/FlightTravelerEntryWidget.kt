@@ -30,7 +30,7 @@ import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
 
     val DEFAULT_EMPTY_PASSPORT = 0
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
@@ -229,7 +229,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun inflateWidget() {
-        if (materialFormTestEnabled) {
+        if (isMaterialFormsEnabled()) {
             View.inflate(context, R.layout.material_flight_traveler_entry_widget, this)
         } else {
             View.inflate(context, R.layout.flight_traveler_entry_widget, this)

@@ -31,7 +31,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     var genderSpinner: TravelerSpinner? = null
     var genderEditText: TravelerEditText? = null
 
-    val materialFormTestEnabled = isMaterialFormsEnabled(context)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
         dateOfBirth.viewModel = vm.dateOfBirthViewModel
