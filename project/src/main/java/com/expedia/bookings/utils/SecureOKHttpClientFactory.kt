@@ -11,8 +11,12 @@ import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
 import okhttp3.logging.HttpLoggingInterceptor
+import java.security.KeyStore
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 
 abstract class SecureOKHttpClientFactory(protected val context: Context, private val cookieManager: PersistentCookiesCookieJar, private val cache: Cache,
@@ -31,7 +35,7 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
 
     protected open fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
         val socketFactory = TLSSocketFactory(sslContext)
-        client.sslSocketFactory(socketFactory)
+        client.sslSocketFactory(socketFactory, getSecureX509TrustManager())
         val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .tlsVersions(TlsVersion.TLS_1_2)
                 .build()
@@ -52,6 +56,12 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
         client.addInterceptor(logger)
     }
 
+    protected open fun makeSslContext(): SSLContext {
+        val sslContext = SSLContext.getInstance("TLS")
+        sslContext.init(null, arrayOf<TrustManager>(getSecureX509TrustManager()), null)
+        return sslContext
+    }
+
     private fun makeOkHttpClientBuilder(): OkHttpClient.Builder {
         try {
             ProviderInstaller.installIfNeeded(context)
@@ -68,11 +78,10 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
         return clientBuilder
     }
 
-    private fun makeSslContext(): SSLContext {
-        try {
-            return SSLContext.getDefault()
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+    private fun getSecureX509TrustManager(): X509TrustManager {
+        val factory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+        val keystore: KeyStore? = null
+        factory.init(keystore)
+        return factory.trustManagers[0] as X509TrustManager
     }
 }

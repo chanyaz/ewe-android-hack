@@ -46,6 +46,33 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
         }
     }
 
+    override fun makeSslContext(): SSLContext {
+        if (isModernHttpsSecurityEnabled()) {
+            return super.makeSslContext()
+        }
+        else {
+            val easyTrustManager = arrayOf(getInsecureX509TrustManager())
+            val socketContext = SSLContext.getInstance("TLS")
+            socketContext.init(null, easyTrustManager, java.security.SecureRandom())
+            return socketContext
+        }
+    }
+
+    private fun getInsecureX509TrustManager(): X509TrustManager {
+        return object: X509TrustManager {
+
+            override fun getAcceptedIssuers(): Array<out X509Certificate> {
+                return emptyArray()
+            }
+
+            override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+            }
+
+            override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {
+            }
+        }
+    }
+
     private fun isModernHttpsSecurityEnabled(): Boolean {
         val isMockMode = endpointProvider.endPoint == EndPoint.MOCK_MODE
         val isCustomServer = endpointProvider.endPoint == EndPoint.CUSTOM_SERVER
@@ -60,7 +87,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
 
         try {
             // Create a trust manager that does not validate certificate chains
-            val trustAllCerts = makeTrustAllCertificatesTrustManager()
+            val trustAllCerts = makeInsecureTrustAllCertificatesTrustManager()
 
             // Install the all-trusting trust manager
             val sslContext = SSLContext.getInstance("TLS")
@@ -82,7 +109,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
         }
     }
 
-    private fun makeTrustAllCertificatesTrustManager(): Array<TrustManager> {
+    private fun makeInsecureTrustAllCertificatesTrustManager(): Array<TrustManager> {
         val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
             @Throws(CertificateException::class)
             override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {
