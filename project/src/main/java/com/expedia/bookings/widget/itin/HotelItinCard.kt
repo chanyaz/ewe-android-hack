@@ -8,13 +8,12 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.RoomUpgradeOffersResponse
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.itin.data.ItinCardDataHotel
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.services.RoomUpgradeOffersService
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -29,6 +28,9 @@ import javax.inject.Inject
 class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<ItinCardDataHotel>(context, attributeSet), RecyclerGallery.GalleryItemListener {
 
     lateinit var roomUpgradeService: RoomUpgradeOffersService
+        @Inject set
+
+    protected lateinit var userStateManager: UserStateManager
         @Inject set
 
     val mVIPTextView: TextView by bindView(R.id.vip_label_text_view)
@@ -111,8 +113,8 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
 
     private fun setupIsVipHotelTextView(itinCardData: ItinCardDataHotel) {
         val isVipAccess = itinCardData.isVip
-        val customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(context)
-        val isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE || customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP
+        val customerLoyaltyMembershipTier = userStateManager.getCurrentUserLoyaltyTier()
+        val isSilverOrGoldMember = customerLoyaltyMembershipTier.isMidOrTopTier
         val posSupportVipAccess = PointOfSale.getPointOfSale().supportsVipAccess()
         mVIPTextView.visibility = if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) View.VISIBLE else View.GONE
     }

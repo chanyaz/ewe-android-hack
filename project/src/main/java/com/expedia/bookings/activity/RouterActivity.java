@@ -1,18 +1,16 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -29,11 +27,13 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.util.SettingUtils;
+
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
 import rx.Observer;
 
-
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
-
 	boolean loadSignInView = false;
 	private UserStateManager userStateManager;
 
@@ -61,12 +61,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
-		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
-			User.loadUser(this, this);
-		}
-		else {
-			handleAppLaunch();
-		}
+		userStateManager.ensureUserStateSanity(this);
 	}
 
 	private void launchOpeningView() {

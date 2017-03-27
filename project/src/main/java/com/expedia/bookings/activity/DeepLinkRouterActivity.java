@@ -20,7 +20,6 @@ import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
 import com.expedia.bookings.deeplink.CarDeepLink;
@@ -103,12 +102,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	@VisibleForTesting
 	protected void startProcessing() {
-		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
-			User.loadUser(this, this);
-		}
-		else {
-			AbacusHelperUtils.downloadBucketWithWait(this, evaluateAbTests);
-		}
+		userStateManager.ensureUserStateSanity(this);
 	}
 
 	@VisibleForTesting
@@ -449,6 +443,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	@Override
 	public void onUserAccountRefreshed() {
-		handleDeeplink();
+		AbacusHelperUtils.downloadBucketWithWait(this, evaluateAbTests);
 	}
 }
