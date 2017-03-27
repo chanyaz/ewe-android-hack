@@ -134,10 +134,10 @@ public class TripUtils {
 		List<Trip> flightTrips = new ArrayList<Trip>();
 		for (Trip trip : trips) {
 			boolean hasOneTripComponent = trip.getTripComponents().size() == 1;
-			boolean isFlightTrip = trip.getTripComponents().get(0) instanceof TripFlight;
 			boolean isNotShared = !trip.isShared();
-			if (hasOneTripComponent && isFlightTrip && isNotShared) {
-				if (trip.getAirAttach() != null && trip.getAirAttach().isAirAttachQualified()) {
+			if (hasOneTripComponent && isNotShared) {
+				boolean isFlightTrip = trip.getTripComponents().get(0) instanceof TripFlight;
+				if (isFlightTrip && trip.getAirAttach() != null && trip.getAirAttach().isAirAttachQualified()) {
 					flightTrips.add(trip);
 				}
 			}
