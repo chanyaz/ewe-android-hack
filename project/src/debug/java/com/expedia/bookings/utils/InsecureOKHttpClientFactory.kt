@@ -63,10 +63,10 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
             val trustAllCerts = makeTrustAllCertificatesTrustManager()
 
             // Install the all-trusting trust manager
-            val ssContext = SSLContext.getInstance("SSL")
-            ssContext.init(null, trustAllCerts, java.security.SecureRandom())
+            val sslContext = SSLContext.getInstance("TLS")
+            sslContext.init(null, trustAllCerts, java.security.SecureRandom())
             // Create an ssl socket factory with our all-trusting manager
-            val ssSocketFactory = ssContext.socketFactory
+            val ssSocketFactory = sslContext.socketFactory
             client.sslSocketFactory(ssSocketFactory, trustAllCerts[0] as X509TrustManager)
 
             val hostnameVerifier = HostnameVerifier { hostname, session -> true }
