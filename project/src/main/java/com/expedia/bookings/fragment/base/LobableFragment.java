@@ -1,11 +1,14 @@
 package com.expedia.bookings.fragment.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.utils.FragmentBailUtils;
+import com.expedia.bookings.utils.Ui;
 
 /*
  * This fragment implements ILOBable, and saves the LOB on rotation.
@@ -16,6 +19,14 @@ public abstract class LobableFragment extends Fragment implements ILOBable {
 
 	private static final String STATE_LOB = "STATE_LOB";
 	private LineOfBusiness mLob;
+
+	protected UserStateManager userStateManager;
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

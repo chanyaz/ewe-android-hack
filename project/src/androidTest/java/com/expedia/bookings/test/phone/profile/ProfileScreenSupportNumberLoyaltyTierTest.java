@@ -16,7 +16,7 @@ import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;

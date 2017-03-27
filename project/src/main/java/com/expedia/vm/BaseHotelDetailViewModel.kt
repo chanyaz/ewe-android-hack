@@ -10,12 +10,12 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
@@ -239,6 +239,8 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             hotel
         }
     })
+
+    protected val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
         Observable.combineLatest(allRoomsSoldOut, noRoomsInOffersResponse)

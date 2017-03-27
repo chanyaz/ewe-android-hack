@@ -125,7 +125,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     override fun updateDbTravelers() {
         val params = Db.getFlightSearchParams()
-        travelerManager.updateDbTravelers(params, context)
+        travelerManager.updateDbTravelers(params)
         resetTravelers()
     }
 

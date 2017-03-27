@@ -19,7 +19,7 @@ import com.expedia.vm.traveler.TravelerTSAViewModel;
 import dagger.Component;
 
 @TravelerScope
-@Component(modules = {TravelerModule.class})
+@Component(dependencies = {AppComponent.class}, modules = {TravelerModule.class})
 public interface TravelerComponent {
 	void inject(PackageSearchViewModel viewModel);
 	void inject(BaseTravelerValidatorViewModel viewModel);

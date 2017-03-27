@@ -3,7 +3,8 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.expedia.bookings.data.UserPreference.Category;
+import com.expedia.bookings.data.user.UserPreference;
+import com.expedia.bookings.data.user.UserPreference.Category;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 

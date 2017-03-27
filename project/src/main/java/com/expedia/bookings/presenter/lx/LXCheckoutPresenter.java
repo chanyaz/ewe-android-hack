@@ -12,12 +12,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.ApiError;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -27,7 +28,6 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVEntryWidget;
-import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXErrorWidget;
 import com.expedia.bookings.widget.LxRulesWidget;
 import com.mobiata.android.Log;
@@ -47,7 +47,10 @@ public class LXCheckoutPresenter extends Presenter {
 	}
 
 	@Inject
-	LxServices lxServices;
+	protected LxServices lxServices;
+
+	@Inject
+	protected UserStateManager userStateManager;
 
 	@InjectView(R.id.checkout)
 	LXCheckoutMainViewPresenter checkout;
@@ -266,7 +269,7 @@ public class LXCheckoutPresenter extends Presenter {
 	}
 
 	private void refreshGuestTrip(LXCheckoutResponse checkoutResponse) {
-		if (!User.isLoggedIn(getContext())) {
+		if (!userStateManager.isUserAuthenticated()) {
 			String email = checkoutParams.getEmailAddress();
 			String itineraryNumber = checkoutResponse.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, itineraryNumber);

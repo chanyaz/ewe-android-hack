@@ -14,13 +14,13 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
@@ -237,7 +237,7 @@ class PackageCheckoutTest {
     }
 
     private fun createTrip() {
-        checkout.travelerManager.updateDbTravelers(Db.getPackageParams(), activity)
+        checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.subscribe(tripResponseSubscriber)
 
@@ -351,7 +351,7 @@ class PackageCheckoutTest {
     }
 
     private fun createTripWithResortFee() {
-        checkout.travelerManager.updateDbTravelers(Db.getPackageParams(), activity)
+        checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         checkout.getCreateTripViewModel().createTripResponseObservable.subscribe(tripResponseSubscriber)
 

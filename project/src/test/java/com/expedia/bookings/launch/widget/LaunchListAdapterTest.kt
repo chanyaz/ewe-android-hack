@@ -9,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.CollectionLocation
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -24,8 +24,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FrameLayout
-import com.expedia.vm.SignInPlaceHolderViewModel
-import com.mobiata.android.util.SettingUtils
+import com.expedia.vm.launch.SignInPlaceHolderViewModel
 import com.squareup.phrase.Phrase
 import org.junit.After
 import org.junit.Before

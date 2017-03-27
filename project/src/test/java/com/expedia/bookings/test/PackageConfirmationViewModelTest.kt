@@ -6,7 +6,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -53,7 +52,6 @@ class PackageConfirmationViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"
         vm = PackageConfirmationViewModel(activity)
@@ -67,7 +65,6 @@ class PackageConfirmationViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun zeroPkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "0"
         vm = PackageConfirmationViewModel(activity)
@@ -80,7 +77,6 @@ class PackageConfirmationViewModelTest {
     @Test
     fun nullPkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = null
         vm = PackageConfirmationViewModel(activity)
@@ -93,7 +89,6 @@ class PackageConfirmationViewModelTest {
     @Test
     fun noShowPkgLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"
         vm = PackageConfirmationViewModel(activity)

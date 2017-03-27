@@ -19,10 +19,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.ExpediaServices;
@@ -30,6 +30,7 @@ import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -1092,7 +1093,8 @@ public class PushNotificationUtils {
 			public PushNotificationRegistrationResponse doDownload() {
 				long userTuid = 0;
 				int siteId = PointOfSale.getPointOfSale().getSiteId();
-				if (User.isLoggedIn(context)) {
+				UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+				if (userStateManager.isUserAuthenticated()) {
 					if (Db.getUser() == null) {
 						Db.loadUser(context);
 					}

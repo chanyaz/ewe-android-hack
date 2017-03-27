@@ -15,12 +15,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
@@ -35,6 +35,9 @@ import kotlin.properties.Delegates
 
 class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
+
+    lateinit var userStateManager: UserStateManager
         @Inject set
 
     val unexpanded: TextView by bindView(R.id.unexpanded)
@@ -126,7 +129,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     }
 
     override fun getMenuDoneButtonFocus(): Boolean {
-        if (couponCode.text.length > 0) {
+        if (couponCode.text.isNotEmpty()) {
             return true
         }
         return false
@@ -175,12 +178,12 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     private fun submitCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse) {
         var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
         //Send 'User Preference Points' only in case Trip is Redeemable
-        if (User.isLoggedIn(context) && tripResponse.isRewardsRedeemable()) {
+        if (userStateManager.isUserAuthenticated() && tripResponse.isRewardsRedeemable()) {
             val payingWithPointsSplit = paymentSplits.payingWithPoints
             userPointsPreference = listOf(UserPreferencePointsDetails(tripResponse.getProgramName()!!, payingWithPointsSplit))
         }
 
-        var couponParams = HotelApplyCouponParameters.Builder()
+        val couponParams = HotelApplyCouponParameters.Builder()
                 .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
                 .couponCode(couponCode.text.toString())
                 .isFromNotSignedInToSignedIn(false)
@@ -198,7 +201,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     }
 
     override fun isComplete(): Boolean {
-        return true;
+        return true
     }
 
     override fun onClick(v: View) {

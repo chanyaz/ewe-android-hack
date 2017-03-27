@@ -9,8 +9,10 @@ import android.os.Bundle;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 /**
@@ -26,7 +28,9 @@ public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
 			SyncResult syncResult) {
 		Context context = getContext();
-		if (User.isLoggedIn(context)) {
+		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+
+		if (userStateManager.isUserAuthenticated()) {
 			ExpediaServices services = new ExpediaServices(context);
 			SignInResponse results = services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
 			if (results == null || results.hasErrors()) {

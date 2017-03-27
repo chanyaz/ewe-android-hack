@@ -250,15 +250,15 @@ public class SectionLocation extends LinearLayout
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorExclaimation<Location> mValidAddrLineOne = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<Location> mValidAddrLineOne = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_line_one);
-	ValidationIndicatorExclaimation<Location> mValidAddrLineTwo = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<Location> mValidAddrLineTwo = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_line_two);
-	ValidationIndicatorExclaimation<Location> mValidCity = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<Location> mValidCity = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_city);
-	ValidationIndicatorExclaimation<Location> mValidState = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<Location> mValidState = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_state);
-	ValidationIndicatorExclaimation<Location> mValidPostalCode = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<Location> mValidPostalCode = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_postal_code);
 	ValidationIndicatorExclamationSpinner<Location> mValidDeliveryOption = new ValidationIndicatorExclamationSpinner<>(
 		R.id.edit_delivery_option_spinner);

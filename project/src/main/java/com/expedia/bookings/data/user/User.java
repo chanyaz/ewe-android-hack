@@ -1,4 +1,9 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.user;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,10 +17,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
 import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.PaymentType;
+import com.expedia.bookings.data.Phone;
+import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.StoredPointsCard;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
@@ -30,10 +45,6 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.TimingLogger;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class User implements JSONable {
 
@@ -153,10 +164,9 @@ public class User implements JSONable {
 
 	/**
 	 * Do we have a currently logged in user?
-	 * @param context
 	 * @return true if a user is logged in, false otherwise.
 	 */
-	public static boolean isLoggedIn(Context context) {
+	static boolean isLoggedIn(Context context) {
 		boolean isLoggedIn = isLoggedInOnDisk(context) && isLoggedInToAccountManager(context);
 		if (isLoggedIn) {
 			if (Db.getUser() == null) {

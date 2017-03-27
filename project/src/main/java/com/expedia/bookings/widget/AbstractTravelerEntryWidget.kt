@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -70,6 +69,8 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
     val formFilledSubscriber = endlessObserver<String>() {
         filledIn.onNext(isCompletelyFilled())
     }
+
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
         inflateWidget()
@@ -145,10 +146,21 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
 
     //to be removed for new checkout
     open fun isCompletelyFilled(): Boolean {
-        return nameEntryView.firstName.text.isNotEmpty() &&
-                nameEntryView.lastName.text.isNotEmpty() &&
-                (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty()) &&
-                ((emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty()) || User.isLoggedIn(context) || emailEntryView.visibility == View.GONE)
+        return nameEntryView.firstName.text.isNotEmpty()
+                && nameEntryView.lastName.text.isNotEmpty()
+                && hasFilledPhoneNumberIfNecessary()
+                && hasFilledEmailIfNecessary()
+    }
+
+    private fun hasFilledPhoneNumberIfNecessary(): Boolean {
+        return !TravelerUtils.isMainTraveler(viewModel.travelerIndex)
+                || phoneEntryView.phoneNumber.text.isNotEmpty()
+    }
+
+    private fun hasFilledEmailIfNecessary(): Boolean {
+        return (emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty())
+                || userStateManager.isUserAuthenticated()
+                || emailEntryView.visibility == View.GONE
     }
 
     fun resetStoredTravelerSelection() {

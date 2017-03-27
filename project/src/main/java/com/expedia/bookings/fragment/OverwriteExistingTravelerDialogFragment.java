@@ -10,7 +10,7 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
 import com.mobiata.android.util.Ui;
 
@@ -49,8 +49,9 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 				.setPositiveButton(R.string.overwrite, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						UserStateManager userStateManager = com.expedia.bookings.utils.Ui.getApplication(getActivity()).appComponent().userStateManager();
 						//We want to overwrite, so we go through, find the traveler with the same name and steal his/her tuid
-						if (User.isLoggedIn(getActivity()) && Db.getUser() != null
+						if (userStateManager.isUserAuthenticated() && Db.getUser() != null
 								&& Db.getUser().getAssociatedTravelers() != null) {
 							for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
 								if (Db.getWorkingTravelerManager().getWorkingTraveler().nameEquals(trav)) {

@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.vm.launch
 
 interface GenericViewModel {
     val firstLine: String
@@ -9,6 +9,3 @@ interface GenericViewModel {
 
 data class SignInPlaceHolderViewModel(override val firstLine: String, override val secondLine: String, override val buttonOneLabel: String, override val buttonTwoLabel: String): GenericViewModel
 data class PopularHotelsTonightViewModel(val background: Int, val firstLine: String, val secondLine: String)
-data class ActiveItinViewModel(val firstLine: String, val secondLine: String)
-
-

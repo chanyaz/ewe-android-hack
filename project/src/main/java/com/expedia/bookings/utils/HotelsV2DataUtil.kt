@@ -58,7 +58,8 @@ class HotelsV2DataUtil {
             val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.checkInDate)
             val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, LoyaltyUtil.isShopWithPointsAvailable(context), true, params.sortType, params.mctc)
+            val shopWithPointsAvailable = LoyaltyUtil.isShopWithPointsAvailable(Ui.getApplication(context).appComponent().userStateManager())
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, shopWithPointsAvailable, true, params.sortType, params.mctc)
             return v2params
         }
 

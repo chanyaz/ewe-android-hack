@@ -3,8 +3,8 @@ package com.expedia.bookings.test.robolectric
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
-import com.expedia.bookings.data.UserLoyaltyMembershipInformation
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB

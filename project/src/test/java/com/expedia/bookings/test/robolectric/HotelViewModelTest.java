@@ -18,7 +18,7 @@ import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;

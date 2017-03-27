@@ -1,8 +1,10 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.user;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.Money;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 

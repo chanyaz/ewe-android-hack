@@ -21,7 +21,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -206,7 +205,7 @@ public class AboutUtils {
 			final int selectedCountryPosId = getArguments().getInt("selectedCountryPosId");
 			Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.dialog_clear_private_data_title);
-			if (User.isLoggedIn(getActivity())) {
+			if (userIsAuthenticated(getActivity())) {
 				builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
 			}
 			else {
@@ -226,6 +225,10 @@ public class AboutUtils {
 				}
 			});
 			return builder.create();
+		}
+
+		private boolean userIsAuthenticated(Context context) {
+			return Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
 		}
 	}
 

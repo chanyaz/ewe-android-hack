@@ -14,12 +14,13 @@ import android.widget.ImageView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -39,6 +40,7 @@ import rx.Observer;
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	boolean loadSignInViewAbTest = false;
+	private UserStateManager userStateManager;
 
 	ImageView logoView;
 	View content;
@@ -52,6 +54,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
+		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
+
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
 
@@ -80,7 +84,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	private void launchOpeningView() {
 		boolean isUsersFirstLaunchOfApp = ExpediaBookingApp.isFirstLaunchEver();
 		boolean isNewVersionOfApp = ExpediaBookingApp.isFirstLaunchOfAppVersion();
-		boolean userNotLoggedIn = !User.isLoggedIn(RouterActivity.this);
+		boolean userNotLoggedIn = !userStateManager.isUserAuthenticated();
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);

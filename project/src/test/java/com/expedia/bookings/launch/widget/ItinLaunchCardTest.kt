@@ -9,7 +9,8 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.vm.ActiveItinViewModel
+import com.expedia.vm.launch.ActiveItinType
+import com.expedia.vm.launch.ActiveItinViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -31,7 +32,7 @@ class ItinLaunchCardTest {
         val expectedSecondLine = "Check the status of your existing trip"
 
         createSystemUnderTest()
-        val activeItinViewModel = ActiveItinViewModel(expectedFirstLine, expectedSecondLine)
+        val activeItinViewModel = ActiveItinViewModel(ActiveItinType.GUEST, expectedFirstLine, expectedSecondLine)
         sut.bind(activity, activeItinViewModel)
 
         assertEquals(expectedFirstLine, sut.firstLine.text.toString())
@@ -46,7 +47,7 @@ class ItinLaunchCardTest {
 
         createSystemUnderTest()
         givenCustomerSignedIn()
-        val activeItinViewModel = ActiveItinViewModel(expectedFirstLine, expectedSecondLine)
+        val activeItinViewModel = ActiveItinViewModel(ActiveItinType.SIGNED_IN, expectedFirstLine, expectedSecondLine)
         sut.bind(activity, activeItinViewModel)
 
         assertEquals(expectedFirstLine, sut.firstLine.text)

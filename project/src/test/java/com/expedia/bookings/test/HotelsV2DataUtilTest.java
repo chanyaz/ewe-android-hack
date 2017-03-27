@@ -14,8 +14,8 @@ import android.content.Context;
 
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
@@ -284,7 +284,6 @@ public class HotelsV2DataUtilTest {
 		User user = UserLoginTestUtil.mockUser();
 		user.setLoyaltyMembershipInformation(loyaltyInfo);
 		UserLoginTestUtil.setupUserAndMockLogin(user);
-		Assert.assertTrue(User.isLoggedIn(context));
 	}
 
 	private com.expedia.bookings.data.HotelSearchParams getBasicV1Params() {

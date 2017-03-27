@@ -3,18 +3,18 @@ package com.expedia.util
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.FeatureToggleUtil
 
 class LoyaltyUtil {
     companion object {
-        fun isShopWithPointsAvailable(context: Context): Boolean {
-            return User.isLoggedIn(context) && PointOfSale.getPointOfSale().isSWPEnabledForHotels
+        fun isShopWithPointsAvailable(userStateManager: UserStateManager): Boolean {
+            return userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().isSWPEnabledForHotels
                     && Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
         }
 

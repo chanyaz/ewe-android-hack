@@ -1,7 +1,6 @@
 package com.expedia.bookings.tracking
 
-import android.app.Activity
-import android.content.Context
+import android.app.Application
 import android.os.Bundle
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightSearch
@@ -16,7 +15,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.Rate
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarLocation
 import com.expedia.bookings.data.cars.CarSearch
@@ -35,12 +33,15 @@ import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemFlight
 import com.expedia.bookings.data.trips.TripBucketItemHotel
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import com.mobiata.android.Log
@@ -53,35 +54,40 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.Currency
 
-private val TAG = "FacebookTracking"
-@JvmField var facebookContext: Context? = null
-@JvmField var facebookLogger: AppEventsLogger? = null
-private const val FB_PURCHASE_VALUE = "fb_purchase_value"
-private const val FB_PURCHASE_CURRENCY = "fb_purchase_currency"
-private const val FB_ORDER_ID = "fb_order_id"
-private const val VALUE_TO_SUM = "_valueToSum"
-private const val LOWEST_SEARCH_VALUE = "LowestSearch_Value"
-private const val PICKUP_LOCATION = "Pickup_Location"
-private const val DROPOFF_LOCATION = "Dropoff_Location"
-private const val CAR_VALUE = "Car_Value"
-private const val BOOKING_VALUE = "Booking_Value"
-private const val ACTIVITY_VALUE = "Activity_Value"
-private const val NUM_PEOPLE = "Num_People"
-private const val NUM_CHILDREN = "Number_Children"
-private const val FB_CHECKIN_DATE = "fb_checkin_date"
-private const val FB_CHECKOUT_DATE = "fb_checkout_date"
-private const val FB_NUM_ADULTS = "fb_num_adults"
-private const val FB_NUM_CHILDREN = "fb_num_children"
-private const val FB_DEPARTING_DATE = "fb_departing_departure_date"
-private const val FB_RETURNING_DATE = "fb_returning_departure_date"
-private const val FB_ORIGIN_AIRPORT = "fb_origin_airport"
-private const val FB_DESTINATION_AIRPORT = "fb_destination_airport"
-
 class FacebookEvents {
+
     companion object {
-        fun activateAppIfEnabledInConfig(context: Context) {
+        private const val TAG = "FacebookTracking"
+        private const val FB_PURCHASE_VALUE = "fb_purchase_value"
+        private const val FB_PURCHASE_CURRENCY = "fb_purchase_currency"
+        private const val FB_ORDER_ID = "fb_order_id"
+        private const val VALUE_TO_SUM = "_valueToSum"
+        private const val LOWEST_SEARCH_VALUE = "LowestSearch_Value"
+        private const val PICKUP_LOCATION = "Pickup_Location"
+        private const val DROPOFF_LOCATION = "Dropoff_Location"
+        private const val CAR_VALUE = "Car_Value"
+        private const val BOOKING_VALUE = "Booking_Value"
+        private const val ACTIVITY_VALUE = "Activity_Value"
+        private const val NUM_PEOPLE = "Num_People"
+        private const val NUM_CHILDREN = "Number_Children"
+        private const val FB_CHECKIN_DATE = "fb_checkin_date"
+        private const val FB_CHECKOUT_DATE = "fb_checkout_date"
+        private const val FB_NUM_ADULTS = "fb_num_adults"
+        private const val FB_NUM_CHILDREN = "fb_num_children"
+        private const val FB_DEPARTING_DATE = "fb_departing_departure_date"
+        private const val FB_RETURNING_DATE = "fb_returning_departure_date"
+        private const val FB_ORIGIN_AIRPORT = "fb_origin_airport"
+        private const val FB_DESTINATION_AIRPORT = "fb_destination_airport"
+
+        @JvmField var userStateManager: UserStateManager? = null
+        @JvmField var facebookLogger: AppEventsLogger? = null
+
+        @JvmStatic
+        fun init(app: Application) {
             if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled) {
-                AppEventsLogger.activateApp((context as Activity).application)
+                userStateManager = Ui.getApplication(app).appComponent().userStateManager()
+                facebookLogger = AppEventsLogger.newLogger(app)
+                AppEventsLogger.activateApp(app)
             }
         }
 
@@ -89,22 +95,22 @@ class FacebookEvents {
             val keys = parameters.keySet()
 
             if (keys.size > 10) {
-                Log.e(TAG, "${event} passing too many parameters, max 10, tried ${keys.size}")
+                Log.e(TAG, "$event passing too many parameters, max 10, tried ${keys.size}")
             }
 
             val nullKeys = keys.filter { parameters.get(it) == null }
             if (nullKeys.isNotEmpty()) {
-                Log.e(TAG, "${event} null values in bundle: ${nullKeys.joinToString(", ")}")
+                Log.e(TAG, "$event null values in bundle: ${nullKeys.joinToString(", ")}")
             }
 
             val badKeys = keys.filter { parameters.get(it) !is String && parameters.get(it) !is Int }
             if (badKeys.isNotEmpty()) {
-                Log.e(TAG, "${event} values other than string or integer found: ${badKeys.joinToString(", ")}")
+                Log.e(TAG, "$event values other than string or integer found: ${badKeys.joinToString(", ")}")
             }
 
             for (key in parameters.keySet()) {
-                val value = parameters.get(key);
-                Log.d(TAG, " $key  : ${value?.toString()}");
+                val value = parameters.get(key)
+                Log.d(TAG, " $key  : ${value?.toString()}")
             }
 
             facebookLogger?.logEvent(event, parameters)
@@ -230,7 +236,7 @@ class FacebookEvents {
             parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, property.propertyId)
             parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
 
-            facebookLogger?.logPurchase(rate.totalAmountAfterTax?.amount ?: BigDecimal(0), Currency.getInstance(rate.totalAmountAfterTax?.currencyCode));
+            facebookLogger?.logPurchase(rate.totalAmountAfterTax?.amount ?: BigDecimal(0), Currency.getInstance(rate.totalAmountAfterTax?.currencyCode))
         }
     }
 
@@ -432,7 +438,7 @@ class FacebookEvents {
     }
 
     fun trackCarDetail(search: CarSearchParam, searchCarOffer: SearchCarOffer) {
-        var parameters = Bundle()
+        val parameters = Bundle()
         val startDate = search.startDateTime.toLocalDate()
         val endDate = search.endDateTime.toLocalDate()
         val location = searchCarOffer.pickUpLocation
@@ -448,7 +454,7 @@ class FacebookEvents {
     }
 
     fun trackCarCheckout(offer: CreateTripCarOffer) {
-        var parameters = Bundle()
+        val parameters = Bundle()
         val startDate = offer.pickupTime.toLocalDate()
         val endDate = offer.dropOffTime.toLocalDate()
         val location = offer.pickUpLocation
@@ -462,7 +468,7 @@ class FacebookEvents {
     }
 
     fun trackCarConfirmation(offer: CarCheckoutResponse) {
-        var parameters = Bundle()
+        val parameters = Bundle()
         val carOffer = offer.newCarProduct
         val startDate = carOffer.pickupTime.toLocalDate()
         val endDate = carOffer.dropOffTime.toLocalDate()
@@ -477,7 +483,7 @@ class FacebookEvents {
     }
 
     fun trackLXSearch(searchParams: LxSearchParams, lxSearchResponse: LXSearchResponse) {
-        var parameters = Bundle()
+        val parameters = Bundle()
         val startDate = searchParams.startDate
 
         addCommonLXParams(parameters, startDate, lxSearchResponse.regionId, lxSearchResponse.destination)
@@ -493,7 +499,7 @@ class FacebookEvents {
 
     fun trackLXDetail(activityId: String, destination: String, startDate: LocalDate, regionId: String,
                       currencyCode: String, activityValue: String) {
-        var parameters = Bundle()
+        val parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, destination)
         parameters.safePutString(ACTIVITY_VALUE, activityValue)
@@ -506,7 +512,7 @@ class FacebookEvents {
 
     fun trackLXCheckout(activityId: String, lxActivityLocation: String, startDate: LocalDate, regionId: String,
                         totalPrice: Money, ticketCount: Int, childTicketCount: Int) {
-        var parameters = Bundle()
+        val parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
@@ -521,7 +527,7 @@ class FacebookEvents {
 
     fun trackLXConfirmation(activityId: String, lxActivityLocation: String, startDate: LocalDate, regionId: String,
                             totalPrice: Money, ticketCount: Int, childTicketCount: Int) {
-        var parameters = Bundle()
+        val parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
         parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
@@ -734,8 +740,8 @@ class FacebookEvents {
         parameters.safePutString("End_Date", dtf.safePrint(endDate))
         parameters.safePutInt("Booking_Window", getBookingWindow(startDate))
 
-        if (facebookContext != null) {
-            parameters.safePutInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
+        if (userStateManager != null) {
+            parameters.safePutInt("Logged_in_Status", encodeBoolean(userStateManager?.isUserAuthenticated() ?: false))
         }
         parameters.safePutString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.safePutString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
@@ -749,8 +755,8 @@ class FacebookEvents {
         parameters.safePutString("Start_Date", dtf.safePrint(startDate))
         parameters.safePutInt("Booking_Window", getBookingWindow(startDate))
 
-        if (facebookContext != null) {
-            parameters.safePutInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
+        if (userStateManager != null) {
+            parameters.safePutInt("Logged_in_Status", encodeBoolean(userStateManager?.isUserAuthenticated() ?: false))
         }
         parameters.safePutString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.safePutString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)

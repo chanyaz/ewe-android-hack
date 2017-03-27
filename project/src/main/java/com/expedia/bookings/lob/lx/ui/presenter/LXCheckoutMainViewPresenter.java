@@ -9,18 +9,17 @@ import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.trips.TripBucketItemLX;
-import com.expedia.bookings.data.trips.TripBucketItemTransport;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.trips.TripBucketItemLX;
+import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LxServices;
@@ -151,7 +150,7 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 		LXCheckoutParams checkoutParams = new LXCheckoutParams()
 			.firstName(mainContactInfoCardView.firstName.getText().toString())
 			.lastName(mainContactInfoCardView.lastName.getText().toString())
-			.email(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
+			.email(userStateManager.isUserAuthenticated() ? Db.getUser().getPrimaryTraveler().getEmail()
 				: mainContactInfoCardView.emailAddress.getText().toString())
 			.expectedTotalFare(lxState.latestTotalPrice().getAmount().setScale(2).toString())
 			.phoneCountryCode(

@@ -24,9 +24,10 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -63,7 +64,10 @@ import kotlin.properties.Delegates
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
-    lateinit var paymentViewModel: PaymentViewModel
+    protected lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
+
+    protected lateinit var userStateManager: UserStateManager
         @Inject set
     val checkoutRequestCallObservable = BehaviorSubject.create<Long>()
 
@@ -312,7 +316,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         addTransition(defaultToPayment)
         setupKeyboardListeners()
         setUpErrorMessaging()
-        initLoggedInState(User.isLoggedIn(context))
+        initLoggedInState(userStateManager.isUserAuthenticated())
     }
 
     private fun setUpViewModels() {
@@ -405,7 +409,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     open val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            val isLoggedIn = User.isLoggedIn(context)
+            val isLoggedIn = userStateManager.isUserAuthenticated()
             loginWidget.bind(false, isLoggedIn, Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             paymentWidget.viewmodel.selectCorrectCardObservable.onNext(isLoggedIn)
@@ -441,7 +445,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun startDefaultToPaymentTransition(forward: Boolean) {
         loginWidget.setInverseVisibility(forward)
-        hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
+        hintContainer.visibility = if (forward) View.GONE else if (userStateManager.isUserAuthenticated()) View.GONE else View.VISIBLE
         travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
         legalInformationText.setInverseVisibility(forward)
         depositPolicyText.setInverseVisibility(forward)
@@ -533,14 +537,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun clearPaymentInfo() {
-        if (!User.isLoggedIn(context)) {
+        if (!userStateManager.isUserAuthenticated()) {
             paymentWidget.clearPaymentInfo()
         }
     }
 
     fun resetTravelers() {
         travelersPresenter.resetTravelers()
-        if (!User.isLoggedIn(context)) {
+        if (!userStateManager.isUserAuthenticated()) {
             ckoViewModel.clearTravelers.onNext(Unit)
             updateTravelerPresenter()
         }

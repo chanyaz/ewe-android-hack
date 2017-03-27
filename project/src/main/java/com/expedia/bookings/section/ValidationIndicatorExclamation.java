@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner;
  * @param <Data>
  * @author jdrotos
  */
-public class ValidationIndicatorExclaimation<Data extends Object> extends
+public class ValidationIndicatorExclamation<Data extends Object> extends
 	SectionFieldValidIndicator<TextView, Data> {
 
 	//Was this valid last time - this is to improve performance
@@ -31,7 +31,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 		mDropDownInt = dropdownId;
 	}
 
-	public ValidationIndicatorExclaimation(int fieldId) {
+	public ValidationIndicatorExclamation(int fieldId) {
 		super(fieldId);
 	}
 

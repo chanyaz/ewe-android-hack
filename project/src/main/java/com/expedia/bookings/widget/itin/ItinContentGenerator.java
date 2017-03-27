@@ -34,7 +34,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;

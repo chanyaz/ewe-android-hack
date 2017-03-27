@@ -13,8 +13,10 @@ import android.text.TextUtils;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
@@ -35,10 +37,12 @@ import com.expedia.bookings.server.ExpediaServices;
 public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 
 	private Context mContext;
+	private UserStateManager userStateManager;
 
 	public ExpediaAccountAuthenticator(Context context) {
 		super(context);
 		mContext = context;
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 	}
 
 	@Override
@@ -79,11 +83,11 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 
 		Bundle result = new Bundle();
 		String tuidStr = null;
-		if (User.isLoggedIn(mContext) && Db.getUser() != null && !TextUtils.isEmpty(Db.getUser().getTuidString())) {
+		if (userStateManager.isUserAuthenticated() && Db.getUser() != null && !TextUtils.isEmpty(Db.getUser().getTuidString())) {
 			//We are already logged in and things look ok, lets get us that tuid
 			tuidStr = Db.getUser().getTuidString();
 		}
-		else if (User.isLoggedIn(mContext)) {
+		else if (userStateManager.isUserAuthenticated()) {
 			//Try to log in with stored stuff
 			ExpediaServices services = new ExpediaServices(mContext);
 

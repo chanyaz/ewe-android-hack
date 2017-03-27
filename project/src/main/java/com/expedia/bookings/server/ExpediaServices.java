@@ -69,7 +69,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
 import com.expedia.bookings.data.TravelerCommitResponse;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
@@ -77,6 +76,7 @@ import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -155,13 +155,16 @@ public class ExpediaServices implements DownloadListener {
 	public PersistentCookiesCookieJar mCookieManager;
 
 	@Inject
-	public EndpointProvider mEndpointProvider;
+	EndpointProvider mEndpointProvider;
 
 	@Inject
-	public OkHttpClient mClient;
+	OkHttpClient mClient;
 
 	@Inject
-	public OKHttpClientFactory mOkHttpClientFactory;
+	OKHttpClientFactory mOkHttpClientFactory;
+
+	@Inject
+	UserStateManager userStateManager;
 
 	private Call call;
 	private Request mRequest;
@@ -529,7 +532,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
-		if (User.isLoggedIn(mContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
 			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
 				billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
@@ -831,7 +834,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("userId", userId));
 		}
 
-		if (User.isLoggedIn(mContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
 			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
 				billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
@@ -1033,11 +1036,11 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public TravelerCommitResponse commitTraveler(Traveler traveler) {
-		if (User.isLoggedIn(mContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			addFlightTraveler(query, traveler, "");
 			addCommonParams(query);
-			Log.i(TAG_REQUEST, "update-travler body:" + NetUtils.getParamsForLogging(query));
+			Log.i(TAG_REQUEST, "update-traveler body:" + NetUtils.getParamsForLogging(query));
 			return doFlightsRequest("api/user/update-traveler", query, new TravelerCommitResponseHandler(mContext,
 				traveler));
 		}

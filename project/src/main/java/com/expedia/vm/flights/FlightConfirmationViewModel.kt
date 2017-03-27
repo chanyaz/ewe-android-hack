@@ -2,13 +2,13 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -24,6 +24,8 @@ class FlightConfirmationViewModel(val context: Context) {
     val inboundCardVisibility = BehaviorSubject.create<Boolean>()
     val crossSellWidgetVisibility = BehaviorSubject.create<Boolean>()
 
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     init {
         confirmationObservable.subscribe { pair ->
             val email = pair.second
@@ -35,7 +37,7 @@ class FlightConfirmationViewModel(val context: Context) {
                     .put("email", email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
-            if (!User.isLoggedIn(context)) {
+            if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
             crossSellWidgetVisibility.onNext(isQualified)
@@ -44,7 +46,7 @@ class FlightConfirmationViewModel(val context: Context) {
 
         setRewardsPoints.subscribe { points ->
             if (points != null)
-                if (User.isLoggedIn(context) && PointOfSale.getPointOfSale().shouldShowRewards()) {
+                if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
                     val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
                     if (Strings.isNotEmpty(rewardPointText)) {
                         rewardPointsObservable.onNext(rewardPointText)

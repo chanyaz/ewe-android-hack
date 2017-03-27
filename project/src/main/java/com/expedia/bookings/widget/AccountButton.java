@@ -26,7 +26,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;

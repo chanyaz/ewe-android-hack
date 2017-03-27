@@ -11,7 +11,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.model.UserLoginStateChangedModel;
@@ -38,6 +39,9 @@ public class UserAccountRefresher {
 
 	@Inject
 	UserLoginStateChangedModel userLoginStateChangedModel;
+
+	@Inject
+	UserStateManager userStateManager;
 
 	public UserAccountRefresher(Context context, LineOfBusiness lob,
 		@Nullable IUserAccountRefreshListener userAccountRefreshListener) {
@@ -67,7 +71,7 @@ public class UserAccountRefresher {
 			if (results != null) {
 				if (results.hasErrors()) {
 					//The refresh failed, so we just log them out. They can always try to login again.
-					if (User.isLoggedIn(context)) {
+					if (userStateManager.isUserAuthenticated()) {
 						if (isUserFacebookSessionActive()) {
 							forceAccountRefresh();
 						}
@@ -98,8 +102,8 @@ public class UserAccountRefresher {
 
 	public void ensureAccountIsRefreshed() {
 		int userRefreshIntervalThreshold = context.getResources().getInteger(R.integer.account_sync_interval_ms);
-		if (User.isLoggedIn(context) && mLastRefreshedUserTimeMillis + userRefreshIntervalThreshold < System
-			.currentTimeMillis()) {
+		if (userStateManager.isUserAuthenticated()
+			&& mLastRefreshedUserTimeMillis + userRefreshIntervalThreshold < System.currentTimeMillis()) {
 			//Force Refresh if Threshold has expired!
 			forceAccountRefresh();
 		}
@@ -107,7 +111,7 @@ public class UserAccountRefresher {
 			if (userAccountRefreshListener != null) {
 				userAccountRefreshListener.onUserAccountRefreshed();
 			}
-			userLoginStateChangedModel.getUserLoginStateChanged().onNext(User.isLoggedIn(context));
+			userLoginStateChangedModel.getUserLoginStateChanged().onNext(userStateManager.isUserAuthenticated());
 		}
 	}
 
@@ -143,7 +147,7 @@ public class UserAccountRefresher {
 			if (results != null) {
 				if (results.hasErrors()) {
 					//The refresh failed, so we just log them out. They can always try to login again.
-					if (User.isLoggedIn(context)) {
+					if (userStateManager.isUserAuthenticated()) {
 						if (isAuthenticationError(results)) {
 							logOut(false);
 						}
@@ -204,7 +208,7 @@ public class UserAccountRefresher {
 						success();
 					}
 					else {
-						if (User.isLoggedIn(context)) {
+						if (userStateManager.isUserAuthenticated()) {
 							logOut(true);
 						}
 						failure();

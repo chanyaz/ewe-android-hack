@@ -2,6 +2,7 @@ package com.expedia.bookings.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -9,8 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.Ui;
 
 public class ClearPrivateDataDialog extends DialogFragment {
 	private ClearPrivateDataDialogListener listener;
@@ -32,7 +33,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
 
 		builder.setTitle(R.string.dialog_clear_private_data_title);
-		if (User.isLoggedIn(getActivity())) {
+		if (userIsAuthenticated(getActivity())) {
 			builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
 		}
 		else {
@@ -63,4 +64,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 		return builder.create();
 	}
 
+	private boolean userIsAuthenticated(Context context) {
+		return Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
+	}
 }

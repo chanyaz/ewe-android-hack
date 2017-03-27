@@ -4,6 +4,7 @@ import android.text.TextUtils
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.section.CommonSectionValidators
 import com.expedia.bookings.utils.Strings
@@ -11,7 +12,7 @@ import com.expedia.bookings.utils.TravelerUtils
 import com.mobiata.android.validation.ValidationError
 import org.joda.time.LocalDate
 
-class TravelerValidator {
+class TravelerValidator(private val userStateManager: UserStateManager) {
     private var startOfTrip: LocalDate? = null
     private var endOfTrip: LocalDate? = null
     private var infantsInLap: Boolean = false
@@ -22,10 +23,10 @@ class TravelerValidator {
         infantsInLap = params.infantSeatingInLap
     }
 
-    fun isValidForFlightBooking(traveler: Traveler, index: Int, passportRequired: Boolean, isLoggedIn: Boolean): Boolean {
+    fun isValidForFlightBooking(traveler: Traveler, index: Int, passportRequired: Boolean): Boolean {
         return hasValidBirthDate(traveler) && hasValidName(traveler.name) && hasValidGender(traveler)
                 && (!TravelerUtils.isMainTraveler(index) || isValidPhone(traveler.phoneNumber))
-                && (isLoggedIn || !TravelerUtils.isMainTraveler(index) || isValidEmail(traveler.email))
+                && (userStateManager.isUserAuthenticated() || !TravelerUtils.isMainTraveler(index) || isValidEmail(traveler.email))
                 && (!passportRequired || hasValidPassport(traveler))
     }
 

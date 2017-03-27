@@ -15,9 +15,11 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 
@@ -30,6 +32,7 @@ public class StoredCreditCardList extends LinearLayout {
 	}
 
 	private LineOfBusiness lineOfBusiness;
+	private UserStateManager userStateManager;
 
 	IStoredCreditCardListener mStoredCreditCardListener;
 
@@ -42,6 +45,8 @@ public class StoredCreditCardList extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
+
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.stored_credit_card_list, this);
 		ButterKnife.inject(this);
@@ -70,7 +75,7 @@ public class StoredCreditCardList extends LinearLayout {
 					Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 					StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
 					if (currentCC != null) {
-						BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
+						BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, currentCC);
 					}
 					setStatusForStoredCards(position);
 					Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);

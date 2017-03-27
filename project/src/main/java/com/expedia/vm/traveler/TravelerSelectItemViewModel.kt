@@ -5,7 +5,6 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
@@ -46,7 +45,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
 
     private fun refreshStatus() {
         val traveler = getTraveler()
-        val validForBooking = travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value, User.isLoggedIn(context))
+        val validForBooking = travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value)
         if (!validForBooking) {
             if (travelerValidator.isTravelerEmpty(traveler)) {
                 currentStatusObservable.onNext(TravelerCheckoutStatus.CLEAN)

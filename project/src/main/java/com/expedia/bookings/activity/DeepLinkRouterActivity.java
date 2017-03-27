@@ -15,12 +15,13 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.deeplink.ActivityDeepLink;
 import com.expedia.bookings.deeplink.CarDeepLink;
 import com.expedia.bookings.deeplink.DeepLink;
@@ -72,6 +73,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private static final String DL_KEY_FLIGHT_SUGGEST = "DeepLink.FlightSuggest";
 
 	private HotelSearchParams hotelSearchParams;
+	private UserStateManager userStateManager;
 	ClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = null;
 
@@ -98,6 +100,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		deepLinkParser = new DeepLinkParser(this.getAssets());
+		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		startProcessing();
 	}
@@ -410,7 +413,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	@VisibleForTesting
 	protected void handleMemberPricing() {
-		if (User.isLoggedIn(this)) {
+		if (userStateManager.isUserAuthenticated()) {
 			NavUtils.goToMemberPricing(this);
 		}
 		else {

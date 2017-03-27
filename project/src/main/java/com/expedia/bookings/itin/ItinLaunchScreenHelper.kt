@@ -1,10 +1,9 @@
 package com.expedia.bookings.itin
 
-import android.content.Context
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripUtils
+import com.expedia.bookings.data.user.UserStateManager
 import java.util.ArrayList
 
 class ItinLaunchScreenHelper {
@@ -12,13 +11,13 @@ class ItinLaunchScreenHelper {
     companion object ItinLaunchScreenHelper {
 
         @JvmStatic
-        fun showActiveItinLaunchScreenCard(context: Context): Boolean {
-            return customerHasTripsInNextTwoWeeks() && isUserLoggedIn(context)
+        fun showActiveItinLaunchScreenCard(userStateManager: UserStateManager): Boolean {
+            return customerHasTripsInNextTwoWeeks() && isUserLoggedIn(userStateManager)
         }
 
         @JvmStatic
-        fun showGuestItinLaunchScreenCard(context: Context): Boolean {
-            return !isUserLoggedIn(context) && getCustomerTrips().isEmpty()
+        fun showGuestItinLaunchScreenCard(userStateManager: UserStateManager): Boolean {
+            return !isUserLoggedIn(userStateManager) && getCustomerTrips().isEmpty()
         }
 
         private fun customerHasTripsInNextTwoWeeks(): Boolean {
@@ -31,8 +30,8 @@ class ItinLaunchScreenHelper {
             return ArrayList(ItineraryManager.getInstance().trips)
         }
 
-        private fun isUserLoggedIn(context: Context): Boolean {
-            return User.isLoggedIn(context)
+        private fun isUserLoggedIn(userStateManager: UserStateManager): Boolean {
+            return userStateManager.isUserAuthenticated()
         }
     }
 }

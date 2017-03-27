@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.activity.DeepLinkRouterActivity
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -28,10 +27,8 @@ class ProfileScreenDeepLinkTest {
 
     @Test
     fun testSignedInDeepLinkAsLoggedIn() {
-        if (!User.isLoggedIn(context)) {
-            val user = UserLoginTestUtil.mockUser()
-            UserLoginTestUtil.setupUserAndMockLogin(user)
-        }
+        val user = UserLoginTestUtil.mockUser()
+        UserLoginTestUtil.setupUserAndMockLogin(user)
 
         val intent = Intent()
         val deepLinkText = Uri.parse("expda://signIn")
@@ -50,9 +47,6 @@ class ProfileScreenDeepLinkTest {
 
     @Test
     fun testSignedInDeepLinkAsLoggedOut() {
-        if (User.isLoggedIn(context)) {
-            User.signOut(context)
-        }
         val intent = Intent()
         val deepLinkText = Uri.parse("expda://signIn")
         intent.data = deepLinkText

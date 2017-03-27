@@ -21,13 +21,13 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
@@ -105,11 +105,13 @@ public class CarConfirmationWidget extends FrameLayout {
 	private CreateTripCarOffer offer;
 	private Events.CarsShowCheckout tripParams;
 	private String itineraryNumber;
+	private UserStateManager userStateManager;
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
 
 		Drawable navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp).mutate();
 		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
@@ -223,7 +225,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		}
 
 		// Add guest itin to itin manager
-		if (!User.isLoggedIn(getContext())) {
+		if (!userStateManager.isUserAuthenticated()) {
 			String email = builder.getEmailAddress();
 			String tripId = response.newTrip.itineraryNumber;
 			ItineraryManager.getInstance().addGuestTrip(email, tripId);

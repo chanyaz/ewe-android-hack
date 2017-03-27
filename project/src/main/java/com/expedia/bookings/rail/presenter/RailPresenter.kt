@@ -69,7 +69,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val searchObserver: Observer<RailSearchRequest> = endlessObserver { params ->
         railSearchParams = params
 
-        travelerManager.updateRailTravelers(context)
+        travelerManager.updateRailTravelers()
         transitionToOutboundResults()
         outboundPresenter.viewmodel.paramsSubject.onNext(params)
         inboundPresenter.viewmodel.paramsSubject.onNext(params)

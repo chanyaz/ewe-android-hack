@@ -13,8 +13,6 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.text.format.DateUtils;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -73,6 +71,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
@@ -455,7 +456,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	public void defaultTravelerComponent() {
-		setTravelerComponent(DaggerTravelerComponent.create());
+		setTravelerComponent(DaggerTravelerComponent.builder().appComponent(appComponent()).build());
 	}
 
 	public void defaultFlightComponents() {
