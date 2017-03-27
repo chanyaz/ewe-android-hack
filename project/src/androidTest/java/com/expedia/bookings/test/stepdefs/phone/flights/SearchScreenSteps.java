@@ -26,6 +26,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -313,9 +314,29 @@ public class SearchScreenSteps {
 	public void clickSelectDatedButton() throws Throwable {
 		SearchScreen.selectDateButton().perform(click());
 	}
-
-	@And("^I Click on Done button$")
+	@And("^I click on Done button$")
 	public void clickDoneButton() throws Throwable {
 		SearchScreen.searchAlertDialogDone().perform(click());
+	}
+	@When("^I click on class widget$")
+	public void clickPreferredClassWidget() throws Throwable {
+		onView(withId(R.id.flight_cabin_class_widget)).perform(click());
+	}
+	@Then("^Validate \"([^\"]*)\" class is selected by default$")
+	public void economyClassDefault(String economyClass) throws Throwable {
+		onView(withId(R.id.parentPanel)).check(matches(hasDescendant(allOf(withId(R.id.economy_class),
+				withText(economyClass), isChecked()))));
+	}
+	@Then("^I click on \"([^\"]*)\" as preferred class$")
+	public void clickPreferredClass(String prefClass) throws Throwable {
+		onView(withText(prefClass)).perform(click());
+	}
+	@Then("^Validate \"([^\"]*)\" preferred class is displayed on search screen$")
+	public void validatePreferredClassSearchScreen(String checkClass) throws Throwable {
+		onView(withId(R.id.flight_cabin_class_widget)).check(matches(withText(containsString(checkClass))));
+	}
+	@Then("^Validate Search button is enabled$")
+	public void validateSearchButtonEnabled() throws Throwable {
+		SearchScreen.searchButton().check(matches(isEnabled()));
 	}
 }
