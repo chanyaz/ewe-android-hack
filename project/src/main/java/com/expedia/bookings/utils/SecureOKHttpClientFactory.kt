@@ -58,7 +58,7 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
 
     protected open fun makeSslContext(): SSLContext {
         val sslContext = SSLContext.getInstance("TLS")
-        sslContext.init(null, arrayOf<TrustManager>(getSecureX509TrustManager()), null)
+        sslContext.init(null, null, null)
         return sslContext
     }
 
