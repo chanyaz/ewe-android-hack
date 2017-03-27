@@ -299,8 +299,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
-        loadingOverlay?.animate(false)
-        loadingOverlay?.visibility = View.GONE
+        hideMapLoadingOverlay()
         adapter.resultsSubject.onNext(response)
 
         // show fab button always in case of AB test or shitty device
@@ -416,6 +415,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         pricingHeaderSelectedSubject.subscribe {
             sortFaqWebView.loadUrl()
             show(ResultsSortFaqWebView())
+        }
+    }
+
+    protected fun hideMapLoadingOverlay() {
+        if (loadingOverlay != null && loadingOverlay?.visibility == View.VISIBLE) {
+            loadingOverlay?.animate(false)
+            loadingOverlay?.visibility = View.GONE
         }
     }
 

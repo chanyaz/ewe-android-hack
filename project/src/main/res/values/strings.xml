@@ -4959,4 +4959,9 @@
     <string name="error_select_a_valid_country_code">Select a country code</string>
     <!-- Text shown on flight itin when booking is still pending -->
     <string name="itin_flight_booking_status_pending">Booking Confirmed. Ticketing in progress.</string>
+
+    <!-- Reset filter title -->
+    <string name="reset_filter">Reset Filters</string>
+    <!-- Filter no result error message -->
+    <string name="error_no_filter_result_message">We couldn\'t find properties that match your filter selections.</string>
 </resources>

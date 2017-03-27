@@ -145,8 +145,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.locationParamsSubject.subscribe { params ->
-            loadingOverlay.animate(true)
-            loadingOverlay.visibility = View.VISIBLE
+            showMapLoadingOverlay()
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
             filterView.viewModel.clearObservable.onNext(Unit)
         }
@@ -161,12 +160,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 fab.isEnabled = false
                 animateMapCarouselOut()
                 clearMarkers()
-                loadingOverlay.animate(true)
-                loadingOverlay.visibility = View.VISIBLE
+                showMapLoadingOverlay()
             }
         }
 
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
+
+        vm.errorObservable.subscribe { hideMapLoadingOverlay() }
     }
 
     override fun onFinishInflate() {
@@ -331,6 +331,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelClientFilterViewModel(context)
     }
 
+    fun reshowPreviousResult() {
+        filterView.viewModel.clearObservable.onNext(Unit)
+        if (previousWasList) {
+            viewModel.hotelResultsObservable.onNext(adapter.resultsSubject.value)
+        } else {
+            viewModel.mapResultsObservable.onNext(adapter.resultsSubject.value)
+        }
+    }
+
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {
         private val duration = 500L
         private val shadowViewRef: WeakReference<View>
@@ -358,6 +367,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         fun animate() {
             shadowViewRef.get()?.visibility = GONE
             Handler(Looper.getMainLooper()).post(scaleInRunnable)
+        }
+    }
+
+    private fun showMapLoadingOverlay() {
+        if (loadingOverlay != null) {
+            loadingOverlay?.animate(true)
+            loadingOverlay?.visibility = View.VISIBLE
         }
     }
 }

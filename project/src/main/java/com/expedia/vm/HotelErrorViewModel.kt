@@ -25,7 +25,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     // Handle different errors
     val searchErrorObservable = BehaviorSubject.create<Unit>()
-
+    val filterNoResultsObservable = BehaviorSubject.create<Unit>()
 
     init {
         errorButtonClickedObservable.subscribe {
@@ -38,6 +38,9 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 }
                 ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
                     searchErrorObservable.onNext(Unit)
+                }
+                ApiError.Code.HOTEL_FILTER_NO_RESULTS -> {
+                    filterNoResultsObservable.onNext(Unit)
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     checkoutCardErrorObservable.onNext(Unit)
@@ -89,6 +92,11 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
                     titleObservable.onNext(context.getString(R.string.visible_map_area))
                     HotelTracking.trackHotelsNoResult()
+                }
+                ApiError.Code.HOTEL_FILTER_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_search)
+                    errorMessageObservable.onNext(context.getString(R.string.error_no_filter_result_message))
+                    buttonOneTextObservable.onNext(context.getString(R.string.reset_filter))
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)

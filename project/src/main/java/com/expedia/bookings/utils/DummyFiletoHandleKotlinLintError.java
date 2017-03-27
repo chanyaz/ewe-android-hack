@@ -931,6 +931,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_cell_name_star_amenity_distance,
 		R.layout.hotel_cell_price_top_amenity,
 		R.layout.hotel_cell_urgency_message,
-		R.layout.hotel_cell_vip_message
+		R.layout.hotel_cell_vip_message,
+		R.string.reset_filter,
+		R.string.error_no_filter_result_message
 	};
 }
