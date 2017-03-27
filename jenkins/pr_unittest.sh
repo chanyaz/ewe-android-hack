@@ -75,11 +75,11 @@ function runUnitTests() {
         ./lib/mocked/validate.sh || return 1
         ./tools/validate-strings.sh ./project/src/main/res main || return 1
         ./gradlew --no-daemon \
+            ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
+            "checkstyle" "lintExpediaDebug" \
             ":lib:mocked:mocke3:test" \
             ":lib:ExpediaBookings:test" ":lib:ExpediaBookings:jacocoTestReport" \
-            ":project:jacocoExpediaDebug" \
-            ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
-            "checkstyle" "lintExpediaDebug"
+            ":project:jacocoExpediaDebug"
         unitTestStatus=$?
     fi
 }
