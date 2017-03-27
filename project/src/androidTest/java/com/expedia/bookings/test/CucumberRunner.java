@@ -6,7 +6,7 @@ import cucumber.api.CucumberOptions;
 	glue = { "com.expedia.bookings.test" },
 	monochrome = true,
 	tags = {"@Flights"},
-	plugin = { "pretty", "html:/data/local/tmp/cucumber-htmlreport" }
+	plugin = { "pretty", "html:/data/local/tmp/cucumber-htmlreport", "json:/data/local/tmp/cucumber-htmlreport/cucumber.json" }
 )
 public class CucumberRunner {
 }

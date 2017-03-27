@@ -1,16 +1,23 @@
 package com.expedia.bookings.test;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
@@ -47,7 +54,10 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown(Scenario scenario) throws Exception {
+		if (scenario.isFailed()) {
+			takeScreenShot(scenario);
+		}
 		ActivityFinisher.finishOpenActivities();
 		getActivity().finish();
 		ExpediaNetUtils.setFake(true, true);
@@ -63,6 +73,33 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 
 		Settings.setMockModeEndPoint();
 		super.tearDown();
+	}
+
+	private void takeScreenShot(Scenario scenario) throws IOException {
+		View rootView = SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView().getRootView();
+		View screenView = rootView.getRootView();
+		screenView.setDrawingCacheEnabled(true);
+		Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+		screenView.setDrawingCacheEnabled(false);
+		saveFailedTestCaseImage(bitmap, scenario.getId() + ".png");
+	}
+
+	private void saveFailedTestCaseImage(Bitmap bm, String fileName) throws IOException {
+		String cucumberImagesDirectoryPath = mActivity.getApplicationContext().getFilesDir().getPath() + "/cucumber-images/";
+		File cucumberDirectory = new File(cucumberImagesDirectoryPath);
+		if (!cucumberDirectory.exists()) {
+			cucumberDirectory.mkdirs();
+		}
+		File file = new File(cucumberImagesDirectoryPath + fileName);
+		try {
+			FileOutputStream fOut = new FileOutputStream(file);
+			bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+			fOut.flush();
+			fOut.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

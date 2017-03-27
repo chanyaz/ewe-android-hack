@@ -46,7 +46,6 @@ function removeDummyFilesOnDevice() {
     device=$1
     echo "Removing Dummy Files....."
     adb -s $device shell rm -r /data/local/tmp/cucumber-htmlreport
-    adb -s $device shell rm /data/local/tmp/cucumber.json
     removeDummyFiles=$?
 }
 
@@ -111,6 +110,9 @@ function publishHTMLReport() {
     mkdir project/build/outputs/$device
     cd project/build/outputs/$device
     adb -s $device pull /data/local/tmp/cucumber-htmlreport
+    adb -s $device shell "rm -R /sdcard/cucumber-images"
+    adb -s $device shell "run-as ${packageName}.debug cp -R /data/data/${packageName}.debug/files/cucumber-images /sdcard"
+    adb -s $device pull /sdcard/cucumber-images
 }
 
 function printTestStatus() {
@@ -203,9 +205,14 @@ for (( i=0; i<${#tagsForEachDeviceArr[@]}; i++ )) ; do
     #Trimming first character(+) and replacing space with comma(,)
     tagsToRun=$(echo ${tagsForEachDeviceArr[i]} | sed 's/ /,/g')
     echo "Trigerring on device" ${deviceIdentifierArr[i]} "with tags" $tagsToRun
+    runOnDevicesStr+=" "${deviceIdentifierArr[i]}
     runTestsOnDevice ${deviceIdentifierArr[i]} $tagsToRun &
     echo "Trigerred"
 done
 
 wait
 echo "Done"
+
+#Get list of devices on which automation was run, runOnDevicesStr is comma separated list of device identifier
+runOnDevicesStr=$(echo ${runOnDevicesStr} | sed 's/ /,/g')
+python jenkins/generate_cucumber_report.py ${runOnDevicesStr}
