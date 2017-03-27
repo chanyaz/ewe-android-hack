@@ -1,9 +1,14 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.BuildConfig
+import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.server.EndPoint
+import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.mobiata.android.Log
+import com.mobiata.android.util.SettingUtils
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
@@ -16,7 +21,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, logLevel: HttpLoggingInterceptor.Level, chuckInterceptor: ChuckInterceptor) : SecureOKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor) {
+open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, logLevel: HttpLoggingInterceptor.Level, chuckInterceptor: ChuckInterceptor, endpointProvider: EndpointProvider) : SecureOKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor, endpointProvider) {
 
     override fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
         super.setupClient(client, cache, cookieManager)
@@ -33,7 +38,22 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
     }
 
     override fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {
-        configureClientToAcceptAnyServer(client)
+        if (isModernHttpsSecurityEnabled()) {
+            super.setupSSLSocketFactoryAndConnectionSpec(client, sslContext)
+        }
+        else {
+            configureClientToAcceptAnyServer(client)
+        }
+    }
+
+    private fun isModernHttpsSecurityEnabled(): Boolean {
+        val isMockMode = endpointProvider.endPoint == EndPoint.MOCK_MODE
+        val isCustomServer = endpointProvider.endPoint == EndPoint.CUSTOM_SERVER
+        if (ExpediaBookingApp.isAutomation() || isMockMode || isCustomServer) {
+            return false
+        }
+
+        return !SettingUtils.get(context, context.getString(R.string.preference_disable_modern_https_security), false)
     }
 
     private fun configureClientToAcceptAnyServer(client: OkHttpClient.Builder) {

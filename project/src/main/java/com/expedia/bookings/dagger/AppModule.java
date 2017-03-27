@@ -112,26 +112,10 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	boolean provideIsModernHttpsSecurityEnabled(EndpointProvider endpointProvider) {
-		if (BuildConfig.RELEASE) {
-			return true;
-		}
-
-		if (ExpediaBookingApp.isAutomation() || endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
-			|| endpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
-			return false;
-		}
-
-		return !SettingUtils
-			.get(context, context.getString(R.string.preference_disable_modern_https_security), false);
-	}
-
-	@Provides
-	@Singleton
 	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, ChuckInterceptor chuckInterceptor) {
+		HttpLoggingInterceptor.Level logLevel, ChuckInterceptor chuckInterceptor, final EndpointProvider endpointProvider) {
 
-		return new OKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor);
+		return new OKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor, endpointProvider);
 	}
 
 	@Provides

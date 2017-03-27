@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.google.android.gms.security.ProviderInstaller
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -14,8 +15,8 @@ import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 
 
-abstract class SecureOKHttpClientFactory(private val context: Context, private val cookieManager: PersistentCookiesCookieJar, private val cache: Cache,
-                                         private val logLevel: HttpLoggingInterceptor.Level, private val chuckInterceptor: ChuckInterceptor) {
+abstract class SecureOKHttpClientFactory(protected val context: Context, private val cookieManager: PersistentCookiesCookieJar, private val cache: Cache,
+                                         private val logLevel: HttpLoggingInterceptor.Level, private val chuckInterceptor: ChuckInterceptor, protected val endpointProvider: EndpointProvider) {
 
 
     fun getOkHttpClient(cookieJar: CookieJar? = null): OkHttpClient {
