@@ -257,7 +257,6 @@
     <dimen name="hotel_reviews_rating_padding_bottom">1dp</dimen>
 
     <!-- Dimensions for hotel filter -->
-    <dimen name="hotel_neighborhood_height">40dp</dimen>
     <dimen name="hotel_sort_filter_padding">16dp</dimen>
 
     <!-- hotel V2 Checkout -->

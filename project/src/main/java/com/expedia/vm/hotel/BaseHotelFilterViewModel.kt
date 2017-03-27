@@ -27,7 +27,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
-    val neighborhoodExpandObservable = BehaviorSubject.create<Boolean>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
     val sortByObservable = PublishSubject.create<Sort>()
     val sortSpinnerObservable = PublishSubject.create<Sort>()
@@ -39,7 +38,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
 
     private var trackingDone = false
-    private var isNeighborhoodExpanded = false
     private val filterTracker: FilterTracker = createFilterTracker()
 
     init {
@@ -161,24 +159,29 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
-    val selectNeighborhood = endlessObserver<String> { region ->
-        if (userFilterChoices.neighborhoods.isEmpty() || !userFilterChoices.neighborhoods.contains(region)) {
-            userFilterChoices.neighborhoods.add(region)
+    val selectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
+        if (isClientSideFiltering()) {
+            if (userFilterChoices.neighborhoods.isEmpty() || !userFilterChoices.neighborhoods.contains(neighborhood)) {
+                userFilterChoices.neighborhoods.add(neighborhood)
+                trackHotelFilterNeighborhood()
+            }
         } else {
-            userFilterChoices.neighborhoods.remove(region)
+            userFilterChoices.neighborhoods.clear()
+            userFilterChoices.neighborhoods.add(neighborhood)
+            trackHotelFilterNeighborhood()
         }
 
         updateFilterCount()
         handleFiltering()
     }
 
-    val neighborhoodMoreLessObservable: Observer<Unit> = endlessObserver {
-        if (!isNeighborhoodExpanded) {
-            isNeighborhoodExpanded = true
-        } else {
-            isNeighborhoodExpanded = false
+    val deselectNeighborhood = endlessObserver<HotelSearchResponse.Neighborhood> { neighborhood ->
+        if (!userFilterChoices.neighborhoods.isEmpty() && userFilterChoices.neighborhoods.contains(neighborhood)) {
+            userFilterChoices.neighborhoods.remove(neighborhood)
         }
-        neighborhoodExpandObservable.onNext(isNeighborhoodExpanded)
+
+        updateFilterCount()
+        handleFiltering()
     }
 
     open fun isFilteredToZeroResults(): Boolean {
@@ -189,7 +192,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         originalResponse = response
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
         sendNewPriceRange()
-        isNeighborhoodExpanded = false
 
         if (isCurrentLocationSearch.value) { // sort by distance on currentLocation search
             sortByObservable.onNext(Sort.DISTANCE)
@@ -274,7 +276,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.minPrice = 0
         userFilterChoices.maxPrice = 0
         userFilterChoices.amenity = HashSet<Int>()
-        userFilterChoices.neighborhoods = HashSet<String>()
+        userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
         userFilterChoices.favorites = false
     }
 

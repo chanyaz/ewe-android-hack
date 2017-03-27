@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotel
 
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import java.util.ArrayList
 import java.util.HashSet
@@ -11,7 +12,7 @@ data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfigurat
                              var minPrice: Int = 0,
                              var maxPrice: Int = 0,
                              var amenity: HashSet<Int> = HashSet<Int>(),
-                             var neighborhoods: HashSet<String> = HashSet<String>(),
+                             var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>(),
                              var favorites: Boolean = false) {
 
     fun filterCount(): Int {

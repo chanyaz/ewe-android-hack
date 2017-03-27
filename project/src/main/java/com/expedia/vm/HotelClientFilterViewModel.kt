@@ -164,7 +164,13 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
 
     private fun filterNeighborhood(hotel: Hotel): Boolean {
         if (userFilterChoices.neighborhoods.isEmpty()) return true
-        return userFilterChoices.neighborhoods.contains(hotel.locationDescription)
+
+        for (neighborhood in userFilterChoices.neighborhoods) {
+            if (neighborhood.name.equals(hotel.locationDescription)) {
+                return true
+            }
+        }
+        return false
     }
 
     fun filterFavorites(hotel: Hotel): Boolean {

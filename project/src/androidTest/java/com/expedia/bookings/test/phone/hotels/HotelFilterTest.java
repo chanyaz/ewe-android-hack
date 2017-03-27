@@ -40,7 +40,7 @@ public class HotelFilterTest extends HotelTestCase {
 		Common.closeSoftKeyboard(filterHotelName());
 		onView(withId(R.id.filter_vip_container)).perform(click());
 		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
-		onView(withId(R.id.collapsed_container)).perform(scrollTo());
+		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
 		onView(withText("Civic Center")).perform(click());
 
 		HotelScreen.clearFilter().perform(click());
@@ -64,7 +64,7 @@ public class HotelFilterTest extends HotelTestCase {
 
 		//deselect the filters, results snack bar hides
 		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
-		onView(withId(R.id.collapsed_container)).perform(scrollTo());
+		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
 		onView(withId(R.id.filter_vip_container)).perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 
@@ -116,16 +116,16 @@ public class HotelFilterTest extends HotelTestCase {
 
 		//click show more. show less
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW MORE")));
-		onView(withId(R.id.collapsed_container)).check(matches(withContentDescription("Show more neighborhoods. Button")));
-		onView(withId(R.id.collapsed_container)).perform(scrollTo());
-		onView(withId(R.id.collapsed_container)).perform(click());
+		onView(withId(R.id.neighborhood_more_less_view)).check(matches(withContentDescription("Show more neighborhoods. Button")));
+		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
+		onView(withId(R.id.neighborhood_more_less_view)).perform(click());
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW LESS")));
-		onView(withId(R.id.collapsed_container)).check(matches(withContentDescription("Show fewer neighborhoods. Button")));
+		onView(withId(R.id.neighborhood_more_less_view)).check(matches(withContentDescription("Show fewer neighborhoods. Button")));
 		Common.delay(2);
-		onView(withId(R.id.collapsed_container)).perform(scrollTo());
-		onView(withId(R.id.collapsed_container)).perform(click());
+		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
+		onView(withId(R.id.neighborhood_more_less_view)).perform(click());
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW MORE")));
-		onView(withId(R.id.collapsed_container)).check(matches(withContentDescription("Show more neighborhoods. Button")));
+		onView(withId(R.id.neighborhood_more_less_view)).check(matches(withContentDescription("Show more neighborhoods. Button")));
 
 		//select and deselect one row
 		onView(withText("Civic Center")).perform(click());

@@ -196,6 +196,9 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         if (filterParams.isVipOnlyAccess) {
             searchBuilder.vipOnly(filterParams.isVipOnlyAccess)
         }
+        if (filterParams.neighborhoods.isNotEmpty()) {
+            searchBuilder.neighborhood(filterParams.neighborhoods.elementAt(0).id)
+        }
         searchBuilder.userSort(filterParams.userSort.toServerSort())
     }
 
