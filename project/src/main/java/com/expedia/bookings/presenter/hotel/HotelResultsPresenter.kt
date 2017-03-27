@@ -27,13 +27,11 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
-import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.HotelServerFilterView
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
@@ -223,7 +221,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter)) {
             viewStub.layoutResource = R.layout.hotel_server_filter_view_stub;
             return viewStub.inflate() as HotelServerFilterView
         }
@@ -325,7 +323,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun createFilterViewModel(): BaseHotelFilterViewModel {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter)) {
             return HotelServerFilterViewModel(context)
         }
         return HotelClientFilterViewModel(context)

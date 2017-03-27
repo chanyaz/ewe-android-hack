@@ -35,12 +35,6 @@
             android:summary="Enable Hotel Loyalty Earn Message."
             android:title="Enable Enable Hotel Loyalty Earn Message" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_hotel_server_side_filters"
-            android:layout="@layout/preference"
-            android:summary="Server side result filtering"
-            android:title="Enable Server Side Filters" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
