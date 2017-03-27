@@ -59,6 +59,7 @@
                "taxStatusType": "ESTIMATED",
                "surchargeTotal": "168.44",
                "surchargeTotalForEntireStay": "336.88",
+               "surchargesWithoutPropertyFeeForEntireStay" : "329.32",
                "averageBaseRate": "1029.00",
                "nightlyRateTotal": "2058.00",
                "discountPercent": 0,
@@ -69,6 +70,10 @@
                   {
                      "amount": "147.38",
                      "type": "TAX_ALL"
+                  },
+                  {
+                     "amount": "7.56",
+                     "type": "FEE_SERVICE"
                   },
                   {
                      "amount": "147.38",
@@ -87,6 +92,10 @@
                   {
                      "amount": "294.76",
                      "type": "TAX_ALL"
+                  },
+                  {
+                     "amount": "7.56",
+                     "type": "FEE_SERVICE"
                   },
                   {
                      "amount": "294.76",

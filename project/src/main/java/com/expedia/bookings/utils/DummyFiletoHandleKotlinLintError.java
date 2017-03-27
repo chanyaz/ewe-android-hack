@@ -19,6 +19,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.airport_suggest,
 		R.drawable.room_fallback,
 		R.layout.hotel_dropdown_item,
+		R.string.property_fee,
 		R.string.flight_departure_arrival_time_cont_desc_TEMPLATE,
 		R.string.flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE,
 		R.string.calendar_instructions_date_range_with_guests_TEMPLATE,

@@ -3160,6 +3160,8 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Taxes &amp; Fees</string>
+    <!-- Label for the property fee for a hotel room booking. -->
+    <string name="property_fee">Property Fee</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Included</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
