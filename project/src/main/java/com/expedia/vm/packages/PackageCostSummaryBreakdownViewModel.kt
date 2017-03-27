@@ -92,7 +92,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
     private fun makeCardFeeRow(formattedPrice: String): CostSummaryBreakdownRow {
         return CostSummaryBreakdownRow.Builder()
-                .title(context.getString(R.string.airline_card_fee))
+                .title(context.getString(R.string.payment_method_fee))
                 .cost(formattedPrice)
                 .build()
     }

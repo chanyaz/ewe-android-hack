@@ -193,7 +193,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 							toggleCardMessage(true, true);
 						}
 						else if (item.getPaymentFee(mBillingInfo) != null) {
-							String message = Phrase.from(getContext(), R.string.airline_processing_fee_TEMPLATE)
+							String message = Phrase.from(getContext(), R.string.payment_method_processing_fee_TEMPLATE)
 								.put("card_fee", item.getPaymentFee(mBillingInfo).getFormattedMoney())
 								.format().toString();
 							updateCardMessageText(message);

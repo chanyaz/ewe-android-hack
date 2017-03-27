@@ -243,7 +243,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals(null, rows[2].typeface)
         assertEquals(false, rows[2].separator)
 
-        assertEquals("Airline Card Fee", rows[3].title)
+        assertEquals("Payment Method Fee", rows[3].title)
         assertEquals("$5.20", rows[3].cost)
         assertEquals(null, rows[3].color)
         assertEquals(null, rows[3].typeface)

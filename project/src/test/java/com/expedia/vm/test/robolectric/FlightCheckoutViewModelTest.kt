@@ -190,7 +190,7 @@ class FlightCheckoutViewModelTest {
 
         givenAirlineChargesFees()
         cardFeeWarningTestSubscriber.assertValueCount(3)
-        assertEquals("An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment.",
+        assertEquals("There may be an additional fee, based on your payment method.",
                 cardFeeWarningTestSubscriber.onNextEvents[2].toString())
 
         sut.selectedCardFeeObservable.onNext(Money())
@@ -267,10 +267,10 @@ class FlightCheckoutViewModelTest {
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         cardFeeTextSubscriber.assertValueCount(1)
-        assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+        assertEquals("Payment method fee: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
 
         cardFeeWarningTextSubscriber.assertValueCount(1)
-        assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
+        assertEquals("A payment method fee of $2.50 is included in the trip total.",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
         hasCardFeeTestSubscriber.assertValue(true)
@@ -296,11 +296,11 @@ class FlightCheckoutViewModelTest {
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
         cardFeeTextSubscriber.assertValueCount(2)
-        assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+        assertEquals("Payment method fee: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeTextSubscriber.onNextEvents[1].toString())
 
         cardFeeWarningTextSubscriber.assertValueCount(2)
-        assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
+        assertEquals("A payment method fee of $2.50 is included in the trip total.",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[1].toString())
 
