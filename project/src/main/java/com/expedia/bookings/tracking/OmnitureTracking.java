@@ -4817,10 +4817,7 @@ public class OmnitureTracking {
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true, hotelSupplierType);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		}
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		s.track();
 	}
 
@@ -5536,9 +5533,7 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
 		if (User.isLoggedIn(sContext) && Db.getUser().hasAtLeastOneExpiredStoredCard()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);

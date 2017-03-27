@@ -12,11 +12,10 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.section.GenderSpinnerAdapter
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerTSAViewModel
@@ -32,9 +31,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     var genderSpinner: TravelerSpinner? = null
     var genderEditText: TravelerEditText? = null
 
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled(context)
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
         dateOfBirth.viewModel = vm.dateOfBirthViewModel

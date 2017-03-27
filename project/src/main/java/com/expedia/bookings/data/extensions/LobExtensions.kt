@@ -32,6 +32,5 @@ fun LineOfBusiness.hasBillingInfo(): Boolean {
 }
 
 fun LineOfBusiness.isMaterialFormEnabled(context: Context) : Boolean {
-    return LineOfBusinessExtensions.isUniversalCheckout(this, context) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
+    return LineOfBusinessExtensions.isUniversalCheckout(this, context) && isMaterialFormEnabled(context)
 }

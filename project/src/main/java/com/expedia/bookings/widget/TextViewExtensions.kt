@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 
 fun TextView.addErrorExclamation() {
     val context = this.context
@@ -43,11 +44,11 @@ fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, right
 class TextViewExtensions {
     companion object {
         fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(tv.context, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms,
-                    R.string.preference_universal_checkout_material_forms)) {
-                var textColor = ContextCompat.getColor(tv.context, R.color.default_text_color)
+            val context = tv.context
+            if (isMaterialFormsEnabled(context)) {
+                var textColor = ContextCompat.getColor(context, R.color.default_text_color)
                 if (currentPosition == position ) {
-                    textColor = ContextCompat.getColor(tv.context, Ui.obtainThemeResID(tv.context, R.attr.primary_color))
+                    textColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
                 }
                 tv.setTextColor(textColor)
             }

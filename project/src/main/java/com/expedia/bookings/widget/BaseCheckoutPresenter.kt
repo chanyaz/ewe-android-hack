@@ -32,7 +32,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -120,9 +120,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
     val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled(context)
     val paymentWidget: PaymentWidget by lazy {
         val presenter = if (materialFormTestEnabled)  {
             materialPaymentViewStub.inflate() as PaymentWidget

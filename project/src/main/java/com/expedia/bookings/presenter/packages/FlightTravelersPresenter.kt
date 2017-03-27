@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeVisibility
@@ -17,9 +18,7 @@ import com.expedia.vm.traveler.TravelersViewModel
 class FlightTravelersPresenter(context: Context, attrs: AttributeSet) : AbstractTravelersPresenter(context, attrs) {
 
     val boardingWarning: TextView by bindView(R.id.boarding_warning)
-    val materialFormsEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormsEnabled = isMaterialFormsEnabled(context)
     private val selectToEntryFlights = object : SelectToEntryTransition(FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)

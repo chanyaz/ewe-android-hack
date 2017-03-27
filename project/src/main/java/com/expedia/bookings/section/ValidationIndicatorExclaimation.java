@@ -3,9 +3,7 @@ package com.expedia.bookings.section;
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
@@ -47,9 +45,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
-		boolean materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(field.getContext(),
-			AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms);
-
+		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled(field.getContext());
 		if (materialFormTestEnabled && !Strings.isEmpty(mErrorString)) {
 			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}
