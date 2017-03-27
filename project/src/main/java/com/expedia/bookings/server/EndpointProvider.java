@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.widget.Switch;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
 
@@ -87,6 +88,19 @@ public class EndpointProvider {
 	}
 
 	public String getE3EndpointUrlWithPath(String path) {
+		return getE3EndpointUrl(getEndPoint()) + path;
+	}
+
+	public String getE3CarEndpointUrlWithPath(String POS) {
+		String path;
+		switch(getE3EndpointUrl(getEndPoint())){
+			case "TVLY": path = getE3EndpointUrl(getEndPoint());
+				break;
+		case "ORBITZ": path = getE3EndpointUrl(getEndPoint());
+			break;
+		default:
+			path = "";
+		}
 		return getE3EndpointUrl(getEndPoint()) + path;
 	}
 
