@@ -35,7 +35,7 @@ class UserReviewDialogViewModel(val context: Context) {
         }
         feedbackSubject.subscribe {
             val scheme = BuildConfig.DEEPLINK_SCHEME
-            feedbackLinkSubject.onNext(scheme + "://supportEmail")
+            feedbackLinkSubject.onNext(scheme + "://reviewFeedbackEmail")
             OmnitureTracking.trackItinAppRatingClickFeedback()
         }
         reviewLinkSubject.subscribe { link ->
