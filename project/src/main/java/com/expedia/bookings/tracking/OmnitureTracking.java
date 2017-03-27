@@ -2327,6 +2327,8 @@ public class OmnitureTracking {
 	private static final String LAUNCH_GUEST_ITIN = "App.LS.Itin.Guest";
 	private static final String LAUNCH_ACTIVE_ITIN = "App.LS.Itin.Active";
 	private static final String LAUNCH_NEARBY_HOTEL = "App.LS.Nearby.Hotel";
+	private static final String LAUNCH_MEMBER_PRICING = "App.LS.MemberDeals";
+	private static final String MEMBER_PRICING_SHOP = "App.MemberDeals.Shop";
 
 
 	public static void trackLaunchSignIn() {
@@ -2345,6 +2347,18 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_GUEST_ITIN);
 		addStandardFields(s);
 		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackLaunchMemberPricing() {
+		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_MEMBER_PRICING);
+		addStandardFields(s);
+		s.trackLink(null, "o", "App Landing", null, null);
+	}
+
+	public static void trackMemberPricingShop() {
+		ADMS_Measurement s = createTrackLinkEvent(MEMBER_PRICING_SHOP);
+		addStandardFields(s);
+		s.trackLink(null, "o", "Member Deals", null, null);
 	}
 
 	// When a bottom tile is clicked – collection selection
@@ -3448,6 +3462,7 @@ public class OmnitureTracking {
 	private static final String ACCOUNT_LEGAL_LICENSES = "App.Account.Legal.OpenSourceLicenses";
 	private static final String ACCOUNT_APP_DOWNLOAD = "App.Account.Download";
 	private static final String ACCOUNT_SIGN_OUT = "App.Account.Logout";
+	private static final String MEMBER_PRICING_SCREEN = "App.MemberDeals";
 
 
 	public static void trackLoginSuccess() {
@@ -3598,6 +3613,14 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
+		s.track();
+	}
+
+	public static void trackMemberPricingPageLoad() {
+		ADMS_Measurement s = createTrackPageLoadEventBase(MEMBER_PRICING_SCREEN);
+		s.setProp(2, "Merch");
+		s.setEvar(2, "D=c2");
+		s.setEvar(12, MEMBER_PRICING_SCREEN);
 		s.track();
 	}
 
