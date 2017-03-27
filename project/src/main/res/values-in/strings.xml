@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">Opsi</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">Hotel Favorit</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Di hotel-hotel +VIP Access, para member +silver dan +gold bisa menerima upgrade kamar gratis dan keuntungan lainnya yang tersedia pada saat check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">Tampilkan lebih banyak kawasan. Tombol</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Tampilkan lebih sedikit kawasan. Tombol</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">Ditambahkan ke favorit di layar filter</string>
-    <string name="favorite_first_time_dialog_title">Favorit</string>
-    <string name="favorite_first_time_dialog_content">Hotel telah ditambahkan ke favorit. Anda dapat memfilter menggunakan favorit di hasil pencarian</string>
-    <string name="favorite_first_time_dialog_ok_button">OK</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Penggunaan kupon: Anda hemat %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

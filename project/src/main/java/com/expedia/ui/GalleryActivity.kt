@@ -85,7 +85,7 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
     private fun setUpToolbar() {
         val hotelName = intent.getStringExtra("Name")
         val hotelRating = intent.getFloatExtra("Rating", 0f)
-        val vm = HotelDetailToolbarViewModel(this@GalleryActivity, hotelName, hotelRating, false, false)
+        val vm = HotelDetailToolbarViewModel(this@GalleryActivity, hotelName, hotelRating, false)
         toolbar.setHotelDetailViewModel(vm)
         toolbar.toolBarBackground.alpha = 0f
         toolbar.toolbar.setNavigationOnClickListener { view ->
@@ -97,6 +97,5 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
         galleryIndicator.animate().translationX((position * galleryIndicator.width).toFloat()).
                 setInterpolator(LinearInterpolator()).start()
         galleryDescription.text = mediaList[position].mDescription
-
     }
 }

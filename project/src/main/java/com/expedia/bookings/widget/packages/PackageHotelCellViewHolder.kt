@@ -34,10 +34,6 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCel
         viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsView)
     }
 
-    override fun showHotelFavorite(): Boolean {
-        return false
-    }
-
     override fun createHotelViewModel(context: Context): HotelViewModel {
         return PackageHotelViewModel(context)
     }

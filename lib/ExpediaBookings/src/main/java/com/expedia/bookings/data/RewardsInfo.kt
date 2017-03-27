@@ -1,7 +1,6 @@
 package com.expedia.bookings.data
 
 import com.expedia.bookings.data.payment.PointsAndCurrency
-import kotlin.properties.Delegates
 
 class RewardsInfo {
     var totalPointsToEarn: Float = 0f

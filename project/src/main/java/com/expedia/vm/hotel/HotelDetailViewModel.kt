@@ -44,10 +44,6 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
         return R.string.total_fee
     }
 
-    override fun showHotelFavorite(): Boolean {
-        return true
-    }
-
     override fun showFeesIncludedNotIncluded(): Boolean {
         return true
     }
@@ -94,7 +90,7 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
 
     companion object {
         @JvmStatic fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel): HotelDetailToolbarViewModel {
-            val viewModel = HotelDetailToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.showHotelFavorite(), detailViewModel.hotelSoldOut.value)
+            val viewModel = HotelDetailToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.hotelSoldOut.value)
             return viewModel
         }
     }

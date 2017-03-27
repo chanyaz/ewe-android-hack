@@ -54,7 +54,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
     abstract fun getLobPriceObservable(rate: HotelRate)
-    abstract fun showHotelFavorite(): Boolean
     abstract fun pricePerDescriptor(): String
     abstract fun getFeeTypeText(): Int
     abstract fun getResortFeeText(): Int

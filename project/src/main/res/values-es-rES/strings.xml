@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">Acceso VIP+</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">Opciones</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">Hoteles favoritos</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Los hoteles con acceso VIP+ ofrecen a los miembros +silver y +gold de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">Botón para mostrar más zonas</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Botón para mostrar menos zonas</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">Se ha añadido a los favoritos</string>
-    <string name="favorite_first_time_dialog_title">Favoritos</string>
-    <string name="favorite_first_time_dialog_content">El hotel se ha añadido a tus favoritos. Puedes filtrar por los resultados de búsqueda por tus favoritos</string>
-    <string name="favorite_first_time_dialog_ok_button">ENTENDIDO</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Se ha aplicado el cupón: ¡te has ahorrado %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

@@ -137,12 +137,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
-    val favoriteFilteredObserver: Observer<Boolean> = endlessObserver { filterFavorites ->
-        userFilterChoices.favorites = filterFavorites
-        updateFilterCount()
-        handleFiltering()
-    }
-
     val vipFilteredObserver: Observer<Boolean> = endlessObserver { vipOnly ->
         userFilterChoices.isVipOnlyAccess = vipOnly
         updateFilterCount()
@@ -281,10 +275,8 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.maxPrice = 0
         userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
-        userFilterChoices.favorites = false
     }
 
-    abstract fun showHotelFavorite(): Boolean
     abstract fun isClientSideFiltering(): Boolean
 
 }

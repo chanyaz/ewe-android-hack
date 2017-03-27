@@ -412,24 +412,4 @@ public class HotelScreen {
 		onView(withText(room)).perform(scrollTo(), click());
 	}
 
-	public static ViewInteraction hotelErrorToolbar() {
-		return onView(withId(R.id.error_toolbar));
-	}
-
-	public static ViewInteraction firstTimeFavoriteDialog() {
-		return onView(withText(R.string.favorite_first_time_dialog_title));
-	}
-
-	public static ViewInteraction firstTimeFavoriteDialogOkButton() {
-		return onView(withText(R.string.favorite_first_time_dialog_ok_button));
-	}
-
-	public static ViewInteraction heartButtonInDetailView() {
-		return onView(allOf(withId(R.id.heart_image_view), isDescendantOfA(withId(R.id.hotel_details_toolbar))));
-	}
-
-	public static ViewInteraction mockHeartButtonInDetailView() {
-		return onView(allOf(withId(R.id.hotel_detail_toolbar_heart_mock_button), isDescendantOfA(withId(R.id.hotel_details_toolbar))));
-	}
-
 }

@@ -77,6 +77,5 @@
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
     <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->
     <color name="green_savings">#03AD1D</color>
-    <color name="burst_red">#f5565b</color>
     <color name="yellow_layover">#E0A81C</color>
 </resources>

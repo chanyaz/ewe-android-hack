@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -44,18 +43,16 @@ class HotelCellViewTest {
     private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
     private var pref: SharedPreferences by Delegates.notNull()
-    private val hotelFavoriteChange = PublishSubject.create<Pair<String, Boolean>>()
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
 
     @Before fun before() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest)
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Control)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
-        hotelViewHolder = HotelCellViewHolder(hotelCellView, 200, hotelFavoriteChange)
+        hotelViewHolder = HotelCellViewHolder(hotelCellView, 200)
         pref = PreferenceManager.getDefaultSharedPreferences(getContext())
     }
 
@@ -154,29 +151,6 @@ class HotelCellViewTest {
         hotelViewHolder.bindHotelData(hotel)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.hotelPriceTopAmenity.topAmenityTextView.visibility)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
-    }
-
-    @Test fun testFavoriteButton() {
-        val hotel = makeHotel()
-        hotelViewHolder.bindHotelData(hotel)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.heartView.visibility)
-
-        Assert.assertEquals(
-                ResourcesCompat.getDrawable(hotelViewHolder.resources, R.drawable.favoriting_unselected_with_shadow, null),
-                hotelViewHolder.heartView.drawable)
-
-        // fav the hotel
-        hotelViewHolder.heartView.callOnClick()
-        Assert.assertEquals(
-                ResourcesCompat.getDrawable(hotelViewHolder.resources, R.drawable.favoriting_selected_with_shadow, null),
-                hotelViewHolder.heartView.drawable)
-
-        // unfav the hotel
-        hotelViewHolder.heartView.callOnClick()
-        Assert.assertFalse(HotelFavoriteHelper.isHotelFavorite(getContext(), hotel.hotelId))
-        Assert.assertEquals(
-                ResourcesCompat.getDrawable(hotelViewHolder.resources, R.drawable.favoriting_unselected_with_shadow, null),
-                hotelViewHolder.heartView.drawable)
     }
 
     private fun makeHotel(): Hotel {

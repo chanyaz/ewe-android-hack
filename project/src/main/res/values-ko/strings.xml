@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">옵션</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">즐겨찾는 호텔</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+VIP Access 호텔에서 +silver 및 +gold 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">주변 자세히 보기. 버튼</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">주변 간단히 보기. 버튼</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">필터 화면의 즐겨찾기에 추가됨</string>
-    <string name="favorite_first_time_dialog_title">즐겨찾기</string>
-    <string name="favorite_first_time_dialog_content">호텔이 즐겨찾기에 추가되었습니다. 검색 결과를 즐겨찾기를 기준으로 필터링하실 수 있습니다.</string>
-    <string name="favorite_first_time_dialog_ok_button">닫기</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">쿠폰 적용됨: %1$s 할인받으셨습니다!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

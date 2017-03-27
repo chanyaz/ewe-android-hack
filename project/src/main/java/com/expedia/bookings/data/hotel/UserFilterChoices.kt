@@ -12,14 +12,12 @@ data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfigurat
                              var minPrice: Int = 0,
                              var maxPrice: Int = 0,
                              var amenity: HashSet<Int> = HashSet<Int>(),
-                             var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>(),
-                             var favorites: Boolean = false) {
+                             var neighborhoods: HashSet<HotelSearchResponse.Neighborhood> = HashSet<HotelSearchResponse.Neighborhood>()) {
 
     fun filterCount(): Int {
         var count = 0
         count += hotelStarRating.getStarRatingParamsAsList().size
         if (isVipOnlyAccess) count++
-        if (favorites) count++
         if (name.isNotEmpty()) count++
         if (neighborhoods.isNotEmpty()) count += neighborhoods.size
         if (amenity.isNotEmpty()) count += amenity.size

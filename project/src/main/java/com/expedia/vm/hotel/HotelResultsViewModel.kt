@@ -4,13 +4,11 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
@@ -25,7 +23,6 @@ import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 
 class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
@@ -50,8 +47,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val subtitleSubject = PublishSubject.create<CharSequence>()
     val showHotelSearchViewObservable = PublishSubject.create<Unit>()
     val sortByDeepLinkSubject = PublishSubject.create<Sort>()
-
-    var isFavoringSupported: Boolean = lob == LineOfBusiness.HOTELS
 
     private var hotelSearchSubscription: Subscription? = null
 
@@ -179,7 +174,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             } else {
                 addHotelResultsObservable.onNext(hotelSearchResponse)
             }
-            HotelFavoriteHelper.setLocalFavorites(hotelSearchResponse.hotelList as ArrayList<Hotel>, context)
         }
     }
 

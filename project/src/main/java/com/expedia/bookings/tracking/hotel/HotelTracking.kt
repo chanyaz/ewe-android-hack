@@ -142,11 +142,6 @@ open class HotelTracking {
             OmnitureTracking.trackLinkHotelV2DetailSelectRoom()
         }
 
-        fun trackHotelFilterFavoriteClicked(checked: Boolean) {
-            val state = if (checked) "On" else "Off"
-            OmnitureTracking.trackLinkHotelV2FilterFavorite(state)
-        }
-
         fun trackTravelerPickerClick(text: String) {
             OmnitureTracking.trackHotelTravelerPickerClick(text)
         }
@@ -310,10 +305,6 @@ open class HotelTracking {
 
         fun trackHotelCouponRemove(couponCode: String) {
             OmnitureTracking.trackHotelV2CouponRemove(couponCode)
-        }
-
-        open fun trackHotelFavoriteClick(hotelId: String, favorite: Boolean, page: PageName) {
-            OmnitureTracking.trackHotelFavoriteClick(hotelId, favorite, page)
         }
 
         fun createCheckoutError(error: ApiError): String {

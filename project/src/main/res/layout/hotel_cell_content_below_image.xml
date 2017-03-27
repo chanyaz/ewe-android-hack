@@ -38,26 +38,6 @@
                     android:layout_height="134dp"
                     android:visibility="gone" />
 
-                <FrameLayout
-                    android:id="@+id/hotel_cell_heart_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|right"
-                    android:visibility="gone">
-
-                    <com.expedia.bookings.widget.FavoriteButton
-                        android:id="@+id/heart_image_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clickable="true"
-                        android:paddingBottom="24dp"
-                        android:paddingLeft="24dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="8dp"
-                        android:scaleType="center" />
-
-                </FrameLayout>
-
                 <com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
                     android:id="@+id/urgency_message_layout"
                     android:gravity="center"

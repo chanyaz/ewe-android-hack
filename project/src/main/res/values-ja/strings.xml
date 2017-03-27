@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">オプション</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">お気に入りホテル</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー 会員および +ゴールド 会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">周辺情報をさらに表示するボタン</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">周辺情報を一部のみ表示するボタン</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">絞り込み画面の「お気に入り」に追加されました</string>
-    <string name="favorite_first_time_dialog_title">お気に入り</string>
-    <string name="favorite_first_time_dialog_content">ホテルが「お気に入り」に追加されました。検索結果ページの「お気に入り」で絞り込むことができます</string>
-    <string name="favorite_first_time_dialog_ok_button">OK !</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">クーポンが適用されました : %1$sお得です !</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

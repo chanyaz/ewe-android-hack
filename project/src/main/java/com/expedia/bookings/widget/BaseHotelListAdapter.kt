@@ -47,7 +47,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val loadingSubject = BehaviorSubject.create<Unit>()
     val addResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val resultsSubject = BehaviorSubject.create<HotelSearchResponse>()
-    val hotelFavoriteChange = PublishSubject.create<Pair<String, Boolean>>()
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true

@@ -115,7 +115,6 @@
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="hotel_result_background">@color/gray1</color>
-    <color name="hotel_favorite_button">@color/burst_red</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
     <color name="hotels_room_title">@color/gray10</color>

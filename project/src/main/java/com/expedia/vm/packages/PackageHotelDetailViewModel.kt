@@ -68,10 +68,6 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
         return true
     }
 
-    override fun showHotelFavorite(): Boolean {
-        return false
-    }
-
     override fun getFeeTypeText(): Int {
         return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_STATES) R.string.rate_per_night else R.string.total_fee
     }

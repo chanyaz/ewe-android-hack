@@ -30,7 +30,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -498,17 +497,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             recycleImageView(room.roomHeaderImage)
         }
         roomContainer.removeAllViews()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
-            hotelDetailsToolbar.heartIcon.updateImageState()
-        }
     }
 
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
-            hotelDetailsToolbar.heartIcon.updateImageState()
-        }
     }
 
     fun updateGallery(toFullScreen: Boolean) {
