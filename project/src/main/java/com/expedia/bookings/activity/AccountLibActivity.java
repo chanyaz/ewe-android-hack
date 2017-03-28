@@ -14,6 +14,7 @@ import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
@@ -25,6 +26,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LoginExtender;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -283,6 +285,9 @@ public class AccountLibActivity extends AppCompatActivity
 		public void onSignInSuccessful() {
 			// Do stuff with User
 			userAccountRefresher.forceAccountRefresh();
+			if (getIntent().getBundleExtra(ARG_BUNDLE).containsKey(Codes.MEMBER_ONLY_DEALS)) {
+				NavUtils.goToMemberPricing(getBaseContext());
+			}
 		}
 
 		@Override
