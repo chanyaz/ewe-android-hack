@@ -13,7 +13,6 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.LaunchScreenAirAttachViewModel
-import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.LocalDateTime
@@ -52,7 +51,7 @@ class LaunchScreenAirAttachViewModelTest {
 
     @Test
     fun testAirAttachVariant1Displayed() {
-        enableABTestAndFeatureToggle()
+        enableABTest()
         AbacusTestUtils.bucketTestWithVariant(13345, 1)
 
         val expirationEpochSec = LocalDateTime.now().plusDays(20).plusHours(8).toDateTime().millis / 1000
@@ -69,7 +68,7 @@ class LaunchScreenAirAttachViewModelTest {
 
     @Test
     fun testAirAttachVariant2Displayed() {
-        enableABTestAndFeatureToggle()
+        enableABTest()
         AbacusTestUtils.bucketTestWithVariant(13345, 2)
 
         val expirationEpochSec = LocalDateTime.now().plusHours(5).toDateTime().millis / 1000
@@ -86,7 +85,7 @@ class LaunchScreenAirAttachViewModelTest {
 
     @Test
     fun testAirAttachExpiresSoon() {
-        enableABTestAndFeatureToggle()
+        enableABTest()
         AbacusTestUtils.bucketTestWithVariant(13345, 1)
 
         val expirationEpochSec = LocalDateTime.now().toDateTime().millis / 1000
@@ -105,9 +104,8 @@ class LaunchScreenAirAttachViewModelTest {
         sut.offerExpiresObserver.subscribe(offerExpiresSubsciber)
     }
 
-    private fun enableABTestAndFeatureToggle() {
+    private fun enableABTest() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)
-        SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, true)
     }
 
     private fun createHotelSearchParams(): HotelSearchParams {

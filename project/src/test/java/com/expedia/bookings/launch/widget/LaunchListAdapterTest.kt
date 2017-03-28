@@ -59,8 +59,6 @@ class LaunchListAdapterTest {
     @After
     fun tearDown() {
         AbacusTestUtils.resetABTests()
-
-        SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, false)
         SettingUtils.save(context, R.string.preference_member_deal_on_launch_screen, false)
     }
 
@@ -741,7 +739,6 @@ class LaunchListAdapterTest {
     }
 
     private fun givenAirAttachCardEnabled() {
-        SettingUtils.save(context, R.string.preference_show_air_attach_message_on_launch_screen, true)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen, 1)
     }
 

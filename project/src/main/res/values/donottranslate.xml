@@ -119,7 +119,6 @@
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
-    <string name="preference_show_air_attach_message_on_launch_screen">preference_show_air_attach_message_on_launch_screen</string>
     <string name="preference_member_deal_on_launch_screen">preference_member_deal_on_launch_screen</string>
     <string name="preference_hotel_server_side_filters">preference_enable_server_side_filter</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
