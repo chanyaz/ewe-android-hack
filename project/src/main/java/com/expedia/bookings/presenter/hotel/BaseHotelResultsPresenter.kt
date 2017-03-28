@@ -16,7 +16,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
@@ -191,6 +190,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var mapViewModel: HotelResultsMapViewModel by notNullAndObservable { vm ->
 
         vm.sortedHotelsObservable.subscribe {
+
             hotels = it
             updateMarkers()
         }
@@ -280,9 +280,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     private fun adjustGoogleMapLogo() {
         val view = recyclerView.getChildAt(1)
-        val topOffset = if (view == null) 0 else view.top
-        val bottom = recyclerView.height - topOffset
-        googleMap?.setPadding(0, toolbar.height, 0, (bottom + mapView.translationY).toInt())
+        if (view != null) {
+            val topOffset = view.top
+            val bottom = recyclerView.height - topOffset
+            googleMap?.setPadding(0, toolbar.height, 0, (bottom + mapView.translationY).toInt())
+        }
     }
 
     private fun fabShouldBeHiddenOnList(): Boolean {
@@ -315,6 +317,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (!response.isFilteredResponse) {
             filterView.viewModel.setHotelList(response)
         }
+        adjustGoogleMapLogo()
     }
 
     fun lastBestLocationSafe(): Location {
@@ -491,7 +494,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
-            var lp = recyclerView.layoutParams as FrameLayout.LayoutParams
+            val lp = recyclerView.layoutParams as FrameLayout.LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
 
@@ -503,7 +506,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         animateMapCarouselOut()
         val screen = Ui.getScreenSize(context)
-        var lp = mapCarouselRecycler.layoutParams
+        val lp = mapCarouselRecycler.layoutParams
         lp.width = screen.x
 
         recyclerView.addOnScrollListener(scrollListener)
@@ -524,11 +527,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
-        if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
-            filterMenuItem.isVisible = true
-        } else {
-            filterMenuItem.isVisible = false
-        }
+        filterMenuItem.isVisible = getLineOfBusiness() == LineOfBusiness.PACKAGES
 
         toolbar.setNavigationOnClickListener { view ->
             val activity = context as AppCompatActivity
@@ -696,19 +695,44 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        var currentState = RecyclerView.SCROLL_STATE_IDLE
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            currentState = newState
-
-            val manager = recyclerView.layoutManager as LinearLayoutManager
-            val displayingLastItemInList = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
-            val firstItemTop = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
+            val firstItem = recyclerView.findViewHolderForAdapterPosition(1)
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                if (firstItemTop < snapToFullScreenMapThreshold && firstItemTop > mapListSplitAnchor
-                        && isHeaderVisible() && !displayingLastItemInList) {
-                    resetListOffset()
+                if (isHeaderVisible()) {
+                    if (firstItem == null) {
+                        showWithTracking(ResultsMap())
+                    } else {
+                        val firstItemTop = firstItem?.itemView?.top ?: 0
+                        val manager = recyclerView.layoutManager as HotelListRecyclerView.PreCachingLayoutManager
+                        val displayingLastItemInList = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
+
+                        if (!displayingLastItemInList && firstItemTop > mapListSplitAnchor && firstItemTop < snapToFullScreenMapThreshold) {
+                            recyclerView.translationY = 0f
+                            resetListOffset()
+                        } else if (firstItemTop >= snapToFullScreenMapThreshold) {
+                            showWithTracking(ResultsMap())
+                        }
+                    }
+                }
+
+                if (!transitionRunning && !filterScreenShown) {
+                    if (fab.visibility != View.VISIBLE && !fabShouldBeHiddenOnList()) {
+                        fab.visibility = View.VISIBLE
+                        fab.translationY = -filterHeight
+                        getFabAnimIn().start()
+                    } else if (fab.visibility == View.VISIBLE && !hideFabAnimationRunning && fabShouldBeHiddenOnList()) {
+                        hideFabAnimationRunning = true
+                        val outAnim = getFabAnimOut()
+                        outAnim.addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animator: Animator) {
+                                fab.visibility = View.INVISIBLE
+                                hideFabAnimationRunning = false
+                            }
+                        })
+                        outAnim.start()
+                    }
                 }
             }
         }
@@ -718,46 +742,16 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 return
             }
 
-            val y = mapView.translationY + (-dy * mapListSplitAnchor / (recyclerView.height - mapListSplitAnchor))
-            mapView.translationY = y
+            if (isHeaderVisible()) {
+                val y = mapView.translationY + (-dy * mapListSplitAnchor / (recyclerView.height - mapListSplitAnchor))
+                mapView.translationY = y
 
-            val topOffset = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
-
-            adjustGoogleMapLogo()
-
-            if (currentState == RecyclerView.SCROLL_STATE_SETTLING && topOffset < snapToFullScreenMapThreshold && topOffset > mapListSplitAnchor && isHeaderVisible()) {
-                recyclerView.translationY = 0f
-                resetListOffset()
-            } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= snapToFullScreenMapThreshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
-                showWithTracking(ResultsMap())
-                hideBundlePriceOverview(true)
-            }
-
-            if (!transitionRunning && !filterScreenShown) {
-                if (!fabShouldBeHiddenOnList() && fab.visibility != View.VISIBLE) {
-                    fab.visibility = View.VISIBLE
-                    fab.translationY = -filterHeight
-                    getFabAnimIn().start()
-                } else if (fabShouldBeHiddenOnList() && fab.visibility == View.VISIBLE && !hideFabAnimationRunning) {
-                    hideFabAnimationRunning = true
-                    val outAnim = getFabAnimOut()
-                    outAnim.addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animator: Animator) {
-                            fab.visibility = View.INVISIBLE
-                            hideFabAnimationRunning = false
-                        }
-                    })
-                    outAnim.start()
-                }
+                adjustGoogleMapLogo()
             }
         }
 
         fun isHeaderVisible(): Boolean {
             return recyclerView.layoutManager.findFirstVisibleItemPosition() == 0
-        }
-
-        fun isHeaderCompletelyVisible(): Boolean {
-            return recyclerView.layoutManager.findFirstCompletelyVisibleItemPosition() == 0
         }
     }
 
@@ -769,6 +763,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
             recyclerView.translationY = 0f
             mapView.translationY = -mapListSplitAnchor.toFloat()
@@ -798,7 +793,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 screenWidth = 0f
                 // todo be nice if the tests could reflect actual behavior of fab aka need scroll b4 visible
                 fab.visibility = View.VISIBLE
-                var fabLp = fab.layoutParams as FrameLayout.LayoutParams
+                val fabLp = fab.layoutParams as FrameLayout.LayoutParams
                 fabLp.bottomMargin += filterHeight.toInt()
             } else {
                 screenHeight = height
@@ -1279,7 +1274,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun moveCameraToLatLng(latLng: LatLng) {
-        var cameraPosition = CameraPosition.Builder()
+        val cameraPosition = CameraPosition.Builder()
                 .target(latLng)
                 .zoom(8f)
                 .build()
