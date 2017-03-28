@@ -168,7 +168,13 @@ public class TripUtils {
 	public static HotelSearchParams getHotelSearchParamsForRecentFlightAirAttach(TripFlight tripFlight) {
 		if (tripFlight != null) {
 			FlightLeg firstFlightLeg = tripFlight.getFlightTrip().getLeg(0);
-			return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(tripFlight, firstFlightLeg, null);
+			FlightLeg secondFlightLeg = null;
+
+			if (tripFlight.getFlightTrip().getLegCount() > 1) {
+				secondFlightLeg = tripFlight.getFlightTrip().getLeg(1);
+			}
+			return HotelCrossSellUtils
+				.generateHotelSearchParamsFromItinData(tripFlight, firstFlightLeg, secondFlightLeg);
 		}
 		return null;
 	}
