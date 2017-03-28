@@ -40,6 +40,8 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     private var trackingDone = false
     private val filterTracker: FilterTracker = createFilterTracker()
 
+    var neighborhoodsExist = false
+
     init {
         sortByObservable.subscribe(sortSpinnerObservable)
 
@@ -190,7 +192,9 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     open fun setHotelList(response: HotelSearchResponse) {
         originalResponse = response
-        neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
+        val neighborhoods = response.allNeighborhoodsInSearchRegion
+        neighborhoodListObservable.onNext(neighborhoods)
+        neighborhoodsExist = neighborhoods != null && neighborhoods.size > 0
         sendNewPriceRange()
 
         if (isCurrentLocationSearch.value) { // sort by distance on currentLocation search

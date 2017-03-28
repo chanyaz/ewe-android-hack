@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import com.expedia.bookings.R
@@ -17,7 +18,7 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
         View.inflate(context, R.layout.server_neigborhood_filter_view, this)
 
         moreLessView.setOnClickListener {
-            showMoreLessClick(neighborhoodGroup)
+            showMoreLessClick()
         }
     }
 
@@ -37,11 +38,11 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
                 }
                 neighborhoodGroup.addView(neighborhoodView)
             }
-            neighborhoodGroup.post {
-                //http://stackoverflow.com/questions/3602026/linearlayout-height-in-oncreate-is-0/3602144#3602144
-                collapse(neighborhoodGroup)
-            }
         }
+    }
+
+    override fun getNeighborhoodContainer(): LinearLayout {
+        return  neighborhoodGroup
     }
 
     override fun clear() {

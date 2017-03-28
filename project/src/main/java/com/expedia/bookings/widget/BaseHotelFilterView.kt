@@ -337,6 +337,17 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         starRatingView.reset()
     }
 
+    fun show() {
+        visibility = View.VISIBLE
+        if (viewModel.neighborhoodsExist) {
+            neighborhoodView.post {
+                //http://stackoverflow.com/questions/3602026/linearlayout-height-in-oncreate-is-0/3602144#3602144
+                neighborhoodView.collapse()
+            }
+        }
+        refreshFavoriteCheckbox()
+    }
+
     fun refreshFavoriteCheckbox() {
         if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
             if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
