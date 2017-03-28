@@ -3023,23 +3023,9 @@ public class OmnitureTracking {
 	 * @param isLongMessage true denotes it was a share message long, false denotes share message short
 	 */
 	public static void trackItinShare(Type type, boolean isLongMessage) {
-		String pageName;
-
-		switch (type) {
-		case FLIGHT:
-			pageName = ITIN_FLIGHT_SHARE_PREFIX;
-			break;
-		case HOTEL:
-			pageName = ITIN_HOTEL_SHARE_PREFIX;
-			break;
-		case CAR:
-			pageName = ITIN_CAR_SHARE_PREFIX;
-			break;
-		case ACTIVITY:
-			pageName = ITIN_ACTIVITY_SHARE_PREFIX;
-			break;
-		default:
-			throw new RuntimeException("You are trying to track the sharing of an itin card type not yet supported");
+		String pageName = getTrackSharePrefix(type);
+		if (pageName.isEmpty()) {
+			return;
 		}
 
 		if (isLongMessage) {
@@ -3050,6 +3036,32 @@ public class OmnitureTracking {
 		}
 
 		internalTrackLink(pageName);
+	}
+
+	public static void trackItinShareStart(Type type) {
+		String pageName = getTrackSharePrefix(type);
+		if (pageName.isEmpty()) {
+			return;
+		}
+		pageName += "Start";
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Itinerary Sharing", null, null);
+	}
+
+	private static String getTrackSharePrefix(Type type) {
+		switch (type) {
+		case FLIGHT:
+			return ITIN_FLIGHT_SHARE_PREFIX;
+		case HOTEL:
+			return ITIN_HOTEL_SHARE_PREFIX;
+		case CAR:
+			return ITIN_CAR_SHARE_PREFIX;
+		case ACTIVITY:
+			return ITIN_ACTIVITY_SHARE_PREFIX;
+		default:
+			return "";
+		}
 	}
 
 	public static void trackItinReload(Type type) {

@@ -1036,6 +1036,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		switch (item.getItemId()) {
 		case R.id.itin_card_share:
 			showShareDialog();
+			OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
 			return true;
 		case R.id.itin_card_add_to_calendar:
 			addToCalendar();
