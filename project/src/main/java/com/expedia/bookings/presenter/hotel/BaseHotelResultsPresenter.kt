@@ -285,11 +285,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return (transitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
-    val addListResultsObserver = endlessObserver<HotelSearchResponse> { response ->
-        adapter.addResultsSubject.onNext(response)
-        filterView.viewModel.setHotelList(response)
-    }
-
     val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
         hideMapLoadingOverlay()
         adapter.resultsSubject.onNext(response)

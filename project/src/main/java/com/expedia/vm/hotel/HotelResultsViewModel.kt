@@ -26,9 +26,6 @@ import rx.subjects.PublishSubject
 
 class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
-    private val INITIAL_RESULTS_TO_BE_LOADED = 25
-    private val ALL_RESULTS_TO_BE_LOADED = 200
-
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
@@ -37,7 +34,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     // Outputs
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
     val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
-    val addHotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val filterResultsObservable = PublishSubject.create<HotelSearchResponse>()
@@ -111,16 +107,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         searchHotels(params, isFilteredSearch)
     }
 
-    private fun searchHotels(params: HotelSearchParams, isFilteredSearch: Boolean, isInitial: Boolean = true) {
-        val isPerceivedInstant = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
-        val makeMultipleCalls = isInitial && isPerceivedInstant && !isFilteredSearch
+    private fun searchHotels(params: HotelSearchParams, isFilteredSearch: Boolean) {
 
-        hotelSearchSubscription = hotelServices?.search(params, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
+        hotelSearchSubscription = hotelServices?.search(params, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
-                onSearchResponse(hotelSearchResponse, isFilteredSearch, isInitial)
-                if (makeMultipleCalls) {
-                    searchHotels(params, false, isFilteredSearch)
-                }
+                onSearchResponse(hotelSearchResponse, isFilteredSearch)
             }
 
             override fun onCompleted() {
@@ -144,7 +135,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         })
     }
 
-    private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isFiltered: Boolean, isInitial: Boolean) {
+    private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isFiltered: Boolean) {
         if (titleSubject.value == null || (titleSubject.value != null && titleSubject.value.isEmpty())) {
             titleSubject.onNext(hotelSearchResponse.searchRegionCity)
         }
@@ -169,11 +160,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
             mapResultsObservable.onNext(hotelSearchResponse)
         } else {
-            if (isInitial) {
-                hotelResultsObservable.onNext(hotelSearchResponse)
-            } else {
-                addHotelResultsObservable.onNext(hotelSearchResponse)
-            }
+            hotelResultsObservable.onNext(hotelSearchResponse)
         }
     }
 

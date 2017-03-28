@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,9 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.endlessObserver
@@ -45,7 +42,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val addResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val resultsSubject = BehaviorSubject.create<HotelSearchResponse>()
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
@@ -66,17 +62,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     private var newResultsConsumed = false
 
     init {
-        addResultsSubject.subscribe { response ->
-            val nonDuplicateHotels = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
-            val initialSize = itemCount
-            hotels.addAll(nonDuplicateHotels)
-            val newHotels = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
-            val initialRefreshIndex = HotelUtils.getFirstUncommonHotelIndex(hotels, newHotels) + numHeaderItemsInHotelsList()
-            hotels = newHotels as ArrayList<Hotel>
-            notifyItemRangeChanged(initialRefreshIndex, initialSize)
-            notifyItemRangeInserted(initialSize, hotels.size)
-        }
-
         resultsSubject.subscribe { response ->
             loading = false
             hotels = ArrayList(response.hotelList)
@@ -171,7 +156,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             val vm = HotelResultsPricingStructureHeaderViewModel(view.resources)
             loadingSubject.subscribe(vm.loadingStartedObserver)
             resultsSubject.subscribe(vm.resultsDeliveredObserver)
-            addResultsSubject.subscribe(vm.resultsDeliveredObserver)
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
             return holder
         } else {

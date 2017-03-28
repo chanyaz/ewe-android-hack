@@ -4,14 +4,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.hotel.HotelResultsViewModel
 import org.joda.time.LocalDate
@@ -45,36 +43,11 @@ class HotelResultsViewModelTest {
     }
 
     @Test
-    fun perceivedInstantSearch() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
-
-        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
-        val additionalResultsSubscriber = TestSubscriber<HotelSearchResponse>()
-
-        sut.hotelResultsObservable.subscribe(resultsSubscriber)
-        sut.addHotelResultsObservable.subscribe(additionalResultsSubscriber)
-
-        sut.paramsSubject.onNext(makeHappyParams())
-
-        resultsSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
-        resultsSubscriber.assertNoTerminalEvent()
-        resultsSubscriber.assertNoErrors()
-        resultsSubscriber.assertValueCount(1)
-
-        additionalResultsSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
-        additionalResultsSubscriber.assertNoTerminalEvent()
-        additionalResultsSubscriber.assertNoErrors()
-        additionalResultsSubscriber.assertValueCount(1)
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, AbacusUtils.DefaultVariant.CONTROL.ordinal)
-    }
-
-    @Test
     fun happySearch() {
         val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
         val additionalResultsSubscriber = TestSubscriber<HotelSearchResponse>()
 
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
-        sut.addHotelResultsObservable.subscribe(additionalResultsSubscriber)
 
         sut.paramsSubject.onNext(makeHappyParams())
 
@@ -216,7 +189,7 @@ class HotelResultsViewModelTest {
 
     private fun makeHotelResultsViewModelWithSearchResponseObservable(returnObservable: Observable<HotelSearchResponse>): HotelResultsViewModel {
         val mockService = Mockito.mock(HotelServices::class.java)
-        Mockito.`when`(mockService.search(anyObject(), Mockito.anyInt(), anyObject())).thenReturn(returnObservable)
+        Mockito.`when`(mockService.search(anyObject(), anyObject())).thenReturn(returnObservable)
         return HotelResultsViewModel(context, mockService, LineOfBusiness.HOTELS)
     }
 
