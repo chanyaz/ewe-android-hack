@@ -11,10 +11,12 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
+import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -23,9 +25,15 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightItinCardTest {
-
+    lateinit private var activity: Activity
     lateinit private var sut: FlightItinCard
     lateinit private var itinCardData: ItinCardDataFlight
+
+    @Before
+    fun setUp() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.NewLaunchTheme)
+    }
 
     @Test
     fun flightCheckInLink(){
@@ -56,6 +64,14 @@ class FlightItinCardTest {
     }
 
     @Test
+    fun testFlightDurationHourMin() {
+        SettingUtils.save(activity, R.string.preference_itin_flight_duration, true)
+        createSystemUnderTest()
+        sut.expand(false)
+        assertEquals("Total Duration: 3 hr 32 min", getFlightDurationTextView().text.toString())
+    }
+
+    @Test
     fun actionButtonVisibileWhenCheckInAvailable() {
         createSystemUnderTest()
         val localTimePlusTwoHours = DateTime.now().plusHours(2)
@@ -76,14 +92,18 @@ class FlightItinCardTest {
         return actionButtonLayout
     }
 
+    private fun getFlightDurationTextView(): TextView {
+        val actionButtonLayout = sut.findViewById(R.id.flight_duration) as TextView
+        return actionButtonLayout
+    }
+
+
     private fun createSystemUnderTest() {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
         val tripFlight = getFlightTrip(jsonArray)
 
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.NewLaunchTheme)
         sut = FlightItinCard(activity, null)
         LayoutInflater.from(activity).inflate(R.layout.widget_itin_card, sut)
 

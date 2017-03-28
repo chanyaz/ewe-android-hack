@@ -76,7 +76,20 @@
                 android:textSize="14sp"
                 app:textStyle="light" />
         </LinearLayout>
+
     </LinearLayout>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/flight_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#5B6470"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
     <!-- MAP -->
 
