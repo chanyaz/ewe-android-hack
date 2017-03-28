@@ -107,6 +107,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -4082,6 +4083,11 @@ public class OmnitureTracking {
 				s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
 					+ bestLastLocation.getAccuracy());
 			}
+		}
+
+		String mc1Guid = DebugInfoUtils.getMC1CookieStr(sContext);
+		if (mc1Guid != null) {
+			s.setProp(23, mc1Guid.replace("GUID=", ""));
 		}
 	}
 
