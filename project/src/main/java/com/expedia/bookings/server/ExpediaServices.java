@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
@@ -10,16 +9,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import javax.inject.Inject;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -85,12 +80,12 @@ import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
-import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.TLSSocketFactory;
 import com.expedia.bookings.utils.Ui;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
@@ -101,14 +96,13 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
+
 import okhttp3.Call;
-import okhttp3.ConnectionSpec;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.TlsVersion;
 
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
@@ -157,10 +151,6 @@ public class ExpediaServices implements DownloadListener {
 
 	private Context mContext;
 
-	// We want to use the cached client for all our requests except the ones that ignore cookies
-	@Inject
-	public OkHttpClient mCachedClient;
-
 	@Inject
 	public PersistentCookiesCookieJar mCookieManager;
 
@@ -168,15 +158,11 @@ public class ExpediaServices implements DownloadListener {
 	public EndpointProvider mEndpointProvider;
 
 	@Inject
-	public SSLContext mSSLContext;
+	public OkHttpClient mClient;
 
 	@Inject
-	public X509TrustManager x509TrustManager;
+	public OKHttpClientFactory mOkHttpClientFactory;
 
-	@Inject
-	public boolean isModernTLSEnabled;
-
-	private OkHttpClient mClient;
 	private Call call;
 	private Request mRequest;
 
@@ -191,32 +177,6 @@ public class ExpediaServices implements DownloadListener {
 		mContext = context;
 
 		Ui.getApplication(context).appComponent().inject(this);
-	}
-
-	private OkHttpClient makeOkHttpClient() {
-		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
-		client.readTimeout(100L, TimeUnit.SECONDS);
-		// 1902 - Allow redirecting from API calls
-		client.followRedirects(true);
-
-		if (isModernTLSEnabled) {
-			TLSSocketFactory socketFactory = new TLSSocketFactory(mSSLContext);
-			client.sslSocketFactory(socketFactory, x509TrustManager);
-			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-				.tlsVersions(TlsVersion.TLS_1_2)
-				.build();
-			client.connectionSpecs(Collections.singletonList(spec));
-		}
-		else {
-			client.sslSocketFactory(mSSLContext.getSocketFactory(), x509TrustManager);
-		}
-
-		// Add Stetho debugging network interceptor
-		if (BuildConfig.DEBUG) {
-			StethoShim.install(client);
-		}
-
-		return client.build();
 	}
 
 	public static void removeUserLoginCookies(Context context) {
@@ -1431,7 +1391,7 @@ public class ExpediaServices implements DownloadListener {
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
 		final String userAgent = ServicesUtil.generateUserAgentString();
 
-		mClient = mCachedClient;
+		OkHttpClient okHttpClient = mClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 
@@ -1448,9 +1408,9 @@ public class ExpediaServices implements DownloadListener {
 		final boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
 		if (ignoreCookies) {
 			// We don't want cookies so we cannot use the cached client
-			OkHttpClient.Builder builder = makeOkHttpClient().newBuilder();
-			builder.cookieJar(new JavaNetCookieJar(sBlackHoleCookieManager));
-			mClient = builder.build();
+			JavaNetCookieJar cookieJar = new JavaNetCookieJar(sBlackHoleCookieManager);
+
+			okHttpClient = mOkHttpClientFactory.getOkHttpClient(cookieJar);
 		}
 
 		// Make the request
@@ -1459,7 +1419,7 @@ public class ExpediaServices implements DownloadListener {
 		okhttp3.Response response = null;
 		try {
 			mRequest = request.build();
-			call = mClient.newCall(mRequest);
+			call = okHttpClient.newCall(mRequest);
 			response = call.execute();
 			T processedResponse = responseHandler.handleResponse(response);
 			return processedResponse;
@@ -1489,7 +1449,6 @@ public class ExpediaServices implements DownloadListener {
 		Request.Builder request = createHttpGet(url, params);
 		final String userAgent = ServicesUtil.generateUserAgentString();
 
-		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 

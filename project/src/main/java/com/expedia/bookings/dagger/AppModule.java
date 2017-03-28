@@ -3,16 +3,9 @@ package com.expedia.bookings.dagger;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import android.content.Context;
 
@@ -24,7 +17,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
@@ -35,13 +27,11 @@ import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
-import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.TLSSocketFactory;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.model.UserLoginStateChangedModel;
-import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
@@ -51,14 +41,12 @@ import com.readystatesoftware.chuck.ChuckInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
-import okhttp3.ConnectionSpec;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -69,23 +57,6 @@ public class AppModule {
 
 	public AppModule(Context context) {
 		this.context = context;
-	}
-
-	@Provides
-	@Singleton
-	X509TrustManager provideX509TrustManager() {
-		return new X509TrustManager() {
-			public void checkClientTrusted(X509Certificate[] chain, String authType) throws
-				CertificateException {
-			}
-
-			public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-			}
-
-			public X509Certificate[] getAcceptedIssuers() {
-				return new X509Certificate[0];
-			}
-		};
 	}
 
 	@Provides
@@ -118,29 +89,6 @@ public class AppModule {
 		return HttpLoggingInterceptor.Level.NONE;
 	}
 
-	@Provides
-	@Singleton
-	SSLContext provideSSLContext(X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
-		try {
-			if (isModernTLSEnabled) {
-				return SSLContext.getDefault();
-			}
-			else {
-				TrustManager[] easyTrustManager = new TrustManager[] {
-					x509TrustManager
-				};
-
-				SSLContext socketContext = SSLContext.getInstance("TLS");
-				socketContext.init(null, easyTrustManager, new java.security.SecureRandom());
-				return socketContext;
-
-			}
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	private static final String COOKIE_FILE_V5 = "cookies-5.dat";
 	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
 	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
@@ -163,61 +111,16 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	boolean provideIsModernTLSEnabled(EndpointProvider endpointProvider) {
-		if (BuildConfig.RELEASE) {
-			return true;
-		}
+	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
+		HttpLoggingInterceptor.Level logLevel, ChuckInterceptor chuckInterceptor, final EndpointProvider endpointProvider) {
 
-		if (ExpediaBookingApp.isAutomation() || endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
-			|| endpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
-			return false;
-		}
-
-		return !SettingUtils
-			.get(context, context.getString(R.string.preference_disable_modern_tls), false);
+		return new OKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor, endpointProvider);
 	}
 
 	@Provides
 	@Singleton
-	OkHttpClient provideOkHttpClient(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled, ChuckInterceptor chuckInterceptor) {
-		try {
-			ProviderInstaller.installIfNeeded(context);
-		}
-		catch (Exception e) {
-			// rely on the PlayServices checking code that runs when first activity starts
-			// to guide the user through the recovery process
-		}
-
-		OkHttpClient.Builder client = new OkHttpClient().newBuilder();
-		client.cache(cache);
-		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
-		logger.setLevel(logLevel);
-		client.addInterceptor(logger);
-		if (BuildConfig.DEBUG && !ExpediaBookingApp.isAutomation()) {
-			client.addInterceptor(chuckInterceptor);
-		}
-		client.followRedirects(true);
-		client.cookieJar(cookieManager);
-		client.connectTimeout(10, TimeUnit.SECONDS);
-		client.readTimeout(60L, TimeUnit.SECONDS);
-
-		if (isModernTLSEnabled) {
-			TLSSocketFactory socketFactory = new TLSSocketFactory(sslContext);
-			client.sslSocketFactory(socketFactory);
-			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-				.tlsVersions(TlsVersion.TLS_1_2)
-				.build();
-			client.connectionSpecs(Collections.singletonList(spec));
-		}
-		else {
-			client.sslSocketFactory(sslContext.getSocketFactory());
-		}
-		if (BuildConfig.DEBUG) {
-			StethoShim.install(client);
-		}
-
-		return client.build();
+	OkHttpClient provideOkHttpClient(OKHttpClientFactory okHttpClientFactory) {
+		return okHttpClientFactory.getOkHttpClient(null);
 	}
 
 	@Provides
