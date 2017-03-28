@@ -176,9 +176,9 @@ Feature: Flights Search
     When I Click on Select Dates button for flights
     Then Validate that Calender widget is displayed: true
     And I choose departure date for flights-roundtrip and validate the tool tip
-      | start_date | 5  |
+      | start_date | 7  |
     And I choose return date for flights-roundtrip and validate the tool tip
-      | start_date | 5  |
+      | start_date | 7  |
       | end_date   | 10 |
     And Validate that Done button is enabled
     And I click on Done button
@@ -193,7 +193,7 @@ Feature: Flights Search
     When I Click on Select Dates button for flights
     Then Validate that Calender widget is displayed: true
     And I choose departure date for flights-roundtrip and validate the tool tip
-      | start_date | 5  |
+      | start_date | 7  |
     And Validate that Done button is enabled
     And I click on Done button
     And Validate the selected date on calender button

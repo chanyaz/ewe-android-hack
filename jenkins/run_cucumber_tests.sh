@@ -46,6 +46,8 @@ function removeDummyFilesOnDevice() {
     device=$1
     echo "Removing Dummy Files....."
     adb -s $device shell rm -r /data/local/tmp/cucumber-htmlreport
+    #Remove existing failed test case images
+    adb -s $device shell "rm -R /sdcard/cucumber-images"
     removeDummyFiles=$?
 }
 
@@ -110,8 +112,6 @@ function publishHTMLReport() {
     mkdir project/build/outputs/$device
     cd project/build/outputs/$device
     adb -s $device pull /data/local/tmp/cucumber-htmlreport
-    adb -s $device shell "rm -R /sdcard/cucumber-images"
-    adb -s $device shell "run-as ${packageName}.debug cp -R /data/data/${packageName}.debug/files/cucumber-images /sdcard"
     adb -s $device pull /sdcard/cucumber-images
 }
 

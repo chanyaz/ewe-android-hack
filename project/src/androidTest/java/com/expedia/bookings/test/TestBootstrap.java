@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
@@ -85,7 +86,7 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	}
 
 	private void saveFailedTestCaseImage(Bitmap bm, String fileName) throws IOException {
-		String cucumberImagesDirectoryPath = mActivity.getApplicationContext().getFilesDir().getPath() + "/cucumber-images/";
+		String cucumberImagesDirectoryPath = Environment.getExternalStorageDirectory().getPath() + "/cucumber-images/";
 		File cucumberDirectory = new File(cucumberImagesDirectoryPath);
 		if (!cucumberDirectory.exists()) {
 			cucumberDirectory.mkdirs();
