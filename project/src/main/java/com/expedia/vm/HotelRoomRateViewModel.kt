@@ -44,6 +44,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
     var roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
     var soldOutButtonLabelObservable: Observable<CharSequence> = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
+//    var totalMandatoryFee = Money(BigDecimal(hotelRate.totalMandatoryFees.toDouble()), currencyCode)
 
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
@@ -57,6 +58,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val dailyPricePerNightObservable = BehaviorSubject.create<String>()
     val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
     val depositTermsClickedObservable = PublishSubject.create<Unit>()
+    val totalMandatoryFeeMessageObservable = BehaviorSubject.create<String>()
 
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
 
@@ -139,17 +141,23 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
         val isBurnApplied = chargeableRateInfo.loyaltyInfo?.isBurnApplied ?: false
         val packageLoyaltyInfo = hotelRoomResponse.packageLoyaltyInformation
+        val totalMandatoryFee = Money(BigDecimal(hotelRate.totalMandatoryFees.toDouble()), currencyCode)
 
         //resetting the text for views
         strikeThroughPriceObservable.onNext("")
         discountPercentage.onNext("")
         expandedAmenityObservable.onNext("")
+        totalMandatoryFeeMessageObservable.onNext("")
 
         if (lob == LineOfBusiness.PACKAGES) {
             shouldShowDiscountPercentage.onNext(false)
         }
         else {
             shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isBurnApplied && !chargeableRateInfo.isShowAirAttached())
+            if (!totalMandatoryFee.isZero) {
+                val mandatoryMessage = Phrase.from(context, R.string.excludes_mandatory_fee_TEMPLATE).put("amount", totalMandatoryFee.formattedMoney).format().toString()
+                totalMandatoryFeeMessageObservable.onNext(mandatoryMessage)
+            }
         }
         discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
         if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
@@ -202,7 +210,6 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         collapsedEarnMessageVisibilityObservable.onNext(earnMessageVisibility)
         collapsedEarnMessageObservable.onNext(earnMessage)
         collapsedUrgencyVisibilityObservable.onNext(!earnMessageVisibility)
-
 
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
         lastRoomSelectedSubscription?.unsubscribe()

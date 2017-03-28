@@ -58,14 +58,14 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
     val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
     val roomInfoDivider: View by bindView(R.id.room_info_divider)
-    val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
+//    val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
 
     var roomInfoHeaderTextHeight = -1
     var roomHeaderImageHeight = -1
     var roomInfoDividerHeight = -1
     var roomInfoDescriptionTextHeight = -1
     var roomInfoChevronHeight = -1
-    var spaceAboveRoomInfoHeight = -1
+//    var spaceAboveRoomInfoHeight = -1
     val animateRoom = PublishSubject.create<Pair<HotelRoomRateView, Boolean>>()
 
     var expandedMeasurementsDone = false
@@ -76,7 +76,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     private var viewsToShowInExpandedState: Array<View> by Delegates.notNull()
 
     private val roomType: TextView by bindView(R.id.room_type_text_view)
-    private val spaceBelowRoomButton: View by bindView(R.id.space_below_room_button)
+//    private val spaceBelowRoomButton: View by bindView(R.id.space_below_room_button)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
     private val collapsedEarnMessaging: TextView by bindView(R.id.collapsed_earn_message_text_view)
     private val collapsedBedType: TextView by bindView(R.id.collapsed_bed_type_text_view)
@@ -97,6 +97,9 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     private val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation_text_view)
     private val roomDivider: View by bindView(R.id.row_divider)
 
+    private val collapsedMandatoryFee: TextView by bindView(R.id.collapsed_mandatory_fee_text_view)
+    private val expandedMandatoryFee: TextView by bindView(R.id.expanded_mandatory_fee_text_view)
+
     private val viewRoomCollapsedPadding = getDimensionInDp(10f)
     private val viewRoomExpandedPadding = getDimensionInDp(5f)
     private val roomContainerTopBottomPadding = getDimensionInDp(12f)
@@ -110,8 +113,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         }
 
         vm.collapsedEarnMessageVisibilityObservable.subscribe {
-            viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency, spaceBelowRoomButton)
-            viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
+            viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency, collapsedMandatoryFee/*, spaceBelowRoomButton*/)
+            viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, expandedMandatoryFee, strikeThroughPrice)
         }
         vm.collapsedUrgencyVisibilityObservable.subscribeVisibility(collapsedUrgency)
         vm.collapsedEarnMessageVisibilityObservable.subscribeVisibility(collapsedEarnMessaging)
@@ -193,6 +196,44 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.collapseRoomWithAnimationObservable.subscribe {
             collapseRow(ANIMATION_DURATION)
         }
+
+//        vm.totalMandatoryFeeMessageObservable.subscribeText(expandedMandatoryFee)
+//        vm.totalMandatoryFeeMessageObservable.subscribeText(collapsedMandatoryFee)
+        vm.totalMandatoryFeeMessageObservable.subscribe { mandatoryFeeMessage ->
+//            expandedMandatoryFee.text = mandatoryFeeMessage
+//            collapsedMandatoryFee.text = mandatoryFeeMessage
+//
+//            if (mandatoryFeeMessage.isNotEmpty()) {
+//                expandedMandatoryFee.visibility = View.VISIBLE
+//                collapsedMandatoryFee.visibility = View.VISIBLE
+//            } else {
+//                expandedMandatoryFee.visibility = View.GONE
+//                collapsedMandatoryFee.visibility = View.GONE
+//            }
+            breakpoints(mandatoryFeeMessage)
+        }
+    }
+
+    fun breakpoints(mandatoryFeeMessage: String) {
+        expandedMandatoryFee.text = mandatoryFeeMessage
+        collapsedMandatoryFee.text = mandatoryFeeMessage
+
+        if (mandatoryFeeMessage.isNotEmpty()) {
+            expandedMandatoryFee.visibility = View.VISIBLE
+            collapsedMandatoryFee.visibility = View.VISIBLE
+        } else {
+            expandedMandatoryFee.visibility = View.GONE
+            expandedMandatoryFee.height = 0
+            collapsedMandatoryFee.visibility = View.GONE
+            collapsedMandatoryFee.height = 0
+
+            val collapsedParams = collapsedMandatoryFee.layoutParams as RelativeLayout.LayoutParams
+            collapsedParams.setMargins(0, 0, 0, 0)
+            collapsedMandatoryFee.layoutParams = collapsedParams
+            val expandedParams = expandedMandatoryFee.layoutParams as RelativeLayout.LayoutParams
+            expandedParams.setMargins(0, 0, 0, 0)
+            expandedMandatoryFee.layoutParams = expandedParams
+        }
     }
 
     init {
@@ -206,7 +247,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 roomInfoDividerHeight = roomInfoDivider.height;
                 roomInfoDescriptionTextHeight = roomInfoDescriptionText.height;
                 roomInfoChevronHeight = roomInfoChevron.height
-                spaceAboveRoomInfoHeight = spaceAboveRoomInfo.height
+//                spaceAboveRoomInfoHeight = spaceAboveRoomInfo.height
 
                 roomInfoDescriptionText.visibility = View.GONE
                 row.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -274,6 +315,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             }
             collapsedBedType.visibility = View.GONE
             collapsedUrgency.visibility = View.GONE
+            collapsedMandatoryFee.visibility = View.GONE
 
             viewsToShowInExpandedState.forEach {
                 if (it is TextView && Strings.isEmpty(it.text)) {
@@ -328,6 +370,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
             expandedBedType.visibility = View.GONE
             freeCancellation.visibility = View.GONE
+            expandedMandatoryFee.visibility = View.GONE
 
             row.isEnabled = !viewModel.roomSoldOut.value
 
@@ -351,7 +394,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             resizeAnimator.addViewSpec(roomInfoHeader, 0)
             resizeAnimator.addViewSpec(roomInfoDivider, 0)
             resizeAnimator.addViewSpec(roomInfoChevron, 0)
-            resizeAnimator.addViewSpec(spaceAboveRoomInfo, 0)
+//            resizeAnimator.addViewSpec(spaceAboveRoomInfo, 0)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
             }
@@ -422,7 +465,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             override fun onAnimationEnd(animation: Animation?) {
                 if (view.id == R.id.strike_through_price) view.visibility = View.GONE
                 if (view.id == R.id.expanded_free_cancellation_text_view) view.visibility = View.GONE
-                if (view.id == R.id.space_below_room_button) view.visibility = View.GONE
+//                if (view.id == R.id.space_below_room_button) view.visibility = View.GONE
             }
         })
         return anim

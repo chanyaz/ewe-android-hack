@@ -4980,4 +4980,7 @@
     <string name="reset_filter">Reset Filters</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">We couldn\'t find properties that match your filter selections.</string>
+
+    <!-- Hotel info site mandatory fee message -->
+    <string name="excludes_mandatory_fee_TEMPLATE">Excludes {amount} daily resort fee</string>
 </resources>

@@ -864,7 +864,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resizeAnimator.addViewSpec(room.roomInfoHeader, room.roomInfoHeaderTextHeight)
         resizeAnimator.addViewSpec(room.roomInfoDivider, room.roomInfoDividerHeight)
         resizeAnimator.addViewSpec(room.roomInfoChevron, room.roomInfoChevronHeight)
-        resizeAnimator.addViewSpec(room.spaceAboveRoomInfo, room.spaceAboveRoomInfoHeight)
+//        resizeAnimator.addViewSpec(room.spaceAboveRoomInfo, room.spaceAboveRoomInfoHeight)
         if (animate) {
             resizeAnimator.addUpdateListener({
                 val rowTopConstraintView = if (viewmodel.hasETPObservable.value) etpContainer else hotelDetailsToolbar
