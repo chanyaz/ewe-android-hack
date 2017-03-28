@@ -20,7 +20,7 @@
             android:id="@+id/card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_itin_card"
+            android:background="?attr/itin_card_bg"
             android:orientation="vertical">
 
             <!-- ###################################################################### -->
