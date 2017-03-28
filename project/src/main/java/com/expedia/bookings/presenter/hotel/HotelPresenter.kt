@@ -459,6 +459,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.viewmodel.defaultErrorObservable.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
+        errorPresenter.getViewModel().filterNoResultsObservable.subscribe {
+            resultsPresenter.reshowPreviousResult()
+            show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
 
         errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
