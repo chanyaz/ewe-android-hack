@@ -145,7 +145,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate} - Pilih tanggal pengembalian</string>
+    <string name="select_return_date_TEMPLATE">{startdate} - Pilih tanggal kembali</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">Pilih tanggal pengambilan</string>
     <!-- Label for pick-up time picker -->
@@ -1914,7 +1914,7 @@
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
-    <string name="calendar_instructions_date_range_flight_select_return_date">Berikutnya: Pilih tanggal pengembalian</string>
+    <string name="calendar_instructions_date_range_flight_select_return_date">Berikutnya: Pilih tanggal kembali</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Pilih Tanggal Check-in</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">Dapatkan {points} poin</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">Dapatkan {price}</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">Dapatkan {price} dalam {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Biaya tas kabin berlaku</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -2245,8 +2247,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Kode negara</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Kode Negara</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">Tanggal Lahir %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Tanggal Lahir %1$s</string>
 
@@ -3895,6 +3895,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Tekan untuk pilihan mengirim itinerary</string>
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">Tekan untuk melihat pilihan sembunyi</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Hasil Pencarian Hotel</string>
@@ -4082,7 +4084,6 @@
     <string name="airline_fee_notice">Sejumlah biaya maskapai, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga.</string>
     <string name="airline_charge_notice">Maskapai mengenakan biaya tambahan tergantung pada metode pembayaran.</string>
     <string name="airline_fee_notice_payment">Sejumlah biaya maskapai dikenakan berdasarkan metode pembayaran Anda</string>
-    <string name="airline_notice_fee_added">Sejumlah <u><b>biaya maskapai</b></u>, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
     <string name="airline_notice_fee_added_tablet">Sejumlah &lt;u&gt;&lt;b&gt;biaya maskapai&lt;/b&gt;&lt;/u&gt;, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
 
     <!-- French compliance warnings d/5810 -->
@@ -4542,6 +4543,7 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Poin Expedia+ digunakan! (belum termasuk pajak dan biaya)</string>
     <string name="regular_loyalty_applied_message">Poin Expedia+ digunakan</string>
     <string name="vip_loyalty_applied_message">2x poin digunakan!</string>
+    <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">2x Poin Expedia+ digunakan</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4687,6 +4689,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Sembunyikan maskapai lainnya. Tombol</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Hapus Filter. Tombol</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">Total perjalanan {totalprice}. Termasuk pajak dan biaya. {savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Total perjalanan {totalprice}. Termasuk pajak dan biaya. {savings}. Kotak Rincian Biaya. Tombol.</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">Harga perjalanan {price_per_person} per orang. Termasuk pajak dan biaya. Tombol untuk melihat penerbangan.</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Harga total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4694,7 +4705,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Harga package adalah {price_per_person} per orang. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. Tombol untuk melihat package.</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">Perjalanan ke {city_name}. {startdate} hingga {enddate}. {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">Perjalanan ke {city_name}. {startdate} hingga {enddate}, {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4903,7 +4914,6 @@
     <string name="launch_find_hotels_near_you">Cari Hotel di Sekitar Lokasi Anda</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Hotel yang direkomendasikan malam ini</string>
-    <string name="launch_find_popular_hotels">Hotel Populer Malam Ini</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Pemesanan Berhasil!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4947,4 +4957,6 @@
     <string name="error_enter_a_valid_card_name">Masukkan nama seperti yang tertera di kartu</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">Pilih kode negara</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">Pemesanan Telah Dikonfirmasi. Tiket sedang diproses.</string>
 </resources>

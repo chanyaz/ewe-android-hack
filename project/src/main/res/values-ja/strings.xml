@@ -64,7 +64,7 @@
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
     <string name="cars_checkout_breakdown_us_text">料金の通貨単位は %sです。</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">料金の通貨単位は%1$sです。すべての税またはサービス料は、配車時に現地通貨 (%2$s) でお支払いください。</string>
+    <string name="cars_checkout_breakdown_non_us_text">料金の通貨単位は%1$sです。すべての税またはサービス料は、借出時に現地通貨 (%2$s) でお支払いください。</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">1 週間 :</string>
     <!-- Cars weekly price templates-->
@@ -82,7 +82,7 @@
     <!-- Text for price change-->
     <string name="price_change_text">料金の変更</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
-    <string name="price_change_alert_TEMPLATE">旅行の料金が {oldprice}から{newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
+    <string name="price_change_alert_TEMPLATE">旅行の料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">料金変更</string>
     <!-- Text for error toolbar-->
@@ -118,7 +118,7 @@
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d- %2$d</string>
     <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s%2$s</string>
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -145,7 +145,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s– %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate}– 返却日時を選択してください</string>
+    <string name="select_return_date_TEMPLATE">{startdate}– 現地出発日を選択</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">借出日を選択してください</string>
     <!-- Label for pick-up time picker -->
@@ -364,7 +364,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s%2$s (%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s%2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">予約する %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -1902,7 +1902,7 @@
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
-    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt;%2$s</string>
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">{points}ポイント獲得</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">{price}獲得</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">{currency} で {price} 獲得</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">機内持ち込み手荷物料金が加算されます</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -2006,8 +2008,8 @@
     <string name="payment_processing_fees">お支払い処理料金</string>
     <!-- Label indicating number of tickets left for given flight (min: 1) -->
     <plurals name="number_tickets_left_TEMPLATE">
-        <item quantity="one">残り {number_tickets_left}枚 - 料金</item>
-        <item quantity="other">残り {number_tickets_left}枚 - 料金</item>
+        <item quantity="one">残り {number_tickets_left} 枚 - 料金</item>
+        <item quantity="other">残り {number_tickets_left} 枚 - 料金</item>
     </plurals>
 
     <!-- Flight payment overview Activity -->
@@ -2032,7 +2034,7 @@
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">このホテルでは、{card_type}のカードはご利用いただけません</string>
     <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
-    <string name="package_does_not_accept_cardtype_TEMPLATE">このツアーでは、{card_type} のカードはご利用いただけません</string>
+    <string name="package_does_not_accept_cardtype_TEMPLATE">この旅行では、{card_type} のカードはご利用いただけません</string>
     <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
     <string name="car_does_not_accept_cardtype_TEMPLATE">このレンタカー会社では、{card_type}のカードはご利用いただけません。</string>
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
@@ -2152,7 +2154,7 @@
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt;です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。残額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Pay later deposit amount -->
-    <string name="pay_later_deposit_policy">%1$s&lt;b&gt;%2$s&lt;/b&gt;</string>
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">旅行者情報を入力</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2245,8 +2247,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">国番号</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">国番号</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">生年月日 : %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">生年月日 : %1$s</string>
 
@@ -2337,7 +2337,7 @@
         <item quantity="one">その他 {travelercount}名の旅行者</item>
         <item quantity="other">その他 {travelercount}名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者{travelernumber}の情報を変更する({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2570,7 +2570,7 @@
     <!-- Button label for calling -->
     <string name="call_support">サポート</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">航空会社がお客様の航空券の料金を%1$s値上げしました。新しい料金は %2$sです。この金額でよろしいですか ?</string>
+    <string name="error_flight_price_increased">航空会社がお客様の航空券の料金を %1$s 値上げしました。新しい料金は %2$sです。この金額でよろしいですか ?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">お客様がご希望のフライトを%1$s安く提供できます。新しい金額は %2$sです。フライトを変更しますか ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
@@ -3417,9 +3417,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">現在地から %1$s%2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount}{currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3895,6 +3895,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">タップして旅程のシェアのオプションを表示</string>
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">タップして非表示の他のオプションを表示</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">ホテルの検索結果</string>
@@ -4422,7 +4424,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} → {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass}{fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4541,6 +4543,7 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ ポイント適用済み ! (税およびサービス料別)</string>
     <string name="regular_loyalty_applied_message">Expedia+ ポイント適用済み !</string>
     <string name="vip_loyalty_applied_message">還元率 2 倍でポイント適用済み !</string>
+    <string name="vip_short_loyalty_applied_message">還元率 2 倍</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">還元率 2 倍で Expedia+ ポイント適用済み !</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4686,6 +4689,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">その他の航空会社を非表示にします。ボタン</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">絞り込みを削除します。ボタン</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">旅行の合計料金は {totalprice} です。税およびサービス料込み。{savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">旅行の合計料金は {totalprice} です。税およびサービス料込み。{savings}. 料金明細のダイアログ。ボタン。</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">旅行料金は 1 名 {price_per_person} です。税およびサービス料込み。フライトを表示するボタン。</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は{totalprice}です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4693,8 +4705,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名{price_per_person}です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="bundle_overview_price_widget_expanded_TEMPLATE">{city_name}へのツアー。{startdate}～ {enddate}、お客様 {guests} 名</string>
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}へのツアー。{startdate} ～ {enddate}、お客様 {guests} 名</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate}～ {enddate}、お客様 {guests} 名</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4903,7 +4914,6 @@
     <string name="launch_find_hotels_near_you">現在地付近のホテルを検索</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">おすすめの今晩のホテル</string>
-    <string name="launch_find_popular_hotels">今晩泊まれる人気のホテル</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">予約完了 !</string>
     <!-- Check your email for itinerary alert message-->
@@ -4947,4 +4957,6 @@
     <string name="error_enter_a_valid_card_name">カードに表示されているお名前を入力してください</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">国番号を選択してください</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">予約が確定しました。ただ今発券中です。</string>
 </resources>
