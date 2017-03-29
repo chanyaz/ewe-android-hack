@@ -4,8 +4,9 @@ import android.app.Activity
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.PaymentType
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate
@@ -80,6 +81,78 @@ class AbstractCheckoutViewModelTest {
         assertEquals("apt 69", testSubscriber.onNextEvents[0].toQueryMap().get("streetAddress2"))
     }
 
+    @Test
+    fun testInvalidBillingInfo() {
+        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
+        val incompleteBillingInfo = getBillingInfo()
+        incompleteBillingInfo.location.countryCode = null
+        testViewModel.paymentCompleted.onNext(incompleteBillingInfo)
+
+        assertEquals(false, testViewModel.builder.hasValidCheckoutParams())
+    }
+
+    @Test
+    fun testValidSavedCard() {
+        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
+        val savedInfo = getBillingInfo()
+        savedInfo.storedCard = getStoredCard()
+        testViewModel.paymentCompleted.onNext(savedInfo)
+
+        assertEquals(true, testViewModel.builder.hasValidCheckoutParams())
+    }
+
+    @Test
+    fun testInvalidSavedCard() {
+        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
+        val savedInfo = getBillingInfo()
+        savedInfo.storedCard = getStoredCard()
+        savedInfo.storedCard.isExpired = true
+        testViewModel.paymentCompleted.onNext(savedInfo)
+
+        assertEquals(false, testViewModel.builder.hasValidCheckoutParams())
+    }
+
+    @Test
+    fun testInvalidTravelerInfo() {
+        val invalidTraveler = getTraveler()
+        invalidTraveler.email = null
+        testViewModel.travelerCompleted.onNext(arrayListOf(invalidTraveler))
+        testViewModel.paymentCompleted.onNext(getBillingInfo())
+
+        assertEquals(false, testViewModel.builder.hasValidCheckoutParams())
+    }
+
+    @Test
+    fun testInvalidMultipleTravelers() {
+        val firstTraveler = getTraveler()
+        val secondTraveler = getTraveler()
+        secondTraveler.gender = Traveler.Gender.GENDER
+        testViewModel.travelerCompleted.onNext(arrayListOf(firstTraveler, secondTraveler))
+        testViewModel.paymentCompleted.onNext(getBillingInfo())
+
+        assertEquals(false, testViewModel.builder.hasValidCheckoutParams())
+    }
+
+    @Test
+    fun testValidMultipleTravelers() {
+        val firstTraveler = getTraveler()
+        val secondTraveler = getSecondaryTraveler()
+        val thirdTraveler = getSecondaryTraveler()
+
+        testViewModel.travelerCompleted.onNext(arrayListOf(firstTraveler, secondTraveler, thirdTraveler))
+        testViewModel.paymentCompleted.onNext(getBillingInfo())
+
+        assertEquals(true, testViewModel.builder.hasValidCheckoutParams())
+    }
+
+    @Test
+    fun testValidCheckoutParams() {
+        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
+        testViewModel.paymentCompleted.onNext(getBillingInfo())
+
+        assertEquals(true, testViewModel.builder.hasValidCheckoutParams())
+    }
+
     fun getBillingInfo(): BillingInfo {
         var info = BillingInfo()
         info.email = "qa-ehcc@mobiata.com"
@@ -109,7 +182,30 @@ class AbstractCheckoutViewModelTest {
         traveler.lastName = "nguyen"
         traveler.gender = Traveler.Gender.MALE
         traveler.phoneNumber = "9163355329"
+        traveler.phoneCountryCode = "1"
+        traveler.birthDate = LocalDate.now().minusYears(18)
+        traveler.email = "test@gmail.com"
+        return traveler
+    }
+
+    private fun  getSecondaryTraveler(): Traveler {
+        val traveler = Traveler()
+        traveler.firstName = "test"
+        traveler.lastName = "traveler"
+        traveler.gender = Traveler.Gender.MALE
         traveler.birthDate = LocalDate.now().minusYears(18)
         return traveler
+    }
+
+
+    fun getStoredCard() : StoredCreditCard {
+        val card = StoredCreditCard()
+        card.id = "12345"
+        card.cardNumber = "4111111111111111"
+        card.type = PaymentType.CARD_VISA
+        card.description = "Visa 4111"
+        card.isExpired = false
+        card.nameOnCard = "test card"
+        return card
     }
 }
