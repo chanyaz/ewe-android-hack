@@ -11,9 +11,9 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.itin.ItinPOSHeader
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeText
@@ -21,6 +21,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.itin.AddGuestItinViewModel
 import com.mobiata.android.util.Ui
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
 class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
@@ -32,7 +33,8 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     val unableToFindItinErrorText: TextView by bindView(R.id.unable_to_find_itin_error_message)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    val itinPOSHeader: ItinPOSHeader by bindView(R.id.itin_pos_header)
+    lateinit var pointOfSaleStateModel: PointOfSaleStateModel
+        @Inject set
 
     private var isResettingFields = false
 
@@ -59,6 +61,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
 
     init {
         View.inflate(context, R.layout.add_guest_itin_widget, this)
+        com.expedia.bookings.utils.Ui.getApplication(context).appComponent().inject(this)
         orientation = VERTICAL
         viewModel = AddGuestItinViewModel(context)
         viewModel.addItinSyncListener()
@@ -98,7 +101,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             (context as Activity).onBackPressed()
         }
 
-        itinPOSHeader.onPrivateDataClearedSubject.subscribe {
+        pointOfSaleStateModel.pointOfSaleChangedSubject.subscribe {
             resetFields()
         }
     }

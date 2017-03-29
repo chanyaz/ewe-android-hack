@@ -403,7 +403,4 @@
     <dimen name="itin_hotel_upgrade_drawable_padding">53dp</dimen>
     <dimen name="itin_hotel_upgrade_paddingLeft">20dp</dimen>
 
-    <!-- Itin pos header dropdown -->
-    <dimen name="itin_pos_header_flag_icon">14dp</dimen>
-
 </resources>

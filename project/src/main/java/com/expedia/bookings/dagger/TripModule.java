@@ -1,9 +1,11 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.TripScope;
+import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.RoomUpgradeOffersService;
+import com.expedia.vm.ItinPOSHeaderViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,6 +16,13 @@ import rx.schedulers.Schedulers;
 
 @Module
 public final class TripModule {
+
+	@Provides
+	@TripScope
+	ItinPOSHeaderViewModel provideItinPOSHeaderViewModel(PointOfSaleStateModel pointOfSaleStateModel) {
+		return new ItinPOSHeaderViewModel(pointOfSaleStateModel);
+	}
+
 	@Provides
 	@TripScope
 	ItinTripServices provideTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {

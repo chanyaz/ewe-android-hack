@@ -4800,8 +4800,6 @@
     <string name="hotel_expanded_room_select_cont_desc">Select room</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">disabled</string>
-    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
-    <string name="accessibility_cont_desc_pos_TEMPLATE">Country {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Price is {activity_price}</string>
