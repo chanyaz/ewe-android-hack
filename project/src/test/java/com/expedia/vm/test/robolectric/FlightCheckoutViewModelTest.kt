@@ -112,7 +112,9 @@ class FlightCheckoutViewModelTest {
         setupSystemUnderTest()
 
         val sliderPurchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
+        val sliderPurchaseContentDescTestSubscriber = TestSubscriber<CharSequence>()
         sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
+        sut.accessiblePurchaseButtonContentDescription.subscribe(sliderPurchaseContentDescTestSubscriber)
 
         sut.createTripResponseObservable.onNext(newTripResponse)
         assertEquals(BigDecimal("42.00"), sut.createTripResponseObservable.value!!.newPrice().amount)
@@ -122,7 +124,7 @@ class FlightCheckoutViewModelTest {
         sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
         
         givenAirlineChargesFees()
-
+        assertEquals("Purchase Button", sliderPurchaseContentDescTestSubscriber.onNextEvents[0].toString())
         sut.createTripResponseObservable.onNext(newTripResponse)
         sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
     }
