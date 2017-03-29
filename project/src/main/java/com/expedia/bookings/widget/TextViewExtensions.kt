@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.widget.TextView
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
@@ -37,6 +38,14 @@ fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, right
         (this.parent as TextInputLayout).error = null
         if (this.text.isBlank()) this.text = ""
     }
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+        this.updatePaddingForOldApi()
+    }
+}
+
+fun TextView.updatePaddingForOldApi() {
+    val bottomPadding = context.resources.getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
+    this.setPadding(this.paddingLeft, this.paddingTop, this.paddingRight, bottomPadding)
 }
 
 

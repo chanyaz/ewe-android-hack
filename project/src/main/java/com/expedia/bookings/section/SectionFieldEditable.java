@@ -67,6 +67,7 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 		}
 		if (field != null && field.getParent() != null && field.getParent() instanceof TextInputLayout) {
 			((TextInputLayout) field.getParent()).setError(null);
+			((TextInputLayout) field.getParent()).setErrorEnabled(false);
 		}
 		if (parent != null) {
 			parent.onChange();
