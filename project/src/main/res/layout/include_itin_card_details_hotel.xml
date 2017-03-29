@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/itin_map_total_size"
             android:background="#aaaaaa"
+            android:contentDescription="@string/location_map_button_label_cont_desc"
             android:focusable="false"
             android:scaleType="centerCrop" />
     </com.expedia.bookings.widget.ParallaxContainer>
