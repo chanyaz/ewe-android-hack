@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.telephony.PhoneNumberUtils
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -12,10 +11,9 @@ import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.TelephoneSpinner
 import com.expedia.bookings.widget.TelephoneSpinnerAdapter
@@ -27,9 +25,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
     val phoneEditBox: EditText by bindView(R.id.edit_phone_number_country_code_button)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     var isFirstSelected = false
 
     val phoneAdapter : TelephoneSpinnerAdapter by lazy {

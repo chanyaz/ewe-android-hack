@@ -39,7 +39,6 @@ class TSAEntryViewTest {
     @Before
     fun setUp() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
-        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false)
 
         Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent()
     }
@@ -48,7 +47,6 @@ class TSAEntryViewTest {
     @Throws(Throwable::class)
     fun testMaterialForm() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
 
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
@@ -65,7 +63,6 @@ class TSAEntryViewTest {
     @Throws(Throwable::class)
     fun testMaterialFormGender() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
 
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
@@ -91,7 +88,6 @@ class TSAEntryViewTest {
     @Throws(Throwable::class)
     fun testMaterialFormInvalidGenderOptions() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
 
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
@@ -125,7 +121,6 @@ class TSAEntryViewTest {
     @Throws(Throwable::class)
     fun testMaterialFormValidGenderOptions() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
 
         uiThreadTestRule.runOnUiThread {
             val tsaEntryView = LayoutInflater.from(activityTestRule.activity)

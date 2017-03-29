@@ -6,18 +6,17 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
 import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEditText
@@ -31,9 +30,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     val assistancePreferenceEditBox: EditText by bindView(R.id.edit_assistance_preference_button)
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
     val seatPreferenceEditBox: EditText by bindView(R.id.edit_seat_preference_button)
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     val travelerInfoDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)

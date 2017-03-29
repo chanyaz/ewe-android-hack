@@ -328,7 +328,7 @@ public class PackageScreen {
 	}
 
 	public static void enterRedressNumber(String redressNumber) {
-		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
+		onView(withId(R.id.redress_number)).perform(scrollTo(), typeText(redressNumber));
 	}
 
 	public static void enterKnownTravelerNumber(String knownTravelerNumber) {

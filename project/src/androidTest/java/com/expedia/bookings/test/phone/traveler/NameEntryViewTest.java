@@ -19,7 +19,6 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
 import com.expedia.vm.traveler.TravelerNameViewModel;
-import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -45,7 +44,6 @@ public class NameEntryViewTest {
 	@Before
 	public void setUp() {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
 
 		nameView = (NameEntryView) activityTestRule.getRoot();
 		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
@@ -54,7 +52,6 @@ public class NameEntryViewTest {
 	@Test
 	public void testMaterialForm() throws Throwable {
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true);
 
 		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
 			.inflate(R.layout.test_name_entry_view, null);
@@ -138,7 +135,6 @@ public class NameEntryViewTest {
 	@Test
 	public void testMiddleNameError() throws Throwable {
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
@@ -159,7 +155,6 @@ public class NameEntryViewTest {
 		});
 
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
 	}
 
 	@Test

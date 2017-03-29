@@ -35,7 +35,6 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -64,8 +63,7 @@ class BillingDetailsPaymentWidgetTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity, R.string.preference_universal_checkout_material_forms, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
     }
@@ -750,7 +748,7 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     private fun givenMaterialPaymentBillingWidget() {
-        SettingUtils.save(activity, R.string.preference_universal_checkout_material_forms, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
