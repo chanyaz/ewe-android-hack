@@ -78,4 +78,37 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
 
         return params
     }
+
+    override fun toValidParamsMap(): Map<String, Any> {
+        val params = HashMap(super.toValidParamsMap())
+
+        //HOTEL
+        params.put("hotel.bedTypeId", !bedType.isNullOrBlank())
+        params.put("hotel.primaryContactFullName", !travelers[0].fullName.isNullOrBlank())
+
+        //TRAVELERS
+        params.put("flight.mainFlightPassenger.email", !travelers[0].email.isNullOrBlank())
+        travelers.forEachIndexed { i, traveler ->
+            val key = if (i == 0) {
+                "flight.mainFlightPassenger."
+            } else {
+                "flight.associatedFlightPassengers[" + (i - 1) + "]."
+            }
+            params.put(key + "firstName", !travelers[i].firstName.isNullOrBlank())
+            params.put(key + "middleName", !travelers[i].middleName.isNullOrBlank())
+            params.put(key + "lastName", !travelers[i].lastName.isNullOrBlank())
+            params.put(key + "phoneCountryCode", !travelers[i].phoneCountryCode.isNullOrBlank())
+            params.put(key + "phone", !travelers[i].phoneNumber.isNullOrBlank())
+            params.put(key + "birthDate", !travelers[i].birthDate?.toString().isNullOrBlank())
+            params.put(key + "gender", travelers[i].gender == Traveler.Gender.FEMALE || travelers[i].gender == Traveler.Gender.MALE)
+            params.put(key + "passengerCategory", !travelers[i].passengerCategory?.toString().isNullOrBlank())
+            params.put(key + "passportCountryCode", travelers[i].primaryPassportCountry.isNullOrBlank())
+            params.put(key + "specialAssistanceOption", travelers[i].assistance?.name.isNullOrBlank())
+            params.put(key + "seatPreference", !travelers[i].seatPreference?.name.isNullOrBlank())
+            params.put(key + "TSARedressNumber", !traveler.redressNumber.isNullOrBlank())
+            params.put(key + "knownTravelerNumber", !traveler.knownTravelerNumber.isNullOrBlank())
+        }
+
+        return params
+    }
 }

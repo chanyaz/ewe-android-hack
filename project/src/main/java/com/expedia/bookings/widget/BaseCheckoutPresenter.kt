@@ -14,6 +14,7 @@ import android.view.ViewTreeObserver
 import android.view.Window
 import android.widget.LinearLayout
 import android.widget.Space
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -52,6 +53,7 @@ import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
+import io.fabric.sdk.android.Fabric
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
@@ -340,8 +342,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
         }
         accessiblePurchaseButton.setOnClickListener {
-            if (ckoViewModel.builder.hasValidParams()) {
-                ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
+            if (ckoViewModel.builder.hasValidCVV()) {
+                val params = ckoViewModel.builder.build()
+                if (!ExpediaBookingApp.isAutomation() && !ckoViewModel.builder.hasValidCheckoutParams()) {
+                    Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${ckoViewModel.builder.hasValidParams()}")))
+                }
+                ckoViewModel.checkoutParams.onNext(params)
             } else {
                 ckoViewModel.slideAllTheWayObservable.onNext(Unit)
             }
@@ -479,8 +485,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     override fun onSlideAllTheWay() {
-        if (ckoViewModel.builder.hasValidParams()) {
-            ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
+        if (ckoViewModel.builder.hasValidCVV()) {
+            val params = ckoViewModel.builder.build()
+            if (!ExpediaBookingApp.isAutomation() && !ckoViewModel.builder.hasValidCheckoutParams()) {
+                Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${ckoViewModel.builder.hasValidParams()}")))
+            }
+            ckoViewModel.checkoutParams.onNext(params)
         } else {
             ckoViewModel.slideAllTheWayObservable.onNext(Unit)
         }

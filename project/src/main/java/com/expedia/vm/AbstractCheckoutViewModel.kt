@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BaseCheckoutParams
@@ -85,7 +86,11 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
         cvvCompleted.subscribe {
             builder.cvv(it)
             if (builder.hasValidParams()) {
-                checkoutParams.onNext(builder.build())
+                val params = builder.build()
+                if (!ExpediaBookingApp.isAutomation() && !builder.hasValidCheckoutParams()) {
+                    Crashlytics.logException(Exception("User entered CVV and booked, see params: ${params.toValidParamsMap()}, hasValidParams: ${builder.hasValidParams()}"))
+                }
+                checkoutParams.onNext(params)
             }
         }
     }
