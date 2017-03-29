@@ -20,13 +20,12 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment
+import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.requestLocationPermission
 import com.mobiata.android.Log
@@ -109,9 +108,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     }
 
     private fun signalAirAttachState() {
-        if (!FeatureToggleUtil
-                .isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen,
-                        R.string.preference_show_air_attach_message_on_launch_screen)) {
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)) {
             newPhoneLaunchWidget.showAirAttachBanner.onNext(Db.getTripBucket().isUserAirAttachQualified)
         }
 
