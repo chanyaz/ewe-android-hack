@@ -107,6 +107,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -4031,7 +4032,7 @@ public class OmnitureTracking {
 		}
 
 		if (!TextUtils.isEmpty(email)) {
-			s.setProp(11, md5(email));
+			s.setProp(11, hashEmail(email));
 		}
 
 		if (!TextUtils.isEmpty(expediaId)) {
@@ -4082,6 +4083,11 @@ public class OmnitureTracking {
 				s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
 					+ bestLastLocation.getAccuracy());
 			}
+		}
+
+		String mc1Guid = DebugInfoUtils.getMC1CookieStr(sContext);
+		if (mc1Guid != null) {
+			s.setProp(23, mc1Guid.replace("GUID=", ""));
 		}
 	}
 
@@ -4264,17 +4270,21 @@ public class OmnitureTracking {
 		}
 	}
 
-	private static String md5(String s) {
+	private static String hashEmail(String s) {
 		try {
-			// Create MD5 Hash
-			MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+			// Create SHA256 Hash
+			MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
 			digest.update(s.getBytes());
 			byte[] messageDigest = digest.digest();
 
 			// Create Hex String
-			StringBuffer hexString = new StringBuffer();
-			for (int i = 0; i < messageDigest.length; i++) {
-				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			StringBuilder hexString = new StringBuilder();
+			for (byte rawByte : messageDigest) {
+				String hexByte = Integer.toHexString(0xFF & rawByte);
+				if (hexByte.length() == 1) {
+					hexByte = "0" + hexByte;
+				}
+				hexString.append(hexByte);
 			}
 			return hexString.toString();
 		}
