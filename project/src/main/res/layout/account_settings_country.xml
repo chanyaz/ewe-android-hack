@@ -37,5 +37,11 @@
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             tools:text="USA" />
+
+        <ImageView
+            android:id="@+id/posa_chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_arrow_down_white_24dp"/>
     </LinearLayout>
 </LinearLayout>
