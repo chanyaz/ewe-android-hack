@@ -1,6 +1,13 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.TimeoutException;
+
+import javax.inject.Inject;
+
 import android.content.Context;
+
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -15,10 +22,7 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import javax.inject.Inject;
+
 import okhttp3.HttpUrl;
 import rx.Observer;
 
@@ -93,7 +97,8 @@ public class AbacusHelperUtils {
 		AbacusServices abacus = Ui.getApplication(context).appComponent().abacus();
 		AbacusEvaluateQuery query = getQuery(context);
 		if (ExpediaBookingApp.isAutomation()) {
-			abacus.downloadBucket(query, observer, 0, TimeUnit.SECONDS);
+			// under automation, just emulate an immediate timeout event
+			observer.onError(new TimeoutException());
 		}
 		else {
 			abacus.downloadBucket(query, observer);
