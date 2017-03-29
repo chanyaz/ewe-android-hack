@@ -31,6 +31,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
     companion object {
         fun createFragment(searchViewModel: BaseSearchViewModel): CalendarDialogFragment {
             val fragment = CalendarDialogFragment(searchViewModel)
+            fragment.retainInstance = true
             return fragment
         }
     }
@@ -143,6 +144,9 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
 
         calendar.setSelectedDates(baseSearchViewModel.startDate(), baseSearchViewModel.endDate())
 
+        if (savedInstanceState != null) {
+            dismiss()
+        }
         return dialog
     }
 
