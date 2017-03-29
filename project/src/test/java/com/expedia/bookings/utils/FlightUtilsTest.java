@@ -26,6 +26,7 @@ import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.widget.FrameLayout;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 
@@ -125,13 +126,34 @@ public class FlightUtilsTest {
 
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json");
 		// phone
+		SettingUtils.save(context, R.string.preference_payment_legal_message, true);
 		FlightUtils.configureBaggageFeeViews(context, trip, leg, feesTextView, feesViewGroup, secondaryFeesTextView,
 			true, null, mockBaggageFeeClickedListener);
-		verifyConfigureBaggageFeeViewsWithPaymentFees(R.string.airline_fee_notice_payment, R.drawable.ic_payment_fee);
+		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+			verifyConfigureBaggageFeeViewsWithPaymentFees(R.string.airline_fee_apply, R.drawable.ic_payment_fee);
+		}
+
+		SettingUtils.save(context, R.string.preference_payment_legal_message, false);
+		FlightUtils.configureBaggageFeeViews(context, trip, leg, feesTextView, feesViewGroup, secondaryFeesTextView,
+			true, null, mockBaggageFeeClickedListener);
+		if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+			verifyConfigureBaggageFeeViewsWithPaymentFees(R.string.airline_fee_notice_payment, R.drawable.ic_payment_fee);
+		}
+
 		// tablet
+		SettingUtils.save(context, R.string.preference_payment_legal_message, true);
 		FlightUtils.configureBaggageFeeViews(context, trip, leg, feesTextView, feesViewGroup, secondaryFeesTextView,
 			false, null, mockBaggageFeeClickedListener);
-		verifyConfigureBaggageFeeViewsWithPaymentFees(R.string.airline_fee_notice_payment, R.drawable.ic_tablet_payment_fees);
+		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+			verifyConfigureBaggageFeeViewsWithPaymentFees(R.string.airline_fee_apply, R.drawable.ic_tablet_payment_fees);
+		}
+
+		SettingUtils.save(context, R.string.preference_payment_legal_message, false);
+		FlightUtils.configureBaggageFeeViews(context, trip, leg, feesTextView, feesViewGroup, secondaryFeesTextView,
+			false, null, mockBaggageFeeClickedListener);
+		if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+			verifyConfigureBaggageFeeViewsWithPaymentFees(R.string.airline_fee_notice_payment, R.drawable.ic_tablet_payment_fees);
+		}
 	}
 
 	private void verifyConfigureBaggageFeeViewsNoPaymentFees(@StringRes int expectedFeeStringId,

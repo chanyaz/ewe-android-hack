@@ -4080,6 +4080,11 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">There was a problem with your coupon. Please try entering it again.</string>
 
+    <!-- Airline Payment Method Fee Legal Message -->
+    <string name="airline_additional_fee_notice">There may be an additional fee based on your payment method.</string>
+    <!-- Airline Payment Fee Apply Message -->
+    <string name="airline_fee_apply">Payment Fees May Apply</string>
+
     <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">An airline fee, based on card type, is added upon payment.</string>
     <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>

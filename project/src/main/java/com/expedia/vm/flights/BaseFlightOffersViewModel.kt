@@ -12,6 +12,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.Subscription
@@ -77,14 +78,23 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
 
         showChargesObFeesSubject.subscribe { hasObFee ->
             if (hasObFee || doAirlinesChargeAdditionalFees()) {
-                val stringID = if (doAirlinesChargeAdditionalFees()) {
-                    if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                        R.string.airline_may_fee_notice_payment
+                val stringID: Int
+                if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+                    stringID = if (doAirlinesChargeAdditionalFees()) {
+                        R.string.airline_fee_apply
                     } else {
-                        R.string.airline_fee_notice_payment
+                        R.string.payment_and_baggage_fees_may_apply
                     }
                 } else {
-                    R.string.payment_and_baggage_fees_may_apply
+                    stringID = if (doAirlinesChargeAdditionalFees()) {
+                        if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                            R.string.airline_may_fee_notice_payment
+                        } else {
+                            R.string.airline_fee_notice_payment
+                        }
+                    } else {
+                        R.string.payment_and_baggage_fees_may_apply
+                    }
                 }
                 val paymentFeeText = context.getString(stringID)
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
@@ -131,7 +141,11 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     }
 
     protected fun doAirlinesChargeAdditionalFees(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+            return PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()
+        } else {
+            return PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
+        }
     }
 
     protected fun getFlightOffer(outboundLegId: String, inboundLegId: String): FlightTripDetails.FlightOffer? {

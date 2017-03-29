@@ -20,6 +20,7 @@ import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.TabletFlightAdapter;
 import com.expedia.bookings.widget.TextView;
@@ -230,13 +231,21 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	}
 
 	private void setCardFeeWarningTextAndVisibility() {
-		boolean isVisible = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage();
-		if (isVisible) {
-			if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-				mCardFeeWarningTv.setText(getString(R.string.airline_may_charge_notice));
+		boolean isVisible;
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_payment_legal_message)) {
+			if (isVisible = PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+				mCardFeeWarningTv.setText(R.string.airline_additional_fee_notice);
 			}
-			else {
-				mCardFeeWarningTv.setText(getString(R.string.airline_charge_notice));
+		}
+		else {
+			isVisible = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage();
+			if (isVisible) {
+				if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+					mCardFeeWarningTv.setText(getString(R.string.airline_may_charge_notice));
+				}
+				else {
+					mCardFeeWarningTv.setText(getString(R.string.airline_charge_notice));
+				}
 			}
 		}
 		mCardFeeWarningTv.setVisibility(isVisible ? View.VISIBLE : View.GONE);
