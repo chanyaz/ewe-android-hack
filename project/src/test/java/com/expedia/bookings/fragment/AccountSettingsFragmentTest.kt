@@ -221,7 +221,7 @@ class AccountSettingsFragmentTest {
         loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.MIDDLE
         loyaltyInfo.loyaltyPointsAvailable = 22996.0
         loyaltyInfo.isAllowedToShopWithPoints = true
-        loyaltyInfo.loyaltyMonetaryValue = UserLoyaltyMembershipInformation.LoyaltyMonetaryValue(Money("3285.14", "USD"))
+        loyaltyInfo.loyaltyMonetaryValue = UserLoyaltyMembershipInformation.MonetaryValue(Money("3285.14", "USD"))
         loyaltyInfo.loyaltyMonetaryValue.setApiFormattedPrice("$3,285.14")
         user.loyaltyMembershipInformation = loyaltyInfo
 
@@ -245,7 +245,7 @@ class AccountSettingsFragmentTest {
         loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         loyaltyInfo.loyaltyPointsAvailable = 54206.0
         loyaltyInfo.isAllowedToShopWithPoints = true
-        loyaltyInfo.loyaltyMonetaryValue = UserLoyaltyMembershipInformation.LoyaltyMonetaryValue(Money("7743.41", "USD"))
+        loyaltyInfo.loyaltyMonetaryValue = UserLoyaltyMembershipInformation.MonetaryValue(Money("7743.41", "USD"))
         loyaltyInfo.loyaltyMonetaryValue.setApiFormattedPrice("$7,743.41")
         user.loyaltyMembershipInformation = loyaltyInfo
 

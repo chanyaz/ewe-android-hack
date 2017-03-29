@@ -45,6 +45,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -68,6 +69,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val TAG_COPYRIGHT = "TAG_COPYRIGHT"
     private val TAG_COMMUNICATE = "TAG_COMMUNICATE"
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
+    private val TAG_REWARD_PROGRESS = "TAG_REWARD_PROGRESS"
     private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
     private val ROW_BOOKING_SUPPORT = 1
@@ -99,6 +101,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     private var secretCount = 0
 
+    private var rewardProgressFragment: RewardSectionFragment? = null
     private var appSettingsFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
     private var copyrightFragment: CopyrightFragment? = null
@@ -144,6 +147,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
     }
 
+    lateinit var listener: AccountFragmentListener
+
     val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(activity, ExpediaBookingPreferenceActivity::class.java)
     }
@@ -170,7 +175,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         super.onAttach(context)
         userAccountRefresher.setUserAccountRefreshListener(this)
         if (context is AccountFragmentListener) {
-            val listener: AccountFragmentListener = context
+            listener = context
             listener.onAccountFragmentAttached(this)
         }
     }
@@ -193,6 +198,13 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         setGoogleAccountChangeVisibility(googleAccountChange)
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
         setCountryChangeListeners()
+
+        // Reward Progress
+        rewardProgressFragment = Ui.findSupportFragment<RewardSectionFragment>(this, TAG_REWARD_PROGRESS)
+        if (rewardProgressFragment == null) {
+            rewardProgressFragment = RewardSectionFragment()
+            ft.add(R.id.section_reward_progress, rewardProgressFragment, TAG_REWARD_PROGRESS)
+        }
 
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)
@@ -255,7 +267,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
         // T&C, privacy, etc
         legalFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_LEGAL)
-        if (legalFragment == null) {
+        if (legalFragment == null && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_reward_progress)) {
             builder = AboutSectionFragment.Builder(context)
             builder.setTitle(R.string.legal_information)
             builder.addRow(R.string.clear_private_data, ROW_CLEAR_PRIVATE_DATA)
@@ -341,11 +353,21 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && isResumed) {
+            rewardProgressFragment?.rewardSectionAnimationSubject?.onNext(Unit)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         Events.register(this)
         adjustLoggedInViews()
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        if (listener.isAccountPageSelected()) {
+            rewardProgressFragment?.rewardSectionAnimationSubject?.onNext(Unit)
+        }
     }
 
     override fun onUserAccountRefreshed() {
@@ -438,6 +460,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         scrollContainer.smoothScrollTo(0, 0)
         adjustLoggedInViews()
         toolbarShadow.alpha = 1.0f
+
     }
 
     fun onPrivateDataCleared() {
@@ -474,6 +497,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             signInSection.visibility = View.GONE
             signOutButton.visibility = View.VISIBLE
             childFragmentManager.beginTransaction().hide(appSettingsFragment).commit()
+            rewardProgressFragment?.setVisibility(View.VISIBLE)
 
             val user = Db.getUser()
             val member = user.primaryTraveler
@@ -561,7 +585,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             signInSection.visibility = View.VISIBLE
             signOutButton.visibility = View.GONE
             childFragmentManager.beginTransaction().show(appSettingsFragment).commit()
-
+            rewardProgressFragment?.setVisibility(View.GONE)
+            rewardProgressFragment?.resetProgressBar()
             if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled) {
                 facebookSignInButton.visibility = View.VISIBLE
             } else {
@@ -579,6 +604,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     interface AccountFragmentListener {
+        fun isAccountPageSelected(): Boolean
         fun onAccountFragmentAttached(frag: AccountSettingsFragment)
     }
 

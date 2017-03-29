@@ -12,9 +12,11 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 	private double loyaltyPointsPending; // and here
 	private String bookingCurrency;
 	private boolean isAllowedToShopWithPoints = false;
-	private LoyaltyMonetaryValue loyaltyMonetaryValue;
+	private MonetaryValue loyaltyMonetaryValue;
 	private boolean isLoyaltyMembershipActive;
 	private LoyaltyMembershipTier loyaltyMembershipTier = LoyaltyMembershipTier.NONE;
+	private TierCredits currentTierCredits;
+	private TierCredits reqUpgradeCredits;
 
 	public double getLoyaltyPointsAvailable() {
 		return loyaltyPointsAvailable;
@@ -44,11 +46,11 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		isAllowedToShopWithPoints = allowedToShopWithPoints;
 	}
 
-	public LoyaltyMonetaryValue getLoyaltyMonetaryValue() {
+	public MonetaryValue getLoyaltyMonetaryValue() {
 		return loyaltyMonetaryValue;
 	}
 
-	public void setLoyaltyMonetaryValue(LoyaltyMonetaryValue monetaryValue) {
+	public void setLoyaltyMonetaryValue(MonetaryValue monetaryValue) {
 		loyaltyMonetaryValue = monetaryValue;
 	}
 
@@ -58,6 +60,14 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 
 	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
 		return loyaltyMembershipTier;
+	}
+
+	public TierCredits getCurrentTierCredits() {
+		return currentTierCredits;
+	}
+
+	public TierCredits getReqUpgradeCredits() {
+		return reqUpgradeCredits;
 	}
 
 	public void setLoyaltyPointsPending(double loyaltyPointsPending) {
@@ -87,6 +97,8 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 			}
 			obj.putOpt("loyaltyMemebershipActive", isLoyaltyMembershipActive);
 			obj.putOpt("membershipTierName", loyaltyMembershipTier.toApiValue());
+			obj.putOpt("currentTierCredits", currentTierCredits.toJson());
+			obj.putOpt("reqUpgradeCredits", reqUpgradeCredits.toJson());
 			return obj;
 		}
 		catch (JSONException e) {
@@ -106,23 +118,78 @@ public class UserLoyaltyMembershipInformation implements JSONable {
 		loyaltyMembershipTier = LoyaltyMembershipTier.fromApiValue(membershipTierName);
 		if (obj.has("loyaltyMonetaryValue")) { // the old api response doesn't return loyaltyMonetaryValue
 			// TODO - we can remove this check after 1st May 2016 (API will have been released to production)
-			loyaltyMonetaryValue = new LoyaltyMonetaryValue(obj.optJSONObject("loyaltyMonetaryValue"));
+			loyaltyMonetaryValue = new MonetaryValue(obj.optJSONObject("loyaltyMonetaryValue"));
 		}
 		else {
-			loyaltyMonetaryValue = new LoyaltyMonetaryValue(new Money("0.0", bookingCurrency));
+			loyaltyMonetaryValue = new MonetaryValue(new Money("0.0", bookingCurrency));
 		}
+		if (obj.has("currentTierCredits")) {
+			currentTierCredits = new TierCredits(obj.optJSONObject("currentTierCredits"));
+		}
+		if (obj.has("reqUpgradeCredits")) {
+			reqUpgradeCredits = new TierCredits(obj.optJSONObject("reqUpgradeCredits"));
+		}
+
 		return true;
 	}
 
-	public static class LoyaltyMonetaryValue extends Money implements JSONable {
+	public static class TierCredits implements JSONable {
 
-		private String apiFormattedPrice;
+		private MonetaryValue amount;
+		private int hotelNights;
+		private String tierName;
 
-		public LoyaltyMonetaryValue(JSONObject obj) {
+		public TierCredits(JSONObject obj) {
 			fromJson(obj);
 		}
 
-		public LoyaltyMonetaryValue(Money money) {
+		public Money getAmount() {
+			return this.amount;
+		}
+
+		public int getHotelNights() {
+			return this.hotelNights;
+		}
+
+		public String getTierName() {
+			return this.tierName;
+		}
+
+		@Override
+		public JSONObject toJson() {
+			JSONObject obj = new JSONObject();
+			try {
+				obj.putOpt("amount", this.amount.toJson());
+				obj.put("hotelNights", this.hotelNights);
+				obj.put("tierName", this.tierName);
+				return obj;
+			}
+			catch (JSONException e) {
+				throw new RuntimeException(e); // cannot recover from this
+			}
+		}
+
+		@Override
+		public boolean fromJson(JSONObject obj) {
+			if (obj == null) {
+				return false;
+			}
+			this.amount = new MonetaryValue(obj.optJSONObject("amount"));
+			this.hotelNights = Integer.parseInt(obj.optString("hotelNights", ""));
+			this.tierName = obj.optString("tierName", "");
+			return true;
+		}
+	}
+
+	public static class MonetaryValue extends Money implements JSONable {
+
+		private String apiFormattedPrice;
+
+		public MonetaryValue(JSONObject obj) {
+			fromJson(obj);
+		}
+
+		public MonetaryValue(Money money) {
 			super(money.amount, money.currencyCode);
 		}
 

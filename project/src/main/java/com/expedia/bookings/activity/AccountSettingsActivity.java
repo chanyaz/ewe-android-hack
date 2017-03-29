@@ -431,6 +431,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		View toolbarSignedIn = Ui.findView(this, R.id.toolbar_signed_in);
 		ViewGroup loyaltySection = Ui.findView(this, R.id.section_loyalty_info);
 		View sectionSignIn = Ui.findView(this, R.id.section_sign_in);
+		View rewardSection = Ui.findView(this, R.id.reward_section);
 
 		if (User.isLoggedIn(this)) {
 			sectionSignIn.setVisibility(View.GONE);
@@ -558,6 +559,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			toolbarNotSignedIn.setVisibility(View.VISIBLE);
 			loyaltySection.setVisibility(View.GONE);
 			signOutButton.setVisibility(View.GONE);
+			rewardSection.setVisibility(View.GONE);
 		}
 	}
 

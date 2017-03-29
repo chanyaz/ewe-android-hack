@@ -502,6 +502,10 @@
     <!-- Account Screen -->
     <color name="about_row_primary_text_color">@color/gray7</color>
     <color name="about_row_secondary_text_color">@color/gray6</color>
+    <color name="account_reward_section_title_color">@color/gray8</color>
+    <color name="account_reward_row_title_color">@color/gray10</color>
+    <color name="account_reward_row_subtitle_color">@color/gray8</color>
+    <color name="account_reward_row_footnote_color">@color/gray6</color>
     <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">@color/gray1</color>
     <color name="account_toolbar_text_color">@color/white</color>

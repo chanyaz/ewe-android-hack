@@ -106,6 +106,13 @@
             android:layout="@layout/preference"
             android:summary="Member Deal On Launch Screen"
             android:title="New item on launch + new screen (WIP)"/>
+
+        <CheckBoxPreference
+            android:key="@string/preference_reward_progress"
+            android:layout="@layout/preference"
+            android:summary="Show Expedia+ reward progress bar"
+            android:title="Enable Expedia+ Account Reward Progress" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -118,5 +125,6 @@
             android:summary="Payment Legal Message"
             android:title="Payment Legal Message"/>
     </PreferenceCategory>
+
 
 </PreferenceScreen>

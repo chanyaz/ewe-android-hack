@@ -305,6 +305,13 @@
                 android:layout_height="14dp" />
 
             <FrameLayout
+                android:id="@+id/section_reward_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin">
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/debug_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

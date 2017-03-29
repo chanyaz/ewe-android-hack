@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/reward_section"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tool:background="@color/white"
+    android:visibility="gone"
+    tool:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="2dp"
+        android:paddingLeft="12dp"
+        android:paddingBottom="2dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/reward_section_title"
+            style="@style/AccountSectionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:text="Your 2017 Expedia"
+            tool:background="@color/white"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/reward_section_subtitle"
+            style="@style/AccountRewardSectionSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:text="Complete one of the ..."/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        style="@style/MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.account.HotelRewardSectionRowView
+                android:id="@+id/hotel_night_row"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+
+            <include
+                layout="@layout/snippet_about_divider"/>
+
+            <com.expedia.bookings.account.MoneyRewardSectionRowView
+                android:id="@+id/amount_spent_row"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

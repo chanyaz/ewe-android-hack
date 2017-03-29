@@ -1202,6 +1202,12 @@
         <item name="textStyle">medium</item>
     </style>
 
+    <style name="AccountSectionSubtitle">
+        <item name="android:textColor">@color/about_row_primary_text_color</item>
+        <item name="android:textSize">@dimen/account_toolbar_subtitle_text_size</item>
+        <item name="textStyle">medium</item>
+    </style>
+
     <style name="AccountPrimaryText">
         <item name="android:textColor">@color/about_row_primary_text_color</item>
         <item name="android:textSize">@dimen/about_row_title_text_size</item>
@@ -1216,6 +1222,42 @@
         <item name="android:textColor">@color/about_row_secondary_text_color</item>
         <item name="android:textSize">@dimen/about_row_description_text_size</item>
         <item name="textStyle">normal</item>
+    </style>
+
+    <!--Account Reward Section-->
+    <style name="AccountRewardSectionTitle">
+        <item name="android:textColor">@color/account_reward_section_title_color</item>
+        <item name="android:textSize">@dimen/account_reward_section_title</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="AccountRewardSectionSubtitle">
+        <item name="android:textColor">@color/account_reward_section_title_color</item>
+        <item name="android:textSize">@dimen/account_reward_section_subtitle</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="AccountRewardRowTitle">
+        <item name="android:textColor">@color/account_reward_row_title_color</item>
+        <item name="android:textSize">@dimen/account_reward_row_title</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="AccountRewardRowSubtitle">
+        <item name="android:textColor">@color/account_reward_row_subtitle_color</item>
+        <item name="android:textSize">@dimen/account_reward_row_subtitle</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="AccountRewardRowFootnote">
+        <item name="android:textColor">@color/account_reward_row_footnote_color</item>
+        <item name="android:textSize">@dimen/account_reward_row_footnote</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="AccountRewardRowProgressbar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minHeight">10dp</item>
+        <item name="android:maxHeight">20dp</item>
     </style>
 
     <!--Material Footer Button Text-->

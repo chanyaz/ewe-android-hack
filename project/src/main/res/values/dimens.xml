@@ -410,4 +410,11 @@
     <!-- Itin pos header dropdown -->
     <dimen name="itin_pos_header_flag_icon">14dp</dimen>
 
+    <!--Account Reward Section-->
+    <dimen name="account_reward_section_title">15sp</dimen>
+    <dimen name="account_reward_section_subtitle">11sp</dimen>
+    <dimen name="account_reward_row_title">15sp</dimen>
+    <dimen name="account_reward_row_subtitle">12sp</dimen>
+    <dimen name="account_reward_row_footnote">11sp</dimen>
+    <dimen name="account_reward_row_progressbar_radius">7dp</dimen>
 </resources>

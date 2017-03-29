@@ -3291,6 +3291,24 @@
     <string name="rewards_visa_card_TEMPLATE">Apply for the {brand_reward_name} Visa® Card</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
+    <!-- Section Label for reward progress -->
+    <string name="about_section_reward_progress_title">Your {year} {brand_reward_name} activity</string>
+    <!-- Section Sub-label for reward progress -->
+    <string name="about_section_reward_progress_subtitle_complete">Complete one of the following to unlock {tier} status</string>
+    <string name="about_section_reward_progress_subtitle_earned">Status earned! Enjoy {tier} status through {date}</string>
+    <string name="about_section_reward_progress_subtitle_requalify">Requalify for next year! {year} progress status</string>
+
+    <!-- Text in Reward Progress Section -->
+    <string name="reward_hotel_night_title">Hotel nights</string>
+    <string name="reward_progress_current_night">{number} nights stayed</string>
+    <string name="reward_progress_total_night">of {number} nights</string>
+    <string name="reward_progress_left_night">{number} nights left</string>
+
+    <string name="reward_amount_spent_title">Amount spent</string>
+    <string name="reward_progress_current_amount">{amount}</string>
+    <string name="reward_progress_total_amount">of {amount}</string>
+    <string name="reward_progress_left_amount">{amount} left</string>
+
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">App Settings</string>
     <!-- Section label for user support functionality -->

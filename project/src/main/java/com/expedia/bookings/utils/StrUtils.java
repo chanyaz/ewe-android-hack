@@ -556,6 +556,21 @@ public class StrUtils {
 		return legalTextSpan;
 	}
 
+	public static SpannableStringBuilder makeSubstringBold(String text, String textToBold) {
+		SpannableStringBuilder builder = new SpannableStringBuilder(text);
+
+		if (textToBold.trim().length() > 0) {
+			int startingIndex = text.indexOf(textToBold);
+			int endingIndex = startingIndex + textToBold.length();
+
+			if (startingIndex >= 0 && endingIndex >= startingIndex) {
+				builder.setSpan(new StyleSpan(Typeface.BOLD), startingIndex, endingIndex, 0);
+			}
+		}
+
+		return builder;
+	}
+
 	public static SpannableStringBuilder generateAccountCreationLegalLink(Context context) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 

@@ -32,6 +32,7 @@ import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.RewardSectionFragment
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.notification.Notification
@@ -475,6 +476,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             toolBar.visibility = View.VISIBLE
             anim.start()
         }
+    }
+
+    override fun isAccountPageSelected(): Boolean {
+        return pagerPosition.equals(PAGER_POS_ACCOUNT)
     }
 
     override fun onItinItemListFragmentAttached(frag: ItinItemListFragment?) {
