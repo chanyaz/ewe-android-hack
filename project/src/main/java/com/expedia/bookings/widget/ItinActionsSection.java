@@ -66,7 +66,7 @@ public class ItinActionsSection extends android.widget.LinearLayout implements O
 	private void setSummaryButton(final TextView textView, final SummaryButton summaryButton) {
 		textView.setCompoundDrawablesWithIntrinsicBounds(summaryButton.getIconResId(), 0, 0, 0);
 		textView.setText(summaryButton.getText());
-		AccessibilityUtil.appendRoleContDesc(textView, summaryButton.getText(), R.string.accessibility_cont_desc_role_button);
+		AccessibilityUtil.appendRoleContDesc(textView, summaryButton.getContentDescription(), R.string.accessibility_cont_desc_role_button);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
