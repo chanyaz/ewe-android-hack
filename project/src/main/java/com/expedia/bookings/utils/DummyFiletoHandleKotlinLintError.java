@@ -935,6 +935,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_cell_urgency_message,
 		R.layout.hotel_cell_vip_message,
 		R.string.reset_filter,
-		R.string.error_no_filter_result_message
+		R.string.error_no_filter_result_message,
+		R.string.member_deal_landing_page_header
 	};
 }
