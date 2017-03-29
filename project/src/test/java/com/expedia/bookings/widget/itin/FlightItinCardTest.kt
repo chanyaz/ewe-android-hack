@@ -68,7 +68,7 @@ class FlightItinCardTest {
         SettingUtils.save(activity, R.string.preference_itin_flight_duration, true)
         createSystemUnderTest()
         sut.expand(false)
-        assertEquals("Total Duration: 3 hr 32 min", getFlightDurationTextView().text.toString())
+        assertEquals("Total Duration: 3h 32m", getFlightDurationTextView().text.toString())
     }
 
     @Test
