@@ -23,10 +23,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -36,6 +36,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
+import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
@@ -76,6 +77,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     lateinit var clientLogServices: ClientLogServices
         @Inject set
 
+    lateinit var pointOfSaleStateModel: PointOfSaleStateModel
+        @Inject set
+
     var jumpToItinId: String? = null
     private var pagerPosition = PAGER_POS_LAUNCH
 
@@ -107,7 +111,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             setTheme(R.style.NewLaunchTheme_Light)
         }
         Ui.getApplication(this).appComponent().inject(this)
-
         Ui.getApplication(this).defaultLaunchComponents()
         setContentView(R.layout.activity_phone_new_launch)
         viewPager.offscreenPageLimit = 2
@@ -539,6 +542,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onNewCountrySelected(pointOfSaleId: Int) {
         accountFragment?.onNewCountrySelected(pointOfSaleId)
+        pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
+
         itinListFragment?.doLogout()
     }
 

@@ -117,8 +117,8 @@ fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
     }
 }
 
-fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
-    this.subscribe { textview?.text = it }
+fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?): Subscription {
+    return this.subscribe { textview?.text = it }
 }
 
 fun Observable<String>.subscribeContentDescription(view: View?) {
