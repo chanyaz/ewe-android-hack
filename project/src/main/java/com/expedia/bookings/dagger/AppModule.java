@@ -17,6 +17,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.model.PointOfSaleStateModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
 import com.expedia.bookings.services.AbacusServices;
@@ -93,6 +94,12 @@ public class AppModule {
 	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
 	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
 	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V5;
+
+	@Provides
+	@Singleton
+	PointOfSaleStateModel providePointOfSaleStateModel() {
+		return new PointOfSaleStateModel();
+	}
 
 	@Provides
 	@Singleton

@@ -257,6 +257,7 @@ public class AboutUtils {
 				public void onClick(DialogInterface dialog, final int newIndex) {
 					if (newIndex != startingIndex) {
 						ClearDataDialog clearDataDialog = new ClearDataDialog();
+
 						Bundle args = new Bundle();
 						args.putInt("selectedCountryPosId", entryValues[newIndex]);
 						clearDataDialog.setArguments(args);
