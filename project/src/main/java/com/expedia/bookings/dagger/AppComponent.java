@@ -7,6 +7,8 @@ import android.content.Context;
 
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
+import com.expedia.bookings.model.PointOfSaleStateModel;
+import com.expedia.bookings.presenter.trips.AddGuestItinWidget;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
@@ -31,7 +33,9 @@ public interface AppComponent {
 	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
 	void inject(LaunchListWidget launchListWidget);
 	void inject(EBPreferencesFragment ebPreferencesFragment);
+	void inject(AddGuestItinWidget addGuestItinWidget);
 
+	PointOfSaleStateModel pointOfSaleStateModel();
 	Context appContext();
 	EndpointProvider endpointProvider();
 	OkHttpClient okHttpClient();

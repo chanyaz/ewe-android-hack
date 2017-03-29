@@ -1,10 +1,13 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.expedia.bookings.R;
@@ -12,11 +15,13 @@ import com.expedia.bookings.R;
 public class DomainAdapter extends BaseAdapter {
 	private CharSequence[] mNames;
 	private CharSequence[] mDomains;
+	private TypedArray flagsArray;
 	private LayoutInflater mInflater;
 	private int mSelected = 0;
 
 	public DomainAdapter(Context context) {
 		mInflater = LayoutInflater.from(context);
+		flagsArray = context.getResources().obtainTypedArray(R.array.flags);
 	}
 
 	public void setDomains(CharSequence[] names, CharSequence[] values) {
@@ -30,6 +35,7 @@ public class DomainAdapter extends BaseAdapter {
 
 	private class DomainViewHolder {
 		// View stuff
+		ImageView mImageView;
 		android.widget.TextView mNameTextView;
 		android.widget.TextView mDomainTextView;
 		RadioButton mRadioButton;
@@ -38,6 +44,7 @@ public class DomainAdapter extends BaseAdapter {
 	public class DomainTuple {
 		public CharSequence mName;
 		public CharSequence mDomain;
+		public Drawable mDrawable;
 	}
 
 	// Adapter implementation
@@ -58,6 +65,7 @@ public class DomainAdapter extends BaseAdapter {
 			DomainTuple t = new DomainTuple();
 			t.mName = mNames[position];
 			t.mDomain = mDomains[position];
+			t.mDrawable = flagsArray.getDrawable(position);
 			return t;
 		}
 		else {
@@ -74,6 +82,7 @@ public class DomainAdapter extends BaseAdapter {
 			holder.mNameTextView = (android.widget.TextView) convertView.findViewById(R.id.country_name_text_view);
 			holder.mDomainTextView = (android.widget.TextView) convertView.findViewById(R.id.domain_name_text_view);
 			holder.mRadioButton = (RadioButton) convertView.findViewById(R.id.domain_radio_button);
+			holder.mImageView = (ImageView) convertView.findViewById(R.id.imageView);
 			convertView.setTag(holder);
 		}
 		else {
@@ -91,7 +100,7 @@ public class DomainAdapter extends BaseAdapter {
 
 		holder.mNameTextView.setText(d.mName);
 		holder.mDomainTextView.setText(d.mDomain);
-
+		holder.mImageView.setImageDrawable(d.mDrawable);
 		return convertView;
 	}
 }
