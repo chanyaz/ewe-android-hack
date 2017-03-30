@@ -13,6 +13,6 @@ class BasicEconomyInfoWebView(context: Context, attrs: AttributeSet) : BaseWebVi
     }
 
     fun loadData(data: String) {
-        webView.loadData(data, "text/html", "UTF-8")
+        webView.loadData(data.replace("</style>", "body{line-height: 1.5em;color:#767676} ul{padding-left:1.7em;padding-top:0.5em}</style>"), "text/html", "UTF-8")
     }
 }
