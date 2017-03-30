@@ -3,7 +3,6 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
@@ -16,6 +15,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightLegSubject = BehaviorSubject.create<FlightLeg>()
     val bundlePriceSubject = BehaviorSubject.create<String>()
     val urgencyMessagingSubject = BehaviorSubject.create<String>()
+    val showBasicEconomyMessaging = PublishSubject.create<Boolean>()
     val totalDurationSubject = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescSubject = BehaviorSubject.create<String>()
     val baggageFeeURLSubject = BehaviorSubject.create<String>()
@@ -32,6 +32,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
 
     abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
     abstract fun showFlightDistance(selectedFlight: FlightLeg): Boolean
+    abstract fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean
 
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->
@@ -47,6 +48,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
                     .format().toString()
             bundlePriceSubject.onNext(perPersonPrice)
             baggageFeeURLSubject.onNext(selectedFlight.baggageFeesUrl)
+            showBasicEconomyMessaging.onNext(shouldShowBasicEconomyMessage(selectedFlight))
         }
     }
 

@@ -147,7 +147,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
     private fun assertCardFeeWarningShown() {
         FlightsOverviewScreen.assertCardFeeWarningShown()
         FlightsOverviewScreen.cardFeeWarningTextView().perform(scrollTo(), click())
-        val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_bundle_overview))))
+        val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.payment_fee_info_webview), isDescendantOfA(withId(R.id.widget_bundle_overview))))
         paymentFeeWebViewBundleOverview.check(ViewAssertions.matches(isDisplayed()))
 
         Espresso.pressBack()

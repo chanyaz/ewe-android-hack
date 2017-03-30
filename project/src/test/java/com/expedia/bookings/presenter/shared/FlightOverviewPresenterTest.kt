@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.shared
 
 import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -8,6 +9,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.flights.FlightOverviewViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,6 +54,26 @@ class FlightOverviewPresenterTest {
 
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(expectedUrl)
+    }
+
+    @Test
+    fun showBasicEconomyMessage() {
+        SettingUtils.save(context, context.getString(R.string.preference_show_basic_economy), true)
+        val testSubscriber = TestSubscriber<Boolean>()
+        sut.vm.showBasicEconomyMessaging.subscribe(testSubscriber)
+
+        createSelectedFlightLeg()
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(false)
+        assertEquals(View.GONE, sut.basicEconomyText.visibility)
+
+        flightLeg.isBasicEconomy = true
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+
+        testSubscriber.assertValueCount(2)
+        testSubscriber.assertValues(false, true)
+        assertEquals(View.VISIBLE, sut.basicEconomyText.visibility)
     }
 
     @Test

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bundle_container">
 
     <com.expedia.bookings.widget.TextView
@@ -70,6 +71,14 @@
         android:textColor="@color/defaultTextColor"
         android:textSize="10sp"
         android:visibility="gone" />
+
+    <Button
+        android:id="@+id/basic_economy_info"
+        android:text="@string/flight_checkout_overview_basic_economy_message"
+        app:textStyle="medium"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        style="@style/Widget.InfoIconButton"/>
 
     <Space
         android:id="@+id/scroll_space_flight"
