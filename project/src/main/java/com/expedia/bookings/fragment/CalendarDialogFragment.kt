@@ -31,6 +31,9 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
     companion object {
         fun createFragment(searchViewModel: BaseSearchViewModel): CalendarDialogFragment {
             val fragment = CalendarDialogFragment(searchViewModel)
+            // Because we are passing baseSearchViewModel as an argument in the constructor, on ChangeOfConfig (or any activity resuling in
+            // recreation of FlightActivity) fragment requires value of the baseSearchVieModel, hence retaining old instance.
+            fragment.retainInstance = true
             return fragment
         }
     }
@@ -143,6 +146,9 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
 
         calendar.setSelectedDates(baseSearchViewModel.startDate(), baseSearchViewModel.endDate())
 
+        if (savedInstanceState != null) {
+            dismiss()
+        }
         return dialog
     }
 
