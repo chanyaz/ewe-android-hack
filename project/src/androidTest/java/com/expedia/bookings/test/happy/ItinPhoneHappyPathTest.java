@@ -126,13 +126,6 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "GWF4NY Button");
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
-		// Air attach assertions
-		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(3);
-		String airAttachMessage = getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
-
-		assertEquals("Because you booked a flight", airAttachMessage);
-		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "1 day");
-
 		// Car assertions
 		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(4);
 		String carTitle = getListItemValues(carRow, R.id.header_text_view);
