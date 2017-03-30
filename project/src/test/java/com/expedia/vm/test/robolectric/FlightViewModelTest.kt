@@ -31,7 +31,7 @@ class FlightViewModelTest {
         sut = FlightViewModel(getContext(), flightLeg)
     }
 
-    fun createExpectedFlightLeg() {
+    fun createExpectedFlightLeg(roundUp: Boolean = false) {
         flightLeg = FlightLeg()
         flightLeg.elapsedDays = 1
         flightLeg.durationHour = 19
@@ -47,8 +47,8 @@ class FlightViewModelTest {
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
-        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
-        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = "201"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.4", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = if (roundUp) BigDecimal(201) else BigDecimal(200)
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
 
 
@@ -72,7 +72,7 @@ class FlightViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun priceStringForFrance() {
         setPOS(PointOfSaleId.FRANCE)
-        createExpectedFlightLeg()
+        createExpectedFlightLeg(true)
         createSystemUnderTest()
         assertEquals("$201", sut.price())
     }

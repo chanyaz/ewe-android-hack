@@ -27,6 +27,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -271,6 +272,7 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(200)
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
         val earnInfo = PointsEarnInfo(100, 100, 100)
 
