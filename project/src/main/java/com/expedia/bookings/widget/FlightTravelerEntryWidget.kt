@@ -16,6 +16,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
@@ -114,7 +115,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     init {
-        setOnFocusChangeListenerForView(tsaEntryView.dateOfBirth)
+        if (!AccessibilityUtil.isTalkBackEnabled(context)) {
+            setOnFocusChangeListenerForView(tsaEntryView.dateOfBirth)
+        }
         if (materialFormTestEnabled) {
             setOnFocusChangeListenerForView(passportCountryEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
