@@ -54,7 +54,15 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightPremiumClass,
 					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
-
+		if (list.contains("FlightsSeatClassAndBookingCode")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode,
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		Db.setAbacusResponse(abacusResponse);
+	}
+
+	@And("^I press back$")
+	public void hitBack() {
+		Common.pressBack();
 	}
 }
