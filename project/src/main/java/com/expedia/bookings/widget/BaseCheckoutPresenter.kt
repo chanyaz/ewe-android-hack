@@ -53,6 +53,7 @@ import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -62,6 +63,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
+    val checkoutRequestCallObservable = BehaviorSubject.create<Long>()
 
     /** abstract methods **/
 
