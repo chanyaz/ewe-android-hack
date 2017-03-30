@@ -3,7 +3,6 @@ package com.expedia.bookings.widget
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
@@ -34,6 +33,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -258,13 +258,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         creditCardNumber.onFocusChangeListener = this
         creditCardName.onFocusChangeListener = this
         creditCardPostalCode.onFocusChangeListener = this
-        expirationDate.onFocusChangeListener = this
-        expirationDate.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                Ui.hideKeyboard(this)
-                expirationDate.performClick()
+        if (!AccessibilityUtil.isTalkBackEnabled(context)) {
+            expirationDate.onFocusChangeListener = this
+            expirationDate.setOnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    Ui.hideKeyboard(this)
+                    expirationDate.performClick()
+                }
+                onFocusChange(view, hasFocus)
             }
-            onFocusChange(view, hasFocus)
         }
         sectionBillingInfo.addInvalidCharacterListener { text, mode ->
             val activity = context as AppCompatActivity
