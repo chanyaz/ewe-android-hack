@@ -83,8 +83,8 @@ class FlightCheckoutPresenterTest {
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(100))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
-        assertEquals("The airline charges a processing fee of $100 for using this card (cost included in the trip total).", checkoutPresenter.cardFeeWarningTextView.text.toString())
-        assertEquals("Airline processing fee for this card: $100", checkoutPresenter.cardProcessingFeeTextView.text.toString())
+        assertEquals("A payment method fee of $100 is included in the trip total.", checkoutPresenter.cardFeeWarningTextView.text.toString())
+        assertEquals("Payment method fee: $100", checkoutPresenter.cardProcessingFeeTextView.text.toString())
         assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
 
         testSubscriber = TestSubscriber<Spanned>()

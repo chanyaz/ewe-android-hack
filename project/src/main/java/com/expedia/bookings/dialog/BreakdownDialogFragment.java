@@ -414,7 +414,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		if (cardFee != null && trip.showFareWithCardFee(context, billingInfo)) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.airline_card_fee))
+					.setText(context.getString(R.string.payment_method_fee))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())

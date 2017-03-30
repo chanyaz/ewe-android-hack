@@ -1802,14 +1802,14 @@
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">Free cancellation within 24 hours</string>
     <!-- Card fee warning text on checkout overview.
-        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
-    <string name="flights_card_fee_warning_TEMPLATE">The airline charges a processing fee of {card_fee} for using this card (cost included in the trip total).</string>
+        Example: A payment method fee of $3.00 is included in the trip total. -->
+    <string name="flights_payment_method_fee_warning_TEMPLATE">A payment method fee of {card_fee} is included in the trip total.</string>
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
-    <!-- An airline fee may be added upon payment message
-        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
-    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, may be added upon payment. Such fee is added to the total upon payment.</string>
+    <!-- There may be an additional fee based on payment method
+         Example: There may be an additional fee based on your payment method -->
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">There may be an &lt;a href=\"{airline_fee_url}\"&gt;additional fee&lt;/a&gt;, based on your payment method.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2035,8 +2035,8 @@
     <string name="card_info">Card Info</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
-    <string name="airline_processing_fee_TEMPLATE">Airline processing fee for this card: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+    <!-- Payment method fee. Example: Payment method fee: $5 -->
+    <string name="payment_method_processing_fee_TEMPLATE">Payment method fee: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept {card_type}</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -2194,7 +2194,7 @@
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} Booking Fee</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
-    <string name="airline_card_fee">Airline Card Fee</string>
+    <string name="payment_method_fee">Payment Method Fee</string>
     <!-- Flight -->
     <string name="flight">Flight</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->

@@ -55,7 +55,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")
 
         PackageScreen.completePaymentForm()
         Common.pressBack()
@@ -71,7 +71,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")
 
         PackageScreen.completePaymentForm()
         Common.pressBack()
@@ -121,7 +121,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
     private fun assertCostSummaryDialogShowsFees() {
         val cardFee = "$2.50"
         onView(withId(R.id.bundle_total_text)).perform(click())
-        onView(withText("Airline Card Fee")).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText("Payment Method Fee")).check(ViewAssertions.matches(isDisplayed()))
         onView(withText(cardFee)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(android.R.id.button1)).perform(click())
     }
@@ -137,7 +137,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         Common.delay(2) // We wait for a short delay (in implementation) jic customer changes their card
         onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).")))
+                .check(ViewAssertions.matches(withText("A payment method fee of $2.50 is included in the trip total.")))
     }
 
     private fun signIn() {
