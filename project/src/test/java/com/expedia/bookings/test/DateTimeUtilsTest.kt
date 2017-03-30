@@ -51,14 +51,14 @@ class DateTimeUtilsTest {
     fun formatTotalDurationHour() {
         val resource = getContext().resources
         val actualFormatDuration = DateTimeUtils.formatTotalDuration(resource, 10800000L)
-        assertEquals("Total Duration: 3 hr", actualFormatDuration)
+        assertEquals("Total Duration: 3h", actualFormatDuration)
     }
 
     @Test
     fun formatTotalDurationMin() {
         val resource = getContext().resources
         val actualFormatDuration = DateTimeUtils.formatTotalDuration(resource, 1920000L)
-        assertEquals("Total Duration: 32 min", actualFormatDuration)
+        assertEquals("Total Duration: 32m", actualFormatDuration)
     }
 
     @Test
