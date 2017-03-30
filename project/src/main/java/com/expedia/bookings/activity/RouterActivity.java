@@ -71,6 +71,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 			}
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
+			query.addExperiment(AbacusUtils.EBAndroidAppLOBAccentuating);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightPremiumClass);

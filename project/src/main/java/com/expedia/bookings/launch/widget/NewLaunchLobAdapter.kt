@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LobInfo
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.TextView
 import java.util.ArrayList
 
@@ -46,7 +48,20 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
 
     fun getSpanSize(position: Int): Int {
         val length = itemCount
-        return if (length > 0 && position == length - 1 && position % 2 == 0) 2 else 1
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(newLaunchLobViewModel.context, AbacusUtils.EBAndroidAppLOBAccentuating,
+                R.string.preference_lob_accentuating)) {
+            return if (length % 2 == 0) {
+                        if (length <= 2) 1
+                        else if (position < 2) 2
+                        else 1
+                    }
+                    else {
+                        if (length == 1) 1
+                        else if (position < 3) 2
+                        else 1
+                    }
+        }
+        return if (position == length - 1 && position % 2 == 0) 2 else 1
     }
 
     class LobViewHolder(itemView: View, val viewModel: NewLaunchLobViewModel) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

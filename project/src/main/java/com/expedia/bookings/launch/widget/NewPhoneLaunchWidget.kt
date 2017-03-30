@@ -122,6 +122,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         launchListWidget.addOnScrollListener(scrollListener)
         lobViewContainer.addView(lobView)
         lobViewContainer.visibility = VISIBLE
+        lobView.lobViewHeightChangeSubject.subscribe {
+            adjustLobViewHeight()
+        }
 
         fab.setOnClickListener {
             if (darkView.alpha == 0.0f) {
@@ -245,7 +248,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 locationNotAvailable.onNext(Unit)
             }
             launchListWidget.onPOSChange()
-            adjustLobViewHeight()
         }
     }
 

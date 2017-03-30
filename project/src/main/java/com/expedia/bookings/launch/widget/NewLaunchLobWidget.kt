@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.GridLinesItemDecoration
 import com.expedia.util.notNullAndObservable
+import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -32,6 +33,7 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         builder.setPositiveButton(context.getString(R.string.ok), { dialog, which -> dialog.dismiss() })
         builder.create()
     }
+    val lobViewHeightChangeSubject = PublishSubject.create<Unit>()
 
 
     var adapter: NewLaunchLobAdapter by Delegates.notNull()
@@ -102,5 +104,11 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                 return false
             }
         })
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        adjustBackgroundView()
+        lobViewHeightChangeSubject.onNext(Unit)
     }
 }

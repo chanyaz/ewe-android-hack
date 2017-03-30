@@ -11,10 +11,13 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LobInfo;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.launch.widget.NewLaunchLobAdapter;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import java.util.ArrayList;
+import com.expedia.bookings.utils.AbacusTestUtils;
+import com.mobiata.android.util.SettingUtils;
 import kotlin.Pair;
 import kotlin.Unit;
 import rx.observers.TestSubscriber;
@@ -57,8 +60,57 @@ public class NewLaunchLobAdapterTest {
 		assertFinalSpanIsTwoAndRestAreOne(adapter);
 	}
 
+	@Test
+	public void spansAreCorrectWhenUserIsBucketed() {
+
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLOBAccentuating,
+			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		SettingUtils.save(getContext(), R.string.preference_lob_accentuating, true);
+
+		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
+			new NewLaunchLobViewModel(getContext(), BehaviorSubject.<Boolean>create(), BehaviorSubject.<Unit>create()));
+
+		ArrayList<LobInfo> lobs = new ArrayList<>();
+		lobs.add(LobInfo.HOTELS);
+		lobs.add(LobInfo.FLIGHTS);
+		adapter.setLobs(lobs);
+		assertItemCount(2, adapter);
+		assertAllSpansAreOne(adapter);
+
+		lobs.add(LobInfo.CARS);
+		adapter.setLobs(lobs);
+		assertItemCount(3, adapter);
+		assertTheFirstNSpansAreTwoAndRestAreOne(adapter, 3);
+
+		lobs.add(LobInfo.ACTIVITIES);
+		adapter.setLobs(lobs);
+		assertItemCount(4, adapter);
+		assertTheFirstNSpansAreTwoAndRestAreOne(adapter, 2);
+
+		lobs.add(2, LobInfo.PACKAGES);
+		adapter.setLobs(lobs);
+		assertItemCount(5, adapter);
+		assertTheFirstNSpansAreTwoAndRestAreOne(adapter, 3);
+
+		lobs.add(3, LobInfo.RAILS);
+		adapter.setLobs(lobs);
+		assertItemCount(6, adapter);
+		assertTheFirstNSpansAreTwoAndRestAreOne(adapter, 2);
+	}
+
 	private void assertItemCount(int expected, NewLaunchLobAdapter adapter) {
 		assertEquals(expected, adapter.getItemCount());
+	}
+
+	private void assertTheFirstNSpansAreTwoAndRestAreOne(NewLaunchLobAdapter adapter, int n) {
+		for (int i = 0; i < adapter.getItemCount(); i++) {
+			if (i < n) {
+				assertEquals(2, adapter.getSpanSize(i));
+			}
+			else {
+				assertEquals(1, adapter.getSpanSize(i));
+			}
+		}
 	}
 
 	private void assertAllSpansAreOne(NewLaunchLobAdapter adapter) {
