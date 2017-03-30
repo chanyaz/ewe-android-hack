@@ -958,9 +958,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse,
-		int percentagePaidWithPoints, String totalAppliedRewardCurrency) {
+		int percentagePaidWithPoints, String totalAppliedRewardCurrency, PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
-
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
 		s.setEvents("purchase," + ProductFlavorFeatureConfiguration.getInstance().getOmnitureEventValue(
 			OmnitureEventName.TOTAL_POINTS_BURNED) + "=" + totalAppliedRewardCurrency);
@@ -1000,6 +999,8 @@ public class OmnitureTracking {
 		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
 
 		s.setEvar(53, getPercentageOfAmountPaidWithPoints(percentagePaidWithPoints));
+
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
 		// LX Cross sell
 		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
@@ -5028,7 +5029,8 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
 	}
 
-	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType) {
+	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType,
+		PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION);
 		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true, hotelSupplierType);
@@ -5039,6 +5041,7 @@ public class OmnitureTracking {
 			s.setProp(71, response.getNewTrip().getTravelRecordLocator());
 		}
 		s.setProp(72, response.getOrderId());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		s.track();
 	}
 
@@ -5466,7 +5469,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
 	}
 
-	public static void trackFlightCheckoutConfirmationPageLoad() {
+	public static void trackFlightCheckoutConfirmationPageLoad(PageUsableData pageUsableData) {
 		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
 		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
 
@@ -5516,6 +5519,7 @@ public class OmnitureTracking {
 		s.setProp(71, checkoutResponse.getNewTrip().getTravelRecordLocator());
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
 		s.track();
 	}

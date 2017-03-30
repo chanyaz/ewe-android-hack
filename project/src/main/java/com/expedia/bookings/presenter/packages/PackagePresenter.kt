@@ -24,6 +24,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
@@ -36,6 +37,7 @@ import com.expedia.vm.packages.PackageErrorViewModel
 import com.expedia.vm.packages.PackageSearchViewModel
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import java.util.Date
 import javax.inject.Inject
 
 class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(context, attrs) {
@@ -48,6 +50,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val bundlePresenterViewStub: ViewStub by bindView(R.id.widget_bundle_overview_view_stub)
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
+    val pageUsableData = PageUsableData()
     val bundlePresenter: PackageOverviewPresenter by lazy {
         val presenter = bundlePresenterViewStub.inflate() as PackageOverviewPresenter
         val checkoutPresenter = presenter.getCheckoutPresenter()
@@ -55,6 +58,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.bundleWidget.viewModel.showSearchObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
             searchPresenter.showDefault()
+        }
+        checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
+            pageUsableData.markPageLoadStarted(startTime)
         }
         presenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
@@ -72,9 +78,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val response = pair.first as PackageCheckoutResponse
             show(confirmationPresenter)
+            pageUsableData.markAllViewsLoaded(Date().time)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
+            PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType), pageUsableData)
         }
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
