@@ -255,6 +255,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 						}
 					});
 			}
+			Collection<Trip> trips = ItineraryManager.getInstance().getTrips();
+			mSignInPresenter.getSignInWidget().getViewModel().newTripsUpdateState(trips);
+
 			mEmptyView = mSignInPresenter;
 		}
 		else {
@@ -273,7 +276,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		super.onResume();
 
 		setSignInView(getView());
-
 		syncItinManager(true, false);
 
 		if (mJumpToItinId != null) {

@@ -67,12 +67,6 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
     }
 
-    private fun showItinFetchProgress() {
-        hasAddGuestItinErrors = false
-        show(itinFetchProgressWidget)
-        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
-    }
-
     fun showAddGuestItinScreen(hasError: Boolean = false) {
         if (currentState == null) {
             showSignInWidget()
@@ -91,14 +85,20 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
 
-    inner class createSyncAdapter() : ItineraryManager.ItinerarySyncAdapter() {
+    private fun showItinFetchProgress() {
+        hasAddGuestItinErrors = false
+        show(itinFetchProgressWidget)
+        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
+    }
+
+    inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
 
         override fun onSyncFailure(error: ItineraryManager.SyncError?) {
             signInWidget.viewModel.syncFailure(error)
         }
 
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
-            signInWidget.viewModel.syncError(trips)
+            signInWidget.viewModel.newTripsUpdateState(trips)
             if (currentState != addGuestItinWidget.javaClass.name){
                 showSignInWidget()
             }
