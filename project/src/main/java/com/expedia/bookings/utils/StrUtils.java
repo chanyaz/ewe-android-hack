@@ -83,10 +83,6 @@ public class StrUtils {
 		return formatGuests(context, searchParams.getNumAdults(), searchParams.getNumChildren());
 	}
 
-	public static String removeSpecialCharactersFromRoundedAmount(String roundedAmount) {
-		return roundedAmount.replaceAll("[^0-9]", "");
-	}
-
 	public static String formatAddressStreet(Location location) {
 		return formatAddress(location, F_STREET_ADDRESS);
 	}

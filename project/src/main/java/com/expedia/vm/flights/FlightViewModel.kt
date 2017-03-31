@@ -14,13 +14,8 @@ import java.util.Locale
 
 class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
     override fun price(): String {
-        //TODO remove point of sale and special characters check and consume only rounded amount after api starts sending thsi field without any special characters
         val price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
-        if (PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase(Locale.US).contains(Regex("FR"))) {
-            return Money.getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal(StrUtils.removeSpecialCharactersFromRoundedAmount(price.roundedAmount)), price.currencyCode, Money.F_NO_DECIMAL)
-        } else {
-            return price.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL)
-        }
+        return Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)
     }
 
     override fun getUrgencyMessageVisibility(seatsLeft : String): Boolean {
