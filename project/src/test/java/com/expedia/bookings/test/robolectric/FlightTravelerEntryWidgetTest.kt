@@ -68,7 +68,6 @@ class FlightTravelerEntryWidgetTest {
 
         assertEquals(countryName, widget.passportCountryEditBox.text.toString())
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
-        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, false)
     }
 
     @Test
@@ -151,7 +150,6 @@ class FlightTravelerEntryWidgetTest {
 
     private fun givenMaterialForm(isMaterialForm: Boolean) {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, isMaterialForm)
 
         val viewStub = activity.findViewById(R.id.traveler_presenter_stub) as ViewStub
         travelerPresenter = viewStub.inflate() as FlightTravelersPresenter

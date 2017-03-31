@@ -65,7 +65,6 @@ class FlightCheckoutPresenterTest {
     @Test
     fun materialPaymentWidget() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, true)
 
         assertNotNull(checkout.paymentWidget)
     }
@@ -73,7 +72,6 @@ class FlightCheckoutPresenterTest {
     @Test
     fun materialPaymentWidgetColorsBackground() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, true)
 
         checkout.paymentWidget.showPaymentForm(false)
         assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.white))

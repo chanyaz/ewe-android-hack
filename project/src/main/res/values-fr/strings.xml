@@ -145,7 +145,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate} – Sélectionnez les dates de retour</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – Sélectionnez la date de retour</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">Sélectionner une date de prise en charge</string>
     <!-- Label for pick-up time picker -->
@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">Gagnez {points} points</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">Gagnez {price}</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">Gagnez {price} en {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Supplément pour bagages à main</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -2245,8 +2247,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Indicatif</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Indicatif</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">Né(e) le %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Né(e) le %1$s</string>
 
@@ -3895,6 +3895,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Appuyez pour voir vos options de partage de voyage</string>
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">Appuyez pour accéder aux options pour masquer</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Résultats de la recherche d\&apos;hôtels</string>
@@ -4541,6 +4543,7 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Points Expedia+ appliqués ! (taxes et frais non compris)</string>
     <string name="regular_loyalty_applied_message">Points Expedia+ appliqués !</string>
     <string name="vip_loyalty_applied_message">Double de points appliqué !</string>
+    <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">Double de points Expedia+ appliqués !</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4686,6 +4689,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Affichez moins de compagnies aériennes. Bouton</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Effacez les filtres. Bouton</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">Le montant total du voyage est de {totalprice}. Taxes et frais inclus. {savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Le montant total du voyage est de {totalprice}. Taxes et frais inclus. {savings}. Boîte de dialogue pour le détail du prix. Bouton.</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">Le prix du voyage est de {price_per_person} par personne. Taxes et frais inclus. Bouton pour consulter les vols.</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Le total de la formule est de {totalprice}. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4902,7 +4914,6 @@
     <string name="launch_find_hotels_near_you">Trouvez des hôtels près de vous</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Hôtels recommandés ce soir</string>
-    <string name="launch_find_popular_hotels">Hôtels prisés ce soir</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Réservation réussie !</string>
     <!-- Check your email for itinerary alert message-->
@@ -4946,4 +4957,6 @@
     <string name="error_enter_a_valid_card_name">Saisissez le nom tel qu\&apos;il apparaît sur la carte</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">Sélectionnez un indicatif</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">Réservation confirmée. Émission des billets en cours.</string>
 </resources>

@@ -89,7 +89,6 @@ class AbstractMaterialFlightResultsPresenterTest {
 
     @Test
     fun doNotShowOverviewWhenInSimplifyTest() {
-        SettingUtils.save(context, R.string.preference_simplify_flight_shopping, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSimplifyFlightShopping)
         createSystemUnderTest(isOutboundPresenter = true)
 

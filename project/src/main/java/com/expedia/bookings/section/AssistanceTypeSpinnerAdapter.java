@@ -1,7 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
@@ -9,14 +7,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.AssistanceType;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.text.HtmlCompat;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.widget.TextViewExtensions;
 import com.mobiata.android.util.Ui;
+import java.util.ArrayList;
+
+import static com.expedia.bookings.utils.FeatureUtilKt.isMaterialFormsEnabled;
 
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
@@ -106,13 +104,14 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setText(HtmlCompat.fromHtml(String.format(mFormatString, getItem(position))));
 		TextViewExtensions.Companion.setTextColorBasedOnPosition(tv, mCurrentPosition, position);
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(tv.getContext(),
-			AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)) {
+		if (isMaterialFormsEnabled()) {
 			tv.setSingleLine(false);
 		}
 
 		return retView;
 	}
+
+
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {

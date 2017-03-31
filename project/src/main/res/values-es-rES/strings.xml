@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">Consigue {points} puntos</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">Gana {price}</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">Consigue {price} en {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Puede que se apliquen tasas por el equipaje facturado</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -2245,8 +2247,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Código de país</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Código de país</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">Fecha de nacimiento: %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Fecha de nacimiento: %1$s</string>
 
@@ -3895,6 +3895,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Pulsa para ver las opciones de compartir itinerario</string>
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">Pulsa para ver más opciones</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Resultados de la búsqueda de hotel</string>
@@ -4541,6 +4543,7 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">¡Se han aplicado los puntos de Expedia+! (impuestos y tasas no incluidos)</string>
     <string name="regular_loyalty_applied_message">¡Se han aplicado los puntos de Expedia+!</string>
     <string name="vip_loyalty_applied_message">¡Se ha aplicado el doble de puntos!</string>
+    <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">¡Se ha aplicado el doble de puntos de Expedia+!</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4686,6 +4689,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Mostrar menos aerolíneas. Botón</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Eliminar filtros. Botón</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">El precio total del viaje es de {totalprice}. Impuestos y tasas incluidos. {savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El precio total del viaje es de {totalprice}. Impuestos y tasas incluidos. {savings}. Cuadro de diálogo del desglose de costes. Botón.</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">El precio del viaje es de {price_per_person} por persona. Impuestos y tasas incluidos. Botón para ver los vuelos.</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">El total del paquete es {totalprice}. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4902,7 +4914,6 @@
     <string name="launch_find_hotels_near_you">Encuentra hoteles cerca de ti</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Hoteles recomendados para hoy</string>
-    <string name="launch_find_popular_hotels">Los más buscados para hoy</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">¡Reserva realizada!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4946,4 +4957,6 @@
     <string name="error_enter_a_valid_card_name">Introduce el nombre tal y como aparece en la tarjeta</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">Selecciona un código de país</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">Reserva confirmada. Emisión de billetes en curso.</string>
 </resources>

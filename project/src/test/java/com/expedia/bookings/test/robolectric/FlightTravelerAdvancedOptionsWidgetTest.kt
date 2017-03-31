@@ -37,8 +37,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Before
     fun setup() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_universal_checkout_material_forms, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
         context = Robolectric.buildActivity(FragmentActivity::class.java).create().get()
         context.setTheme(R.style.V2_Theme_Packages)
@@ -48,7 +47,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testAssistancePreferenceForMaterialForms() {
-        SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val editBoxForDialog = widget.findViewById(R.id.edit_assistance_preference_button) as EditText
         widget.viewModel = setupViewModel()
@@ -76,7 +75,7 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testSeatPreferenceForMaterialForms() {
-        SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val editBoxForDialog = widget.findViewById(R.id.edit_seat_preference_button) as EditText
         widget.viewModel = setupViewModel()
@@ -105,7 +104,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testSeatPreferenceSpinners() {
-        SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, false)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val seatPreferenceSpinner = widget.seatPreferenceSpinner
         val adapter = SeatPreferenceSpinnerAdapter(context)
@@ -120,7 +118,6 @@ class FlightTravelerAdvancedOptionsWidgetTest {
 
     @Test
     fun testSeatAssistanceSpinner() {
-        SettingUtils.save(context, R.string.preference_universal_checkout_material_forms, false)
         widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
         val assistanceSpinner = widget.assistancePreferenceSpinner
         val adapter = AssistanceTypeSpinnerAdapter(context)
