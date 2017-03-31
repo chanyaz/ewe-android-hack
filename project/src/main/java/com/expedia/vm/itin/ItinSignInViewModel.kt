@@ -69,7 +69,7 @@ class ItinSignInViewModel(val context: Context) {
         setState(MessageState.FAILURE)
     }
 
-    fun syncError(trips: MutableCollection<Trip>?) {
+    fun newTripsUpdateState(trips: MutableCollection<Trip>?) {
         if (mCurrentSyncHasErrors) {
             if (trips == null) {
                 setState(MessageState.TRIPS_ERROR)
