@@ -26,7 +26,7 @@
                 android:id="@+id/member_deal_background"
                 android:layout_width="match_parent"
                 android:layout_height="134dp"
-                android:scaleType="centerCrop"
+                android:scaleType="matrix"
                 tool:background="@color/exp_launch_blue"/>
 
             <View
