@@ -485,6 +485,15 @@
             android:summary="%s"
             android:title="Checkout info update string AB test - 13280" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13825"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Checkout disabled STP state AB test - 13825" />
+
     </PreferenceCategory>
 
 
