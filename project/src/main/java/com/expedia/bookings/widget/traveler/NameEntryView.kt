@@ -5,9 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerNameViewModel
@@ -17,8 +16,7 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val firstName: TravelerEditText by bindView(R.id.first_name_input)
     val middleName: TravelerEditText by bindView(R.id.middle_name_input)
     val lastName: TravelerEditText by bindView(R.id.last_name_input)
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerNameViewModel by notNullAndObservable { vm ->
         firstName.viewModel = vm.firstNameViewModel

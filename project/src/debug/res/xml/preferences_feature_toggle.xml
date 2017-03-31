@@ -18,12 +18,6 @@
         android:title="Launch Page Features">
 
     <CheckBoxPreference
-        android:key="@string/preference_show_air_attach_message_on_launch_screen"
-        android:layout="@layout/preference"
-        android:summary="Show air attach message to users on launch screen"
-        android:title="Enable Air Attach Message on Launch Screen" />
-
-    <CheckBoxPreference
         android:key="@string/preference_lob_accentuating"
         android:layout="@layout/preference"
         android:summary="Make the hotel and flight accentuated"
@@ -54,12 +48,6 @@
         android:title="Material Flight Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_simplify_flight_shopping"
-            android:layout="@layout/preference"
-            android:summary="Simplify flight shopping"
-            android:title="Simplify flight shopping" />
-
-        <CheckBoxPreference
             android:key="@string/preference_show_basic_economy"
             android:layout="@layout/preference"
             android:summary="Show Basic Economy"
@@ -88,12 +76,6 @@
             android:layout="@layout/preference"
             android:summary="Bring universal checkout to LX"
             android:title="Enable Universal Checkout on LX" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_universal_checkout_material_forms"
-            android:layout="@layout/preference"
-            android:summary="Universal Checkout Material Forms"
-            android:title="Enable Universal Checkout Material Forms" />
 
     </PreferenceCategory>
 

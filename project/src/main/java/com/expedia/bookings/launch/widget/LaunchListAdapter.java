@@ -443,7 +443,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showAirAttachMessage() {
-		return userBucketedForAirAttach(context) && User.isLoggedIn(context)
+		return userBucketedForAirAttach() && User.isLoggedIn(context)
 			&& isPOSAndBrandAirAttachEnabled() && getUpcomingAirAttachQualifiedFlightTrip() != null;
 	}
 
@@ -477,10 +477,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 	}
 
-	private boolean userBucketedForAirAttach(Context context) {
-		return FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen,
-				R.string.preference_show_air_attach_message_on_launch_screen);
+	private boolean userBucketedForAirAttach() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 	}
 
 

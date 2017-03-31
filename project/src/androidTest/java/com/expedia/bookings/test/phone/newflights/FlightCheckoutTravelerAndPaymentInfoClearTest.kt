@@ -54,7 +54,6 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
     @Test
     fun testTravelerErrorsClearedAfterSignIn() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity.applicationContext, R.string.preference_universal_checkout_material_forms, true)
         flightSearchAndGoToCheckout()
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
