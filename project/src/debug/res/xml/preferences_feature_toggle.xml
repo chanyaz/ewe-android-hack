@@ -48,12 +48,6 @@
         android:title="Material Flight Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_simplify_flight_shopping"
-            android:layout="@layout/preference"
-            android:summary="Simplify flight shopping"
-            android:title="Simplify flight shopping" />
-
-        <CheckBoxPreference
             android:key="@string/preference_show_basic_economy"
             android:layout="@layout/preference"
             android:summary="Show Basic Economy"
