@@ -7,8 +7,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.presenter.BaseSingleScreenOverviewPresenter
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.vm.lx.LXCheckoutViewModel
 import com.expedia.vm.lx.LXCreateTripViewModel
 
 class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScreenOverviewPresenter(context, attrs) {
@@ -22,7 +23,6 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
     }
 
     val lxSummaryWidget by lazy {
-        val summaryContainer = findViewById(R.id.summary_container) as FrameLayout
         val summaryView = Ui.inflate<LXCheckoutSummaryWidget>(R.layout.lx_checkout_summary_widget, summaryContainer, false)
         summaryContainer.addView(summaryView)
         summaryView
@@ -46,5 +46,11 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
 
     fun getCheckoutPresenter() : LxCheckoutPresenterV2 {
         return checkoutPresenter  as LxCheckoutPresenterV2
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        (checkoutPresenter.getCheckoutViewModel() as LXCheckoutViewModel).hideOverviewSummaryObservable.subscribeInverseVisibility(summaryContainer)
+        (checkoutPresenter.getCheckoutViewModel() as LXCheckoutViewModel).backToDetailsObservable.subscribe { back() }
     }
 }

@@ -3,37 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize"
         android:orientation="vertical">
 
-        <com.expedia.bookings.widget.FrameLayout
-            android:id="@+id/summary_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:background="@drawable/card_background"/>
-
-        <com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2
-            android:id="@+id/checkout_presenter"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <com.expedia.bookings.widget.CVVEntryWidget
-        android:id="@+id/cvv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#3A424C"
-        android:visibility="gone" />
+            <com.expedia.bookings.widget.FrameLayout
+                android:id="@+id/summary_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_view_container_margin"
+                android:background="@drawable/card_background"/>
+
+            <com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2
+                android:id="@+id/checkout_presenter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.CVVEntryWidget
+            android:id="@+id/cvv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#3A424C"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:orientation="vertical">
+
+        <View
+            android:id="@+id/toolbar_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/skin_lxPrimaryColor" />
 
         <com.expedia.bookings.widget.CheckoutToolbar
             android:id="@+id/checkout_toolbar"
