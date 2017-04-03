@@ -35,7 +35,6 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
@@ -64,8 +63,7 @@ class BillingDetailsPaymentWidgetTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
-        SettingUtils.save(activity, R.string.preference_universal_checkout_material_forms, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
     }
@@ -449,7 +447,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(creditCardLayout, "Enter a valid card number")
 
         billingDetailsPaymentWidget.creditCardNumber.setText("4")
-        assertNull(creditCardLayout.error)
+        assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
     }
 
     @Test
@@ -476,7 +474,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(cvvLayout, "Enter a valid CVV number")
 
         billingDetailsPaymentWidget.creditCardCvv.setText("41")
-        assertNull(cvvLayout.error)
+        assertValidState(cvvLayout, "CVV")
     }
 
     @Test
@@ -490,7 +488,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(nameLayout, "Enter name as it appears on the card")
 
         billingDetailsPaymentWidget.creditCardName.setText("E")
-        assertNull(nameLayout.error)
+        assertValidState(nameLayout, "Cardholder name")
     }
 
     @Test
@@ -504,7 +502,7 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)")
 
         billingDetailsPaymentWidget.addressLineOne.setText("114 Sansome")
-        assertNull(addressLayout.error)
+        assertValidState(addressLayout, "Address line 1")
     }
 
     @Test
@@ -750,7 +748,7 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     private fun givenMaterialPaymentBillingWidget() {
-        SettingUtils.save(activity, R.string.preference_universal_checkout_material_forms, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.material_billing_details_payment_widget, null) as BillingDetailsPaymentWidget
         billingDetailsPaymentWidget.viewmodel = PaymentViewModel(activity)
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)

@@ -92,6 +92,43 @@ class PackageCheckoutTest {
         assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
         assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
+        assertEquals(View.GONE, checkout.slideTotalText.visibility)
+        assertEquals(View.VISIBLE, checkout.slideToPurchaseSpace.visibility)
+    }
+
+        @Test
+    fun testCheckoutSuccessWithResortFee() {
+        createTripWithResortFee()
+        enterValidTraveler()
+        enterValidPayment()
+
+        assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+        assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
+        assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
+        assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
+        assertEquals(View.VISIBLE, checkout.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", checkout.slideTotalText.text)
+        assertEquals(View.GONE, checkout.slideToPurchaseSpace.visibility)
+    }
+
+    @Test
+    fun testSlideTotalTextVisibilityDependsOnResortFees() {
+        createTripWithResortFee()
+        enterValidTraveler()
+        enterValidPayment()
+
+        assertEquals(View.VISIBLE, checkout.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", checkout.slideTotalText.text)
+        assertEquals(View.GONE, checkout.slideToPurchaseSpace.visibility)
+
+        val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
+        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
+        checkout.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(true)
+
+        assertEquals(View.GONE, checkout.slideTotalText.visibility)
+        assertEquals("", checkout.slideTotalText.text)
+        assertEquals(View.VISIBLE, checkout.slideToPurchaseSpace.visibility)
     }
 
     @Test
@@ -311,5 +348,19 @@ class PackageCheckoutTest {
         fakeCreditCard.id = id
         fakeCreditCard.setIsSelectable(true)
         return fakeCreditCard
+    }
+
+    private fun createTripWithResortFee() {
+        checkout.travelerManager.updateDbTravelers(Db.getPackageParams(), activity)
+        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        checkout.getCreateTripViewModel().createTripResponseObservable.subscribe(tripResponseSubscriber)
+
+        val createTripParams = PackageCreateTripParams("create_trip_with_resort_fee", "", 1, false, emptyList())
+        checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
+
+        tripResponseSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
+        tripResponseSubscriber.assertValueCount(1)
+
+        checkout.updateTravelerPresenter()
     }
 }

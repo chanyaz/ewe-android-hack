@@ -32,7 +32,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -53,6 +53,7 @@ import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -62,6 +63,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
+    val checkoutRequestCallObservable = BehaviorSubject.create<Long>()
 
     /** abstract methods **/
 
@@ -105,7 +107,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val materialPaymentViewStub: ViewStub by bindView(R.id.material_payment_view_stub)
     val travelersPresenterStub: ViewStub by bindView(R.id.traveler_presenter_stub)
-    val space: Space by bindView(R.id.scrollview_space)
+    val scrollViewSpace: Space by bindView(R.id.scrollview_space)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
@@ -113,6 +115,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
+    val slideToPurchaseSpace: Space by bindView(R.id.slide_to_purchase_space)
 
     val rootWindow: Window by lazy { (context as Activity).window }
     val decorView: View by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
@@ -120,9 +123,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
     val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     val paymentWidget: PaymentWidget by lazy {
         val presenter = if (materialFormTestEnabled)  {
             materialPaymentViewStub.inflate() as PaymentWidget
@@ -196,7 +197,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeText(depositPolicyText)
-        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        vm.sliderPurchaseTotalText.subscribeText(slideTotalText)
         vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.showCheckoutDialogObservable.subscribe { show ->
             if (show) {
@@ -221,6 +222,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
+        vm.animateInSlideToPurchaseObservable.subscribe {
+            val hasText = !vm.sliderPurchaseTotalText.value.isNullOrEmpty()
+            slideToPurchaseSpace.setInverseVisibility(hasText)
+            slideTotalText.setInverseVisibility(!hasText)
+        }
     }
 
     fun getPriceChangeDiffPercentage(oldPrice: Money, newPrice: Money): Int {
@@ -418,9 +424,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
         } else {
-            val lp = space.layoutParams
+            val lp = scrollViewSpace.layoutParams
             lp.height = 0
-            space.layoutParams = lp
+            scrollViewSpace.layoutParams = lp
         }
         ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
     }
@@ -558,14 +564,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             contentView.getLocationOnScreen(contentViewLocation)
             scrollView.getLocationOnScreen(scrollViewContainerLocation)
             bottomLayout.getLocationOnScreen(bottomContainerLocation)
-            val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height
+            val contentViewBottomPosition = contentViewLocation[1] + contentView.height - scrollViewSpace.height
             val bottomContainerTopPosition = bottomContainerLocation[1]
             val spaceHeight = Math.max(0, scrollViewContainerLocation[1] + scrollView.height - contentViewBottomPosition)
             val distance = Math.max(0, contentViewBottomPosition - bottomContainerTopPosition) + spaceHeight
 
-            val lp = space.layoutParams
+            val lp = scrollViewSpace.layoutParams
             lp.height = distance
-            space.layoutParams = lp
+            scrollViewSpace.layoutParams = lp
         }, ANIMATION_DELAY)
     }
 
@@ -629,9 +635,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
             } else {
-                val lp = space.layoutParams
+                val lp = scrollViewSpace.layoutParams
                 lp.height = 0
-                space.layoutParams = lp
+                scrollViewSpace.layoutParams = lp
             }
         }
     }

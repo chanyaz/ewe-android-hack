@@ -56,6 +56,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -232,6 +233,17 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			TextView arrivalTimeTv = Ui.findView(view, R.id.arrival_time);
 			TextView arrivalTimeTzTv = Ui.findView(view, R.id.arrival_time_tz);
 			TextView passengerNameListTv = Ui.findView(view, R.id.passenger_name_list);
+			TextView flightDuration = Ui.findView(view, R.id.flight_duration);
+
+			boolean isFlightDurationEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_flight_duration);
+			if (isFlightDurationEnabled) {
+				String duration = FlightUtils.formatTotalDuration(getContext(), leg);
+				flightDuration.setText(duration);
+				flightDuration.setVisibility(View.VISIBLE);
+			}
+			else {
+				flightDuration.setVisibility(View.GONE);
+			}
 
 			ViewGroup flightLegContainer = Ui.findView(view, R.id.flight_leg_container);
 			ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
@@ -252,10 +264,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalTimeCal,
 							MAX_TIMEZONE_LENGTH));
 
+
 			departureTimeTv.setText(departureTime);
 			departureTimeTzTv.setText(departureTz);
 			arrivalTimeTv.setText(arrivalTime);
 			arrivalTimeTzTv.setText(arrivalTz);
+
 
 			//Traveler names
 			StringBuilder travelerSb = new StringBuilder();

@@ -145,7 +145,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate} – Vælg afleveringsdato</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – Vælg hjemrejsedato</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">Vælg afhentningsdato</string>
     <!-- Label for pick-up time picker -->
@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">Optjen {points} point</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">Optjen {price}</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">Optjen {price} i {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">Gebyrer for håndbagage er gældende</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -2245,8 +2247,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">Landekode</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Landekode</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">Født %1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">Født %1$s</string>
 
@@ -3895,6 +3895,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Tryk for at vise muligheder for at dele rejseplan</string>
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">Tryk for at vise muligheder for at skjule</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">Søgeresultater for hoteller</string>
@@ -4541,6 +4543,7 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ point indløst! (inkluderer ikke skatter og gebyrer)</string>
     <string name="regular_loyalty_applied_message">Expedia+ point indløst!</string>
     <string name="vip_loyalty_applied_message">2x point indløst!</string>
+    <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">2x Expedia+ point indløst!</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4635,7 +4638,7 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Vælg rejsedatoer. Knap. Åbner dialogvindue</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Pris {price}.  \u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Pris {price}.\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Antal rejsende. Knap. Åbner dialogvindue. {travelers} rejsende</item>
@@ -4686,6 +4689,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Vis færre flyselskaber. Knap</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Ryd filtre. Knap</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">Rejsens samlede pris er {totalprice}. Inkluderer skatter og gebyrer. {savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Rejsens samlede pris er {totalprice}. Inkluderer skatter og gebyrer. {savings}. Dialogvindue for prisoversigt. Knap.</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">Rejsens pris er {price_per_person} pr. person. Inkluderer skatter og gebyrer. Knap til at se flyrejser.</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4902,7 +4914,6 @@
     <string name="launch_find_hotels_near_you">Find hoteller i nærheden af dig</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">Anbefalede hoteller til i aften</string>
-    <string name="launch_find_popular_hotels">Populære hoteller til i aften</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Din reservation er gennemført!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4946,4 +4957,6 @@
     <string name="error_enter_a_valid_card_name">Indtast navn, som det vises på kortet</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">Vælg en landekode</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">Reservation bekræftet. Billetudstedelse i gang.</string>
 </resources>

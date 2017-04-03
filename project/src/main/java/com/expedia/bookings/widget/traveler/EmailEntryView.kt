@@ -6,17 +6,15 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerEmailViewModel
 
 class EmailEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val emailAddress: TravelerEditText by bindView(R.id.edit_email_address)
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerEmailViewModel by notNullAndObservable { vm ->
         emailAddress.viewModel = vm

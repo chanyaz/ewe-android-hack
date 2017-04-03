@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.animation.Animator
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -12,14 +13,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.TSAEntryView
@@ -31,9 +32,7 @@ import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
 
     val DEFAULT_EMPTY_PASSPORT = 0
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled()
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
@@ -113,7 +112,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     init {
-        setOnFocusChangeListenerForView(tsaEntryView.dateOfBirth)
+        if (!AccessibilityUtil.isTalkBackEnabled(context)) {
+            setOnFocusChangeListenerForView(tsaEntryView.dateOfBirth)
+        }
         if (materialFormTestEnabled) {
             setOnFocusChangeListenerForView(passportCountryEditBox)
             setOnFocusChangeListenerForView(advancedOptionsWidget.seatPreferenceEditBox)
@@ -150,6 +151,22 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                     hideAdvancedOptions()
                 }
             }
+        }
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        if (isExtraPaddingRequired) {
+            phoneEntryView.phoneNumber.updatePaddingForOldApi()
+            phoneEntryView.phoneEditBox?.updatePaddingForOldApi()
+            tsaEntryView.dateOfBirth.updatePaddingForOldApi()
+            tsaEntryView.genderEditText?.updatePaddingForOldApi()
+            if (materialFormTestEnabled) {
+                nameEntryView.firstName.updatePaddingForOldApi()
+                nameEntryView.middleName.updatePaddingForOldApi()
+                nameEntryView.lastName.updatePaddingForOldApi()
+                emailEntryView.emailAddress.updatePaddingForOldApi()
+                advancedOptionsWidget.travelerNumber.updatePaddingForOldApi()
+                advancedOptionsWidget.redressNumber.updatePaddingForOldApi()
+            }
+
         }
     }
 
@@ -232,8 +249,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     }
 
     override fun inflateWidget() {
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)) {
+        if (isMaterialFormsEnabled()) {
             View.inflate(context, R.layout.material_flight_traveler_entry_widget, this)
         } else {
             View.inflate(context, R.layout.flight_traveler_entry_widget, this)

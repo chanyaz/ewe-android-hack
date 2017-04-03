@@ -3,12 +3,14 @@ package com.expedia.bookings.widget
 import android.widget.TextView
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 
 fun TextView.addErrorExclamation() {
     val context = this.context
@@ -37,17 +39,25 @@ fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, right
         (this.parent as TextInputLayout).error = null
         if (this.text.isBlank()) this.text = ""
     }
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
+        this.updatePaddingForOldApi()
+    }
+}
+
+fun TextView.updatePaddingForOldApi() {
+    val bottomPadding = context.resources.getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
+    this.setPadding(this.paddingLeft, this.paddingTop, this.paddingRight, bottomPadding)
 }
 
 
 class TextViewExtensions {
     companion object {
         fun setTextColorBasedOnPosition(tv: TextView, currentPosition: Int, position: Int) {
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(tv.context, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms,
-                    R.string.preference_universal_checkout_material_forms)) {
-                var textColor = ContextCompat.getColor(tv.context, R.color.default_text_color)
+            val context = tv.context
+            if (isMaterialFormsEnabled()) {
+                var textColor = ContextCompat.getColor(context, R.color.default_text_color)
                 if (currentPosition == position ) {
-                    textColor = ContextCompat.getColor(tv.context, Ui.obtainThemeResID(tv.context, R.attr.primary_color))
+                    textColor = ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color))
                 }
                 tv.setTextColor(textColor)
             }

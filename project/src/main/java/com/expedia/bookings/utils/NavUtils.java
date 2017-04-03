@@ -185,10 +185,14 @@ public class NavUtils {
 	}
 
 	public static void goToSignIn(Context context) {
-		goToSignIn(context, true, false);
+		goToSignIn(context, true, false, 0);
 	}
 
-	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender) {
+	public static void goToSignIn(Context context, int flags) {
+		goToSignIn(context, true, false, flags);
+	}
+
+	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender, int flags) {
 		Intent intent;
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
 		if (ExpediaBookingApp.useTabletInterface()) {
@@ -205,6 +209,11 @@ public class NavUtils {
 		if (useItinSyncExtender) {
 			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItinerarySyncLoginExtender());
 		}
+
+		if ((flags & MEMBER_ONLY_DEAL_SEARCH) != 0) {
+			bundle.putBoolean(Codes.MEMBER_ONLY_DEALS,true);
+		}
+
 		User.signIn((Activity) context, bundle);
 	}
 

@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Duration;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Minutes;
 import org.joda.time.ReadableInstant;
@@ -13,6 +15,7 @@ import android.content.res.Resources;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.JodaUtils;
+import com.squareup.phrase.Phrase;
 
 public class DateTimeUtils {
 	public static final String FLIGHT_STATS_FORMAT = "yyyy-MM-dd'T'HH:mm";
@@ -57,6 +60,41 @@ public class DateTimeUtils {
 		}
 		else if (minutes >= 0) {
 			return r.getString(R.string.minutes_template, minutes);
+		}
+		else {
+			return "";
+		}
+	}
+
+	/**
+	 * Formats the passed duration (given in number of minutes) as a readable String.
+	 *
+	 * @param r
+	 * @param millis number of minutes
+	 * @return Total Duration: 1 hr 2 min or Total Duration: 1 hr or Total Duration: 1 min
+	 */
+	public static String formatTotalDuration(Resources r, long millis) {
+		Duration duration = new Duration(millis);
+		int minutes = (int) duration.getStandardMinutes() % DateTimeConstants.MINUTES_PER_HOUR;
+		int hours = (int) duration.getStandardHours();
+		if (hours > 0 && minutes > 0) {
+			return Phrase.from(r.getString(R.string.full_hours_minutes_template))
+				.put("hour", hours)
+				.put("min", minutes)
+				.format()
+				.toString();
+		}
+		else if (hours > 0) {
+			return Phrase.from(r.getString(R.string.full_hours_template))
+				.put("hour", hours)
+				.format()
+				.toString();
+		}
+		else if (minutes >= 0) {
+			return Phrase.from(r.getString(R.string.full_minutes_template))
+				.put("min", minutes)
+				.format()
+				.toString();
 		}
 		else {
 			return "";

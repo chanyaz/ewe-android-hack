@@ -258,8 +258,14 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:padding="8dp"
+                    android:visibility="gone"
                     android:textColor="?attr/primary_color"
                     android:textSize="@dimen/car_slide_to_purchase_price_text_size" />
+                <Space
+                    android:id="@+id/slide_to_purchase_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="8dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

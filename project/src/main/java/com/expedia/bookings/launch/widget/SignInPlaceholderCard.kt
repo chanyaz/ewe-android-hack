@@ -14,7 +14,7 @@ class SignInPlaceholderCard(itemView: View, context: Context) : AbstractGenericP
 
     init {
         button_one.setOnClickListener {
-            NavUtils.goToSignIn(context, false, true)
+            NavUtils.goToSignIn(context, false, true, 0)
             OmnitureTracking.trackLaunchSignIn()
         }
 

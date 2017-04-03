@@ -10,6 +10,7 @@ import com.expedia.bookings.services.HotelServices
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.Date
 
 open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
@@ -21,9 +22,11 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
     val noResponseObservable = PublishSubject.create<Throwable>()
     val checkoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
     val priceChangeResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
+    val checkoutRequestCallObservable = BehaviorSubject.create<Long>()
 
     init {
         checkoutParams.subscribe { params ->
+            checkoutRequestCallObservable.onNext(Date().time)
             hotelServices.checkout(params, getCheckoutResponseObserver())
         }
     }

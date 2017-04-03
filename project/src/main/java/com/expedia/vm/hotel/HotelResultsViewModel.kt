@@ -159,10 +159,14 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             errorObservable.onNext(hotelSearchResponse.firstError)
         } else if (hotelSearchResponse.hotelList.isEmpty()) {
             var error: ApiError
-            if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
+            if (isFiltered) {
+                error = ApiError(ApiError.Code.HOTEL_FILTER_NO_RESULTS)
             } else {
-                error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
+                if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+                    error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
+                } else {
+                    error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
+                }
             }
             errorObservable.onNext(error)
         } else if (isFiltered) {

@@ -21,6 +21,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.updatePaddingForOldApi
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeTextAndVisibility
@@ -82,11 +83,16 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         }
         val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
         if (isExtraPaddingRequired) {
-            val editTextSpacing = context.getResources().getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
-            addressCity.setPadding(addressCity.paddingLeft, addressCity.paddingTop, addressCity.paddingRight, editTextSpacing)
-            addressState.setPadding(addressState.paddingLeft, addressState.paddingTop, addressState.paddingRight, editTextSpacing)
-            creditCardCvv.setPadding(creditCardCvv.paddingLeft, creditCardCvv.paddingTop, creditCardCvv.paddingRight, editTextSpacing)
-            creditCardPostalCode.setPadding(creditCardPostalCode.paddingLeft, creditCardPostalCode.paddingTop, creditCardPostalCode.paddingRight, editTextSpacing)
+            addressCity.updatePaddingForOldApi()
+            addressState.updatePaddingForOldApi()
+            creditCardCvv.updatePaddingForOldApi()
+            creditCardPostalCode.updatePaddingForOldApi()
+            if (materialFormTestEnabled)  {
+                expirationDate.updatePaddingForOldApi()
+                editCountryEditText?.updatePaddingForOldApi()
+                addressLineOne.updatePaddingForOldApi()
+                addressLineTwo.updatePaddingForOldApi()
+            }
         }
     }
 
@@ -152,7 +158,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         sectionLocation.removeNonMaterialFields()
         sectionLocation.materialCountryAdapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, R.layout.material_item)
         defaultCreditCardNumberLayout = findViewById(R.id.material_edit_credit_card_number) as TextInputLayout
-        editCountryEditText = findViewById(R.id.material_edit_country_button) as EditText
+        editCountryEditText = findViewById(R.id.material_edit_country) as AccessibleEditText
         maskedCreditLayout = findViewById(R.id.material_edit_masked_creditcard_number) as TextInputLayout
 
         editCountryEditText?.setOnClickListener{

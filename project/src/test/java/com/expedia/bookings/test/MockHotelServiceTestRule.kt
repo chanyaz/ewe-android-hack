@@ -39,6 +39,10 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getHappyCreateTripResponseWithPropertyFee(): HotelCreateTripResponse {
+        return getCreateTripResponse("happypath_2_night_stay_0")
+    }
+
     fun getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_redeemable_points_less_than_trip_total")
     }

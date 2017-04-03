@@ -130,6 +130,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/NewLaunchTheme"
+            android:windowSoftInputMode="adjustPan"
             tools:ignore="UnusedAttribute" />
 
         <!-- Itineraries -->

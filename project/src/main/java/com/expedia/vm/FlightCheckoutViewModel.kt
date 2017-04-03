@@ -17,7 +17,6 @@ import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribe
-import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -45,11 +44,8 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
             builder.expectedFareCurrencyCode(createTripResponse.details.offer.totalPrice.currency)
             builder.tealeafTransactionId(createTripResponse.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
-            val resId = if (!selectedFlightChargesFees.value.isNullOrEmpty()) R.string.your_card_will_be_charged_plus_airline_fee_template else R.string.your_card_will_be_charged_template
-            val totalPrice = Phrase.from(context, resId)
-                    .put("dueamount", createTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
-                    .format()
-            sliderPurchaseTotalText.onNext(totalPrice)
+            val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
+            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
         }
 
         checkoutPriceChangeObservable.subscribe { checkoutResponse ->

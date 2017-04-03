@@ -36,7 +36,7 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:1.0.0'
-    compile 'com.expedia:android-account-lib:1.1.16'
+    compile 'com.expedia:android-account-lib:1.1.17'
     compile 'com.mobiata:android-utils:1.1.0'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
@@ -228,7 +228,7 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 8
-            def minor = 17
+            def minor = 18
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)

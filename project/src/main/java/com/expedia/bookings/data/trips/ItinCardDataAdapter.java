@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Pair;
@@ -50,7 +51,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private Context mContext;
-	private ItineraryManager mItinManager;
 	private int mSummaryCardPosition;
 	private int mAltSummaryCardPosition;
 	private List<ItinCardData> mItinCardDatas;
@@ -70,7 +70,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	public ItinCardDataAdapter(Context context) {
 		mContext = context;
-		mItinManager = ItineraryManager.getInstance();
 		mItinCardDatas = new ArrayList<ItinCardData>();
 		mItinCardDatasSync = new ArrayList<ItinCardData>();
 	}
@@ -240,7 +239,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	 */
 	public synchronized void syncWithManager() {
 		// Add Items
-		mItinCardDatasSync.addAll(mItinManager.getItinCardData());
+		mItinCardDatasSync.addAll(getItineraryManagerInstance().getItinCardData());
 
 		// Add air attach and hotel attach cards where applicable
 		addAttachData(mItinCardDatasSync);
@@ -317,6 +316,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
+
+	protected ItineraryManager getItineraryManagerInstance() {
+		return ItineraryManager.getInstance();
+	}
 
 	private Type getItemViewCardType(int position) {
 		int typeOrd = getItemViewType(position);
@@ -495,12 +498,8 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		if (len == 0) {
 			return;
 		}
-		// Get previously dismissed buttons
-		final HashSet<String> dismissedTripIds = DismissedItinButton
-			.getDismissedTripIds(ItinButtonCard.ItinButtonType.HOTEL_ATTACH);
-		final HashSet<String> dismissedAirAttach = DismissedItinButton
-			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
-		dismissedTripIds.addAll(dismissedAirAttach);
+		final HashSet<String> dismissedTripIds = getDismissedHotelAndFlightButtons();
+
 
 		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
 			Db.getTripBucket().isUserAirAttachQualified();
@@ -618,6 +617,22 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 	}
 
+	@NonNull
+	protected HashSet<String> getDismissedHotelAndFlightButtons() {
+		// Get previously dismissed buttons
+		final HashSet<String> dismissedTripIds = DismissedItinButton
+			.getDismissedTripIds(ItinButtonType.HOTEL_ATTACH);
+		final HashSet<String> dismissedAirAttach = DismissedItinButton
+			.getDismissedTripIds(ItinButtonType.AIR_ATTACH);
+		dismissedTripIds.addAll(dismissedAirAttach);
+		return dismissedTripIds;
+	}
+
+	protected HashSet<String> getDismissedLXAttachButtons() {
+		return DismissedItinButton
+			.getDismissedTripIds(ItinButtonType.LX_ATTACH);
+	}
+
 	private void addLXAttachData(List<ItinCardData> itinCardDatas) {
 		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			return;
@@ -628,8 +643,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			return;
 		}
 		// Get previously dismissed buttons
-		final HashSet<String> dismissedTripIds = DismissedItinButton
-			.getDismissedTripIds(ItinButtonType.LX_ATTACH);
+		final HashSet<String> dismissedTripIds = getDismissedLXAttachButtons();
 
 		for (int i = 0; i < len; i++) {
 			ItinCardData data = itinCardDatas.get(i);

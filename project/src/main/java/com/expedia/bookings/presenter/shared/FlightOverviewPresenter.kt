@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
-import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
@@ -34,6 +34,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     val earnMessageTextView: TextView by bindView(R.id.earn_message)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
+    val basicEconomyText: TextView by bindView(R.id.flight_basic_economy_messaging)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val showBaggageFeesButton: Button by bindView(R.id.show_baggage_fees)
@@ -45,6 +46,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     init {
         View.inflate(getContext(), R.layout.widget_flight_overview, this)
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
+        basicEconomyText.text = HtmlCompat.fromHtml(context.getString(R.string.flight_details_basic_economy_message))
     }
 
     @Override
@@ -66,6 +68,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
             showEarnMessage || showBundlePrice
         }).subscribeVisibility(bundlePriceTextView)
         vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
+        vm.showBasicEconomyMessaging.subscribeVisibility(basicEconomyText)
         vm.totalDurationSubject.subscribeText(totalDurationText)
         vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->

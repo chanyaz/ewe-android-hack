@@ -112,23 +112,21 @@ class FlightCheckoutViewModelTest {
         setupSystemUnderTest()
 
         val sliderPurchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
+        val sliderPurchaseContentDescTestSubscriber = TestSubscriber<CharSequence>()
         sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
+        sut.accessiblePurchaseButtonContentDescription.subscribe(sliderPurchaseContentDescTestSubscriber)
 
         sut.createTripResponseObservable.onNext(newTripResponse)
         assertEquals(BigDecimal("42.00"), sut.createTripResponseObservable.value!!.newPrice().amount)
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         assertEquals(BigDecimal("44.50"), sut.createTripResponseObservable.value!!.newPrice().amount)
-        sliderPurchaseTotalTextTestSubscriber.assertValueCount(2)
+        sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
         
-        assertEquals("Your card will be charged $42.00", sliderPurchaseTotalTextTestSubscriber.onNextEvents[0].toString())
-        assertEquals("Your card will be charged $44.50", sliderPurchaseTotalTextTestSubscriber.onNextEvents[1].toString())
-
         givenAirlineChargesFees()
-
+        assertEquals("Purchase Button", sliderPurchaseContentDescTestSubscriber.onNextEvents[0].toString())
         sut.createTripResponseObservable.onNext(newTripResponse)
-        sliderPurchaseTotalTextTestSubscriber.assertValueCount(3)
-        assertEquals("Your card will be charged $44.50 (plus airline fee)", sliderPurchaseTotalTextTestSubscriber.onNextEvents[2].toString())
+        sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
     }
 
     @Test
@@ -192,7 +190,7 @@ class FlightCheckoutViewModelTest {
 
         givenAirlineChargesFees()
         cardFeeWarningTestSubscriber.assertValueCount(3)
-        assertEquals("An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment.",
+        assertEquals("There may be an additional fee, based on your payment method.",
                 cardFeeWarningTestSubscriber.onNextEvents[2].toString())
 
         sut.selectedCardFeeObservable.onNext(Money())
@@ -269,10 +267,10 @@ class FlightCheckoutViewModelTest {
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         cardFeeTextSubscriber.assertValueCount(1)
-        assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+        assertEquals("Payment method fee: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
 
         cardFeeWarningTextSubscriber.assertValueCount(1)
-        assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
+        assertEquals("A payment method fee of $2.50 is included in the trip total.",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
         hasCardFeeTestSubscriber.assertValue(true)
@@ -298,11 +296,11 @@ class FlightCheckoutViewModelTest {
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
         cardFeeTextSubscriber.assertValueCount(2)
-        assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+        assertEquals("Payment method fee: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeTextSubscriber.onNextEvents[1].toString())
 
         cardFeeWarningTextSubscriber.assertValueCount(2)
-        assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
+        assertEquals("A payment method fee of $2.50 is included in the trip total.",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[1].toString())
 

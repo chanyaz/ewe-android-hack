@@ -1992,6 +1992,8 @@
     <string name="earn_points_TEMPLATE">獲得 {points} 點</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">獲得 {price}</string>
+    <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
+    <string name="earn_amount_flight_TEMPLATE">獲得 {price} {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">隨身行李需要付費</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -2245,8 +2247,6 @@
     <string name="phone_number_country_code_dropdown_cont_desc">國碼</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">國碼</string>
-    <!-- Born on -->
-    <string name="born_on_TEMPLATE">出生日期：%1$s</string>
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">出生日期：%1$s</string>
 
@@ -3895,6 +3895,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">按一下以查看行程分享選項</string>
+    <!-- Content description for action: Press to view share options -->
+    <string name="hide_menu_btn_cont_desc">按一下以查看隱藏選項</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <string name="tablet_results_hotel_list_cont_desc">飯店搜尋結果</string>
@@ -4541,6 +4543,7 @@
     <string name="loyalty_applied_excluding_taxes_and_fees_message">已使用 Expedia+ 獎勵計劃點數！(不含稅金和其他費用)</string>
     <string name="regular_loyalty_applied_message">已使用 Expedia+ 獎勵計劃點數！</string>
     <string name="vip_loyalty_applied_message">已使用 2 倍點數！</string>
+    <string name="vip_short_loyalty_applied_message">2X</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">已使用 2 倍 Expedia+ 點數！</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4686,6 +4689,15 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">顯示較少航空公司。按鈕</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">清除篩選條件。按鈕</string>
+
+
+    <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
+    <string name="flight_overview_price_widget_TEMPLATE">行程總價為 {totalprice}。含稅金和其他費用。{savings}</string>
+    <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">行程總價為 {totalprice}。含稅金和其他費用。{savings}。費用明細對話方塊。按鈕。</string>
+    <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">行程價格為每人 {price_per_person}。含稅金和其他費用。查看班機按鈕。</string>
+
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -4693,7 +4705,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套裝價格為每人 {price_per_person}。此價格包含機票與飯店的稅金和費用。查看套裝按鈕。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">前往{city_name}。{startdate}至 {enddate}，{guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">前往{city_name}的行程。{startdate}至 {enddate}，{guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4902,7 +4914,6 @@
     <string name="launch_find_hotels_near_you">搜尋您附近的飯店</string>
     <!-- Popular hotels header text-->
     <string name="launch_find_recommended_hotels">今晚推薦飯店</string>
-    <string name="launch_find_popular_hotels">今晚熱門飯店</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">預訂成功！</string>
     <!-- Check your email for itinerary alert message-->
@@ -4946,4 +4957,6 @@
     <string name="error_enter_a_valid_card_name">請輸入信用卡上的姓名</string>
     <!-- Checkout validation error message for phone country code -->
     <string name="error_select_a_valid_country_code">請選擇國碼</string>
+    <!-- Text shown on flight itin when booking is still pending -->
+    <string name="itin_flight_booking_status_pending">預訂已確認。開票手續進行中。</string>
 </resources>

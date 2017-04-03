@@ -34,6 +34,10 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
         lobs.add(LobInfo.HOTELS)
         lobs.add(LobInfo.FLIGHTS)
 
+        if (pos.supports(LineOfBusiness.PACKAGES)) {
+            lobs.add(LobInfo.PACKAGES)
+        }
+
         if (pos.supports(LineOfBusiness.CARS)) {
             lobs.add(LobInfo.CARS)
         }
@@ -48,15 +52,6 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
 
         if (pos.supports(LineOfBusiness.RAILS)) {
             lobs.add(LobInfo.RAILS)
-        }
-
-        if (pos.supports(LineOfBusiness.PACKAGES)) {
-            // if we have odd lob then we should add Packages in the end other 3 index
-            if (lobs.size % 2 == 0) {
-                lobs.add(LobInfo.PACKAGES)
-            } else {
-                lobs.add(2, LobInfo.PACKAGES)
-            }
         }
 
         return lobs

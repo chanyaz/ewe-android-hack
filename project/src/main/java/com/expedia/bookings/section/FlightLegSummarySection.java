@@ -25,7 +25,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ShopWithPointsFlightsUtil;
@@ -96,8 +95,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			mEarnAmountTextView = Ui.findView(this, R.id.earn_amount_text_view);
 		}
 
-		if (mRoundtripTextView != null &&
-			!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest)) {
+		if (mRoundtripTextView != null) {
 			// if user is not bucketed for this test, get rid of view so later logic can easily ignore it
 			mRoundtripTextView.setVisibility(View.GONE);
 			mRoundtripTextView = null;
@@ -269,10 +267,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mNumberTicketsLeftView != null && mShowNumberTicketsLeftView) {
-			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 			boolean showNumberSeatsRemaining =
 				trip != null && (trip.getSeatsRemaining() > 0 && trip.getSeatsRemaining() < NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD);
-			if (showNumberSeatsRemaining && isUserBucketedForTest) {
+			if (showNumberSeatsRemaining) {
 				String numbTicketsTemplate = getResources().getQuantityString(R.plurals.number_tickets_left_TEMPLATE, trip.getSeatsRemaining());
 				CharSequence numberTicketsLeft = Phrase.from(numbTicketsTemplate).put("number_tickets_left", trip.getSeatsRemaining()).format();
 				mNumberTicketsLeftView.setText(numberTicketsLeft);

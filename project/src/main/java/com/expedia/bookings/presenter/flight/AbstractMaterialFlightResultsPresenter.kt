@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -37,7 +38,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             paymentFeeInfoWebView.viewModel.webViewURLObservable.onNext(flightOfferViewModel.obFeeDetailsUrlObservable.value)
         }
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppSimplifyFlightShopping, R.string.preference_simplify_flight_shopping)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSimplifyFlightShopping)) {
             resultsPresenter.flightSelectedSubject.subscribe {
                 overviewPresenter.vm.selectedFlightLegSubject.onNext(it)
                 overviewPresenter.vm.selectFlightClickObserver.onNext(Unit)

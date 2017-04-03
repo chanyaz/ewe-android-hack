@@ -11,17 +11,21 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightSummaryWidget
+import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
@@ -33,6 +37,7 @@ import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -62,48 +67,49 @@ class FlightOverviewPresenterTest {
         val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
         validator.updateForNewSearch(setupFlightSearchParams())
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
+        SettingUtils.save(context, context.getString(R.string.preference_show_basic_economy), true)
     }
 
     @Test
     fun widgetVisibilityTest() {
-        val bundleOverviewHeader = widget.findViewById(R.id.coordinator_layout) as BundleOverviewHeader
-        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
-        val flightCheckoutPresenter = widget.findViewById(R.id.checkout_presenter) as FlightCheckoutPresenter
-        val cvvEntryWidget = widget.findViewById(R.id.cvv) as CVVEntryWidget
-        val paymentFeeInfoWebView = widget.findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
-        assertEquals(View.VISIBLE, bundleOverviewHeader.visibility)
-        assertEquals(View.VISIBLE, flightSummaryWidget.visibility)
-        assertEquals(View.VISIBLE, flightCheckoutPresenter.visibility)
-        assertEquals(View.GONE, cvvEntryWidget.visibility)
-        assertEquals(View.GONE, paymentFeeInfoWebView.visibility)
+        assertEquals(View.VISIBLE, widget.bundleOverviewHeader.visibility)
+        assertEquals(View.VISIBLE, widget.flightSummary.visibility)
+        assertEquals(View.VISIBLE, widget.getCheckoutPresenter().visibility)
+        assertEquals(View.GONE, widget.cvv.visibility)
+        assertEquals(View.GONE, widget.paymentFeeInfoWebView.visibility)
 
-        val freeCancelltionText = widget.flightSummary.findViewById(R.id.free_cancellation_text) as TextView
-        val splitTicketBaggageFeeLinkContainer = widget.flightSummary.findViewById(R.id.split_ticket_info_container)
-        val airlineFeeWarningText = widget.flightSummary.findViewById(R.id.airline_fee_warning_text) as TextView
+        val freeCancelltionText = widget.flightSummary.freeCancellationLabelTextView
+        val splitTicketBaggageFeeLinkContainer = widget.flightSummary.splitTicketInfoContainer
+        val airlineFeeWarningText = widget.flightSummary.airlineFeeWarningTextView
+        val basicEconomyMessaging = widget.flightSummary.basicEconomyMessageTextView
         widget.viewModel.airlineFeeWarningTextObservable.onNext("An airline fee, based on card type, may be added upon payment.")
         widget.viewModel.showFreeCancellationObservable.onNext(true)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(true)
         widget.viewModel.showAirlineFeeWarningObservable.onNext(true)
+        widget.viewModel.showBasicEconomyMessageObservable.onNext(true)
         assertEquals("An airline fee, based on card type, may be added upon payment.", airlineFeeWarningText.text)
         assertEquals(View.VISIBLE, freeCancelltionText.visibility)
         assertEquals(View.VISIBLE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.VISIBLE, airlineFeeWarningText.visibility)
+        assertEquals(View.VISIBLE, basicEconomyMessaging.visibility)
         widget.viewModel.airlineFeeWarningTextObservable.onNext("An airline fee, based on card type, is added upon payment.")
         assertEquals("An airline fee, based on card type, is added upon payment.", airlineFeeWarningText.text)
 
         widget.viewModel.showFreeCancellationObservable.onNext(false)
         widget.viewModel.showSplitTicketMessagingObservable.onNext(false)
         widget.viewModel.showAirlineFeeWarningObservable.onNext(false)
+        widget.viewModel.showBasicEconomyMessageObservable.onNext(false)
         assertEquals(View.GONE, freeCancelltionText.visibility)
         assertEquals(View.GONE, splitTicketBaggageFeeLinkContainer.visibility)
         assertEquals(View.GONE, airlineFeeWarningText.visibility)
+        assertEquals(View.GONE, basicEconomyMessaging.visibility)
 
     }
 
     @Test
     fun onOutBoundFlightWidgetClick() {
-        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
-        val outboundFlightWidget = flightSummaryWidget.findViewById(R.id.package_bundle_outbound_flight_widget) as OutboundFlightWidget
+        val flightSummaryWidget = widget.flightSummary
+        val outboundFlightWidget = flightSummaryWidget.outboundFlightWidget
         outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         outboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
         outboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")
@@ -118,8 +124,8 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun onInBoundFlightWidgetClick() {
-        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
-        val inboundFlightWidget = flightSummaryWidget.findViewById(R.id.package_bundle_inbound_flight_widget) as InboundFlightWidget
+        val flightSummaryWidget = widget.flightSummary
+        val inboundFlightWidget = flightSummaryWidget.inboundFlightWidget
         inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
         inboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
         inboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")
@@ -134,7 +140,7 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun testTotalPriceWidget() {
-        val flightCheckoutPresenter = widget.findViewById(R.id.checkout_presenter) as FlightCheckoutPresenter
+        val flightCheckoutPresenter = widget.getCheckoutPresenter()
         val totalPriceWidget = flightCheckoutPresenter.findViewById(R.id.total_price_widget) as TotalPriceWidget
         val bundleTotalPrice = flightCheckoutPresenter.findViewById(R.id.bundle_total_price) as TextView
         val bundleTotalText = flightCheckoutPresenter.findViewById(R.id.bundle_total_text) as TextView
@@ -158,12 +164,50 @@ class FlightOverviewPresenterTest {
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
         Db.loadTripBucket(context)
         Db.setFlightSearchParams(setupFlightSearchParams())
-        Db.getTripBucket().add(TripBucketItemFlightV2(getFlightCreateTripResponse()))
-        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(getFlightCreateTripResponse())
+        val createTripResponse = getFlightCreateTripResponse()
+        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
         val checkoutBtn = widget.checkoutButton
         assertEquals(true, checkoutBtn.isEnabled)
         assertEquals(View.VISIBLE, checkoutBtn.visibility)
         assertEquals(checkoutBtn.text.toString(), context.resources.getString(R.string.Checkout))
+    }
+
+    @Test
+    fun testBasicEconomyMessageVisibility() {
+        Db.loadTripBucket(context)
+        Db.setFlightSearchParams(setupFlightSearchParams())
+        val createTripResponse = getFlightCreateTripResponse()
+        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
+
+        val flightCheckoutPresenter = widget.getCheckoutPresenter()
+        val flightSummary = widget.flightSummary
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals(View.GONE, flightSummary.basicEconomyMessageTextView.visibility)
+
+        createTripResponse.details.legs[0].isBasicEconomy = true
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals(View.VISIBLE, flightSummary.basicEconomyMessageTextView.visibility)
+    }
+
+    @Test
+    fun testBasicEconomyMessageClick() {
+        Db.loadTripBucket(context)
+        Db.setFlightSearchParams(setupFlightSearchParams())
+        val createTripResponse = getFlightCreateTripResponse()
+        createTripResponse.details.legs[0].isBasicEconomy = true
+        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
+
+        val flightCheckoutPresenter = widget.getCheckoutPresenter()
+        val flightSummary = widget.flightSummary
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
+
+        flightSummary.basicEconomyMessageTextView.performClick()
+        assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
     }
 
     @Test

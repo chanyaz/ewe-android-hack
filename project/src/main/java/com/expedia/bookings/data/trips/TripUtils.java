@@ -134,10 +134,10 @@ public class TripUtils {
 		List<Trip> flightTrips = new ArrayList<Trip>();
 		for (Trip trip : trips) {
 			boolean hasOneTripComponent = trip.getTripComponents().size() == 1;
-			boolean isFlightTrip = trip.getTripComponents().get(0) instanceof TripFlight;
 			boolean isNotShared = !trip.isShared();
-			if (hasOneTripComponent && isFlightTrip && isNotShared) {
-				if (trip.getAirAttach() != null && trip.getAirAttach().isAirAttachQualified()) {
+			if (hasOneTripComponent && isNotShared) {
+				boolean isFlightTrip = trip.getTripComponents().get(0) instanceof TripFlight;
+				if (isFlightTrip && trip.getAirAttach() != null && trip.getAirAttach().isAirAttachQualified()) {
 					flightTrips.add(trip);
 				}
 			}
@@ -168,7 +168,13 @@ public class TripUtils {
 	public static HotelSearchParams getHotelSearchParamsForRecentFlightAirAttach(TripFlight tripFlight) {
 		if (tripFlight != null) {
 			FlightLeg firstFlightLeg = tripFlight.getFlightTrip().getLeg(0);
-			return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(tripFlight, firstFlightLeg, null);
+			FlightLeg secondFlightLeg = null;
+
+			if (tripFlight.getFlightTrip().getLegCount() > 1) {
+				secondFlightLeg = tripFlight.getFlightTrip().getLeg(1);
+			}
+			return HotelCrossSellUtils
+				.generateHotelSearchParamsFromItinData(tripFlight, firstFlightLeg, secondFlightLeg);
 		}
 		return null;
 	}

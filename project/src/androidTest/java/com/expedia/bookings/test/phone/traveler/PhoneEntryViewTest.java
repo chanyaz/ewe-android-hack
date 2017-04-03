@@ -22,7 +22,6 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.PhoneEntryView;
 import com.expedia.vm.traveler.TravelerPhoneViewModel;
-import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -51,7 +50,6 @@ public class PhoneEntryViewTest {
 	@Before
 	public void setup() {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
 
 		Context context = InstrumentationRegistry.getTargetContext();
 		Ui.getApplication(context).defaultTravelerComponent();
@@ -60,9 +58,6 @@ public class PhoneEntryViewTest {
 	@Test
 	public void testMaterialForm() throws Throwable {
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		SettingUtils
-			.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms,
-				true);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override

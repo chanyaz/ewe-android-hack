@@ -11,10 +11,10 @@
         android:layout_weight="2"
         android:layout_marginRight="10dp"
         android:hint="@string/phone_number_country_code_hint"
-        android:labelFor="@+id/edit_phone_number_country_code_button">
+        android:labelFor="@+id/material_edit_phone_number_country_code">
 
-        <EditText
-            android:id="@+id/edit_phone_number_country_code_button"
+        <com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
+            android:id="@+id/material_edit_phone_number_country_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"

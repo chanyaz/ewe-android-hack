@@ -151,9 +151,9 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCheckoutPaymentCID()
     }
 
-    fun trackCheckoutConfirmationPageLoad(flightCheckoutResponse: FlightCheckoutResponse) {
+    fun trackCheckoutConfirmationPageLoad(flightCheckoutResponse: FlightCheckoutResponse, pageUsableData: PageUsableData) {
         val searchParams = Db.getFlightSearchParams()
-        OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
+        OmnitureTracking.trackFlightCheckoutConfirmationPageLoad(pageUsableData)
         TuneUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
         FacebookEvents().trackFlightV2Confirmation(flightCheckoutResponse, searchParams)
     }

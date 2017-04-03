@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
@@ -48,11 +49,16 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-            airlineChargesFeesTextView.text = context.getString(R.string.airline_may_charge_notice)
-        }
-        else {
-            airlineChargesFeesTextView.text = context.getString(R.string.airline_charge_notice)
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+            if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+                airlineChargesFeesTextView.text = context.getString(R.string.airline_additional_fee_notice)
+            }
+        } else {
+            if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                airlineChargesFeesTextView.text = context.getString(R.string.airline_may_charge_notice)
+            } else {
+                airlineChargesFeesTextView.text = context.getString(R.string.airline_charge_notice)
+            }
         }
         val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context)
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
@@ -121,8 +127,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                     }
                 }
             })
-        }
-        else {
+        } else {
             airlineChargesFeesTextView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     resetChildrenTops()

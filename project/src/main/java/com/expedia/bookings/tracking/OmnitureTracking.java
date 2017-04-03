@@ -107,6 +107,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -957,9 +958,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse,
-		int percentagePaidWithPoints, String totalAppliedRewardCurrency) {
+		int percentagePaidWithPoints, String totalAppliedRewardCurrency, PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
-
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
 		s.setEvents("purchase," + ProductFlavorFeatureConfiguration.getInstance().getOmnitureEventValue(
 			OmnitureEventName.TOTAL_POINTS_BURNED) + "=" + totalAppliedRewardCurrency);
@@ -999,6 +999,8 @@ public class OmnitureTracking {
 		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
 
 		s.setEvar(53, getPercentageOfAmountPaidWithPoints(percentagePaidWithPoints));
+
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
 		// LX Cross sell
 		boolean isLXEnabled = PointOfSale.getPointOfSale().supports(LineOfBusiness.LX);
@@ -1699,7 +1701,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_OUT);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -1726,7 +1727,6 @@ public class OmnitureTracking {
 
 		s.setEvar(47, getEvar47String(searchParams));
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest);
 		s.track();
 	}
 
@@ -1773,7 +1773,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_RESULTS_ONE_WAY);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -3604,6 +3603,9 @@ public class OmnitureTracking {
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_lob_accentuating)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
+		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		if (User.isLoggedIn(sContext) && FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_member_deal_on_launch_screen)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
@@ -4031,7 +4033,7 @@ public class OmnitureTracking {
 		}
 
 		if (!TextUtils.isEmpty(email)) {
-			s.setProp(11, md5(email));
+			s.setProp(11, hashEmail(email));
 		}
 
 		if (!TextUtils.isEmpty(expediaId)) {
@@ -4082,6 +4084,11 @@ public class OmnitureTracking {
 				s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
 					+ bestLastLocation.getAccuracy());
 			}
+		}
+
+		String mc1Guid = DebugInfoUtils.getMC1CookieStr(sContext);
+		if (mc1Guid != null) {
+			s.setProp(23, mc1Guid.replace("GUID=", ""));
 		}
 	}
 
@@ -4264,17 +4271,21 @@ public class OmnitureTracking {
 		}
 	}
 
-	private static String md5(String s) {
+	private static String hashEmail(String s) {
 		try {
-			// Create MD5 Hash
-			MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+			// Create SHA256 Hash
+			MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
 			digest.update(s.getBytes());
 			byte[] messageDigest = digest.digest();
 
 			// Create Hex String
-			StringBuffer hexString = new StringBuffer();
-			for (int i = 0; i < messageDigest.length; i++) {
-				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+			StringBuilder hexString = new StringBuilder();
+			for (byte rawByte : messageDigest) {
+				String hexByte = Integer.toHexString(0xFF & rawByte);
+				if (hexByte.length() == 1) {
+					hexByte = "0" + hexByte;
+				}
+				hexString.append(hexByte);
 			}
 			return hexString.toString();
 		}
@@ -4829,10 +4840,7 @@ public class OmnitureTracking {
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true, hotelSupplierType);
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		}
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		s.track();
 	}
 
@@ -5027,7 +5035,8 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(PACKAGES_CHECKOUT_PAYMENT_SELECT_STORED_CC, "Package Checkout");
 	}
 
-	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType) {
+	public static void trackPackagesConfirmation(PackageCheckoutResponse response, String hotelSupplierType,
+		PageUsableData pageUsableData) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CONFIRMATION);
 		setPackageProducts(s, response.getTotalChargesPrice().amount.doubleValue(), true, true, hotelSupplierType);
@@ -5038,6 +5047,7 @@ public class OmnitureTracking {
 			s.setProp(71, response.getNewTrip().getTravelRecordLocator());
 		}
 		s.setProp(72, response.getOrderId());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 		s.track();
 	}
 
@@ -5465,7 +5475,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
 	}
 
-	public static void trackFlightCheckoutConfirmationPageLoad() {
+	public static void trackFlightCheckoutConfirmationPageLoad(PageUsableData pageUsableData) {
 		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
 		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
 
@@ -5515,6 +5525,7 @@ public class OmnitureTracking {
 		s.setProp(71, checkoutResponse.getNewTrip().getTravelRecordLocator());
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
+		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
 		s.track();
 	}
@@ -5548,9 +5559,7 @@ public class OmnitureTracking {
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
 
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
 		if (User.isLoggedIn(sContext) && Db.getUser().hasAtLeastOneExpiredStoredCard()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
@@ -5642,9 +5651,7 @@ public class OmnitureTracking {
 		s.setEvar(47, getFlightV2Evar47String(searchTrackingData));
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event54");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_simplify_flight_shopping)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppSimplifyFlightShopping);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSimplifyFlightShopping);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);

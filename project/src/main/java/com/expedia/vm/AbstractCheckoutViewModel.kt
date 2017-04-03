@@ -16,6 +16,7 @@ import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
+import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -40,13 +41,14 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val animateInSlideToPurchaseObservable = PublishSubject.create<Boolean>()
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
     val bottomContainerInverseVisibilityObservable = PublishSubject.create<Boolean>()
+    val checkoutRequestStartTimeObservable = BehaviorSubject.create<Long>()
 
     // Outputs
     val checkoutPriceChangeObservable = PublishSubject.create<TripResponse>()
     val noNetworkObservable = PublishSubject.create<Unit>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
-    val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
+    val sliderPurchaseTotalText = BehaviorSubject.create<CharSequence>()
     val accessiblePurchaseButtonContentDescription = PublishSubject.create<CharSequence>()
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()
@@ -65,6 +67,10 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
         compositeSubscription = CompositeSubscription()
         clearTravelers.subscribe {
             builder.clearTravelers()
+        }
+
+        checkoutParams.subscribe{
+            checkoutRequestStartTimeObservable.onNext(Date().time)
         }
 
         travelerCompleted.subscribe {

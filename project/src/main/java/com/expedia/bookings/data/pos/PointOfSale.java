@@ -193,6 +193,9 @@ public class PointOfSale {
 	// Message types for Airline Payment Method Fee
 	private AirlinePaymentMethodFeeMessageType airlinePaymentMethodFeeMessageType;
 
+	// Should we show Payment Legal Message
+	private boolean showAirlinePaymentMethodFeeLegalMessage;
+
 	private static boolean sIsTablet;
 
 	private boolean mShouldShowKnownTravelerNumber;
@@ -871,6 +874,10 @@ public class PointOfSale {
 		return airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.WILL_CHARGE);
 	}
 
+	public boolean showAirlinePaymentMethodFeeLegalMessage() {
+		return showAirlinePaymentMethodFeeLegalMessage;
+	}
+
 	public boolean isPwPEnabledForHotels() {
 		return isPwPEnabledForHotels;
 	}
@@ -1331,6 +1338,7 @@ public class PointOfSale {
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
 		pos.mShouldShowKnownTravelerNumber = data.optBoolean("shouldShowKnownTravelerNumber", false);
 		pos.mShouldFormatTravelerPhoneNumber = data.optBoolean("shouldFormatTravelerPhoneNumber", false);
+		pos.showAirlinePaymentMethodFeeLegalMessage = data.optBoolean("showAirlinePaymentMethodFeeLegalMessage", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

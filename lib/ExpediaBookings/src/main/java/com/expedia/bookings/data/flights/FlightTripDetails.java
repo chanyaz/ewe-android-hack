@@ -18,6 +18,7 @@ public class FlightTripDetails {
 	public FlightOffer offer;
 	public FlightOffer oldOffer;
 	public Money obFeePrice;
+	public String basicEconomyFareRules = "";
 
 	public static class FlightOffer {
 		public String productKey;

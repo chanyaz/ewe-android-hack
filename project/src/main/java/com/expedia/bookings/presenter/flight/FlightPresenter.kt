@@ -26,6 +26,8 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -46,6 +48,7 @@ import com.expedia.vm.flights.FlightOffersViewModelByot
 import com.expedia.vm.packages.PackageSearchType
 import com.squareup.phrase.Phrase
 import rx.Observable
+import java.util.Date
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
@@ -62,6 +65,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     lateinit var travelerManager: TravelerManager
 
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
+    val pageUsableData = PageUsableData()
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
@@ -244,26 +248,39 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter.toggleCheckoutButtonAndSliderVisibility(false)
 
-        if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
-            presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
-            val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                R.string.airline_maybe_fee_notice
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+            if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
+                presenter.viewModel.airlineFeeWarningTextObservable.onNext(context.getString(R.string.airline_additional_fee_notice))
             } else {
-                R.string.airline_fee_notice
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
             }
-            val message = context.getString(resId)
-            presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
         } else {
-            presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
+            if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
+                val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                    R.string.airline_maybe_fee_notice
+                } else {
+                    R.string.airline_fee_notice
+                }
+                val message = context.getString(resId)
+                presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
+            } else {
+                presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
+            }
+        }
+
+        checkoutViewModel.checkoutRequestStartTimeObservable.subscribe { startTime ->
+            pageUsableData.markPageLoadStarted(startTime)
         }
 
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second
-
             confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
             show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
+            pageUsableData.markAllViewsLoaded(Date().time)
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse, pageUsableData)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripResponseObservable.safeSubscribe { trip ->
@@ -505,7 +522,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>): LeftToRightTransition(presenter, left, right) {
+    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : LeftToRightTransition(presenter, left, right) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {

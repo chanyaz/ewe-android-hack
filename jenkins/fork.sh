@@ -36,6 +36,14 @@ if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
    exit 1
 fi
 
+# exit if UI tests not required
+python ./jenkins/changes_require_ui_test.py $GITHUB_TOKEN $ghprbPullId
+requiresUITestRun=$?
+if [ $requiresUITestRun -ne 0 ]; then
+   echo "PR does not have any changes which require UI tests to run"
+   exit 0
+fi
+
 ./gradlew --no-daemon clean
 
 # unistall old apks

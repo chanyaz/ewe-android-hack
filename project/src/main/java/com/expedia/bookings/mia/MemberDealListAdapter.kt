@@ -3,6 +3,7 @@ package com.expedia.bookings.mia
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.sos.MemberDealDestination
@@ -11,8 +12,10 @@ import com.expedia.bookings.mia.activity.MemberDealActivity
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.util.subscribeVisibility
+import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeText
 import rx.subjects.BehaviorSubject
 import java.util.ArrayList
 
@@ -22,14 +25,14 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
     private var currency: String? = null
     private var loading = true
     val resultSubject = BehaviorSubject.create<MemberDealResponse>()
-    val headerVisibilitySubject = BehaviorSubject.create<Boolean>()
+    val headerTextChangeSubject = BehaviorSubject.create<String>()
 
     init {
         listData = generateLoadingCells(3)
         resultSubject.subscribe { response ->
             if (response != null && response.destinations != null) {
                 loading = false
-                headerVisibilitySubject.onNext(true)
+                headerTextChangeSubject.onNext(context.resources.getString(R.string.member_deal_landing_page_header))
                 currency = response.offerInfo?.currency
                 listData = response.destinations!!
                 notifyDataSetChanged()
@@ -73,7 +76,7 @@ class MemberDealListAdapter(val context: Context) : RecyclerView.Adapter<Recycle
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is MemberDealHeaderViewHolder) {
-            headerVisibilitySubject.subscribeVisibility(holder.headerText)
+            headerTextChangeSubject.subscribeText(holder.headerText)
         }
         if (holder is MemberDealDestinationViewHolder) {
             val destination = listData[position - 1]

@@ -12,11 +12,10 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.section.GenderSpinnerAdapter
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerTSAViewModel
@@ -32,9 +31,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     var genderSpinner: TravelerSpinner? = null
     var genderEditText: TravelerEditText? = null
 
-    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
-
+    val materialFormTestEnabled = isMaterialFormsEnabled()
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
         dateOfBirth.viewModel = vm.dateOfBirthViewModel
@@ -112,16 +109,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
         val alert = builder.create()
         alert.show()
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        val isExtraPaddingRequired = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP
-        if (isExtraPaddingRequired) {
-            val editTextSpacing = context.resources.getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
-            dateOfBirth.setPadding(dateOfBirth.paddingLeft, dateOfBirth.paddingTop, dateOfBirth.paddingRight, editTextSpacing)
-            genderEditText?.setPadding(dateOfBirth.paddingLeft, dateOfBirth.paddingTop, dateOfBirth.paddingRight, editTextSpacing)
-        }
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {

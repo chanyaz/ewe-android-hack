@@ -13,10 +13,16 @@
     <!-- Misc. Formatting -->
     <!-- Shorthand for a number of hours.  %d is the number of hours -->
    	<string name="hours_template">%dh</string>
+	<!-- More descriptive text for a number of hours.  %d is the number of hours -->
+	<string name="full_hours_template">Total Duration: {hour}h</string>
    	<!-- Shorthand for a number of minutes.  %d is the number of minutes -->
 	<string name="minutes_template">%dm</string>
+	<!-- More descriptive text for a number of minutes.  %d is the number of minutes -->
+	<string name="full_minutes_template">Total Duration: {min}m</string>
 	<!-- Shorthand for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes -->
 	<string name="hours_minutes_template">%1$dh %2$dm</string>
+	<!-- More descriptive text for a number of hours and minutes.  First %d is the number of hours, second is the number of minutes -->
+	<string name="full_hours_minutes_template">Total Duration: {hour}h {min}m</string>
     <!-- This is for a path between two cities, for example "San Francisco to Minneapolis".  First %s is the origin city, second %s is the destination city -->
     <string name="path_template">%1$s to %2$s</string>
 

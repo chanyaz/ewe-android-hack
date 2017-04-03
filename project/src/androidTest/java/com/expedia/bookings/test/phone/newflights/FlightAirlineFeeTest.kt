@@ -19,12 +19,14 @@ import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
 import org.joda.time.LocalDate
 import org.junit.Test
 
-class FlightAirlineFeeTest: NewFlightTestCase() {
+class FlightAirlineFeeTest : NewFlightTestCase() {
 
     @Test
     fun testAirlineFeeStoredCard() {
@@ -53,7 +55,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")
 
         PackageScreen.completePaymentForm()
         Common.pressBack()
@@ -69,7 +71,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")
 
         PackageScreen.completePaymentForm()
         Common.pressBack()
@@ -86,6 +88,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
 
     @Test
     fun testAirlineMayChargeFeesAlwaysShownAustraliaPOS() {
+        SettingUtils.save(activity.applicationContext, R.string.preference_payment_legal_message, true)
         Common.setPOS(PointOfSaleId.AUSTRALIA)
 
         SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
@@ -96,11 +99,12 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
 
-        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_charge_notice)
+        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_additional_fee_notice)
     }
 
     @Test
     fun testAirlineMayChargeFeesAlwaysShownFrenchPOS() {
+        SettingUtils.save(activity.applicationContext, R.string.preference_payment_legal_message, false)
         Common.setPOS(PointOfSaleId.FRANCE)
 
         SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
@@ -117,7 +121,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     private fun assertCostSummaryDialogShowsFees() {
         val cardFee = "$2.50"
         onView(withId(R.id.bundle_total_text)).perform(click())
-        onView(withText("Airline Card Fee")).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText("Payment Method Fee")).check(ViewAssertions.matches(isDisplayed()))
         onView(withText(cardFee)).check(ViewAssertions.matches(isDisplayed()))
         onView(withId(android.R.id.button1)).perform(click())
     }
@@ -133,7 +137,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         Common.delay(2) // We wait for a short delay (in implementation) jic customer changes their card
         onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).")))
+                .check(ViewAssertions.matches(withText("A payment method fee of $2.50 is included in the trip total.")))
     }
 
     private fun signIn() {
@@ -143,7 +147,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     private fun assertCardFeeWarningShown() {
         FlightsOverviewScreen.assertCardFeeWarningShown()
         FlightsOverviewScreen.cardFeeWarningTextView().perform(scrollTo(), click())
-        val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_bundle_overview))))
+        val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.payment_fee_info_webview), isDescendantOfA(withId(R.id.widget_bundle_overview))))
         paymentFeeWebViewBundleOverview.check(ViewAssertions.matches(isDisplayed()))
 
         Espresso.pressBack()

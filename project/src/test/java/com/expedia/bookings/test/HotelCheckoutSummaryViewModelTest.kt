@@ -13,11 +13,13 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.android.util.SettingUtils
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -25,8 +27,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
-import org.joda.time.LocalDate
-import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
@@ -90,8 +90,25 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(sut, sut.newDataObservable.value)
         assertEquals("Free Cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
+        assertNull(sut.propertServiceSurcharge.value)
         assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)
     }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun withHappyHotelPropertyFee() {
+        givenHappyHotelProductResponseWithPropertyFee()
+        setup()
+
+        paymentModel.createTripSubject.onNext(createTripResponse)
+        val actualValue = sut.propertServiceSurcharge.value
+        val expectedValue = Money(BigDecimal(7.56), "USD")
+        assertEquals(expectedValue.formattedMoney, actualValue.formattedMoney)
+        val surchargeActualValue = sut.surchargeTotalForEntireStay.value
+        val surchargeExpectedValue = Money(BigDecimal(329.32), "USD")
+        assertEquals(surchargeActualValue.formattedMoney, surchargeExpectedValue.formattedMoney)
+    }
+
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
@@ -254,6 +271,11 @@ class HotelCheckoutSummaryViewModelTest {
 
     private fun givenHappyHotelProductResponse() {
         createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        hotelProductResponse = createTripResponse.newHotelProductResponse
+    }
+
+    private fun givenHappyHotelProductResponseWithPropertyFee() {
+        createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponseWithPropertyFee()
         hotelProductResponse = createTripResponse.newHotelProductResponse
     }
 

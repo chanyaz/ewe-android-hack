@@ -84,10 +84,10 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
                         cardFeeTextSubject.onNext(SpannedString(""))
                         cardFeeWarningTextSubject.onNext(SpannedString(""))
                     } else {
-                        val cardFeeText = Phrase.from(context, R.string.airline_processing_fee_TEMPLATE)
+                        val cardFeeText = Phrase.from(context, R.string.payment_method_processing_fee_TEMPLATE)
                                 .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
-                        val cardFeeWarningText = Phrase.from(context, R.string.flights_card_fee_warning_TEMPLATE)
+                        val cardFeeWarningText = Phrase.from(context, R.string.flights_payment_method_fee_warning_TEMPLATE)
                                 .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
                         paymentTypeSelectedHasCardFee.onNext(true)
@@ -99,8 +99,8 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
 
     private fun getAirlineMayChargeFeeText(flightChargesFeesTxt: String, obFeeUrl: String): SpannableStringBuilder {
         if (Strings.isNotEmpty(flightChargesFeesTxt)) {
-            val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                R.string.flights_fee_maybe_added_based_on_payment_TEMPLATE
+            val resId = if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+                R.string.flights_there_maybe_additional_fee_TEMPLATE
             } else {
                 R.string.flights_fee_added_based_on_payment_TEMPLATE
             }
