@@ -27,6 +27,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasDat
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -73,6 +74,10 @@ public class EspressoUtils {
 
 	public static void assertViewIsDisplayed(@IdRes int id) {
 		onView(withId(id)).check(matches(isDisplayed()));
+	}
+
+	public static void assertViewIsCompletelyDisplayed(@IdRes int id) {
+		onView(withId(id)).check(matches(isCompletelyDisplayed()));
 	}
 
 	public static void assertViewIsNotDisplayed(@IdRes int id) {
