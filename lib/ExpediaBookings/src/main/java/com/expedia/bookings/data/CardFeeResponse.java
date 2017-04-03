@@ -6,4 +6,5 @@ public class CardFeeResponse extends BaseApiResponse {
 	public Money feePrice;
 	public Money tripTotalPrice;
 	public Money bundleTotalPrice;
+	public String flexStatus;
 }

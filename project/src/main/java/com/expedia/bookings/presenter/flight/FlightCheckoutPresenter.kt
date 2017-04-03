@@ -130,7 +130,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     }
 
     override fun trackShowSlideToPurchase() {
-        FlightsV2Tracking.trackSlideToPurchase(cardType ?: PaymentType.UNKNOWN)
+        val flexStatus = if (!getCheckoutViewModel().cardFeeFlexStatus.value.isNullOrEmpty()) "${getCheckoutViewModel().cardFeeFlexStatus.value}" else ""
+        FlightsV2Tracking.trackSlideToPurchase(cardType ?: PaymentType.UNKNOWN, flexStatus)
     }
 
 

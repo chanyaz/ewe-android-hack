@@ -75,6 +75,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                     // add card fee to trip response
                     val cardFee = cardFeeResponse.feePrice
                     val totalPriceInclFees = cardFeeResponse.tripTotalPrice
+                    cardFeeFlexStatus.onNext(cardFeeResponse.flexStatus)
                     val response = createTripResponseObservable.value
                     if (response != null) {
                         val newTripResponse = response as FlightCreateTripResponse

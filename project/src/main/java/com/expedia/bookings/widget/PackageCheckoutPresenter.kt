@@ -73,7 +73,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     }
 
     override fun trackShowSlideToPurchase() {
-        PackagesTracking().trackCheckoutSlideToPurchase()
+        val flexStatus = if (!getCheckoutViewModel().cardFeeFlexStatus.value.isNullOrEmpty()) "${getCheckoutViewModel().cardFeeFlexStatus.value}" else ""
+        PackagesTracking().trackCheckoutSlideToPurchase(flexStatus)
     }
 
 

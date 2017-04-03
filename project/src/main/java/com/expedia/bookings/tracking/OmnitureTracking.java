@@ -5190,10 +5190,13 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_EDIT_TRAVELER).track();
 	}
 
-	public static void trackPackagesCheckoutSlideToPurchase() {
+	public static void trackPackagesCheckoutSlideToPurchase(String flexStatus) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE + "\" load...");
 		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, getPaymentType());
+		if (Strings.isNotEmpty(flexStatus)) {
+			s.setEvar(44, flexStatus);
+		}
 		s.track();
 	}
 
@@ -5776,9 +5779,12 @@ public class OmnitureTracking {
 		trackPackagePageLoadEventStandard(FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT);
 	}
 
-	public static void trackSlideToPurchase(String cardType) {
+	public static void trackSlideToPurchase(String cardType, String flexStatus) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, cardType);
+		if (Strings.isNotEmpty(flexStatus)) {
+			s.setEvar(44, flexStatus);
+		}
 		s.track();
 	}
 

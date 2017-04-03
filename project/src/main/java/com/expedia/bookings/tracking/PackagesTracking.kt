@@ -246,8 +246,8 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesCheckoutEditTraveler()
     }
 
-    fun trackCheckoutSlideToPurchase() {
-        OmnitureTracking.trackPackagesCheckoutSlideToPurchase()
+    fun trackCheckoutSlideToPurchase(flexStatus: String) {
+        OmnitureTracking.trackPackagesCheckoutSlideToPurchase(flexStatus)
     }
 
     fun trackCheckoutPaymentCID() {
