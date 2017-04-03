@@ -199,6 +199,28 @@ class HotelRoomRateViewModelTest {
         assertFalse(sut.collapsedEarnMessageVisibilityObservable.value)
     }
 
+    @Test
+    fun roomInformationVisibility() {
+        setupNonSoldOutRoomUnderTest()
+
+        val testSubscriber = TestSubscriber.create<Boolean>()
+
+        sut.roomInfoVisibilityObservable.subscribe(testSubscriber)
+        testSubscriber.assertValuesAndClear(true)
+
+        sut.roomRateInfoTextObservable.onNext("")
+        testSubscriber.assertValuesAndClear(false)
+
+        sut.roomRateInfoTextObservable.onNext("\n \t \n")
+        testSubscriber.assertValuesAndClear(false)
+
+        sut.roomRateInfoTextObservable.onNext(null)
+        testSubscriber.assertValuesAndClear(false)
+
+        sut.roomRateInfoTextObservable.onNext("\n \t . \n")
+        testSubscriber.assertValuesAndClear(true)
+    }
+
     private fun givenDiscountPercentIsZero() {
         hotelRoomResponse.rateInfo.chargeableRateInfo.discountPercent = 0f
     }
