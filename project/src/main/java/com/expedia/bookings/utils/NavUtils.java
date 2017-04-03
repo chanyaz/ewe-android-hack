@@ -386,21 +386,21 @@ public class NavUtils {
 	}
 
 	public static String goToCarsWebView(String domain) {
-		switch(domain){
-		case "travelocity.com" :
+		switch (domain) {
+		case "travelocity.com":
 			new CarWebViewTracking().trackAppCarWebViewABTestTvly();
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebViewTvly)) {
 				return "Cars?mcicid=App.Cars.WebView";
 			}
 			break;
-		case "orbitz.com" :
+		case "orbitz.com":
 			new CarWebViewTracking().trackAppCarWebViewABTestOrbitz();
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebViewOrbitz)) {
 				return "Cars?mcicid=App.Cars.WebView";
 			}
 			break;
-		case "expedia.co.uk" :
-		case "ebookers.com" :
+		case "expedia.co.uk":
+		case "ebookers.com":
 			new CarWebViewTracking().trackAppCarWebViewABTest();
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebView)) {
 				return "car-hire?mcicid=App.Cars.WebView";

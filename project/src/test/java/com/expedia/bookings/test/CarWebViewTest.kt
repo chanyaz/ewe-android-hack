@@ -108,7 +108,7 @@ class CarWebViewTest {
         activity.finish()
     }
 
-    private fun getCarUrlWithVisitorId(baseUrl:String) : String {
+    private fun getCarUrlWithVisitorId(baseUrl: String): String {
         val visitorID = ADMS_Measurement.sharedInstance().visitorID
         return baseUrl + "&" + APP_VISITOR_ID_PARAM + visitorID
     }
