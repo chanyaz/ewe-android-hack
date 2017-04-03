@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
@@ -700,7 +701,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             val firstItem = recyclerView.findViewHolderForAdapterPosition(1)
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                if (isHeaderVisible()) {
+                val manager = recyclerView.layoutManager as LinearLayoutManager
+                val displayingLastItemInList = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
+                if (isHeaderVisible() && !displayingLastItemInList) {
                     if (firstItem == null) {
                         showWithTracking(ResultsMap())
                     } else {
