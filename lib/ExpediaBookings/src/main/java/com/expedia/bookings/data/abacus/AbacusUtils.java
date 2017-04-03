@@ -73,8 +73,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppShowCarWebViewOrbitz = 13660;
 	public static final int EBAndroidAppShowCarWebViewTvly = 13658;
 	public static final int EBAndroidAppLOBAccentuating = 13718;
-	public static final int EBAndroidAppShowCarWebViewOrbitz = 13660;
-	public static final int EBAndroidAppShowCarWebViewTvly = 13658;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariant {
@@ -157,8 +155,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppShowCarWebViewOrbitz);
 		testIDs.add(EBAndroidAppShowCarWebViewTvly);
 		testIDs.add(EBAndroidAppLOBAccentuating);
-		testIDs.add(EBAndroidAppShowCarWebViewOrbitz);
-		testIDs.add(EBAndroidAppShowCarWebViewTvly);
 		return testIDs;
 	}
 
