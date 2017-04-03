@@ -3,7 +3,6 @@ package com.expedia.bookings.widget.traveler
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Build
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.Gravity
@@ -103,7 +102,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         val items = arrayOf(context.resources.getString(R.string.male), context.resources.getString(R.string.female))
 
         builder.setItems(items) { dialog, position ->
-            viewModel.genderViewModel.genderSubject.onNext(Traveler.Gender.valueOf(items[position].toUpperCase()))
+            viewModel.genderViewModel.genderSubject.onNext(Traveler.Gender.values()[position + 1])
             genderEditText?.viewModel?.errorSubject?.onNext(false)
         }
 

@@ -17,7 +17,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
-import com.mobiata.android.util.SettingUtils
 import junit.framework.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
@@ -67,6 +66,20 @@ class FlightTravelerEntryWidgetTest {
         widget.viewModel = testVM
 
         assertEquals(countryName, widget.passportCountryEditBox.text.toString())
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+    }
+
+    @Test
+    @Config(qualifiers="fr")
+    fun testMaterialGenderNonEnglishLanguage() {
+        givenMaterialForm(true)
+        setupViewModel(0, true)
+        widget.tsaEntryView.genderEditText?.performClick()
+        val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        testAlert.clickOnItem(0)
+        val expectedGender = widget.tsaEntryView.viewModel.genderViewModel.genderSubject.value
+
+        assertEquals(Traveler.Gender.MALE, expectedGender)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
     }
 
