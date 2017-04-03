@@ -44,7 +44,6 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
     var roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
     var soldOutButtonLabelObservable: Observable<CharSequence> = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
-//    var totalMandatoryFee = Money(BigDecimal(hotelRate.totalMandatoryFees.toDouble()), currencyCode)
 
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
