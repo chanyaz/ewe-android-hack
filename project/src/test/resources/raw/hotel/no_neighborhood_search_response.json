@@ -1,0 +1,394 @@
+{
+  "numberOfRoomsRequested": 1,
+  "filterUnavailableHotelsRequested": true,
+  "totalHotelCount": 19,
+  "availableHotelCount": 2,
+  "searchRegionId": "125720",
+  "searchRegionCity": "Lexington",
+  "deepLinkUrl": "https://www.expedia.com/Lexington-Hotels.d125720.Travel-Guide-Hotels",
+  "hotelList": [{
+    "sortIndex": "0",
+    "hotelId": "13349505",
+    "name": "DeMott\u0027s West Park Inn",
+    "localizedName": "DeMott\u0027s West Park Inn",
+    "nonLocalizedName": "DeMott\u0027s West Park Inn",
+    "address": "440 W. Sanilac Rd",
+    "city": "Sandusky",
+    "stateProvinceCode": "MI",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "48471",
+    "airportCode": "FNT",
+    "supplierType": "DIRECT_AGENCY",
+    "hotelStarRating": "2.5",
+    "hotelStarRatingCssClassName": "2-5",
+    "hotelGuestRating": "3.6",
+    "totalRecommendations": "27",
+    "percentRecommended": "80",
+    "totalReviews": "34",
+    "shortDescription": "Situated in Sandusky, this hotel is within 1 mi (2 km) of Sanilac County Courthouse and Woodland Hills Golf Club. Sanilac County Historic Village and Museum and Blue Water Winery are also within 20 mi (32 km). ",
+    "lowRate": "70.00",
+    "lowRateInfo": {
+      "maxNightlyRate": "70.00",
+      "averageRate": "70.00",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "4.20",
+      "surchargeTotalForEntireStay": "8.40",
+      "averageBaseRate": "70.00",
+      "nightlyRateTotal": "140.00",
+      "discountPercent": 0,
+      "total": "148.40",
+      "currencyCode": "USD",
+      "currencySymbol": "$",
+      "surcharges": [{
+        "amount": "4.20",
+        "type": "TAX_ALL"
+      }, {
+        "amount": "4.20",
+        "type": "TAX_OTHER"
+      }],
+      "surchargesForEntireStay": [{
+        "amount": "8.40",
+        "type": "TAX_ALL"
+      }, {
+        "amount": "8.40",
+        "type": "TAX_OTHER"
+      }],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "70.00",
+        "rate": "70.00"
+      }, {
+        "promo": "false",
+        "baseRate": "70.00",
+        "rate": "70.00"
+      }],
+      "priceToShowUsers": "70",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "148",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "148.40",
+      "formattedTotalPriceWithMandatoryFees": "$ 148.40",
+      "userPriceType": "PerNightRateNoTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "201406008",
+      "ratePlanCode": "206950608",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false,
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 297,
+            "bonus": 297,
+            "total": 594
+          }
+        },
+        "isBurnApplied": false
+      }
+    },
+    "rateCurrencyCode": "USD",
+    "rateCurrencySymbol": "$",
+    "roomsLeftAtThisRate": "3",
+    "latitude": "43.420974",
+    "longitude": "-82.843788",
+    "proximityDistanceInMiles": "18.3822249844624",
+    "proximityDistanceInKiloMeters": "29.577",
+    "largeThumbnailUrl": "/hotels/14000000/13350000/13349600/13349505/13349505_10_d.jpg",
+    "thumbnailUrl": "/hotels/14000000/13350000/13349600/13349505/13349505_10_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": true,
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": true,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "0",
+      "brandName": "Independent"
+    },
+    "isMemberDeal": false,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }, {
+    "sortIndex": "1",
+    "hotelId": "118295",
+    "name": "Quality Inn \u0026 Suites Port Huron",
+    "localizedName": "Quality Inn \u0026 Suites Port Huron",
+    "nonLocalizedName": "Quality Inn \u0026 Suites Port Huron",
+    "address": "1720 Hancock St",
+    "city": "Port Huron",
+    "stateProvinceCode": "MI",
+    "countryCode": "USA",
+    "countryName": "United States of America",
+    "postalCode": "48060",
+    "airportCode": "DTW",
+    "supplierType": "DIRECT_AGENCY",
+    "hotelStarRating": "2.5",
+    "hotelStarRatingCssClassName": "2-5",
+    "hotelGuestRating": "4.1",
+    "totalRecommendations": "351",
+    "percentRecommended": "89",
+    "totalReviews": "396",
+    "shortDescription": "This family-friendly Port Huron hotel is within 1 mi (2 km) of Blue Water Bridge, Thomas Edison Depot Museum, and Fort Gratiot Lighthouse. Lakeside Park and McMorran Place are also within 2 mi (3 km). ",
+    "locationDescription": "Port Huron",
+    "locationId": "6059231",
+    "lowRate": "79.89",
+    "lowRateInfo": {
+      "maxNightlyRate": "84.14",
+      "averageRate": "79.89",
+      "taxStatusType": "ESTIMATED",
+      "surchargeTotal": "8.79",
+      "surchargeTotalForEntireStay": "17.58",
+      "averageBaseRate": "79.89",
+      "nightlyRateTotal": "159.78",
+      "discountPercent": 0,
+      "total": "177.36",
+      "currencyCode": "USD",
+      "currencySymbol": "$",
+      "surcharges": [{
+        "amount": "8.79",
+        "type": "TAX_ALL"
+      }, {
+        "amount": "8.79",
+        "type": "TAX_OTHER"
+      }],
+      "surchargesForEntireStay": [{
+        "amount": "17.58",
+        "type": "TAX_ALL"
+      }, {
+        "amount": "17.58",
+        "type": "TAX_OTHER"
+      }],
+      "nightlyRatesPerRoom": [{
+        "promo": "false",
+        "baseRate": "75.64",
+        "rate": "75.64"
+      }, {
+        "promo": "false",
+        "baseRate": "84.14",
+        "rate": "84.14"
+      }],
+      "priceToShowUsers": "80",
+      "depositAmountToShowUsers": "177",
+      "priceRemainingAfterDepositToShowUsers": "0",
+      "depositAmountExact": "$ 177.36",
+      "depositAmount": "177.36",
+      "priceRemainingAfterDepositExact": "$ 0.00",
+      "priceRemainingAfterDeposit": "0.00",
+      "strikethroughPriceWithTaxesAndFeesToShowUsers": "177",
+      "totalMandatoryFees": "0.00",
+      "totalPriceWithMandatoryFees": "177.36",
+      "formattedTotalPriceWithMandatoryFees": "$ 177.36",
+      "userPriceType": "PerNightRateNoTaxes",
+      "priceAdjustments": [],
+      "checkoutPriceType": "total",
+      "airAttached": false,
+      "roomTypeCode": "483447",
+      "ratePlanCode": "205917205",
+      "showResortFeeMessage": false,
+      "resortFeeInclusion": false,
+      "loyaltyInfo": {
+        "earn": {
+          "points": {
+            "base": 355,
+            "bonus": 355,
+            "total": 710
+          }
+        },
+        "isBurnApplied": false
+      }
+    },
+    "rateCurrencyCode": "USD",
+    "rateCurrencySymbol": "$",
+    "roomsLeftAtThisRate": "-1",
+    "latitude": "43.001346",
+    "longitude": "-82.440551",
+    "proximityDistanceInMiles": "19.000621504039778",
+    "proximityDistanceInKiloMeters": "30.572000000000003",
+    "largeThumbnailUrl": "/hotels/1000000/120000/118300/118295/20a3c4d1_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/120000/118300/118295/20a3c4d1_n.jpg",
+    "discountMessage": "",
+    "isDiscountRestrictedToCurrentSourceType": false,
+    "isSameDayDRR": false,
+    "isHotelAvailable": true,
+    "notAvailableMessage": "",
+    "isSponsoredListing": false,
+    "hasFreeCancellation": false,
+    "amenities": [{
+      "id": "4",
+      "description": "Full Breakfast"
+    }, {
+      "id": "128",
+      "description": "Free Parking"
+    }, {
+      "id": "2048",
+      "description": "Free Wireless Internet"
+    }],
+    "distanceUnit": "Miles",
+    "didGetBackHighestPriceFromSurvey": false,
+    "isDudley": true,
+    "isVipAccess": false,
+    "isPaymentChoiceAvailable": false,
+    "isShowEtpChoice": false,
+    "jsonHotelBrand": {
+      "brandId": "111",
+      "brandName": "Quality"
+    },
+    "isMemberDeal": false,
+    "shortDiscountMessage": "",
+    "isMobileExclusive": false
+  }],
+  "travelAdsSlotsConfiguration": {},
+  "filteredSearchMatchedNoHotels": false,
+  "amenityFilterOptions": {
+    "7": {
+      "isAccessible": "false",
+      "filterName": "Swimming pool",
+      "filterNumOccurrences": "12"
+    },
+    "9": {
+      "isAccessible": "false",
+      "filterName": "Restaurant in hotel",
+      "filterNumOccurrences": "5"
+    },
+    "11": {
+      "isAccessible": "false",
+      "filterName": "Fitness equipment",
+      "filterNumOccurrences": "13"
+    },
+    "12": {
+      "isAccessible": "false",
+      "filterName": "Business services",
+      "filterNumOccurrences": "13"
+    },
+    "13": {
+      "isAccessible": "false",
+      "filterName": "Room service",
+      "filterNumOccurrences": "5"
+    },
+    "14": {
+      "isAccessible": "false",
+      "filterName": "Free parking",
+      "filterNumOccurrences": "19"
+    },
+    "16": {
+      "isAccessible": "false",
+      "filterName": "Free breakfast",
+      "filterNumOccurrences": "14"
+    },
+    "369": {
+      "isAccessible": "false",
+      "filterName": "Laundry facilities",
+      "filterNumOccurrences": "13"
+    },
+    "17": {
+      "isAccessible": "false",
+      "filterName": "Pets allowed (conditions apply)",
+      "filterNumOccurrences": "6"
+    },
+    "18": {
+      "isAccessible": "false",
+      "filterName": "Free newspaper",
+      "filterNumOccurrences": "13"
+    },
+    "19": {
+      "isAccessible": "false",
+      "filterName": "High-speed Internet",
+      "filterNumOccurrences": "19"
+    },
+    "2070": {
+      "isAccessible": "false",
+      "filterName": "Dry cleaning/laundry service",
+      "filterNumOccurrences": "11"
+    },
+    "58": {
+      "isAccessible": "true",
+      "filterName": "Accessible bathroom",
+      "filterNumOccurrences": "8"
+    },
+    "26": {
+      "isAccessible": "false",
+      "filterName": "Hair dryer",
+      "filterNumOccurrences": "14"
+    },
+    "27": {
+      "isAccessible": "false",
+      "filterName": "Air conditioning",
+      "filterNumOccurrences": "17"
+    },
+    "62": {
+      "isAccessible": "true",
+      "filterName": "In-room accessibility",
+      "filterNumOccurrences": "11"
+    },
+    "63": {
+      "isAccessible": "true",
+      "filterName": "Roll-in shower",
+      "filterNumOccurrences": "4"
+    }
+  },
+  "starOptions": [{
+    "starRating": 0,
+    "count": 0
+  }, {
+    "starRating": 5,
+    "count": 0
+  }, {
+    "starRating": 10,
+    "count": 1
+  }, {
+    "starRating": 15,
+    "count": 0
+  }, {
+    "starRating": 20,
+    "count": 12
+  }, {
+    "starRating": 25,
+    "count": 0
+  }, {
+    "starRating": 30,
+    "count": 6
+  }, {
+    "starRating": 35,
+    "count": 0
+  }, {
+    "starRating": 40,
+    "count": 0
+  }, {
+    "starRating": 45,
+    "count": 0
+  }, {
+    "starRating": 50,
+    "count": 0
+  }],
+  "priceOptions": [{
+    "minPrice": "0",
+    "maxPrice": "75",
+    "count": 5
+  }, {
+    "minPrice": "75",
+    "maxPrice": "124",
+    "count": 11
+  }, {
+    "minPrice": "125",
+    "maxPrice": "199",
+    "count": 1
+  }, {
+    "minPrice": "200",
+    "maxPrice": "299",
+    "count": 0
+  }, {
+    "minPrice": "300",
+    "maxPrice": "0",
+    "count": 0
+  }],
+  "activityId": "58aba027-520f-47a5-a1f2-962d2fc72474",
+  "pageViewBeaconPixelUrl": "https://beam.hlserve.com/travel?action\u003dpageview\u0026programId\u003d1\u0026domain\u003dwww.expedia.com\u0026culture\u003den-US\u0026publisher\u003dexpedia\u0026pageName\u003dHotel-Search\u0026rooms\u003d1\u0026destRegionId\u003d125720\u0026publisherUserGuid\u003de88e398b862f4f028c908ec6090a72cd\u0026userIP\u003d198.151.53.10\u0026userAgent\u003dExpediaBookings%2F8.18.0+%28EHad%3B+Mobiata%29\u0026checkIn\u003d2017-05-04\u0026checkOut\u003d2017-05-06\u0026hotelIds\u003d13349505,118295,544189,36667,58062,119233,11313,11236133,1100562,11545126,19579,13205780,22253,565029,1117686,28319,6509845\u0026adults\u003d1\u0026children\u003d0\u0026deviceType\u003dApp-Phone\u0026expediaPageName\u003dpage.MobileHotelSearch\u0026testVersion\u003d9662.36494.1%2C10153.39864.3%2C12564.49548.1"
+}

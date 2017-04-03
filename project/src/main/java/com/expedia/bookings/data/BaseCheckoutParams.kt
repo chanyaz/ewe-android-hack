@@ -75,10 +75,51 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
 
         fun hasValidParams(): Boolean {
             return travelers.isNotEmpty() &&
-                    billingInfo != null &&
-                    !cvv.isNullOrEmpty() &&
-                    expectedTotalFare != null &&
-                    expectedFareCurrencyCode != null
+                   billingInfo != null &&
+                   !cvv.isNullOrEmpty() &&
+                   expectedTotalFare != null &&
+                   expectedFareCurrencyCode != null
+        }
+
+        open fun hasValidCheckoutParams() : Boolean {
+            return hasValidTravelers() && hasValidBilling()
+        }
+
+        private fun hasValidTravelers() : Boolean {
+            var validTravelers = false
+            if (travelers.isNotEmpty()) {
+                travelers.forEachIndexed { i, traveler ->
+                    validTravelers = traveler.hasName() &&
+                        traveler.birthDate?.monthOfYear != null &&
+                        traveler.birthDate?.year != null &&
+                        traveler.gender == Traveler.Gender.FEMALE || traveler.gender == Traveler.Gender.MALE &&
+                        (i != 0 || (!traveler.email.isNullOrBlank() &&
+                                !traveler.primaryPhoneNumber.countryCode.isNullOrBlank() &&
+                                !traveler.primaryPhoneNumber.number.isNullOrBlank()))
+
+                    if (!validTravelers) return false
+                }
+            }
+            return validTravelers
+        }
+
+        private fun hasValidBilling() : Boolean {
+            return if (billingInfo?.hasStoredCard() ?: false) {
+                !billingInfo?.storedCard?.id.isNullOrBlank() &&
+                !billingInfo?.storedCard?.nameOnCard.isNullOrBlank() &&
+                !billingInfo?.storedCard?.cardNumber.isNullOrBlank() &&
+                !(billingInfo?.storedCard?.isExpired ?: true)
+            } else {
+                !billingInfo?.number.isNullOrBlank() &&
+                billingInfo?.expirationDate?.monthOfYear != null &&
+                billingInfo?.expirationDate?.year != null &&
+                !billingInfo?.location?.countryCode.isNullOrBlank() &&
+                !billingInfo?.nameOnCard.isNullOrBlank()
+            }
+        }
+
+        fun hasValidCVV(): Boolean {
+            return !cvv.isNullOrEmpty()
         }
     }
 
@@ -126,6 +167,42 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             params.put("country", billingInfo.location.countryCode)
 
         }
+
+        return params
+    }
+
+    open fun toValidParamsMap() : Map<String, Any> {
+        val params = HashMap<String, Any>()
+
+        params.put("cvv", !cvv.isNullOrBlank())
+        params.put("tripId", !tripId.isNullOrBlank())
+        params.put("expectedTotalFare", !expectedTotalFare.isNullOrBlank())
+        params.put("expectedFareCurrencyCode", !expectedFareCurrencyCode.isNullOrBlank())
+        params.put("suppressFinalBooking", suppressFinalBooking)
+        params.put("storeCreditCardInUserProfile", billingInfo.saveCardToExpediaAccount)
+
+        //BILLING
+        val hasStoredCard = billingInfo.hasStoredCard()
+        if (hasStoredCard) {
+            val storedCard = billingInfo.storedCard
+            params.put("storedCreditCardId", !storedCard?.id.isNullOrBlank())
+            params.put("nameOnCard", !storedCard?.nameOnCard.isNullOrBlank())
+            params.put("creditCardNumber", !storedCard.cardNumber.isNullOrBlank())
+            params.put("creditCardIsExpired", storedCard.isExpired)
+
+        } else {
+            params.put("nameOnCard", !billingInfo.nameOnCard.isNullOrBlank())
+            params.put("creditCardNumber", !billingInfo.number.isNullOrBlank())
+            params.put("expirationDateYear", billingInfo.expirationDate?.year != null)
+            params.put("expirationDateMonth", billingInfo.expirationDate?.monthOfYear != null)
+        }
+
+        params.put("streetAddress", !billingInfo.location?.streetAddressLine1.isNullOrBlank())
+        params.put("streetAddress2", !billingInfo.location?.streetAddressLine2.isNullOrBlank())
+        params.put("city", !billingInfo.location?.city.isNullOrBlank())
+        params.put("state", !billingInfo.location?.stateCode.isNullOrBlank())
+        params.put("postalCode", !billingInfo.location?.postalCode.isNullOrBlank())
+        params.put("country", !billingInfo.location?.countryCode.isNullOrBlank())
 
         return params
     }

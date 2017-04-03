@@ -7,11 +7,9 @@ import android.support.annotation.CallSuper
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.RadioButton
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelsNeighborhoodFilter
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import rx.subjects.PublishSubject
 
@@ -35,26 +33,30 @@ abstract class BaseNeighborhoodFilterView(context: Context, attrs: AttributeSet?
     }
 
     abstract fun clear()
+    protected abstract fun getNeighborhoodContainer() : LinearLayout
+
 
     @CallSuper
     open fun updateNeighborhoods(list: List<HotelSearchResponse.Neighborhood>) {
         moreLessView.visibility = if (list.size > collapseViewCount) View.VISIBLE else View.GONE
     }
 
-    protected fun showMoreLessClick(neighborhoodGroup: LinearLayout) {
+    fun collapse() {
+        val neighborhoodGroup = getNeighborhoodContainer()
+        collapseAnimator.addViewSpec(neighborhoodGroup, neighborhoodGroup.getChildAt(0).measuredHeight * collapseViewCount)
+        collapseAnimator.start()
+        expanded = false
+    }
+
+    protected fun showMoreLessClick() {
         if (expanded) {
-            collapse(neighborhoodGroup)
+            collapse()
         } else {
+            val neighborhoodGroup = getNeighborhoodContainer()
             expandAnimator.addViewSpec(neighborhoodGroup, neighborhoodGroup.getChildAt(0).measuredHeight * neighborhoodGroup.childCount)
             expandAnimator.start()
             expanded = true
         }
-    }
-
-    protected fun collapse(neighborhoodGroup: LinearLayout) {
-        collapseAnimator.addViewSpec(neighborhoodGroup, neighborhoodGroup.getChildAt(0).measuredHeight * collapseViewCount)
-        collapseAnimator.start()
-        expanded = false
     }
 
     private fun addAnimationListeners() {

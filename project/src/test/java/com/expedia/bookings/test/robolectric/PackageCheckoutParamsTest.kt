@@ -57,6 +57,9 @@ class PackageCheckoutParamsTest {
         assertEquals("malcolm", params.toQueryMap()[expectedMainTravelerKey])
         assertEquals("malcolm", params.toQueryMap()[expectedAddTravelerKey1])
         assertEquals("malcolm", params.toQueryMap()[expectedAddTravelerKey2])
+        assertEquals("true", params.toValidParamsMap()[expectedMainTravelerKey].toString())
+        assertEquals("true", params.toValidParamsMap()[expectedAddTravelerKey1].toString())
+        assertEquals("true", params.toValidParamsMap()[expectedAddTravelerKey2].toString())
     }
 
     @Test
@@ -75,6 +78,9 @@ class PackageCheckoutParamsTest {
         assertEquals("WINDOW", params.toQueryMap()[expectedSeatPreferenceKey])
         assertEquals("123456", params.toQueryMap()[expectedRedressKey])
         assertEquals("TN123456", params.toQueryMap()[expectedTravelerNumberKey])
+        assertEquals("true", params.toValidParamsMap()[expectedSeatPreferenceKey].toString())
+        assertEquals("true", params.toValidParamsMap()[expectedRedressKey].toString())
+        assertEquals("true", params.toValidParamsMap()[expectedTravelerNumberKey].toString())
     }
 
     @Test
@@ -94,6 +100,7 @@ class PackageCheckoutParamsTest {
 
         assertTrue(params.toQueryMap().containsKey(expectedStoredCardKey))
         assertEquals("12345", params.toQueryMap()[expectedStoredCardKey])
+        assertEquals("true", params.toValidParamsMap()[expectedStoredCardKey].toString())
     }
 
     @Test
@@ -116,6 +123,10 @@ class PackageCheckoutParamsTest {
         assertFalse(params.toQueryMap().containsKey("city"))
         assertFalse(params.toQueryMap().containsKey("state"))
         assertFalse(params.toQueryMap().containsKey("postalCode"))
+        assertFalse(builder.hasValidCheckoutParams())
+        assertEquals("false", params.toValidParamsMap()["city"].toString())
+        assertEquals("false", params.toValidParamsMap()["state"].toString())
+        assertEquals("false", params.toValidParamsMap()["postalCode"].toString())
     }
 
     fun getBillingInfo(): BillingInfo {

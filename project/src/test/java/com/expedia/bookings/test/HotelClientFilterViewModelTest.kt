@@ -407,6 +407,22 @@ class HotelClientFilterViewModelTest {
         assertEquals(expectedList, resultsList)
     }
 
+    @Test
+    fun testNoNeighborhoods() {
+        assertFalse(vm.neighborhoodsExist)
+        vm.neighborhoodsExist = true
+
+        assertTrue(vm.neighborhoodsExist)
+        vm.setHotelList(generateNoNeighborhoodSearch())
+        assertFalse(vm.neighborhoodsExist)
+    }
+
+    private fun generateNoNeighborhoodSearch(): HotelSearchResponse {
+        val resourceReader = JSONResourceReader("src/test/resources/raw/hotel/no_neighborhood_search_response.json")
+        val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
+        return searchResponse
+    }
+
     private fun generateHotelSearchResponse(): HotelSearchResponse {
         val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/search/happy.json")
         val response = resourceReader.constructUsingGson(HotelSearchResponse::class.java)

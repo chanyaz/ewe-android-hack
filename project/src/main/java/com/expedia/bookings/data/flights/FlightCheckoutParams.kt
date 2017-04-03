@@ -77,4 +77,31 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
 
         return params
     }
+
+    override fun toValidParamsMap(): Map<String, Any> {
+        val params = HashMap(super.toValidParamsMap())
+        params.put("validateWithChildren", true)
+
+            travelers.forEachIndexed { i, traveler ->
+                val isPrimaryTraveler = i == 0
+                val prefix = if (isPrimaryTraveler) "mainFlightPassenger." else "associatedFlightPassengers[" + (i - 1) + "]."
+
+                params.put(prefix + "firstName", !travelers[i].firstName.isNullOrBlank())
+                params.put(prefix + "middleName", !travelers[i].middleName.isNullOrBlank())
+                params.put(prefix + "lastName", !travelers[i].lastName.isNullOrBlank())
+                params.put(prefix + "phoneCountryCode", !travelers[i].phoneCountryCode.isNullOrBlank())
+                params.put(prefix + "phone", !travelers[i].phoneNumber.isNullOrBlank())
+                params.put(prefix + "email", !travelers[i].email.isNullOrBlank())
+                params.put(prefix + "birthDate", travelers[i].birthDate != null)
+                params.put(prefix + "gender", travelers[i].gender == Traveler.Gender.FEMALE  || travelers[i].gender == Traveler.Gender.MALE)
+                params.put(prefix + "passengerCategory", travelers[i].passengerCategory != null)
+                params.put(prefix + "passportCountryCode", !travelers[i].primaryPassportCountry.isNullOrBlank())
+                params.put(prefix + "specialAssistanceOption", (travelers[i].assistance ?: true))
+                params.put(prefix + "seatPreference", !travelers[i].seatPreference.name.isNullOrBlank())
+                params.put(prefix + "TSARedressNumber", !traveler.redressNumber.isNullOrBlank())
+                params.put(prefix + "knownTravelerNumber", !traveler.knownTravelerNumber.isNullOrBlank())
+            }
+
+        return params
+    }
 }

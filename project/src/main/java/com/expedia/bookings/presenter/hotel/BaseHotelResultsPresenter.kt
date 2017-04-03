@@ -777,7 +777,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             } else {
                 fab.visibility = View.INVISIBLE
             }
-            filterView.visibility = View.INVISIBLE
+            filterView.visibility = View.GONE
 
             sortFaqWebView.visibility = View.GONE
 
@@ -1030,8 +1030,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             transitionRunning = true
-            filterView.refreshFavoriteCheckbox()
-            filterView.visibility = View.VISIBLE
+            filterView.show()
             filterScreenShown = forward
             if (forward) {
                 sortFilterButtonTransition?.jumpToTarget()
@@ -1056,7 +1055,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             transitionRunning = false
-            filterView.visibility = if (forward) View.VISIBLE else View.GONE
+            if (!forward) filterView.visibility = View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward) sortFilterButtonTransition?.jumpToOrigin()
             if (!forward && !fabShouldBeHiddenOnList()) {
@@ -1075,8 +1074,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             transitionRunning = true
-            filterView.refreshFavoriteCheckbox()
-            filterView.visibility = View.VISIBLE
+            filterView.show()
             if (forward) {
                 fab.visibility = View.GONE
                 searchThisArea?.visibility = View.GONE
@@ -1092,7 +1090,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             transitionRunning = false
-            filterView.visibility = if (forward) View.VISIBLE else View.GONE
+            if (!forward) filterView.visibility = View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward) {
                 fab.visibility = View.VISIBLE

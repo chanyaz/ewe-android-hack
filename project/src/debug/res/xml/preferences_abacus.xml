@@ -524,9 +524,9 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="13023"
+            android:key="13890"
             android:layout="@layout/preference"
-            android:title="New trips sign in screen - 13023" />
+            android:title="New trips sign in screen - 13890" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"

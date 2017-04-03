@@ -11,39 +11,38 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelsNeighborhoodFilter
 
 class ClientNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : BaseNeighborhoodFilterView(context, attrs) {
-
-    private val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
+    private val neighborhoodGroup: LinearLayout by bindView(R.id.neighborhoods)
 
     init {
         View.inflate(context, R.layout.client_neighborhood_filter_view, this)
         moreLessView.setOnClickListener {
-            showMoreLessClick(neighborhoodContainer)
+            showMoreLessClick()
         }
     }
 
     override fun updateNeighborhoods(list: List<HotelSearchResponse.Neighborhood>) {
         super.updateNeighborhoods(list)
-        neighborhoodContainer.removeAllViews()
+        neighborhoodGroup.removeAllViews()
 
         if (list.size > 1) {
             for (i in 0..list.size - 1) {
                 val neighborhoodView = LayoutInflater.from(getContext())
-                        .inflate(R.layout.section_hotel_neighborhood_row, neighborhoodContainer, false) as HotelsNeighborhoodFilter
+                        .inflate(R.layout.section_hotel_neighborhood_row, neighborhoodGroup, false) as HotelsNeighborhoodFilter
                 neighborhoodView.bind(list[i])
                 neighborhoodView.neighborhoodSelectedSubject.subscribe(neighborhoodOnSubject)
                 neighborhoodView.neighborhoodDeselectedSubject.subscribe(neighborhoodOffSubject)
-                neighborhoodContainer.addView(neighborhoodView)
-            }
-            neighborhoodContainer.post {
-                //http://stackoverflow.com/questions/3602026/linearlayout-height-in-oncreate-is-0/3602144#3602144
-                collapse(neighborhoodContainer)
+                neighborhoodGroup.addView(neighborhoodView)
             }
         }
     }
 
+    override fun getNeighborhoodContainer(): LinearLayout {
+        return neighborhoodGroup
+    }
+
     override fun clear() {
-        for (i in 0..neighborhoodContainer.childCount - 1) {
-            val v = neighborhoodContainer.getChildAt(i)
+        for (i in 0..neighborhoodGroup.childCount - 1) {
+            val v = neighborhoodGroup.getChildAt(i)
             if (v is HotelsNeighborhoodFilter) {
                 v.clear()
             }
