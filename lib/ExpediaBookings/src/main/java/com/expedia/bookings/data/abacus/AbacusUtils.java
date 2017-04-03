@@ -70,6 +70,8 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
+	public static final int EBAndroidAppShowCarWebViewOrbitz = 13660;
+	public static final int EBAndroidAppShowCarWebViewTvly = 13658;
 	public static final int EBAndroidAppLOBAccentuating = 13718;
 	public static final int EBAndroidAppShowCarWebViewOrbitz = 13660;
 	public static final int EBAndroidAppShowCarWebViewTvly = 13658;
@@ -152,6 +154,8 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
 		testIDs.add(EBAndroidAppHotelResultsCardReadability);
+		testIDs.add(EBAndroidAppShowCarWebViewOrbitz);
+		testIDs.add(EBAndroidAppShowCarWebViewTvly);
 		testIDs.add(EBAndroidAppLOBAccentuating);
 		testIDs.add(EBAndroidAppShowCarWebViewOrbitz);
 		testIDs.add(EBAndroidAppShowCarWebViewTvly);
