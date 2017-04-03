@@ -1,5 +1,6 @@
 {
   "tripId":"e567996c-7194-4f08-8508-d367642481c4",
+  "flexStatus": "NO FLEX",
   "feePrice":{
     "amount":"2.50",
     "formattedPrice":"$2.50",

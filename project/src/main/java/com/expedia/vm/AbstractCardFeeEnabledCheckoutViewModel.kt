@@ -31,6 +31,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     val selectedFlightChargesFees = BehaviorSubject.create<String>("")
     val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
     private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
+    val cardFeeFlexStatus = BehaviorSubject.create<String>()
 
     init {
         compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
