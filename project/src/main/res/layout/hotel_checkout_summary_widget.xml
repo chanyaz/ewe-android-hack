@@ -193,24 +193,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/amount_due_today_label"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/amount_due_today_label_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="6dp"
-                android:drawableRight="@drawable/ic_checkout_info"
-                android:textColor="@color/hotelsv2_checkout_text_color"
-                android:textSize="16sp"
-                app:textStyle="medium"
+                android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/total_price_with_tax_and_fees"
-                android:layout_alignParentLeft="true" />
+                android:orientation="horizontal" >
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/amount_due_today_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="6dp"
+                    android:drawableRight="@drawable/ic_checkout_info"
+                    android:textColor="@color/hotelsv2_checkout_text_color"
+                    android:textSize="16sp"
+                    app:textStyle="medium" />
+            </LinearLayout>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/total_price_with_tax_and_fees"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/amount_due_today_label"
-                android:layout_alignTop="@+id/amount_due_today_label"
+                android:layout_alignBottom="@+id/amount_due_today_label_container"
+                android:layout_alignTop="@+id/amount_due_today_label_container"
                 android:layout_alignParentRight="true"
                 android:gravity="right|center_vertical"
                 android:textColor="?attr/primary_color"
