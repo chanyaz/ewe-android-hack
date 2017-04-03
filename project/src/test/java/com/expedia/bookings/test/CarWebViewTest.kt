@@ -108,17 +108,6 @@ class CarWebViewTest {
         activity.finish()
     }
 
-    private fun setPOSWithCarWebViewEnabled() {
-        SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.UNITED_KINGDOM.id.toString())
-        PointOfSale.onPointOfSaleChanged(activity)
-    }
-
-    private fun getCarUKUrlWithVisitorId(): String {
-        val baseUrl = "https://www.expedia.co.uk/car-hire?mcicid=App.Cars.WebView"
-        val visitorID = ADMS_Measurement.sharedInstance().visitorID
-        return baseUrl + "&" + APP_VISITOR_ID_PARAM + visitorID
-    }
-
     private fun getCarUrlWithVisitorId(baseUrl:String) : String {
         val visitorID = ADMS_Measurement.sharedInstance().visitorID
         return baseUrl + "&" + APP_VISITOR_ID_PARAM + visitorID
