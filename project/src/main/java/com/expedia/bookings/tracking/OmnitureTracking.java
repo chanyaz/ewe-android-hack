@@ -1701,7 +1701,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_ROUNDTRIP_OUT + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_OUT);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
@@ -1728,7 +1727,6 @@ public class OmnitureTracking {
 
 		s.setEvar(47, getEvar47String(searchParams));
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest);
 		s.track();
 	}
 
@@ -1775,7 +1773,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + FLIGHT_SEARCH_RESULTS_ONE_WAY + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_RESULTS_ONE_WAY);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 
 		FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
 
