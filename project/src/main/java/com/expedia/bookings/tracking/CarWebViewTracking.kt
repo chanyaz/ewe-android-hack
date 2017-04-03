@@ -26,4 +26,12 @@ class CarWebViewTracking {
         OmnitureTracking.trackAppCarWebViewABTest()
     }
 
+    fun trackAppCarWebViewABTestTvly() {
+        OmnitureTracking.trackAppCarWebViewABTestTvly()
+    }
+
+    fun trackAppCarWebViewABTestOrbitz() {
+        OmnitureTracking.trackAppCarWebViewABTestOrbitz()
+    }
+
 }

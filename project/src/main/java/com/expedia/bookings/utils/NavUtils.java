@@ -361,11 +361,11 @@ public class NavUtils {
 
 	public static void goToCars(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
-		new CarWebViewTracking().trackAppCarWebViewABTest();
-		if (PointOfSale.getPointOfSale().supportsCarsWebView()
-			&& Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebView)) {
+		String domain = PointOfSale.getPointOfSale().getUrl();
+		String carsWebViewUrl = goToCarsWebView(domain);
+		if (PointOfSale.getPointOfSale().supportsCarsWebView() && !carsWebViewUrl.equals("")) {
 			String carEndPointUrl = Ui.getApplication(context).appComponent()
-				.endpointProvider().getE3EndpointUrlWithPath("car-hire?mcicid=App.Cars.WebView");
+				.endpointProvider().getE3EndpointUrlWithPath(carsWebViewUrl);
 			CarWebViewActivity.IntentBuilder builder = new CarWebViewActivity.IntentBuilder(context);
 			builder.setUrl(carEndPointUrl);
 			builder.setInjectExpediaCookies(true);
@@ -383,6 +383,33 @@ public class NavUtils {
 			Intent intent = new Intent(context, CarActivity.class);
 			startActivity(context, intent, animOptions);
 		}
+	}
+
+	public static String goToCarsWebView(String domain) {
+		switch (domain) {
+		case "travelocity.com":
+			new CarWebViewTracking().trackAppCarWebViewABTestTvly();
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebViewTvly)) {
+				return "Cars?mcicid=App.Cars.WebView";
+			}
+			break;
+		case "orbitz.com":
+			new CarWebViewTracking().trackAppCarWebViewABTestOrbitz();
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebViewOrbitz)) {
+				return "Cars?mcicid=App.Cars.WebView";
+			}
+			break;
+		case "expedia.co.uk":
+		case "ebookers.com":
+			new CarWebViewTracking().trackAppCarWebViewABTest();
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowCarWebView)) {
+				return "car-hire?mcicid=App.Cars.WebView";
+			}
+			break;
+		default:
+			return "";
+		}
+		return "";
 	}
 
 	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey,
