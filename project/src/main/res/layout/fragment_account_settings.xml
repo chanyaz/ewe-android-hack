@@ -90,7 +90,8 @@
                 <RelativeLayout
                     android:id="@+id/first_row_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
 
                     <View
                         android:id="@+id/center"
@@ -169,14 +170,13 @@
                     android:id="@+id/row_divider2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#4CEEEEEE" />
+                    android:background="#4CEEEEEE"/>
 
                 <RelativeLayout
                     android:id="@+id/second_row_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp">
 
                     <View
                         android:id="@+id/center_second_row"
