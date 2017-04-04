@@ -46,7 +46,6 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val tripTotalPrice = BehaviorSubject.create<String>()
     val priceAdjustments = BehaviorSubject.create<Money>()
     val surchargeTotalForEntireStay = BehaviorSubject.create<Money>()
-    val propertServiceSurcharge = BehaviorSubject.create<Money>()
     val taxStatusType = BehaviorSubject.create<String>()
     val extraGuestFees = BehaviorSubject.create<Money>()
     val isBestPriceGuarantee = BehaviorSubject.create<Boolean>(false)
@@ -126,10 +125,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             currencyCode.onNext(rate.currencyCode)
             nightlyRatesPerRoom.onNext(rate.nightlyRatesPerRoom)
             nightlyRateTotal.onNext(rate.nightlyRateTotal.toString())
-            val propertyServiceFee = rate.propertyServiceFees
-            val surchargeTotalPrice = if(propertyServiceFee == null) rate.surchargeTotalForEntireStay.toString() else rate.surchargesWithoutPropertyFeeForEntireStay.toString()
-            surchargeTotalForEntireStay.onNext(Money(BigDecimal(surchargeTotalPrice), rate.currencyCode))
-            propertServiceSurcharge.onNext(propertyServiceFee)
+            surchargeTotalForEntireStay.onNext(Money(BigDecimal(rate.surchargeTotalForEntireStay.toString()), rate.currencyCode))
             taxStatusType.onNext(rate.taxStatusType)
             extraGuestFees.onNext(rate.extraGuestFees)
 

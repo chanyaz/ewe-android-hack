@@ -14,7 +14,6 @@ public class HotelRate {
 	public String taxStatusType;
 	public float surchargeTotal;
 	public float surchargeTotalForEntireStay;
-	public float surchargesWithoutPropertyFeeForEntireStay;
 	public float averageBaseRate;
 	public float nightlyRateTotal;
 	public float discountPercent;
@@ -99,19 +98,6 @@ public class HotelRate {
 		if (surchargesForEntireStay != null) {
 			for (SurchargesForEntireStay charge : surchargesForEntireStay) {
 				if (charge.type.equals("EXTRA")) {
-					surcharges = new Money(charge.amount, currencyCode);
-					break;
-				}
-			}
-		}
-		return surcharges;
-	}
-
-	public Money getPropertyServiceFees() {
-		Money surcharges = null;
-		if (surchargesForEntireStay != null) {
-			for (SurchargesForEntireStay charge : surchargesForEntireStay) {
-				if (charge.type.equals("FEE_SERVICE")) {
 					surcharges = new Money(charge.amount, currencyCode);
 					break;
 				}
