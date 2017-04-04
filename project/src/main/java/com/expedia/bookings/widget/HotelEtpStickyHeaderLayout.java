@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.TouchControlHelper;
 import com.expedia.bookings.utils.Ui;
 
@@ -72,7 +74,8 @@ public class HotelEtpStickyHeaderLayout extends StickyRelativeLayout {
 
 	@Override
 	public void stick() {
-		if (!isEnabled() || getVisibility() == GONE) {
+		if (!isEnabled() || getVisibility() == GONE
+			|| Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelNoStickyETP)) {
 			return;
 		}
 

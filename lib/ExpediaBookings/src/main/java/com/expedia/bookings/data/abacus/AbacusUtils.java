@@ -22,11 +22,9 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppSignInButtonYellow = 13002;
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
-	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppRemoveExpiredCreditCards = 13046;
-	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
 	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12992;
 	public static final int EBAndroidItinHotelGallery = 12465;
 	public static final int EBAndroidAppFlightUrgencyMessage = 12768;
@@ -39,24 +37,15 @@ public class AbacusUtils {
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightByotSearch = 13202;
 	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
-	public static final int EBAndroidAppHotelColorSwitch = 13247;
-	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
 	public static final int EBAndroidAppMaterialFlightDistanceOnDetails = 12766;
-	public static final int EBAndroidAppHotelImageLoadLatency = 12908;
-	public static final int EBAndroidAppHotelPriceProminence = 12974;
 	public static final int EBAndroidAppFlightPremiumClass = 13035;
 	public static final int EBAndroidAppTripsNewSignInPage = 13890;
-	public static final int EBAndroidAppHotelHideNoReviewRating = 13079;
-	public static final int EBAndroidAppHotelMemberPricingBadge = 13098;
 	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
-	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
-	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppDisabledSTPState = 13825;
 	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppWebViewCheckout = 13741;
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
-	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
 	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
 	public static final int EBAndroidAppShowMemberPricingCardOnLaunchScreen = 13697;
 	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
@@ -65,15 +54,30 @@ public class AbacusUtils {
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppLaunchShowGuestItinCard = 13455;
 	public static final int EBAndroidAppLaunchShowActiveItinCard = 13357;
-	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
-	public static final int EBAndroidAppHotelServerSideFilter = 13177;
-	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
-	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppLOBAccentuating = 13718;
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppFlightStaticSortFilter = 13842;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
+
+	// Hotel Tests
+	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
+	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
+	public static final int EBAndroidAppHotelFavoriteTest = 10989;
+	public static final int EBAndroidAppHotelColorSwitch = 13247;
+	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
+	public static final int EBAndroidAppHotelImageLoadLatency = 12908;
+	public static final int EBAndroidAppHotelPriceProminence = 12974;
+	public static final int EBAndroidAppHotelMemberPricingBadge = 13098;
+	public static final int EBAndroidAppHotelHideNoReviewRating = 13079;
+	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
+	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
+	public static final int EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch = 13178;
+	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
+	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
+	public static final int EBAndroidAppHotelServerSideFilter = 13177;
+	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
+	public static final int EBAndroidAppHotelNoStickyETP = 13904;
 
 	public enum DefaultVariant {
 		CONTROL,
@@ -152,6 +156,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
 		testIDs.add(EBAndroidAppHotelResultsCardReadability);
+		testIDs.add(EBAndroidAppHotelNoStickyETP);
 		testIDs.add(EBAndroidAppLOBAccentuating);
 		testIDs.add(EBAndroidAppItinCrystalSkin);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);
