@@ -17,7 +17,6 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -113,7 +112,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .format())
         searchingForHotelsDateTime.onNext(Unit)
 
-        params.serverSort = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_server_side_filters) && !isPackages
+        params.serverSort = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter) && !isPackages
         searchHotels(params, isFilteredSearch)
     }
 
