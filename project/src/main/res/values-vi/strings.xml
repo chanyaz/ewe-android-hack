@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">Tùy chọn</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">Khách sạn yêu thích</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Tại khách sạn +VIP Access, thành viên +silver và +gold sẽ được nâng hạng phòng miễn phí và nhận những ưu đãi khác tùy tình hình thực tế khi nhận phòng.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">Hiển thị thêm khu vực. Nút</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Hiển thị ít khu vực hơn. Nút</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">Đã thêm yêu thích vào màn hình lọc</string>
-    <string name="favorite_first_time_dialog_title">Yêu thích</string>
-    <string name="favorite_first_time_dialog_content">Đã thêm khách sạn vào mục yêu thích. Quý vị có thể lọc theo mục yêu thích từ kết quả tìm kiếm</string>
-    <string name="favorite_first_time_dialog_ok_button">ĐÃ HIỂU</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Áp dụng coupon: Tiết kiệm được %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

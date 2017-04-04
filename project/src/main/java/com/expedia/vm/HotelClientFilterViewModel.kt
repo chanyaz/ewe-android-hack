@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -85,10 +84,6 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
         return true
     }
 
-    override fun showHotelFavorite(): Boolean {
-        return true
-    }
-
     private fun setFilteredHotelListAndRetainLoyaltyInformation(hotelList: List<Hotel>) {
         filteredResponse.hotelList = hotelList
         filteredResponse.setHasLoyaltyInformation()
@@ -101,7 +96,6 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
                 && filterPriceRange(hotel)
                 && filterAmenity(hotel)
                 && filterNeighborhood(hotel)
-                && filterFavorites(hotel)
     }
 
     private fun filterIsVipAccess(hotel: Hotel): Boolean {
@@ -171,11 +165,6 @@ open class HotelClientFilterViewModel(context: Context) : BaseHotelFilterViewMod
             }
         }
         return false
-    }
-
-    fun filterFavorites(hotel: Hotel): Boolean {
-        if (!userFilterChoices.favorites) return true
-        return HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId) && !hotel.isSponsoredListing
     }
 
     private val popular_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->

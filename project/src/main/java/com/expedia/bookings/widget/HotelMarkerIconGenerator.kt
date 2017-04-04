@@ -17,7 +17,6 @@ class HotelMarkerIconGenerator (context: Context) {
 
     val iconFactory = IconGenerator(context)
 
-    val heartIcon = ContextCompat.getDrawable(context, R.drawable.favoriting_map)
     val hotelMarkerTextView: TextView by lazy {
         LayoutInflater.from(context).inflate(R.layout.fav_hotel_marker, null) as TextView
     }
@@ -39,7 +38,7 @@ class HotelMarkerIconGenerator (context: Context) {
         return ContextCompat.getDrawable(context, tooltipDrawable)
     }
 
-    fun createHotelMarkerIcon(context: Context, hotel: Hotel, isSelected: Boolean, isFavorite: Boolean): BitmapDescriptor {
+    fun createHotelMarkerIcon(context: Context, hotel: Hotel, isSelected: Boolean): BitmapDescriptor {
         val hotelPriceText =
             if (hotel.isSoldOut) {
                 context.getString(R.string.sold_out)
@@ -50,10 +49,6 @@ class HotelMarkerIconGenerator (context: Context) {
         val outputBitmap = getBitmap(context, isSelected, isAirAttached, hotel.isSoldOut)
         iconFactory.setBackground(outputBitmap)
         hotelMarkerTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-        if (isFavorite) {
-            hotelMarkerTextView.setCompoundDrawablesWithIntrinsicBounds(heartIcon, null, null, null)
-            iconFactory.setContentView(hotelMarkerTextView)
-        }
         iconFactory.setTextAppearance(R.style.MarkerTextAppearance)
         return BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(hotelPriceText.toString()))
     }

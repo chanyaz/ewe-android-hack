@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">Opciones</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">Hoteles favoritos</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">En los hoteles +VIP Access, los socios +silver y +gold reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">Ver más zonas. Botón</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Ver menos zonas. Botón</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">Agregado a favoritos en la pantalla de filtros</string>
-    <string name="favorite_first_time_dialog_title">Favoritos</string>
-    <string name="favorite_first_time_dialog_content">Hotel agregado a favoritos. Puedes filtrar por favoritos en los resultados de la búsqueda.</string>
-    <string name="favorite_first_time_dialog_ok_button">COMPRENDIDO</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Se aplicó el cupón: ¡ahorraste %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

@@ -42,7 +42,6 @@ class PackageHotelCellTest {
         activity.setTheme(R.style.Theme_Hotels_Control)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest)
     }
 
     private fun getContext(): Context {

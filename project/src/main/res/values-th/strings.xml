@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">ตัวเลือก</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">โรงแรมที่บันทึกเป็นโรงแรมโปรด</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">ที่โรงแรม +VIP Access สมาชิก +silver และ +gold จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">แสดงย่านเพิ่มเติม ปุ่ม</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">แสดงย่านน้อยลง ปุ่ม</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">เพิ่มในรายการโรงแรมโปรดเรียบร้อยแล้ว</string>
-    <string name="favorite_first_time_dialog_title">โรงแรมโปรด</string>
-    <string name="favorite_first_time_dialog_content">เพิ่มโรงแรมนี้ในรายการโปรดของคุณ คุณสามารถกรองผลการค้นหาโรงแรมเฉพาะโรงแรมโปรดได้</string>
-    <string name="favorite_first_time_dialog_ok_button">รับทราบ</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">ใช้คูปองแล้ว: คุณประหยัดไป %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

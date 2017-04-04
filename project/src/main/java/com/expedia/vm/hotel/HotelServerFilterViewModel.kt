@@ -19,8 +19,4 @@ class HotelServerFilterViewModel(context: Context) : BaseHotelFilterViewModel(co
     override fun isClientSideFiltering(): Boolean {
         return false
     }
-
-    override fun showHotelFavorite(): Boolean {
-        return false
-    }
 }

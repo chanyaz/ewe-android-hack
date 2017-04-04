@@ -177,17 +177,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private var subTitleTransition: VerticalFadeTransition? = null
     private var mapCarouselTransition: HorizontalTranslateTransition? = null
 
-    val hotelFavoriteChangeObserver = endlessObserver<Pair<String, Boolean>> { hotelIdAndFavorite ->
-        val hotelId = hotelIdAndFavorite.first
-        val mapItem = mapItems.filter { it.hotel.hotelId.equals(hotelId) }
-        if (mapItem.isNotEmpty()) {
-            val firstMapItem = mapItem.first()
-            val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
-            firstMapItem.isFavorite = hotelIdAndFavorite.second
-            favoriteMarker?.setIcon(firstMapItem.getHotelMarkerIcon())
-        }
-    }
-
     var mapViewModel: HotelResultsMapViewModel by notNullAndObservable { vm ->
 
         vm.sortedHotelsObservable.subscribe {
@@ -379,7 +368,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = getHotelListAdapter()
-        adapter.hotelFavoriteChange.subscribe(hotelFavoriteChangeObserver)
 
         recyclerView.adapter = adapter
         filterView.viewModel = createFilterViewModel()
@@ -444,7 +432,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach { hotel ->
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory, viewModel.isFavoringSupported)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }

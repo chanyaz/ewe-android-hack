@@ -23,8 +23,6 @@ class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, che
         }
     })
 
-    val hotelFavoriteChange = PublishSubject.create<Pair<String, Boolean>>()
-
     init {
         Observable.merge(createTripViewModel.errorObservable
                 .map { if (it.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) true else false },

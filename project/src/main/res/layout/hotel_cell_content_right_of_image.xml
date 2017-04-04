@@ -60,22 +60,6 @@
                         android:layout_marginBottom="4dp"
                         android:background="@drawable/vip_container_background" />
 
-                    <FrameLayout
-                        android:id="@+id/hotel_cell_heart_container"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|right"
-                        android:visibility="gone">
-
-                        <com.expedia.bookings.widget.FavoriteButton
-                            android:id="@+id/heart_image_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clickable="true"
-                            android:scaleType="center" />
-
-                    </FrameLayout>
-
                 </FrameLayout>
 
                 <RelativeLayout

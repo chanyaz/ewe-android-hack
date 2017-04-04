@@ -25,7 +25,6 @@ import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
@@ -51,10 +50,8 @@ import rx.Observer
 open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
-    val filterHotelFavorite: CheckBox by bindView(R.id.filter_hotel_favorite)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
     val optionLabel: TextView by bindView(R.id.option_label)
-    val filterFavoriteContainer: View by bindView(R.id.filter_favorite_container)
     val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
     val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
@@ -183,14 +180,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
-            filterFavoriteContainer.setOnClickListener {
-                clearHotelNameFocus()
-                updateFavoriteFilter()
-                HotelTracking.trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
-            }
-        }
-
         neighborhoodView.neighborhoodOnSubject.subscribe(vm.selectNeighborhood)
         neighborhoodView.neighborhoodOffSubject.subscribe(vm.deselectNeighborhood)
 
@@ -200,10 +189,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             resetStars()
 
             filterHotelVip.isChecked = false
-            if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
-                filterHotelFavorite.isChecked = false
-            }
-
             neighborhoodView.clear()
         }
 
@@ -345,21 +330,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
                 neighborhoodView.collapse()
             }
         }
-        refreshFavoriteCheckbox()
-    }
-
-    fun refreshFavoriteCheckbox() {
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())) {
-            if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
-                filterFavoriteContainer.visibility = View.VISIBLE
-                optionLabel.text = context.resources.getString(R.string.filter_options)
-                viewModel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
-            } else {
-                if (viewModel.userFilterChoices.favorites) updateFavoriteFilter()
-                filterFavoriteContainer.visibility = View.GONE
-                optionLabel.text = context.resources.getString(R.string.vip)
-            }
-        }
     }
 
     open protected fun inflate() {
@@ -373,10 +343,5 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     private fun clearHotelNameFocus() {
         filterHotelName.clearFocus()
         com.mobiata.android.util.Ui.hideKeyboard(this)
-    }
-
-    private fun updateFavoriteFilter() {
-        filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
-        viewModel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
     }
 }

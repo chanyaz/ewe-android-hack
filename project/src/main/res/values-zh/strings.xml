@@ -2866,10 +2866,6 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
-    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
-    <string name="filter_options">选项</string>
-    <!-- Filter for showing favorited hotels -->
-    <string name="filter_favorites">最喜欢的酒店</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">选择 +VIP Access 酒店，+silver 和 +gold 会员可享受免费客房升级及其他礼遇（具体取决于入住时的供应情况）。</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4065,13 +4061,6 @@
     <string name="hotels_filter_show_more_cont_desc">显示附近其他地区。按钮</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">隐藏部分附近地区。按钮</string>
-
-    <!-- Hotel Favoriting Strings -->
-    <string name="favorite_toast">将“我的最爱”添加到筛选屏幕</string>
-    <string name="favorite_first_time_dialog_title">我的最爱</string>
-    <string name="favorite_first_time_dialog_content">酒店已添加到“我的最爱”。您可以按“我的最爱”筛选搜索结果</string>
-    <string name="favorite_first_time_dialog_ok_button">知道了</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">使用优惠券：您节省了 %1$s！</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->

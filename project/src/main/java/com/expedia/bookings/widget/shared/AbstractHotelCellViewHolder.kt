@@ -21,7 +21,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -172,7 +171,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
 
-            if (vipMessageContainer.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(showHotelFavorite())) {
+            if (vipMessageContainer.visibility == View.VISIBLE) {
                 drawable.shaderFactory = getShader(colorArrayFull)
             } else {
                 drawable.shaderFactory = getShader(colorArrayBottom)
@@ -204,7 +203,4 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             }
         }
     }
-
-    abstract fun showHotelFavorite(): Boolean
-    
 }

@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -29,9 +28,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
-    val heartViewContainer: android.widget.FrameLayout by bindView(R.id.hotel_detail_toolbar_heart_container)
     var navIcon: ArrowXDrawable by Delegates.notNull()
-    val heartIcon: FavoriteButton by bindView(R.id.heart_image_view)
 
     var viewmodel: HotelDetailToolbarViewModel by Delegates.notNull()
 
@@ -67,9 +64,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
 
     fun setHotelDetailViewModel(vm: HotelDetailToolbarViewModel) {
         viewmodel = vm
-        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(vm.showHotelFavorite)
-        heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
-        heartIcon.isInDetailView = bucketed
 
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.hotelNameObservable.subscribeText(toolbarTitle)

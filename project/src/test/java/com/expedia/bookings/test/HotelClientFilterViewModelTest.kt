@@ -2,7 +2,6 @@ package com.expedia.bookings.test
 
 import android.preference.PreferenceManager
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -270,28 +269,6 @@ class HotelClientFilterViewModelTest {
 
         vm.deselectNeighborhood.onNext(neighborhood1)
         assertTrue(vm.filterCountObservable.value == 4)
-    }
-
-    @Test
-    fun filterFavorite() {
-        val abacusResponse = AbacusResponse()
-        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelFavoriteTest,
-                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
-        Db.setAbacusResponse(abacusResponse)
-        val ogResponse = fakeFilteredResponse()
-        val hotel = ogResponse.hotelList[0]
-        hotel.isSponsoredListing = true
-        hotel.hotelId = "abc"
-        vm.userFilterChoices.favorites = true
-
-        val sharedPreference = PreferenceManager.getDefaultSharedPreferences(vm.context)
-        sharedPreference.edit().clear().apply()
-        HotelFavoriteHelper.toggleHotelFavoriteState(vm.context, hotel.hotelId)
-
-        assertFalse(vm.filterFavorites(hotel))
-
-        hotel.isSponsoredListing = false
-        assertTrue(vm.filterFavorites(hotel))
     }
 
     private fun fakeFilteredResponse(): HotelSearchResponse {

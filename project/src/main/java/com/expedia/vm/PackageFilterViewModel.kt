@@ -14,8 +14,4 @@ class PackageFilterViewModel(context: Context) : HotelClientFilterViewModel(cont
     override fun sortItemToRemove(): Sort {
         return Sort.DEALS
     }
-
-    override fun showHotelFavorite(): Boolean {
-        return false
-    }
 }
