@@ -89,6 +89,12 @@
             android:summary="Enable Show Flight Duration Itin"
             android:title="Show Flight Duration Itin" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_itin_crystal_theme"
+            android:layout="@layout/preference"
+            android:summary="Enable Itin Crystal Theme"
+            android:title="Show Itin Crystal Theme" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

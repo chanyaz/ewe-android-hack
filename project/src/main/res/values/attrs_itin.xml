@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="itin_list_bg" format="reference|color"/>
+    <attr name="itin_card_bg" format="reference|color"/>
+
+</resources>

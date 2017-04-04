@@ -23,8 +23,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -45,6 +47,7 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -98,6 +101,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (FeatureToggleUtil
+                .isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppItinCrystalSkin,
+                        R.string.preference_itin_crystal_theme)) {
+            setTheme(R.style.NewLaunchTheme_Light)
+        }
         Ui.getApplication(this).appComponent().inject(this)
 
         Ui.getApplication(this).defaultLaunchComponents()

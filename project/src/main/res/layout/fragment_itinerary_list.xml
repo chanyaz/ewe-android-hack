@@ -4,7 +4,7 @@
     android:id="@+id/outer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#212527"
+    android:background="?attr/itin_list_bg"
     android:orientation="vertical" >
 
     <!-- The listview -->

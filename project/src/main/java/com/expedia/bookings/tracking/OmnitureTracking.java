@@ -3626,6 +3626,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_itin_crystal_theme)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
+		}
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
