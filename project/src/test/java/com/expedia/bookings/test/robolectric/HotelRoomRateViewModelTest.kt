@@ -174,7 +174,6 @@ class HotelRoomRateViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessageIsShown() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
-        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
@@ -189,7 +188,6 @@ class HotelRoomRateViewModelTest {
     @Test
     fun earnMessageIsNotShown() {
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
-        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, false)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
         hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo

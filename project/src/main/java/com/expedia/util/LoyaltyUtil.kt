@@ -18,8 +18,8 @@ class LoyaltyUtil {
                     && Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
         }
 
-        fun shouldShowEarnMessage(context: Context, earnMessage: String, isPackage: Boolean): Boolean {
-            val userBucketed = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage, R.string.preference_enable_hotel_loyalty_earn_message)
+        fun shouldShowEarnMessage(earnMessage: String, isPackage: Boolean): Boolean {
+            val userBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
             val forceShow = ProductFlavorFeatureConfiguration.getInstance().forceShowHotelLoyaltyEarnMessage()
             val validMessage = earnMessage.isNotBlank()
             val enabledForPOS = if (isPackage) PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages else PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels

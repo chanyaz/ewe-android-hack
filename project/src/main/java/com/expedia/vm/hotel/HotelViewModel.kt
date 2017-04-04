@@ -82,7 +82,7 @@ open class HotelViewModel(private val context: Context) {
     val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>()
     val earnMessagingObservable = BehaviorSubject.create<String>()
     val earnMessagingVisibilityObservable = Observable.combineLatest(hotelObservable, earnMessagingObservable, { hotel, earnMessage ->
-        LoyaltyUtil.shouldShowEarnMessage(context, earnMessage, hotel.isPackage)
+        LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)
     })
     val topAmenityTitleObservable = BehaviorSubject.create<String>()
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { topAmenityTitle ->

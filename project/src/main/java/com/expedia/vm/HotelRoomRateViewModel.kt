@@ -204,7 +204,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         }
 
         val earnMessage = LoyaltyUtil.getEarnMessagingString(context, hotelRoomResponse.isPackage, chargeableRateInfo?.loyaltyInfo?.earn, packageLoyaltyInfo?.earn)
-        val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(context, earnMessage, hotelRoomResponse.isPackage)
+        val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotelRoomResponse.isPackage)
 
         collapsedEarnMessageVisibilityObservable.onNext(earnMessageVisibility)
         collapsedEarnMessageObservable.onNext(earnMessage)

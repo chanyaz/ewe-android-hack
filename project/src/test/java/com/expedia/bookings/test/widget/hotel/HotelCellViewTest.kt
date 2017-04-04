@@ -144,7 +144,6 @@ class HotelCellViewTest {
     }
 
     @Test fun testEarnMessaging() {
-        SettingUtils.save(getContext(), R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
 
         val hotel = makeHotel()

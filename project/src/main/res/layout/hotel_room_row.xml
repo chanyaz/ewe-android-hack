@@ -231,7 +231,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/parent_room_type_and_price_container"
                 android:layout_marginBottom="5dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginTop="5dp"
                 android:drawableLeft="@drawable/earn_message_icon"
                 android:drawablePadding="@dimen/earn_message_icon_dimen"
