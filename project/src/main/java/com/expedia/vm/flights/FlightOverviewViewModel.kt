@@ -27,7 +27,7 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     }
 
     override fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy) && selectedFlight.isBasicEconomy
+        return selectedFlight.isBasicEconomy
     }
 
     private fun getBundleLabelText(selectedFlight: FlightLeg): String {

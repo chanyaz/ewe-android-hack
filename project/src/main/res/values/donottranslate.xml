@@ -123,7 +123,6 @@
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_itin_flight_duration">preference_itin_flight_duration</string>
     <string name="preference_lob_accentuating">preference_lob_accentuating</string>
-    <string name="preference_show_basic_economy">preference_show_basic_economy</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
