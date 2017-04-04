@@ -941,6 +941,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.member_deal_landing_page_header,
 		R.string.flight_details_basic_economy_message,
 		R.string.toolbar_flight_basic_economy_info_title,
-		R.string.cabin_code_basic_economy
+		R.string.cabin_code_basic_economy,
+		R.string.excludes_mandatory_fee_TEMPLATE
 	};
 }
