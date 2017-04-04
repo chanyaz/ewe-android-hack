@@ -21,6 +21,7 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.mobiata.android.util.SettingUtils;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +42,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsCompletelyDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
@@ -60,6 +64,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.CONTROL.ordinal());
+
 		Method method = getClass().getMethod(getName(), (Class[]) null);
 
 		if (method.getName().equals("testNewFlightHappyPath") || method.getName().equals("testNewFlightHappyPathWithMaterialForms")) {
@@ -230,18 +236,25 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
 
-	public void testNewFlightHappyPathSignedIn() throws Throwable {
-		selectOriginDestinationAndDates();
-
-		SearchScreen.searchButton().perform(click());
-		selectFirstOutboundFlight();
-		selectFirstInboundFlight();
-
-		assertCheckoutOverview();
+	public void testDisabledSTPState() throws Throwable {
+		SettingUtils.save(getActivity().getApplicationContext(), R.string.preference_disabled_stp_state, true);
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		getToCheckoutScreen();
+		assertViewIsCompletelyDisplayed(R.id.checkout_button);
 		assertCostSummaryView();
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		assertViewIsNotDisplayed(R.id.checkout_button);
+		Espresso.closeSoftKeyboard();
+		Common.pressBack();
+		assertViewIsCompletelyDisplayed(R.id.checkout_button);
+		CheckoutViewModel.signInOnCheckout();
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
+		assertViewIsDisplayed(R.id.slide_to_purchase_widget);
+		assertViewIsNotDisplayed(R.id.checkout_button);
+	}
 
-		PackageScreen.checkout().perform(click());
-
+	public void testNewFlightHappyPathSignedIn() throws Throwable {
+		getToCheckoutScreen();
 		CheckoutViewModel.signInOnCheckout();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
 
@@ -257,6 +270,20 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Common.pressBack();
 		CheckoutViewModel.performSlideToPurchase(true);
 		assertSignedInConfirmationView();
+	}
+
+	public void getToCheckoutScreen() throws Throwable {
+		selectOriginDestinationAndDates();
+
+		SearchScreen.searchButton().perform(click());
+		selectFirstOutboundFlight();
+		selectFirstInboundFlight();
+
+		assertCheckoutOverview();
+		assertCostSummaryView();
+
+		PackageScreen.checkout().perform(click());
+
 	}
 
 	private void selectFirstInboundFlight() {
