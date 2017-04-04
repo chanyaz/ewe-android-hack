@@ -6,6 +6,8 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
@@ -91,7 +93,13 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun setupFilterButton() {
-        recyclerView.addOnScrollListener(filterButton.hideShowOnRecyclerViewScrollListener())
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightStaticSortFilter)) {
+            filterButton.visibility = View.VISIBLE
+        }
+        else {
+            recyclerView.addOnScrollListener(filterButton.hideShowOnRecyclerViewScrollListener())
+            filterButton.visibility = View.GONE
+        }
         val outValue = TypedValue()
         context.theme.resolveAttribute(R.attr.hotel_select_room_ripple_drawable, outValue, true)
         filterButton.setBackground(outValue.resourceId)
@@ -99,7 +107,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         filterButton.setOnClickListener {
             showSortAndFilterViewSubject.onNext(Unit)
         }
-        filterButton.visibility = View.GONE
     }
 
     private fun positionChildren() {
