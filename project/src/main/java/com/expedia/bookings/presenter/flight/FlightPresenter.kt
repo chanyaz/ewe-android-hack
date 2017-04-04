@@ -417,8 +417,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
         flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)) {
-            flightOverviewPresenter.flightSummary.outboundFlightWidget.expandFlightDetails()
-            flightOverviewPresenter.flightSummary.inboundFlightWidget.expandFlightDetails()
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.expandFlightDetails(false)
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.expandFlightDetails(false)
         }
     }
 
