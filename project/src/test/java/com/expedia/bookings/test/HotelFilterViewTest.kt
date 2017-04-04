@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -27,6 +28,7 @@ import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelFilterViewTest {
@@ -91,6 +93,27 @@ class HotelFilterViewTest {
         assertEquals(expectedEnumOfSortingLists, enumOfSortingList)
     }
 
+    @Test
+    fun testNeighborhoodManyToNone() {
+        // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/1164
+        initViewModel()
+        hotelFilterView.viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
+        assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
+
+        hotelFilterView.viewModel.neighborhoodListObservable.onNext(emptyList())
+        assertTrue(hotelFilterView.neighborhoodView.visibility == View.GONE)
+    }
+
+    @Test
+    fun testNeighborhoodNoneToMany() {
+        initViewModel()
+        hotelFilterView.viewModel.neighborhoodListObservable.onNext(emptyList())
+        assertTrue(hotelFilterView.neighborhoodView.visibility == View.GONE)
+
+        hotelFilterView.viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
+        assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
+    }
+
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(activity, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
@@ -109,5 +132,13 @@ class HotelFilterViewTest {
         for (i in 1..adapter.count)
             array.add(adapter.getItem(i - 1))
         return array
+    }
+
+    private fun getNeighborhoodList() : List<HotelSearchResponse.Neighborhood> {
+        val list = ArrayList<HotelSearchResponse.Neighborhood>()
+        list.add(HotelSearchResponse.Neighborhood())
+        list.add(HotelSearchResponse.Neighborhood())
+        list.add(HotelSearchResponse.Neighborhood())
+        return list
     }
 }
