@@ -34,6 +34,7 @@ import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -280,7 +281,10 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	public SummaryButton getSummaryRightButton() {
 		final String vendorPhone = getItinCardData().getRelevantVendorPhone();
 		if (!TextUtils.isEmpty(vendorPhone)) {
-			return new SummaryButton(R.drawable.ic_phone, getItinCardData().getVendorName(), new OnClickListener() {
+			String callAgencyContDesc = Phrase.from(getContext(), R.string.itin_action_call_agency_cont_desc_TEMPLATE)
+				.put("agency", getItinCardData().getVendorName())
+				.format().toString();
+			return new SummaryButton(R.drawable.ic_phone, getItinCardData().getVendorName(), callAgencyContDesc, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					SocialUtils.call(getContext(), vendorPhone);

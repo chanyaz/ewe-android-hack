@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
     <string name="itin_action_call_hotel">Call Hotel</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">Call {agency}</string>
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
