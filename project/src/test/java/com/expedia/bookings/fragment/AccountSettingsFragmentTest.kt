@@ -59,18 +59,11 @@ class AccountSettingsFragmentTest {
         assertViewIsEffectivelyGone(R.id.toolbar_loyalty_tier_text)
         assertViewIsEffectivelyGone(R.id.pending_points)
         assertViewIsEffectivelyGone(R.id.first_row_country)
+        assertViewIsEffectivelyGone(R.id.second_row_country)
         assertViewIsEffectivelyGone(R.id.points_monetary_value_label)
         assertViewIsEffectivelyGone(R.id.points_monetary_value)
-    }
-
-    @Test
-    fun nonRewardsMemberSeesCurrencyAndCountry() {
-        givenSignedInAsUser(getNonRewardsMember())
-        givenFragmentSetup()
-
-        assertTextIsDisplayedInTextView("Currency", R.id.currency_label)
-        assertTextIsDisplayedInTextView("USD", R.id.currency)
-        assertCountryViewDisplayed("USA", R.drawable.ic_flag_us_icon, R.id.second_row_country)
+        assertViewIsEffectivelyGone(R.id.currency_label)
+        assertViewIsEffectivelyGone(R.id.currency)
     }
 
     @Test
