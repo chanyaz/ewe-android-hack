@@ -251,7 +251,6 @@ class HotelDetailViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessagePriceIsShownWithDecimalPoints() {
-        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320.56")
         vm.hotelOffersSubject.onNext(offer1)
@@ -262,7 +261,6 @@ class HotelDetailViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessagePriceIsShownWithoutDecimalPoints() {
-        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320")
         vm.hotelOffersSubject.onNext(offer1)
@@ -274,7 +272,6 @@ class HotelDetailViewModelTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
             MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun earnMessagePointsIsShown() {
-        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
@@ -286,7 +283,6 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun earnMessagePointsIsNotShown() {
-        SettingUtils.save(context, R.string.preference_enable_hotel_loyalty_earn_message, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo

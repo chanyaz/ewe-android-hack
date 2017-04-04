@@ -493,7 +493,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
         promoImageObservable.onNext(getPromoImage(firstHotelRoomResponse))
         val earnMessage = LoyaltyUtil.getEarnMessagingString(context, offerResponse.isPackage, chargeableRateInfo?.loyaltyInfo?.earn, packageLoyaltyInformation?.earn)
-        val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(context, earnMessage, offerResponse.isPackage)
+        val earnMessageVisibility = LoyaltyUtil.shouldShowEarnMessage(earnMessage, offerResponse.isPackage)
         earnMessageObservable.onNext(earnMessage)
         earnMessageVisibilityObservable.onNext(earnMessageVisibility)
 

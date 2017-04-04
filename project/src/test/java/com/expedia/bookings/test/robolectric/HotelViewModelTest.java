@@ -445,7 +445,6 @@ public class HotelViewModelTest {
 		givenIsSponsoredListing(true);
 		setupSystemUnderTest();
 
-		SettingUtils.save(getContext(), R.string.preference_enable_hotel_loyalty_earn_message, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
 
 		PointOfSaleTestConfiguration
