@@ -210,7 +210,6 @@ class FlightV2UtilsTest {
 
     @Test
     fun testGetFlightCabinPreferenceWithBasicEconomy() {
-        SettingUtils.save(activity, activity.getString(R.string.preference_show_basic_economy), true)
         testFlightLeg.packageOfferModel = PackageOfferModel()
         testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
         testFlightLeg.isBasicEconomy = true
