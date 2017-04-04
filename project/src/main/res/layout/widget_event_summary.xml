@@ -29,7 +29,7 @@
             android:id="@+id/location_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/itin_offwhite_text"
+            android:textColor="@color/white"
             android:textSize="16dp"
             app:textStyle="light" />
     </LinearLayout>

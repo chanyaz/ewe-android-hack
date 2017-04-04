@@ -28,7 +28,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="-2dp"
             android:maxLines="1"
-            android:textColor="#a9abae"
+            android:textColor="@color/gray2"
             android:textSize="14sp"
             app:textStyle="light" />
     </LinearLayout>
@@ -65,7 +65,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="-2dp"
             android:maxLines="1"
-            android:textColor="#a9abae"
+            android:textColor="@color/gray2"
             android:textSize="14sp"
             app:textStyle="light" />
     </LinearLayout>
@@ -102,7 +102,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="-2dp"
             android:maxLines="1"
-            android:textColor="#a9abae"
+            android:textColor="@color/gray2"
             android:textSize="14sp"
             app:textStyle="light" />
     </LinearLayout>
