@@ -14,10 +14,15 @@ import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.packages.BundleFlightViewModel
 import rx.subjects.PublishSubject
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    val title: TextView by bindView(R.id.title)
+    val outboundFlightTitle: TextView by bindView(R.id.outbound_flight_title)
+    val inboundFlightTitle: TextView by bindView(R.id.inbound_flight_title)
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val freeCancellationLabelTextView: TextView by bindView(R.id.free_cancellation_text)
@@ -40,6 +45,11 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         basicEconomyMessageTextView.subscribeOnClick(basicEconomyInfoClickedSubject)
     }
 
+    var viewmodel: FlightOverviewSummaryViewModel by notNullAndObservable { vm ->
+        vm.outboundFlightTitle.subscribeText(outboundFlightTitle)
+        vm.inboundFlightTitle.subscribeTextAndVisibility(inboundFlightTitle)
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         splitTicketBaggageFeesTextView.movementMethod = LinkMovementMethod.getInstance()
@@ -49,5 +59,4 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         inboundFlightWidget.backButtonPressed()
         outboundFlightWidget.backButtonPressed()
     }
-
 }

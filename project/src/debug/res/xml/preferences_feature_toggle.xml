@@ -53,6 +53,11 @@
             android:summary="Show Basic Economy"
             android:title="Show Basic Economy" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_show_more_info_on_flight_overview"
+            android:layout="@layout/preference"
+            android:summary="Show more info on flight overview"
+            android:title="Show more info on flight overview" />
     </PreferenceCategory>
 
     <PreferenceCategory

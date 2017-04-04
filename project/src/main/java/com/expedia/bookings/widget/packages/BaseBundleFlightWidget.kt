@@ -29,6 +29,7 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.expedia.vm.flights.FlightViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
 
@@ -40,23 +41,47 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     abstract fun rowClicked()
     abstract fun isInboundFlight(): Boolean
     var showFlightCabinClass = false
+    var showCollapseIcon: Boolean = false
 
     protected val opacity: Float = 0.25f
 
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
-    val rowContainer: ViewGroup by bindView(R.id.row_container)
+    lateinit var rowContainer: ViewGroup
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
     val flightCardText: TextView by bindView(R.id.flight_card_view_text)
     val travelInfoText: TextView by bindView(R.id.travel_info_view_text)
     val flightIcon: ImageView by bindView(R.id.package_flight_icon)
-    val flightDetailsIcon: ImageView by bindView(R.id.package_flight_details_icon)
+    lateinit var flightDetailsIcon: ImageView
+    lateinit var flightCollapseIcon: ImageView
+
     val forwardArrow: ImageView by bindView(R.id.flight_forward_arrow_icon)
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
 
     var viewModel: BundleFlightViewModel by notNullAndObservable { vm ->
-
+        vm.showRowContainerWithMoreInfo.subscribe {
+            when (it) {
+                true -> {
+                    rowContainer = this.findViewById(R.id.detailed_row_container) as ViewGroup
+                    rowContainer.visibility = VISIBLE
+                    val flightCell = FlightCellWidget(context, false, 0, false)
+                    rowContainer.addView(flightCell)
+                    flightDetailsContainer.setOnClickListener {
+                        if (isFlightSegmentDetailsExpanded()) {
+                            collapseFlightDetails()
+                        }
+                    }
+                    flightDetailsIcon = rowContainer.findViewById(R.id.flight_overview_expand_icon) as ImageView
+                }
+                false -> {
+                    rowContainer = this.findViewById(R.id.row_container) as ViewGroup
+                    rowContainer.visibility = VISIBLE
+                    flightDetailsIcon = this.findViewById(R.id.package_flight_details_icon) as ImageView
+                }
+            }
+            showCollapseIcon = it
+        }
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
@@ -98,10 +123,12 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         }
 
         vm.selectedFlightLegObservable.subscribe { selectedFlight ->
+            showCollapseIcon = vm.showRowContainerWithMoreInfo.value
             this.selectedCardObservable.onNext(Unit)
             var segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
-                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, showFlightCabinClass))
+                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, showFlightCabinClass, showCollapseIcon))
+                showCollapseIcon = false
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentBreakdowns)
 
@@ -112,6 +139,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                     collapseFlightDetails()
                 }
                 this.selectedCardObservable.onNext(Unit)
+            }
+            if (vm.showRowContainerWithMoreInfo.value) {
+                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightViewModel(context, selectedFlight))
+                flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
         }
     }
@@ -130,6 +161,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     fun expandFlightDetails() {
         viewModel.flightsRowExpanded.onNext(Unit)
+        if (viewModel.showRowContainerWithMoreInfo.value) {
+            rowContainer.visibility = Presenter.GONE
+            AnimUtils.rotate(flightCollapseIcon)
+        }
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
         trackBundleOverviewFlightExpandClick()
@@ -137,6 +172,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     fun collapseFlightDetails() {
         flightDetailsContainer.visibility = Presenter.GONE
+        if (viewModel.showRowContainerWithMoreInfo.value) {
+            rowContainer.visibility = Presenter.VISIBLE
+            AnimUtils.reverseRotate(flightCollapseIcon)
+        }
         AnimUtils.reverseRotate(flightDetailsIcon)
         flightDetailsIcon.clearAnimation()
     }
@@ -167,8 +206,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     fun getFlightWidgetExpandedState(): String {
         if (isFlightSegmentDetailsExpanded()) {
             return context.getString(R.string.accessibility_cont_desc_role_button_collapse)
-        }
-        else {
+        } else {
             return context.getString(R.string.accessibility_cont_desc_role_button_expand)
         }
     }

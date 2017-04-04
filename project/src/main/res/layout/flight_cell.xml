@@ -12,9 +12,6 @@
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="@dimen/card_view_container_margin"
-        android:layout_marginRight="@dimen/card_view_container_margin"
         android:foreground="?android:attr/selectableItemBackground">
 
         <LinearLayout
@@ -79,7 +76,20 @@
                         style="@style/Core.Text.XLarge.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp" />
+                        android:layout_marginLeft="20dp"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/flight_overview_expand_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/flight_info_container"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="9dp"
+                        android:src="@drawable/read_more"
+                        android:tint="@color/package_bundle_icon_color"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -4339,7 +4339,10 @@
     <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
     <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Total Duration: {duration} • {distance} {distanceunit}</string>
-
+    <!-- Toolbar Title for flight overview template. E.g. Thurs May 12 - Fri May 14, 2 guests -->
+    <string name="flight_overview_toolbar_TEMPLATE">{date}, {guests} </string>
+    <!-- Title for flight overview summary template. E.g. SFO to DEL Thurs May 12 -->
+    <string name="flight_overview_header_template">{departureairportcode} to {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -17,7 +18,7 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.squareup.phrase.Phrase
 
-class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
+class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
 
     var viewmodel: FlightSegmentBreakdownViewModel by notNullAndObservable { vm ->
@@ -44,6 +45,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         val operatedBy = row.findViewById(R.id.operating_airline_name) as TextView
         val seatClassAndBookingCode = row.findViewById(R.id.flight_seat_class_booking_code) as TextView
         val segmentDuration = row.findViewById(R.id.flight_duration) as TextView
+        val rowCollapseIcon = row.findViewById(R.id.flight_overview_collapse_icon) as ImageView
         departureArrivalTime.text = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
         airlineAirplaneType.text = FlightV2Utils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
@@ -62,6 +64,9 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
             seatClassAndBookingCode.text = seatClassAndBookingCodeText
         } else {
             seatClassAndBookingCode.visibility = GONE
+        }
+        if (breakdown.showCollapseIcon) {
+            rowCollapseIcon.visibility = View.VISIBLE
         }
         return row
     }
