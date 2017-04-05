@@ -17,7 +17,6 @@ import com.expedia.bookings.launch.widget.NewLaunchLobAdapter;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import java.util.ArrayList;
 import com.expedia.bookings.utils.AbacusTestUtils;
-import com.mobiata.android.util.SettingUtils;
 import kotlin.Pair;
 import kotlin.Unit;
 import rx.observers.TestSubscriber;
@@ -34,6 +33,9 @@ public class NewLaunchLobAdapterTest {
 
 	@Test
 	public void spansAreCorrect() {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLOBAccentuating,
+			AbacusUtils.DefaultVariant.CONTROL.ordinal());
+
 		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
 			new NewLaunchLobViewModel(getContext(), BehaviorSubject.<Boolean>create(), BehaviorSubject.<Unit>create()));
 
@@ -62,10 +64,8 @@ public class NewLaunchLobAdapterTest {
 
 	@Test
 	public void spansAreCorrectWhenUserIsBucketed() {
-
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLOBAccentuating,
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
-		SettingUtils.save(getContext(), R.string.preference_lob_accentuating, true);
 
 		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
 			new NewLaunchLobViewModel(getContext(), BehaviorSubject.<Boolean>create(), BehaviorSubject.<Unit>create()));

@@ -3616,13 +3616,11 @@ public class OmnitureTracking {
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 		}
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_lob_accentuating)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
-		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		if (User.isLoggedIn(sContext) && FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_member_deal_on_launch_screen)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
