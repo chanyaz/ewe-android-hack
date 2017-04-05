@@ -1,15 +1,16 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
-
-import org.joda.time.LocalDate;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -23,7 +24,6 @@ public class FlightDetailsScreenSteps {
 	public void clickOnFlightWithAirlineNameAndTime(String airlineName, String airlineTime)
 		throws Throwable {
 		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), airlineName, airlineTime);
-		//FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(),0);
 	}
 
 	@Then("^on flight details screen the destination is \"([^\"]*)\"$")
@@ -96,33 +96,51 @@ public class FlightDetailsScreenSteps {
 			.check(matches(withText(containsString(price))));
 
 	}
-
 	@And("^flight time on the flight details is \"([^\"]*)\"$")
 	public void verifyFlightDepartureArrivalTime(String time) throws Throwable {
 		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
-			withId(R.id.departure_arrival_time)))
-			.check(matches(withText(time)));
+			withId(R.id.departure_arrival_time), withText(time)))
+			.check(matches(isDisplayed()));
+	}
+
+	@And("^flight time for segment (\\d+) on the flight details is \"([^\"]*)\"$")
+	public void verifyFlightDepartureArrivalTimeForMultileg(int seg, String time) throws Throwable {
+		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+			withId(R.id.departure_arrival_time), withText(time)))
+			.check(matches(isDisplayed()));
 	}
 
 	@And("^airport names on the flight details is \"([^\"]*)\"$")
 	public void verifyDepartureArrivalAirportName(String airport) throws Throwable {
 		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
-			withId(R.id.departure_arrival_airport)))
-			.check(matches(withText(airport)));
+		withId(R.id.departure_arrival_airport), withText(airport)))
+		.check(matches(isDisplayed()));
+
+
 	}
 
 	@And("^airline name on the flight details is \"([^\"]*)\"$")
 	public void verifyAirlineName(String airline) throws Throwable {
-		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
-			withId(R.id.airline_airplane_type)))
-			.check(matches(withText(containsString(airline))));
+	onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+		withId(R.id.airline_airplane_type), withText(containsString(airline))))
+		.check(matches(isDisplayed()));
+
 	}
 
 	@And("^flight duration on the flight details is \"([^\"]*)\"$")
 	public void verifyFlightDuration(String duration) throws Throwable {
 		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
-			withId(R.id.flight_duration)))
-			.check(matches(withText(duration)));
+			withId(R.id.flight_duration), withText(duration)))
+			.check(matches(isDisplayed()));
+	}
+
+	@And("^flight class info is \"([^\"]*)\"$")
+	public void verifyFlightClassInfo(String classInfo) throws Throwable {
+		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+			withId(R.id.flight_seat_class_booking_code), withText(classInfo)))
+			.check(matches(isDisplayed()));
+
+
 	}
 
 	@And("^flight total duration on the flight details is \"([^\"]*)\"$")
@@ -142,5 +160,24 @@ public class FlightDetailsScreenSteps {
 		onView(withId(R.id.select_flight_button)).check(matches(withText(containsString(button))));
 	}
 
+	@And("^flight layover airport is \"([^\"]*)\"$")
+	public void verifyFlightLayoverAirport(String layoverAirport) throws Throwable {
+		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+			withId(R.id.flight_segment_layover_in)))
+			.check(matches(withText(layoverAirport)));
+	}
 
+	@And("^flight layover is for \"([^\"]*)\"$")
+	public void verifyLayoverDuration(String layoverDuration) throws Throwable {
+		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+			withId(R.id.flight_segment_layover_duration)))
+			.check(matches(withText(layoverDuration)));
+	}
+
+	@Then("^on flight details screen the urgency text is \"([^\"]*)\"$")
+	public void verifyFlightDetailsUrgencyText(String urgencyText) throws Throwable {
+		onView(allOf(withId(R.id.flight_overview_urgency_messaging), withText(containsString(urgencyText))))
+			.check(matches(isDisplayed()));
+
+	}
 }
