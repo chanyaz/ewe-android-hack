@@ -435,9 +435,16 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
             searchContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
+                navIcon.parameter = 1f
+                toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
                 searchLocationEditText?.visibility = GONE
+                if (showFlightOneWayRoundTripOptions) {
+                    tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
+                }
                 mRootView.viewTreeObserver.removeOnPreDrawListener(globalLayoutListener)
             } else {
+                navIcon.parameter = 0f
+                toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 1f)
                 searchLocationEditText?.visibility = VISIBLE
                 mRootView.viewTreeObserver.addOnPreDrawListener(globalLayoutListener)
             }
