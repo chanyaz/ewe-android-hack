@@ -67,14 +67,14 @@ function sdkManagerWorkAround() {
 
 function runUnitTests() {
     if [ "$flavor" != "Expedia" ] && [ "$flavor" != "" ]; then
-        ./gradlew --no-daemon \
+        ./gradlew --no-daemon -PdisablePreDex \
             "test${flavor}DebugUnitTest"
         unitTestStatus=$?
     else
         echo "Running Expedia"
         ./lib/mocked/validate.sh || return 1
         ./tools/validate-strings.sh ./project/src/main/res main || return 1
-        ./gradlew --no-daemon \
+        ./gradlew --no-daemon -PdisablePreDex \
             ":lib:ExpediaBookings:checkstyleMain" ":lib:ExpediaBookings:checkstyleTest" \
             "checkstyle" "lintExpediaDebug" \
             ":lib:mocked:mocke3:test" \

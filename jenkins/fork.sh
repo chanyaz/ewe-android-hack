@@ -51,7 +51,7 @@ fi
 
 run() {
 	 # run tests
-	 ./gradlew --no-daemon forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
+	 ./gradlew --no-daemon -PdisablePreDex forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
 }
 
 failed_test_classes=""
