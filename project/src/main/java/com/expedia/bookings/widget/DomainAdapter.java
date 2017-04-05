@@ -1,8 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +13,19 @@ import com.expedia.bookings.R;
 public class DomainAdapter extends BaseAdapter {
 	private CharSequence[] mNames;
 	private CharSequence[] mDomains;
-	private TypedArray flagsArray;
+
+	private Integer[] flagsArray;
 	private LayoutInflater mInflater;
 	private int mSelected = 0;
 
 	public DomainAdapter(Context context) {
 		mInflater = LayoutInflater.from(context);
-		flagsArray = context.getResources().obtainTypedArray(R.array.flags);
 	}
 
-	public void setDomains(CharSequence[] names, CharSequence[] values) {
+	public void setDomains(CharSequence[] names, CharSequence[] values, Integer[] flags) {
 		mNames = names;
 		mDomains = values;
+		flagsArray = flags;
 	}
 
 	public void setSelected(int p) {
@@ -35,16 +34,16 @@ public class DomainAdapter extends BaseAdapter {
 
 	private class DomainViewHolder {
 		// View stuff
-		ImageView mImageView;
 		android.widget.TextView mNameTextView;
 		android.widget.TextView mDomainTextView;
+		android.widget.ImageView mImageView;
 		RadioButton mRadioButton;
 	}
 
 	public class DomainTuple {
 		public CharSequence mName;
 		public CharSequence mDomain;
-		public Drawable mDrawable;
+		public int mDrawable;
 	}
 
 	// Adapter implementation
@@ -65,7 +64,7 @@ public class DomainAdapter extends BaseAdapter {
 			DomainTuple t = new DomainTuple();
 			t.mName = mNames[position];
 			t.mDomain = mDomains[position];
-			t.mDrawable = flagsArray.getDrawable(position);
+			t.mDrawable = flagsArray[position];
 			return t;
 		}
 		else {
@@ -100,7 +99,7 @@ public class DomainAdapter extends BaseAdapter {
 
 		holder.mNameTextView.setText(d.mName);
 		holder.mDomainTextView.setText(d.mDomain);
-		holder.mImageView.setImageDrawable(d.mDrawable);
+		holder.mImageView.setImageResource(d.mDrawable);
 		return convertView;
 	}
 }
