@@ -220,7 +220,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
                     if (!outBoundFlightWidget.isFlightSegmentDetailsExpanded()) {
                         outBoundFlightWidget.expandFlightDetails()
                     } else {
-                        outBoundFlightWidget.collapseFlightDetails()
+                        outBoundFlightWidget.collapseFlightDetails(true)
                     }
                 }
             }

@@ -86,8 +86,8 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Detail(flightSearchParams, flightCreateTripResponse)
     }
 
-    fun trackOverviewFlightExpandClick() {
-        OmnitureTracking.trackOverviewFlightExpandClick()
+    fun trackOverviewFlightExpandClick(isExpanding: Boolean) {
+        OmnitureTracking.trackOverviewFlightExpandClick(isExpanding)
     }
 
     fun trackFlightCostBreakdownClick() {

@@ -151,12 +151,12 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesBundlePageLoad(packageDetails)
     }
 
-    fun trackBundleOverviewHotelExpandClick() {
-        OmnitureTracking.trackPackagesBundleProductExpandClick("Hotel")
+    fun trackBundleOverviewHotelExpandClick(isExpanding: Boolean) {
+        OmnitureTracking.trackPackagesBundleProductExpandClick("Hotel", isExpanding)
     }
 
-    fun trackBundleOverviewFlightExpandClick() {
-        OmnitureTracking.trackPackagesBundleProductExpandClick("Flight")
+    fun trackBundleOverviewFlightExpandClick(isExpanding: Boolean) {
+        OmnitureTracking.trackPackagesBundleProductExpandClick("Flight", isExpanding)
     }
 
     fun trackBundleOverviewCostBreakdownClick() {

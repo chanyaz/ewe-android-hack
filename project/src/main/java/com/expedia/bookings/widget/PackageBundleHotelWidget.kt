@@ -130,7 +130,7 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
                 if (mainContainer.visibility == Presenter.GONE) {
                     expandSelectedHotel()
                 } else {
-                    collapseSelectedHotel()
+                    collapseSelectedHotel(true)
                 }
                 this.selectedCardObservable.onNext(Unit)
             } else {
@@ -153,13 +153,16 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         viewModel.hotelRowExpanded.onNext(Unit)
         mainContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(hotelDetailsIcon)
-        PackagesTracking().trackBundleOverviewHotelExpandClick()
+        PackagesTracking().trackBundleOverviewHotelExpandClick(true)
     }
 
-    fun collapseSelectedHotel() {
+    fun collapseSelectedHotel(trackClick: Boolean = false) {
         mainContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(hotelDetailsIcon)
         hotelDetailsIcon.clearAnimation()
+        if (trackClick) {
+            PackagesTracking().trackBundleOverviewHotelExpandClick(false)
+        }
     }
 
     fun backButtonPressed() {

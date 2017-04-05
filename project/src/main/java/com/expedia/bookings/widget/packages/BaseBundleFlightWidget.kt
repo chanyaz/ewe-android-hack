@@ -109,7 +109,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 if (!isFlightSegmentDetailsExpanded()) {
                     expandFlightDetails()
                 } else {
-                    collapseFlightDetails()
+                    collapseFlightDetails(true)
                 }
                 this.selectedCardObservable.onNext(Unit)
             }
@@ -128,17 +128,22 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
     }
 
-    fun expandFlightDetails() {
+    fun expandFlightDetails(trackClick: Boolean = true) {
         viewModel.flightsRowExpanded.onNext(Unit)
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
-        trackBundleOverviewFlightExpandClick()
+        if (trackClick) {
+            trackBundleOverviewFlightExpandClick(true)
+        }
     }
 
-    fun collapseFlightDetails() {
+    fun collapseFlightDetails(trackClick: Boolean = false) {
         flightDetailsContainer.visibility = Presenter.GONE
         AnimUtils.reverseRotate(flightDetailsIcon)
         flightDetailsIcon.clearAnimation()
+        if (trackClick) {
+            trackBundleOverviewFlightExpandClick(false)
+        }
     }
 
     fun isFlightSegmentDetailsExpanded(): Boolean {
@@ -219,11 +224,11 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 .toString()
     }
 
-    fun trackBundleOverviewFlightExpandClick() {
+    fun trackBundleOverviewFlightExpandClick(isExpanding: Boolean) {
         if (viewModel.lob == LineOfBusiness.PACKAGES) {
-            PackagesTracking().trackBundleOverviewFlightExpandClick()
+            PackagesTracking().trackBundleOverviewFlightExpandClick(isExpanding)
         } else if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
-            FlightsV2Tracking.trackOverviewFlightExpandClick()
+            FlightsV2Tracking.trackOverviewFlightExpandClick(isExpanding)
         }
     }
 

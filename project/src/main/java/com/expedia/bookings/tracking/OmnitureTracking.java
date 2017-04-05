@@ -4771,7 +4771,7 @@ public class OmnitureTracking {
 
 	private static final String PACKAGES_BUNDLE_VIEW_OVERVIEW_LOAD = "App.Package.BundleView";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_LOAD = "App.Package.RateDetails";
-	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.ViewDetails.";
+	private static final String PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE = "App.Package.RD.Details.";
 	private static final String PACKAGES_BUNDLE_OVERVIEW_COST_BREAKDOWN = "App.Package.RD.TotalCost";
 	private static final String PACKAGES_BUNDLE_EDIT = "App.Package.RD.Edit";
 
@@ -5109,8 +5109,11 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackPackagesBundleProductExpandClick(String lobClicked) {
-		createAndtrackLinkEvent(PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE + lobClicked, "Rate Details");
+	public static void trackPackagesBundleProductExpandClick(String lobClicked, boolean isExpanding) {
+		StringBuilder link = new StringBuilder(PACKAGES_BUNDLE_OVERVIEW_PRODUCT_EXPAND_TEMPLATE);
+		link.append(lobClicked);
+		link.append(isExpanding ? ".Expand" : ".Collapse");
+		createAndtrackLinkEvent(link.toString(), "Rate Details");
 	}
 
 	public static void trackPackagesBundleCostBreakdownClick() {
@@ -5272,7 +5275,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FILTER_STOPS_TEMPLATE = "App.Flight.Search.Filter.";
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
-	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.ViewDetails";
+	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.Details.";
 	private static final String FLIGHTS_V2_COST_SUMMARY = "App.Flight.RD.TotalCost";
 	private static final String FLIGHTS_V2_RATE_DETAILS_PRICE_CHANGE = "App.Flight.RD.PriceChange";
 	private static final String FLIGHTS_V2_CHECKOUT_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
@@ -5722,8 +5725,10 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackOverviewFlightExpandClick() {
-		createAndtrackLinkEvent(FLIGHTS_V2_DETAILS_EXPAND, "Rate Details");
+	public static void trackOverviewFlightExpandClick(boolean isExpanding) {
+		StringBuilder link = new StringBuilder(FLIGHTS_V2_DETAILS_EXPAND);
+		link.append(isExpanding ? "Expand" : "Collapse");
+		createAndtrackLinkEvent(link.toString(), "Rate Details");
 	}
 
 	public static void trackFlightCostBreakdownClick() {
