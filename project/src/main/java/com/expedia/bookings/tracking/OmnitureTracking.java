@@ -5633,10 +5633,10 @@ public class OmnitureTracking {
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event54");
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSimplifyFlightShopping);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightStaticSortFilter);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);
-
 		}
 		s.track();
 	}
