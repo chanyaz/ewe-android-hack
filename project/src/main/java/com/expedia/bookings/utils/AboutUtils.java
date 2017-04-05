@@ -240,18 +240,20 @@ public class AboutUtils {
 			int len = poses.size();
 			CharSequence[] entries = new CharSequence[len];
 			CharSequence[] entrySubText = new CharSequence[len];
+			Integer[] entriesFlags = new Integer[len];
 			final int[] entryValues = new int[len];
 			for (int a = 0; a < len; a++) {
 				PointOfSale info = poses.get(a);
 				entries[a] = getActivity().getString(info.getCountryNameResId());
 				entrySubText[a] = info.getUrl();
 				entryValues[a] = info.getPointOfSaleId().getId();
+				entriesFlags[a] = info.getCountryFlagResId();
 			}
 
 			final int startingIndex = getIndexOfValue(entryValues,
 				SettingUtils.get(getActivity(), R.string.PointOfSaleKey, -1));
 			DomainAdapter domainAdapter = new DomainAdapter(getActivity());
-			domainAdapter.setDomains(entries, entrySubText);
+			domainAdapter.setDomains(entries, entrySubText, entriesFlags);
 			domainAdapter.setSelected(startingIndex);
 			builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, final int newIndex) {
