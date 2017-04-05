@@ -10,7 +10,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -289,20 +288,10 @@ public abstract class BookingFragment<T extends Response> extends Fragment {
 			Events.post(new Events.BookingResponseErrorTripBooked());
 			return;
 		case FLIGHT_SOLD_OUT:
-			if (ExpediaBookingApp.useTabletInterface()) {
-				Events.post(new Events.BookingUnavailable(lob));
-			}
-			else {
-				showBookingUnavailableErrorDialog(lob);
-			}
+			showBookingUnavailableErrorDialog(lob);
 			OmnitureTracking.trackErrorPageLoadFlightSoldOut();
 		case SESSION_TIMEOUT:
-			if (ExpediaBookingApp.useTabletInterface()) {
-				Events.post(new Events.BookingUnavailable(lob));
-			}
-			else {
-				showBookingUnavailableErrorDialog(lob);
-			}
+			showBookingUnavailableErrorDialog(lob);
 			if (lob == LineOfBusiness.FLIGHTS) {
 				OmnitureTracking.trackErrorPageLoadFlightSearchExpired();
 			}

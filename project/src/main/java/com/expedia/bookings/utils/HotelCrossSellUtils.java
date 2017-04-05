@@ -4,12 +4,9 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.trips.TripFlight;
 
 public class HotelCrossSellUtils {
@@ -23,13 +20,7 @@ public class HotelCrossSellUtils {
 	}
 
 	public static void deepLinkHotels(final Context context, final HotelSearchParams hotelSearchParams) {
-		if (ExpediaBookingApp.useTabletInterface()) {
-			final SearchParams searchParams = SearchParams.fromHotelSearchParams(hotelSearchParams);
-			NavUtils.goToTabletResults(context, searchParams, LineOfBusiness.HOTELS);
-		}
-		else {
-			NavUtils.goToHotels(context, hotelSearchParams);
-		}
+		NavUtils.goToHotels(context, hotelSearchParams);
 	}
 
 }

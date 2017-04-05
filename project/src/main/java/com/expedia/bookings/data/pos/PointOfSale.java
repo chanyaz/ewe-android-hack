@@ -28,7 +28,6 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -648,22 +647,21 @@ public class PointOfSale {
 	}
 
 	public boolean supports(LineOfBusiness lob) {
-		boolean showingTabletInterface = ExpediaBookingApp.useTabletInterface();
 		switch (lob) {
 		case CARS:
-			return mSupportsCars && !showingTabletInterface;
+			return mSupportsCars;
 		case LX:
-			return mSupportsLx && !showingTabletInterface;
+			return mSupportsLx;
 		case TRANSPORT:
-			return mSupportsGT && !showingTabletInterface;
+			return mSupportsGT;
 		case FLIGHTS:
 			return mSupportsFlights;
 		case HOTELS:
 			return true;
 		case PACKAGES:
-			return mSupportsPackages && !showingTabletInterface;
+			return mSupportsPackages;
 		case RAILS:
-			return mSupportsRails && !showingTabletInterface;
+			return mSupportsRails;
 		}
 
 		return false;

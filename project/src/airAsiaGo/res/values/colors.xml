@@ -25,9 +25,7 @@
 
     <color name="tablet_confirmation_action_color">@color/aag_primary_color</color>
     <color name="tablet_sort_filter_done_selector">@color/aag_primary_color</color>
-    <color name="tablet_book_button_text_color">@color/aag_secondary_color</color>
     <color name="tablet_price_expanded_bucket_text_color">@color/aag_secondary_color</color>
-    <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
     <color name="tablet_search_result_error_button_pressed">#D1EAFF</color>
     <color name="tablet_search_result_error_button">#004E93</color>
     <color name="tablet_results_search_done">#608405</color>
@@ -90,7 +88,6 @@
 
     <!-- Checkout Colors -->
     <color name="login_text_aag">#333333</color>
-    <color name="tablet_checkout_account_button_text_color">@color/login_text_aag</color>
     <color name="old_checkout_account_button_text_color">@color/login_text_aag</color>
 
     <!-- New Launch Screen colors -->

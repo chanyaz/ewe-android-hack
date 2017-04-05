@@ -107,7 +107,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             val room = it.newHotelProductResponse.hotelRoomResponse
             val rate = room.rateInfo.chargeableRateInfo
 
-            isPayLater.onNext(room.isPayLater && !ExpediaBookingApp.useTabletInterface())
+            isPayLater.onNext(room.isPayLater)
             isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             isDepositV2.onNext(room.depositRequired)

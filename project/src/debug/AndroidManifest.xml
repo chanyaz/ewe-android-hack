@@ -20,10 +20,6 @@
             android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Preferences" />
-        <activity
-            android:name="com.expedia.bookings.activity.TabletPreferenceActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.Tablet.Preferences" />
 
         <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"

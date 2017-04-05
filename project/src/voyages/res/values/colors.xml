@@ -42,7 +42,6 @@
     <color name="material_checkout_account_button_background_color">@color/vsc_primary_color</color>
 
     <color name="tablet_confirmation_action_color">@color/vsc_secondary_color</color>
-    <color name="tablet_book_button_text_color">@color/action_bar_bg_color</color>
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->

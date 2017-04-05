@@ -3,7 +3,4 @@
     <dimen name="min_height_rating_bar_small">18dp</dimen>
     <dimen name="max_height_rating_bar_small">18dp</dimen>
     
-    <dimen name="percent_off_corner_text_size">10sp</dimen>
-    <dimen name="percent_off_corner_margin_top">4dp</dimen>
-    <dimen name="percent_off_corner_margin_right">1dp</dimen>
 </resources>

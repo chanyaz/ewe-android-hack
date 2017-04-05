@@ -99,29 +99,6 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- Tablet -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.TabletLaunchActivity"
-            android:resizeableActivity="false"
-            android:theme="@style/V2.Theme.Activity.TabletLaunch"
-            android:windowSoftInputMode="adjustPan"
-            tools:ignore="UnusedAttribute" />
-
-        <activity
-            android:name="com.expedia.bookings.activity.TabletResultsActivity"
-            android:resizeableActivity="false"
-            android:theme="@style/V2.Theme.Activity.TabletResults"
-            android:windowSoftInputMode="adjustPan"
-            tools:ignore="UnusedAttribute" />
-
-        <activity
-            android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
-            android:resizeableActivity="false"
-            android:theme="@style/V2.Theme.Activity.TabletCheckout"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="UnusedAttribute" />
-
         <!-- Phone New launch -->
 
         <activity
@@ -135,14 +112,6 @@
 
         <!-- Itineraries -->
 
-        <activity
-            android:name="com.expedia.bookings.activity.ItineraryActivity"
-            android:exported="true"
-            android:label="@string/trips"
-            android:launchMode="singleTop"
-            android:resizeableActivity="false"
-            android:theme="@style/ItineraryTheme"
-            tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
             android:resizeableActivity="false"

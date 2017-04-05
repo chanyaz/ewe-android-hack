@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@color/tablet_room_rate_more_info_pressed" android:state_pressed="true"/>
-
-</selector>

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PaymentType;
@@ -37,9 +36,6 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	//It will be set true if user chose 'Save' on filling in new card details. If he chose 'No Thanks', it will be set false.
 	private boolean hasTemporarilySavedCard = false;
 
-	//In tablet stored credit card is list popup in which we show 2 additional cards 'Saved cards' and 'Add New card'
-	private boolean isTablet = ExpediaBookingApp.useTabletInterface();
-
 	public StoredCreditCardSpinnerAdapter(Context context, TripBucketItem item) {
 		super(context, R.layout.traveler_autocomplete_row);
 		mTripBucketItem = item;
@@ -49,7 +45,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	@Override
 	public int getCount() {
 		//If it is a tablet then count increases by 2 because of 2 additional cards 'Saved cards' and 'Add New card' and 'Add New card' shown in tablet
-		return getAvailableStoredCards().size() + (hasTemporarilySavedCard ? 1 : 0) + (isTablet ? 2 : 0);
+		return getAvailableStoredCards().size() + (hasTemporarilySavedCard ? 1 : 0);
 	}
 
 	@Override
@@ -58,7 +54,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		if (itemType == ITEM_VIEW_TYPE_CREDITCARD) {
 			if (getCount() > position - (hasTemporarilySavedCard ? 1 : 0)) {
 				//In case of tablet 0th position is acquired by 'Saved cards' tile
-				return getAvailableStoredCards().get(position - (isTablet ? 1 : 0));
+				return getAvailableStoredCards().get(position);
 			}
 		}
 		return null;
@@ -83,14 +79,8 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		/* In phones Temporarily saved card is positioned at the bottom of the Stored Cards List.
 		Whereas in tablet last position is acquired by the card 'Add New card' tile
 		*/
-		if (hasTemporarilySavedCard && position == getCount() - 1 - (isTablet ? 1 : 0)) {
+		if (hasTemporarilySavedCard && position == getCount() - 1) {
 			return ITEM_VIEW_TYPE_TEMP_CREDITCARD;
-		}
-		else if (isTablet && position == 0) {
-			return ITEM_VIEW_TYPE_SELECT_CREDITCARD;
-		}
-		else if (isTablet && position == getCount() - 1) {
-			return ITEM_VIEW_TYPE_ADD_CREDITCARD;
 		}
 		else {
 			return ITEM_VIEW_TYPE_CREDITCARD;

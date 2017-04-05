@@ -38,7 +38,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.utils.DateFormatUtils;
@@ -85,9 +84,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mContext = context;
 
 		//Display fields
-		mFields.add(mDisplayFullName);
-		mFields.add(mDisplaySpecialAssistance);
-		mFields.add(mDisplayPhoneNumberWithCountryCode);
 		mFields.add(mDisplayEmailDisclaimer);
 
 		//Validation Indicator fields
@@ -97,7 +93,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mValidPhoneNumber);
 		mFields.add(mValidEmail);
 		mFields.add(mValidDateOfBirth);
-		mFields.add(mValidRedressNumber);
 
 		//Edit fields
 		mFields.add(mEditFirstName);
@@ -107,15 +102,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditPhoneNumber);
 		mFields.add(mEditEmailAddress);
 		mFields.add(mEditBirthDateTextBtn);
-		mFields.add(mEditRedressNumber);
 		mFields.add(mEditGenderSpinner);
-		mFields.add(mEditPassportCountrySpinner);
 		mFields.add(mEditAssistancePreferenceSpinner);
 		mFields.add(mEditSeatPreferenceSpinner);
-	}
-
-	public void setViewEnabled(int viewId, boolean enabled) {
-
 	}
 
 	@Override
@@ -193,8 +182,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		boolean enabled = travelerIndex == 0;
 		mFields.setFieldEnabled(mEditPhoneNumber, enabled);
 		mFields.setFieldEnabled(mEditPhoneNumberCountryCodeSpinner, enabled);
-		mFields.setFieldEnabled(mDisplayPhoneNumberWithCountryCode, enabled);
-		setPhoneContainerVisibility(enabled ? View.VISIBLE : View.GONE);
 	}
 
 	public void refreshOnLoginStatusChange() {
@@ -205,13 +192,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			mFields.setFieldEnabled(mEditEmailAddress, true);
 		}
 		onChange();
-	}
-
-	private void setPhoneContainerVisibility(int visibility) {
-		View container = Ui.findView(this, R.id.phone_edit_container);
-		if (container != null) {
-			container.setVisibility(visibility);
-		}
 	}
 
 	public boolean performValidation() {
@@ -306,53 +286,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		R.id.edit_birth_date_text_btn);
 	ValidationIndicatorExclaimation<Traveler> mValidEmail = new ValidationIndicatorExclaimation<Traveler>(
 		R.id.edit_email_address);
-	ValidationIndicatorExclaimation<Traveler> mValidRedressNumber = new ValidationIndicatorExclaimation<Traveler>(
-		R.id.edit_redress_number);
 
 	//////////////////////////////////////
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
-
-	SectionField<TextView, Traveler> mDisplayFullName = new SectionField<TextView, Traveler>(
-		R.id.display_full_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			String fullNameStr = "";
-			fullNameStr += (data.getFirstName() != null) ? data.getFirstName() + " " : "";
-			fullNameStr += (data.getMiddleName() != null) ? data.getMiddleName() + " " : "";
-			fullNameStr += (data.getLastName() != null) ? data.getLastName() + " " : "";
-			fullNameStr = fullNameStr.trim();
-			fullNameStr = fullNameStr.replaceAll("\\s+", " ");//we only want one space character at a time
-
-			if (!TextUtils.isEmpty(fullNameStr)) {
-				field.setText(fullNameStr);
-			}
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplayPhoneNumberWithCountryCode = new SectionField<TextView, Traveler>(
-		R.id.display_phone_number_with_country_code) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			String formatStr = mContext.getResources().getString(R.string.phone_number_with_country_code_TEMPLATE);
-			String number = phoneToStringHelper(data.getOrCreatePrimaryPhoneNumber());
-			String retStr = String.format(formatStr,
-				data.getPhoneCountryCode() == null ? "" : data.getPhoneCountryCode(),
-				number.trim().compareToIgnoreCase("") == 0 ? "" : PhoneNumberUtils.formatNumber(number));
-
-			field.setText(retStr);
-		}
-	};
-
-	SectionField<TextView, Traveler> mDisplaySpecialAssistance = new SectionField<TextView, Traveler>(
-		R.id.display_special_assistance) {
-		@Override
-		public void onHasFieldAndData(TextView field, Traveler data) {
-			String template = mContext.getString(R.string.special_assistance_label_TEMPLATE);
-			String val = String.format(template, data.getAssistanceString(mContext, data.getAssistance()));
-			field.setText(val);
-		}
-	};
 
 	SectionField<TextView, Traveler> mDisplayEmailDisclaimer = new SectionField<TextView, Traveler>(
 		R.id.email_disclaimer) {
@@ -880,159 +817,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				return input.replaceAll("\\D", "");
 			}
 			return input;
-		}
-	};
-
-	SectionFieldEditable<EditText, Traveler> mEditRedressNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
-		R.id.edit_redress_number) {
-
-		@Override
-		protected Validator<EditText> getValidator() {
-			return CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET;
-		}
-
-		@Override
-		public void setChangeListener(EditText field) {
-			field.addTextChangedListener(new AfterChangeTextWatcher() {
-				@Override
-				public void afterTextChanged(Editable s) {
-					if (hasBoundData()) {
-						getData().setRedressNumber(s.toString());
-					}
-					onChange(SectionTravelerInfo.this);
-				}
-			});
-		}
-
-		@Override
-		protected void onHasFieldAndData(EditText field, Traveler data) {
-			field.setText(data.getRedressNumber());
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
-			retArr.add(mValidRedressNumber);
-			return retArr;
-		}
-	};
-
-	SectionFieldEditable<Spinner, Traveler> mEditPassportCountrySpinner = new SectionFieldEditable<Spinner, Traveler>(
-		R.id.edit_passport_country_spinner) {
-
-		private boolean mSetFieldManually = false;
-		CountrySpinnerAdapter mCountryAdapter;
-		Validator<Spinner> mValidator = new Validator<Spinner>() {
-			@Override
-			public int validate(Spinner obj) {
-				if (getData() == null) {
-					return ValidationError.ERROR_DATA_MISSING;
-				}
-
-				boolean hasMoreThanOnePassport = (getData().getPassportCountries().size() > 1);
-				if (obj.getSelectedItemPosition() == 0 || getData().getPrimaryPassportCountry() == null) {
-					return ValidationError.ERROR_DATA_MISSING;
-				}
-				else if (hasMoreThanOnePassport && !getData().isChangedPrimaryPassportCountry()) {
-					// customer has more than one passport && they haven't selected a passport
-					return ValidationError.ERROR_DATA_MISSING;
-				}
-				else {
-					return ValidationError.NO_ERROR;
-				}
-			}
-		};
-
-		@Override
-		protected void onFieldBind() {
-			super.onFieldBind();
-			if (hasBoundField()) {
-				mCountryAdapter = new CountrySpinnerAdapter(mContext, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME, android.R.layout.simple_list_item_1, android.R.layout.simple_list_item_1, true);
-				getField().setAdapter(mCountryAdapter);
-			}
-		}
-
-		@Override
-		public void setChangeListener(Spinner field) {
-
-			field.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					if (mCountryAdapter != null && getData() != null) {
-						getData().setPrimaryPassportCountry(
-							mCountryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
-					}
-
-					if (!mSetFieldManually) {
-						onChange(SectionTravelerInfo.this);
-					}
-					else {
-						mSetFieldManually = false;
-					}
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-				}
-			});
-
-		}
-
-		@Override
-		protected void onHasFieldAndData(Spinner field, Traveler data) {
-			getField().setSelection(0, false);
-			onChange(SectionTravelerInfo.this);
-
-			boolean travelerHasMultiplePassports = (data.getPassportCountries().size() > 1);
-			if (!travelerHasMultiplePassports) {
-				// only auto-populate passport country spinner/drop down when traveler has 1 or no stored passports
-
-				if (mCountryAdapter != null && !TextUtils.isEmpty(data.getPrimaryPassportCountry())) {
-					for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-						if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-							data.getPrimaryPassportCountry())) {
-							getField().setSelection(i);
-							break;
-						}
-					}
-				}
-				else if (mCountryAdapter != null && mAutoChoosePassportCountry) {
-					int pos = mCountryAdapter.getDefaultLocalePosition();
-					getField().setSelection(pos);
-					getData().setPrimaryPassportCountry(mCountryAdapter.getItemValue(pos, CountryDisplayType.THREE_LETTER));
-				}
-			}
-			else { // traveler has multiple passports
-				boolean countrySelected = (field.getSelectedItemPosition() > 0);
-				boolean dataAndFieldMatch = mCountryAdapter.getItemValue(field.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-					data.getPrimaryPassportCountry()) && countrySelected;
-
-				if (!dataAndFieldMatch) {
-					if (data.isChangedPrimaryPassportCountry() && (data.getPrimaryPassportCountry() != null)) {
-						// use the primary passport country recently selected
-						for (int i = 0; i < mCountryAdapter.getCount(); i++) {
-							if (mCountryAdapter.getItemValue(i, CountryDisplayType.THREE_LETTER).equalsIgnoreCase(
-								data.getPrimaryPassportCountry())) {
-								getField().setSelection(i);
-								break;
-							}
-						}
-					}
-					else { // reset drop down to 0
-						getField().setSelection(0, false);
-					}
-				}
-			}
-		}
-
-		@Override
-		protected Validator<Spinner> getValidator() {
-			return mValidator;
-		}
-
-		@Override
-		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
-			return null;
 		}
 	};
 

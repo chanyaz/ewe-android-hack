@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.text.NumberFormat;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorRes;
@@ -13,10 +15,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -47,7 +48,6 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.LoyaltyUtil;
 import com.squareup.phrase.Phrase;
-import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
 public class AccountButton extends LinearLayout {
@@ -99,10 +99,6 @@ public class AccountButton extends LinearLayout {
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
 				if (mListener != null) {
-
-					if (ExpediaBookingApp.useTabletInterface()) {
-						clearTabletCheckoutData();
-					}
 					mListener.accountLogoutClicked();
 					OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SELECT);
 				}
@@ -158,63 +154,48 @@ public class AccountButton extends LinearLayout {
 
 	// Do some runtime styling, based on whether this is tablet or a white-labelled app
 	private void bindLoginContainer(LineOfBusiness lob) {
-		boolean isTablet = ExpediaBookingApp.useTabletInterface();
+		LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
+		lp.height = LayoutParams.WRAP_CONTENT;
+		FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
 
-		if (isTablet) {
-			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
-			lp.height = getResources().getDimensionPixelSize(R.dimen.account_button_height);
-			FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
-			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tablet_checkout_login_logo, 0, 0, 0);
-			mLoginTextView
-				.setTextColor(ContextCompat.getColor(getContext(), R.color.tablet_checkout_account_button_text_color));
-		}
-		else {
-			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
-			lp.height = LayoutParams.WRAP_CONTENT;
-			FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
-
-			if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
-				lpt.width = LayoutParams.WRAP_CONTENT;
-				lpt.gravity = Gravity.CENTER;
-				int textColor;
-				int drawableSkinAttribute;
-				if (LobExtensionsKt.isUniversalCheckout(lob, getContext()) && Db.getAbacusResponse()
-					.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInButtonYellow)) {
-					textColor = R.color.material_checkout_yellow_account_button_text_color;
-					((CardView) mLoginContainer).setCardBackgroundColor(
-						ContextCompat
-							.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
-					drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
-				}
-				else {
-					textColor = R.color.material_checkout_account_button_text_color;
-					drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
-				}
-
-				mLoginTextView.setTextColor(
-					ContextCompat.getColor(getContext(), textColor));
-				int[] attrs = { drawableSkinAttribute };
-				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
-				mLoginTextView
-					.setCompoundDrawablesWithIntrinsicBounds(ta.getDrawable(0), null, null, null);
+		if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
+			lpt.width = LayoutParams.WRAP_CONTENT;
+			lpt.gravity = Gravity.CENTER;
+			int textColor;
+			int drawableSkinAttribute;
+			if (LobExtensionsKt.isUniversalCheckout(lob, getContext()) && Db.getAbacusResponse()
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInButtonYellow)) {
+				textColor = R.color.material_checkout_yellow_account_button_text_color;
+				((CardView) mLoginContainer).setCardBackgroundColor(
+					ContextCompat
+						.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
+				drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
 			}
 			else {
-				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
-				lpt.width = LayoutParams.MATCH_PARENT;
-				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-				mLoginContainer.setBackgroundResource(R.drawable.old_checkout_account_button_background);
-				mLoginTextView
-					.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));
-				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.old_checkout_account_logo, 0, 0, 0);
-				mLoginTextView.setBackgroundResource(bgResourceId);
+				textColor = R.color.material_checkout_account_button_text_color;
+				drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
 			}
-			mLoginTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
-			mLoginTextView.setPadding(padding, padding, padding, padding);
-		}
 
+			mLoginTextView.setTextColor(
+				ContextCompat.getColor(getContext(), textColor));
+			int[] attrs = { drawableSkinAttribute };
+			TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+			mLoginTextView
+				.setCompoundDrawablesWithIntrinsicBounds(ta.getDrawable(0), null, null, null);
+		}
+		else {
+			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
+			lpt.width = LayoutParams.MATCH_PARENT;
+			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
+			mLoginContainer.setBackgroundResource(R.drawable.old_checkout_account_button_background);
+			mLoginTextView
+				.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.old_checkout_account_logo, 0, 0, 0);
+			mLoginTextView.setBackgroundResource(bgResourceId);
+		}
+		mLoginTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+		int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
+		mLoginTextView.setPadding(padding, padding, padding, padding);
 		showLoginButtonText(lob);
 	}
 
@@ -272,8 +253,7 @@ public class AccountButton extends LinearLayout {
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		return (lob == LineOfBusiness.HOTELS && pos.isEarnMessageEnabledForHotels()
 			|| ((lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2) && pos.isEarnMessageEnabledForFlights())
-			|| lob == LineOfBusiness.PACKAGES && pos.isEarnMessageEnabledForPackages())
-			&& !ExpediaBookingApp.useTabletInterface();
+			|| lob == LineOfBusiness.PACKAGES && pos.isEarnMessageEnabledForPackages());
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -384,16 +364,9 @@ public class AccountButton extends LinearLayout {
 			break;
 
 		case HOTELS:
-			if (ExpediaBookingApp.useTabletInterface()) {
-				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-				CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
-				rewardPoints = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
-			}
-			else {
-				TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
-				HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-				rewardPoints = trip == null ? "" : getRewardsString(trip.getRewards());
-			}
+			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
+			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
+			rewardPoints = trip == null ? "" : getRewardsString(trip.getRewards());
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();

@@ -16,20 +16,12 @@ import com.expedia.account.Config;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
-import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.bookings.activity.TabletCheckoutActivity;
-import com.expedia.bookings.activity.TabletLaunchActivity;
-import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
-import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
@@ -85,63 +77,24 @@ public class NavUtils {
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
-		if (ExpediaBookingApp.useTabletInterface()) {
-			Intent intent = new Intent(context, TabletLaunchActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-			context.startActivity(intent);
+		Intent intent = getLaunchIntent(context);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		if (forceShowWaterfall) {
+			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 		}
-		else {
-			Intent intent = getLaunchIntent(context);
-			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			if (forceShowWaterfall) {
-				intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
-			}
-			sendKillActivityBroadcast(context);
-			context.startActivity(intent);
-		}
-	}
-
-	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
-		Intent intent;
-		if (ExpediaBookingApp.useTabletInterface()) {
-			intent = new Intent(context, TabletLaunchActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-		}
-		else {
-			intent = getLaunchIntent(context);
-			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			if (forceShowWaterfall) {
-				intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
-			}
-			sendKillActivityBroadcast(context);
-		}
-		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
+		sendKillActivityBroadcast(context);
 		context.startActivity(intent);
 	}
 
-	public static void goToTabletResults(Context context, SearchParams searchParams, LineOfBusiness lob) {
-		Sp.setParams(searchParams, false);
-
-		// Reset HotelFilter
-		if (Db.getFilter() != null) {
-			HotelFilter filter = Db.getFilter();
-			filter.reset();
-			filter.notifyFilterChanged();
+	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
+		Intent intent = getLaunchIntent(context);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		if (forceShowWaterfall) {
+			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
 		}
-
-		Intent intent;
-		TaskStackBuilder builder = TaskStackBuilder.create(context);
-		intent = new Intent(context, TabletLaunchActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		builder.addNextIntent(intent);
-
-		intent = TabletResultsActivity.createIntent(context);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		if (lob == LineOfBusiness.HOTELS) {
-			intent.putExtra(TabletResultsActivity.INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, true);
-		}
-		builder.addNextIntent(intent);
-		builder.startActivities();
+		sendKillActivityBroadcast(context);
+		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
+		context.startActivity(intent);
 	}
 
 	public static void goToItin(Context context) {
@@ -149,32 +102,19 @@ public class NavUtils {
 	}
 
 	public static void goToItin(Context context, String itinNum) {
-		Intent intent;
-		if (ExpediaBookingApp.useTabletInterface()) {
-			TaskStackBuilder builder = TaskStackBuilder.create(context);
-			intent = new Intent(context, TabletLaunchActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			builder.addNextIntent(intent);
-
-			intent = new Intent(context, ItineraryActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			builder.addNextIntent(intent);
-			builder.startActivities();
+		Intent intent = getLaunchIntent(context);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
+		if (itinNum != null) {
+			intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
 		}
-		else {
-			intent = getLaunchIntent(context);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
-			if (itinNum != null) {
-				intent.putExtra(NewPhoneLaunchActivity.ARG_ITIN_NUM, itinNum);
-			}
-			context.startActivity(intent);
-		}
+		context.startActivity(intent);
 	}
 
 	public static void goToAccount(Activity activity) {
 		Bundle args = AccountLibActivity
-			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, new ItinerarySyncLoginExtender());
+			.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount,
+				new ItinerarySyncLoginExtender());
 		User.signIn(activity, args);
 	}
 
@@ -193,14 +133,9 @@ public class NavUtils {
 	}
 
 	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender, int flags) {
-		Intent intent;
+
 		TaskStackBuilder builder = TaskStackBuilder.create(context);
-		if (ExpediaBookingApp.useTabletInterface()) {
-			intent = new Intent(context, TabletLaunchActivity.class);
-		}
-		else {
-			intent = getLaunchIntent(context);
-		}
+		Intent intent = getLaunchIntent(context);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, showAccount);
 		builder.addNextIntent(intent);
@@ -211,7 +146,7 @@ public class NavUtils {
 		}
 
 		if ((flags & MEMBER_ONLY_DEAL_SEARCH) != 0) {
-			bundle.putBoolean(Codes.MEMBER_ONLY_DEALS,true);
+			bundle.putBoolean(Codes.MEMBER_ONLY_DEALS, true);
 		}
 
 		User.signIn((Activity) context, bundle);
@@ -478,12 +413,6 @@ public class NavUtils {
 		// Clear out old data
 		Db.resetBillingInfo();
 		Db.getHotelSearch().setSearchResponse(null);
-
-		// If tablet then let's just close the checkout activity to expose the results activity. A new search with old params will kick off.
-		if (activity instanceof TabletCheckoutActivity) {
-			Db.getTripBucket().clearHotel();
-			activity.finish();
-		}
 	}
 
 	/**
@@ -492,21 +421,21 @@ public class NavUtils {
 	 * Intent.FLAG_ACTIVITY_CLEAR_TASK that we'd otherwise want to use in some cases,
 	 * like when we open a hotel details from the widget. Call this method when you want
 	 * to clear the task.
-	 * <p>
+	 * <p/>
 	 * Note: All activities must register a LocalBroadcastReceiver on the KILL_ACTIVITY
 	 * intent to guarantee the backstack is actually erased.
-	 * <p>
+	 * <p/>
 	 * <pre class="prettyprint">
 	 * public class MyActivity extends Activity {
 	 * // To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	 * private ActivityKillReceiver mKillReceiver;
-	 * <p>
+	 * <p/>
 	 * protected void onCreate(Bundle savedInstanceState) {
 	 * super.onCreate(savedInstanceState);
 	 * mKillReceiver = new ActivityKillReceiver(this);
 	 * mKillReceiver.onCreate();
 	 * }
-	 * <p>
+	 * <p/>
 	 * protected void onDestroy();
 	 * if (mKillReceiver != null) {
 	 * mKillReceiver.onDestroy();
@@ -525,7 +454,7 @@ public class NavUtils {
 
 	/**
 	 * Inspired by http://android-developers.blogspot.com/2009/01/can-i-use-this-intent.html
-	 * <p>
+	 * <p/>
 	 * Indicates whether the specified action can be used as an intent. This
 	 * method queries the package manager for installed packages that can
 	 * respond to an intent with the specified action. If no suitable package is

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
         android:layout_weight="1"
-        android:textColor="@color/tablet_filter_checkbox_text" />
+        android:textColor="@color/filter_checkbox_text_color" />
 
     <CheckBox
         android:id="@+id/vendor_check_box"

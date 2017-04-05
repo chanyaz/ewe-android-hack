@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -148,13 +147,7 @@ public abstract class BaseRulesFragment extends Fragment {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 
 					String message = getString(R.string.lawyer_label_atol_long_message);
-					String html;
-					if (ExpediaBookingApp.useTabletInterface()) {
-						html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
-					}
-					else {
-						html = HtmlUtils.wrapInHeadAndBody(message);
-					}
+					String html = HtmlUtils.wrapInHeadAndBody(message);
 					builder.setHtmlData(html);
 
 					builder.setTitle(R.string.lawyer_label_atol_information);

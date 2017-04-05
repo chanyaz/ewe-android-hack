@@ -31,15 +31,4 @@
         <item name="textColor">@color/menu_bar_text_color</item>
     </style>
 
-    <!-- For the tablet launch map pins -->
-    <style name="MapPinUpperTextAppearance">
-        <item name="android:textColor">@color/tablet_map_pin_text_color</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="MapPinLowerTextAppearance">
-        <item name="android:textColor">@color/tablet_map_pin_text_color</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
 </resources>

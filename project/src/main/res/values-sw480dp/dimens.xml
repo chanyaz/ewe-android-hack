@@ -2,6 +2,5 @@
 <resources>
 
     <dimen name="padding_top_rooms_rates_ribbon">1dp</dimen>
-    <dimen name="hotel_row_price_text_view_max_width">150dp</dimen>
 
 </resources>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Tablet details -->
-    <dimen name="non_refundable_tweak">1sp</dimen>
-
-</resources>

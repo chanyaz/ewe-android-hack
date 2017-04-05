@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -381,11 +380,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money depositToShowUsers = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmountToShowUsers",
 				"0.0"),
 			currencyCode);
-		// 0 out deposit amount (deposit v2 tablet only: #5665)
-		if (ExpediaBookingApp.useTabletInterface()) {
-			depositAmount = ParserUtils.createMoney("0", currencyCode);
-			depositToShowUsers = ParserUtils.createMoney("0", currencyCode);
-		}
 
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
 			currencyCode);

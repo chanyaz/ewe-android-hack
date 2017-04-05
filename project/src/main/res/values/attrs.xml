@@ -188,11 +188,6 @@
         <attr name="maskColor" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="CenteredCaptionedIcon">
-        <attr name="caption" />
-        <attr name="svg" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="CheckoutInfoStatusIcon">
         <attr name="state_info_complete" format="boolean" />
     </declare-styleable>

@@ -30,9 +30,6 @@
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
     <string name="open_source_names">ActiveAndroid, ButterKnife, Dagger, FlowLayout, Gson, JodaTime, joda-time-android, OkHttp, Okio, Otto, Phrase, Picasso, Retrofit, RxAndroid, RxJava, ShareEverywhere, svg-android</string>
 
-    <!-- Template for time - distance.  E.g., "9h 40m - 5,5000 miles" -->
-    <string name="time_distance_TEMPLATE"> &lt;b&gt;%1$s&lt;/b&gt; - %2$s</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">159126</string>
     <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
@@ -56,16 +53,8 @@
     <string name="email_app_review_feedback">feedback-android@mobiata.com</string>
     <string name="email_app_support_headline">Feedback In-App Prompt</string>
 
-    <!-- Fragment tags -->
-    <string name="tag_itinerary_list">ITINERARY_LIST</string>
-    <string name="tag_itinerary_map">ITINERARY_MAP</string>
-    <string name="tag_itinerary_card">ITINERARY_CARD</string>
-    <string name="map_snippet_template">%1$s · %2$s</string>
-
     <!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->
-    <string name="bold_template">&lt;b&gt;%s&lt;/b&gt;</string>
     <string name="strike_template">&lt;strike&gt;%s&lt;/strike&gt;</string>
-    <string name="ellipsize_text_template">%s…</string>
 
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>

@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -592,15 +591,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private int getSupportActionBarHeight() {
-		int ret;
-		// Tablet's ItineraryActivity is not an ActionBarActivity yet.
-		if (ExpediaBookingApp.useTabletInterface()) {
-			ret = getActivity().getActionBar() == null ? 0 : getActivity().getActionBar().getHeight();
-		}
-		else {
-			ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
-			ret = ab == null ? 0 : ab.getHeight();
-		}
+		ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		int ret = ab == null ? 0 : ab.getHeight();
 		return ret;
 	}
 
