@@ -105,7 +105,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return R.drawable.ic_itin_shared_placeholder_flights;
 		}
 		else {
-			return R.drawable.ic_type_circle_flight;
+			return Ui.obtainThemeResID(getContext(), R.attr.itin_card_list_icon_flight_drawable);
 		}
 	}
 
@@ -530,7 +530,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	@SuppressLint("DefaultLocale")
 	@Override
 	public SummaryButton getSummaryLeftButton() {
-		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.directions),
+		return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_left_action_button_flight_drawable), getContext().getString(R.string.directions),
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -548,7 +548,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		final String firstConfCode = getFirstFlightConfirmationCodeString((TripFlight) itinCardData.getTripComponent());
 		if (!TextUtils.isEmpty(firstConfCode)) {
-			return new SummaryButton(R.drawable.ic_confirmation_checkmark_light, firstConfCode, new OnClickListener() {
+			return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_right_action_button_flight_drawable), firstConfCode, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					ClipboardUtils.setText(getContext(), firstConfCode);
