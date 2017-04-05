@@ -14,6 +14,7 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.Ui;
 
 public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardData> {
 	@Override
@@ -36,7 +37,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getTypeIconResId() {
-		return R.drawable.ic_type_circle_cruise;
+		return Ui.obtainThemeResID(getContext(), R.attr.itin_card_list_icon_cruise_drawable);
 	}
 
 	@Override

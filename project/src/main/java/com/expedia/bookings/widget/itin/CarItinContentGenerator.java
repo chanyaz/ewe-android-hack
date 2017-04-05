@@ -54,7 +54,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public int getTypeIconResId() {
-		return R.drawable.ic_type_circle_car;
+		return Ui.obtainThemeResID(getContext(), R.attr.itin_card_list_icon_car_drawable);
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public SummaryButton getSummaryLeftButton() {
-		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.itin_action_directions),
+		return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_left_action_button_car_drawable), getContext().getString(R.string.itin_action_directions),
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -284,7 +284,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 			String callAgencyContDesc = Phrase.from(getContext(), R.string.itin_action_call_agency_cont_desc_TEMPLATE)
 				.put("agency", getItinCardData().getVendorName())
 				.format().toString();
-			return new SummaryButton(R.drawable.ic_phone, getItinCardData().getVendorName(), callAgencyContDesc, new OnClickListener() {
+			return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_right_action_button_car_drawable), getItinCardData().getVendorName(), callAgencyContDesc, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					SocialUtils.call(getContext(), vendorPhone);

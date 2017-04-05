@@ -7,7 +7,7 @@
     android:gravity="left|center"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:textColor="@color/itin_white_text"
-    android:textSize="16dp"
+    android:textColor="?attr/itin_card_summary_text_line1_color"
+    android:textSize="?attr/itin_card_summary_text_line1_size"
     app:minTextSize="10dp"
     app:textStyle="light" />

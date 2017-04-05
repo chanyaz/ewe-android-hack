@@ -10,6 +10,7 @@ import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.trips.ItinCardDataRails
 import com.expedia.bookings.data.trips.TripComponent
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import java.util.ArrayList
 import java.util.Collections
@@ -21,7 +22,7 @@ class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCard
     }
 
     override fun getTypeIconResId(): Int {
-        return R.drawable.rail_itin_icon
+        return Ui.obtainThemeResID(context, R.attr.itin_card_list_icon_rail_drawable)
     }
 
     override fun getType(): TripComponent.Type {

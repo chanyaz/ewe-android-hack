@@ -129,7 +129,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			return R.drawable.ic_itin_shared_placeholder_hotel;
 		}
 		else {
-			return R.drawable.ic_type_circle_hotel;
+			return Ui.obtainThemeResID(getContext(), R.attr.itin_card_list_icon_hotel_drawable);
 		}
 	}
 
@@ -536,7 +536,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public SummaryButton getSummaryLeftButton() {
-		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.itin_action_directions),
+		return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_left_action_button_hotel_drawable), getContext().getString(R.string.itin_action_directions),
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -551,7 +551,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public SummaryButton getSummaryRightButton() {
-		final int iconResId = R.drawable.ic_phone;
+		final int iconResId = Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_right_action_button_hotel_drawable);
 		final String actionText = getContext().getString(R.string.itin_action_call_hotel);
 		final String phone = getItinCardData().getRelevantPhone();
 

@@ -11,13 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
-        android:src="@drawable/ic_hotel_attach"/>
+        android:src="?attr/itin_card_list_cross_sell_hotel_left_drawable"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/action_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/itin_white_text"
-        android:textSize="16dp"/>
+        android:textColor="?attr/itin_card_list_cross_sell_text_color"
+        android:textSize="?attr/itin_card_list_cross_sell_text_size" />
 
 </LinearLayout>
