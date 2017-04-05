@@ -46,7 +46,9 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import rx.observers.TestSubscriber
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -202,11 +204,15 @@ class FlightOverviewPresenterTest {
 
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
         val flightSummary = widget.flightSummary
+        val basicEconomyClickedTestSubscriber = TestSubscriber<Unit>()
+        flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestSubscriber)
+
         flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
 
         assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
 
         flightSummary.basicEconomyMessageTextView.performClick()
+        basicEconomyClickedTestSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
         assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
     }
 
