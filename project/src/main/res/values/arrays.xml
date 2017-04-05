@@ -919,40 +919,4 @@
         <item>CAN</item>
     </string-array>
 
-    <string-array name="flags" tools:ignore="MissingTranslation">
-        <item>@drawable/ic_flag_ar_icon</item>
-        <item>@drawable/ic_flag_au_icon</item>
-        <item>@drawable/ic_flag_at_icon</item>
-        <item>@drawable/ic_flag_be_icon</item>
-        <item>@drawable/ic_flag_br_icon</item>
-        <item>@drawable/ic_flag_ca_icon</item>
-        <item>@drawable/ic_flag_dk_icon</item>
-        <item>@drawable/ic_flag_fi_icon</item>
-        <item>@drawable/ic_flag_fr_icon</item>
-        <item>@drawable/ic_flag_de_icon</item>
-        <item>@drawable/ic_flag_hk_icon</item>
-        <item>@drawable/ic_flag_in_icon</item>
-        <item>@drawable/ic_flag_id_icon</item>
-        <item>@drawable/ic_flag_ie_icon</item>
-        <item>@drawable/ic_flag_it_icon</item>
-        <item>@drawable/ic_flag_jp_icon</item>
-        <item>@drawable/ic_flag_kr_icon</item>
-        <item>@drawable/ic_flag_my_icon</item>
-        <item>@drawable/ic_flag_mx_icon</item>
-        <item>@drawable/ic_flag_nl_icon</item>
-        <item>@drawable/ic_flag_nz_icon</item>
-        <item>@drawable/ic_flag_no_icon</item>
-        <item>@drawable/ic_flag_ph_icon</item>
-        <item>@drawable/ic_flag_sg_icon</item>
-        <item>@drawable/ic_flag_es_icon</item>
-        <item>@drawable/ic_flag_se_icon</item>
-        <item>@drawable/ic_flag_ch_icon</item>
-        <item>@drawable/ic_flag_tw_icon</item>
-        <item>@drawable/ic_flag_th_icon</item>
-        <item>@drawable/ic_flag_uk_icon</item>
-        <item>@drawable/ic_flag_us_icon</item>
-        <item>@drawable/ic_flag_vn_icon</item>
-
-    </string-array>
-
 </resources>
