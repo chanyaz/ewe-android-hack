@@ -38,7 +38,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.widget.CollectionViewHolder;
@@ -483,8 +482,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
 	private boolean showMemberDeal() {
-		return User.isLoggedIn(context) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen,
-				R.string.preference_member_deal_on_launch_screen);
+		return User.isLoggedIn(context) &&
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 	}
 
 	private boolean userBucketedForItinCardSignedIn() {
