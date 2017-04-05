@@ -22,11 +22,11 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
     val noResponseObservable = PublishSubject.create<Throwable>()
     val checkoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
     val priceChangeResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
-    val checkoutRequestCallObservable = BehaviorSubject.create<Long>()
+    val checkoutRequestStartTimeObservable = BehaviorSubject.create<Long>()
 
     init {
         checkoutParams.subscribe { params ->
-            checkoutRequestCallObservable.onNext(Date().time)
+            checkoutRequestStartTimeObservable.onNext(Date().time)
             hotelServices.checkout(params, getCheckoutResponseObserver())
         }
     }

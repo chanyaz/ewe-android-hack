@@ -11,6 +11,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.ItinTripServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -33,10 +34,13 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
+import rx.subjects.TestSubject
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class HotelConfirmationPresenterTest {
     var serviceRule = ServicesRule(ItinTripServices::class.java, Schedulers.immediate(), "../lib/mocked/templates")
@@ -70,7 +74,6 @@ class HotelConfirmationPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testConfirmationScreenPopulatedByItinsCall() {
         val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
@@ -86,7 +89,6 @@ class HotelConfirmationPresenterTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testDialogDisplayedOnItinsCallFailure() {
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()
         makeItinResponseObserver.onError(Throwable())
@@ -102,6 +104,28 @@ class HotelConfirmationPresenterTest {
         assertEquals("OK", okButton.text)
     }
 
+    @Test
+    fun testHotelConfirmationObservable() {
+        var confirmationDetailsAndUISet = false
+        val testDetailsSetSubscriber = TestSubscriber<Boolean>()
+        val testUISetSubscriber = TestSubscriber<Boolean>()
+        setDummyCheckoutResponse()
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable.subscribe(testDetailsSetSubscriber)
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable.subscribe(testUISetSubscriber)
+
+        TestSubject.combineLatest(hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
+            detailsSet, UISet ->
+                if (detailsSet && UISet) {
+                    confirmationDetailsAndUISet = true
+                }
+        }).subscribe()
+
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable.onNext(true)
+        assertTrue(!confirmationDetailsAndUISet)
+
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable.onNext(true)
+        assertTrue(confirmationDetailsAndUISet)
+    }
 
     private fun selectHotelRoom() {
         val hotelRoomResponse = HotelOffersResponse.HotelRoomResponse()
@@ -122,6 +146,33 @@ class HotelConfirmationPresenterTest {
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = ""
         return suggestion
+    }
+
+    private fun getDummyHotelCheckoutResponse(): HotelCheckoutResponse {
+        val hotelCheckoutResponse = HotelCheckoutResponse()
+        hotelCheckoutResponse.checkoutResponse = HotelCheckoutResponse.CheckoutResponse()
+        hotelCheckoutResponse.checkoutResponse.bookingResponse = HotelCheckoutResponse.BookingResponse()
+        hotelCheckoutResponse.checkoutResponse.productResponse = HotelCheckoutResponse.ProductResponse()
+        setDummyHotelProductResponse(hotelCheckoutResponse.checkoutResponse.productResponse)
+        hotelCheckoutResponse.currencyCode = "US"
+        hotelCheckoutResponse.orderId = "123"
+        hotelCheckoutResponse.totalCharges = "4.98"
+        return hotelCheckoutResponse
+    }
+
+    private fun setDummyHotelProductResponse(productResponse: HotelCheckoutResponse.ProductResponse) {
+        productResponse.hotelCity = "Los Angelos"
+        productResponse.hotelStateProvince = "CA"
+        productResponse.hotelCountry = "USA"
+        productResponse.checkInDate = "2015-02-22"
+        productResponse.checkOutDate = "2019-02-22"
+    }
+
+    private fun setDummyCheckoutResponse() {
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.hotelCheckoutResponseObservable.onNext(getDummyHotelCheckoutResponse())
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.percentagePaidWithPointsObservable.onNext(44)
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.onNext("0")
+        hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.couponCodeObservable.onNext("4")
     }
 
 }
