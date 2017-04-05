@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="launch_pin_detail_size">200dp</dimen>
-    <dimen name="tablet_search_bar_top_margin">90dp</dimen>
-    <dimen name="destination_text_size">50sp</dimen>
-    <dimen name="destination_search_margin_horizontal">100dp</dimen>
-    <dimen name="extra_status_bar_padding">0dp</dimen>
-</resources>

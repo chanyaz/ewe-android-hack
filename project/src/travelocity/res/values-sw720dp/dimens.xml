@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="destination_text_size">40sp</dimen>
-    <dimen name="destination_search_margin_horizontal">130dp</dimen>
-</resources>

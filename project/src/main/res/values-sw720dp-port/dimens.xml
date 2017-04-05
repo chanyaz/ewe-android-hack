@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Trip Bucket -->
-    <fraction name="results_grid_tripbucket_height">23%</fraction>
-
-</resources>

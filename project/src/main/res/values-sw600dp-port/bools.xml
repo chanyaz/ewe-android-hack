@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <bool name="show_tripbucket_date">true</bool>
-    <bool name="show_waypoint_cancel_button">false</bool>
-
-</resources>

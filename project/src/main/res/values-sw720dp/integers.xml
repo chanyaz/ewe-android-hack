@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Hotel details rooms rates, description body length cutoff -->
-    <integer name="room_rate_description_body_length_cutoff_less">150</integer>
-    <integer name="room_rate_description_body_length_cutoff_more">200</integer>
-
-</resources>
