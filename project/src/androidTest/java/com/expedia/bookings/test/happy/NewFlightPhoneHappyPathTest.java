@@ -7,6 +7,7 @@ import android.app.Instrumentation;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.widget.Button;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -42,6 +43,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withTextColor;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsCompletelyDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
@@ -237,10 +239,12 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	public void testDisabledSTPState() throws Throwable {
-		SettingUtils.save(getActivity().getApplicationContext(), R.string.preference_disabled_stp_state, true);
+		Activity activity = getActivity();
+		SettingUtils.save(activity.getApplicationContext(), R.string.preference_disabled_stp_state, true);
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		getToCheckoutScreen();
 		assertViewIsCompletelyDisplayed(R.id.checkout_button);
+		onView(withId(R.id.checkout_button)).check(matches(withTextColor("#30FFFFFF")));
 		assertCostSummaryView();
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		assertViewIsNotDisplayed(R.id.checkout_button);
@@ -281,6 +285,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		assertCheckoutOverview();
 		assertCostSummaryView();
+		Button checkoutButton = (Button) getActivity().findViewById(R.id.checkout_button);
+		onView(withId(R.id.checkout_button)).check(matches(withTextColor("#FFFFFFFF")));
 
 		PackageScreen.checkout().perform(click());
 
