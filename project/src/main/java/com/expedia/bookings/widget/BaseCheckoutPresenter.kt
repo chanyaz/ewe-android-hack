@@ -651,4 +651,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
     }
+
+    fun doHarlemShakes() {
+        if (!travelersPresenter.viewModel.allTravelersValid()) {
+            AnimUtils.doTheHarlemShake(travelerSummaryCardView)
+        }
+        if (!paymentWidget.isComplete()) {
+            AnimUtils.doTheHarlemShake(paymentWidget)
+        }
+    }
 }
