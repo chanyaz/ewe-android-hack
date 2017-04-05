@@ -19,6 +19,8 @@ pip install objectpath
 
 # Prepare device and install test butler apk
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X install -r tools/test-butler-app-1.2.0.apk
+adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc data disable
+adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc wifi disable
 
 internal_artifact() {
 	# Cook up the frequencies of flaky UI tests so they are readily available for consumption by the Topmost-Flaky-UI-Tests-Daily-Report Job
