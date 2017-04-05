@@ -29,6 +29,7 @@ import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
 import com.expedia.bookings.hotel.widget.ClientNeighborhoodFilterView
+import com.expedia.bookings.hotel.widget.HotelPriceFilterView
 import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -52,6 +53,8 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
     val optionLabel: TextView by bindView(R.id.option_label)
+    val priceHeader: View by bindView(R.id.price)
+    val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
     val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
     val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
@@ -71,11 +74,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         button
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
-    val priceRangeBar: FilterRangeSeekBar by bindView(R.id.price_range_bar)
-    val priceRangeContainer: View by bindView(R.id.price_range_container)
-    val priceHeader: View by bindView(R.id.price)
-    val priceRangeMinText: TextView by bindView(R.id.price_range_min_text)
-    val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
     val neighborhoodLabel: TextView by bindView(R.id.neighborhood_label)
 
     val neighborhoodView: BaseNeighborhoodFilterView by lazy {
@@ -83,13 +81,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     }
 
     private val neighborhoodViewStub: ViewStub by bindView(R.id.neighborhood_view_stub)
-
-    val priceRangeStub: ViewStub by bindView(R.id.price_range_stub)
-    val a11yPriceRangeStub: ViewStub by bindView(R.id.a11y_price_range_stub)
-    val a11yPriceRangeStartSeekBar: FilterSeekBar by bindView(R.id.price_a11y_start_bar)
-    val a11yPriceRangeStartText: TextView by bindView(R.id.price_a11y_start_text)
-    val a11yPriceRangeEndSeekBar: FilterSeekBar by bindView(R.id.price_a11y_end_bar)
-    val a11yPriceRangeEndText: TextView by bindView(R.id.price_a11y_end_text)
 
     val ANIMATION_DURATION = 500L
 
@@ -172,7 +163,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
     open protected fun bindViewModel(vm: BaseHotelFilterViewModel) {
         doneButton.subscribeOnClick(vm.doneObservable)
-        vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeContainer)
+        vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeView)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
         filterVipContainer.setOnClickListener {
             clearHotelNameFocus()
@@ -190,61 +181,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
             filterHotelVip.isChecked = false
             neighborhoodView.clear()
-        }
-
-        var priceStartCurrentProgress: Int
-        var priceEndCurrentProgress: Int
-
-        vm.newPriceRangeObservable.subscribe { priceRange ->
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                priceStartCurrentProgress = priceRange.notches
-                priceEndCurrentProgress = priceRange.notches
-                a11yPriceRangeStartSeekBar.upperLimit = priceRange.notches
-                a11yPriceRangeEndSeekBar.upperLimit = priceRange.notches
-                a11yPriceRangeStartText.text = priceRange.defaultMinPriceText
-                a11yPriceRangeEndText.text = priceRange.defaultMaxPriceText
-                a11yPriceRangeStartSeekBar.a11yName = context.getString(R.string.hotel_price_range_start)
-                a11yPriceRangeEndSeekBar.a11yName = context.getString(R.string.hotel_price_range_end)
-                a11yPriceRangeStartSeekBar.currentA11yValue = a11yPriceRangeStartText.text.toString()
-                a11yPriceRangeEndSeekBar.currentA11yValue = a11yPriceRangeEndText.text.toString()
-
-                a11yPriceRangeStartSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
-                    priceStartCurrentProgress = priceRange.notches - progress
-                    if (priceStartCurrentProgress < priceEndCurrentProgress) {
-                        a11yPriceRangeStartText.text = priceRange.formatValue(priceRange.notches - progress)
-                        a11yPriceRangeStartSeekBar.currentA11yValue = a11yPriceRangeStartText.text.toString()
-                        announceForAccessibility(a11yPriceRangeStartSeekBar.currentA11yValue)
-                        vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(priceRange.notches - progress, priceEndCurrentProgress))
-                    }
-                }
-
-                a11yPriceRangeEndSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
-                    priceEndCurrentProgress = progress
-                    if (priceEndCurrentProgress > priceStartCurrentProgress) {
-                        a11yPriceRangeEndText.text = priceRange.formatValue(progress)
-                        a11yPriceRangeEndSeekBar.currentA11yValue = a11yPriceRangeEndText.text.toString()
-                        announceForAccessibility(a11yPriceRangeEndSeekBar.currentA11yValue)
-                        vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(priceStartCurrentProgress, progress))
-                    }
-                }
-            } else {
-                priceRangeBar.upperLimit = priceRange.notches
-                priceRangeMinText.text = priceRange.defaultMinPriceText
-                priceRangeMaxText.text = priceRange.defaultMaxPriceText
-
-                priceRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
-                    override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                        priceRangeMinText.text = priceRange.formatValue(minValue)
-                        priceRangeMaxText.text = priceRange.formatValue(maxValue)
-                    }
-
-                    override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                        priceRangeMinText.text = priceRange.formatValue(minValue)
-                        priceRangeMaxText.text = priceRange.formatValue(maxValue)
-                        vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))
-                    }
-                })
-            }
         }
 
         vm.doneButtonEnableObservable.subscribe { enable ->
@@ -308,16 +244,9 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
 
         vm.sortContainerVisibilityObservable.subscribeVisibility(sortContainer)
-        starRatingView.viewModel = viewModel
-    }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            a11yPriceRangeStub.inflate()
-        } else {
-            priceRangeStub.inflate()
-        }
+        priceRangeView.viewModel = viewModel
+        starRatingView.viewModel = viewModel
     }
 
     fun resetStars() {

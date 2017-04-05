@@ -155,26 +155,12 @@
                         android:textSize="15sp"
                         app:textStyle="medium" />
 
-                    <LinearLayout
-                        android:id="@+id/price_range_container"
-                        android:layout_width="match_parent"
+                    <com.expedia.bookings.hotel.widget.HotelPriceFilterView
+                        android:id="@+id/price_range_filter_view"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:orientation="vertical">
-
-                        <ViewStub
-                            android:id="@+id/price_range_stub"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout="@layout/hotel_price_range_seekbar" />
-
-                        <ViewStub
-                            android:id="@+id/a11y_price_range_stub"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout="@layout/a11y_hotel_price_range_seekbar" />
-
-                    </LinearLayout>
+                        android:orientation="vertical"
+                        android:layout_marginTop="7dp" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/star_rating_bar"

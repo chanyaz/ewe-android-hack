@@ -19,7 +19,7 @@
             android:layout_gravity="right" />
     </FrameLayout>
 
-    <com.expedia.bookings.widget.FilterRangeSeekBar
+    <com.expedia.bookings.widget.HotelPriceRangeSeekBar
         android:id="@+id/price_range_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

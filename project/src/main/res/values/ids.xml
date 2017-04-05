@@ -6,4 +6,10 @@
 
     <!-- for using Ids while running Expedia or Travelocity (part of replacement for search_progress_animation)-->
     <item name="search_progress_bar" type="id"/>
+
+    <item name="price_range_increase_min_price" type="id"/>
+    <item name="price_range_decrease_min_price" type="id"/>
+
+    <item name="price_range_increase_max_price" type="id"/>
+    <item name="price_range_decrease_max_price" type="id"/>
 </resources>
