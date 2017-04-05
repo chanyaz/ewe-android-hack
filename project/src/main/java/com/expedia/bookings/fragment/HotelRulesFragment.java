@@ -71,9 +71,6 @@ public class HotelRulesFragment extends Fragment {
 
 	private void populateHeaderRows(View view) {
 
-		final int themeId = ExpediaBookingApp.useTabletInterface() ?
-			R.style.FlightTheme : R.style.HotelWebViewTheme;
-
 		final PointOfSale pos = PointOfSale.getPointOfSale();
 
 		// Terms and Conditions
@@ -83,7 +80,6 @@ public class HotelRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getTermsAndConditionsUrl());
-				builder.setTheme(themeId);
 				builder.setTitle(R.string.terms_and_conditions);
 				startActivity(builder.getIntent());
 			}
@@ -97,7 +93,6 @@ public class HotelRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(pos.getTermsOfBookingUrl());
-					builder.setTheme(themeId);
 					builder.setTitle(R.string.Terms_of_Booking);
 					startActivity(builder.getIntent());
 				}
@@ -115,7 +110,6 @@ public class HotelRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
-				builder.setTheme(themeId);
 				builder.setTitle(R.string.privacy_policy);
 				startActivity(builder.getIntent());
 			}
@@ -129,7 +123,6 @@ public class HotelRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
-					builder.setTheme(themeId);
 					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
 					startActivity(builder.getIntent());
 				}
@@ -159,7 +152,6 @@ public class HotelRulesFragment extends Fragment {
 					builder.setHtmlData(html);
 
 					builder.setTitle(R.string.lawyer_label_atol_information);
-					builder.setTheme(R.style.Theme_Phone);
 					startActivity(builder.getIntent());
 				}
 			});

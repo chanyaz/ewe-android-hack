@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.Window;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
@@ -17,10 +18,9 @@ import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;
 import com.mobiata.android.Log;
 
-public class WebViewActivity extends FragmentActivity implements WebViewFragment.WebViewFragmentListener {
+public class WebViewActivity extends AppCompatActivity implements WebViewFragment.WebViewFragmentListener {
 
 	private static final String ARG_URL = "ARG_URL";
-	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
 	private static final String ARG_TITLE = "ARG_TITLE";
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOG_IN";
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
@@ -40,6 +40,8 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private boolean handleBack;
 
 	private WebViewFragment webViewFragment;
+	private ProgressBar mProgressBar;
+
 	public static class IntentBuilder {
 
 		private Context mContext;
@@ -64,11 +66,6 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		private String getUrlWithVisitorId(String url) {
 			String visitorID = ADMS_Measurement.sharedInstance().getVisitorID();
 			return url + (url.contains("?") ? "&" : "?") + APP_VISITOR_ID_PARAM + visitorID;
-		}
-
-		public IntentBuilder setTheme(int themeResId) {
-			mIntent.putExtra(ARG_STYLE_RES_ID, themeResId);
-			return this;
 		}
 
 		public IntentBuilder setTitle(String title) {
@@ -145,8 +142,13 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
+		Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		setTheme(R.style.Material_WebView_Theme);
+		setContentView(R.layout.web_view_toolbar);
+		mProgressBar = (ProgressBar) findViewById(R.id.webview_progress_view);
+
 		if (!ExpediaBookingApp.useTabletInterface()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
@@ -154,11 +156,6 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		if (shouldBail()) {
 			return;
 		}
-
-		Intent intent = getIntent();
-		Bundle extras = intent.getExtras();
-
-		setTheme(extras.getInt(ARG_STYLE_RES_ID, R.style.Theme_Phone_WebView));
 
 		if (extras.getBoolean(ARG_ITIN_CHECKIN)) {
 			Intent resultIntent = new Intent();
@@ -187,6 +184,8 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		if (intent.hasExtra(ARG_TITLE)) {
 			title = extras.getString(ARG_TITLE);
 		}
+
+		setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
 
 		if (!TextUtils.isEmpty(title)) {
 			setTitle(title);
@@ -221,7 +220,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			}
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.replace(android.R.id.content, webViewFragment, WebViewFragment.TAG);
+			ft.replace(R.id.root_content, webViewFragment, WebViewFragment.TAG);
 			ft.commit();
 		}
 	}
@@ -275,7 +274,12 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 	@Override
 	public void setLoading(boolean loading) {
-		setProgressBarIndeterminateVisibility(loading);
+		if (loading) {
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
+		else {
+			mProgressBar.setVisibility(View.GONE);
+		}
 	}
 
 	private boolean shouldBail() {

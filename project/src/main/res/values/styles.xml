@@ -5,6 +5,27 @@
     <!--
         Base app theme for various LOBs - Cars, LX and Hotels etc.
     -->
+    <style name="Material.WebView.Theme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:colorPrimary">@color/app_primary</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorPrimaryDark">#04445e</item>
+        <item name="android:colorButtonNormal">@color/app_primary</item>
+        <item name="android:colorEdgeEffect">@color/app_primary</item>
+
+        <item name="colorAccent">@color/app_primary</item>
+        <item name="primary_color">@color/app_primary</item>
+        <item name="primary_button_color">@color/app_primary</item>
+        <item name="primary_button_ripple_color">@color/app_primary</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorControlNormal">#C3C3C3</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
+    </style>
+
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -376,7 +376,6 @@ public class NavUtils {
 			builder.setRetryOnFailure(true);
 			builder.setTitle(context.getString(R.string.nav_car_rentals));
 			builder.setTrackingName("CarWebView");
-			builder.setTheme(R.style.CarWebViewTheme);
 			startActivity(context, builder.getIntent(), null);
 		}
 		else {

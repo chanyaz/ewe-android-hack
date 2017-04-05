@@ -22,6 +22,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -77,7 +78,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
 		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "Call Hotel Button");
 		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
-		assertViewWithTextIsDisplayed("Cancel Hotel Room");
+		onView(allOf(withText("Cancel Hotel Room"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
 		Common.pressBack();
 		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
 
@@ -119,7 +120,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Directions");
 		onView(withText("Reload Flight Info")).perform(scrollTo());
 		onView(withId(R.id.booking_info)).perform(click());
-		assertViewWithTextIsDisplayed("Additional Information");
+		onView(allOf(withText("Additional Information"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
 		Common.pressBack();
 
 		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
@@ -178,7 +179,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Directions");
 		onView(withText("Reload Flight Info")).perform(scrollTo());
 		onView(withId(R.id.booking_info)).perform(click());
-		assertViewWithTextIsDisplayed("Additional Information");
+		onView(allOf(withText("Additional Information"),isDescendantOfA(withId(R.id.toolbar)))).check(matches(isDisplayed()));
 		Common.pressBack();
 		pckgOutboundFlightRow.onChildView(withText(pckgOutboundFlightAirportTimeStr)).perform(scrollTo(), click());
 
