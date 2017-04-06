@@ -58,7 +58,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun showBasicEconomyMessage() {
-        SettingUtils.save(context, context.getString(R.string.preference_show_basic_economy), true)
         val testSubscriber = TestSubscriber<Boolean>()
         sut.vm.showBasicEconomyMessaging.subscribe(testSubscriber)
 

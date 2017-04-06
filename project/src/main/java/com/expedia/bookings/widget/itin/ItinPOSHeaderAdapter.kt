@@ -41,10 +41,12 @@ class ItinPOSHeaderAdapter(val context: Context) : BaseAdapter() {
         val icon = view.findViewById(R.id.imageView) as ImageView
         val names = view.findViewById(R.id.textView) as TextView
 
-        names.setTextColor(ContextCompat.getColor(context, color))
-        names.text = pointOfSales.get(position).threeLetterCountryCode
-        icon.setImageDrawable(flagsArray.getDrawable(position))
+        val pointOfSale = pointOfSales.get(position)
+        val posCountryFlagDrawable = ContextCompat.getDrawable(context, pointOfSale.countryFlagResId)
 
+        names.setTextColor(ContextCompat.getColor(context, color))
+        names.text = pointOfSale.threeLetterCountryCode
+        icon.setImageDrawable(posCountryFlagDrawable)
 
         view.contentDescription = Phrase.from(context, R.string.accessibility_cont_desc_pos_TEMPLATE).put("country_name", getCountryName(position)).format().toString()
         return view
