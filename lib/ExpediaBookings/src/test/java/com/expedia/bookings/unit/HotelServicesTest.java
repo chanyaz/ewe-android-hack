@@ -96,7 +96,7 @@ public class HotelServicesTest {
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
 		TestSubscriber testSubscriber = new TestSubscriber();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
+		service.search(hotelSearchParams, null, false).subscribe(testSubscriber);
 		testSubscriber.awaitTerminalEvent();
 
 		assertFalse("I don't expect to see longitude or latitude in a request where both are 0", testResult[0]);
@@ -126,7 +126,7 @@ public class HotelServicesTest {
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
 		TestSubscriber testSubscriber = new TestSubscriber();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
+		service.search(hotelSearchParams, null, false).subscribe(testSubscriber);
 		testSubscriber.awaitTerminalEvent();
 
 		assertTrue("Failure: Region Id expected to match neighborhood id if set", testResult[0]);
@@ -153,7 +153,7 @@ public class HotelServicesTest {
 		assertTrue(expectedMsg, testResult[0]);
 
 		TestSubscriber<HotelSearchResponse> regionSearchSubscriber = new TestSubscriber<>();
-		service.search(givenHappyHotelSearchParams(), null).subscribe(regionSearchSubscriber);
+		service.search(givenHappyHotelSearchParams(), null, false).subscribe(regionSearchSubscriber);
 		regionSearchSubscriber.awaitTerminalEvent();
 		assertTrue(expectedMsg, testResult[0]);
 	}
@@ -181,7 +181,7 @@ public class HotelServicesTest {
 
 
 		TestSubscriber<HotelOffersResponse> offersObserver = new TestSubscriber<>();
-		service.offers(params, "happypath", offersObserver);
+		service.offers(params, "happypath", offersObserver, false);
 		offersObserver.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		assertTrue(expectedMsg, testResult[0]);
 	}
@@ -242,7 +242,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
 
 		HotelSearchParams params = givenHappyHotelSearchParams();
-		service.offers(params, "happypath", observer);
+		service.offers(params, "happypath", observer, false);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();

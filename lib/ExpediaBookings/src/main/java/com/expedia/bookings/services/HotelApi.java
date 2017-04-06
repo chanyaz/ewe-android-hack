@@ -42,12 +42,33 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@QueryMap(encoded = true) Map<String, Object> filterParams);
 
+	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0&enableSponsoredListings=true")
+	Observable<HotelSearchResponse> searchLPAS(
+		@Query("regionId") String regionId,
+		@Query("latitude") Double lat,
+		@Query("longitude") Double lng,
+		@Query("checkInDate") String checkIn,
+		@Query("checkOutDate") String checkOut,
+		@Query("room1") String guestString,
+		@Query("shopWithPoints") Boolean shopWithPoints,
+		@Query("filterUnavailable") String filterUnavailable,
+		@Query("sortOrder") String sortOrder,
+		@QueryMap(encoded = true) Map<String, Object> filterParams);
+
 	@GET("/m/api/hotel/info?forceV2Search=true")
 	Observable<HotelOffersResponse> info(
 		@Query("hotelId") String propertyId);
 
 	@GET("/m/api/hotel/offers?forceV2Search=true")
 	Observable<HotelOffersResponse> offers(
+		@Query("checkInDate") String checkInDate,
+		@Query("checkOutDate") String checkOutDate,
+		@Query("room1") String travelers,
+		@Query("hotelId") String propertyId,
+		@Query("shopWithPoints") Boolean shopWithPoints);
+
+	@GET("m/api/hotel/offers/v3?")
+	Observable<HotelOffersResponse> offersLPAS(
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,

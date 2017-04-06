@@ -1,5 +1,6 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
@@ -52,19 +53,28 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .subscribe(observer)
     }
 
-    open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
-        // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
-        val lat = if (params.suggestion.coordinates.lat != 0.0) params.suggestion.coordinates.lat else null
-        val lng = if (params.suggestion.coordinates.lng != 0.0) params.suggestion.coordinates.lng else null
+    open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null,
+                    hitLPAS: Boolean = false): Observable<HotelSearchResponse> {
 
-        var regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
-        val filterOptions = params.filterOptions
-        if (filterOptions != null && !filterOptions.filterByNeighborhoodId.isNullOrEmpty()) {
-            // Override default regionId for neighborhood search
-            regionId = params!!.filterOptions!!.filterByNeighborhoodId
+        val lat = getLatitude(params.suggestion)
+        val long = getLongitude(params.suggestion)
+        var regionId = getRegionId(params)
+
+        if (hitLPAS) {
+            return hotelApi.searchLPAS(regionId, lat, long,
+                    params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
+                    params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
+                    .observeOn(observeOn)
+                    .subscribeOn(subscribeOn)
+                    .doOnNext {
+                        resultsResponseReceivedObservable?.onNext(Unit)
+                    }
+                    .doOnNext { response ->
+                        doPostSearchClientSideWork(params, response)
+                    }
         }
 
-        return hotelApi.search(regionId, lat, lng,
+        return hotelApi.search(regionId, lat, long,
                 params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
                 params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
                 .observeOn(observeOn)
@@ -73,56 +83,28 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                     resultsResponseReceivedObservable?.onNext(Unit)
                 }
                 .doOnNext { response ->
-                    if (response.hasErrors()) return@doOnNext
-
-                    response.userPriceType = getUserPriceType(response.hotelList)
-                    response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
-                    response.hotelList.map { hotel ->
-                        if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
-                            response.neighborhoodsMap[hotel.locationId]?.hotels?.add(hotel)
-                        }
-                    }
-
-                    response.allNeighborhoodsInSearchRegion.map {
-                        it.score = it.hotels.map { 1 }.sum()
-                    }
-
-                    if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
-                        response.hotelList.forEach { hotel ->
-                            hotel.proximityDistanceInMiles = 0.0
-                        }
-                    }
-
-                    response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
-
-                    response.hotelList.map { it.isSoldOut = !it.isHotelAvailable }
+                    doPostSearchClientSideWork(params, response)
                 }
-                .doOnNext { it.setHasLoyaltyInformation() }
     }
 
-    fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints)
+    fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>,
+               hitLPAS: Boolean = false): Subscription {
+        if (hitLPAS) {
+            return hotelApi.offersLPAS(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
+                    hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints)
+                    .observeOn(observeOn)
+                    .subscribeOn(subscribeOn)
+                    .doOnNext { response ->
+                        doPostOffersClientSideWork(response)
+                    }
+                    .subscribe(observer)
+        }
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
+                hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .doOnNext {
-                    it.hotelRoomResponse
-                            ?.forEach {
-                                val room = it
-                                val payLater = room.payLaterOffer
-                                payLater?.isPayLater = true
-                                if (payLater != null && room.depositPolicy != null && !room.depositPolicy.isEmpty()) {
-                                    it.rateInfo.chargeableRateInfo.depositAmount = "0";
-                                    it.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
-                                }
-                            }
-                }
-                .doOnNext { hotelOffersResponse ->
-                    hotelOffersResponse.hotelRoomResponse?.forEach {
-                        if (it.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
-                            hotelOffersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-                            return@doOnNext
-                        }
-                    }
+                .doOnNext { response ->
+                    doPostOffersClientSideWork(response)
                 }
                 .subscribe(observer)
     }
@@ -179,6 +161,71 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .subscribeOn(subscribeOn)
                 .doOnNext { removeUnknownRewardsTypes(it) }
                 .subscribe(observer)
+    }
+
+    private fun getRegionId(params: HotelSearchParams) : String? {
+        // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
+        var regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
+        val filterOptions = params.filterOptions
+        if (filterOptions != null && !filterOptions.filterByNeighborhoodId.isNullOrEmpty()) {
+            // Override default regionId for neighborhood search
+            regionId = params!!.filterOptions!!.filterByNeighborhoodId
+        }
+        return regionId
+    }
+
+    private fun getLatitude(suggestion: SuggestionV4) : Double? {
+        // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
+        return if (suggestion.coordinates.lat != 0.0) suggestion.coordinates.lat else null
+    }
+
+    private fun getLongitude(suggestion: SuggestionV4) : Double? {
+        // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
+        return if (suggestion.coordinates.lng != 0.0) suggestion.coordinates.lng else null
+    }
+
+    private fun doPostOffersClientSideWork(response: HotelOffersResponse) {
+        response.hotelRoomResponse?.forEach { roomResponse ->
+            val payLater = roomResponse.payLaterOffer
+            payLater?.isPayLater = true
+            if (payLater != null && roomResponse.depositPolicy != null && !roomResponse.depositPolicy.isEmpty()) {
+                roomResponse.rateInfo.chargeableRateInfo.depositAmount = "0";
+                roomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+            }
+
+            if (roomResponse.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
+                response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
+                return
+            }
+        }
+    }
+
+    private fun doPostSearchClientSideWork(params: HotelSearchParams, response: HotelSearchResponse) {
+        if (response.hasErrors()) return
+
+        response.userPriceType = getUserPriceType(response.hotelList)
+        response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
+        response.hotelList.map { hotel ->
+            if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
+                response.neighborhoodsMap[hotel.locationId]?.hotels?.add(hotel)
+            }
+        }
+
+        response.allNeighborhoodsInSearchRegion.map {
+            it.score = it.hotels.map { 1 }.sum()
+        }
+
+        if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
+            response.hotelList.forEach { hotel ->
+                hotel.proximityDistanceInMiles = 0.0
+            }
+        }
+
+        response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
+
+        response.hotelList.map { it.isSoldOut = !it.isHotelAvailable }
+
+        response.setHasLoyaltyInformation()
     }
 
     private fun getUserPriceType(hotels: List<Hotel>?): HotelRate.UserPriceType {
