@@ -45,6 +45,12 @@ class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewMode
                 breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.included), BreakdownItem.OTHER))
             }
 
+            // property service fee
+            val propertyServiceCharge = it.propertyServiceSurcharge.value
+            if (propertyServiceCharge != null) {
+                breakdowns.add(Breakdown(context.resources.getString(R.string.property_fee), propertyServiceCharge.formattedMoney, BreakdownItem.OTHER))
+            }
+
             // Extra guest fees
             val extraGuestFees = it.extraGuestFees.value
             if (extraGuestFees != null && !extraGuestFees.isZero) {

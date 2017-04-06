@@ -24,6 +24,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.calendar_instructions_date_range_with_guests_TEMPLATE,
 		R.string.accessibility_cont_desc_role_error,
 		R.layout.package_hotel_cell,
+		R.string.property_fee,
 		R.layout.widget_hotel_results,
 		R.string.accessibility_purchase_button,
 		R.string.flight_hour_min_duration_template_cont_desc,
