@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity
 import com.expedia.bookings.presenter.trips.AddGuestItinWidget
+import com.expedia.bookings.presenter.trips.ItinSignInPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.itin.AddGuestItinViewModel
 import org.junit.Before
@@ -13,6 +14,7 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
 @Config(sdk = intArrayOf(21))
@@ -20,15 +22,29 @@ class AddGuestItinWidgetTest {
     lateinit var sut: AddGuestItinWidget
     lateinit var viewModel: TestAddGuestItinViewModel
     lateinit var activity: NewAddGuestItinActivity
+    lateinit var signInPresenter: ItinSignInPresenter
 
     @Before
     fun setup() {
-        val activity = Robolectric.buildActivity(NewAddGuestItinActivity::class.java).create().get()
+        activity = Robolectric.buildActivity(NewAddGuestItinActivity::class.java).create().get()
         viewModel = TestAddGuestItinViewModel(activity)
         val mockItineraryManager = viewModel.mockItineraryManager
         Mockito.doNothing().`when`(mockItineraryManager).addGuestTrip("malcolmnguyen@gmail.com", "123456789")
         sut = activity.mSignInPresenter.addGuestItinWidget
         sut.viewModel = viewModel
+    }
+
+    @Test
+    fun tabToolbarHidden() {
+        val testSubscriber = TestSubscriber.create<Boolean>()
+        sut.viewModel.toolBarVisibilityObservable.subscribe(testSubscriber)
+        activity.mSignInPresenter.showSignInWidget()
+        activity.mSignInPresenter.showAddGuestItinScreen(false)
+        activity.mSignInPresenter.showSignInWidget()
+        activity.mSignInPresenter.showSignInWidget()
+
+        testSubscriber.awaitValueCount(3, 5L, TimeUnit.SECONDS)
+        testSubscriber.assertValues(true, false, true)
     }
 
     @Test
