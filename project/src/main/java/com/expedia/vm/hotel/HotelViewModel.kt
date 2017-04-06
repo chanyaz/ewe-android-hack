@@ -53,7 +53,6 @@ open class HotelViewModel(private val context: Context) {
     val hotelPreviewRatingVisibility = hotelPreviewRating.map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create<CharSequence>()
     val pricePerNightColorObservable = BehaviorSubject.create<Int>()
-    val pricePerNightFontSizeObservable = BehaviorSubject.create<Float>()
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
@@ -210,9 +209,7 @@ open class HotelViewModel(private val context: Context) {
 
         hotelStarRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt()))
 
-        val shouldShowHotelProminencePrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceProminence)
-        pricePerNightFontSizeObservable.onNext(getPricePerNightTextSize(shouldShowHotelProminencePrice))
-        pricePerNightColorObservable.onNext(ContextCompat.getColor(context, getPricePerNightTextColor(hotel, shouldShowHotelProminencePrice)))
+        pricePerNightColorObservable.onNext(ContextCompat.getColor(context, getPricePerNightTextColor(hotel)))
     }
 
     private fun getTopAmenityTitle(hotel: Hotel, resources: Resources): String {
@@ -298,19 +295,9 @@ open class HotelViewModel(private val context: Context) {
         return result.build()
     }
 
-    private fun getPricePerNightTextSize(bucketed: Boolean): Float {
-        if (bucketed) {
-            return resources.getDimension(R.dimen.hotel_price_per_night_prominent_text_size)
-        }
-        return resources.getDimension(R.dimen.hotel_price_per_night_text_size)
-    }
-
-    private fun getPricePerNightTextColor(hotel: Hotel, bucketed: Boolean): Int {
+    private fun getPricePerNightTextColor(hotel: Hotel): Int {
         if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
             return R.color.hotels_primary_color
-        }
-        if (bucketed) {
-            return R.color.hotel_cell_prominent_gray_text
         }
         return R.color.hotel_cell_gray_text
     }

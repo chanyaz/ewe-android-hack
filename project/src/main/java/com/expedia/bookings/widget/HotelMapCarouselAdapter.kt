@@ -135,7 +135,6 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
             viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
             viewModel.pricePerNightColorObservable.subscribeTextColor(hotelPricePerNight)
-            viewModel.pricePerNightFontSizeObservable.subscribe { hotelPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
             viewModel.hotelStrikeThroughPriceFormatted.subscribeText(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
             viewModel.soldOut.subscribeVisibility(hotelSoldOut)
