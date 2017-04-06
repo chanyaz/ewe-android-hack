@@ -162,7 +162,7 @@ public class FlightsOverviewScreenSteps {
 				.check(matches(withText(containsString(value))));
 	}
 	private void validateSegmentFlight(int resId, String value) throws Throwable {
-		onView(allOf(withParent(withParent(withParent(withParent(withParent(withParent(withParent(withId(R.id.package_bundle_outbound_flight_widget)))))))),
+		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(resId), withText(containsString(value)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 				.check(matches((withText(containsString(value)))));
 	}
@@ -170,7 +170,6 @@ public class FlightsOverviewScreenSteps {
 		onView(allOf(isDescendantOfA(withId(R.id.breakdown_container)), withId(R.id.price_type_text_view),
 				withText(priceType), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 				.check(matches(allOf(withId(R.id.price_type_text_view),
-						withText(priceType), hasSibling(withText(priceAmt)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
-				)));
+						withText(priceType), hasSibling(withText(priceAmt)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
 }

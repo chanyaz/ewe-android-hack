@@ -20,21 +20,21 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select first inbound flight
     Then validate following information is present on the overview screen for isOutbound : true
-      | destination                    | (DEL)                                             |
-      | travel date and traveller      | Mar 22 at 21:00, 1 Traveler                       |
-      | Flight time                    | 21:00 - 23:00                                     |
-      | airport names                  | (SFO) SFO - (DEL) DEL                             |
-      | airline name                   | happy_round_trip                                  |
-      | flight duration                | 2h 0m                                             |
+      | destination               | (DEL)                         |
+      | travel date and traveller | Mar 22 at 9:00 pm, 1 Traveler |
+      | Flight time               | 9:00 pm - 11:00 pm            |
+      | airport names             | (SFO) SFO - (DEL) DEL         |
+      | airline name              | happy_round_trip              |
+      | flight duration           | 2h 0m                         |
     And validate total duration on flight Overview is "2h 0m" for isOutbound : true
     Then collapse the outbound widget
     Then validate following information is present on the overview screen for isOutbound : false
-      | destination                    | (SFO)                                             |
-      | travel date and traveller      | Mar 22 at 17:40, 1 Traveler                       |
-      | Flight time                    | 17:40 - 20:15                                     |
-      | airport names                  | (DEL) DEL - (SFO) SFO                             |
-      | airline name                   | American Airlines 179                             |
-      | flight duration                | 2h 35m                                            |
+      | destination               | (SFO)                         |
+      | travel date and traveller | Mar 22 at 5:40 pm, 1 Traveler |
+      | Flight time               | 5:40 pm - 8:15 pm             |
+      | airport names             | (DEL) DEL - (SFO) SFO         |
+      | airline name              | American Airlines 179         |
+      | flight duration           | 2h 35m                        |
     And validate total duration on flight Overview is "2h 35m" for isOutbound : false
     And collapse the inbound widget
 
@@ -58,11 +58,11 @@ Feature: Flights Overview
     And I wait for inbound flights results to load
     And I select first inbound flight
     Then validate following flight details for multi-leg flights
-      | first-segment flight time      | 17:40 - 20:15                                     |
+      | first-segment flight time      | 5:40 pm - 8:15 pm                                 |
       | first-segment airport name     | (SEA) Seattle, USA - (LAX) Los Angeles, USA       |
       | first-segment airline name     | Virgin America 798                                |
       | first-segment flight duration  | 2h 35m                                            |
-      | second-segment flight time     | 21:00 - 22:15                                     |
+      | second-segment flight time     | 9:00 pm - 10:15 pm                                |
       | second-segment airport name    | (LAX) Los Angeles, USA - (SFO) San Francisco, USA |
       | second-segment airline name    | Virgin America 947                                |
       | second-segment flight duration | 1h 15m                                            |
