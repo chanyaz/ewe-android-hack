@@ -215,6 +215,7 @@ class FlightOverviewPresenterTest {
         ShadowLooper.getShadowMainLooper().scheduler.advanceBy(someTimeAfterTransitionAnimationComplete, TimeUnit.MILLISECONDS)
         ShadowLooper.unPauseMainLooper()
 
+        Thread.sleep(5000)
 //        ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
 
         assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
