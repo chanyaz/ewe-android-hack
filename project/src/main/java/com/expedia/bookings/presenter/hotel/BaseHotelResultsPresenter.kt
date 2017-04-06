@@ -374,6 +374,16 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
+        filterView.viewModel.showPreviousResultsObservable.subscribe {
+            if (previousWasList) {
+                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+                resetListOffset()
+            } else {
+                show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+                animateMapCarouselOut()
+            }
+        }
+
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)

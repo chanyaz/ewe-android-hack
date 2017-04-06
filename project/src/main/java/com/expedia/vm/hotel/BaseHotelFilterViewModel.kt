@@ -24,6 +24,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val filterObservable = PublishSubject.create<HotelSearchResponse>()
     val filterByParamsObservable = PublishSubject.create<UserFilterChoices>()
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
+    val showPreviousResultsObservable = PublishSubject.create<Unit>()
 
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
