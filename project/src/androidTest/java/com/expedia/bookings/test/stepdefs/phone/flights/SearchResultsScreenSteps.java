@@ -2,8 +2,9 @@ package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.concurrent.TimeUnit;
 
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 
@@ -13,7 +14,9 @@ import cucumber.api.java.en.Then;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -41,7 +44,10 @@ public class SearchResultsScreenSteps {
 
 	@And("^I wait for inbound flights results to load$")
 	public void waitForInboundFlightsToLoad() throws Throwable {
-		Common.delay(1); //As there is API call and Sort and filter button overlaps with previous one, we are using common delay
+		onView(allOf(withId(R.id.list_view), hasSibling(allOf(
+			withId(R.id.docked_outbound_flight_selection),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
+			.perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	@Then("^on FSR the destination is \"(.*?)\"$")
@@ -53,6 +59,14 @@ public class SearchResultsScreenSteps {
 	@And("^Validate that flight search results are displayed$")
 	public void validateThatFlightSearchResultsDisplyed() throws Throwable {
 		onView(withId(R.id.list_view)).check(matches(isDisplayed()));
+	}
+
+	@And("^Validate that flight search results are displayed for inbound flights$")
+	public void validateThatFlightSearchResultsDisplyedOnInboundFSR() throws Throwable {
+		onView(allOf(withId(R.id.list_view), hasSibling(allOf(
+				withId(R.id.docked_outbound_flight_selection),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
+			.check(matches(isDisplayed()));
 	}
 
 	@Then("^I click on search icon to go to search form$")

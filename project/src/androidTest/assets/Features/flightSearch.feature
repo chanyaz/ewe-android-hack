@@ -69,6 +69,50 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
+  @Flights @FlightSearch @Prod @BYOT
+    Scenario: Verify International search works with BYOT
+
+    Given I launch the App
+    And I bucket the following tests
+      | FlightByotSearch |
+    And I launch "Flights" LOB
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick dates for flights
+      | start_date | 5  |
+      | end_date   | 10 |
+    And I change travellers count and press done
+    Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    And I select first flight
+    And I wait for inbound flights results to load
+    And Validate that flight search results are displayed for inbound flights
+
+  @Flights @FlightSearch @Prod @BYOT
+  Scenario: Verifying if one way International search works when user is bucketed in BYOT
+
+    Given I launch the App
+    And I bucket the following tests
+      | FlightByotSearch |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I change travellers count and press done
+    Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
+
+
 
   @Flights @FlightSearch
   Scenario: Verifying UI fields visibility on round trip search form

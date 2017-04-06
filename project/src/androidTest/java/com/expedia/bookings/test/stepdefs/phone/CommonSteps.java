@@ -52,10 +52,14 @@ public class CommonSteps {
 		}
 		if (list.contains("FlightPremiumClass")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightPremiumClass,
-					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		if (list.contains("FlightsSeatClassAndBookingCode")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode,
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
+		if (list.contains("FlightByotSearch")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightByotSearch,
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 		Db.setAbacusResponse(abacusResponse);
