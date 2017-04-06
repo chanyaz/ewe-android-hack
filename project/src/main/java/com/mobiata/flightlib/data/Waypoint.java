@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -178,9 +179,7 @@ public class Waypoint implements JSONable {
 
 			// Second, check if we have a seconds from epoch + offset
 			if (mMillisFromEpoch[position][accuracy] != 0) {
-				DateTime cal = new DateTime(mMillisFromEpoch[position][accuracy]);
-				cal = cal.withZone(DateTimeZone.forOffsetMillis(mTzOffsetMillis[position][accuracy]));
-
+				DateTime cal = JodaUtils.fromMillisAndOffset(mMillisFromEpoch[position][accuracy], mTzOffsetMillis[position][accuracy]);
 				mDateTimes[position][accuracy] = cal;
 			}
 		}

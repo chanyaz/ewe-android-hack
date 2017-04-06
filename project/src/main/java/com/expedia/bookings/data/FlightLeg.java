@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.joda.time.Interval;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -148,8 +148,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 	public long getDuration() {
 		DateTime start = new DateTime(getFirstWaypoint().getMostRelevantDateTime());
 		DateTime end = new DateTime(getLastWaypoint().getMostRelevantDateTime());
-		Duration duration = new Duration(start, end);
-		return duration.getMillis();
+		Interval interval = new Interval(start, end);
+		return interval.toDurationMillis();
 	}
 
 	public int getDistanceInMiles() {
