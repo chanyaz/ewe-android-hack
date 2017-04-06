@@ -2,11 +2,13 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.hotel.HotelServerFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -111,5 +113,26 @@ class HotelServerFilterViewModelTest {
         vm.oneStarFilterObserver.onNext(Unit)
         vm.doneObservable.onNext(Unit)
         assertEquals(1, vm.userFilterChoices.filterCount())
+    }
+
+    @Test
+    fun testNotShowingSearchedNeighborhood() {
+        var neighborhoodList: List<HotelSearchResponse.Neighborhood> = ArrayList()
+        vm.neighborhoodListObservable.subscribe { neighborhood ->
+            neighborhoodList = neighborhood
+        }
+
+        vm.setHotelList(generateHotelSearchResponse())
+        assertEquals(8, neighborhoodList.size)
+
+        vm.setSearchLocationId("6139039")
+        vm.setHotelList(generateHotelSearchResponse())
+        assertEquals(7, neighborhoodList.size)
+    }
+
+    private fun generateHotelSearchResponse(): HotelSearchResponse {
+        val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/search/happy.json")
+        val response = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
+        return response
     }
 }

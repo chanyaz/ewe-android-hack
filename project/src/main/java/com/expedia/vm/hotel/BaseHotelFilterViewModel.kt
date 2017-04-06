@@ -40,6 +40,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     private var trackingDone = false
     private val filterTracker: FilterTracker = createFilterTracker()
+    private var searchedLocationId: String? = null
 
     var neighborhoodsExist = false
 
@@ -187,7 +188,13 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     open fun setHotelList(response: HotelSearchResponse) {
         originalResponse = response
-        val neighborhoods = response.allNeighborhoodsInSearchRegion
+        var neighborhoods = response.allNeighborhoodsInSearchRegion
+        if (searchedLocationId != null) {
+            neighborhoods = response.allNeighborhoodsInSearchRegion.filter { neighborhood ->
+                neighborhood.id != searchedLocationId
+            }
+        }
+
         neighborhoodListObservable.onNext(neighborhoods)
         neighborhoodsExist = neighborhoods != null && neighborhoods.size > 0
         sendNewPriceRange()
@@ -221,6 +228,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     fun trackHotelFilterNeighborhood() {
         filterTracker.trackHotelFilterNeighborhood()
+    }
+
+    fun setSearchLocationId(regionId: String) {
+        searchedLocationId = regionId
     }
 
     open protected fun handleFiltering() {

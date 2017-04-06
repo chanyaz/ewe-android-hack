@@ -394,6 +394,21 @@ class HotelClientFilterViewModelTest {
         assertFalse(vm.neighborhoodsExist)
     }
 
+    @Test
+    fun testNotShowingSearchedNeighborhood() {
+        var neighborhoodList: List<HotelSearchResponse.Neighborhood> = ArrayList()
+        vm.neighborhoodListObservable.subscribe { neighborhood ->
+            neighborhoodList = neighborhood
+        }
+
+        vm.setHotelList(generateHotelSearchResponse())
+        assertEquals(8, neighborhoodList.size)
+
+        vm.setSearchLocationId("6139039")
+        vm.setHotelList(generateHotelSearchResponse())
+        assertEquals(7, neighborhoodList.size)
+    }
+
     private fun generateNoNeighborhoodSearch(): HotelSearchResponse {
         val resourceReader = JSONResourceReader("src/test/resources/raw/hotel/no_neighborhood_search_response.json")
         val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)

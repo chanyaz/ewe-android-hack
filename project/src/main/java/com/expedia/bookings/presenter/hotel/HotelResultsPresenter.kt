@@ -134,6 +134,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewModel.clearObservable.onNext(Unit)
+            if (params.suggestion.gaiaId != null) {
+                filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
+            }
         }
 
         vm.sortByDeepLinkSubject.subscribe { sortType ->
