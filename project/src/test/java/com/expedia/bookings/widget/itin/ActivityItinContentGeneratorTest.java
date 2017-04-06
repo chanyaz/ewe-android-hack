@@ -23,14 +23,19 @@ import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
+import static junit.framework.Assert.assertEquals;
+
 @RunWith(RobolectricRunner.class)
 public class ActivityItinContentGeneratorTest {
-
+	ActivityItinContentGenerator sut;
+	Activity activity;
 	Context context;
 
 	@Before
 	public void before() {
 		context = getContext();
+		activity = new Activity();
+		sut = getItinGenerator(activity);
 	}
 
 	private Context getContext() {
@@ -40,19 +45,18 @@ public class ActivityItinContentGeneratorTest {
 		return spyContext;
 	}
 
-	private ItinContentGenerator<?> getItinGenerator(Activity activity) {
+	private ActivityItinContentGenerator getItinGenerator(Activity activity) {
 		Trip parentTrip = new Trip();
 		parentTrip.setStartDate(DateTime.now());
 		parentTrip.setEndDate(DateTime.now().plusDays(1));
 		TripActivity trip = new TripActivity();
 		trip.setParentTrip(parentTrip);
 		trip.setActivity(activity);
-		return ItinContentGenerator.createGenerator(context, new ItinCardDataActivity(trip));
+		return new ActivityItinContentGenerator(context, new ItinCardDataActivity(trip));
 	}
 
 	private View getDetails(Activity activity) {
-		ItinContentGenerator<?> itin = getItinGenerator(activity);
-		return itin.getDetailsView(null, new LinearLayout(context, null));
+		return sut.getDetailsView(null, new LinearLayout(context, null));
 	}
 
 	@Test
@@ -65,8 +69,17 @@ public class ActivityItinContentGeneratorTest {
 		guestCountVisibilityCheck(2, View.VISIBLE);
 	}
 
+	@Test
+	public void testSupportContentDesc() {
+		activity.setGuestCount(2);
+		Resources resources = context.getResources();
+		Mockito.doReturn(2 + "Guests").when(resources).getQuantityText(R.plurals.number_of_guests_label, 2);
+		getDetails(activity);
+
+		assertEquals("Call Support", sut.getSummaryRightButton().getContentDescription());
+	}
+
 	private void guestCountVisibilityCheck(int count, final int visibility) {
-		Activity activity = new Activity();
 		activity.setGuestCount(count);
 
 		Resources resources = context.getResources();

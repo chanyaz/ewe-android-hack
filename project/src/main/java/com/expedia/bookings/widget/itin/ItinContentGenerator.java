@@ -337,7 +337,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Backup, if we don't have data to give to a button.
 	 */
 	protected SummaryButton getSupportSummaryButton() {
-		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support),
+		final String actionText = getContext().getString(R.string.itin_action_call_support_cont_desc);
+		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support), actionText,
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {

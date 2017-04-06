@@ -232,21 +232,20 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public SummaryButton getSummaryRightButton() {
-		String phoneNumber = "";
-
 		ItinCardDataActivity itinCardData = getItinCardData();
-		final String finalPhoneNumber = itinCardData.getBestSupportPhoneNumber(getContext());
+		final String supportPhoneNumber = itinCardData.getBestSupportPhoneNumber(getContext());
+		final String actionText = getContext().getString(R.string.itin_action_call_support_cont_desc);
 
-		if (TextUtils.isEmpty(phoneNumber)) {
+		if (TextUtils.isEmpty(supportPhoneNumber)) {
 			return getSupportSummaryButton();
 		}
 
 		return new SummaryButton(R.drawable.ic_phone, getContext().getString(
-			R.string.itin_action_support),
+			R.string.itin_action_support), actionText,
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					SocialUtils.call(getContext(), finalPhoneNumber);
+					SocialUtils.call(getContext(), supportPhoneNumber);
 					OmnitureTracking.trackItinActivitySupport();
 				}
 			});
