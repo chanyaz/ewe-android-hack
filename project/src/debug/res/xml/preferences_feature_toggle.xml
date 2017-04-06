@@ -46,6 +46,13 @@
             android:layout="@layout/preference"
             android:summary="Show more info on flight overview"
             android:title="Show more info on flight overview" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_show_basic_economy_tooltip"
+            android:layout="@layout/preference"
+            android:summary="Basic Economy Tooltip"
+            android:title="Basic Economy Tooltip" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

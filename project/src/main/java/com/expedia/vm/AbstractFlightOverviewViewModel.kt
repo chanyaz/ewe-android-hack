@@ -3,10 +3,12 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -16,6 +18,8 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val bundlePriceSubject = BehaviorSubject.create<String>()
     val urgencyMessagingSubject = BehaviorSubject.create<String>()
     val showBasicEconomyMessaging = PublishSubject.create<Boolean>()
+    val showBasicEconomyTooltip = PublishSubject.create<Boolean>()
+    val basicEconomyMessagingToolTipInfo = PublishSubject.create<List<FlightLeg.BasicEconomyTooltipInfo>>()
     val totalDurationSubject = BehaviorSubject.create<CharSequence>()
     val totalDurationContDescSubject = BehaviorSubject.create<String>()
     val baggageFeeURLSubject = BehaviorSubject.create<String>()
@@ -34,6 +38,9 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     abstract fun showFlightDistance(selectedFlight: FlightLeg): Boolean
     abstract fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean
 
+
+    val isShowTooltipFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy_tooltip)
+
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->
             updateUrgencyMessage(selectedFlight)
@@ -48,8 +55,18 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
                     .format().toString()
             bundlePriceSubject.onNext(perPersonPrice)
             baggageFeeURLSubject.onNext(selectedFlight.baggageFeesUrl)
-            showBasicEconomyMessaging.onNext(shouldShowBasicEconomyMessage(selectedFlight))
+            if (isShowTooltipFeatureEnabled) {
+                showBasicEconomyTooltip.onNext(shouldShowBasicEconomyMessage(selectedFlight))
+            } else {
+                showBasicEconomyMessaging.onNext(shouldShowBasicEconomyMessage(selectedFlight))
+            }
         }
+
+        Observable.zip(showBasicEconomyTooltip, selectedFlightLegSubject, { showBasicEconomyTooltip, selectedFlightLeg ->
+            if (showBasicEconomyTooltip) {
+                basicEconomyMessagingToolTipInfo.onNext(selectedFlightLeg.basicEconomyTooltipInfo)
+            }
+        }).subscribe()
     }
 
     fun updateUrgencyMessage(selectedFlight: FlightLeg) {

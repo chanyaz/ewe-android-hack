@@ -57,6 +57,7 @@ public class FlightLeg {
 	public boolean isBestFlight;
 	public boolean mayChargeObFees;
 	public boolean isBasicEconomy;
+	public List<BasicEconomyTooltipInfo> basicEconomyTooltipInfo = new ArrayList<>();
 
 	public boolean isFreeCancellable() {
 		return freeCancellationBy != null;
@@ -117,5 +118,10 @@ public class FlightLeg {
 
 		public String seatClass;
 		public String bookingCode;
+	}
+
+	public static class BasicEconomyTooltipInfo {
+		public String fareRulesTitle;
+		public String[] fareRules;
 	}
 }
