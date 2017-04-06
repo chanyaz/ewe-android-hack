@@ -92,10 +92,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                         vm.paramsSubject.value.checkIn, vm.paramsSubject.value.checkOut)
             }
         }
-        vm.addHotelResultsObservable.subscribe(addListResultsObserver)
 
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
-        vm.addHotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
             filterBtnWithCountWidget.visibility = View.VISIBLE
             filterBtnWithCountWidget.translationY = 0f

@@ -97,8 +97,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     lateinit var itinTripServices: ItinTripServices
         @Inject set
 
-    val userBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
-    val eventName = if (userBucketedForTest) ClientLogConstants.PERCEIVED_INSTANT_SEARCH_RESULTS else ClientLogConstants.REGULAR_SEARCH_RESULTS
+    val eventName = ClientLogConstants.REGULAR_SEARCH_RESULTS
 
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
@@ -158,8 +157,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewModel.searchingForHotelsDateTime.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
         }
-        presenter.viewModel.hotelResultsObservable.subscribe {
+        presenter.viewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
             searchTrackingBuilder.markResultsProcessed()
+            searchTrackingBuilder.searchParams(hotelSearchParams)
+            searchTrackingBuilder.searchResponse(hotelSearchResponse)
         }
         presenter.viewModel.resultsReceivedDateTimeObservable.subscribe { dateTime ->
             searchTrackingBuilder.markApiResponseReceived()
@@ -176,24 +177,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.viewModel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewModel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        presenter.viewModel.hotelResultsObservable.subscribe { hotelSearchResponse ->
-            if (!isBucketedForPerceivedInstant()) {
-                searchTrackingBuilder.searchParams(hotelSearchParams)
-                searchTrackingBuilder.searchResponse(hotelSearchResponse)
-            }
-        }
-        presenter.viewModel.addHotelResultsObservable.subscribe { hotelSearchResponse ->
-            if (isBucketedForPerceivedInstant()) {
-                searchTrackingBuilder.searchParams(hotelSearchParams)
-                searchTrackingBuilder.searchResponse(hotelSearchResponse)
-
-                if (searchTrackingBuilder.isWorkComplete()) {
-                    val trackingData = searchTrackingBuilder.build()
-                    hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData, ClientLogConstants.MATERIAL_HOTEL_SEARCH_PAGE, eventName)
-                    HotelTracking.trackHotelSearch(trackingData)
-                }
-            }
-        }
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
         presenter
@@ -944,10 +927,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
         show(searchPresenter)
-    }
-
-    private fun isBucketedForPerceivedInstant(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
     }
 
     private fun trackHotelDetail() {

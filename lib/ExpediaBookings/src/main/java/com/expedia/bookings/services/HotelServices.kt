@@ -52,7 +52,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 .subscribe(observer)
     }
 
-    open fun search(params: HotelSearchParams, numberOfResults: Int, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
+    open fun search(params: HotelSearchParams, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
         // null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
         val lat = if (params.suggestion.coordinates.lat != 0.0) params.suggestion.coordinates.lat else null
         val lng = if (params.suggestion.coordinates.lng != 0.0) params.suggestion.coordinates.lng else null
@@ -66,7 +66,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
         return hotelApi.search(regionId, lat, lng,
                 params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                params.filterUnavailable.toString(), numberOfResults, params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
+                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
