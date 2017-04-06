@@ -244,8 +244,14 @@ class FlightCheckoutViewModelTest {
         cardFeeTextSubscriber.assertValueCount(1)
         cardFeeWarningTextSubscriber.assertValueCount(1)
         assertEquals("", cardFeeTextSubscriber.onNextEvents[0].toString())
-        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
-                cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+
+        if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
+            assertEquals("There may be an additional fee, based on your payment method.",
+                    cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+        } else {
+            assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                    cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+        }
     }
 
     @Test
