@@ -60,8 +60,8 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
 
         override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             super.onBitmapLoaded(bitmap, from)
+            bgImageView.scaleType = ImageView.ScaleType.MATRIX
             bgImageView.setImageBitmap(bitmap)
-
             bgImageView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener{
                 override fun onPreDraw(): Boolean {
                     bgImageView.viewTreeObserver.removeOnPreDrawListener(this)
@@ -95,6 +95,7 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
 
         override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
             super.onPrepareLoad(placeHolderDrawable)
+            bgImageView.scaleType = ImageView.ScaleType.CENTER_CROP
             bgImageView.setImageDrawable(placeHolderDrawable)
             gradient.background = null
         }

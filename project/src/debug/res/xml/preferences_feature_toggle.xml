@@ -93,17 +93,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="General">
-
-        <CheckBoxPreference
-            android:key="@string/preference_member_deal_on_launch_screen"
-            android:layout="@layout/preference"
-            android:summary="Member Deal On Launch Screen"
-            android:title="New item on launch + new screen (WIP)"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Payment Legal Message">
 
         <CheckBoxPreference
