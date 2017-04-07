@@ -81,7 +81,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         viewModel.airlineFeeWarningTextObservable.subscribeText(flightSummary.airlineFeeWarningTextView)
         checkoutPresenter.getCreateTripViewModel().showCreateTripDialogObservable.subscribe {
             show ->
-            if (!show && isBucketedForExpandedRateDetailsTest) {
+            if (show) {
+                flightSummary.basicEconomyMessageTextView.visibility = View.GONE
+            }
+            else if (isBucketedForExpandedRateDetailsTest) {
                 bundleOverviewHeader.translateDatesTitleForHeaderToolbar()
             }
         }
@@ -150,7 +153,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
 
     private fun shouldShowBasicEconomyMessage(tripResponse: FlightTripResponse?): Boolean {
         if (tripResponse != null) {
-            return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy) && tripResponse.details.legs.filter { it.isBasicEconomy }.any()
+            return tripResponse.details.legs?.filter { it.isBasicEconomy }?.any() ?: false
         }
         return false
     }

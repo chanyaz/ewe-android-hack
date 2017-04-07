@@ -1802,14 +1802,14 @@
     <!-- Flights Free Cancellation messaging -->
     <string name="flights_free_cancellation">Ilmainen peruutusoikeus 24 tunnin sisällä</string>
     <!-- Card fee warning text on checkout overview.
-        Example: The airline charges a processing fee of $3.00 for using this card (cost included in the trip total). -->
-    <string name="flights_card_fee_warning_TEMPLATE">Lentoyhtiö veloittaa {card_fee} käsittelymaksun tällä kortilla maksamisesta (maksu sisältyy matkan kokonaishintaan).</string>
+        Example: A payment method fee of $3.00 is included in the trip total. -->
+    <string name="flights_payment_method_fee_warning_TEMPLATE">{card_fee} maksutapamaksu sisältyy matkan lopulliseen hintaan.</string>
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;a href=\"{airline_fee_url}\"&gt;maksu&lt;/a&gt; lisätään maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
-    <!-- An airline fee may be added upon payment message
-        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
-    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;a href=\"{airline_fee_url}\"&gt;maksu&lt;/a&gt; saatetaan lisätä maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
+    <!-- There may be an additional fee based on payment method
+         Example: There may be an additional fee based on your payment method -->
+    <string name="flights_there_maybe_additional_fee_TEMPLATE">Maksutavasta riippuen sinulta saatetaan veloittaa &lt;a href=\"{airline_fee_url}\"&gt;lisämaksu&lt;/a&gt;.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Pankkikortteja ei hyväksytä.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -1970,8 +1970,16 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Price per person. For example: "$20.31 per person" -->
     <string name="flight_details_price_per_person_TEMPLATE">{price} per henkilö</string>
+    <!-- Messaging on flight details for basic economy" -->
+    <string name="flight_details_basic_economy_message">Tämä lento on &lt;b&gt;Basic Economy&lt;/b&gt; -lento</string>
+    <!-- Messaging on flight checkout overview for basic economy" -->
+    <string name="flight_checkout_overview_basic_economy_message">Ole hyvä ja lue tärkeät lentorajoitukset</string>
+    <!-- Toolbar title for basic econonmy flight information -->
+    <string name="toolbar_flight_basic_economy_info_title">Tärkeät lentorajoitukset</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for Business Economy -->
+    <string name="cabin_code_basic_economy">Basic Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium economy</string>
     <!-- Label for "business" cabin code -->
@@ -2027,8 +2035,8 @@
     <string name="card_info">Kortin tiedot</string>
 
     <!-- Edit CreditCard Fragment -->
-    <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
-    <string name="airline_processing_fee_TEMPLATE">Lentoyhtiön veloittama käsittelymaksu tälle kortille: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+    <!-- Payment method fee. Example: Payment method fee: $5 -->
+    <string name="payment_method_processing_fee_TEMPLATE">Maksutapamaksu: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Lentoyhtiö ei hyväksy {card_type}-kortteja</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
@@ -2186,7 +2194,7 @@
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand}n varausmaksu</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
-    <string name="airline_card_fee">Lentoyhtiön korttimaksu</string>
+    <string name="payment_method_fee">Maksutapamaksu</string>
     <!-- Flight -->
     <string name="flight">Lento</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
@@ -3156,6 +3164,8 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Verot ja maksut</string>
+    <!-- Label for the property fee for a hotel room booking. -->
+    <string name="property_fee">Majoitusliikemaksu</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Sisältyy hintaan</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4069,6 +4079,11 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Kuponkisi käytössä ilmeni ongelmia. Koita yrittää lisätä se uudelleen.</string>
 
+    <!-- Airline Payment Method Fee Legal Message -->
+    <string name="airline_additional_fee_notice">Maksutavasta riippuen sinulta saatetaan veloittaa lisämaksu.</string>
+    <!-- Airline Payment Fee Apply Message -->
+    <string name="airline_fee_apply">Maksutapamaksuja saatetaan veloittaa</string>
+
     <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">Lentoyhtiön käytettyyn korttityyppiin perustuva maksu lisätään maksettaessa.</string>
     <string name="airline_charge_notice">Lentoyhtiö veloittaa käytettyyn korttityyppiin perustuvan lisämaksun.</string>
@@ -4913,7 +4928,8 @@
     <!-- Member Pricing Only -->
     <string name="member_deal_title">Jäsenhinnat</string>
     <string name="member_deal_subtitle">Tarjouksia valituista hotelleista</string>
-    <string name="member_deal_landing_page_header">Jos haluat nähdä lisää jäsentarjouksia, napauta "Tee varauksia"</string>
+    <string name="member_deal_landing_page_header">Näet lisää tarjouksia napauttamalla "Tee varauksia”</string>
+    <string name="member_deal_loading_page_header">Tarjouksia haetaan…</string>
     <string name="member_deals_toolbar_title">Jäsenhinnat</string>
     <string name="continue_booking">Jatka varauksen tekemistä</string>
     <string name="member_deal_hotel_only">Pelkkä hotelli</string>
@@ -4948,4 +4964,9 @@
     <string name="error_select_a_valid_country_code">Valitse maatunnus</string>
     <!-- Text shown on flight itin when booking is still pending -->
     <string name="itin_flight_booking_status_pending">Varaus vahvistettu. Lippuja vahvistetaan.</string>
+
+    <!-- Reset filter title -->
+    <string name="reset_filter">Aseta suodattimet</string>
+    <!-- Filter no result error message -->
+    <string name="error_no_filter_result_message">Emme löytäneet suodatinvalintojasi vastaavia majoitusliikkeitä.</string>
 </resources>

@@ -59,7 +59,6 @@ class FlightOverviewPresenterTest {
         val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
         validator.updateForNewSearch(setupFlightSearchParams())
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        SettingUtils.save(context, context.getString(R.string.preference_show_basic_economy), true)
     }
 
     @Test

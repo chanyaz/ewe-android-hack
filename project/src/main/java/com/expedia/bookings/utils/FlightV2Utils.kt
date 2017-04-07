@@ -254,7 +254,7 @@ object FlightV2Utils {
     }
 
     @JvmStatic fun getFlightCabinPreferences(context: Context, flightLeg: FlightLeg): String {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy) && flightLeg.isBasicEconomy) {
+        if (flightLeg.isBasicEconomy) {
             return context.resources.getString(R.string.cabin_code_basic_economy)
         }
         else if (flightLeg.packageOfferModel?.segmentsSeatClassAndBookingCode != null &&
