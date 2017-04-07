@@ -4793,10 +4793,7 @@
     <string name="accessibility_cont_desc_role_button_collapse">Knap til at skjule</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Åbner dialogvindue</string>
-    <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">Udvid for at se værelsesoplysninger og for at vælge et værelse</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">Vælg værelse</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">Deaktiveret</string>
     <!-- Content Description for pos dropdown on trips header e.g. Country United States -->

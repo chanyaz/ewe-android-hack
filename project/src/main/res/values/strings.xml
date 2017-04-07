@@ -4795,9 +4795,7 @@
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Opens dialog</string>
     <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">Expand to view room info and select room</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">Select room</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">disabled</string>
     <!-- Content Description for pos dropdown on trips header e.g. Country United States -->

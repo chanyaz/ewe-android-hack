@@ -4793,10 +4793,6 @@
     <string name="accessibility_cont_desc_role_button_collapse">摺疊按鈕</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">開啟對話方塊。</string>
-    <!--Packages accessibility content description for hotel room selection expand -->
-    <string name="hotel_room_expand_cont_desc">展開以查看客房資訊及選擇客房</string>
-    <!--Packages accessibility content description for hotel room selection collapse -->
-    <string name="hotel_expanded_room_select_cont_desc">選擇客房</string>
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">不可用</string>
     <!-- Content Description for pos dropdown on trips header e.g. Country United States -->

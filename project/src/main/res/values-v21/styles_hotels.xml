@@ -8,16 +8,12 @@
         <item name="skin_rippleDrawable">@drawable/hotel_ripple_button</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_ripple_button</item>
         <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_ripple_button</item>
-
-        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_background_selector</item>
     </style>
 
     <style name="Theme.Hotels.Control" parent="Base.Hotels.Control">
         <item name="skin_rippleDrawable">@drawable/hotel_ripple_button</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_ripple_button</item>
         <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_ripple_button</item>
-
-        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_background_selector</item>
     </style>
 
 </resources>

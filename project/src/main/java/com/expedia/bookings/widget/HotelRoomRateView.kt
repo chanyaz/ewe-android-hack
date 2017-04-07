@@ -16,12 +16,10 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.CompoundButton
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.ToggleButton
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
@@ -31,17 +29,13 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeChecked
-import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeToggleButton
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import rx.subjects.PublishSubject
@@ -52,12 +46,12 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     //views for room row
     val row: ViewGroup by bindView(R.id.root)
 
-    val viewRoom: ToggleButton by bindView(R.id.view_room_button)
     val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
     val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
     val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
     val roomInfoDivider: View by bindView(R.id.room_info_divider)
+    val hotelRoomRateActionButton: HotelRoomRateActionButton by bindView(R.id.hotel_room_row_button)
 
     var roomInfoHeaderTextHeight = -1
     var roomHeaderImageHeight = -1
@@ -97,8 +91,6 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     private val collapsedMandatoryFee: TextView by bindView(R.id.collapsed_mandatory_fee_text_view)
     private val expandedMandatoryFee: TextView by bindView(R.id.expanded_mandatory_fee_text_view)
 
-    private val viewRoomCollapsedPadding = getDimensionInDp(10f)
-    private val viewRoomExpandedPadding = getDimensionInDp(5f)
     private val roomContainerTopBottomPadding = getDimensionInDp(12f)
     private val roomContainerLeftRightPadding = getDimensionInDp(15f)
 
@@ -106,7 +98,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     var viewModel: HotelRoomRateViewModel by notNullAndObservable { vm ->
 
         if (viewModel.lob == LineOfBusiness.PACKAGES) {
-            viewRoom.textOn = resources.getString(R.string.select)
+            hotelRoomRateActionButton.setSelectButtonText(context.getString(R.string.select))
+            hotelRoomRateActionButton.showViewRoomButton()
         }
 
         vm.collapsedEarnMessageVisibilityObservable.subscribe {
@@ -116,31 +109,29 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.collapsedUrgencyVisibilityObservable.subscribeVisibility(collapsedUrgency)
         vm.collapsedEarnMessageVisibilityObservable.subscribeVisibility(collapsedEarnMessaging)
 
-        vm.roomSoldOut.filter { it }.map { false }.subscribeChecked(viewRoom)
-        vm.roomSoldOut.filter { it }.map { false }.subscribeEnabled(viewRoom)
-        vm.soldOutButtonLabelObservable.subscribeToggleButton(viewRoom)
-
         expandedAmenity.visibility = View.GONE
-        viewRoom.setOnClickListener { view ->
-            view as CompoundButton
-            if (!view.isChecked) {
-                vm.bookRoomClicked()
-            } else {
-                expandRowWithAnimation()
-                vm.roomRowExpanded()
-            }
+        hotelRoomRateActionButton.viewRoomClickedSubject.subscribe {
+            expandRowWithAnimation()
+            vm.roomRowExpanded()
+        }
+
+        hotelRoomRateActionButton.bookButtonClickedSubject.subscribe {
+            vm.bookRoomClicked()
         }
 
         vm.roomSoldOut.subscribe { soldOut ->
             row.isEnabled = !soldOut
+            if (soldOut) {
+                hotelRoomRateActionButton.showSoldOutButton()
+            }
+            else {
+                hotelRoomRateActionButton.hideSoldOutButton()
+            }
         }
 
         row.setOnClickListener {
             expandRowWithAnimation()
             vm.roomRowExpanded()
-        }
-        vm.setViewRoomContentDescription.subscribe {
-            viewRoom.contentDescription = it
         }
 
         roomInfoContainer.setOnClickListener {
@@ -172,9 +163,6 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             freeCancellation.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
         vm.dailyPricePerNightObservable.subscribeTextAndVisibility(dailyPricePerNight)
-        vm.viewRoomObservable.subscribe {
-            viewRoom.isChecked = true
-        }
         vm.roomInfoVisibilityObservable.subscribeVisibility(roomInfoContainer)
         vm.roomInfoVisibilityObservable.subscribeVisibility(roomInfoDivider)
         vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
@@ -235,12 +223,10 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
     private fun viewSetup() {
         val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
+        hotelRoomRateActionButton.showViewRoomButton()
 
-        viewRoom.isChecked = false
-        viewRoom.isEnabled = true
-        viewRoom.textOff = resources.getString(R.string.view_room_button_text)
-        viewRoom.textOn = resources.getString(R.string.book_room_button_text)
         row.background = transitionDrawable
+
         roomInfoDescriptionText.visibility = View.VISIBLE
 
         if (ExpediaBookingApp.isDeviceShitty()) {
@@ -264,7 +250,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         if (!viewModel.roomSoldOut.value && expandedMeasurementsDone) {
             viewModel.rowExpanding.onNext(viewModel.rowIndex)
 
-            viewRoom.isChecked = true
+            hotelRoomRateActionButton.showBookButton()
 
             val imageUrl: String? = viewModel.roomHeaderImageObservable.value
             if (ExpediaBookingApp.isDeviceShitty()) {
@@ -298,7 +284,6 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 }
             }
 
-            viewRoom.setPadding(viewRoomExpandedPadding, 0, viewRoomExpandedPadding, 0)
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding,
                     roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
@@ -326,8 +311,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
     private fun collapseRow(animationDuration: Long) {
         if (expandedMeasurementsDone) {
-            viewRoom.isChecked = false
-            viewRoom.contentDescription = context.getString(R.string.hotel_room_expand_cont_desc)
+            hotelRoomRateActionButton.showViewRoomButton()
             viewsToHideInExpandedState.forEach {
                 if (it is TextView && it.text.isEmpty()) {
                     it.visibility = View.GONE
@@ -355,7 +339,6 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             }
             collapsedContainer.background = ContextCompat.getDrawable(context, R.drawable.gray_background_ripple)
 
-            viewRoom.setPadding(viewRoomCollapsedPadding, 0, viewRoomCollapsedPadding, 0)
             roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))

@@ -69,17 +69,13 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val shouldShowDiscountPercentage = BehaviorSubject.create<Boolean>()
     val discountPercentage = BehaviorSubject.create<String>()
     val depositTerms = BehaviorSubject.create<List<String>>()
-    val setViewRoomContentDescription = BehaviorSubject.create<CharSequence>()
 
     val depositInfoContainerClick: Observer<Unit> = endlessObserver {
         depositTermsClickedObservable.onNext(Unit)
     }
 
     fun bookRoomClicked() {
-        setViewRoomContentDescription.onNext(context.getString(R.string.hotel_room_expand_cont_desc))
-
         roomSelectedObservable.onNext(Pair(rowIndex, hotelRoomResponse))
-        //don't change the state of toggle button
         viewRoomObservable.onNext(Unit)
 
         if (lob == LineOfBusiness.PACKAGES) {
@@ -94,8 +90,6 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     }
 
     fun roomRowExpanded() {
-        setViewRoomContentDescription.onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
-
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelViewBookClick()
         }

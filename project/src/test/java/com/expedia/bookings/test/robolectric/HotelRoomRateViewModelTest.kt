@@ -157,9 +157,6 @@ class HotelRoomRateViewModelTest {
 
         sut.roomSoldOut.onNext(true)
 
-        val testSubscriber = TestSubscriber.create<CharSequence>()
-        sut.soldOutButtonLabelObservable.subscribe(testSubscriber)
-        testSubscriber.assertValue("Sold Out")
     }
 
     @Test

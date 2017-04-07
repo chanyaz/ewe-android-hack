@@ -42,7 +42,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_room_row,
 		R.layout.widget_hotel_info,
 		R.layout.widget_pay_later_info,
-		R.string.view_room_button_text,
 		R.string.single_line_street_address_TEMPLATE,
 		R.string.call_customer_support_TEMPLATE,
 		R.string.hotel_details_cont_desc_TEMPLATE,
@@ -57,8 +56,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.hotel_tooltip_airattach,
 		R.drawable.room_non_refundable,
 		R.plurals.hotel_checkout_overview_TEMPLATE_cont_desc,
-		R.string.hotel_room_expand_cont_desc,
-		R.string.hotel_expanded_room_select_cont_desc,
 		R.drawable.ic_amenity_pool,
 		R.drawable.ic_amenity_internet,
 		R.drawable.ic_amenity_breakfast,
@@ -927,6 +924,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_details_basic_economy_message,
 		R.string.toolbar_flight_basic_economy_info_title,
 		R.string.cabin_code_basic_economy,
-		R.string.excludes_mandatory_fee_TEMPLATE
+		R.string.excludes_mandatory_fee_TEMPLATE,
+		R.layout.hotel_room_rate_action_button
 	};
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="FrameLayout"
+    tools:background="@color/gray1">
+
+    <Button
+        android:id="@+id/view_room_button"
+        android:background="@drawable/hotel_view_room_background_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:focusable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/view_room_button_text"
+        android:textAppearance="@style/Core.Text.XLarge"
+        android:visibility="gone"
+        android:textColor="?attr/primary_color" />
+
+    <Button
+        android:id="@+id/hotel_book_button"
+        android:background="?attr/hotel_book_button_background_selector_drawable"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:focusable="true"
+        android:padding="5dp"
+        android:text="@string/book_room_button_text"
+        android:visibility="gone"
+        android:textAppearance="@style/Core.Text.XLarge"
+        android:textColor="@color/white" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/sold_out_button"
+        style="@style/Core.Text.XLarge"
+        android:background="@drawable/hotel_sold_out_background_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/sold_out"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textColor="?attr/primary_color"/>
+</merge>

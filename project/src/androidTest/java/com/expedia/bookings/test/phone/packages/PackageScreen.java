@@ -276,7 +276,7 @@ public class PackageScreen {
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(
-				withId(R.id.view_room_button), allOf(withText(R.string.select)),
+				withId(R.id.hotel_book_button),
 				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);

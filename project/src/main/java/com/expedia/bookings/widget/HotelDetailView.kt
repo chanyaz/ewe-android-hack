@@ -803,8 +803,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
                 //set focus on first room row for accessibility
                 (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
-                (roomContainer.getChildAt(0) as HotelRoomRateView).viewModel.setViewRoomContentDescription
-                        .onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
             }
         }
         return fadeOutRoomListener
