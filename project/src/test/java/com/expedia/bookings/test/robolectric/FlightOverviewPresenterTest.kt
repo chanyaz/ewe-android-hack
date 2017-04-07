@@ -32,6 +32,7 @@ import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -42,14 +43,13 @@ import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
-@RunWith(RobolectricRunner::class)
+@RunWith(RxJavaTestImmediateSchedulerRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class FlightOverviewPresenterTest {
 
     private val context = RuntimeEnvironment.application
     private lateinit var widget: FlightOverviewPresenter
-
 
     @Before
     fun setup() {
