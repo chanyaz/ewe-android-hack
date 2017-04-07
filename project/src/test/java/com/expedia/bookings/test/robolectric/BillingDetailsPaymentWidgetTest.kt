@@ -52,7 +52,7 @@ import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertNull
 
-@RunWith(RobolectricRunner::class)
+@RunWith(RxJavaTestImmediateSchedulerRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class BillingDetailsPaymentWidgetTest {
     lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
