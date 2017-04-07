@@ -14,7 +14,9 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -35,7 +37,9 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import rx.observers.TestSubscriber
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -181,28 +185,27 @@ class FlightOverviewPresenterTest {
         assertEquals(View.VISIBLE, flightSummary.basicEconomyMessageTextView.visibility)
     }
 
-    //TODO per Rajan, disabling flaky test that keeps blocking PRs. He will take a look.
-//    @Test
-//    fun testBasicEconomyMessageClick() {
-//        Db.loadTripBucket(context)
-//        Db.setFlightSearchParams(setupFlightSearchParams())
-//        val createTripResponse = getFlightCreateTripResponse()
-//        createTripResponse.details.legs[0].isBasicEconomy = true
-//        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
-//
-//        val flightCheckoutPresenter = widget.getCheckoutPresenter()
-//        val flightSummary = widget.flightSummary
-//        val basicEconomyClickedTestSubscriber = TestSubscriber<Unit>()
-//        flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestSubscriber)
-//
-//        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
-//
-//        assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
-//
-//        flightSummary.basicEconomyMessageTextView.performClick()
-//        basicEconomyClickedTestSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
-//        assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
-//    }
+    @Test
+    fun testBasicEconomyMessageClick() {
+        Db.loadTripBucket(context)
+        Db.setFlightSearchParams(setupFlightSearchParams())
+        val createTripResponse = getFlightCreateTripResponse()
+        createTripResponse.details.legs[0].isBasicEconomy = true
+        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
+
+        val flightCheckoutPresenter = widget.getCheckoutPresenter()
+        val flightSummary = widget.flightSummary
+        val basicEconomyClickedTestSubscriber = TestSubscriber<Unit>()
+        flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestSubscriber)
+
+        flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+
+        assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
+
+        flightSummary.basicEconomyMessageTextView.performClick()
+        basicEconomyClickedTestSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
+    }
 
     @Test
     fun testToolbar() {
