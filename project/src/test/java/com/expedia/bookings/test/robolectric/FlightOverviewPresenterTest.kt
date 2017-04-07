@@ -21,6 +21,7 @@ import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.test.rules.RxMakeSchedulersImmediateRule
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
@@ -32,6 +33,7 @@ import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -50,6 +52,8 @@ class FlightOverviewPresenterTest {
     private val context = RuntimeEnvironment.application
     private lateinit var widget: FlightOverviewPresenter
 
+    val rxMakeSchedulersImmediateRule = RxMakeSchedulersImmediateRule()
+        @Rule get
 
     @Before
     fun setup() {
