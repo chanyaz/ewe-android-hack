@@ -2913,7 +2913,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_DIRECTIONS = "App.Itinerary.Hotels.Directions";
 	private static final String ITIN_HOTEL_CALL = "App.Itinerary.Hotel.Call";
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
-	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Info.Share.";
+	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Share.";
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
 	private static final String ITIN_FLIGHT_CHECKIN = "App.Itinerary.Flight.CheckInNow";
 	private static final String ITIN_FLIGHT_CHECKIN_SUCCESS = "App.Itinerary.Flight.CheckIn.Yes";
