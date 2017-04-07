@@ -62,6 +62,7 @@ import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
+import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -72,6 +73,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
 import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
@@ -257,6 +259,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 							intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
 								"com.expedia.bookings.activity.DeepLinkRouterActivity"));
 							startActivity(intent);
+
+							TuneUtils.setFacebookReferralUrl(String.valueOf(appLinkData.getTargetUri()));
 						}
 					}
 				}

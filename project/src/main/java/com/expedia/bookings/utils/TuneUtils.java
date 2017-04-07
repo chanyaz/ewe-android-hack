@@ -137,6 +137,10 @@ public class TuneUtils {
 		}
 	}
 
+	public static void setFacebookReferralUrl(String facebookReferralUrl) {
+		tune.setReferralUrl(facebookReferralUrl);
+	}
+
 	public static void trackHotelInfoSite(Property selectedProperty) {
 		if (initialized) {
 			TuneEvent event = new TuneEvent("hotel_infosite");
