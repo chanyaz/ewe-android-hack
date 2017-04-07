@@ -419,7 +419,7 @@ public class CustomMatchers {
 					// has no item on such position
 					return false;
 				}
-				return itemMatcher.matches(viewHolder.getCardView());
+				return itemMatcher.matches(viewHolder.getFlightCell().getCardView());
 			}
 		};
 	}

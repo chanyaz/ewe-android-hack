@@ -9,6 +9,7 @@ import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,6 +31,16 @@ class FlightSegmentBreakdownViewTest {
     fun setup() {
         sut = FlightSegmentBreakdownView(getContext(), null)
         sut.viewmodel = FlightSegmentBreakdownViewModel(getContext())
+    }
+
+    @Test
+    fun testVisibiltyOfCollapseIcon() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+        SettingUtils.save(getContext(), R.string.preference_show_more_info_on_flight_overview, true)
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true))
+        assertEquals(View.VISIBLE, sut.linearLayout.findViewById(R.id.flight_overview_collapse_icon).visibility)
+        sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", false))
+        assertEquals(View.GONE, sut.linearLayout.findViewById(R.id.flight_overview_collapse_icon).visibility)
     }
 
     @Test
@@ -115,9 +126,9 @@ class FlightSegmentBreakdownViewTest {
         return sut.linearLayout.findViewById(R.id.flight_seat_class_booking_code) as TextView
     }
 
-    private fun getFlightSegmentBreakdownList(seatClass: String): List<FlightSegmentBreakdown> {
+    private fun getFlightSegmentBreakdownList(seatClass: String, showCollapseIcon: Boolean = false): List<FlightSegmentBreakdown> {
         val flightSegment = createFlightSegment(seatClass);
-        val breakdown = FlightSegmentBreakdown(flightSegment, false, true);
+        val breakdown = FlightSegmentBreakdown(flightSegment, false, true, showCollapseIcon);
         var list: ArrayList<FlightSegmentBreakdown> = ArrayList()
         list.add(breakdown)
         return list.toList()

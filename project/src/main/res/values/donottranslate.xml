@@ -123,6 +123,7 @@
     <string name="preference_itin_flight_duration">preference_itin_flight_duration</string>
     <string name="preference_show_basic_economy">preference_show_basic_economy</string>
     <string name="preference_itin_crystal_theme">preference_itin_crystal_theme</string>
+    <string name="preference_show_more_info_on_flight_overview">preference_show_more_info_on_flight_overviewg</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

@@ -62,9 +62,9 @@ class AbstractFlightListAdapterTest {
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
-        assert(flightViewHolder.flightAirlineWidget.childCount == 1)
+        assert(flightViewHolder.flightCell.flightAirlineWidget.childCount == 1)
 
-        val airlineView = flightViewHolder.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
+        val airlineView = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
         assertEquals(airlineView.airlineName.text, "Multiple Carriers")
     }
 
@@ -72,7 +72,7 @@ class AbstractFlightListAdapterTest {
     fun testFlightEarnMessageVisiblity() {
         createTestFlightListAdapter()
         val flightViewHolder = createFlightViewHolder()
-        assertEquals(flightViewHolder.flightEarnMessage.text, "")
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.text, "")
     }
 
     @Test
@@ -84,11 +84,11 @@ class AbstractFlightListAdapterTest {
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
-        assertEquals(flightViewHolder.flightAirlineWidget.childCount,3)
+        assertEquals(flightViewHolder.flightCell.flightAirlineWidget.childCount,3)
 
-        val airlineView1 = flightViewHolder.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
-        val airlineView2 = flightViewHolder.flightAirlineWidget.getChildAt(1) as FlightAirlineWidget.AirlineView
-        val airlineView3 = flightViewHolder.flightAirlineWidget.getChildAt(2) as FlightAirlineWidget.AirlineView
+        val airlineView1 = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
+        val airlineView2 = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(1) as FlightAirlineWidget.AirlineView
+        val airlineView3 = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(2) as FlightAirlineWidget.AirlineView
 
         assertEquals(airlineView1.airlineName.text, "United")
         assertEquals(airlineView2.airlineName.text, "Delta")
@@ -104,13 +104,13 @@ class AbstractFlightListAdapterTest {
         createFlightLegWithUrgencyMessage(4)
         var flightViewHolder = bindFlightViewHolderAndModel()
 
-        assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.urgencyMessageTextView.text, "4 left at this price")
+        assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.urgencyMessageTextView.text, "4 left at this price")
 
         //When seatsLeftUrgencyMessage are more than 6
         createFlightLegWithUrgencyMessage(8)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.GONE)
     }
 
     @Test
@@ -120,7 +120,7 @@ class AbstractFlightListAdapterTest {
         createFlightLegWithUrgencyMessage(4)
         val flightViewHolder = bindFlightViewHolderAndModel()
 
-        assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.GONE)
     }
 
     @Test
@@ -130,13 +130,13 @@ class AbstractFlightListAdapterTest {
         createFlightClass(true)
 
         var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCabinCodeTextView.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.flightCabinCodeTextView.text, "Premium Economy")
+        assertEquals(flightViewHolder.flightCell.flightCabinCodeTextView.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.flightCabinCodeTextView.text, "Premium Economy")
 
         // Does not have Flight Class
         createFlightClass(false)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCabinCodeTextView.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightCabinCodeTextView.visibility, View.GONE)
     }
 
     @Test
@@ -148,7 +148,7 @@ class AbstractFlightListAdapterTest {
         createFlightClass(true)
 
         var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCabinCodeTextView.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightCabinCodeTextView.visibility, View.GONE)
     }
 
     @Test
@@ -158,12 +158,12 @@ class AbstractFlightListAdapterTest {
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines()
         var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.GONE)
 
         isRoundTripSubject.onNext(true)
         createFlightLegWithThreeAirlines()
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.roundTripTextView.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.VISIBLE)
     }
 
     @Test
@@ -173,12 +173,12 @@ class AbstractFlightListAdapterTest {
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines()
         var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.GONE)
 
         isRoundTripSubject.onNext(true)
         createFlightLegWithThreeAirlines()
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.GONE)
     }
 
     @Test
@@ -191,8 +191,8 @@ class AbstractFlightListAdapterTest {
         var pos = PointOfSale.getPointOfSale()
         assertFalse(pos.isEarnMessageEnabledForFlights)
         var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
 
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         pos = PointOfSale.getPointOfSale()
@@ -201,16 +201,16 @@ class AbstractFlightListAdapterTest {
         //If it is a round trip with pos supporting earn messaging, then earn message is visible below round trip text view
         isRoundTripSubject.onNext(true)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightEarnMessage.text, "Earn 100 points")
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.text, "Earn 100 points")
 
         //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
         isRoundTripSubject.onNext(false)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.text, "Earn 100 points")
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.text, "Earn 100 points")
     }
 
     @Test
@@ -227,10 +227,10 @@ class AbstractFlightListAdapterTest {
         //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
         isRoundTripSubject.onNext(false)
         var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
         // This will be tested for MB against different currency eg Orbucks
-        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.text, "Earn $50")
+        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.text, "Earn $50")
     }
 
     @Test
@@ -243,8 +243,8 @@ class AbstractFlightListAdapterTest {
         isRoundTripSubject.onNext(true)
         createFlightLegWithOneAirline()
         val flightViewHolder = bindFlightViewHolderAndModel()
-        val airlineView = flightViewHolder.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
-        assert(flightViewHolder.flightAirlineWidget.childCount == 1)
+        val airlineView = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
+        assert(flightViewHolder.flightCell.flightAirlineWidget.childCount == 1)
         assertEquals(airlineView.airlineName.text, "United")
     }
 
