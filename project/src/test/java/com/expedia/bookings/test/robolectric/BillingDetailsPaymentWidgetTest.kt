@@ -30,6 +30,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.test.rules.RxMakeSchedulersImmediateRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -42,6 +43,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -58,6 +60,9 @@ class BillingDetailsPaymentWidgetTest {
     lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
     lateinit private var activity: Activity
     private var cardExpiry = DateTime.now().plusYears(1).toLocalDate()
+
+    val rxMakeSchedulersImmediateRule = RxMakeSchedulersImmediateRule()
+        @Rule get
 
     @Before
     fun before() {
