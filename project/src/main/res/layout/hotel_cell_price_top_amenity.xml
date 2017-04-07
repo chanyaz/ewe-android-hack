@@ -20,10 +20,10 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/price_per_night"
+            style="@style/Core.Text.Large.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            app:textStyle="medium" />
+            android:layout_marginLeft="4dp" />
 
     </LinearLayout>
 

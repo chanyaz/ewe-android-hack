@@ -36,7 +36,6 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
 
         viewModel.pricePerNightObservable.subscribeText(pricePerNightTextView)
         viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNightTextView)
-        viewModel.pricePerNightFontSizeObservable.subscribe { pricePerNightTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
 
         viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTextView)
         viewModel.topAmenityTitleObservable.subscribeText(topAmenityTextView)
