@@ -1,7 +1,5 @@
 package com.expedia.bookings.launch.widget
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.location.Location
@@ -16,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
@@ -27,14 +24,12 @@ import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
@@ -67,7 +62,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     var searchParams: HotelSearchParams ? = null
     private var downloadSubscription: Subscription? = null
     private var wasHotelsDownloadEmpty = false
-    private var isAirAttachDismissed = false
     private var launchDataTimeStamp: DateTime? = null
     private var isPOSChanged = false
 
@@ -86,8 +80,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     val launchError: ViewGroup by bindView(R.id.launch_error)
-    val airAttachBanner: ViewGroup by bindView(R.id.air_attach_banner)
-    val airAttachBannerCloseButton: ImageView by bindView(R.id.air_attach_banner_close)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarHeight: Float by lazy {
         Ui.getToolbarSize(context).toFloat()
@@ -107,7 +99,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     var hasInternetConnection = BehaviorSubject.create<Boolean>()
-    var showAirAttachBanner = BehaviorSubject.create<Boolean>()
     var currentLocationSubject = BehaviorSubject.create<Location>()
     var locationNotAvailable = BehaviorSubject.create<Unit>()
     val posChangeSubject = BehaviorSubject.create<Unit>()
@@ -167,50 +158,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 launchError.visibility = View.GONE
             }
 
-        }
-
-        showAirAttachBanner.subscribe { showAirAttach ->
-            if (!showAirAttach) {
-                airAttachBanner.visibility = INVISIBLE
-            } else {
-                val hotelSearchParams = ItineraryManager.getInstance().hotelSearchParamsForAirAttach
-                if (isAirAttachDismissed) {
-                    airAttachBanner.visibility = View.INVISIBLE
-                    return@subscribe
-                }
-                if (airAttachBanner.visibility == View.INVISIBLE) {
-                    airAttachBanner.visibility = View.VISIBLE
-                    airAttachBanner.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-                        override fun onPreDraw(): Boolean {
-                            if (airAttachBanner.height == 0 || airAttachBanner.visibility == View.GONE) {
-                                return true
-                            }
-                            airAttachBanner.viewTreeObserver.removeOnPreDrawListener(this)
-                            animateAirAttachBanner(hotelSearchParams, true)
-                            return false
-                        }
-                    })
-                } else {
-                    animateAirAttachBanner(hotelSearchParams, false)
-                }
-
-                airAttachBanner.visibility = View.VISIBLE
-                if (fab.translationY == 0f) {
-                    val slideFabButtonUp = ObjectAnimator.ofFloat(fab, "translationY", -airAttachBanner.height.toFloat())
-                    startAnimation(slideFabButtonUp)
-                }
-
-            }
-
-        }
-
-        airAttachBannerCloseButton.setOnClickListener {
-            isAirAttachDismissed = true
-            airAttachBanner.animate().translationY(airAttachBanner.height.toFloat()).setDuration(300).setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    airAttachBanner.visibility = View.GONE
-                }
-            })
         }
 
         currentLocationSubject.subscribe { currentLocation ->
@@ -283,27 +230,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return hideDarkView
     }
 
-    private fun animateAirAttachBanner(hotelSearchParams: HotelSearchParams?, animate: Boolean) {
-        airAttachBanner.translationY = airAttachBanner.height.toFloat()
-        airAttachBanner.animate().translationY(0f).duration = (if (animate) 300 else 0).toLong()
-        // In the absence of search params from user's itin info,
-        // launch into hotels mode.
-        if (hotelSearchParams == null) {
-            airAttachBanner.setOnClickListener {
-                val animOptions = AnimUtils.createActivityScaleBundle(airAttachBanner)
-                NavUtils.goToHotels(context, animOptions)
-                OmnitureTracking.trackPhoneAirAttachBannerClick()
-            }
-        } else {
-            airAttachBanner.setOnClickListener {
-                NavUtils.goToHotels(context, hotelSearchParams)
-                OmnitureTracking.trackPhoneAirAttachBannerClick()
-            }
-            OmnitureTracking.trackPhoneAirAttachBanner()
-        }
-    }
-
-
     private fun showLobAndDarkView() {
         val showDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0f, DARK_VIEW_VISIBLE_ALPHA)
         startAnimation(showDarknessAnim)
@@ -346,7 +272,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
         if ((fab.translationY >= fabHeightAndBottomMargin)
                 && !fabAnimIn.isRunning) {
-            fabAnimIn.setFloatValues(if (airAttachBanner.visibility == VISIBLE) -airAttachBanner.height.toFloat() else 0f)
             fabAnimIn.start()
         }
     }

@@ -53,7 +53,6 @@
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
-    <color name="bg_air_attach_phone_launch">@color/bg_air_attach_banner_default</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>

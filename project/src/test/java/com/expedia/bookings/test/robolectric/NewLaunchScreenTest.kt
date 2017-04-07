@@ -22,7 +22,7 @@ class NewLaunchScreenTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
-        newPhoneLaunchWidget = LayoutInflater.from(activity).inflate(R.layout.widget_new_phone_launch_test, null) as NewPhoneLaunchWidget
+        newPhoneLaunchWidget = LayoutInflater.from(activity).inflate(R.layout.widget_new_phone_launch, null) as NewPhoneLaunchWidget
 
     }
 
@@ -30,7 +30,6 @@ class NewLaunchScreenTest {
     fun testInternetConnection() {
         val launchError = newPhoneLaunchWidget.findViewById(R.id.launch_error)
         val lobCard = newPhoneLaunchWidget.findViewById(R.id.lob_grid_recycler)
-        val otherCards = newPhoneLaunchWidget.findViewById(R.id.air_attach_banner)
         newPhoneLaunchWidget.hasInternetConnection.onNext(false)
         Assert.assertEquals(launchError.visibility, View.VISIBLE)
         Assert.assertEquals(lobCard.visibility, View.VISIBLE)
@@ -38,15 +37,6 @@ class NewLaunchScreenTest {
         newPhoneLaunchWidget.hasInternetConnection.onNext(true)
         Assert.assertEquals(launchError.visibility, View.GONE)
         Assert.assertEquals(lobCard.visibility, View.VISIBLE)
-    }
-
-    @Test
-    fun testAirAttachBanner() {
-        val airAttachBanner = newPhoneLaunchWidget.findViewById(R.id.air_attach_banner)
-        newPhoneLaunchWidget.showAirAttachBanner.onNext(false)
-        Assert.assertEquals(airAttachBanner.visibility, View.INVISIBLE)
-        newPhoneLaunchWidget.showAirAttachBanner.onNext(true)
-        Assert.assertEquals(airAttachBanner.visibility, View.VISIBLE)
     }
 
 }
