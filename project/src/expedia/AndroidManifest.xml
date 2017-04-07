@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <application>
 
@@ -7,7 +8,8 @@
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" android:launchMode="singleTask" >
 
-            <intent-filter>
+            <intent-filter android:autoVerify="true"
+                tools:ignore="UnusedAttribute">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -38,7 +40,8 @@
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true"
+                tools:ignore="UnusedAttribute">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -79,18 +82,6 @@
                 <data android:host="www.expedia.co.th" />
                 <data android:host="www.expedia.com.tw" />
                 <data android:host="www.expedia.com.vn" />
-
-                <!-- Public integration -->
-                <data android:host="70.42.224.37" />
-
-                <!-- Dev Server -->
-                <data android:host="wwwexpediacom.chelwebestr37.bgb.karmalab.net" />
-
-                <!-- Integration Server -->
-                <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
-
-                <!-- Trunk Server -->
-                <data android:host="wwwexpediacom.trunk.sb.karmalab.net" />
             </intent-filter>
 
         </activity>

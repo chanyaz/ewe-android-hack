@@ -302,7 +302,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (!response.isFilteredResponse) {
             filterView.viewModel.setHotelList(response)
         }
-        adjustGoogleMapLogo()
     }
 
     fun lastBestLocationSafe(): Location {
