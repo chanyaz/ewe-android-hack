@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
@@ -27,6 +28,8 @@ import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
 
@@ -60,9 +63,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
                 return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
             }
         });
-        flightSummary.basicEconomyInfoClickedSubject.subscribe {
-            show(basicEconomyInfoWebView)
-        }
+        flightSummary.basicEconomyInfoClickedSubject
+                .observeOn(if (ExpediaBookingApp.isRobolectric()) Schedulers.immediate() else AndroidSchedulers.mainThread())
+                .subscribe { show(basicEconomyInfoWebView) }
     }
 
     override fun inflate() {
