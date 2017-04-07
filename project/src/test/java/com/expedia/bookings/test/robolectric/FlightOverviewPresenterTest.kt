@@ -217,6 +217,8 @@ class FlightOverviewPresenterTest {
 
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
 
+        widget.animator.end()
+
         assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
     }
 

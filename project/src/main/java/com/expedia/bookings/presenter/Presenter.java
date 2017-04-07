@@ -53,7 +53,7 @@ public class Presenter extends FrameLayout {
 
 	// Animation vars
 	private boolean acceptAnimationUpdates = false;
-	private ValueAnimator animator;
+	public ValueAnimator animator;
 
 	private CompositeSubscription windowCompositeSubscription = new CompositeSubscription();
 	private CompositeSubscription visibilityCompositeSubscription = new CompositeSubscription();
