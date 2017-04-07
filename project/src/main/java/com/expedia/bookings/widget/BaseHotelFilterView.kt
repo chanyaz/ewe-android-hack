@@ -78,7 +78,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
     val neighborhoodLabel: TextView by bindView(R.id.neighborhood_label)
 
-    private val neighborhoodView: BaseNeighborhoodFilterView by lazy {
+    val neighborhoodView: BaseNeighborhoodFilterView by lazy {
         inflateNeighborhoodView(neighborhoodViewStub)
     }
 
@@ -299,9 +299,11 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         vm.neighborhoodListObservable.subscribe { list ->
             if (list != null && list.size > 1) {
                 neighborhoodLabel.visibility = View.VISIBLE
+                neighborhoodView.visibility = View.VISIBLE
                 neighborhoodView.updateNeighborhoods(list)
             } else {
                 neighborhoodLabel.visibility = View.GONE
+                neighborhoodView.visibility = View.GONE
             }
         }
 
