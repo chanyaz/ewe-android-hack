@@ -53,6 +53,7 @@ import org.robolectric.Shadows
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
+import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
@@ -131,6 +132,8 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testSavePromptDisplayed() {
+        ShadowApplication.getInstance().foregroundThreadScheduler.pause()
+
         val testSubscriber = TestSubscriber<Unit>()
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
         billingDetailsPaymentWidget.viewmodel.userLogin.onNext(true)
@@ -144,8 +147,7 @@ class BillingDetailsPaymentWidgetTest {
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
 
         Robolectric.flushForegroundThreadScheduler()
-        Robolectric.getForegroundThreadScheduler().advanceBy(3, TimeUnit.SECONDS) // advance to point where dialog should show
-
+//        Robolectric.getForegroundThreadScheduler().advanceBy(3, TimeUnit.SECONDS) // advance to point where dialog should show
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById(android.R.id.button1) as Button
