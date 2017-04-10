@@ -61,7 +61,7 @@ class AccountButtonTest {
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         accountButton = LayoutInflater.from(activity).inflate(R.layout.account_button_v2_test, null) as AccountButton
         Db.getTripBucket().clear()
     }

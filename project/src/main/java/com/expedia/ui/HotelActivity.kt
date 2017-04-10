@@ -45,11 +45,6 @@ class HotelActivity : AbstractAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultHotelComponents()
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelColorSwitch)) {
-            setTheme(R.style.Theme_Hotels_TestVariant)
-        } else {
-            setTheme(R.style.Theme_Hotels_Control)
-        }
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
         val mapState = savedInstanceState?.getBundle(Constants.HOTELS_MAP_STATE)

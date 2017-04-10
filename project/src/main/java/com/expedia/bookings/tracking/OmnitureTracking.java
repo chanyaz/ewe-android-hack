@@ -3745,10 +3745,6 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		if (lob == LineOfBusiness.HOTELS) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelColorSwitch);
-		}
-
 		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
 		s.setEvar(28, link);
 		s.setProp(16, link);

@@ -31,7 +31,7 @@ class FlightAirAttachViewModelTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
     }
 

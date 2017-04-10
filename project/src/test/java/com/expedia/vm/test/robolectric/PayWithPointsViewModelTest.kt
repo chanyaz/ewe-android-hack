@@ -66,7 +66,7 @@ class PayWithPointsViewModelTest {
     @Before
     fun setup() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         val paymentWidget = LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         val pwpWidget = paymentWidget.findViewById(R.id.pwp_widget) as PayWithPointsWidget

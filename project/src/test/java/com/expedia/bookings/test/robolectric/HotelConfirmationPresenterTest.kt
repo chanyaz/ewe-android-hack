@@ -53,7 +53,7 @@ class HotelConfirmationPresenterTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         setPOSWithWebCheckoutEnabled(true)
         hotelPresenter = LayoutInflater.from(activity).inflate(R.layout.activity_hotel, null) as HotelPresenter
