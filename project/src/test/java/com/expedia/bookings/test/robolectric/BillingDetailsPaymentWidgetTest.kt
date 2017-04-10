@@ -50,6 +50,7 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertNull
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
@@ -122,14 +123,17 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testSavePromptDisplayed() {
+        val testSubscriber = TestSubscriber<Unit>()
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
         billingDetailsPaymentWidget.viewmodel.userLogin.onNext(true)
         completelyFillBillingInfo()
         billingDetailsPaymentWidget.sectionBillingInfo.billingInfo.storedCard = StoredCreditCard()
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.show(PaymentWidget.PaymentDetails(), Presenter.FLAG_CLEAR_BACKSTACK)
+        billingDetailsPaymentWidget.doneClicked.subscribe(testSubscriber)
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById(android.R.id.button1) as Button
         val cancelButton = alertDialog.findViewById(android.R.id.button2) as Button
