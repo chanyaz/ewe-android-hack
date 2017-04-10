@@ -27,6 +27,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         override fun endTransition(forward: Boolean) {
             signInWidget.visibility = View.VISIBLE
             signInWidget.itinPOSHeader.setCurrentPOS()
+            addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
         }
     }
 
@@ -40,6 +41,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
             else {
                 signInWidget.itinPOSHeader.setCurrentPOS()
             }
+            addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(!forward)
         }
     }
     private val addGuestToProgressTransition = object : VisibilityTransition(this, AddGuestItinWidget::class.java, ItinFetchProgressWidget::class.java) {}
@@ -73,7 +75,6 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
 
         show(addGuestItinWidget, Presenter.FLAG_CLEAR_TOP)
-        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(false)
         if (!hasError) {
             addGuestItinWidget.resetFields()
             addGuestItinWidget.viewModel.emailFieldFocusObservable.onNext(Unit)
@@ -82,13 +83,11 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
 
     fun showSignInWidget() {
         show(signInWidget, Presenter.FLAG_CLEAR_TOP)
-        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
 
     private fun showItinFetchProgress() {
         hasAddGuestItinErrors = false
         show(itinFetchProgressWidget)
-        addGuestItinWidget.viewModel.toolBarVisibilityObservable.onNext(true)
     }
 
     inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
