@@ -14,14 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
-        android:id="@+id/air_attach_banner"
-        layout="@layout/widget_launch_air_attach_banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:visibility="invisible" />
-
     <View
         android:id="@+id/darkness"
         android:layout_width="match_parent"

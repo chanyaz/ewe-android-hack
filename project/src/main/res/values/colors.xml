@@ -26,7 +26,6 @@
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
-    <color name="bg_air_attach_phone_launch">#5E707D</color>
 
     <!-- New launch screen colors -->
     <color name="launch_mobile_exclusive">#980351</color>
@@ -479,7 +478,6 @@
     <color name="preferences_divider">#c0c7cd</color>
     <color name="preferences_highlight">#40000000</color>
 
-    <color name="bg_air_attach_banner_default">#F5495863</color>
     <color name="bg_air_attach_banner_divider">#4D555D</color>
     <color name="preferences_text">@color/launch_toolbar_background_color</color>
 

@@ -2722,20 +2722,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", AIR_ATTACH_ITIN_XSELL, null, null);
 	}
 
-	public static void trackPhoneAirAttachBanner() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_REF);
-		s.setProp(16, AIR_ATTACH_PHONE_BANNER_REF);
-		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
-	}
-
-	public static void trackPhoneAirAttachBannerClick() {
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, AIR_ATTACH_PHONE_BANNER_CLICK);
-		s.setProp(16, AIR_ATTACH_PHONE_BANNER_CLICK);
-		s.trackLink(null, "o", AIR_ATTACH_PHONE_BANNER, null, null);
-	}
-
 	public static void trackPhoneAirAttachLaunchScreenClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(12, "Launch.Attach.Hotel");

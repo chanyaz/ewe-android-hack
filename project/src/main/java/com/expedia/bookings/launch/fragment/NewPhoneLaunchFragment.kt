@@ -87,8 +87,6 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         } else {
             findLocation()
         }
-        signalAirAttachState()
-
     }
 
     private fun findLocation() {
@@ -105,13 +103,6 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
                 newPhoneLaunchWidget.currentLocationSubject.onNext(currentLocation)
             }
         })
-    }
-
-    private fun signalAirAttachState() {
-        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen)) {
-            newPhoneLaunchWidget.showAirAttachBanner.onNext(Db.getTripBucket().isUserAirAttachQualified)
-        }
-
     }
 
     override fun onPause() {
