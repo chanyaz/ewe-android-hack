@@ -132,7 +132,7 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testSavePromptDisplayed() {
-        ShadowApplication.getInstance().foregroundThreadScheduler.pause()
+        Robolectric.getForegroundThreadScheduler().pause()
 
         val testSubscriber = TestSubscriber<Unit>()
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
@@ -147,7 +147,9 @@ class BillingDetailsPaymentWidgetTest {
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
 
         Robolectric.flushForegroundThreadScheduler()
-//        Robolectric.getForegroundThreadScheduler().advanceBy(3, TimeUnit.SECONDS) // advance to point where dialog should show
+        Robolectric.getForegroundThreadScheduler().advanceBy(3, TimeUnit.SECONDS) // advance to point where dialog should show
+
+        Robolectric.getForegroundThreadScheduler().unPause()
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById(android.R.id.button1) as Button
