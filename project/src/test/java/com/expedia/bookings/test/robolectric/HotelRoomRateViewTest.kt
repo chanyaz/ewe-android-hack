@@ -26,7 +26,7 @@ class HotelRoomRateViewTest {
     lateinit private var hotelRoomRateView: HotelRoomRateView
 
     @Before fun before() {
-        RuntimeEnvironment.application.setTheme(R.style.Theme_Hotels_Control)
+        RuntimeEnvironment.application.setTheme(R.style.Theme_Hotels_Default)
         hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application)
     }
 

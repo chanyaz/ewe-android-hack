@@ -39,7 +39,7 @@ class PackageHotelCellTest {
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
     }

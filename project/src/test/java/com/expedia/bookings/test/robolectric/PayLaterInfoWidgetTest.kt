@@ -26,7 +26,7 @@ class PayLaterInfoWidgetTest {
     @Before
     fun setup() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         widget = android.view.LayoutInflater.from(activity).inflate(R.layout.test_paylater_widget, null) as PayLaterInfoWidget
     }
 
