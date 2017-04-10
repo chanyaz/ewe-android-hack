@@ -80,11 +80,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         })
 
         hotelResultsObservable.subscribe {
-            AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
+            trackAdImpression(it.pageViewBeaconPixelUrl)
         }
 
         mapResultsObservable.subscribe {
-            AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
+            trackAdImpression(it.pageViewBeaconPixelUrl)
         }
     }
 
@@ -196,5 +196,15 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 return Sort.RECOMMENDED
             }
         }
+    }
+
+    private fun trackAdImpression(url: String) {
+        var urlToUse = url
+        val abacusTest = Db.getAbacusResponse().testForKey(AbacusUtils.EBAndroidAppHotelServerSideFilter)
+        val analyticsToAppend = AbacusUtils.getAnalyticsString(abacusTest)
+        if (!analyticsToAppend.isNullOrBlank()) {
+            urlToUse = AdImpressionTracking.appendUrlTestVersion(url, analyticsToAppend)
+        }
+        AdImpressionTracking.trackAdClickOrImpression(context, urlToUse, null)
     }
 }

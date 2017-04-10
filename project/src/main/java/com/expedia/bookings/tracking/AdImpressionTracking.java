@@ -26,6 +26,24 @@ public class AdImpressionTracking {
 		}.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
 	}
 
+	public static String appendUrlTestVersion(String url, String analyticsToAppend) {
+		String paramToAppend = "testVersionOverride=";
+		int index = url.indexOf(paramToAppend);
+
+		if (index == -1) {
+			paramToAppend = "testVersion=";
+			index = url.indexOf(paramToAppend);
+
+			if (index == -1) {
+				return url + "&testVersion=" + analyticsToAppend;
+			}
+		}
+
+		index += paramToAppend.length();
+
+		return new StringBuilder(url).insert(index, analyticsToAppend + "%2C").toString();
+	}
+
 	public static void trackAdConversion(final Context context, final String tripId) {
 			List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 			query.add(new BasicNameValuePair("tripId", tripId));

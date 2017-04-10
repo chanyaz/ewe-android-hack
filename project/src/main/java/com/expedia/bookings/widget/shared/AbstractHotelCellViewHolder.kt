@@ -129,10 +129,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
     open fun bindHotelData(hotel: Hotel) {
         viewModel.bindHotelData(hotel)
 
-        viewModel.adImpressionObservable.subscribe {
-            AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
-            viewModel.setImpressionTracked(hotel, true)
-        }
         cardView.contentDescription = viewModel.getHotelContentDesc(hotel)
     }
 
