@@ -10,8 +10,6 @@
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
     <string name="checkout_information">Réservez maintenant</string>
-    <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
-    <string name="done">Valider</string>
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
