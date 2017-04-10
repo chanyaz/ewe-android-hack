@@ -3,8 +3,13 @@ package com.expedia.bookings.activity;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -34,10 +39,18 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	boolean loadSignInViewAbTest = false;
 
+	ImageView logoView;
+	View content;
+
+	private enum LaunchDestination {
+		SIGN_IN,
+		LAUNCH_SCREEN
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		setContentView(R.layout.activity_splash_screen);
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
 
@@ -51,6 +64,9 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		cleanupOldSuggestions();
 
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
+
+		content = findViewById(android.R.id.content);
+		logoView = (ImageView) findViewById(R.id.splash_logo_id);
 
 		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
@@ -101,8 +117,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 			}
-			NavUtils.goToLaunchScreen(RouterActivity.this, false);
-			finishActivity();
+			doAnimationThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
 		}
 
 		@Override
@@ -112,18 +127,17 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch)
 				&& loadSignInViewAbTest) {
-				NavUtils.goToSignIn(RouterActivity.this);
+				doAnimationThenLaunchOpeningView(LaunchDestination.SIGN_IN);
 			}
 			else {
-				NavUtils.goToLaunchScreen(RouterActivity.this, false);
+				doAnimationThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
 			}
-			finishActivity();
 		}
 	};
 
 	private void finishActivity() {
 		finish();
-		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		overridePendingTransition(R.anim.fade_in, R.anim.slide_down);
 	}
 
 	/**
@@ -190,6 +204,44 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		}
 		else {
 			launchOpeningView();
+		}
+	}
+
+	private void doAnimationThenLaunchOpeningView(final LaunchDestination destination) {
+		if (logoView.getHeight() != 0) {
+			logoView.animate().translationY(content.getHeight() / 2 + logoView.getHeight() / 2 + 2)
+				.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).setInterpolator(new LinearInterpolator()).setListener(
+				new Animator.AnimatorListener() {
+					@Override
+					public void onAnimationStart(Animator animator) {
+					}
+					@Override
+					public void onAnimationEnd(Animator animator) {
+						if (destination == LaunchDestination.LAUNCH_SCREEN) {
+							NavUtils.goToLaunchScreen(RouterActivity.this);
+						}
+						else {
+							NavUtils.goToSignIn(RouterActivity.this);
+						}
+						finishActivity();
+					}
+					@Override
+					public void onAnimationCancel(Animator animator) {
+					}
+
+					@Override
+					public void onAnimationRepeat(Animator animator) {
+					}
+				}).start();
+		}
+		else {
+			logoView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					logoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					doAnimationThenLaunchOpeningView(destination);
+				}
+			});
 		}
 	}
 }
