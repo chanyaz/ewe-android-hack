@@ -1,6 +1,7 @@
 package com.expedia.vm.packages
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
@@ -15,7 +16,7 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
     val subtitleObservable = BehaviorSubject.create<String>()
     val isChildObservable = BehaviorSubject.create<Boolean>()
     val iconObservable = BehaviorSubject.create<Int>()
-    val suggestionSelected = PublishSubject.create<SuggestionV4>()
+    val suggestionSelected = PublishSubject.create<SearchSuggestion>()
 
     // Inputs
     val suggestionObserver = BehaviorSubject.create<SuggestionV4>()

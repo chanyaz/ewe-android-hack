@@ -8,6 +8,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -77,7 +78,7 @@ class CarSuggestionViewHolder(val root: ViewGroup, val vm : CarSuggestionViewMod
     override fun onClick(view: View) {
         val suggestion = vm.suggestionObserver.value
         suggestion.regionNames.displayName = suggestion.regionNames.displayName.replace("\"", "")
-        vm.suggestionSelected.onNext(suggestion)
+        vm.suggestionSelected.onNext(SearchSuggestion(suggestion))
     }
 }
 

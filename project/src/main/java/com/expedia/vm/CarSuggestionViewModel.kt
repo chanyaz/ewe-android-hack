@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.SuggestionStrUtils
@@ -15,7 +16,7 @@ class CarSuggestionViewModel(val context: Context) {
     val cityNameObservable = BehaviorSubject.create<String>()
     val iconObservable = BehaviorSubject.create<Int>()
     val cityNameVisibility = BehaviorSubject.create<Boolean>()
-    val suggestionSelected = PublishSubject.create<SuggestionV4>()
+    val suggestionSelected = PublishSubject.create<SearchSuggestion>()
 
     // Inputs
     val suggestionObserver = BehaviorSubject.create<SuggestionV4>()

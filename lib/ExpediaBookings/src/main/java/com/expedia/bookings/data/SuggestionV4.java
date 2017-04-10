@@ -102,6 +102,14 @@ public class SuggestionV4 {
 		return v4;
 	}
 
+	public boolean isChild() {
+		return hierarchyInfo != null && hierarchyInfo.isChild;
+	}
+
+	public boolean isHistoryItem() {
+		return iconType == IconType.HISTORY_ICON;
+	}
+
 	public boolean isCurrentLocationSearch() {
 		return Strings.isEmpty(gaiaId) && !isSearchThisArea;
 	}

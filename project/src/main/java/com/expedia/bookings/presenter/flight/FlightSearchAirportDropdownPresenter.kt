@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.widget.AdapterView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.server.CrossContextHelper
 import com.expedia.bookings.text.HtmlCompat
@@ -133,7 +134,8 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
                     destinationListAdapter.setOrigin(airport.mAirportCode)
                     searchViewModel.clearDestinationLocation()
 
-                    originSuggestionViewModel.suggestionSelectedSubject.onNext(suggestionV4FromAirport)
+                    val searchSuggestion = SearchSuggestion(suggestionV4FromAirport)
+                    originSuggestionViewModel.suggestionSelectedSubject.onNext(searchSuggestion)
 
                     recentAirports.add(airport)
                 }

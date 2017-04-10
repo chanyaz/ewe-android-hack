@@ -8,15 +8,17 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.HotelSuggestionAdapter
+import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
@@ -73,18 +75,38 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()
+            val lastSuggestionV4 = suggestionViewModel.getLastSelectedSuggestion()
+            if (lastSuggestionV4 != null) {
+                suggestionTrackingData.updateData(lastSuggestionV4)
+            }
+            suggestionTrackingData.suggestionsFocused = suggestionListFocused
+            OmnitureTracking.trackHotelSuggestionBehavior(suggestionTrackingData)
             vm.searchObserver.onNext(Unit)
         }
     }
 
+    private var suggestionListFocused = false
+
+    private var suggestionTrackingData = SuggestionTrackingData()
+
     private val hotelSuggestionAdapter by lazy {
-        HotelSuggestionAdapter(suggestionViewModel)
+        val adapter = HotelSuggestionAdapter()
+        adapter.suggestionClicked.subscribe(suggestionViewModel.suggestionSelectedSubject)
+        suggestionViewModel.suggestionsObservable.subscribe { list ->
+            adapter.setSuggestions(list)
+        }
+        adapter
     }
 
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
-        vm.suggestionSelectedSubject.subscribe { suggestion ->
+        vm.suggestionSelectedSubject.subscribe { searchSuggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
+            val suggestion = searchSuggestion.suggestionV4
+            suggestionTrackingData = searchSuggestion.trackingData!!
+            suggestionTrackingData.suggestionSelected = true
             searchViewModel.destinationLocationObserver.onNext(suggestion)
+
+            suggestionTrackingData.charactersTypedCount = suggestionViewModel.getLastQuery().count()
             val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             updateDestinationText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
@@ -106,12 +128,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         shopWithPointsWidget = swpWidgetStub.inflate().findViewById(R.id.widget_points_details) as ShopWithPointsWidget
     }
 
-    override fun getSuggestionHistoryFileName(): String {
-        return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
-    }
-
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+
+        suggestionListShownSubject.subscribe {
+            suggestionListFocused = true
+        }
     }
 
     override fun onFinishInflate() {
@@ -119,6 +141,15 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         val service = Ui.getApplication(context).hotelComponent().suggestionsService()
         suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
+    }
+
+    fun resetSuggestionTracking() {
+        suggestionListFocused = false
+        suggestionTrackingData.reset()
+    }
+
+    override fun getSuggestionHistoryFileName(): String {
+        return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {

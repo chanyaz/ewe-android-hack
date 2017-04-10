@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -45,7 +46,7 @@ class SuggestionViewHolder(val root: ViewGroup, val vm: SuggestionViewModel) : R
 
     override fun onClick(view: View) {
         val suggestion = vm.suggestionObserver.value
-        vm.suggestionSelected.onNext(suggestion)
+        vm.suggestionSelected.onNext(SearchSuggestion(suggestion))
     }
 
 }

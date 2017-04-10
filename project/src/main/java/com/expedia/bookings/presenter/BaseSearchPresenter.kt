@@ -34,6 +34,7 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -58,6 +59,7 @@ import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import rx.Observer
+import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -110,6 +112,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     var showFlightOneWayRoundTripOptions = false
     protected var isCustomerSelectingOrigin = false
 
+    protected val suggestionListShownSubject = PublishSubject.create<Unit>()
 
     fun showErrorDialog(message: String) {
         val builder = AlertDialog.Builder(context)
@@ -128,9 +131,10 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 .subscribe({ transitioningFromOriginToDestination = false })
     }
 
-    protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>): (SuggestionV4) -> Unit {
-        return { suggestion ->
+    protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>): (SearchSuggestion) -> Unit {
+        return { searchSuggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
+            val suggestion = searchSuggestion.suggestionV4
             observer.onNext(suggestion)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             val isOriginSelected = (observer == getSearchViewModel().originLocationObserver)
@@ -468,6 +472,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                     com.mobiata.android.util.Ui.hideKeyboard(this@BaseSearchPresenter)
                 }
             }
+            if (forward) suggestionListShownSubject.onNext(Unit)
         }
     }
 

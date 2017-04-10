@@ -518,6 +518,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             if(!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch)) {
                 searchPresenter.showSuggestionState(selectOrigin = false)
             }
+            searchPresenter.resetSuggestionTracking()
             HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
@@ -585,6 +586,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
+            if (!forward) searchPresenter.resetSuggestionTracking()
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward, true)
@@ -717,6 +719,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
+            if (!forward) searchPresenter.resetSuggestionTracking()
             if (!forward) HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
@@ -744,6 +747,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
+                searchPresenter.resetSuggestionTracking()
                 HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
             }
         }
@@ -792,6 +796,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            if (!forward) searchPresenter.resetSuggestionTracking()
             searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             checkoutPresenter.visibility = if (forward) View.VISIBLE else View.GONE
