@@ -285,8 +285,15 @@ public class AccountLibActivity extends AppCompatActivity
 		public void onSignInSuccessful() {
 			// Do stuff with User
 			userAccountRefresher.forceAccountRefresh();
-			if (getIntent().getBundleExtra(ARG_BUNDLE).containsKey(Codes.MEMBER_ONLY_DEALS)) {
-				NavUtils.goToMemberPricing(getBaseContext());
+
+			Intent intent = getIntent();
+
+			if (intent != null) {
+				if (intent.hasExtra(ARG_BUNDLE)) {
+					if (intent.getBundleExtra(ARG_BUNDLE).containsKey(Codes.MEMBER_ONLY_DEALS)) {
+						NavUtils.goToMemberPricing(getBaseContext());
+					}
+				}
 			}
 		}
 
