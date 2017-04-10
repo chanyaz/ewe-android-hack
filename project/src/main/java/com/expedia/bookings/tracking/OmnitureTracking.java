@@ -3597,6 +3597,7 @@ public class OmnitureTracking {
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_itin_crystal_theme)) {

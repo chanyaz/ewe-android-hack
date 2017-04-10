@@ -77,6 +77,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightPremiumClass);
 			query.addExperiment(AbacusUtils.EBAndroidAppTripsNewSignInPage);
+			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowCarWebView);
 			if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_itin_crystal_theme)) {
 				query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
