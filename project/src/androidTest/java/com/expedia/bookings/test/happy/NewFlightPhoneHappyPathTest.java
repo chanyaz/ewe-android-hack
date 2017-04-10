@@ -132,10 +132,12 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.clickTravelerDone();
 
 		PackageScreen.clickPaymentInfo();
+		onView(withId(R.id.card_fee_warning_text)).check(matches(not(isDisplayed())));
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
 		assertInsuranceIsNotVisible();
 		PackageScreen.clickPaymentDone();
+		onView(withId(R.id.card_fee_warning_text)).check(matches(isDisplayed()));
 		PackageScreen.clickLegalInformation();
 
 		assertLegalInformation();

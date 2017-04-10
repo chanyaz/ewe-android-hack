@@ -153,6 +153,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 scrollView.setBackgroundColor(color)
             }
         }
+        paymentWidget.viewmodel.showingPaymentForm.subscribe { showingForm ->
+            cardFeeWarningTextView.setInverseVisibility(showingForm)
+        }
     }
 
     val travelerSummaryCard: TravelerSummaryCard by lazy {
@@ -223,11 +226,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             slideToPurchase.resetSlider()
         }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
-        vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
+        vm.cardFeeWarningTextSubject.subscribeText(cardFeeWarningTextView)
         vm.animateInSlideToPurchaseObservable.subscribe {
             val hasText = !vm.sliderPurchaseTotalText.value.isNullOrEmpty()
             slideToPurchaseSpace.setInverseVisibility(hasText)
             slideTotalText.setInverseVisibility(!hasText)
+        }
+        vm.showCardFeeWarningText.subscribe {
+            cardFeeWarningTextView.visibility = View.VISIBLE
         }
     }
 
