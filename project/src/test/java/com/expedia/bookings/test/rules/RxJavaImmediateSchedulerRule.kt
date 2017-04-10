@@ -25,6 +25,7 @@ class RxJavaImmediateSchedulerRule: TestRule {
         return object : Statement() {
 
             override fun evaluate() { RxAndroidPlugins.getInstance().reset()
+                RxAndroidPlugins.getInstance().reset()
                 RxJavaHooks.reset()
 
                 RxAndroidPlugins.getInstance().registerSchedulersHook(mRxAndroidSchedulersHook)

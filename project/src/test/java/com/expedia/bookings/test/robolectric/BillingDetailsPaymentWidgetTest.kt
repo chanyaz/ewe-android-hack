@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import android.app.Application
 import android.support.design.widget.TextInputLayout
 import android.text.InputType
 import android.view.LayoutInflater
@@ -47,7 +48,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
@@ -139,6 +142,11 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
+
+        Robolectric.flushForegroundThreadScheduler()
+        Robolectric.getForegroundThreadScheduler().advanceBy(3, TimeUnit.SECONDS) // advance to point where dialog should show
+
+
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById(android.R.id.button1) as Button
         val cancelButton = alertDialog.findViewById(android.R.id.button2) as Button
