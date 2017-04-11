@@ -48,7 +48,7 @@ open class HotelViewModel(private val context: Context) {
     val showDiscountObservable = BehaviorSubject.create<Boolean>()
     val hotelGuestRatingObservable = BehaviorSubject.create<Float>()
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>()
-    val noGuestRatingVisibility = isHotelGuestRatingAvailableObservable.map { hasRating -> shouldShowNoGuestRating(hasRating) }
+    val noGuestRatingVisibility = isHotelGuestRatingAvailableObservable.map { hasRating -> !hasRating }
     val hotelPreviewRating = BehaviorSubject.create<Float>()
     val hotelPreviewRatingVisibility = hotelPreviewRating.map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create<CharSequence>()
@@ -300,9 +300,5 @@ open class HotelViewModel(private val context: Context) {
             return R.color.hotels_primary_color
         }
         return R.color.hotel_cell_gray_text
-    }
-
-    private fun shouldShowNoGuestRating(hasRating: Boolean): Boolean {
-        return !hasRating && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideNoReviewRating)
     }
 }

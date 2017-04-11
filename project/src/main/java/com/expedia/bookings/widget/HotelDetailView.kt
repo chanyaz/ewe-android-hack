@@ -348,7 +348,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.ratingContainerBackground.subscribeBackground(ratingContainer)
         vm.isUserRatingAvailableObservable.filter { it }.subscribe { ratingContainer.subscribeOnClick(vm.reviewsClickedSubject) }
         vm.isUserRatingAvailableObservable.filter { !it }.subscribe { ratingContainer.unsubscribeOnClick() }
-        vm.ratingContainerVisibility.subscribeVisibility(ratingContainer)
 
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
