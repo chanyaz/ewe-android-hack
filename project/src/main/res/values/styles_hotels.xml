@@ -116,7 +116,7 @@
     <!-- New Hotels Checkout Styling -->
     <style name="HotelPaymentOption">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/checkout_card_view_height</item>
         <item name="android:paddingTop">13dp</item>
         <item name="android:paddingBottom">13dp</item>
         <item name="android:paddingLeft">20dp</item>
@@ -132,7 +132,7 @@
 
     <style name="HotelStoredCards">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/checkout_card_view_height</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingTop">13dp</item>
         <item name="android:paddingBottom">13dp</item>
