@@ -90,15 +90,13 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
     }
 
-    private fun toggleLoading(loading: Boolean) {
+    protected fun toggleLoading(loading: Boolean) {
         if (ExpediaBookingApp.isAutomation()) {
             return
         }
         if (loading) {
-            webView.visibility = View.GONE
             progressView.visibility = View.VISIBLE
         } else {
-            webView.visibility = View.VISIBLE
             progressView.visibility = View.GONE
         }
     }

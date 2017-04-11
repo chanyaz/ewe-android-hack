@@ -24,6 +24,9 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
         this.setExitButtonOnClickListener(View.OnClickListener {
             vm.userAccountRefresher.forceAccountRefreshForWebView()
         })
+        vm.showProgressBarObservable.subscribe {
+            toggleLoading(true)
+        }
 
     }
 
@@ -33,7 +36,7 @@ class WebCheckoutView(context: Context, attrs: AttributeSet) : BaseWebViewWidget
     }
 
     override fun onWebPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-        super.onWebPageStarted(view, url, favicon)
+        toggleLoading(false)
         if (url.startsWith(PointOfSale.getPointOfSale().hotelsWebBookingConfirmationURL)) {
             view.stopLoading()
             (viewModel as WebCheckoutViewViewModel).bookedTripIDObservable.onNext(Uri.parse(url).getQueryParameter("tripid"))
