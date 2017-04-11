@@ -55,7 +55,7 @@ class FlightOverviewPresenterTest {
 
     @Before
     fun setup() {
-        val activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().get()
+        val activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().start().resume().get()
         activity.setTheme(R.style.V2_Theme_Packages)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
@@ -199,11 +199,18 @@ class FlightOverviewPresenterTest {
         val basicEconomyClickedTestSubscriber = TestSubscriber<Unit>()
         flightSummary.basicEconomyInfoClickedSubject.subscribe(basicEconomyClickedTestSubscriber)
 
+        Robolectric.getForegroundThreadScheduler().pause()
         flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
+        Robolectric.flushForegroundThreadScheduler()
+        Robolectric.getForegroundThreadScheduler().unPause()
 
         assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
 
+        Robolectric.getForegroundThreadScheduler().pause()
         flightSummary.basicEconomyMessageTextView.performClick()
+        Robolectric.flushForegroundThreadScheduler()
+        Robolectric.getForegroundThreadScheduler().unPause()
+
         basicEconomyClickedTestSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
         assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
     }
