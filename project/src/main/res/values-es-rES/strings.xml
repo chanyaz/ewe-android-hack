@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Cómo llegar</string>
     <string name="itin_action_call_hotel">Llamar al hotel</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">Llamar a {agency}</string>
     <string name="itin_action_redeem">Canjear</string>
     <string name="itin_action_support">Ayuda</string>
     <string name="itin_action_share">Compartir</string>
@@ -2099,7 +2101,7 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Sí, estoy de acuerdo.</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Desliza para realizar la compra</string>
+    <string name="slide_to_purchase">Desliza para comprar</string>
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">Desliza para reservar este hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Tasas e impuestos</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">Tasa del establecimiento</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluido</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">Botón para mostrar más zonas</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Botón para mostrar menos zonas</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Se ha aplicado el cupón: ¡te has ahorrado %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4086,13 +4087,13 @@
 
     <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">Se cargará una tasa de la aerolínea a la cantidad total en función del tipo de tarjeta utilizado.</string>
-    <string name="airline_charge_notice">Algunas aerolíneas cargan una tasa adicional según el tipo de pago utilizado.</string>
+    <string name="airline_charge_notice">Algunas aerolíneas aplican un recargo según el método de pago utilizado.</string>
     <string name="airline_fee_notice_payment">Se aplica una tasa de la aerolínea en función del tipo de pago utilizado</string>
     <string name="airline_notice_fee_added_tablet">Se cargará una &lt;u&gt;&lt;b&gt;tasa de la aerolínea&lt;/b&gt;&lt;/u&gt; a la cantidad total en función del tipo de tarjeta utilizado. Esta tasa se añadirá al total en el momento del pago.</string>
 
     <!-- French compliance warnings d/5810 -->
     <string name="airline_maybe_fee_notice">Puede añadirse una tasa de la aerolínea, según el tipo de tarjeta utilizado.</string>
-    <string name="airline_may_charge_notice">Las aerolíneas pueden cargar una tasa adicional según la forma de pago utilizada.</string>
+    <string name="airline_may_charge_notice">Las aerolíneas pueden cobrar un recargo según la forma de pago utilizada.</string>
     <string name="airline_may_fee_notice_payment">Puede aplicarse una tasa de la aerolínea según la forma de pago utilizada</string>
     <string name="airline_notice_fee_maybe_added_tablet">Puede añadirse una &lt;u&gt;&lt;b&gt;tasa de la aerolínea&lt;/b&gt;&lt;/u&gt; según el tipo de tarjeta utilizado. Esta tasa se añadirá al total en el momento del pago.</string>
 
@@ -4265,7 +4266,7 @@
     </plurals>
 
     <!-- Slide to book -->
-    <string name="slide_to_book_text">Desliza para realizar la compra</string>
+    <string name="slide_to_book_text">Desliza para comprar</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} puntos {brand_reward_name}</string>
@@ -4967,4 +4968,7 @@
     <string name="reset_filter">Borrar filtros</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">No hemos podido encontrar establecimientos que cumplan con los criterios de búsqueda.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">La tasa diaria del complejo turístico de {amount} no está incluida</string>
 </resources>

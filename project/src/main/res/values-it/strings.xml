@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Indicazioni</string>
     <string name="itin_action_call_hotel">Chiama hotel</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">Chiama {agency}</string>
     <string name="itin_action_redeem">Riscatta</string>
     <string name="itin_action_support">Assistenza</string>
     <string name="itin_action_share">Condividi</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Tasse e spese di gestione</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">Supplemento struttura</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluse</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">Mostra altre zone. Pulsante</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Mostra meno zone. Pulsante</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon applicato: hai risparmiato %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4967,4 +4968,7 @@
     <string name="reset_filter">Reimposta filtri</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Non siamo riusciti a trovare strutture che soddisfano i tuoi criteri di ricerca.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">Esclusa la tariffa resort giornaliera, pari a {amount}</string>
 </resources>

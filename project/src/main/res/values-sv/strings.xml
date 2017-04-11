@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Vägbeskrivning</string>
     <string name="itin_action_call_hotel">Ring hotell</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">Ring {agency}</string>
     <string name="itin_action_redeem">Lös in</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Dela</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Skatter och avgifter</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">Hotellavgift</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkluderas</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">Visa fler områden. Knapp</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Visa färre områden. Knapp</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kupong tillämpad - du sparade %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4967,4 +4968,7 @@
     <string name="reset_filter">Återställ filter</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Vi hittade inga hotell som matchar din filtersökning.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">Daglig resortavgift på {amount} tillkommer</string>
 </resources>
