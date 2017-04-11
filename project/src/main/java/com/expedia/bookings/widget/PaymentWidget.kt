@@ -533,7 +533,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
             else viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
-            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(forward)
+            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(!forward) else updateLegacyToolbarMenu(forward)
         }
     }
 
@@ -547,8 +547,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    protected fun updateUniversalToolbarMenu() {
-        if (currentState == PaymentOption::class.java.name) {
+    protected fun updateUniversalToolbarMenu(forward: Boolean) {
+        if (forward || currentState == PaymentOption::class.java.name) {
             visibleMenuWithTitleDone.onNext(Unit)
             viewmodel.enableMenuItem.onNext(true)
         } else {
@@ -578,6 +578,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 filledIn.onNext(isCompletelyFilled())
             }
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
+            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
             viewmodel.showingPaymentForm.onNext(forward)
         }
     }
@@ -607,7 +608,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
-            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(!forward)
+            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(forward) else updateLegacyToolbarMenu(!forward)
         }
     }
 

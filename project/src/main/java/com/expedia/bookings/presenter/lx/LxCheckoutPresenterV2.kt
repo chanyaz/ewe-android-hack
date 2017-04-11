@@ -97,7 +97,26 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
     }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
-        return DefaultToTraveler(LXTravelersPresenter::class.java)
+        return object: DefaultToTraveler(LXTravelersPresenter::class.java) {
+            override fun startTransition(forward: Boolean) {
+                super.startTransition(forward)
+                lxCheckoutViewModel.hideOverviewSummaryObservable.onNext(forward)
+            }
+        }
     }
-    
+
+    override val defaultToPayment = object : DefaultToPayment(this) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            lxCheckoutViewModel.hideOverviewSummaryObservable.onNext(forward)
+        }
+    }
+
+    override fun back(): Boolean {
+        if (currentState == BaseCheckoutPresenter.CheckoutDefault::class.java.name) {
+            lxCheckoutViewModel.backToDetailsObservable.onNext(Unit)
+            return false
+        }
+        return super.back()
+    }
 }

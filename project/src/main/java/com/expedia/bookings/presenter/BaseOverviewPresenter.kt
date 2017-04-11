@@ -20,7 +20,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val ANIMATION_DURATION = 400
     protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
-    val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
@@ -55,11 +54,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
-        val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
-        checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
     }
 
-    val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
+    open val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             checkoutPresenter.toolbarDropShadow.visibility = View.GONE

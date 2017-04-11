@@ -397,7 +397,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     /** Presenter Transitions **/
     class CheckoutDefault
 
-    private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
+    open val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             val isLoggedIn = User.isLoggedIn(context)
             loginWidget.bind(false, isLoggedIn, Db.getUser(), getLineOfBusiness())
@@ -618,7 +618,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         dialog.show()
     }
 
-    inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
+    open inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
