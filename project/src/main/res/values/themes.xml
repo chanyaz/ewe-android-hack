@@ -259,6 +259,14 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/ic_type_circle_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/rail_itin_icon</item>
+        <item name="itin_card_detail_triplet_value_text_size">24sp</item>
+        <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
+        <item name="itin_card_detail_triplet_label_text_size">14sp</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray2</item>
+        <item name="itin_card_detail_section_header_text_size">14sp</item>
+        <item name="itin_card_detail_section_header_text_color">@color/white</item>
+        <item name="itin_card_detail_section_text_size">18sp</item>
+        <item name="itin_card_detail_section_text_color">@color/itin_section_text</item>
     </style>
 
     <style name="NewLaunchTheme.Light">
@@ -292,6 +300,14 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/itin_lob_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/itin_lob_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/itin_lob_rail</item>
+        <item name="itin_card_detail_triplet_value_text_size">24sp</item>
+        <item name="itin_card_detail_triplet_value_text_color">@color/gray10</item>
+        <item name="itin_card_detail_triplet_label_text_size">12sp</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray6</item>
+        <item name="itin_card_detail_section_header_text_size">12sp</item>
+        <item name="itin_card_detail_section_header_text_color">@color/gray10</item>
+        <item name="itin_card_detail_section_text_size">16sp</item>
+        <item name="itin_card_detail_section_text_color">@color/gray6</item>
     </style>
 
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
