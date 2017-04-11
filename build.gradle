@@ -81,7 +81,7 @@ subprojects {
     }
 
     tasks.withType(Test) {
-        maxParallelForks = 1
+        maxParallelForks = 2
         // need more memory for unittests due to issue with Robolectric 1.3: https://github.com/robolectric/robolectric/issues/1700
         jvmArgs '-XX:MaxPermSize=512m'
         testLogging {
