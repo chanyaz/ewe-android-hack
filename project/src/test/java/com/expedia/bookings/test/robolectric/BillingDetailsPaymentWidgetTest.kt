@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import android.app.Application
 import android.support.design.widget.TextInputLayout
 import android.text.InputType
 import android.view.LayoutInflater
@@ -48,12 +47,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
-import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
@@ -132,24 +128,27 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testSavePromptDisplayed() {
-        Robolectric.getForegroundThreadScheduler().pause()
-
         val testSubscriber = TestSubscriber<Unit>()
+        billingDetailsPaymentWidget.doneClicked.subscribe(testSubscriber)
+
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithStoredCard())
         billingDetailsPaymentWidget.viewmodel.userLogin.onNext(true)
         completelyFillBillingInfo()
         billingDetailsPaymentWidget.sectionBillingInfo.billingInfo.storedCard = StoredCreditCard()
+
+        // navigates to payment options
+        Robolectric.getForegroundThreadScheduler().pause()
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        Robolectric.flushForegroundThreadScheduler()
+        Robolectric.getForegroundThreadScheduler().unPause()
+
+        Robolectric.getForegroundThreadScheduler().pause()
         billingDetailsPaymentWidget.show(PaymentWidget.PaymentDetails(), Presenter.FLAG_CLEAR_BACKSTACK)
-        billingDetailsPaymentWidget.doneClicked.subscribe(testSubscriber)
+        Robolectric.flushForegroundThreadScheduler()
+        Robolectric.getForegroundThreadScheduler().unPause()
 
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
-
-        Robolectric.flushForegroundThreadScheduler()
-        Robolectric.getForegroundThreadScheduler().advanceBy(3, TimeUnit.SECONDS) // advance to point where dialog should show
-
-        Robolectric.getForegroundThreadScheduler().unPause()
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById(android.R.id.button1) as Button
