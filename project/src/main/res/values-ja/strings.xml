@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">行き方</string>
     <string name="itin_action_call_hotel">ホテルに電話</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">{agency}に電話する</string>
     <string name="itin_action_redeem">特典利用</string>
     <string name="itin_action_support">サポート</string>
     <string name="itin_action_share">共有</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">税金 &amp; サービス料</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">施設の手数料</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">含まれています</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">周辺情報をさらに表示するボタン</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">周辺情報を一部のみ表示するボタン</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">クーポンが適用されました : %1$sお得です !</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4967,4 +4968,7 @@
     <string name="reset_filter">絞り込み条件をリセット</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">絞り込み条件と一致する施設は見つかりませんでした。</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">リゾート料金 {amount} (1 日ごと) 別</string>
 </resources>

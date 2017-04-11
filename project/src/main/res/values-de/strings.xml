@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Wegbeschreibung</string>
     <string name="itin_action_call_hotel">Hotel anrufen</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">{agency} anrufen</string>
     <string name="itin_action_redeem">Einlösen</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Teilen</string>
@@ -3165,8 +3167,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Steuern &amp; Gebühren</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">Unterkunftsgebühr</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">inklusive</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -3227,13 +3227,13 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Leider liegt gerade ein Problem vor. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet.</string>
+    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet..</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Leider liegt gerade ein Problem vor. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land.</string>
+    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land..</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
     <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
@@ -4072,6 +4072,7 @@
     <string name="hotels_filter_show_more_cont_desc">Mehr Gegenden anzeigen. Schaltfläche</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Weniger Gegenden anzeigen. Schaltfläche</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Gutschein eingelöst: Sie sparen %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4968,4 +4969,7 @@
     <string name="reset_filter">Filter zurücksetzen</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Es konnten keine Unterkünfte für Ihre Filterauswahl gefunden werden.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">Zuzüglich Hotelgebühr von{amount}/Tag</string>
 </resources>

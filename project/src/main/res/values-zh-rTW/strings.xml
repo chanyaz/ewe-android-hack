@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">路線</string>
     <string name="itin_action_call_hotel">聯絡飯店</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">致電 {agency}</string>
     <string name="itin_action_redeem">兌換</string>
     <string name="itin_action_support">支援</string>
     <string name="itin_action_share">分享</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">稅金和費用</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">住宿費用</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">包含</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -3425,7 +3425,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">顯示更多鄰近地區。按鈕</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">顯示較少鄰近地區。按鈕</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">已使用優惠券：您省了 %1$s！</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4793,6 +4794,8 @@
     <string name="accessibility_cont_desc_role_button_collapse">摺疊按鈕</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">開啟對話方塊。</string>
+    <!--Packages accessibility content description for hotel room selection expand -->
+    <!--Packages accessibility content description for hotel room selection collapse -->
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">不可用</string>
     <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
@@ -4965,4 +4968,7 @@
     <string name="reset_filter">重新設定篩選條件</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">找不到符合您篩選條件的住宿。</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">不含每日休閒設施費 {amount}</string>
 </resources>

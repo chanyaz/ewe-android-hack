@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">길 안내</string>
     <string name="itin_action_call_hotel">호텔에 전화하기</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">{agency}에 전화하기</string>
     <string name="itin_action_redeem">사용하기</string>
     <string name="itin_action_support">고객 지원</string>
     <string name="itin_action_share">공유하기</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">세금 및 수수료</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">숙박 시설 요금</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">포함됨</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">주변 자세히 보기. 버튼</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">주변 간단히 보기. 버튼</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">쿠폰 적용됨: %1$s 할인받으셨습니다!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4967,4 +4968,7 @@
     <string name="reset_filter">필터 재설정</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">선택하신 필터와 맞는 숙박 시설을 찾을 수 없습니다.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">일일 리조트 요금 {amount} 불포함</string>
 </resources>
