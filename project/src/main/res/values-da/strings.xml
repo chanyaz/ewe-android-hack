@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Rutevejledning</string>
     <string name="itin_action_call_hotel">Ring til hotellet</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">Ring til {agency}</string>
     <string name="itin_action_redeem">Indløs</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Del</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Skatter og afgifter</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">Overnatningsgebyr</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkluderet</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">Vis flere kvarterer. Knap</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Vis færre kvarterer. Knap</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kupon indløst: Du har sparet %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4793,6 +4794,7 @@
     <string name="accessibility_cont_desc_role_button_collapse">Knap til at skjule</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Åbner dialogvindue</string>
+    <!--Packages accessibility content description for hotel room selection expand -->
     <!--Packages accessibility content description for hotel room selection collapse -->
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">Deaktiveret</string>
@@ -4966,4 +4968,7 @@
     <string name="reset_filter">Nulstil filtre</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">Vi kunne ikke finde nogen overnatningssteder, der matcher dine valgte filtre.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">Dagligt resortgebyr på {amount} er ikke inkluderet i prisen</string>
 </resources>

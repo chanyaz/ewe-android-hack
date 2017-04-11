@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">Directions</string>
     <string name="itin_action_call_hotel">Call Hotel</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">Call {agency}</string>
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Taxes &amp; Fees</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">Property Fee</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Included</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">Show more areas. Button</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Show fewer areas. Button</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Voucher applied: You saved %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4967,4 +4968,7 @@
     <string name="reset_filter">Reset Filters</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">We couldn\'t find properties that match your filter selections.</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">Excludes {amount} daily resort fee</string>
 </resources>
