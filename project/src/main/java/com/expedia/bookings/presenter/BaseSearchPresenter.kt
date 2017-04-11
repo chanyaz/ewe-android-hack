@@ -457,6 +457,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 requestA11yFocus(isCustomerSelectingOrigin)
             } else if (forward || firstLaunch) {
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+                if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                    com.mobiata.android.util.Ui.hideKeyboard(this@BaseSearchPresenter)
+                }
             }
         }
     }
