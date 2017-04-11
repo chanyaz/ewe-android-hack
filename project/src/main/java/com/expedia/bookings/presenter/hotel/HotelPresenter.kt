@@ -40,6 +40,7 @@ import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.hotel.ClientLogTracker
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.NavUtils
@@ -68,8 +69,10 @@ import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
+import rx.Observable
 import rx.Observer
 import rx.subjects.PublishSubject
+import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -103,6 +106,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
+    val pageUsableData = PageUsableData()
 
     val bookingSuccessDialog: android.app.AlertDialog by lazy {
         val builder = android.app.AlertDialog.Builder(context)
@@ -228,7 +232,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context)
-        presenter.hotelCheckoutViewModel.checkoutRequestCallObservable.subscribe(confirmationPresenter.hotelConfirmationViewModel.checkoutRequestStartTimeObservable)
+        presenter.hotelCheckoutViewModel.checkoutRequestStartTimeObservable.subscribe { startTime ->
+            pageUsableData.markPageLoadStarted(startTime)
+        }
+
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(confirmationPresenter.hotelConfirmationViewModel.checkoutResponseObservable)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
@@ -270,6 +277,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         confirmationPresenter.hotelConfirmationViewModel.setSearchParams(hotelSearchParams)
+
+        Observable.combineLatest(confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationDetailsSetObservable, confirmationPresenter.hotelConfirmationViewModel.hotelConfirmationUISetObservable, {
+            confirmationDetailsSet, confirmationUISet ->
+            if (confirmationDetailsSet && confirmationUISet) {
+                pageUsableData.markAllViewsLoaded(Date().time)
+                HotelTracking.trackHotelPurchaseConfirmation(confirmationPresenter.hotelConfirmationViewModel.hotelCheckoutResponseObservable.value, confirmationPresenter.hotelConfirmationViewModel.percentagePaidWithPointsObservable.value,
+                        confirmationPresenter.hotelConfirmationViewModel.totalAppliedRewardCurrencyObservable.value, hotelSearchParams.guests, confirmationPresenter.hotelConfirmationViewModel.couponCodeObservable.value, pageUsableData)
+            }
+        }).subscribe()
+
         presenter.hotelCheckoutWidget.backPressedAfterUserWithEffectiveSwPAvailableSignedOut.subscribe(goToSearchScreen)
         presenter
     }

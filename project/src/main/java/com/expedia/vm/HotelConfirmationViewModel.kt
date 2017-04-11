@@ -23,7 +23,6 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
@@ -42,7 +41,6 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import java.util.Date
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -69,8 +67,12 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val checkoutResponseObservable = PublishSubject.create<HotelCheckoutResponse>()
     val itinDetailsResponseObservable = PublishSubject.create<HotelItinDetailsResponse>()
-    val checkoutRequestStartTimeObservable = BehaviorSubject.create<Long>()
-    val pageUsableData = PageUsableData()
+    val hotelCheckoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
+    val percentagePaidWithPointsObservable = BehaviorSubject.create<Int>()
+    val totalAppliedRewardCurrencyObservable = BehaviorSubject.create<String>()
+    val couponCodeObservable = BehaviorSubject.create<String>()
+    val hotelConfirmationDetailsSetObservable = BehaviorSubject.create<Boolean>()
+    val hotelConfirmationUISetObservable = BehaviorSubject.create<Boolean>()
 
     val showAddToCalendar = BehaviorSubject.create<Boolean>()
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
@@ -81,10 +83,6 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
 
     init {
         Ui.getApplication(context).hotelComponent().inject(this)
-
-        checkoutRequestStartTimeObservable.subscribe { startTime ->
-            pageUsableData.markPageLoadStarted(startTime)
-        }
 
         if (isWebCheckout) {
             setUpItinResponseSubscription(context)
@@ -103,9 +101,11 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             }
         }).subscribe {
             val coupon = Db.getTripBucket().hotelV2.mHotelTripResponse.coupon
-            pageUsableData.markAllViewsLoaded(Date().time)
-            HotelTracking.trackHotelPurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints,
-                    it.totalAppliedRewardCurrency, hotelSearchParams.guests, if (coupon != null) coupon.code else "", pageUsableData)
+            hotelCheckoutResponseObservable.onNext(it.hotelCheckoutResponse)
+            percentagePaidWithPointsObservable.onNext(it.percentagePaidWithPoints)
+            totalAppliedRewardCurrencyObservable.onNext(it.totalAppliedRewardCurrency)
+            couponCodeObservable.onNext(coupon?.code ?: "")
+            hotelConfirmationDetailsSetObservable.onNext(true)
         }
 
         checkoutResponseObservable.subscribe {
@@ -163,6 +163,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             addLXBtn.onNext(if (isUserBucketedForLXCrossSellTest) context.resources.getString(R.string.add_lx_TEMPLATE, product.hotelCity) else "")
 
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+            hotelConfirmationUISetObservable.onNext(true)
         }
     }
 
