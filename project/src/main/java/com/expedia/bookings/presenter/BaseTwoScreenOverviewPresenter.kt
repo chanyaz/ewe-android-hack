@@ -262,6 +262,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             } else {
                 trackShowBundleOverview()
             }
+            val checkoutButtonTextColor = ContextCompat.getColor(context, if (forward) {
+                R.color.white_disabled
+            } else {
+                R.color.search_dialog_background_v2
+            })
+            checkoutButton.setTextColor(checkoutButtonTextColor)
         }
 
         private fun translateCheckout(f: Float, forward: Boolean) {
@@ -539,8 +545,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     private fun setupClickListeners() {
         checkoutButton.setOnClickListener {
-            showCheckout()
-            checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
+            if (currentState == BundleDefault::class.java.name) {
+                showCheckout()
+                checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
+            } else {
+                checkoutPresenter.doHarlemShakes()
+            }
         }
     }
 
