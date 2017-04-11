@@ -29,8 +29,8 @@ import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
@@ -57,7 +57,8 @@ import static org.junit.Assert.assertTrue;
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class HotelViewModelTest {
 	@Rule
-	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, Schedulers.immediate(), "../lib/mocked/templates", true);
+	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, Schedulers.immediate(),
+		"../lib/mocked/templates", true);
 
 	HotelViewModel vm;
 	Hotel hotel;
@@ -80,20 +81,21 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void strikeThroughPriceShow() {
 		hotel.lowRateInfo.priceToShowUsers = 10f;
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
 
 		setupSystemUnderTest();
 
-		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
-		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 2 stars of 5 rating.\u0020Earn 320 points Regularly $12, now $10.\u0020Button", vm.getHotelContentDesc(hotel).toString());
+		assertTrue(vm.shouldShowStrikeThroughPrice());
+		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().toString());
+		assertEquals("Test Hotel with 2 stars of 5 rating.\u0020Earn 320 points Regularly $12, now $10.\u0020Button",
+			vm.getHotelContentDesc().toString());
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void contentDescriptionWithStrikeThroughPercent() {
 		hotel.lowRateInfo.priceToShowUsers = 10f;
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
@@ -104,8 +106,10 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		assertTrue(vm.getShowDiscountObservable().getValue());
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\u0020Original price discounted 10%. Earn 320 points\u0020Regularly $12, now $10.\u0020Button", vm.getHotelContentDesc(hotel).toString());
+		assertTrue(vm.getShowDiscount());
+		assertEquals(
+			"Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\u0020Original price discounted 10%. Earn 320 points\u0020Regularly $12, now $10.\u0020Button",
+			vm.getHotelContentDesc().toString());
 	}
 
 	@Test
@@ -117,7 +121,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void contentDescriptionWithZeroGuestRating() {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 0;
@@ -134,16 +138,17 @@ public class HotelViewModelTest {
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void contentDescriptionWithNonZeroRatings() {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 3;
 		setupSystemUnderTest();
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\u0020", vm.getRatingContentDesc(hotel));
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\u0020",
+			vm.getRatingContentDesc(hotel));
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void strikeThroughPriceShowForPackages() {
 		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
@@ -162,8 +167,8 @@ public class HotelViewModelTest {
 
 		HotelViewModel vm = new HotelViewModel(getContext());
 		vm.bindHotelData(firstHotel);
-		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
-		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
+		assertTrue(vm.shouldShowStrikeThroughPrice());
+		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().toString());
 	}
 
 	@Test
@@ -185,10 +190,10 @@ public class HotelViewModelTest {
 
 		HotelViewModel vm = new HotelViewModel(getContext());
 		vm.bindHotelData(hotel);
-		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
+		assertFalse(vm.shouldShowStrikeThroughPrice());
 	}
 
-	private SuggestionV4 getDummySuggestion()  {
+	private SuggestionV4 getDummySuggestion() {
 		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.gaiaId = "";
 		suggestion.regionNames = new SuggestionV4.RegionNames();
@@ -208,8 +213,8 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
-		assertEquals("", vm.getHotelStrikeThroughPriceFormatted().getValue());
+		assertFalse(vm.shouldShowStrikeThroughPrice());
+		assertEquals("", vm.getHotelStrikeThroughPriceFormatted());
 	}
 
 	@Test
@@ -219,8 +224,8 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
-		assertEquals("", vm.getHotelStrikeThroughPriceFormatted().getValue());
+		assertFalse(vm.shouldShowStrikeThroughPrice());
+		assertEquals("", vm.getHotelStrikeThroughPriceFormatted());
 	}
 
 	@Test
@@ -230,8 +235,8 @@ public class HotelViewModelTest {
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
 		setupSystemUnderTest();
 
-		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
-		assertEquals("$0",vm.getHotelPriceFormatted().getValue());
+		assertTrue(vm.shouldShowStrikeThroughPrice());
+		assertEquals("$0", vm.getHotelPriceFormatted());
 	}
 
 	@Test
@@ -242,7 +247,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		String expectedDistance = "0.4 mi";
-		assertEquals(expectedDistance, vm.getDistanceFromCurrentLocation().getValue());
+		assertEquals(expectedDistance, vm.distanceFromCurrentLocation());
 	}
 
 	@Test
@@ -251,7 +256,7 @@ public class HotelViewModelTest {
 		givenHotelWithProximityDistance(distanceInMiles);
 		setupSystemUnderTest();
 
-		assertTrue(Strings.isEmpty(vm.getDistanceFromCurrentLocation().getValue()));
+		assertTrue(Strings.isEmpty(vm.distanceFromCurrentLocation()));
 	}
 
 	@Test
@@ -262,13 +267,14 @@ public class HotelViewModelTest {
 		givenHotelTonightOnly();
 
 		setupSystemUnderTest();
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
 
-		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
-
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(null,
+		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(null,
 			R.color.hotel_sold_out_color,
-			RuntimeEnvironment.application.getResources().getString(R.string.trip_bucket_sold_out)));
+			RuntimeEnvironment.application.getResources().getString(R.string.trip_bucket_sold_out),
+			R.color.white);
+
+		assertEquals(compareTo, msg);
 	}
 
 	@Test
@@ -278,13 +284,15 @@ public class HotelViewModelTest {
 		givenHotelTonightOnly();
 		setupSystemUnderTest();
 
-		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
-
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.urgency,
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
+		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
+			R.drawable.urgency,
 			R.color.hotel_urgency_message_color,
 			RuntimeEnvironment.application.getResources()
-				.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)));
+				.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
+			R.color.white);
+
+		assertEquals(compareTo, msg);
 	}
 
 	@Test
@@ -293,13 +301,15 @@ public class HotelViewModelTest {
 		givenHotelMobileExclusive();
 
 		setupSystemUnderTest();
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
 
-		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
-
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.tonight_only,
+		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
+			R.drawable.tonight_only,
 			R.color.hotel_tonight_only_color,
-			RuntimeEnvironment.application.getResources().getString(R.string.tonight_only)));
+			RuntimeEnvironment.application.getResources().getString(R.string.tonight_only),
+			R.color.white);
+
+		assertEquals(compareTo, msg);
 	}
 
 	@Test
@@ -309,12 +319,15 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
 
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.mobile_exclusive,
+		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
+			R.drawable.mobile_exclusive,
 			R.color.hotel_mobile_exclusive_color,
-			RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive)));
+			RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive),
+			R.color.white);
+
+		assertEquals(compareTo, msg);
 	}
 
 	@Test
@@ -324,47 +337,51 @@ public class HotelViewModelTest {
 
 		setupSystemUnderTest();
 
-		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+		HotelViewModel.UrgencyMessage msg = vm.getHighestPriorityUrgencyMessage();
 
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(
+		HotelViewModel.UrgencyMessage compareTo = new HotelViewModel.UrgencyMessage(
 			ProductFlavorFeatureConfiguration.getInstance().getHotelDealImageDrawable(),
-			R.color.hotel_mobile_exclusive_color, ""));
+			R.color.hotel_mobile_exclusive_color, "",
+			R.color.white);
+
+		assertEquals(compareTo, msg);
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void vipMessageWithNoLoyaltyMessage() {
 		givenHotelWithVipAccess();
 		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
-		assertTrue(vm.getVipMessageVisibilityObservable().getValue());
-		assertFalse(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
+		assertTrue(vm.showVipMessage());
+		assertFalse(vm.showVipLoyaltyMessage());
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void vipLoyaltyMessageVisible() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();
 		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
-		assertTrue(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
+		assertTrue(vm.showVipLoyaltyMessage());
 	}
 
 	@Test
-	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ })
 	public void vipLoyaltyMessageDisplayedOnMaps() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();
 		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
-		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
-		assertEquals(HtmlCompat.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)).toString(),
-			vm.getMapLoyaltyMessageTextObservable().getValue().toString());
+		assertTrue(vm.getLoyaltyAvailable());
+		assertEquals(
+			HtmlCompat.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message))
+				.toString(),
+			vm.getMapLoyaltyMessageText().toString());
 	}
 
 	@Test
@@ -373,9 +390,9 @@ public class HotelViewModelTest {
 		UserLoginTestUtil.setupUserAndMockLogin(getUser());
 		setupSystemUnderTest();
 
-		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
+		assertTrue(vm.getLoyaltyAvailable());
 		assertEquals(RuntimeEnvironment.application.getString(R.string.regular_loyalty_applied_message),
-			vm.getMapLoyaltyMessageTextObservable().getValue().toString());
+			vm.getMapLoyaltyMessageText().toString());
 	}
 
 	@Test
@@ -383,8 +400,8 @@ public class HotelViewModelTest {
 		hotel.lowRateInfo.discountPercent = -12;
 		setupSystemUnderTest();
 
-		assertTrue(vm.getShowDiscountObservable().getValue());
-		assertFalse(vm.getLoyaltyAvailabilityObservable().getValue());
+		assertTrue(vm.getShowDiscount());
+		assertFalse(vm.getLoyaltyAvailable());
 	}
 
 	@Test
@@ -392,7 +409,7 @@ public class HotelViewModelTest {
 		hotel.lowRateInfo.discountPercent = 0;
 		setupSystemUnderTest();
 
-		assertFalse(vm.getShowDiscountObservable().getValue());
+		assertFalse(vm.getShowDiscount());
 	}
 
 	@Test
@@ -401,43 +418,44 @@ public class HotelViewModelTest {
 		givenHotelWithShopWithPointsAvailable();
 		setupSystemUnderTest();
 
-		assertFalse(vm.getShowDiscountObservable().getValue());
-		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
+		assertFalse(vm.getShowDiscount());
+		assertTrue(vm.getLoyaltyAvailable());
 	}
 
 	@Test
 	public void packageHotelThumbnailNotSetIfMissing() {
 		hotel.isPackage = true;
 		setupSystemUnderTest();
-		assertTrue(Strings.isEmpty(vm.getHotelLargeThumbnailUrlObservable().getValue()));
+		assertTrue(Strings.isEmpty(vm.getHotelLargeThumbnailUrl()));
 	}
 
 	@Test
 	public void hotelThumbnailErrorIsMissing() {
 		hotel.isPackage = false;
 		setupSystemUnderTest();
-		assertEquals(Images.getMediaHost() + null, vm.getHotelLargeThumbnailUrlObservable().getValue());
+		assertEquals(Images.getMediaHost() + null, vm.getHotelLargeThumbnailUrl());
 	}
 
 	@Test
 	public void packageThumbnailIsSet() {
 		givenHotelWithThumbnail(true);
 		setupSystemUnderTest();
-		assertEquals("some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrlObservable().getValue());
+		assertEquals("some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrl());
 	}
 
 	@Test
 	public void hotelThumbnailIsSet() {
 		givenHotelWithThumbnail(false);
 		setupSystemUnderTest();
-		assertEquals(Images.getMediaHost() + "some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrlObservable().getValue());
+		assertEquals(Images.getMediaHost() + "some_awesome_hotel_pix", vm.getHotelLargeThumbnailUrl());
 	}
 
 	@Test
 	public void hotelIsSponsored() {
 		givenIsSponsoredListing(true);
 		setupSystemUnderTest();
-		assertEquals(RuntimeEnvironment.application.getResources().getString(R.string.sponsored), vm.getTopAmenityTitleObservable().getValue());
+		assertEquals(RuntimeEnvironment.application.getResources().getString(R.string.sponsored),
+			vm.getTopAmenityTitle());
 	}
 
 	@Test
@@ -452,28 +470,22 @@ public class HotelViewModelTest {
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		assertTrue(pos.isEarnMessageEnabledForHotels());
 
-		TestSubscriber earnMessageTestSubscriber = TestSubscriber.create();
-		vm.getEarnMessagingVisibilityObservable().subscribe(earnMessageTestSubscriber);
-		assertTrue((Boolean) earnMessageTestSubscriber.getOnNextEvents().get(0));
-
-		TestSubscriber topAmenityTestSubscriber = TestSubscriber.create();
-		vm.getTopAmenityVisibilityObservable().subscribe(topAmenityTestSubscriber);
-		assertTrue((Boolean) topAmenityTestSubscriber.getOnNextEvents().get(0));
+		assertTrue(vm.getShowEarnMessage());
+		assertTrue(!vm.getTopAmenityTitle().isEmpty());
 	}
 
 	@Test
-	@RunForBrands( brands = { MultiBrand.ORBITZ })
-	public void testEarnMessgingVisibility() {
+	@RunForBrands(brands = { MultiBrand.ORBITZ })
+	public void testEarnMessagingVisibility() {
 		setPOS(PointOfSaleId.ORBITZ);
-		TestSubscriber<Boolean> subscriber = new TestSubscriber<Boolean>();
 
 		Money base = new Money("11.03", "USD");
 		Money bonus = new Money("00.00", "USD");
 		Money total = new Money("11.03", "USD");
-		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, new PriceEarnInfo(base, bonus, total)), false);
+		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null,
+			new LoyaltyEarnInfo(null, new PriceEarnInfo(base, bonus, total)), false);
 		setupSystemUnderTest();
-		vm.getEarnMessagingVisibilityObservable().subscribe(subscriber);
-		assertEquals(true, subscriber.getOnNextEvents().get(0) );
+		assertTrue(vm.getShowEarnMessage());
 	}
 
 	private void givenSoldOutHotel() {
@@ -533,5 +545,4 @@ public class HotelViewModelTest {
 		SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.getId() + "");
 		PointOfSale.onPointOfSaleChanged(getContext());
 	}
-
 }

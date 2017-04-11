@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +19,8 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeColorFilter
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeRating
-import com.expedia.util.subscribeStarColor
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.BehaviorSubject
@@ -46,6 +40,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     var lineOfBusiness = LineOfBusiness.HOTELS
 
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
+
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
     override fun getItemCount(): Int {
@@ -118,46 +113,61 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         }
 
         fun bind(viewModel: HotelViewModel) {
-            hotelId = viewModel.hotelId.value
-            hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId.value, viewModel.soldOut))
+            hotelId = viewModel.hotelId
+            hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
 
-            viewModel.hotelLargeThumbnailUrlObservable.subscribe {
+            val url = viewModel.getHotelLargeThumbnailUrl()
+            if (url.isNotBlank()) {
                 PicassoHelper.Builder(hotelPreviewImage)
                         .setError(R.drawable.room_fallback)
                         .build()
-                        .load(it)
-            }
-            viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
-            viewModel.hotelPreviewRatingVisibility.subscribeVisibility(hotelPreviewRating)
-            viewModel.hotelPreviewRating.subscribeRating(hotelPreviewRating)
-            viewModel.starRatingColor.subscribeStarColor(hotelPreviewRating)
-            viewModel.imageColorFilter.subscribeColorFilter(hotelPreviewImage)
-            viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
-            viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
-            viewModel.pricePerNightColorObservable.subscribeTextColor(hotelPricePerNight)
-            viewModel.hotelStrikeThroughPriceFormatted.subscribeText(hotelStrikeThroughPrice)
-            viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
-            viewModel.soldOut.subscribeVisibility(hotelSoldOut)
-            viewModel.soldOut.subscribeInverseVisibility(hotelPricePerNight)
-            viewModel.loyaltyAvailabilityObservable.subscribe { isVisible ->
-                loyaltyMessageContainer.visibility =
-                        if (isVisible) View.VISIBLE
-                        else if (shopWithPoints) View.INVISIBLE
-                        else View.GONE
-                shadowOnLoyaltyMessageContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
-                shadowOnHotelCell.visibility = if (!isVisible && lineOfBusiness == LineOfBusiness.HOTELS) View.VISIBLE else View.GONE
+                        .load(url)
             }
 
-            viewModel.mapLoyaltyMessageTextObservable.subscribeText(loyaltyMessage)
-            viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
-            viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRecommend)
-            viewModel.noGuestRatingVisibility.subscribeVisibility(hotelNoGuestRating)
+            hotelPreviewText.text = viewModel.hotelName
+            hotelPreviewImage.colorFilter = viewModel.getImageColorFilter()
 
+            updateHotelRating(viewModel)
+            updatePricing(viewModel)
+
+            loyaltyMessageContainer.visibility =
+                    if (viewModel.loyaltyAvailable) View.VISIBLE
+                    else if (shopWithPoints) View.INVISIBLE
+                    else View.GONE
+
+            shadowOnLoyaltyMessageContainer.updateVisibility(viewModel.loyaltyAvailable)
+            shadowOnHotelCell.updateVisibility(!viewModel.loyaltyAvailable && lineOfBusiness == LineOfBusiness.HOTELS)
+            loyaltyMessage.text = viewModel.getMapLoyaltyMessageText()
+
+            updateFonts()
+        }
+
+        private fun updatePricing(viewModel: HotelViewModel) {
+            hotelStrikeThroughPrice.text = viewModel.hotelStrikeThroughPriceFormatted
+            hotelStrikeThroughPrice.updateVisibility(viewModel.shouldShowStrikeThroughPrice())
+            hotelPricePerNight.text = viewModel.hotelPriceFormatted
+            hotelPricePerNight.setTextColor(viewModel.pricePerNightColor)
+            hotelPricePerNight.setInverseVisibility(viewModel.isHotelSoldOut)
+            hotelSoldOut.updateVisibility(viewModel.isHotelSoldOut)
+        }
+
+        private fun updateFonts() {
             hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelPricePerNight.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
             hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
             hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
+        }
+
+        private fun updateHotelRating(viewModel: HotelViewModel) {
+            hotelPreviewRating.setStarColor(viewModel.getStarRatingColor())
+            hotelPreviewRating.setRating(viewModel.hotelStarRating)
+            hotelPreviewRating.updateVisibility(viewModel.showHotelPreviewRating)
+
+            hotelGuestRating.text = viewModel.hotelGuestRating.toString()
+            hotelGuestRating.updateVisibility(viewModel.isHotelGuestRatingAvailable)
+            hotelGuestRecommend.updateVisibility(viewModel.isHotelGuestRatingAvailable)
+            hotelNoGuestRating.updateVisibility(viewModel.showNoGuestRating)
         }
     }
 }
@@ -166,11 +176,9 @@ fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolea
 
     if (rate == null) {
         return ""
-    }
-    else if (strikeThrough && rate.priceToShowUsers >= rate.strikethroughPriceToShowUsers) { // #6801 - strikethrough price now optional from API
+    } else if (strikeThrough && rate.priceToShowUsers >= rate.strikethroughPriceToShowUsers) { // #6801 - strikethrough price now optional from API
         return ""
-    }
-    else {
+    } else {
         val hotelPrice = rate.getDisplayMoney(strikeThrough, shouldFallbackToZeroIfNegative).getFormattedMoney(Money.F_NO_DECIMAL)
         return if (strikeThrough) HtmlCompat.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
     }

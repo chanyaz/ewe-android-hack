@@ -1,16 +1,14 @@
 package com.expedia.bookings.widget.hotel.hotelCellModules
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
-import rx.Observable
 
 class HotelCellVipMessage(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -28,11 +26,9 @@ class HotelCellVipMessage(context: Context, attrs: AttributeSet) : LinearLayout(
         attrSet.recycle()
     }
 
-    fun bindHotelViewModel(viewModel: HotelViewModel) {
-        viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessageTextView)
-        viewModel.vipLoyaltyMessageVisibilityObservable.subscribeVisibility(vipLoyaltyMessageTextView)
-        Observable.combineLatest(viewModel.vipMessageVisibilityObservable, viewModel.vipLoyaltyMessageVisibilityObservable, { vipMessageVisibility, vipLoyaltyVisibility ->
-            vipMessageVisibility || vipLoyaltyVisibility
-        }).subscribeVisibility(this)
+    fun update(viewModel: HotelViewModel) {
+        vipMessageTextView.updateVisibility(viewModel.showVipMessage())
+        vipLoyaltyMessageTextView.updateVisibility(viewModel.showVipLoyaltyMessage())
+        this.updateVisibility(viewModel.showVipMessage() || viewModel.showVipLoyaltyMessage())
     }
 }

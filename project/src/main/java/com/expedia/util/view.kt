@@ -10,3 +10,9 @@ fun View.setInverseVisibility(forward: Boolean) {
 fun TextView.setInverseVisibility(forward: Boolean) {
     this.visibility = if (!forward && this.text.isNotEmpty()) View.VISIBLE else View.GONE
 }
+
+fun View.updateVisibility(show: Boolean) {
+    this.visibility = if (show) View.VISIBLE else View.GONE
+}
+
+

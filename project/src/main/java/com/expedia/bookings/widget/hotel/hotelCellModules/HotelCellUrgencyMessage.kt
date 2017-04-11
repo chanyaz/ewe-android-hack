@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.hotel.hotelCellModules
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -8,11 +9,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeBackgroundColor
-import com.expedia.util.subscribeImageDrawable
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelViewModel
 
 class HotelCellUrgencyMessage(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -24,14 +20,28 @@ class HotelCellUrgencyMessage(context: Context, attrs: AttributeSet) : LinearLay
         View.inflate(context, R.layout.hotel_cell_urgency_message, this)
     }
 
-    fun bindHotelViewModel(viewModel: HotelViewModel) {
-        viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIconImageView)
-        viewModel.urgencyIconVisibilityObservable.subscribeVisibility(urgencyIconImageView)
+    fun update(viewModel: HotelViewModel) {
+        val urgencyMessage = viewModel.getHighestPriorityUrgencyMessage()
 
-        viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageTextView)
-        viewModel.urgencyMessageTextColorObservable.subscribeTextColor(urgencyMessageTextView)
+        if (urgencyMessage != null) {
+            setupUrgencyMessage(urgencyMessage)
+            this.visibility = View.VISIBLE
+        } else {
+            this.visibility = View.GONE
+        }
+    }
 
-        viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(this)
-        viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(this)
+    private fun setupUrgencyMessage(urgencyMessage: HotelViewModel.UrgencyMessage) {
+        if (urgencyMessage.hasIconDrawable()) {
+            urgencyIconImageView.visibility = View.VISIBLE
+            urgencyIconImageView.setImageDrawable(ContextCompat.getDrawable(context, urgencyMessage.iconDrawableId!!))
+        } else {
+            urgencyIconImageView.visibility = View.GONE
+        }
+
+        urgencyMessageTextView.text = urgencyMessage.message
+        urgencyMessageTextView.setTextColor(urgencyMessage.getMessageTextColor(context))
+
+        this.setBackgroundColor(urgencyMessage.getBackgroundColor(context))
     }
 }
