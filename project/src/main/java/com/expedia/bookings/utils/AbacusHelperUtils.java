@@ -71,7 +71,7 @@ public class AbacusHelperUtils {
 
 		// Modify the bucket values based on forced bucket settings;
 		if (ForceBucketPref.isForceBucketed(context)) {
-			for (int key : AbacusUtils.getActiveTests()) {
+			for (int key : ProductFlavorFeatureConfiguration.getInstance().getAbacusActiveTests()) {
 				Db.getAbacusResponse().updateABTest(key, ForceBucketPref.getForceBucketedTestValue(context, String.valueOf(key),
 					AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
@@ -79,7 +79,7 @@ public class AbacusHelperUtils {
 
 		// Modify the bucket values based on dev settings;
 		if (BuildConfig.DEBUG) {
-			for (int key : AbacusUtils.getActiveTests()) {
+			for (int key : ProductFlavorFeatureConfiguration.getInstance().getAbacusActiveTests()) {
 				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils
 					.get(context, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
@@ -103,7 +103,7 @@ public class AbacusHelperUtils {
 	private static AbacusEvaluateQuery getQuery(Context context) {
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(context), PointOfSale.getPointOfSale().getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiments(AbacusUtils.getActiveTests());
+			query.addExperiments(ProductFlavorFeatureConfiguration.getInstance().getAbacusActiveTests());
 		}
 		else {
 			query.addExperiments(new ArrayList<Integer>());

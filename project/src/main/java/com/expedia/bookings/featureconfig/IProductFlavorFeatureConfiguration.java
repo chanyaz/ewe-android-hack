@@ -198,4 +198,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldShowPackageIncludesView();
 
 	boolean forceShowHotelLoyaltyEarnMessage();
+
+	List<Integer> getAbacusActiveTests();
 }

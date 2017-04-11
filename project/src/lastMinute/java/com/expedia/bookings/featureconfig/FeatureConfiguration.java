@@ -421,5 +421,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean forceShowHotelLoyaltyEarnMessage() {
 		return false;
 	}
+
+	@Override
+	public List<Integer> getAbacusActiveTests() {
+
+		List<Integer> testIDs = new ArrayList<>();
+		return testIDs;
+	}
+
 }
 

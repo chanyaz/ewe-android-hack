@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -274,7 +275,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 		public DeepLinkWithABTestsViewHolder(View itemView) {
 			super(itemView);
-			List<Integer> testIDList = AbacusUtils.getActiveTests();
+			List<Integer> testIDList = ProductFlavorFeatureConfiguration.getInstance().getAbacusActiveTests();
 
 			//add 0 to reset the test map
 			testIDList.add(0);

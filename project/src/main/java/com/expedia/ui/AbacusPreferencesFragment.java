@@ -7,6 +7,7 @@ import android.preference.Preference;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 
 public class AbacusPreferencesFragment extends BasePreferenceFragment {
 
@@ -23,7 +24,7 @@ public class AbacusPreferencesFragment extends BasePreferenceFragment {
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences_abacus);
 
-		for (int key : AbacusUtils.getActiveTests()) {
+		for (int key : ProductFlavorFeatureConfiguration.getInstance().getAbacusActiveTests()) {
 			ListPreference preference = (ListPreference) findPreference(String.valueOf(key));
 			preference.setOnPreferenceChangeListener(abacusPrefListener);
 		}

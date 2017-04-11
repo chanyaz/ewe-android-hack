@@ -275,7 +275,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isAbacusTestEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -402,5 +402,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean forceShowHotelLoyaltyEarnMessage() {
 		return false;
+	}
+
+	@Override
+	public List<Integer> getAbacusActiveTests() {
+
+		List<Integer> testIDs = new ArrayList<>();
+		return testIDs;
 	}
 }
