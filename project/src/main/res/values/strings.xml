@@ -1665,6 +1665,8 @@
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
     <string name="itin_action_call_agency_cont_desc_TEMPLATE">Call {agency}</string>
     <string name="itin_action_redeem">Redeem</string>
+    <!-- Content description for the Support button on itinerary card that will call the customer support phone number. Example: Call Support Button -->
+    <string name="itin_action_call_support_cont_desc">Call Support</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
     <string name="itin_action_view">View Itinerary</string>
