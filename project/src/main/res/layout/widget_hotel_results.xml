@@ -100,6 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
+                android:gravity="center"
                 tools:text="San Fransisco is a popular location on your dates"/>
         </LinearLayout>
 
