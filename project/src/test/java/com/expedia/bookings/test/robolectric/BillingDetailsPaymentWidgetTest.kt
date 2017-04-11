@@ -67,7 +67,9 @@ class BillingDetailsPaymentWidgetTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        val activityController = Robolectric.buildActivity(Activity::class.java).create()
+        activity = activityController.get()
+        activityController.destroy()
         activity.setTheme(R.style.V2_Theme_Packages)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         billingDetailsPaymentWidget = LayoutInflater.from(activity).inflate(R.layout.billing_details_payment_widget, null) as BillingDetailsPaymentWidget
@@ -147,8 +149,12 @@ class BillingDetailsPaymentWidgetTest {
         Robolectric.flushForegroundThreadScheduler()
         Robolectric.getForegroundThreadScheduler().unPause()
 
+        Robolectric.getForegroundThreadScheduler().pause()
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         testSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        Robolectric.flushForegroundThreadScheduler()
+        Robolectric.getForegroundThreadScheduler().unPause()
+        Robolectric.getForegroundThreadScheduler().advanceBy(5, TimeUnit.SECONDS)
 
         val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
         val okButton = alertDialog.findViewById(android.R.id.button1) as Button
