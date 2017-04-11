@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
@@ -36,8 +37,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLooper
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
@@ -47,7 +48,7 @@ import kotlin.test.assertEquals
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class FlightOverviewPresenterTest {
 
-    private val context = RuntimeEnvironment.application
+    private lateinit var context: Context
     private lateinit var widget: FlightOverviewPresenter
 
     val rxJavaImmediateSchedulerRule = RxJavaImmediateSchedulerRule()
@@ -55,8 +56,10 @@ class FlightOverviewPresenterTest {
 
     @Before
     fun setup() {
+        Db.clear()
         val activity = Robolectric.buildActivity(android.support.v4.app.FragmentActivity::class.java).create().start().resume().get()
         activity.setTheme(R.style.V2_Theme_Packages)
+        context = activity
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
         val validator = Ui.getApplication(context).travelerComponent().travelerValidator()
@@ -203,6 +206,7 @@ class FlightOverviewPresenterTest {
         flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
         Robolectric.flushForegroundThreadScheduler()
         Robolectric.getForegroundThreadScheduler().unPause()
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
 
         assertEquals(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name, widget.currentState)
 
@@ -210,6 +214,7 @@ class FlightOverviewPresenterTest {
         flightSummary.basicEconomyMessageTextView.performClick()
         Robolectric.flushForegroundThreadScheduler()
         Robolectric.getForegroundThreadScheduler().unPause()
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
 
         basicEconomyClickedTestSubscriber.awaitValueCount(1, 2, TimeUnit.SECONDS)
         assertEquals(BasicEconomyInfoWebView::class.java.name, widget.currentState)
