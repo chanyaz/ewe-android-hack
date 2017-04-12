@@ -8,6 +8,7 @@ import com.expedia.bookings.data.sos.MemberDealDestination
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Constants
 import com.mobiata.android.text.StrikethroughTagHandler
+import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -40,6 +41,10 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
 
     val percentSavingsText: String by lazy {
         getPercentSavingsText(leadingHotel.hotelPricingInfo?.percentSavings)
+    }
+
+    val discountPercent: String by lazy {
+        getDiscountPercent(leadingHotel.hotelPricingInfo?.percentSavings)
     }
 
     val priceText: CharSequence by lazy {
@@ -89,6 +94,13 @@ class MemberDealDestinationViewModel(val context: Context, val leadingHotel: Mem
         }
 
         return StringBuilder("-").append(percentSavings.toInt()).append("%").toString()
+    }
+
+    fun getDiscountPercent(percentSavings: Double?): String {
+        if (percentSavings == null) {
+            return ""
+        }
+        return Phrase.from(context, R.string.hotel_discount_percent_Template).put("discount", percentSavings.toInt().toString()).format().toString()
     }
 
     fun getFormattedPriceText(resources: Resources, price: Double?, strikeOut: Boolean): CharSequence {
