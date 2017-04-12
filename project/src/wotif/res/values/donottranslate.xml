@@ -4,6 +4,8 @@
 
     <!-- Email addresses -->
     <string name="email_app_support">wotif-android@mobiata.com</string>
+    <string name="email_app_review_feedback">wotif-android@mobiata.com</string>
+
     <!-- App Support URL -->
     <string name="app_support_url_wotif">http://www.mobiata.com/support/wotif/android</string>
 
