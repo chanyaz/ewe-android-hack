@@ -3,6 +3,18 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
+        android:title="Hotel Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_hotel_group_room_and_rate"
+            android:layout="@layout/preference"
+            android:summary="New design for hotel room and rate."
+            android:title="Hotel Group Room and Rate Offer" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
         android:title="Login Features">
 
         <CheckBoxPreference
