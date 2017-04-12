@@ -76,6 +76,14 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
 
+	public static final int EBWebViewTest = 00000;
+	public static final int TVYWebViewTest = 11111;
+	private static List<Integer> multiBrandActiveTest = new ArrayList<>();
+
+	public static void mutiBranddActiveTest(int testNumber) {
+		multiBrandActiveTest.add(testNumber);
+	}
+
 	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
@@ -155,6 +163,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLOBAccentuating);
 		testIDs.add(EBAndroidAppItinCrystalSkin);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);
+		testIDs.addAll(multiBrandActiveTest);
 		return testIDs;
 	}
 

@@ -43,6 +43,7 @@ import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.dagger.TripComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -138,6 +139,12 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// Initialize some parts of the code that require a Context
 		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");
+
+		//get active test number from POS config assume we get
+		int activeTest = 00000;
+		AbacusUtils.mutiBranddActiveTest(activeTest);
+		// check user is bucketed or not
+		Db.getAbacusResponse().isUserBucketedForTest(activeTest);
 
 		mAppComponent = DaggerAppComponent.builder()
 			.appModule(new AppModule(this))
