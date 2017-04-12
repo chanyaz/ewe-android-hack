@@ -90,8 +90,7 @@
                 <RelativeLayout
                     android:id="@+id/first_row_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp">
+                    android:layout_height="wrap_content">
 
                     <View
                         android:id="@+id/center"
@@ -170,13 +169,14 @@
                     android:id="@+id/row_divider2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#4CEEEEEE"/>
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#4CEEEEEE" />
 
                 <RelativeLayout
                     android:id="@+id/second_row_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp">
+                    android:layout_height="wrap_content">
 
                     <View
                         android:id="@+id/center_second_row"
@@ -184,24 +184,31 @@
                         android:layout_height="1dp"
                         android:layout_centerHorizontal="true" />
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/currency_label"
-                        style="@style/AccountDashboardLabel"
+                    <RelativeLayout
+                        android:id="@+id/currency_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@id/center_second_row"
-                        android:text="@string/currency_label" />
+                        android:focusable="true">
 
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/currency"
-                        style="@style/AccountDashboardValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@id/currency_label"
-                        android:layout_marginTop="4dp"
-                        android:layout_toLeftOf="@id/center_second_row"/>
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/currency_label"
+                            style="@style/AccountDashboardLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/currency_label" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/currency"
+                            style="@style/AccountDashboardValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_below="@id/currency_label"
+                            android:layout_marginTop="4dp"
+                            tools:text="USD" />
+                    </RelativeLayout>
 
                     <include
                         android:id="@+id/second_row_country"
@@ -210,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_toRightOf="@+id/center_second_row"
-                        android:layout_alignTop="@+id/currency_label"
+                        android:layout_alignTop="@+id/currency_container"
                         android:gravity="center_vertical" />
                 </RelativeLayout>
 

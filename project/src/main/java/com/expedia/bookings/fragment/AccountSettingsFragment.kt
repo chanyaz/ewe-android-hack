@@ -42,6 +42,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.Strings
@@ -133,6 +134,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     val rowDivider1: View by bindView(R.id.row_divider1)
     val rowDivider2: View by bindView(R.id.row_divider2)
     val firstRowCountry: View by bindView(R.id.first_row_country)
+    val secondRowCountry: View by bindView(R.id.second_row_country)
 
 
     val memberNameView: TextView by bindView(R.id.toolbar_name)
@@ -188,8 +190,9 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         gestureDetector = GestureDetectorCompat(context, mOnGestureListener)
         var builder: AboutSectionFragment.Builder
         val ft = childFragmentManager.beginTransaction()
-        setGoogleAccountChangeVisiblity(googleAccountChange)
+        setGoogleAccountChangeVisibility(googleAccountChange)
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
+        setCountryChangeListeners()
 
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)
@@ -442,6 +445,14 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
     }
 
+    private fun showCountrySelector() {
+        if (PointOfSale.getAllPointsOfSale(context).size > 1) {
+            OmnitureTracking.trackClickCountrySetting()
+            val selectCountryDialog = aboutUtils.createCountrySelectDialog()
+            selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+        }
+    }
+
     private fun getCountryDescription(): String {
         val info = PointOfSale.getPointOfSale()
         val country = getString(info.countryNameResId)
@@ -462,6 +473,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             toolbarShadow.alpha = 0f
             signInSection.visibility = View.GONE
             signOutButton.visibility = View.VISIBLE
+            // commitAllowingStateLoss is okay because we call this function again in onResume anyway
+            childFragmentManager.beginTransaction().hide(appSettingsFragment).commitAllowingStateLoss()
 
             val user = Db.getUser()
             val member = user.primaryTraveler
@@ -470,11 +483,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             memberEmailView.text = member.email
             val userLoyaltyInfo = user.loyaltyMembershipInformation
             loyaltySection.visibility = View.VISIBLE
-            memberTierView.visibility = View.VISIBLE
             if (userLoyaltyInfo?.isLoyaltyMembershipActive ?: false) {
                 firstRowContainer.visibility = View.VISIBLE
                 rowDivider1.visibility = View.VISIBLE
                 if (ProductFlavorFeatureConfiguration.getInstance().shouldShowMemberTier()) {
+                    memberTierView.visibility = View.VISIBLE
                     when (userLoyaltyInfo?.loyaltyMembershipTier) {
                         LoyaltyMembershipTier.BASE -> {
                             memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
@@ -517,7 +530,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                 if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false && ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
                     val loyaltyMonetaryValue = userLoyaltyInfo?.loyaltyMonetaryValue
                     currencyTextView.text = loyaltyMonetaryValue?.currency
-                    setupCountryView(secondRowContainer.findViewById(R.id.country) as TextView, secondRowContainer.findViewById(R.id.flagView) as ImageView)
+                    setupCountryView(secondRowCountry)
                     if (Strings.isNotEmpty(loyaltyMonetaryValue?.currency)) {
                         pointsMonetaryValueTextView.text = loyaltyMonetaryValue?.formattedMoney
                     }
@@ -527,7 +540,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     rowDivider2.visibility = View.VISIBLE
                     firstRowCountry.visibility = View.GONE
                 } else {
-                    setupCountryView(firstRowCountry.findViewById(R.id.country) as TextView, firstRowCountry.findViewById(R.id.flagView) as ImageView)
+                    setupCountryView(firstRowCountry)
                     secondRowContainer.visibility = View.GONE
                     pointsMonetaryValueTextView.visibility = View.GONE
                     pointsMonetaryValueLabel.visibility = View.GONE
@@ -536,17 +549,19 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                 }
 
             } else {
-                loyaltySection.visibility = View.VISIBLE
+                currencyTextView.text = CurrencyUtils.currencyForLocale(PointOfSale.getPointOfSale().threeLetterCountryCode)
+                setupCountryView(secondRowCountry)
                 memberTierView.visibility = View.GONE
                 rowDivider1.visibility = View.GONE
-                rowDivider2.visibility = View.GONE
-                secondRowContainer.visibility = View.GONE
+                rowDivider2.visibility = View.VISIBLE
+                secondRowContainer.visibility = View.VISIBLE
                 firstRowContainer.visibility = View.GONE
             }
         } else {
             loyaltySection.visibility = View.GONE
             signInSection.visibility = View.VISIBLE
             signOutButton.visibility = View.GONE
+            childFragmentManager.beginTransaction().show(appSettingsFragment).commitAllowingStateLoss()
 
             if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled) {
                 facebookSignInButton.visibility = View.VISIBLE
@@ -558,10 +573,15 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
     }
 
-    private fun setupCountryView(countryTextView: TextView, flagIconView: ImageView) {
+    private fun setupCountryView(countryView: View) {
+        val countryTextView = countryView.findViewById(R.id.country) as TextView
+        val flagIconView = countryView.findViewById(R.id.flagView) as ImageView
         val pos = PointOfSale.getPointOfSale()
         countryTextView.text = pos.threeLetterCountryCode
         flagIconView.setImageResource(pos.countryFlagResId)
+        countryView.contentDescription = Phrase.from(context, R.string.country_pos_cont_desc_TEMPLATE)
+                .put("countrycode", pos.threeLetterCountryCode)
+                .format()
     }
 
     interface AccountFragmentListener {
@@ -571,11 +591,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     fun onAboutRowClicked(id: Int): Boolean {
         when (id) {
             ROW_COUNTRY -> {
-                if (PointOfSale.getAllPointsOfSale(context).size > 1) {
-                    OmnitureTracking.trackClickCountrySetting()
-                    val selectCountryDialog = aboutUtils.createCountrySelectDialog()
-                    selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
-                }
+                showCountrySelector()
                 return true
             }
             ROW_BOOKING_SUPPORT -> {
@@ -698,7 +714,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         SocialUtils.openSite(context, ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context))
     }
 
-    private fun setGoogleAccountChangeVisiblity(view: View) {
+    private fun setGoogleAccountChangeVisibility(view: View) {
         view.visibility = if (ProductFlavorFeatureConfiguration.getInstance().isGoogleAccountChangeEnabled)
             View.VISIBLE
         else
@@ -719,6 +735,19 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                         Phrase.from(context, R.string.google_account_change_message_TEMPLATE).put("brand", BuildConfig.brand).format())
             }
             mDialog.show(fm, GOOGLE_SIGN_IN_SUPPORT)
+        }
+    }
+
+    private fun setCountryChangeListeners() {
+        val countryChangeListener = CountryChangeListener()
+        firstRowCountry.setOnClickListener(countryChangeListener)
+        secondRowCountry.setOnClickListener(countryChangeListener)
+    }
+
+    private inner class CountryChangeListener : View.OnClickListener {
+
+        override fun onClick(view: View) {
+            showCountrySelector()
         }
     }
 

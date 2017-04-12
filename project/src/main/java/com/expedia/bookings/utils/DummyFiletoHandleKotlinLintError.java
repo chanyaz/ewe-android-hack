@@ -924,6 +924,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_overview_header_TEMPLATE,
 		R.string.cabin_code_basic_economy,
 		R.string.excludes_mandatory_fee_TEMPLATE,
-		R.layout.hotel_room_rate_action_button
+		R.layout.hotel_room_rate_action_button,
+		R.string.country_pos_cont_desc_TEMPLATE,
 	};
 }

@@ -3337,6 +3337,8 @@
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Country</string>
+    <!-- Content description for the country POS selection button. E.g. USA, country button-->
+    <string name="country_pos_cont_desc_TEMPLATE">{countrycode}, country button</string>
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
