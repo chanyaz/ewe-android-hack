@@ -46,6 +46,7 @@ import com.facebook.appevents.AppEventsLogger
 import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 import java.math.BigDecimal
 import java.util.Collections
@@ -120,10 +121,10 @@ class FacebookEvents {
             val parameters = Bundle()
 
             addCommonHotelDATParams(parameters, searchParams, location)
-            parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, location.city ?: "")
-            parameters.putString(FB_PURCHASE_VALUE, calculateLowestRateHotels(properties)?.displayPrice?.getAmount()?.toString() ?: "")
-            parameters.putString(FB_PURCHASE_CURRENCY, properties.first().lowestRate!!.displayPrice.currencyCode ?: "")
-            parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, getListOfTopPropertyIds(properties))
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, location.city)
+            parameters.safePutString(FB_PURCHASE_VALUE, calculateLowestRateHotels(properties)?.displayPrice?.getAmount()?.toString())
+            parameters.safePutString(FB_PURCHASE_CURRENCY, properties.firstOrNull()?.lowestRate?.displayPrice?.currencyCode)
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, getListOfTopPropertyIds(properties))
 
             track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
         }
@@ -134,10 +135,10 @@ class FacebookEvents {
         val parameters = Bundle()
 
         addCommonHotelDATParams(parameters, trackingData, location)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, location.city ?: "")
-        parameters.putString(FB_PURCHASE_VALUE, trackingData.lowestHotelTotalPrice ?: "")
-        parameters.putString(FB_PURCHASE_CURRENCY, trackingData.hotels.first().rateCurrencyCode ?: "")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, getListOfTopHotelIds(trackingData.hotels))
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, location.city)
+        parameters.safePutString(FB_PURCHASE_VALUE, trackingData.lowestHotelTotalPrice)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, trackingData.hotels.firstOrNull()?.rateCurrencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, getListOfTopHotelIds(trackingData.hotels))
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -152,9 +153,9 @@ class FacebookEvents {
             val price = getLowestRate(selectedProperty)?.displayPrice
             addCommonHotelDATParams(parameters, searchParams, location)
 
-            parameters.putString(FB_PURCHASE_VALUE, price?.getAmount()?.toString() ?: "")
-            parameters.putString(FB_PURCHASE_CURRENCY, price?.currencyCode ?: "")
-            parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, selectedProperty.propertyId ?: "")
+            parameters.safePutString(FB_PURCHASE_VALUE, price?.getAmount()?.toString())
+            parameters.safePutString(FB_PURCHASE_CURRENCY, price?.currencyCode)
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, selectedProperty.propertyId)
 
             track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
         }
@@ -169,9 +170,9 @@ class FacebookEvents {
         val chargeableRate = hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
 
         addCommonHotelDATParams(parameters, searchParams, location)
-        parameters.putString(FB_PURCHASE_VALUE, chargeableRate?.averageRate.toString())
-        parameters.putString(FB_PURCHASE_CURRENCY, chargeableRate?.currencyCode ?: "")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelOffersResponse.hotelId)
+        parameters.safePutString(FB_PURCHASE_VALUE, chargeableRate?.averageRate.toString())
+        parameters.safePutString(FB_PURCHASE_CURRENCY, chargeableRate?.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelOffersResponse.hotelId)
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -186,9 +187,9 @@ class FacebookEvents {
             val parameters = Bundle()
             addCommonHotelDATParams(parameters, searchParams, location)
 
-            parameters.putString(FB_PURCHASE_VALUE, bookingValue ?: "")
-            parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, property.propertyId ?: "")
-            parameters.putString(FB_PURCHASE_CURRENCY, getLowestRate(property)?.displayPrice?.currencyCode ?: "")
+            parameters.safePutString(FB_PURCHASE_VALUE, bookingValue)
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, property.propertyId)
+            parameters.safePutString(FB_PURCHASE_CURRENCY, getLowestRate(property)?.displayPrice?.currencyCode)
 
             track(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, parameters)
         }
@@ -203,9 +204,9 @@ class FacebookEvents {
         val parameters = Bundle()
         addCommonHotelDATParams(parameters, searchParams, location)
 
-        parameters.putString(FB_PURCHASE_VALUE, chargeableRate.displayTotalPrice.formattedMoney ?: "")
-        parameters.putString(FB_PURCHASE_CURRENCY, chargeableRate.currencyCode ?: "")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelProductResponse.hotelId ?: "")
+        parameters.safePutString(FB_PURCHASE_VALUE, chargeableRate.displayTotalPrice.formattedMoney)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, chargeableRate.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelProductResponse.hotelId)
 
         track(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, parameters)
 
@@ -222,12 +223,12 @@ class FacebookEvents {
             val currencyCode: String? = getLowestRate(property)?.displayPrice?.currencyCode ?: ""
             addCommonHotelDATParams(parameters, searchParams, location)
 
-            parameters.putString(FB_ORDER_ID, hotel.bookingResponse.orderNumber ?: "")
-            parameters.putString(FB_PURCHASE_VALUE, bookingValue ?: "")
-            parameters.putString(VALUE_TO_SUM, bookingValue ?: "")
-            parameters.putString(FB_PURCHASE_CURRENCY, currencyCode)
-            parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, property.propertyId ?: "")
-            parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
+            parameters.safePutString(FB_ORDER_ID, hotel.bookingResponse.orderNumber)
+            parameters.safePutString(FB_PURCHASE_VALUE, bookingValue)
+            parameters.safePutString(VALUE_TO_SUM, bookingValue)
+            parameters.safePutString(FB_PURCHASE_CURRENCY, currencyCode)
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, property.propertyId)
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
 
             facebookLogger?.logPurchase(rate.totalAmountAfterTax?.amount ?: BigDecimal(0), Currency.getInstance(rate.totalAmountAfterTax?.currencyCode));
         }
@@ -244,12 +245,12 @@ class FacebookEvents {
         val parameters = Bundle()
         addCommonHotelDATParams(parameters, hotelCheckoutResponse, location)
 
-        parameters.putString(FB_ORDER_ID, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator ?: "")
-        parameters.putString(FB_PURCHASE_VALUE, bookingValue ?: "")
-        parameters.putString(VALUE_TO_SUM, bookingValue ?: "")
-        parameters.putString(FB_PURCHASE_CURRENCY, hotelCheckoutResponse.currencyCode ?: "")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelCheckoutResponse.checkoutResponse.productResponse.hotelId ?: "")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, hotelCheckoutResponse.currencyCode ?: "")
+        parameters.safePutString(FB_ORDER_ID, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator)
+        parameters.safePutString(FB_PURCHASE_VALUE, bookingValue)
+        parameters.safePutString(VALUE_TO_SUM, bookingValue)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, hotelCheckoutResponse.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, hotelCheckoutResponse.checkoutResponse.productResponse.hotelId)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, hotelCheckoutResponse.currencyCode)
 
         facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode), parameters)
     }
@@ -261,9 +262,9 @@ class FacebookEvents {
         val parameters = Bundle()
 
         addCommonFlightDATParams(parameters, searchParams)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
-        parameters.putString(FB_PURCHASE_VALUE, calculateLowestRateFlights(search.searchResponse.trips))
-        parameters.putString(FB_PURCHASE_CURRENCY, search.searchResponse.trips.first()!!.totalPrice.currencyCode ?: "")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
+        parameters.safePutString(FB_PURCHASE_VALUE, calculateLowestRateFlights(search.searchResponse.trips))
+        parameters.safePutString(FB_PURCHASE_CURRENCY, search.searchResponse.trips.firstOrNull()?.totalPrice?.currencyCode)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -272,19 +273,19 @@ class FacebookEvents {
         val destinationAirport = searchTrackingData.arrivalAirport?.gaiaId
         val arrivalAirport = searchTrackingData.departureAirport?.gaiaId
         val parameters = Bundle()
-        val lastFlightSegment = searchTrackingData.flightLegList[0].flightSegments.size - 1
-        val arrivalAirportAddress = searchTrackingData.flightLegList[0].flightSegments[lastFlightSegment].arrivalAirportAddress
-        val lowestValue = searchTrackingData.flightLegList[0].packageOfferModel.price.packageTotalPrice.amount.toString()
+        val lastFlightSegment = searchTrackingData.flightLegList.firstOrNull()?.flightSegments?.size?.minus(1)
+        val arrivalAirportAddress = lastFlightSegment?.let {searchTrackingData.flightLegList.firstOrNull()?.flightSegments?.get(lastFlightSegment)?.arrivalAirportAddress}
+        val lowestValue = searchTrackingData.flightLegList.firstOrNull()?.packageOfferModel?.price?.packageTotalPrice?.amount?.toString()
 
         addCommonFlightV2Params(parameters, searchTrackingData.arrivalAirport, searchTrackingData.departureAirport, searchTrackingData.departureDate,
                 searchTrackingData.returnDate, searchTrackingData.guests, searchTrackingData.children.size)
         addArrivalAirportAddress(parameters, arrivalAirportAddress)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
-        parameters.putString(LOWEST_SEARCH_VALUE, lowestValue)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
+        parameters.safePutString(LOWEST_SEARCH_VALUE, lowestValue)
 
         addCommonFlightDATParams(parameters,searchTrackingData)
-        parameters.putString(FB_PURCHASE_VALUE, lowestValue)
-        parameters.putString(FB_PURCHASE_CURRENCY, searchTrackingData.flightLegList[0].packageOfferModel.price.packageTotalPrice.currencyCode ?: "")
+        parameters.safePutString(FB_PURCHASE_VALUE, lowestValue)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, searchTrackingData.flightLegList.firstOrNull()?.packageOfferModel?.price?.packageTotalPrice?.currencyCode)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -297,9 +298,9 @@ class FacebookEvents {
         val trips = search.FlightTripQuery(legNumber).trips
 
         addCommonFlightDATParams(parameters, searchParams)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
-        parameters.putString(FB_PURCHASE_VALUE, calculateLowestRateFlights(trips))
-        parameters.putString(FB_PURCHASE_CURRENCY, trips.first()!!.totalPrice.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
+        parameters.safePutString(FB_PURCHASE_VALUE, calculateLowestRateFlights(trips))
+        parameters.safePutString(FB_PURCHASE_CURRENCY, trips.firstOrNull()?.totalPrice?.currencyCode)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -311,9 +312,9 @@ class FacebookEvents {
         val parameters = Bundle()
 
         addCommonFlightDATParams(parameters, flightSearchParams)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
-        parameters.putString(FB_PURCHASE_VALUE, calculateLowestRateFlightsV2(flightLegList))
-        parameters.putString(FB_PURCHASE_CURRENCY, flightLegList[0].packageOfferModel.price.packageTotalPrice.currencyCode ?: "")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
+        parameters.safePutString(FB_PURCHASE_VALUE, calculateLowestRateFlightsV2(flightLegList))
+        parameters.safePutString(FB_PURCHASE_CURRENCY, flightLegList.firstOrNull()?.packageOfferModel?.price?.packageTotalPrice?.currencyCode)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -325,10 +326,10 @@ class FacebookEvents {
         val parameters = Bundle()
 
         addCommonFlightDATParams(parameters, searchParams)
-        parameters.putString(FB_PURCHASE_VALUE, money.getAmount().toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs[0].firstAirlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
-        parameters.putString(FB_PURCHASE_CURRENCY, money.currency)
+        parameters.safePutString(FB_PURCHASE_VALUE, money.getAmount().toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs.firstOrNull()?.firstAirlineCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, money.currency)
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -339,10 +340,10 @@ class FacebookEvents {
         val totalPrice = flightCreateTripResponse.details.offer.totalPrice
 
         addCommonFlightDATParams(parameters, flightSearchParams)
-        parameters.putString(FB_PURCHASE_VALUE, totalPrice.amount.toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs[0].segments[0].airlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
-        parameters.putString(FB_PURCHASE_CURRENCY, totalPrice.currencyCode)
+        parameters.safePutString(FB_PURCHASE_VALUE, totalPrice.amount.toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs.firstOrNull()?.segments?.firstOrNull()?.airlineCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, totalPrice.currencyCode)
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -354,23 +355,23 @@ class FacebookEvents {
         val parameters = Bundle()
 
         addCommonFlightDATParams(parameters, searchParams)
-        parameters.putString(FB_PURCHASE_VALUE, money.getAmount().toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs[0].firstAirlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
-        parameters.putString(FB_PURCHASE_CURRENCY, money.currency)
+        parameters.safePutString(FB_PURCHASE_VALUE, money.getAmount().toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs.firstOrNull()?.firstAirlineCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, money.currency)
 
         track(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, parameters)
     }
 
     fun trackFlightV2Checkout(flightCreateTripResponse: FlightCreateTripResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
         val parameters = Bundle()
-        val currencyCode = flightCreateTripResponse.details.offer.totalPrice.currencyCode
+        val currencyCode = flightCreateTripResponse.details.offer?.totalPrice?.currencyCode
 
         addCommonFlightDATParams(parameters, flightSearchParams)
-        parameters.putString(FB_PURCHASE_VALUE, flightCreateTripResponse.details.offer.totalPrice.amount.toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs[0].segments[0].airlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
-        parameters.putString(FB_PURCHASE_CURRENCY, currencyCode)
+        parameters.safePutString(FB_PURCHASE_VALUE, flightCreateTripResponse.details.offer?.totalPrice?.amount?.toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs.firstOrNull()?.segments?.firstOrNull()?.airlineCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, currencyCode)
 
         track(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, parameters)
     }
@@ -382,30 +383,30 @@ class FacebookEvents {
         val parameters = Bundle()
 
         addCommonFlightDATParams(parameters, searchParams)
-        parameters.putString(FB_ORDER_ID, flight.itineraryResponse.itinerary.travelRecordLocator ?: "")
-        parameters.putString(FB_PURCHASE_VALUE, money.getAmount().toString())
-        parameters.putString(VALUE_TO_SUM, money.getAmount().toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs[0].firstAirlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
-        parameters.putString(FB_PURCHASE_CURRENCY, money.currency)
+        parameters.safePutString(FB_ORDER_ID, flight.itineraryResponse.itinerary.travelRecordLocator)
+        parameters.safePutString(FB_PURCHASE_VALUE, money.getAmount().toString())
+        parameters.safePutString(VALUE_TO_SUM, money.getAmount().toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs.firstOrNull()?.firstAirlineCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, money.currency)
 
         facebookLogger?.logPurchase(money.amount, Currency.getInstance(money.currencyCode), parameters)
     }
 
     fun trackFlightV2Confirmation(flightCheckoutResponse: FlightCheckoutResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
         val flightTripDetails = flightCheckoutResponse.getFirstFlightTripDetails()
-        val flightLeg = flightTripDetails.legs[0]
-        val airLineCode = flightLeg.segments[0].airlineCode
+        val flightLeg = flightTripDetails.legs.firstOrNull()
+        val airLineCode = flightLeg?.segments?.firstOrNull()?.airlineCode
         val parameters = Bundle()
         val totalCharges = flightCheckoutResponse.totalChargesPrice
 
         addCommonFlightDATParams(parameters, flightSearchParams)
-        parameters.putString(FB_ORDER_ID, flightCheckoutResponse.orderId ?: "")
-        parameters.putString(FB_PURCHASE_VALUE, totalCharges?.amount.toString())
-        parameters.putString(VALUE_TO_SUM, totalCharges?.amount.toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, airLineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalCharges?.currencyCode)
-        parameters.putString(FB_PURCHASE_CURRENCY, totalCharges?.currencyCode)
+        parameters.safePutString(FB_ORDER_ID, flightCheckoutResponse.orderId)
+        parameters.safePutString(FB_PURCHASE_VALUE, totalCharges?.amount.toString())
+        parameters.safePutString(VALUE_TO_SUM, totalCharges?.amount.toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, airLineCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalCharges?.currencyCode)
+        parameters.safePutString(FB_PURCHASE_CURRENCY, totalCharges?.currencyCode)
 
         facebookLogger?.logPurchase(totalCharges?.amount, Currency.getInstance(totalCharges?.currencyCode), parameters)
     }
@@ -421,11 +422,11 @@ class FacebookEvents {
         addCommonCarParams(parameters, startDate, endDate, location)
 
         if (Strings.isNotEmpty(originDescription)) {
-            parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, originDescription)
-            parameters.putString(PICKUP_LOCATION, originDescription)
-            parameters.putString(DROPOFF_LOCATION, originDescription)
+            parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, originDescription)
+            parameters.safePutString(PICKUP_LOCATION, originDescription)
+            parameters.safePutString(DROPOFF_LOCATION, originDescription)
         }
-        parameters.putString(LOWEST_SEARCH_VALUE, searchCarOffer.fare.total.getAmount().toString())
+        parameters.safePutString(LOWEST_SEARCH_VALUE, searchCarOffer.fare.total.getAmount().toString())
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -438,10 +439,10 @@ class FacebookEvents {
 
         addCommonCarParams(parameters, startDate, endDate, location)
         val searchCarFare = searchCarOffer.fare
-        parameters.putString(CAR_VALUE, if (searchCarFare.rateTerm.equals(RateTerm.UNKNOWN))
+        parameters.safePutString(CAR_VALUE, if (searchCarFare.rateTerm.equals(RateTerm.UNKNOWN))
             searchCarFare.total.getAmount().toString() else searchCarFare.rate.getAmount().toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, searchCarFare.rate.currency)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, searchCarFare.rate.currency)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -453,9 +454,9 @@ class FacebookEvents {
         val location = offer.pickUpLocation
 
         addCommonCarParams(parameters, startDate, endDate, location)
-        parameters.putString(BOOKING_VALUE, offer.detailedFare.grandTotal.getAmount().toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, offer.detailedFare.grandTotal.currencyCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        parameters.safePutString(BOOKING_VALUE, offer.detailedFare.grandTotal.getAmount().toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, offer.detailedFare.grandTotal.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
     }
@@ -469,9 +470,9 @@ class FacebookEvents {
         val grandTotal = carOffer.detailedFare.grandTotal
 
         addCommonCarParams(parameters, startDate, endDate, location)
-        parameters.putString(BOOKING_VALUE, grandTotal.getAmount().toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, grandTotal.currencyCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        parameters.safePutString(BOOKING_VALUE, grandTotal.getAmount().toString())
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, grandTotal.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
         facebookLogger?.logPurchase(grandTotal.getAmount(), Currency.getInstance(grandTotal.currencyCode), parameters)
     }
 
@@ -480,10 +481,10 @@ class FacebookEvents {
         val startDate = searchParams.startDate
 
         addCommonLXParams(parameters, startDate, lxSearchResponse.regionId, lxSearchResponse.destination)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, searchParams.location)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, searchParams.location)
 
         if (CollectionUtils.isNotEmpty(lxSearchResponse.activities)) {
-            parameters.putString(LOWEST_SEARCH_VALUE, lxSearchResponse.lowestPriceActivity
+            parameters.safePutString(LOWEST_SEARCH_VALUE, lxSearchResponse.lowestPriceActivity
                     .price.getAmount().toString())
         }
 
@@ -495,10 +496,10 @@ class FacebookEvents {
         var parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, destination)
-        parameters.putString(ACTIVITY_VALUE, activityValue)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, activityId)
+        parameters.safePutString(ACTIVITY_VALUE, activityValue)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, activityId)
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -508,12 +509,12 @@ class FacebookEvents {
         var parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, activityId)
-        parameters.putString(BOOKING_VALUE, totalPrice.getAmount().toString())
-        parameters.putInt(NUM_PEOPLE, ticketCount)
-        parameters.putInt(NUM_CHILDREN, childTicketCount)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, activityId)
+        parameters.safePutString(BOOKING_VALUE, totalPrice.getAmount().toString())
+        parameters.safePutInt(NUM_PEOPLE, ticketCount)
+        parameters.safePutInt(NUM_CHILDREN, childTicketCount)
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
     }
@@ -523,23 +524,28 @@ class FacebookEvents {
         var parameters = Bundle()
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, activityId)
-        parameters.putString(BOOKING_VALUE, totalPrice.getAmount().toString())
-        parameters.putInt(NUM_PEOPLE, ticketCount)
-        parameters.putInt(NUM_CHILDREN, childTicketCount)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CURRENCY, totalPrice.currencyCode)
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, activityId)
+        parameters.safePutString(BOOKING_VALUE, totalPrice.getAmount().toString())
+        parameters.safePutInt(NUM_PEOPLE, ticketCount)
+        parameters.safePutInt(NUM_CHILDREN, childTicketCount)
         facebookLogger?.logPurchase(totalPrice.getAmount(), Currency.getInstance(totalPrice.currencyCode), parameters)
     }
 
-    private fun getBookingWindow(time: LocalDate): Int {
-        return JodaUtils.daysBetween(LocalDate.now(), time)
+    private fun getBookingWindow(time: LocalDate?): Int {
+        if (time != null) {
+            return JodaUtils.daysBetween(LocalDate.now(), time)
+        }
+        else {
+            return 0
+        }
     }
 
     private fun calculateLowestRateHotels(properties: List<Property>): Rate? {
         if (properties.isEmpty()) return null
 
-        var minPropertyRate = properties[0].lowestRate
+        var minPropertyRate = properties.first().lowestRate
 
         for (property in properties) {
             val propertyRate = property.lowestRate
@@ -556,7 +562,7 @@ class FacebookEvents {
         if (flightTrips.isEmpty()) {
             return ""
         }
-        var minAmount = flightTrips[0].totalPrice.getAmount()
+        var minAmount = flightTrips.first().totalPrice?.getAmount()
         for (trip in flightTrips) {
             val amount = trip.totalPrice.getAmount()
             if (amount < minAmount) {
@@ -566,12 +572,12 @@ class FacebookEvents {
         return minAmount.toString()
     }
 
-    private fun calculateLowestRateFlightsV2(flightLegList: List<FlightLeg>): String {
+    private fun calculateLowestRateFlightsV2(flightLegList: List<FlightLeg>): String? {
         if (flightLegList.isEmpty()) {
             return ""
         }
         Collections.sort(flightLegList, priceComparator)
-        return flightLegList[0].packageOfferModel.price.packageTotalPrice.amount.toString()
+        return flightLegList.firstOrNull()?.packageOfferModel?.price?.packageTotalPrice?.amount?.toString()
     }
 
     private fun getLoyaltyTier(user: User?): String {
@@ -591,7 +597,7 @@ class FacebookEvents {
     private fun addCommonHotelDATParams(parameters: Bundle, searchParams: HotelSearchTrackingData, location: Location) {
         addGenericHotelDATParams(parameters)
         addCommonHotelDATRegionParams(parameters, location)
-        addCommonHotelDATSearchParams(parameters, searchParams.checkInDate!!, searchParams.checkoutDate!!, searchParams.numberOfAdults, searchParams.numberOfChildren)
+        addCommonHotelDATSearchParams(parameters, searchParams.checkInDate, searchParams.checkoutDate, searchParams.numberOfAdults, searchParams.numberOfChildren)
     }
 
     private fun addCommonHotelDATParams(parameters: Bundle, searchParams: HotelCheckoutResponse, location: Location) {
@@ -606,99 +612,99 @@ class FacebookEvents {
     private fun addCommonHotelDATParams(parameters: Bundle, searchParams: HotelSearchParams, location: Location) {
         addGenericHotelDATParams(parameters)
         addCommonHotelDATRegionParams(parameters, location)
-        addCommonHotelDATSearchParams(parameters, searchParams.checkInDate!!, searchParams.checkOutDate, searchParams.numAdults, searchParams.numChildren)
+        addCommonHotelDATSearchParams(parameters, searchParams.checkInDate, searchParams.checkOutDate, searchParams.numAdults, searchParams.numChildren)
     }
 
     private fun addGenericHotelDATParams(parameters: Bundle) {
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "[\"product\",\"hotel\"]")
-        parameters.putString("LOB", "Hotel")
+        parameters.safePutString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "[\"product\",\"hotel\"]")
+        parameters.safePutString("LOB", "Hotel")
     }
 
-    private fun addCommonHotelDATSearchParams(parameters: Bundle, checkIn: LocalDate, checkOut: LocalDate,
+    private fun addCommonHotelDATSearchParams(parameters: Bundle, checkIn: LocalDate?, checkOut: LocalDate?,
                                               adults: Int, numberOfChildren: Int) {
         val dtf = ISODateTimeFormat.date()
 
-        parameters.putString(FB_CHECKIN_DATE, dtf.print(checkIn))
-        parameters.putString(FB_CHECKOUT_DATE, dtf.print(checkOut))
-        parameters.putInt(FB_NUM_ADULTS, adults)
-        parameters.putInt(FB_NUM_CHILDREN, numberOfChildren)
+        parameters.safePutString(FB_CHECKIN_DATE, dtf.safePrint(checkIn))
+        parameters.safePutString(FB_CHECKOUT_DATE, dtf.safePrint(checkOut))
+        parameters.safePutInt(FB_NUM_ADULTS, adults)
+        parameters.safePutInt(FB_NUM_CHILDREN, numberOfChildren)
     }
 
     private fun addCommonHotelDATSearchParams(parameters: Bundle, checkIn: LocalDate, checkOut: LocalDate) {
         val dtf = ISODateTimeFormat.date()
 
-        parameters.putString(FB_CHECKIN_DATE, dtf.print(checkIn))
-        parameters.putString(FB_CHECKOUT_DATE, dtf.print(checkOut))
+        parameters.safePutString(FB_CHECKIN_DATE, dtf.safePrint(checkIn))
+        parameters.safePutString(FB_CHECKOUT_DATE, dtf.safePrint(checkOut))
     }
 
     private fun addCommonHotelDATRegionParams(parameters: Bundle, location: Location) {
-        parameters.putString("fb_city", location.city ?: "")
-        parameters.putString("fb_region", location.stateCode ?: "")
-        parameters.putString("fb_country", location.countryCode ?: "")
+        parameters.safePutString("fb_city", location.city)
+        parameters.safePutString("fb_region", location.stateCode)
+        parameters.safePutString("fb_country", location.countryCode)
     }
 
     private fun addCommonFlightDATParams(parameters: Bundle, searchParams: FlightSearchParams) {
         val dtf = ISODateTimeFormat.date()
         val destinationId = searchParams.arrivalLocation.destinationId ?: ""
 
-        parameters.putString("fb_content_type", "[\"product\",\"flight\"]")
-        parameters.putString("LOB", "Flight")
-        parameters.putString(FB_DEPARTING_DATE, dtf.print(searchParams.departureDate))
-        parameters.putString(FB_RETURNING_DATE, if (searchParams.returnDate != null) dtf.print(searchParams.returnDate) else "")
-        parameters.putString(FB_ORIGIN_AIRPORT, searchParams.departureLocation.destinationId)
-        parameters.putString(FB_DESTINATION_AIRPORT, destinationId)
-        parameters.putInt(FB_NUM_ADULTS, searchParams.numAdults)
-        parameters.putInt(FB_NUM_CHILDREN, searchParams.numChildren)
+        parameters.safePutString("fb_content_type", "[\"product\",\"flight\"]")
+        parameters.safePutString("LOB", "Flight")
+        parameters.safePutString(FB_DEPARTING_DATE, dtf.safePrint(searchParams.departureDate))
+        parameters.safePutString(FB_RETURNING_DATE, dtf.safePrint(searchParams.returnDate))
+        parameters.safePutString(FB_ORIGIN_AIRPORT, searchParams.departureLocation.destinationId)
+        parameters.safePutString(FB_DESTINATION_AIRPORT, destinationId)
+        parameters.safePutInt(FB_NUM_ADULTS, searchParams.numAdults)
+        parameters.safePutInt(FB_NUM_CHILDREN, searchParams.numChildren)
     }
 
     private fun addCommonFlightDATParams(parameters: Bundle, flightParams: FlightSearchTrackingData){
         val dtf = ISODateTimeFormat.date()
 
-        parameters.putString("fb_content_type", "[\"product\",\"flight\"]")
-        parameters.putString("LOB", "Flight")
-        parameters.putString(FB_DEPARTING_DATE, dtf.print(flightParams.departureDate))
-        parameters.putString(FB_RETURNING_DATE, if (flightParams.returnDate != null) dtf.print(flightParams.returnDate) else "")
-        parameters.putString(FB_ORIGIN_AIRPORT, flightParams.departureAirport?.hierarchyInfo?.airport?.airportCode ?:"")
-        parameters.putString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport?.hierarchyInfo?.airport?.airportCode ?:"")
-        parameters.putInt(FB_NUM_ADULTS, flightParams.adults)
-        parameters.putInt(FB_NUM_CHILDREN, flightParams.children.size)
+        parameters.safePutString("fb_content_type", "[\"product\",\"flight\"]")
+        parameters.safePutString("LOB", "Flight")
+        parameters.safePutString(FB_DEPARTING_DATE, dtf.safePrint(flightParams.departureDate))
+        parameters.safePutString(FB_RETURNING_DATE, dtf.safePrint(flightParams.returnDate))
+        parameters.safePutString(FB_ORIGIN_AIRPORT, flightParams.departureAirport?.hierarchyInfo?.airport?.airportCode ?:"")
+        parameters.safePutString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport?.hierarchyInfo?.airport?.airportCode ?:"")
+        parameters.safePutInt(FB_NUM_ADULTS, flightParams.adults)
+        parameters.safePutInt(FB_NUM_CHILDREN, flightParams.children.size)
     }
 
     private fun addCommonFlightDATParams(parameters: Bundle, flightParams: com.expedia.bookings.data.flights.FlightSearchParams){
         val dtf = ISODateTimeFormat.date()
 
-        parameters.putString("fb_content_type", "[\"product\",\"flight\"]")
-        parameters.putString("LOB", "Flight")
-        parameters.putString(FB_DEPARTING_DATE, dtf.print(flightParams.departureDate))
-        parameters.putString(FB_RETURNING_DATE, if (flightParams.returnDate != null) dtf.print(flightParams.returnDate) else "")
-        parameters.putString(FB_ORIGIN_AIRPORT, flightParams.departureAirport.hierarchyInfo?.airport?.airportCode ?:"")
-        parameters.putString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport.hierarchyInfo?.airport?.airportCode ?:"")
-        parameters.putInt(FB_NUM_ADULTS, flightParams.adults)
-        parameters.putInt(FB_NUM_CHILDREN, flightParams.children.size)
+        parameters.safePutString("fb_content_type", "[\"product\",\"flight\"]")
+        parameters.safePutString("LOB", "Flight")
+        parameters.safePutString(FB_DEPARTING_DATE, dtf.safePrint(flightParams.departureDate))
+        parameters.safePutString(FB_RETURNING_DATE, dtf.safePrint(flightParams.returnDate))
+        parameters.safePutString(FB_ORIGIN_AIRPORT, flightParams.departureAirport.hierarchyInfo?.airport?.airportCode ?:"")
+        parameters.safePutString(FB_DESTINATION_AIRPORT, flightParams.arrivalAirport.hierarchyInfo?.airport?.airportCode ?:"")
+        parameters.safePutInt(FB_NUM_ADULTS, flightParams.adults)
+        parameters.safePutInt(FB_NUM_CHILDREN, flightParams.children.size)
     }
 
     private fun addCommonFlightV2Params(parameters: Bundle, arrivalAirport: SuggestionV4?,
                                         departureAirport: SuggestionV4?, departureDate: LocalDate?, returnDate: LocalDate?, guests: Int, childrenNo: Int) {
         val dtf = ISODateTimeFormat.date()
-        val destinationId = arrivalAirport!!.gaiaId
-        parameters.putString("region_id", destinationId)
-        parameters.putString("destination_name", destinationId)
-        parameters.putString("LOB", "Flight")
-        parameters.putString("Start_Date", dtf.print(departureDate))
-        parameters.putString("End_Date", if (returnDate != null) dtf.print(returnDate) else "")
+        val destinationId = arrivalAirport?.gaiaId ?: ""
+        parameters.safePutString("region_id", destinationId)
+        parameters.safePutString("destination_name", destinationId)
+        parameters.safePutString("LOB", "Flight")
+        parameters.safePutString("Start_Date", dtf.safePrint(departureDate))
+        parameters.safePutString("End_Date", dtf.safePrint(returnDate))
 
-        parameters.putInt("Booking_Window", getBookingWindow(departureDate!!))
-        parameters.putString("FlightOrigin_AirportCode", departureAirport?.gaiaId)
-        parameters.putString("FlightDestination_AirportCode", destinationId)
-        parameters.putInt(NUM_PEOPLE, guests)
-        parameters.putInt(NUM_CHILDREN, childrenNo)
+        parameters.safePutInt("Booking_Window", getBookingWindow(departureDate))
+        parameters.safePutString("FlightOrigin_AirportCode", departureAirport?.gaiaId)
+        parameters.safePutString("FlightDestination_AirportCode", destinationId)
+        parameters.safePutInt(NUM_PEOPLE, guests)
+        parameters.safePutInt(NUM_CHILDREN, childrenNo)
     }
 
     private fun addArrivalAirportAddress(parameters: Bundle, arrivalAirportAddress: FlightLeg.FlightSegment.AirportAddress?) {
         if (arrivalAirportAddress != null) {
-            parameters.putString("destination_city", arrivalAirportAddress.city)
-            parameters.putString("destination_state", arrivalAirportAddress.state)
-            parameters.putString("destination_country", arrivalAirportAddress.country)
+            parameters.safePutString("destination_city", arrivalAirportAddress.city)
+            parameters.safePutString("destination_state", arrivalAirportAddress.state)
+            parameters.safePutString("destination_country", arrivalAirportAddress.country)
         }
     }
 
@@ -718,36 +724,36 @@ class FacebookEvents {
         val provinceStateName = pickUpLocation.provinceStateName
         val countryCode = pickUpLocation.countryCode
 
-        parameters.putString("LOB", "Car")
-        parameters.putString("region_id", regionId ?: "")
-        parameters.putString("destination_city", cityName ?: "")
-        parameters.putString("destination_state", provinceStateName ?: "")
-        parameters.putString("destination_country", countryCode ?: "")
-        parameters.putString("destination_name", locationCode ?: "")
-        parameters.putString("Start_Date", dtf.print(startDate))
-        parameters.putString("End_Date", dtf.print(endDate))
-        parameters.putInt("Booking_Window", getBookingWindow(startDate))
+        parameters.safePutString("LOB", "Car")
+        parameters.safePutString("region_id", regionId)
+        parameters.safePutString("destination_city", cityName)
+        parameters.safePutString("destination_state", provinceStateName)
+        parameters.safePutString("destination_country", countryCode)
+        parameters.safePutString("destination_name", locationCode)
+        parameters.safePutString("Start_Date", dtf.safePrint(startDate))
+        parameters.safePutString("End_Date", dtf.safePrint(endDate))
+        parameters.safePutInt("Booking_Window", getBookingWindow(startDate))
 
         if (facebookContext != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
+            parameters.safePutInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
-        parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
-        parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
+        parameters.safePutString("Reward_Status", getLoyaltyTier(Db.getUser()))
+        parameters.safePutString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
     }
 
     private fun addCommonLXParams(parameters: Bundle, startDate: LocalDate, regionId: String?, location: String?) {
         val dtf = ISODateTimeFormat.date()
-        parameters.putString("LOB", "Activity")
-        parameters.putString("region_id", regionId ?: "")
-        parameters.putString("destination_name", location ?: "")
-        parameters.putString("Start_Date", dtf.print(startDate))
-        parameters.putInt("Booking_Window", getBookingWindow(startDate))
+        parameters.safePutString("LOB", "Activity")
+        parameters.safePutString("region_id", regionId)
+        parameters.safePutString("destination_name", location)
+        parameters.safePutString("Start_Date", dtf.safePrint(startDate))
+        parameters.safePutInt("Booking_Window", getBookingWindow(startDate))
 
         if (facebookContext != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
+            parameters.safePutInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
-        parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
-        parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
+        parameters.safePutString("Reward_Status", getLoyaltyTier(Db.getUser()))
+        parameters.safePutString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
 
     }
 
@@ -808,5 +814,32 @@ class FacebookEvents {
 
     private val priceComparator = Comparator<FlightLeg> { flightLeg1, flightLeg2 ->
         flightLeg1.packageOfferModel.price.packageTotalPrice.amount.compareTo(flightLeg2.packageOfferModel.price.packageTotalPrice.amount)
+    }
+
+    private fun Bundle.safePutString(key: String, value: String?) {
+        if (value != null) {
+            this.putString(key, value)
+        }
+        else {
+            this.putString(key, "")
+        }
+    }
+
+    private fun Bundle.safePutInt(key: String, value: Int?) {
+        if (value != null) {
+            this.putInt(key, value)
+        }
+        else {
+            this.putInt(key, 0)
+        }
+    }
+
+    private fun DateTimeFormatter.safePrint(inDate: LocalDate?) : String {
+        if (inDate != null) {
+            return this.print(inDate)
+        }
+        else {
+            return ""
+        }
     }
 }
