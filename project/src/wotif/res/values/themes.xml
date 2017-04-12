@@ -10,64 +10,10 @@
         <item name="android:src">@drawable/ic_menu_overflow_image</item>
     </style>
 
-    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">@color/action_bar_text_color</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
-
-    <style name="Theme.Wotif" parent="@style/Theme.Expedia">
-        <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_wotif</item>
-        <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_wotif</item>
-        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_wotif</item>
-        <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-        <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_wotif_white_logo_small</item>
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
-        <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
-        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_wotif</item>
-        <item name="skin_travellerInfoPageLogo">@drawable/ic_wotif_traveller_logo</item>
-        <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_wotif_white_logo_small</item>
-        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
-        <item name="skin_itinActionOverflowDrawable">@drawable/ic_menu_overflow_image</item>
-    </style>
-
-    <style name="FlightTheme" parent="@style/Theme.Wotif">
-        <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights_wotif</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBarWotif</item>
-        <item name="android:actionMenuTextColor">@color/actionbar_text</item>
-        <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
-        <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
-        <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
-        <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
-        <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
-        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
-    </style>
-
-    <!-- Override the phone theme -->
-    <style name="Theme.Phone" parent="@style/Theme.Wotif">
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Wotif</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-    </style>
-
-    <style name="Theme.Phone.HotelSearchActivity" parent="@style/Theme.Phone">
-        <item name="android:actionMenuTextColor">@color/menu_bar_text_color</item>
-        <item name="skin_hotelSearchPopupFilterTextColor">@color/menu_bar_text_color</item>
-    </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:logo">@drawable/ic_ab_wotif_logo</item>
         <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
@@ -83,11 +29,8 @@
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_wotif_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_wotif</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
@@ -106,9 +49,7 @@
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_wotif_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
@@ -118,61 +59,17 @@
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">
         <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar</item>
-        <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom_wotif</item>
-    </style>
-
-    <style name="ItineraryTheme" parent="Theme.Wotif">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_wotif_logo_small</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Wotif</item>
-
-        <!-- PopupMenu -->
-        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
-        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_wotif_fallback_activity</item>
-        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_wotif</item>
-        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
-        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
-        <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar</item>
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
-        <item name="android:titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
-        <item name="titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_wotif</item>
-    </style>
-
-    <style name="FlightActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background" tools:targetApi="11">@drawable/bg_action_bar_flight_top</item>
-        <item name="android:backgroundSplit" tools:targetApi="11">@drawable/bg_action_bar_flight_bottom</item>
-        <item name="android:titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
-        <item name="titleTextStyle" tools:targetApi="11">@style/TitleBarTextColor</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_wotif</item>
-    </style>
-
-    <style name="FlightTheme.OverlayMode">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:actionMenuTextColor">@color/menu_bar_text_color</item>
-    </style>
-
     <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_wotif</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@style/TerminalMapThemeDropDownListView</item>
@@ -196,8 +93,6 @@
     
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
         <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
-        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_wotif</item>
-        <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_wotif</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>

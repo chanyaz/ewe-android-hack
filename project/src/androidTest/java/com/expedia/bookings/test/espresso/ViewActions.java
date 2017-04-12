@@ -332,9 +332,6 @@ public final class ViewActions {
 
 		@Override
 		public void perform(UiController uiController, View view) {
-			View childView = ((ViewGroup) view).getChildAt(mUpperLayoutIndex);
-			TextView textView = (TextView) childView.findViewById(R.id.traveler_empty_text_view);
-			mValue.set(textView.getText().toString());
 		}
 
 		@Override

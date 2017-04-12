@@ -965,5 +965,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.number_of_nights,
 		R.string.lob_not_supported_error_message,
 		R.string.airline_may_charge_notice,
+		R.string.price,
+		R.string.rating,
 	};
 }

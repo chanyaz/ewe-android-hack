@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Wotif Rating bar -->
-    <style name="RatingBar.UserReview.Blue">
-        <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
-    </style>
-
-    <style name="Dark.ActionBar.Wotif" parent="Dark.ActionBar">
-        <item name="android:background">@drawable/bg_action_bar</item>
-        <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_wotif</item>
-    </style>
-
     <style name="Widget.ListView.DropDown.Wotif" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
         <item name="android:background">@drawable/bg_action_bar</item>
     </style>
@@ -22,13 +12,6 @@
     <style name="TextAppearance.Header" parent="android:style/TextAppearance">
         <item name="android:textColor">@color/actionbar_text</item>
         <item name="android:textSize">16dp</item>
-    </style>
-
-    <style name="Widget.SegmentedControlGroup.DarkFilterControls">
-        <item name="centerButton">@drawable/dark_segmented_center</item>
-        <item name="leftButton">@drawable/dark_segmented_left</item>
-        <item name="rightButton">@drawable/dark_segmented_right</item>
-        <item name="textColor">@color/menu_bar_text_color</item>
     </style>
 
 </resources>

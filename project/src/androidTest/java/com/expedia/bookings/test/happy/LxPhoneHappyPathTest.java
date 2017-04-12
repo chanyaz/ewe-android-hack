@@ -8,7 +8,6 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -34,19 +33,15 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		if (Common.isPhone()) {
-			mLxIdlingResource = new LxIdlingResource();
-			mLxIdlingResource.register();
-		}
+		mLxIdlingResource = new LxIdlingResource();
+		mLxIdlingResource.register();
 		super.runTest();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		if (Common.isPhone()) {
-			mLxIdlingResource.unregister();
-			mLxIdlingResource = null;
-		}
+		mLxIdlingResource.unregister();
+		mLxIdlingResource = null;
 		super.tearDown();
 	}
 

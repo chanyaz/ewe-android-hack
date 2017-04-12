@@ -27,14 +27,6 @@ public class Common {
 		delay(1);
 	}
 
-	public static boolean isTablet() {
-		return ExpediaBookingApp.useTabletInterface();
-	}
-
-	public static boolean isPhone() {
-		return !isTablet();
-	}
-
 	public static void pressBack() {
 		try {
 			Espresso.pressBack();
