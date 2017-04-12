@@ -1,12 +1,16 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.FlightCheckoutOverviewViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,6 +24,7 @@ class FlightCheckoutOverviewViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun flightViewModelTest() {
+        setShowMoreInfoTest()
         val viewmodel = FlightCheckoutOverviewViewModel(getContext())
 
         val origin = getFakeSuggestion("SFO")
@@ -35,6 +40,7 @@ class FlightCheckoutOverviewViewModelTest {
         val titleTestSubscriber = TestSubscriber<String>(4)
         val checkInOutTestSubscriber = TestSubscriber<String>(2)
         val urlTestSubscriber = TestSubscriber<List<String>>(1)
+        val subTitleTestSubscriber = TestSubscriber<String>()
 
         viewmodel.cityTitle.subscribe(titleTestSubscriber)
         viewmodel.datesTitle.subscribe(titleTestSubscriber)
@@ -45,6 +51,7 @@ class FlightCheckoutOverviewViewModelTest {
         viewmodel.checkOut.subscribe(checkInOutTestSubscriber)
 
         viewmodel.url.subscribe(urlTestSubscriber)
+        viewmodel.subTitleText.subscribe(subTitleTestSubscriber)
 
         viewmodel.params.onNext(params)
 
@@ -55,6 +62,7 @@ class FlightCheckoutOverviewViewModelTest {
         assertEquals("1989-09-06", checkInOutTestSubscriber.onNextEvents[0])
         assertEquals("2021-09-06", checkInOutTestSubscriber.onNextEvents[1])
         assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.onNextEvents[0][0].toString())
+        assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021, 1 Traveler", subTitleTestSubscriber.onNextEvents[0])
         titleTestSubscriber.assertValueCount(4)
         checkInOutTestSubscriber.assertValueCount(2)
         urlTestSubscriber.assertValueCount(1)
@@ -81,5 +89,10 @@ class FlightCheckoutOverviewViewModelTest {
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
+    }
+
+    private fun setShowMoreInfoTest() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+        SettingUtils.save(getContext(), R.string.preference_show_more_info_on_flight_overview, true)
     }
 }

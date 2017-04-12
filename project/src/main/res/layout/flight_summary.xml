@@ -4,7 +4,7 @@
     android:id="@+id/bundle_container">
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/title"
+        android:id="@+id/outbound_flight_title"
         style="@style/HeaderTextAboveCardviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +14,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="11dp"
         android:text="@string/flight" />
+
 
     <com.expedia.bookings.widget.packages.OutboundFlightWidget
         android:id="@+id/package_bundle_outbound_flight_widget"
@@ -26,6 +27,18 @@
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:minHeight="64dp" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/inbound_flight_title"
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/flight"
+        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.packages.InboundFlightWidget
         android:id="@+id/package_bundle_inbound_flight_widget"

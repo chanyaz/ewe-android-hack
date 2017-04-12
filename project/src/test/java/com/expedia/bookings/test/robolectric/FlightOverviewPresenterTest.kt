@@ -10,13 +10,17 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
-import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
+import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.Airline
+import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
+import com.expedia.bookings.presenter.flight.FlightSummaryWidget
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -26,8 +30,11 @@ import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.bookings.widget.packages.FlightCellWidget
+import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
+import com.expedia.vm.packages.FlightOverviewSummaryViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -38,6 +45,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -49,6 +57,8 @@ class FlightOverviewPresenterTest {
 
     private val context = RuntimeEnvironment.application
     private lateinit var widget: FlightOverviewPresenter
+
+    lateinit var flightLeg: FlightLeg
 
     @Before
     fun setup() {
@@ -108,6 +118,7 @@ class FlightOverviewPresenterTest {
         flightLeg.flightSegments = ArrayList()
         outboundFlightWidget.viewModel.selectedFlightLegObservable.onNext(flightLeg)
         outboundFlightWidget.rowContainer.performClick()
+        assertEquals(View.VISIBLE, outboundFlightWidget.rowContainer.visibility)
         assertEquals(View.VISIBLE, outboundFlightWidget.flightDetailsContainer.visibility)
         outboundFlightWidget.rowContainer.performClick()
         assertEquals(View.GONE, outboundFlightWidget.flightDetailsContainer.visibility)
@@ -218,11 +229,7 @@ class FlightOverviewPresenterTest {
         assertEquals(destinationText.text.toString(), city)
 
         val checkInOutDates = checkoutOverviewHeaderToolbar.checkInOutDates
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val checkIn = flightSearchParams.departureDate?.toString(formatter)
-        val checkOut = flightSearchParams.returnDate?.toString(formatter)
-        val checkInOutText = DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
-        assertEquals(checkInOutDates.text.toString(), checkInOutText)
+        assertEquals(checkInOutDates.text.toString(), getToolbarDateText(flightSearchParams))
 
         val travelers = checkoutOverviewHeaderToolbar.travelers
         val guests = flightSearchParams.guests
@@ -231,7 +238,43 @@ class FlightOverviewPresenterTest {
 
     }
 
-    private fun setupFlightSearchParams(): FlightSearchParams {
+    @Test
+    fun testFlightSummaryWidgets() {
+        setShowMoreInfoTest()
+        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
+        flightSummaryWidget.viewmodel = FlightOverviewSummaryViewModel(context)
+        flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(false))
+        assertEquals(View.VISIBLE, flightSummaryWidget.outboundFlightTitle.visibility)
+        assertEquals(View.GONE, flightSummaryWidget.inboundFlightTitle.visibility)
+
+        flightSummaryWidget.viewmodel.params.onNext(setupFlightSearchParams(true))
+        assertEquals(View.VISIBLE, flightSummaryWidget.outboundFlightTitle.visibility)
+        assertEquals(View.VISIBLE, flightSummaryWidget.inboundFlightTitle.visibility)
+    }
+
+    @Test
+    fun testRowContainerWidgetsWhenBucketedForMoreInfoTest() {
+        setShowMoreInfoTest()
+        val flightSummaryWidget = widget.findViewById(R.id.flight_summary) as FlightSummaryWidget
+        val outboundFlightWidget = flightSummaryWidget.findViewById(R.id.package_bundle_outbound_flight_widget) as OutboundFlightWidget
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.FLIGHTS_V2)
+        outboundFlightWidget.viewModel.searchParams.onNext(setupFlightSearchParams())
+        outboundFlightWidget.viewModel.travelInfoTextObservable.onNext("")
+        createExpectedFlightLeg()
+        outboundFlightWidget.viewModel.selectedFlightLegObservable.onNext(flightLeg)
+
+        assertEquals(outboundFlightWidget.rowContainer.getChildAt(0).javaClass.name, FlightCellWidget::class.java.name)
+
+        outboundFlightWidget.rowContainer.performClick()
+        assertEquals(View.VISIBLE, outboundFlightWidget.flightDetailsContainer.visibility)
+        assertEquals(View.GONE, outboundFlightWidget.rowContainer.visibility)
+
+        outboundFlightWidget.flightDetailsContainer.performClick()
+        assertEquals(View.GONE, outboundFlightWidget.flightDetailsContainer.visibility)
+        assertEquals(View.VISIBLE, outboundFlightWidget.rowContainer.visibility)
+    }
+
+    private fun setupFlightSearchParams(isRoundTrip: Boolean = true): FlightSearchParams {
         val departureSuggestion = SuggestionV4()
         departureSuggestion.gaiaId = "1234"
         val departureRegionNames = SuggestionV4.RegionNames()
@@ -271,7 +314,7 @@ class FlightOverviewPresenterTest {
         childList.add(2)
         childList.add(4)
         val checkIn = LocalDate().plusDays(2)
-        val checkOut = LocalDate().plusDays(3)
+        val checkOut = if (isRoundTrip) LocalDate().plusDays(3) else null
 
         return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, 2, childList, false, null, null, null)
     }
@@ -305,5 +348,68 @@ class FlightOverviewPresenterTest {
         return flightCreateTripResponse
     }
 
+    private fun getToolbarDateText(params: FlightSearchParams): String {
+        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+        val checkIn = params.departureDate?.toString(formatter)
+        val checkOut = params.returnDate?.toString(formatter)
+        return DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
+    }
 
+    private fun createExpectedFlightLeg() {
+        flightLeg = FlightLeg()
+        flightLeg.elapsedDays = 1
+        flightLeg.durationHour = 19
+        flightLeg.durationMinute = 10
+        flightLeg.departureTimeShort = "1:10AM"
+        flightLeg.arrivalTimeShort = "12:20PM"
+        flightLeg.departureDateTimeISO = "2016-07-10T01:10:00.000-05:00"
+        flightLeg.arrivalDateTimeISO = "2016-07-10T12:20:00.000-07:00"
+        flightLeg.stopCount = 1
+        flightLeg.packageOfferModel = PackageOfferModel()
+        flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
+        flightLeg.packageOfferModel.price.packageTotalPrice = Money("111", "USD")
+        flightLeg.packageOfferModel.price.deltaPositive = true
+        flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
+        flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.roundedAmount = BigDecimal(201)
+        flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
+
+        val airlines = ArrayList<Airline>()
+        val airline1 = Airline("United", null)
+        val airline2 = Airline("Delta", null)
+        airlines.add(airline1)
+        airlines.add(airline2)
+        flightLeg.airlines = airlines
+        val list: ArrayList<FlightLeg.FlightSegment> = ArrayList()
+        list.add(createFlightSegment())
+        flightLeg.flightSegments = list
+    }
+
+    private fun createFlightSegment(): FlightLeg.FlightSegment {
+        val airlineSegment = FlightLeg.FlightSegment()
+        airlineSegment.flightNumber = "51"
+        airlineSegment.airplaneType = "Airbus A320"
+        airlineSegment.carrier = "Virgin America"
+        airlineSegment.operatingAirlineCode = ""
+        airlineSegment.operatingAirlineName = ""
+        airlineSegment.departureDateTimeISO = ""
+        airlineSegment.arrivalDateTimeISO = ""
+        airlineSegment.departureCity = "San Francisco"
+        airlineSegment.arrivalCity = "Honolulu"
+        airlineSegment.departureAirportCode = "SFO"
+        airlineSegment.arrivalAirportCode = "SEA"
+        airlineSegment.durationHours = 2
+        airlineSegment.durationMinutes = 2
+        airlineSegment.layoverDurationHours = 0
+        airlineSegment.layoverDurationMinutes = 0
+        airlineSegment.elapsedDays = 0
+        airlineSegment.bookingCode = "O"
+        return airlineSegment
+    }
+
+    private fun setShowMoreInfoTest() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
+        SettingUtils.save(context, R.string.preference_show_more_info_on_flight_overview, true)
+    }
 }

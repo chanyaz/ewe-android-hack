@@ -58,6 +58,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLOBAccentuating = 13718;
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppFlightStaticSortFilter = 13842;
+	public static final int EBAndroidAppFlightsMoreInfoOnOverview = 13505;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Hotel Tests
@@ -147,6 +148,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
 		testIDs.add(EBAndroidAppHotelServerSideFilter);
 		testIDs.add(EBAndroidAppHotelResultsSortFaq);
+		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
 		testIDs.add(EBAndroidAppHotelResultsCardReadability);
 		testIDs.add(EBAndroidAppHotelNoStickyETP);

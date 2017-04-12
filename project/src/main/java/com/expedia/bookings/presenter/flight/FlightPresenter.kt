@@ -66,6 +66,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
+    val showMoreInfoOnOverview = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview, R.string.preference_show_more_info_on_flight_overview)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
@@ -199,6 +201,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchParamsObservable.subscribe((presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel as FlightCheckoutOverviewViewModel).params)
         searchViewModel.isRoundTripSearchObservable.subscribeVisibility(presenter.flightSummary.inboundFlightWidget)
         searchViewModel.searchParamsObservable.subscribe { params ->
+            if (showMoreInfoOnOverview) {
+                presenter.flightSummary.viewmodel.params.onNext(params)
+            }
             if (params.returnDate != null) {
                 presenter.flightSummary.inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             }

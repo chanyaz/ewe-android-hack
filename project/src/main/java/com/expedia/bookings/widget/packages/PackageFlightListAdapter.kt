@@ -44,8 +44,8 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {
             ViewTypes.BEST_FLIGHT_VIEW.ordinal -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_cell, parent, false)
-                return BestFlightViewHolder(view as ViewGroup, parent.width)
+                val view = FlightCellWidget(parent.context, isRoundTripSearch, maxFlightDuration)
+                return BestFlightViewHolder(view, parent.width)
             }
             else -> {
                 return super.onCreateViewHolder(parent, viewType)
@@ -67,9 +67,9 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         }
     }
 
-    inner class BestFlightViewHolder(root: ViewGroup, width: Int) : FlightViewHolder(root, width) {
+    inner class BestFlightViewHolder(root: FlightCellWidget, width: Int) : FlightViewHolder(root, width) {
         init {
-            bestFlightView.visibility = View.VISIBLE
+            flightCell.bestFlightView.visibility = View.VISIBLE
         }
 
         override fun onClick(view: View) {

@@ -22,6 +22,8 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
     val travelersTitle = BehaviorSubject.create<String>()
     val url = BehaviorSubject.create<List<String>>()
     val placeHolderDrawable = BehaviorSubject.create<Int>()
+    val subTitleText = BehaviorSubject.create<String>()
+    val subTitleContDesc = BehaviorSubject.create<String>()
 
     init {
         Observable.zip(city, country, { city, country ->
@@ -50,5 +52,14 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
             val text = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, travelers, travelers);
             travelersTitle.onNext(text)
         }
+
+        Observable.zip(datesTitle, travelersTitle, datesTitleContDesc) { datesTitle, travelersTitle, datesTitleContDesc ->
+            subTitleText.onNext(Phrase.from(context, R.string.flight_overview_toolbar_TEMPLATE)
+                    .put("date", datesTitle).put("guests", travelersTitle)
+                    .format().toString())
+            subTitleContDesc.onNext(Phrase.from(context, R.string.flight_overview_toolbar_TEMPLATE)
+                    .put("date", datesTitleContDesc).put("guests", travelersTitle)
+                    .format().toString())
+        }.subscribe()
     }
 }
