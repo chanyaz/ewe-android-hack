@@ -47,6 +47,7 @@ import rx.subscriptions.CompositeSubscription
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.ArrayList
+import java.util.LinkedHashMap
 import java.util.Locale
 import kotlin.properties.Delegates
 
@@ -298,6 +299,27 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
         else
             galleryItemChangeObservable.onNext(Pair(position, ""))
+    }
+
+    fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): List<HotelOffersResponse.HotelRoomResponse> {
+        val roomOrderedMap = LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>>()
+        val sortedRoomList = roomList.sortedBy { room -> room.rateInfo.chargeableRateInfo.priceToShowUsers }
+
+        sortedRoomList.forEach { room ->
+            if (roomOrderedMap[room.roomTypeCode] == null) {
+                roomOrderedMap[room.roomTypeCode] = ArrayList<HotelOffersResponse.HotelRoomResponse>()
+            }
+
+            roomOrderedMap[room.roomTypeCode]?.add(room)
+        }
+
+        val groupSortedRoomList: ArrayList<HotelOffersResponse.HotelRoomResponse> = ArrayList()
+
+        for (value in roomOrderedMap.values) {
+            groupSortedRoomList.addAll(value)
+        }
+
+        return groupSortedRoomList
     }
 
     private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>): Boolean {

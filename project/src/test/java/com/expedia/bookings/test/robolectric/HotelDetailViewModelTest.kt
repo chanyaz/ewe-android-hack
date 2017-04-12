@@ -512,6 +512,51 @@ class HotelDetailViewModelTest {
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
     }
 
+    @Test
+    fun groupAndSortRoom() {
+        val roomResponse = createRoomResponseList()
+        val sorted = vm.groupAndSortRoomList(roomResponse)
+        assertEquals(5, sorted.count())
+        assertEquals(sorted[0].roomTypeCode, "1")
+        assertEquals(sorted[1].roomTypeCode, "1")
+        assertEquals(sorted[2].roomTypeCode, "3")
+        assertEquals(sorted[3].roomTypeCode, "2")
+        assertEquals(sorted[4].roomTypeCode, "2")
+
+        assertEquals(sorted[0].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted[1].rateInfo.chargeableRateInfo.priceToShowUsers, 1000.toFloat())
+        assertEquals(sorted[2].rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
+        assertEquals(sorted[3].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
+        assertEquals(sorted[4].rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
+    }
+
+    private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
+
+        rooms.add(createroomResponse("2", 20.toFloat()))
+        rooms.add(createroomResponse("1", 10.toFloat()))
+        rooms.add(createroomResponse("3", 15.toFloat()))
+        rooms.add(createroomResponse("1", 1000.toFloat()))
+        rooms.add(createroomResponse("2", 100.toFloat()))
+
+        return rooms
+    }
+
+    private fun createroomResponse(roomTypeCode: String, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
+        var room = HotelOffersResponse.HotelRoomResponse()
+        room.roomTypeCode = roomTypeCode
+
+        var lowRateInfo = HotelRate()
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+
+        rateInfo.chargeableRateInfo.priceToShowUsers = priceToShowUser
+        room.rateInfo = rateInfo
+
+        return room
+    }
+
     private fun loyaltyPriceInfo(price: String) {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
@@ -520,9 +565,8 @@ class HotelDetailViewModelTest {
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
     }
 
-
     private fun makeHotel(): ArrayList<HotelOffersResponse.HotelRoomResponse> {
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
         var hotel = HotelOffersResponse.HotelRoomResponse()
         var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()

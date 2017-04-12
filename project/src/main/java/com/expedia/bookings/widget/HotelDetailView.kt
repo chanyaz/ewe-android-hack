@@ -30,6 +30,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -41,6 +42,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -765,7 +767,13 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                             payLater: Boolean) {
         val fadeRoomsOutAnimation = AlphaAnimation(1f, 0f)
         fadeRoomsOutAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-        fadeRoomsOutAnimation.setAnimationListener(getRoomAnimationListener(roomList, topValueAddList, payLater))
+
+        var roomListToUse = roomList
+        if (viewmodel.getLOB() == LineOfBusiness.HOTELS && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_group_room_and_rate)) {
+            roomListToUse = viewmodel.groupAndSortRoomList(roomList)
+        }
+
+        fadeRoomsOutAnimation.setAnimationListener(getRoomAnimationListener(roomListToUse, topValueAddList, payLater))
         roomContainer.startAnimation(fadeRoomsOutAnimation)
     }
 
@@ -790,6 +798,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             override fun onAnimationEnd(p0: Animation?) {
                 recycleRoomImageViews()
                 roomContainer.removeAllViews()
+
                 roomList.forEachIndexed { roomResponseIndex, room ->
                     val roomOffer = if (payLater) room.payLaterOffer else room
                     val view = getHotelRoomRowView(roomResponseIndex, roomOffer, topValueAddList[roomResponseIndex])
