@@ -23,17 +23,21 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
     init {
         suggestionObserver.subscribe { suggestion ->
 
+            val isChild = suggestion.hierarchyInfo?.isChild ?: false
+            val isHistory = suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON
+            val displayName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
+            val shortName = HtmlCompat.stripHtml(suggestion.regionNames.shortName)
+
             if (isCustomerSelectingOrigin) {
-                titleObservable.onNext(
-                        HtmlCompat.stripHtml(SuggestionStrUtils.formatAirportName(suggestion.regionNames.displayName)))
-                subtitleObservable.onNext(
-                        StrUtils.formatCityStateName(HtmlCompat.stripHtml(suggestion.regionNames.displayName)))
+                val originTitle = SuggestionStrUtils.formatAirportName(if (isChild && isHistory) shortName else displayName)
+                titleObservable.onNext(originTitle)
+                subtitleObservable.onNext(StrUtils.formatCityStateName(displayName))
             } else {
-                titleObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
+                titleObservable.onNext(if (isChild && isHistory) SuggestionStrUtils.formatDashWithoutSpace(shortName) else displayName)
                 subtitleObservable.onNext("")
             }
 
-            isChildObservable.onNext(suggestion.hierarchyInfo?.isChild ?: false)
+            isChildObservable.onNext(isChild && !isHistory)
 
             iconObservable.onNext(
                     if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
