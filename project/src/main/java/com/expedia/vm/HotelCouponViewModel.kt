@@ -2,13 +2,13 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.util.endlessObserver
@@ -67,7 +67,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 if (couponParamsObservable.value.isFromNotSignedInToSignedIn) {
                     errorShowDialogObservable.onNext(trip.firstError)
                 }
-                HotelTracking.trackHotelCouponFail(couponParamsObservable.value.couponCode, trip.firstError.errorCode.toString())
+                HotelTracking.trackHotelCouponFail(couponParamsObservable.value.couponCode, errorType)
             } else {
                 couponChangeSuccess(trip)
                 HotelTracking.trackHotelCouponSuccess(couponParamsObservable.value.couponCode)
