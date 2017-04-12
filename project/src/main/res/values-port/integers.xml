@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Used with LinearLayout android:orientation: 0 = horizontal, 1 = vertical -->
-    <integer name="vertical_in_portrait">1</integer>
-</resources>

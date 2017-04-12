@@ -2449,10 +2449,6 @@
     <string name="Member">Member</string>
     <!-- Default cardholder name on front of credit card on CVV screen -->
     <string name="Preferred_Customer">Preferred Customer</string>
-    <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_back_of_card">See back of card</string>
-    <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_front_of_card">See front of card</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Enter Security Code</string>
     <string name="cvv_enter_security_code_v2">CVV</string>
