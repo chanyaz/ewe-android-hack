@@ -178,10 +178,10 @@ public class DateUtils {
 	/**
 	 * Parses minutes out of the duration string in ISO format: P[yY][mM][dD][T[hH][mM][s[.s]S]]
 	 */
-	public static int parseDurationMinutes(String durationString) {
+	public static int parseDurationMinutesFromISOFormat(String iSODurationString) {
 		PeriodFormatter formatter = ISOPeriodFormat
 			.standard();
-		Period p = formatter.parsePeriod(durationString);
+		Period p = formatter.parsePeriod(iSODurationString);
 		Minutes m = p.toStandardMinutes();
 		return m.getMinutes();
 	}

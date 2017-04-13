@@ -1,17 +1,13 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
+import org.joda.time.Duration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
@@ -24,6 +20,11 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mLegId;
@@ -35,6 +36,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 	private List<Flight> mSegments = new ArrayList<>();
 
 	private String mBaggageFeesUrl;
+
+	private String mDuration;
 
 	private boolean mHasBagFee = false;
 
@@ -93,6 +96,22 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mBaggageFeesUrl = baggageFeesUrl;
 	}
 
+	public void setLegDuration(String duration) {
+		mDuration = duration;
+	}
+
+	public int durationMinutes() {
+		try {
+			if (Strings.isNotEmpty(mDuration)) {
+				return DateUtils.parseDurationMinutesFromISOFormat(mDuration);
+			}
+		}
+		catch (IllegalArgumentException e) {
+			Log.e("unsupported parsing format", e);
+		}
+		return 0;
+	}
+
 	public boolean hasBagFee() {
 		return mHasBagFee;
 	}
@@ -145,11 +164,11 @@ public class FlightLeg implements JSONable, ItinSharable {
 	}
 
 	// Returns the duration in milliseconds
-	public long getDuration() {
+	public long getDurationFromWaypoints() {
 		DateTime start = new DateTime(getFirstWaypoint().getMostRelevantDateTime());
 		DateTime end = new DateTime(getLastWaypoint().getMostRelevantDateTime());
-		Interval interval = new Interval(start, end);
-		return interval.toDurationMillis();
+		Duration duration = new Duration(start, end);
+		return duration.getMillis();
 	}
 
 	public int getDistanceInMiles() {
@@ -249,7 +268,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 					airlineNames.add(airline.mAirlineName);
 				}
 				else {
-					Log.w("FlightLeg", "FlightCode airlineName empty and attempted to retrieve airlineName from DB with bad (likely null) airline code");
+					Log.w("FlightLeg",
+						"FlightCode airlineName empty and attempted to retrieve airlineName from DB with bad (likely null) airline code");
 				}
 			}
 			else {
@@ -287,6 +307,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
 			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
+			obj.putOpt("duration", mDuration);
 			obj.putOpt("hasBagFee", mHasBagFee);
 			obj.putOpt("fareType", mFareType);
 			obj.putOpt("isFreeCancellable", mIsFreeCancellable);
@@ -305,6 +326,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
+		mDuration = obj.optString("duration");
 		mHasBagFee = obj.optBoolean("hasBagFee", false);
 		mFareType = obj.optString("fareType", "");
 		mIsFreeCancellable = obj.optBoolean("isFreeCancellable");

@@ -17,6 +17,7 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.flightlib.data.Flight
 import okio.Okio
 import org.json.JSONArray
@@ -55,6 +56,19 @@ class FlightItinContentGeneratorTest {
 
         val contDesc = sut.listCardContentDescription
         assertEquals("Detroit Nov 18 FLIGHT Itinerary card button.", contDesc)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    fun testFlightDuration() {
+        SettingUtils.save(getContext(), R.string.preference_itin_flight_duration, true)
+        createSystemUnderTest()
+        givenGoodFlightItinDetailView()
+
+        val textView = flightDetailView.findViewById(R.id.flight_duration) as TextView
+
+        assertEquals(View.VISIBLE, textView.visibility)
+        assertEquals("Total Duration: 4h 32m", textView.text)
     }
 
     @Test

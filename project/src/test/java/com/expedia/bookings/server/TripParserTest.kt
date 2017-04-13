@@ -3,9 +3,11 @@ package com.expedia.bookings.server
 import com.expedia.bookings.data.trips.TripHotel
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.trips.TripActivity
+import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import okio.Okio
 import org.joda.time.format.ISODateTimeFormat
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,6 +20,8 @@ class TripParserTest {
 
     val roomUpgradeOfferApiUrl = "https://localhost/api/trips/c65fb5fb-489a-4fa8-a007-715b946d3b04/8066893350319/74f89606-241f-4d08-9294-8c17942333dd/1/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/upgradeOffers"
     val roomUpgradeWebViewLink = "https://localhost/hotelUpgrades/sGUZBxGESgB2eGM7GeXkhqJuzdi8Ucq1jl7NI9NzcW1mSSoGJ4njkXYWPCT2e__Ilwdc4lgBRnwlanmEgukEJWqNybe4NPSppEUZf9quVqD_kCjh_2HSZY_-K1HvZU-tUQ3h/c65fb5fb-489a-4fa8-a007-715b946d3b04/1/upgradeDeals?mcicid=App.Itinerary.Hotel.Upgrade&mobileWebView=true"
+
+    lateinit private var tripFlight: TripFlight
 
     @Test
     fun roomUpgradePropertiesParsed() {
@@ -116,6 +120,42 @@ class TripParserTest {
         assertEquals(0, activity.guestCount)
     }
 
+    @Test
+    fun flightDurationExpectedFormat() {
+        createFlightTripResponse()
+        val duration = "PT4H32M"
+        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
+        assertEquals(272, parseLegDurationMinutes)
+    }
+
+    @Test
+    fun flightDurationNull() {
+        createFlightTripResponse()
+        val duration = null
+        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
+        assertEquals(0, parseLegDurationMinutes)
+    }
+
+    @Test
+    fun flightDurationEmpty() {
+        createFlightTripResponse()
+        val duration = " "
+        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
+        assertEquals(0, parseLegDurationMinutes)
+    }
+
+    @Test
+    fun flightDurationUnexpectedFormat() {
+        createFlightTripResponse()
+        val duration = "2016-12-07T15:00:00-08:00"
+        tripFlight.flightTrip.legs[0].setLegDuration(duration)
+        val parseLegDurationMinutes = tripFlight.flightTrip.legs[0].durationMinutes()
+        assertEquals(0, parseLegDurationMinutes)
+    }
+
     private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {
         val hotelTripJsonObj = getHotelTripJson()
 
@@ -142,4 +182,28 @@ class TripParserTest {
 
         return responseData
     }
+
+    private fun createFlightTripResponse() {
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val jsonArray = jsonObject.getJSONArray("responseData")
+        tripFlight = getFlightTrip(jsonArray)!!
+    }
+
+    private fun getFlightTrip(jsonArray: JSONArray): TripFlight? {
+        val tripParser = TripParser()
+
+        var x = 0
+        while (x < jsonArray.length()) {
+            val tripJsonObj = jsonArray.get(x) as JSONObject
+            val tripObj = tripParser.parseTrip(tripJsonObj)
+            val tripComponent = tripObj.tripComponents[0]
+            if (tripComponent is TripFlight) {
+                return tripComponent
+            }
+            x++
+        }
+        return null
+    }
+
 }

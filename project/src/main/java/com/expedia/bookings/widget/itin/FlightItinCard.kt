@@ -14,7 +14,6 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.ItinUtils
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 

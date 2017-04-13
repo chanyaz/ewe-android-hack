@@ -25,7 +25,7 @@ public class RailLegOption implements Comparable<RailLegOption> {
 	public boolean doesAnyOfferHasFareQualifier;
 
 	public int durationMinutes() {
-		return DateUtils.parseDurationMinutes(duration);
+		return DateUtils.parseDurationMinutesFromISOFormat(duration);
 	}
 
 	@NotNull

@@ -586,8 +586,8 @@ public class FlightTrip implements JSONable {
 	public static final Comparator<FlightLeg> DURATION_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
-			long leftDuration = lhs.getDuration();
-			long rightDuration = rhs.getDuration();
+			long leftDuration = lhs.getDurationFromWaypoints();
+			long rightDuration = rhs.getDurationFromWaypoints();
 
 			if (leftDuration == rightDuration) {
 				return 0;
