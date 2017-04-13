@@ -916,12 +916,7 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2CheckoutError(String errorType) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-		// set the pageName
-		s.setAppState(HOTELSV2_CHECKOUT_ERROR);
-		s.setEvar(18, HOTELSV2_CHECKOUT_ERROR);
-		s.setEvents("event38");
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, HOTELSV2_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}
@@ -4112,6 +4107,16 @@ public class OmnitureTracking {
 		s.setAppState(pageName);
 		s.setEvar(18, pageName);
 
+		return s;
+	}
+
+	private static ADMS_Measurement createTrackCheckoutErrorPageLoadEventBase(String pageName, String lobPageName) {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		// set the pageName
+		s.setAppState(pageName);
+		s.setEvar(18, lobPageName);
+		s.setEvents("event38");
 
 		return s;
 	}
@@ -4428,7 +4433,8 @@ public class OmnitureTracking {
 
 	public static void trackCarCheckoutError() {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = internalTrackAppCar(CAR_CHECKOUT_ERROR);
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, CAR_CHECKOUT_ERROR);
+
 		s.setProp(36, "Product key is null");
 		s.track();
 	}
@@ -4708,6 +4714,7 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String PACKAGES_LOB = "package:FH";
+	private static final String CHECKOUT_ERROR_PAGE_NAME = "App.Checkout.Error";
 	private static final String PACKAGES_CHECKOUT_INFO = "App.Package.Checkout.Info";
 	private static final String PACKAGES_DESTINATION_SEARCH = "App.Package.Dest-Search";
 	private static final String PACKAGES_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Package.Traveler.";
@@ -5156,8 +5163,7 @@ public class OmnitureTracking {
 
 	public static void trackPackagesCheckoutError(String errorType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = createTrackPageLoadEventBase(PACKAGES_CHECKOUT_ERROR);
-		s.setEvents("event38");
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, PACKAGES_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}
@@ -5787,8 +5793,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightCheckoutError(String errorType) {
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_CHECKOUT_ERROR);
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(16, FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.trackLink(null, "o", "Flight Checkout", null, null);
@@ -6121,13 +6126,11 @@ public class OmnitureTracking {
 
 	public static void trackRailCheckoutError(String errorType) {
 		Log.d(TAG, "Tracking \"" + RAIL_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, RAIL_CHECKOUT_ERROR);
 		s.setProp(7, "1");
-		s.setEvar(28, RAIL_CHECKOUT_ERROR);
 		s.setProp(16, RAIL_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.setEvar(61, "1");
-		s.setEvents("event38");
 		s.trackLink(null, "o", "Rail Checkout", null, null);
 	}
 
