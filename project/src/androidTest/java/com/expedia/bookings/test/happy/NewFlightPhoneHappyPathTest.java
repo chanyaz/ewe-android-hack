@@ -95,6 +95,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
+		assertInsuranceVisibilityTests();
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
@@ -169,6 +170,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
+		assertInsuranceVisibilityTests();
 		FlightsScreen.selectInboundFlight().perform(click());
 
 		assertCheckoutOverview();
@@ -435,6 +437,30 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			"Trip total is $696. Includes taxes and fees. . Cost Breakdown dialog. Button."))));
 	}
 
+	private void assertInsuranceVisibilityTests() {
+		SettingUtils.save(getActivity().getApplicationContext(), R.string.preference_insurance_in_flight_summary, true);
+
+		// insurance visibility in flight summary screen (Abacus 12268)
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
+			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		FlightsScreen.selectInboundFlight().perform(click());
+		assertInsuranceIsVisible();
+		PackageScreen.checkout().perform(click());
+		assertInsuranceIsNotVisible();
+		Common.pressBack();
+		Common.pressBack();
+
+		// insurance visibility in checkout screen (control)
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
+			AbacusUtils.DefaultVariant.CONTROL.ordinal());
+		FlightsScreen.selectInboundFlight().perform(click());
+		assertInsuranceIsNotVisible();
+		PackageScreen.checkout().perform(click());
+		assertInsuranceIsVisible();
+		Common.pressBack();
+		Common.pressBack();
+	}
+
 	private void assertInsuranceBenefits() {
 		onView(withId(R.id.insurance_benefits_dialog_body)).check(matches(isDisplayed()))
 			.perform(pressBack()).check(doesNotExist());
@@ -445,7 +471,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()));
 		Espresso.pressBack();
 		onView(withId(R.id.bundle_total_price)).check(matches(withText("$715")));
-		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
+		onView(allOf(withId(R.id.insurance_title), isDisplayed())).check(matches(
+			withText("Your trip is protected for $19/person")));
 	}
 
 	private void assertInsuranceIsNotAdded() {
@@ -453,19 +480,20 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
 		Espresso.pressBack();
 		onView(withId(R.id.bundle_total_price)).check(matches(withText("$696")));
-		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
+		onView(allOf(withId(R.id.insurance_title), isDisplayed())).check(matches(
+			withText("Add protection for $19/person")));
 	}
 
 	private void assertInsuranceIsNotVisible() {
-		onView(withId(R.id.insurance_widget)).check(matches(not(isDisplayed())));
+		onView(allOf(withId(R.id.insurance_widget), isDisplayed())).check(doesNotExist());
 	}
 
 	private void assertInsuranceIsVisible() {
-		onView(withId(R.id.insurance_widget)).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.insurance_widget), isDisplayed())).check(matches(isDisplayed()));
 	}
 
 	private void assertInsuranceToggleIsEnabled() {
-		onView(withId(R.id.insurance_switch)).check(matches(isEnabled()));
+		onView(allOf(withId(R.id.insurance_switch), isDisplayed())).check(matches(isEnabled()));
 	}
 
 	private void assertInsuranceTerms() {

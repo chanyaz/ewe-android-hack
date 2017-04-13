@@ -407,7 +407,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     /** Presenter Transitions **/
     class CheckoutDefault
 
-    open val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
+    open val defaultTransition = DefaultCheckoutTransition()
+
+    open inner class DefaultCheckoutTransition : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             val isLoggedIn = userStateManager.isUserAuthenticated()
             loginWidget.bind(false, isLoggedIn, Db.getUser(), getLineOfBusiness())
@@ -420,7 +422,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
     }
-
 
     open inner class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, paymentWidget.javaClass) {
 

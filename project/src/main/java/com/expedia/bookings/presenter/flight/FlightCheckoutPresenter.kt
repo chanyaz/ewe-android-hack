@@ -19,6 +19,7 @@ import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
@@ -170,10 +171,21 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
                 }).subscribe()
     }
 
+    override val defaultTransition = object : DefaultCheckoutTransition() {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
+                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!offerInsuranceInFlightSummary)
+        }
+    }
+
     override val defaultToPayment = object : DefaultToPayment(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward)
+            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
+                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward && !offerInsuranceInFlightSummary)
         }
     }
 

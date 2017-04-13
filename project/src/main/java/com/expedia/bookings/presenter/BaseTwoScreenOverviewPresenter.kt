@@ -51,6 +51,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
     abstract fun inflate()
+    abstract fun injectComponents()
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun onTripResponse(response: TripResponse?)
     abstract fun getPriceViewModel(context: Context): AbstractUniversalCKOTotalPriceViewModel
@@ -135,6 +136,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     init {
         inflate()
+        injectComponents()
         setupCheckoutViewModelSubscriptions()
         setupPaymentWidgetSubscriptions()
         setupTravelerWidgetSubscriptions()
@@ -187,7 +189,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         setupCreateTripViewModelSubscriptions()
     }
 
-    val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
+    open val defaultTransition = TwoScreenOverviewDefaultTransition()
+
+    open inner class TwoScreenOverviewDefaultTransition : DefaultTransition(BundleDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)

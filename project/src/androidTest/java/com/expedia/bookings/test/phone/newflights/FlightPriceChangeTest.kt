@@ -14,6 +14,7 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 
 class FlightPriceChangeTest: FlightErrorTestCase() {
@@ -102,17 +103,19 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         PackageScreen.showPriceBreakdown()
         onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()))
         Espresso.pressBack()
-        onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $21/person")))
+        onView(allOf(withId(R.id.insurance_title), isDisplayed())).check(matches(
+                withText("Your trip is protected for $21/person")))
     }
 
     private fun assertInsuranceBeforePriceChange() {
         PackageScreen.showPriceBreakdown()
         onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()))
         Espresso.pressBack()
-        onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")))
+        onView(allOf(withId(R.id.insurance_title), isDisplayed())).check(matches(
+                withText("Your trip is protected for $19/person")))
     }
 
     private fun assertInsuranceIsVisible() {
-        onView(withId(R.id.insurance_widget)).check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.insurance_widget), isDisplayed())).check(matches(isDisplayed()))
     }
 }
