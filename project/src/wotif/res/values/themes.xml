@@ -114,6 +114,8 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
         <item name="skin_tripsTabText">@string/trips</item>
+        <item name="itin_list_bg">#212527</item>
+        <item name="itin_card_bg">@drawable/bg_itin_card</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">
