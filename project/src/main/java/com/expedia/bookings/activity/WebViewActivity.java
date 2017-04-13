@@ -262,7 +262,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 	@Override
 	public void onBackPressed() {
-		if (webViewFragment.canGoBack() && handleBack) {
+		if (webViewFragment != null && webViewFragment.canGoBack() && handleBack) {
 			webViewFragment.goBack();
 		}
 		else {
