@@ -22,6 +22,7 @@ import com.expedia.util.safeSubscribe
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
+import rx.subjects.BehaviorSubject
 
 class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : AbstractCardFeeEnabledCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
@@ -157,6 +158,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                     // add card fee to trip response
                     val cardFee = cardFeeResponse.feePrice
                     val totalPriceInclFees = cardFeeResponse.bundleTotalPrice ?: cardFeeResponse.tripTotalPrice
+                    cardFeeFlexStatus.onNext(cardFeeResponse.flexStatus)
                     val response = createTripResponseObservable.value
                     if (response != null) {
                         val newTripResponse = response as PackageCreateTripResponse

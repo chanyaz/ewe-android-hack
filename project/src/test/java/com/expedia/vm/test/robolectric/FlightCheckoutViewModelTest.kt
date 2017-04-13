@@ -263,9 +263,11 @@ class FlightCheckoutViewModelTest {
 
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
+        val flexStatusTextSubscriber = TestSubscriber<String>()
         val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
 
         sut.cardFeeTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeTextSubscriber)
+        sut.cardFeeFlexStatus.subscribeOn(AndroidSchedulers.mainThread()).subscribe(flexStatusTextSubscriber)
         sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
 
@@ -274,6 +276,9 @@ class FlightCheckoutViewModelTest {
 
         cardFeeTextSubscriber.assertValueCount(1)
         assertEquals("Payment method fee: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+
+        flexStatusTextSubscriber.assertValueCount(1)
+        assertEquals("NO FLEX", flexStatusTextSubscriber.onNextEvents[0].toString())
 
         cardFeeWarningTextSubscriber.assertValueCount(1)
         assertEquals("A payment method fee of $2.50 is included in the trip total.",
