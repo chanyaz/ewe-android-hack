@@ -74,6 +74,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int EBAndroidAppHotelServerSideFilter = 13177;
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
+	public static final int EBAndroidAppHotelLPASEndpoint = 13929;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
 
 	public enum DefaultVariant {
@@ -138,6 +139,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppTripsHotelSoftChangeWebView);
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
+		testIDs.add(EBAndroidAppHotelLPASEndpoint);
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppShowCarWebView);

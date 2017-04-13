@@ -284,6 +284,7 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelLPASEndpoint);
 
 		// Send the tracking data
 		s.track();

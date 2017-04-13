@@ -189,7 +189,7 @@ class HotelResultsViewModelTest {
 
     private fun makeHotelResultsViewModelWithSearchResponseObservable(returnObservable: Observable<HotelSearchResponse>): HotelResultsViewModel {
         val mockService = Mockito.mock(HotelServices::class.java)
-        Mockito.`when`(mockService.search(anyObject(), anyObject())).thenReturn(returnObservable)
+        Mockito.`when`(mockService.search(anyObject(), anyObject(), Mockito.anyBoolean())).thenReturn(returnObservable)
         return HotelResultsViewModel(context, mockService, LineOfBusiness.HOTELS)
     }
 

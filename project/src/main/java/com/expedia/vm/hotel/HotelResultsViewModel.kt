@@ -108,8 +108,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     }
 
     private fun searchHotels(params: HotelSearchParams, isFilteredSearch: Boolean) {
-
-        hotelSearchSubscription = hotelServices?.search(params, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
+        val searchResponseObserver = object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isFilteredSearch)
             }
@@ -132,7 +131,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
             }
-        })
+        }
+
+        hotelSearchSubscription = hotelServices?.search(params, resultsReceivedDateTimeObservable,
+                hitLPAS = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelLPASEndpoint))
+                ?.subscribe(searchResponseObserver)
     }
 
     private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isFiltered: Boolean) {
