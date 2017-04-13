@@ -4567,7 +4567,7 @@ public class OmnitureTracking {
 
 	public static void trackAppCarWebViewABTest() {
 		ADMS_Measurement s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowCarWebView);
+		trackAbacusTest(s, PointOfSale.getPointOfSale().getCarsWebViewABTestID());
 		s.trackLink(null, "o", "Car Webview", null, null);
 	}
 

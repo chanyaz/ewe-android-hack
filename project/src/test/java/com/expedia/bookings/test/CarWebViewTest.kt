@@ -42,20 +42,40 @@ class CarWebViewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun carsLaunchButtonOpensWebView() {
 
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppShowCarWebView)
         setPOSWithCarWebViewEnabled()
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewUK)
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
         assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
-        assertEquals(getCarUKUrlWithVisitorId(), intentUrl)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun carsLaunchButtonOpensNativeAbTestOff() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppShowCarWebView)
         setPOSWithCarWebViewEnabled()
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewUK)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
+    fun carsLaunchButtonOpensWebViewTvly() {
+        RoboTestHelper.bucketTests(PointOfSale.getPointOfSale().carsWebViewABTestID)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
+    fun carsLaunchButtonOpensNativeAbTestOffTvly() {
+        RoboTestHelper.controlTests(PointOfSale.getPointOfSale().carsWebViewABTestID)
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         assertEquals(CarActivity::class.java.name, intent.component.className)
@@ -71,8 +91,7 @@ class CarWebViewTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
-    private fun getCarUKUrlWithVisitorId(): String {
-        val baseUrl = "https://www.expedia.co.uk/car-hire?mcicid=App.Cars.WebView"
+    private fun getCarUrlWithVisitorId(baseUrl: String): String {
         val visitorID = ADMS_Measurement.sharedInstance().visitorID
         return baseUrl + "&" + APP_VISITOR_ID_PARAM + visitorID
     }

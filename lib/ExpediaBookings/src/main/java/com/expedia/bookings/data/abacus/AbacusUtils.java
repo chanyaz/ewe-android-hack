@@ -49,7 +49,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
 	public static final int EBAndroidAppShowMemberPricingCardOnLaunchScreen = 13697;
 	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
-	public static final int EBAndroidAppShowCarWebView = 12913;
 	public static final int EBAndroidAppHotelUpgrade = 13196;
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppLaunchShowGuestItinCard = 13455;
@@ -75,6 +74,11 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelLPASEndpoint = 13929;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
+
+	// Cars Web View Tests
+	public static final int EBAndroidAppCarsWebViewUK = 12913;
+	public static final int EBAndroidAppCarsWebViewTVLY = 13658;
+	public static final int EBAndroidAppCarsWebViewUS = 13648;
 
 	public enum DefaultVariant {
 		CONTROL,
@@ -140,7 +144,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelLPASEndpoint);
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
-		testIDs.add(EBAndroidAppShowCarWebView);
 		testIDs.add(EBAndroidAppHotelUpgrade);
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
 		testIDs.add(EBAndroidAppLaunchShowGuestItinCard);
@@ -155,6 +158,9 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLOBAccentuating);
 		testIDs.add(EBAndroidAppItinCrystalSkin);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);
+		testIDs.add(EBAndroidAppCarsWebViewUK);
+		testIDs.add(EBAndroidAppCarsWebViewTVLY);
+		testIDs.add(EBAndroidAppCarsWebViewUS);
 		return testIDs;
 	}
 

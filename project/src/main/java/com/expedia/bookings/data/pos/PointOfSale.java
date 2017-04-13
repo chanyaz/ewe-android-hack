@@ -144,6 +144,9 @@ public class PointOfSale {
 	// Whether to show Cars WebView on this POS
 	private boolean mSupportsCarsWebView;
 
+	// AB test ID for Cars Web View
+	private int mCarsWebViewABTestID;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -677,6 +680,14 @@ public class PointOfSale {
 
 	public boolean supportsCarsWebView() {
 		return mSupportsCarsWebView;
+	}
+
+	public int getCarsWebViewABTestID() {
+		return mCarsWebViewABTestID;
+	}
+
+	public String getCarsTabWebViewURL() {
+		return getPosLocale().getCarsTabWebViewURL();
 	}
 
 	public boolean supportPropertyFee() {
@@ -1309,6 +1320,7 @@ public class PointOfSale {
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
+		pos.mCarsWebViewABTestID = data.optInt("carsWebViewABTestID");
 		pos.mSupportPropertyFee = data.optBoolean("propertyFeeEnabledInHotelCostSummary", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
