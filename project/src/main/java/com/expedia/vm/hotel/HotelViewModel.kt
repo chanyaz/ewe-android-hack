@@ -143,9 +143,9 @@ open class HotelViewModel(private val context: Context) {
         val url = if (hotel.isPackage) hotel.thumbnailUrl else Images.getMediaHost() + hotel.largeThumbnailUrl
         if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)
 
-        val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
+        val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
         val isMidOrTopTier = Db.getUser()?.primaryTraveler?.loyaltyMembershipTier?.isMidOrTopTier ?: false
-        vipMessageVisibilityObservable.onNext(isVipAvailable && isMidOrTopTier)
+        vipMessageVisibilityObservable.onNext(isVipAvailable)
         val isVipLoyaltyApplied = isVipAvailable && isMidOrTopTier && loyaltyAvailabilityObservable.value
         vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
 
