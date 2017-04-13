@@ -137,7 +137,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 		}
 	}
 
-	// We're using a cu'stom span instead just another TextView here
+	// We're using a custom span instead just another TextView here
 	// to support languages where "From $234" is translated in a different order,
 	// such as "234 xxxx" or "xxx 234 yyyy"
 	private void buildPriceString() {
