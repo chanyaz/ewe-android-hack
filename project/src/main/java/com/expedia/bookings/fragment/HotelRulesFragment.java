@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.text.HtmlCompat;
@@ -39,18 +37,10 @@ public class HotelRulesFragment extends Fragment {
 		String cancellationPolicy = "";
 
 		if (lob == LineOfBusiness.HOTELS) {
-			if (ExpediaBookingApp.useTabletInterface()) {
-				Rate rate = Db.getTripBucket().getHotel().getRate();
-				if (rate != null) {
-					cancellationPolicy = rate.getCancellationPolicy();
-				}
-			}
-			else {
-				HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
-					.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
-				if (room != null) {
-					cancellationPolicy = room.cancellationPolicy;
-				}
+			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
+				.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
+			if (room != null) {
+				cancellationPolicy = room.cancellationPolicy;
 			}
 		}
 		else if (lob == LineOfBusiness.PACKAGES) {
@@ -142,13 +132,7 @@ public class HotelRulesFragment extends Fragment {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 
 					String message = getString(R.string.lawyer_label_atol_long_message);
-					String html;
-					if (ExpediaBookingApp.useTabletInterface()) {
-						html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
-					}
-					else {
-						html = HtmlUtils.wrapInHeadAndBody(message);
-					}
+					String html = HtmlUtils.wrapInHeadAndBody(message);
 					builder.setHtmlData(html);
 
 					builder.setTitle(R.string.lawyer_label_atol_information);

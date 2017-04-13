@@ -17,7 +17,6 @@
     <color name="action_bar_text">#FFFFFF</color>
     <color name="bg_air_attach_banner_default">@color/action_bar_bg_color</color>
     <color name="bg_air_attach_phone_launch">@color/action_bar_bg_color</color>
-    <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>
@@ -25,14 +24,11 @@
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
-    <color name="flight_card_airline_fee_warning">@color/hotels_primary_color</color>
     <color name="flight_free_cancellation_text_color">@color/hotels_primary_color</color>
-    <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
 
     <color name="flight_trip">#D6682D</color>
     <color name="splash_screen_bg">#26344F</color>
-    <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Calendar text colors -->
@@ -41,7 +37,6 @@
     <color name="hotels_primary_color">#26344F</color>
     <color name="review_screen_tab_indicator">#D6682D</color>
     <color name="hotel_checkout_account_button_background_color">@color/hotels_primary_color</color>
-    <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#9E0089</color>

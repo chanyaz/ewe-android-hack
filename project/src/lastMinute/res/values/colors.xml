@@ -73,7 +73,6 @@
     <color name="tablet_map_pin_text_color">#DDDFE1</color>
     <color name="flight_results_row_bg_lm">#0079A1</color>
     <color name="flight_results_row_return_leg_bg_lm">#005B79</color>
-    <color name="tablet_legal_blurb_text_color_lm">@color/action_bar_bg_color</color>
     <color name="tablet_confirmation_action_color_lm">#2CA2E2</color>
     <color name="tablet_price_expanded_bucket_text_color_lm">@color/action_bar_bg_color</color>
     <color name="tablet_calender_results_search_blue_lm">#0079A1</color>
@@ -102,7 +101,6 @@
     <!-- Launch screen colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
     <color name="launch_tab_indicator">#ffffff</color>
-    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_lm</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#E40088</color>

@@ -24,9 +24,7 @@ public class ItineraryGuestAddActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface()) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		if (shouldBail()) {
 			return;
 		}
@@ -62,7 +60,7 @@ public class ItineraryGuestAddActivity extends FragmentActivity {
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
+		return !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override

@@ -10,19 +10,14 @@
     <!-- Action Bar colors -->
     <color name="launch_actionbar_bg_color">@color/exp_old_launch</color>
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
-    <color name="actionbarTabletTitleColor">#F3F3F3</color>
     <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
     <color name="actionbar_terminal_text_ctx">#F3F3F3</color>
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
 
     <!-- Tablet colors -->
-    <color name="results_cal_trav_bg">#eaeaea</color>
-    <color name="launch_tile_pressed_overlay">#40000000</color>
-    <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
     <color name="tablet_confirmation_color">#374F6E</color>
     <color name="tablet_confirmation_action_color">#2970CC</color>
-    <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
@@ -58,7 +53,6 @@
     <color name="itin_flight_canceled_color">#C42126</color>
     <color name="itin_flight_delayed_color">#F7DE08</color>
     <color name="itin_flight_on_time_color">#A2D104</color>
-    <color name="itin_list_bg_transparent">#99212527</color>
     <color name="itin_checkin_now_color">#4CA0FF</color>
     <color name="itin_summary_divider_color">#4D555D</color>
     <color name="itin_unable_to_find_error_color">#FF642121</color>
@@ -74,26 +68,14 @@
     <color name="divider_gray">#DCDCDC</color>
     <color name="data_entry_heading">#1D5380</color>
     <color name="data_entry_heading_divider">#37658D</color>
-    <color name="data_review_dark">#333333</color>
     <color name="data_review_gray">@color/gray7</color>
     <color name="dialog_background_light">#F5F5F5</color>
     <color name="roboto_light">#fff3f3f3</color>
     <color name="flights_holo_blue_light">#ff33b5e5</color>
-    <color name="flight_card_airline_fee_warning">#577494</color>
-    <color name="flight_card_invalid_cc_type_text_color">#B4B4B4</color>
-    <color name="flight_card_lcc_fee_text_color">#787878</color>
-    <color name="flight_results_row_bg">#374F6E</color>
-    <color name="flight_results_row_bg_pressed">#4572AD</color>
-    <color name="flight_results_row_return_leg_bg">#3D6D7A</color>
-    <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
     <color name="spinner_airport">@color/white</color>
     <color name="spinner_airport_details">#777777</color>
     <color name="flight_free_cancellation_text_color">#FFE980</color>
-    <color name="section_flight_edit_traveler_link_color">#2A4367</color>
-    <color name="checkout_additional_fees_tablet_bg">#99424242</color>
-    <color name="credit_card_form_additional_fees_tablet_bg">#282828</color>
-    <color name="flight_earn_message_text_color">#3D4652</color>
-    
+
     <!-- Flights V2 colors -->
     <color name="flight_warning_bar_color">@color/exp_lob_dark_blue</color>
     <color name="flight_red_warning_bar_color">@color/exp_action_required_red</color>
@@ -119,13 +101,9 @@
     <color name="hotels_room_title">@color/gray10</color>
     <color name="hotels_room_info">@color/gray6</color>
     <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
-    <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
-    <color name="hotel_filter_spinner_color">#DFE0E2</color>>
-    <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
     <color name="hotel_filter_spinner_text_color">#707070</color>
     <color name="etp_text_color">#29a653</color>
     <color name="pay_now_earn_text_color">#8E0099</color>
-    <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">@color/gray6</color>
     <color name="hotel_cell_distance_text">#D7D7D7</color>
     <color name="hotel_cell_disabled_text">@color/gray7</color>
@@ -176,23 +154,14 @@
     <!-- These colors are ripped from the iOS version, and are not finalized -->
     <color name="window_background">#FF666666</color>
     <color name="window_background_dark">#2D3742</color>
-    <color name="light_gray">#777777</color>
-    <color name="dark_blue">#1C3061</color>
     <color name="calendar_instruction_text_color">#717171</color>
-    <color name="bg_expedia_list">#f5f5f5</color>
-
-    <!-- Slide To Purchase -->
-    <color name="slide_to_purchase_text">#fcfcfc</color>
 
     <color name="suggestion_row_divider">#FF4F4F4F</color>
     <color name="hotel_cell_primary_color">#3D4552</color>
-    <color name="hotel_cell_secondary_color">#a6a6a6</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
     <color name="hotel_price_air_attach_text_color">#fd8126</color>
     <color name="bg_row_state_pressed">#f0f0f0</color>
-    <color name="bg_tablet_button_state_pressed">#cccccc</color>
-    <color name="bg_tablet_clickable_button_done_color">@color/black</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>
     <color name="tab_text">#d7d9dc</color>
@@ -204,22 +173,11 @@
     <color name="row_background_review">@color/white</color>
     <color name="hotel_details_separator">#d1d1d1</color>
     <color name="legal_info_blue">#235285</color>
-    <color name="row_background_fade">#00f1f1f1</color>
-    <color name="header_background">#ccc</color>
     <color name="header_text">#777</color>
-    <color name="hotel_strikethrough_price_text_color">#777</color>
     <color name="nav_dropdown_dividers">#26ffffff</color>
     <color name="action_bar_flight_text_color">#F5F5F5</color>
     <color name="confirmation_header_divider_flight">#7D7ab6f5</color>
     <color name="confirmation_header_divider_hotel">#cccccc</color>
-    <color name="confirmation_item_divider_flight">#5b646b</color>
-    <color name="confirmation_item_divider_hotel">#616871</color>
-    <color name="cost_summary_header_text_color">#004582</color>
-    <color name="flight_checkout_missing_info_callout">#E60000</color>
-
-    <!-- Hotels search hangtag/mapsearch colors -->
-    <color name="map_dimmer">#c0495359</color>
-    <color name="hotel_map_text_color">#3c7cf2</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
@@ -232,9 +190,6 @@
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
     <color name="coupon_success_message_color">#FFE115</color>
-    <!-- Price pins on map -->
-    <color name="map_price_pin_text_color">@color/white</color>
-
     <!-- Ripped out of ABS -->
     <color name="abs__background_holo_dark">@color/black</color>
     <color name="abs__background_holo_light">#fff3f3f3</color>
@@ -242,10 +197,6 @@
     <color name="abs__bright_foreground_holo_light">@color/abs__background_holo_dark</color>
     <color name="abs__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
     <color name="abs__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
-
-    <!-- Trip Bucket Sold Out Overlays -->
-    <color name="trip_bucket_sold_out_selected">#660e4d8c</color>
-    <color name="trip_bucket_sold_out_unselected">#cc525252</color>
 
     <!-- About Activity -->
     <color name="AboutRowTextColor">@color/gray6</color>
@@ -260,13 +211,9 @@
     <color name="AboutSectionTextSelectedStateColor">#d79100</color>
 
     <!-- Price change colors -->
-    <color name="price_change_default">@color/white</color>
     <color name="price_change_air_attach">#fd8126</color>
 
     <color name="air_attach_expiration_text_color">#9e9d9d</color>
-
-    <color name="tablet_book_button_text_color">#FFDB4C</color>
-    <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
 
     <color name="sliding_group_text_bright">#f4f5f7</color>
 
@@ -300,7 +247,6 @@
     <color name="cars_color_primary_dark">#532C45</color>
 
     <!-- Checkout Colors -->
-    <color name="tablet_checkout_account_button_text_color">#363636</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="material_checkout_account_button_background_color">#384768</color>
     <color name="material_checkout_yellow_account_button_background_color">@color/exp_yellow</color>
@@ -560,4 +506,7 @@
     <!-- Member Only Deals colors-->
     <color name="member_deal_background_gradient">@color/exp_launch_secondary_blue_70</color>
     <color name="member_deal_destination_card_text">@color/gray8</color>
+    <color name="tablet_hotel_sort_filter_area_price">#2970cc</color>
+    <color name="tablet_hotel_sort_filter_area_price_disabled">#800558c4</color>
+
 </resources>

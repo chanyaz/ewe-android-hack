@@ -25,14 +25,7 @@ public class HotelRulesActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (ExpediaBookingApp.useTabletInterface()) {
-			// Use FlightTheme on hotel checkout for tablet.
-			int themeId = R.style.FlightTheme_Rules;
-			setTheme(themeId);
-		}
-		else {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		if (shouldBail()) {
 			return;
@@ -43,7 +36,7 @@ public class HotelRulesActivity extends FragmentActivity {
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
+		return !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override

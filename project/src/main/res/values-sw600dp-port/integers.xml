@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Checkout -->
-    <integer name="tablet_checkout_forms_left_margin_weight">0</integer>
-
-</resources>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<View xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
-      android:layout_marginLeft="@dimen/hotel_details_room_rate_row_seperator_padding"
-      android:layout_marginRight="@dimen/hotel_details_room_rate_row_seperator_padding"
-      android:background="#d9dce0" />

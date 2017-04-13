@@ -242,7 +242,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
      * 2. Updates the Notifications table that this notification is dismissed.
      *
      *
-     * *** This is duplicated in ItineraryActivity ***
      */
     private fun handleArgJumpToNotification(intent: Intent) {
         val jsonNotification = intent.getStringExtra(ARG_JUMP_TO_NOTIFICATION)

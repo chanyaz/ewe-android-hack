@@ -42,8 +42,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 
 	private CVVTextView mCVVTextView;
 	private TextView mCVVPromptTextView;
-	private TextView mCVVSubpromptTextView;
-	private View mBookButton;
 	private MaskView mCVVMaskView;
 	private SVGView svgAmexLogo;
 	private SVGView svgAmexHead;
@@ -103,8 +101,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		mCVVTextView = Ui.findView(v, R.id.cvv_text_view);
 		mCreditCardInputSection = Ui.findView(v, R.id.credit_card_input_section);
 		mCVVPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
-		mCVVSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
-		mBookButton = Ui.findView(v, R.id.finish_booking_button);
 		mCVVMaskView = Ui.findView(v, R.id.mask_cvv_widget);
 		svgAmexLogo = Ui.findView(v, R.id.svg_amex_logo);
 		svgAmexHead = Ui.findView(v, R.id.svg_amex_head);
@@ -114,16 +110,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
-
-		// Setup a listener for the finish booking button
-		if (mBookButton != null) {
-			mBookButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					mListener.onBook(mCVVTextView.getCvv());
-				}
-			});
-		}
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
@@ -210,15 +196,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		mCVVPromptTextView.setText(
 			HtmlCompat.fromHtml(getResources().getString(R.string.security_code_TEMPLATE, cardName)));
 
-		// Subprompt, i.e. "see front/back of card"
-		if (mCVVSubpromptTextView != null) {
-			mCVVSubpromptTextView.setText(
-				cardType == PaymentType.CARD_AMERICAN_EXPRESS
-					? R.string.See_front_of_card
-					: R.string.See_back_of_card
-			);
-		}
-
 		StringBuilder signatureNameBuilder = new StringBuilder();
 		if (!TextUtils.isEmpty(personFirstInitial)) {
 			signatureNameBuilder.append(personFirstInitial);
@@ -276,9 +253,6 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 
 	public void enableBookButton(boolean enabled) {
 		mCreditCardInputSection.setBookButtonEnabled(enabled);
-		if (mBookButton != null) {
-			mBookButton.setEnabled(enabled);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

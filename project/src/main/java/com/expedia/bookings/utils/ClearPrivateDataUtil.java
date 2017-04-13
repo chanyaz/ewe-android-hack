@@ -9,7 +9,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.launch.data.LaunchDb;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
@@ -45,7 +44,6 @@ public class ClearPrivateDataUtil {
 
 		// Tablet launch tile stuff
 		Sp.clear(context);
-		LaunchDb.clear();
 
 		// Clear anything else out that might remain
 		Db.clear();

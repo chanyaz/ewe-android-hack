@@ -48,9 +48,6 @@
     <!-- login button font style: 0 = normal, 32 = light -->
     <integer name="login_button_text_style">0</integer>
 
-    <!-- Used with LinearLayout android:orientation: 0 = horizontal, 1 = vertical -->
-    <integer name="vertical_in_portrait">0</integer>
-
     <!-- Country codes -->
     <integer name="country_phone_code_af">93</integer>
     <integer name="country_phone_code_al">355</integer>

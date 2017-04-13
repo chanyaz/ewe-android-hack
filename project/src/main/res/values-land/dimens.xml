@@ -3,6 +3,4 @@
 
     <dimen name="plane_window_height">220dp</dimen>
 
-	<dimen name="hotel_row_price_text_view_max_width">350dp</dimen>
-
 </resources>

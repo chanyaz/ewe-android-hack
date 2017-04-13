@@ -12,8 +12,6 @@ public class PhoneTestCase extends EspressoTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		if (Common.isPhone()) {
-			super.runTest();
-		}
+		super.runTest();
 	}
 }

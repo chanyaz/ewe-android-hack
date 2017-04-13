@@ -184,10 +184,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
-	}
-
-	@Override
 	public boolean isETPEnabled() {
 		return true;
 	}

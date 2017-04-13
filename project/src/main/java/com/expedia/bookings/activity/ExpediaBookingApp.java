@@ -95,7 +95,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static boolean sIsInstrumentation = false;
 	private static boolean sIsFirstLaunchEver = true;
 	private static boolean sIsFirstLaunchOfAppVersion = true;
-	private static boolean sIsTablet = false;
 
 	public static boolean isFirstLaunchOfAppVersion() {
 		return sIsFirstLaunchOfAppVersion;
@@ -146,7 +145,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		appStartupTimeLogger = mAppComponent.appStartupTimeLogger();
 		appStartupTimeLogger.setAppLaunchedTime(System.currentTimeMillis());
-		sIsTablet = AndroidUtils.isTablet(this);
 
 		// We want this first so that we set this as the Provider before anything tries to use Joda time
 		JodaTimeAndroid.init(this);
@@ -317,8 +315,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 		String pointOfSaleKey = SettingUtils.get(this, getString(R.string.PointOfSaleKey), null);
 
-		pointOfSaleKey =
-			PointOfSale.init(configHelper, pointOfSaleKey, isTablet());
+		pointOfSaleKey = PointOfSale.init(configHelper, pointOfSaleKey, false);
 
 		SettingUtils.save(this, getString(R.string.PointOfSaleKey), pointOfSaleKey);
 
@@ -350,24 +347,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		mOriginalUncaughtExceptionHandler.uncaughtException(thread, ex);
 
 		OmnitureTracking.trackCrash(ex);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// All-app utilities
-
-	/**
-	 * Use this method when you need to know if the device is a tablet, regardless of which interface we are showing
-	 * to the user.
-	 */
-	private static boolean isTablet() {
-		return sIsTablet;
-	}
-
-	/**
-	 * Use this method when you need to know whether or not to display the tablet user interface.
-	 */
-	public static boolean useTabletInterface() {
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

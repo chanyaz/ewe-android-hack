@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
@@ -187,9 +186,6 @@ public class TripBucket implements JSONable {
 		mLastLOBAdded = tripBucketItem.getLineOfBusiness();
 		mRefreshCount++;
 		mItems.add(tripBucketItem);
-		if (ExpediaBookingApp.useTabletInterface()) {
-			checkForTabletMismatchedItems();
-		}
 	}
 
 	public void add(FlightSearch flightSearch) {

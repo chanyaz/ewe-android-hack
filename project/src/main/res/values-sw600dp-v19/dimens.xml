@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- Extra padding used to offset views to account for a translucent navigation bar -->
-    <dimen name="extra_navigation_bar_padding">48dp</dimen>
-</resources>

@@ -178,9 +178,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
-	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
-	}
-
 	public boolean isETPEnabled() {
 		return true;
 	}

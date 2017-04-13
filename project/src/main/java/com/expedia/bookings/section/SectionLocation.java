@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
@@ -600,8 +599,7 @@ public class SectionLocation extends LinearLayout
 	};
 
 	private boolean isMaterialFormEnabled() {
-		return !ExpediaBookingApp.useTabletInterface() && LobExtensionsKt
-			.isMaterialFormEnabled(mLineOfBusiness, getContext());
+		return LobExtensionsKt.isMaterialFormEnabled(mLineOfBusiness, getContext());
 	}
 
 	/**

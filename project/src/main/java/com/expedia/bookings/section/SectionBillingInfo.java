@@ -25,23 +25,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
-import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
@@ -86,14 +82,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIconGrey);
 		mFields.add(this.mDisplayCreditCardBrandIconWhite);
-		mFields.add(this.mDisplayCreditCardBrandIconTablet);
-		mFields.add(this.mDisplayCreditCardExpirationLongForm);
-		mFields.add(this.mDisplayCreditCardGenericName);
-		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayAddress);
 		mFields.add(this.mDisplayEmailDisclaimer);
-		mFields.add(this.mDisplayLccFeeWarning);
-		mFields.add(this.mDisplayLccFeeDivider);
 		mFields.add(this.mDisplayCreditCardSecurityCode);
 
 		//Validation indicator fields
@@ -126,7 +116,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	protected void rebindNumDependantFields() {
 		mDisplayCreditCardBrandIconGrey.bindData(mBillingInfo);
 		mDisplayCreditCardBrandIconWhite.bindData(mBillingInfo);
-		mDisplayCreditCardBrandIconTablet.bindData(mBillingInfo);
 	}
 
 	@Override
@@ -256,30 +245,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
-	SectionField<TextView, BillingInfo> mDisplayCreditCardGenericName = new SectionField<TextView, BillingInfo>(
-		R.id.display_creditcard_generic_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			String cardName = CreditCardUtils.getHumanReadableName(getContext(), data.getPaymentType());
-			String last4Digits = data.getNumber().substring(data.getNumber().length() - 4);
-			field.setText(getContext().getString(R.string.x_card_ending_in_y_digits_TEMPLATE, cardName, last4Digits));
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayCreditCardExpirationLongForm = new SectionField<TextView, BillingInfo>(
-		R.id.display_creditcard_expiration_long_form) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (data.getExpirationDate() != null) {
-				String exprStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
-				field.setText(getContext().getString(R.string.Expires_TEMPLATE, exprStr));
-			}
-			else {
-				field.setText("");
-			}
-		}
-	};
-
 	SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
 		R.id.email_disclaimer) {
 		@Override
@@ -343,88 +308,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconTablet = new SectionField<ImageView, BillingInfo>(
-		R.id.display_credit_card_brand_icon_tablet) {
-		@Override
-		public void onHasFieldAndData(ImageView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getBrandName())) {
-				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
-				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					field.setImageResource(BookingInfoUtils.getTabletCardIcon(cardType));
-				}
-				else {
-					field.setImageResource(R.drawable.ic_tablet_checkout_generic_credit_card);
-				}
-			}
-			else {
-				field.setImageResource(R.drawable.ic_tablet_checkout_generic_credit_card);
-			}
-		}
-	};
-
-	SectionField<TextView, BillingInfo> mDisplayFullName = new SectionField<TextView, BillingInfo>(
-		R.id.display_full_name) {
-		@Override
-		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getFirstName()) || !TextUtils.isEmpty(data.getLastName())) {
-				String fullName = "";
-				fullName += (!TextUtils.isEmpty(data.getFirstName())) ? data.getFirstName() + " " : "";
-				fullName += (!TextUtils.isEmpty(data.getLastName())) ? data.getLastName() : "";
-				fullName = fullName.trim();
-				field.setText(fullName);
-			}
-			else {
-				field.setText("");
-			}
-		}
-	};
-
 	SectionField<SectionLocation, BillingInfo> mDisplayAddress = new SectionField<SectionLocation, BillingInfo>(
 		R.id.section_location_address) {
 		@Override
 		public void onHasFieldAndData(SectionLocation field, BillingInfo data) {
 			if (data.getLocation() != null) {
 				field.bind(data.getLocation());
-			}
-		}
-	};
-
-	SectionField<com.expedia.bookings.widget.TextView, BillingInfo> mDisplayLccFeeWarning = new SectionField<com.expedia.bookings.widget.TextView, BillingInfo>(
-		R.id.card_fee_icon) {
-		@Override
-		public void onHasFieldAndData(com.expedia.bookings.widget.TextView field, BillingInfo billingInfo) {
-			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null) {
-				final FragmentActivity fa = (FragmentActivity) mContext;
-				final PaymentType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-				Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(type);
-				if (cardFee != null) {
-					final String feeText = cardFee.getFormattedMoney();
-					field.setVisibility(View.VISIBLE);
-					field.setText(feeText);
-
-					field.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							String card = CreditCardUtils.getHumanReadableCardTypeName(mContext, type);
-							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, card);
-							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
-								"lccDialog");
-						}
-					});
-				}
-			}
-		}
-	};
-
-	SectionField<View, BillingInfo> mDisplayLccFeeDivider = new SectionField<View, BillingInfo>(R.id.card_fee_divider) {
-		@Override
-		public void onHasFieldAndData(View field, BillingInfo billingInfo) {
-			final PaymentType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-			if (Db.getTripBucket().getFlight() != null) {
-				Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(type);
-				if (cardFee != null) {
-					field.setVisibility(View.VISIBLE);
-				}
 			}
 		}
 	};
@@ -983,9 +872,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 			View view = Ui.inflate(this, R.layout.fragment_dialog_expiration, null);
 
-			int themeResId = ExpediaBookingApp.useTabletInterface()
-				? R.style.Theme_Light_Fullscreen_Panel
-				: R.style.ExpediaLoginDialog;
+			int themeResId = R.style.ExpediaLoginDialog;
 			Dialog dialog = new Dialog(getActivity(), themeResId);
 			dialog.requestWindowFeature(STYLE_NO_TITLE);
 			dialog.setContentView(view);
@@ -1176,12 +1063,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		TripBucketItem bucketItem;
 
 		if (lob == LineOfBusiness.HOTELS) {
-			if (!ExpediaBookingApp.useTabletInterface()) {
-				bucketItem = Db.getTripBucket().getHotelV2();
-			}
-			else {
-				bucketItem = Db.getTripBucket().getHotel();
-			}
+			bucketItem = Db.getTripBucket().getHotelV2();
 		}
 		else {
 			bucketItem = Db.getTripBucket().getItem(lob);

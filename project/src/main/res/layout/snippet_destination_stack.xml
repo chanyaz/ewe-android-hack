@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.CollectionStack xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/destination_search_stack_width"
-    android:layout_height="@dimen/destination_search_stack_height" />

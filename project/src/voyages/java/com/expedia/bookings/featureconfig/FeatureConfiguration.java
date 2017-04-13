@@ -10,9 +10,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -24,8 +21,6 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
@@ -187,29 +182,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getHotelSalePriceTextColorResourceId(Context context) {
 		//1747. VSC Change price text to sale color
 		return Ui.obtainThemeColor(context, R.attr.skin_hotelPriceSaleColor);
-	}
-
-	@Override
-	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
-		View vscAppDivider = Ui.findView(view, R.id.vsc_app_divider);
-		vscAppDivider.setVisibility(View.VISIBLE);
-
-		LinearLayout vscAppCrossSellLayout = Ui.findView(view, R.id.vscAppCrossSellLayout);
-		vscAppCrossSellLayout.setVisibility(View.VISIBLE);
-		vscAppCrossSellLayout.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				SocialUtils.openSite(context, AndroidUtils.getMarketAppLink(context, "com.vsct.vsc.mobile.horaireetresa.android"));
-			}
-		});
-
-		TextView rowTitleView = Ui.findView(view, R.id.row_title);
-		rowTitleView.setText(R.string.VSC_Voyages_SNF);
-		TextView descriptionView = Ui.findView(view, R.id.row_description);
-		descriptionView.setText(R.string.VSC_Voyages_SNF_description);
-		ImageView imageView = Ui.findView(view, R.id.image);
-		imageView.setImageResource(R.drawable.ic_vsc_train_app);
 	}
 
 	@Override

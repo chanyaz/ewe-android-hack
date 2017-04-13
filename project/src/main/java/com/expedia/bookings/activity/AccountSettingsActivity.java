@@ -114,9 +114,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!ExpediaBookingApp.useTabletInterface()) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		notPortraitOrientation = !getResources().getBoolean(R.bool.portrait);
 		if (shouldBail()) {
@@ -294,8 +292,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	private boolean shouldBail() {
-		boolean isPhone = !ExpediaBookingApp.useTabletInterface();
-		return isPhone && notPortraitOrientation;
+		return notPortraitOrientation;
 	}
 
 	@Override
@@ -351,13 +348,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
 
 			String message = getString(R.string.lawyer_label_atol_long_message);
-			String html;
-			if (ExpediaBookingApp.useTabletInterface()) {
-				html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(message);
-			}
-			else {
-				html = HtmlUtils.wrapInHeadAndBody(message);
-			}
+			String html = HtmlUtils.wrapInHeadAndBody(message);
 			builder.setHtmlData(html);
 
 			startActivity(builder.getIntent());

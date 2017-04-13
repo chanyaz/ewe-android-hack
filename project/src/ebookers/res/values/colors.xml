@@ -19,7 +19,6 @@
     <color name="bg_air_attach_banner_default">@color/lob_btn_color</color>
     <color name="bg_air_attach_phone_launch">@color/lob_btn_color</color>
     <color name="bg_air_attach_banner_divider">@color/white</color>
-    <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
 
     <!-- ebookers promotional offers color -->
@@ -29,9 +28,7 @@
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>
-    <color name="flight_card_airline_fee_warning">#0099CC</color>
     <color name="flight_free_cancellation_text_color">#0099CC</color>
-    <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Calendar text colors -->
@@ -39,7 +36,6 @@
 
     <color name="hotels_primary_color">#0099CC</color>
     <color name="review_screen_tab_indicator">#003366</color>
-    <color name="cost_summary_header_text_color">@color/hotels_primary_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">@color/ebk_promo_color</color>
@@ -55,9 +51,6 @@
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
-
-    <!-- flight color-->
-    <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>

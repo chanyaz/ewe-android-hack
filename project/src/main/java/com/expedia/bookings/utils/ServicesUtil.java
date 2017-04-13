@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.LocationServices;
@@ -70,7 +69,7 @@ public class ServicesUtil {
 
 	public static String generateClient(Context context) {
 		String clientName = ProductFlavorFeatureConfiguration.getInstance().getClientShortName();
-		String deviceType = ExpediaBookingApp.useTabletInterface() ? "tablet" : "phone";
+		String deviceType = "phone";
 		return clientName + ".app.android." + deviceType;
 	}
 

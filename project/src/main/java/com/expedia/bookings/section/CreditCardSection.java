@@ -116,7 +116,7 @@ public class CreditCardSection extends RelativeLayout {
 		// Show front or back of card (front for amex, back for everything else)
 		boolean amex = type == PaymentType.CARD_AMERICAN_EXPRESS;
 		showHide(amex, R.id.amex_container);
-		showHide(!amex, R.id.other_cards_container, R.id.signature_strip_frame, R.id.cvv_prompt_text_view, R.id.not_valid_unless_signed_text, R.id.cc_logo_image_view);
+		showHide(!amex, R.id.other_cards_container, R.id.signature_strip_frame, R.id.cvv_prompt_text_view, R.id.cc_logo_image_view);
 	}
 
 	private void showHide(boolean visible, int... resIds) {

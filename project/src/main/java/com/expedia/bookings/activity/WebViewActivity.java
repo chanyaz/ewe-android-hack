@@ -149,9 +149,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		setContentView(R.layout.web_view_toolbar);
 		mProgressBar = (ProgressBar) findViewById(R.id.webview_progress_view);
 
-		if (!ExpediaBookingApp.useTabletInterface()) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		if (shouldBail()) {
 			return;
@@ -283,6 +281,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
+		return !getResources().getBoolean(R.bool.portrait);
 	}
 }

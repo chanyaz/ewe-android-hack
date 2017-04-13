@@ -34,9 +34,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!ExpediaBookingApp.useTabletInterface()) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		}
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		if (shouldBail()) {
 			return;
@@ -87,7 +85,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 	}
 
 	private boolean shouldBail() {
-		return !ExpediaBookingApp.useTabletInterface() && !getResources().getBoolean(R.bool.portrait);
+		return !getResources().getBoolean(R.bool.portrait);
 	}
 
 }

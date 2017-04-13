@@ -44,9 +44,6 @@
     <dimen name="itin_summary_section_height">48dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
-    <dimen name="itin_simple_list_width">440dp</dimen>
-    <dimen name="itin_card_corner_radius">2dp</dimen>
-    <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
     <dimen name="itin_hotel_vip_label_left_padding">20dp</dimen>
     <dimen name="itin_hotel_vip_label_top_padding">15dp</dimen>
@@ -69,31 +66,15 @@
     <dimen name="login_button_text_size">16sp</dimen>
     <dimen name="login_header_text_size">25sp</dimen>
     <dimen name="login_divider_height">3dp</dimen>
-    <dimen name="login_field_spacing">2dp</dimen>
 
     <!-- Account / Login button -->
     <dimen name="account_button_text_padding">16dp</dimen>
-    <dimen name="account_button_height">40dp</dimen>
 
     <!-- Account support dimensions -->
     <dimen name="account_button_points_text_size">11.5sp</dimen>
     <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
     <dimen name="card_icon_padding">5dp</dimen>
     <dimen name="account_reward_textview_padding">2dp</dimen>
-
-    <!-- Old Hotels -->
-    <!-- Dimensions for hotel rows -->
-    <!-- This is the height/width of the image in a hotel row. Height determines height of row as well -->
-    <dimen name="hotel_row_thumbnail_width">90dp</dimen>
-    <dimen name="hotel_row_thumbnail_height">90dp</dimen>
-    <dimen name="hotel_row_name_text_size">17sp</dimen>
-    <dimen name="hotel_row_price_text_size">20sp</dimen>
-    <dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
-    <dimen name="hotel_row_proximity_text_size">14sp</dimen>
-    <dimen name="hotel_row_cell_padding">12dp</dimen>
-    <dimen name="percent_off_corner_text_size">11sp</dimen>
-    <dimen name="percent_off_corner_margin_top">3dp</dimen>
-    <dimen name="percent_off_corner_margin_right">2dp</dimen>
 
     <!-- Text sizes for amenities -->
     <dimen name="amenity_text_size_large">12sp</dimen>
@@ -104,10 +85,6 @@
 
     <!-- Text sizes for promo messaging on details screen -->
     <dimen name="hotel_details_promo_messaging_text_size">11sp</dimen>
-
-    <!-- Tablet hotel map popup dimens -->
-    <dimen name="hotel_map_popup_thumbnail_height">126dp</dimen>
-    <dimen name="hotel_map_popup_thumbnail_width">111dp</dimen>
 
     <!-- Dimensions for book now button or any other button in the header -->
     <dimen name="min_height_rating_bar_small">16dp</dimen>
@@ -130,11 +107,6 @@
     <!-- This gets overridden for small screens (in values-small) -->
     <dimen name="number_picker_text_size">20sp</dimen>
 
-    <!-- Flights -->
-    <dimen name="tablet_filter_white_space">32dp</dimen>
-    <dimen name="tablet_flight_details_horizontal_padding">24dp</dimen>
-    <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
-
     <!-- Flight search -->
     <dimen name="flight_search_airport_padding_left">12dp</dimen>
 
@@ -143,29 +115,20 @@
     <dimen name="plane_window_text_offset">-35dp</dimen>
 
     <!-- Flights dimens -->
-    <dimen name="data_display_primary_text">18sp</dimen>
-    <dimen name="data_display_sub_text">14sp</dimen>
     <dimen name="data_form_section_header_text">14sp</dimen>
-    <dimen name="flight_segment_margin">6dp</dimen>
     <dimen name="cvv_keypad_text_size">24dp</dimen>
     <dimen name="cvv_keypad_text_padding">0dp</dimen>
     <dimen name="cvv_keypad_book_text_size">16dp</dimen>
     <dimen name="checkout_form_bottom_spacer_margin">0dp</dimen>
     <dimen name="arrow_up_down_click_padding">20dp</dimen>
-    <dimen name="traveler_button_padding">10dp</dimen>
     <dimen name="flight_leg_day_textview_margin_right">10dp</dimen>
     <dimen name="flight_leg_day_textview_margin_top">-2dp</dimen>
     <dimen name="flight_leg_day_textview_margin_top_no_overlap">3dp</dimen>
-    <dimen name="checkout_info_container_padding">8dp</dimen>
     <dimen name="flight_sort_filter_container_height">58dp</dimen>
 
     <!-- FlightTripView dimensions -->
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>
     <dimen name="flight_line_min_padding_between_labels">2dp</dimen>
-
-    <!-- Flight baggage fee stuff -->
-    <dimen name="tablet_flight_list_baggage_fee_icon_padding">5dp</dimen>
-    <dimen name="flight_details_baggage_fee_text_view_text_size">12dp</dimen>
 
     <!-- LX Dimens -->
     <dimen name="gallery_height">240dp</dimen>
@@ -293,11 +256,6 @@
     <dimen name="package_sort_filter_value_text_size">13sp</dimen>
 
     <!-- Checkout -->
-    <dimen name="checkout_data_button_icon_size">48dp</dimen>
-    <dimen name="checkout_data_button_text_size">16sp</dimen>
-    <dimen name="checkout_data_button_sub_text_size">16sp</dimen>
-    <dimen name="stored_credit_card_icon_size">48dp</dimen>
-    <dimen name="stored_credit_card_button_padding">10dp</dimen>
     <dimen name="checkout_widget_primary_text_size">15sp</dimen>
     <dimen name="checkout_widget_secondary_text_size">13sp</dimen>
 
@@ -309,7 +267,6 @@
     <dimen name="cvv_text_view_right_margin_other">0dp</dimen>
     <!-- Coupon code dimensions -->
     <dimen name="one_px_hdpi_two_px_xhdpi">0.75dip</dimen>
-    <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
 
     <!-- Common Dimensions, Shared among LOBs -->
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
@@ -320,12 +277,7 @@
     <!-- px equivalents -->
     <dimen name="two_px_allthethings">2dp</dimen>
 
-    <!-- BookingOverviewActivity -->
-    <dimen name="slide_to_purchase_price_text_size">16dp</dimen>
-
     <!-- Breakdown dialog -->
-    <dimen name="breakdown_margin">10dp</dimen>
-    <dimen name="breakdown_indentation">17dp</dimen>
     <dimen name="breakdown_text_margin">8dp</dimen>
 
     <!-- From ABS, Dialog title height -->
@@ -403,5 +355,15 @@
     <dimen name="itin_hotel_upgrade_paddingRight">18dp</dimen>
     <dimen name="itin_hotel_upgrade_drawable_padding">53dp</dimen>
     <dimen name="itin_hotel_upgrade_paddingLeft">20dp</dimen>
+
+    <!-- Ripped from ABS -->
+    <!-- The platform's desired minimum size for a dialog's width when it
+         is along the major axis (that is the screen is landscape).  This may
+         be either a fraction or a dimension. -->
+    <item type="dimen" name="abs__dialog_min_width_major">45%</item>
+    <!-- The platform's desired minimum size for a dialog's width when it
+         is along the minor axis (that is the screen is portrait).  This may
+         be either a fraction or a dimension. -->
+    <item type="dimen" name="abs__dialog_min_width_minor">72%</item>
 
 </resources>

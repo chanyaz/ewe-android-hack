@@ -28,26 +28,19 @@
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
-    <color name="tablet_book_button_text_color">@android:color/white</color>
     <color name="hotel_room_rate_select_room_button">#53A0D3</color>
     <color name="hotel_room_rate_select_room_button_pressed">#004E93</color>
     <color name="hotel_room_rate_add_room_button">#608405</color>
     <color name="hotel_room_rate_add_room_button_pressed">#2F5806</color>
-    <color name="tablet_trip_bucket_text_color">#FFFFFF</color>
     <color name="tablet_search_result_error_button">#004E93</color>
     <color name="tablet_search_result_error_button_pressed">#D1EAFF</color>
     <color name="tablet_results_search_blue">#608405</color>
-    <color name="launch_pin_detail_button_text">#D1EAFF</color>
     <color name="action_bar_flight_text_color">@color/actionbar_text_color</color>
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
-    <color name="flight_card_airline_fee_warning">#116FAA</color>
-    <color name="checkout_additional_fees_tablet_bg">@color/flight_card_airline_fee_warning</color>
-    <color name="credit_card_form_additional_fees_tablet_bg">@color/flight_card_airline_fee_warning</color>
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
-    <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_blue</color>
     <color name="hotel_member_pricing_color">#0f6093</color>
 
@@ -84,7 +77,6 @@
     <color name="hotelsv2_coupon_applied_color">@color/hotels_primary_color</color>
 
     <!-- flight color-->
-    <color name="flight_earn_message_text_color">#990033</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_flight_text_color</color>
 
     <!-- Cars and LX-->

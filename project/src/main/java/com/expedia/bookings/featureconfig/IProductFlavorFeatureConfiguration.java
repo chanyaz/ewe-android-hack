@@ -74,8 +74,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean wantsOtherAppsCrossSellInConfirmationScreen();
 
-	void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view);
-
 	boolean isETPEnabled();
 
 	String getClientShortName();

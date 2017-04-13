@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.text.DecimalFormat;
-
 import org.jetbrains.annotations.NotNull;
 
 import android.content.Context;
@@ -16,14 +14,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.HotelFilter;
-import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
@@ -67,23 +61,6 @@ public class LayoutUtils {
 		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		return ViewUtils.getTextSizeForMaxLines(context, context.getString(R.string.percent_off_template, 50.0),
 			textPaint, 58, 1, 11.5f, 1);
-	}
-
-	public static void configureRadiusFilterLabels(Context context, ViewGroup radiusFilterGroup, HotelFilter filter) {
-		// The radius filter buttons depend on whether the user's locale leans
-		// towards miles or kilometers.  For now, we just use US == miles,
-		// everything else == kilometers (pending a better way to determine this).
-		DistanceUnit distanceUnit = (filter != null) ? filter.getDistanceUnit() : DistanceUnit.getDefaultDistanceUnit();
-		int distanceStrId = (distanceUnit == DistanceUnit.MILES) ? R.string.filter_distance_miles_template
-			: R.string.filter_distance_kilometers_template;
-
-		DecimalFormat df = new DecimalFormat("#.#");
-		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_small_button)).setText(context.getString(
-			distanceStrId, df.format(SearchRadius.SMALL.getRadius(distanceUnit))));
-		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_medium_button)).setText(context.getString(
-			distanceStrId, df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
-		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_large_button)).setText(context.getString(
-			distanceStrId, df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
 	}
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
@@ -191,7 +168,7 @@ public class LayoutUtils {
 		float acceptableWidth = context.getResources().getDisplayMetrics().density * MAX_AMENITY_TEXT_WIDTH_IN_DP;
 		float measuredWidthOfStr = amenityTextView.getPaint().measureText(context.getString(amenity.getStrId()));
 
-		if (ExpediaBookingApp.useTabletInterface() || amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
+		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
 			amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				context.getResources().getDimension(R.dimen.amenity_text_size_small));
 		}

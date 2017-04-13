@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <style name="RatingBar.Star.HotelDetails.Travelocity">
-        <item name="android:progressDrawable">@drawable/ratingbar_star_hotel_details_small_tvly</item>
-    </style>
-
-</resources>

@@ -15,9 +15,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SuggestionResponse;
-import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.cars.CarSearchParam;
@@ -54,7 +51,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
@@ -75,9 +71,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private static final String DL_KEY_LOCATION_SUGGEST = "DeepLink.LocationSuggest";
 	private static final String DL_KEY_FLIGHT_SUGGEST = "DeepLink.FlightSuggest";
 
-	private SearchParams mSearchParams;
-	private LineOfBusiness mLobToLaunch = null;
-	private boolean mIsCurrentLocationSearch;
 	private HotelSearchParams hotelSearchParams;
 	ClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = null;
@@ -265,212 +258,98 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
 
-		if (ExpediaBookingApp.useTabletInterface()) {
-			mLobToLaunch = LineOfBusiness.HOTELS;
-			mSearchParams = new SearchParams();
-			if (deepLink.getCheckInDate() != null) {
-				mSearchParams.setStartDate(deepLink.getCheckInDate());
-			}
-			if (deepLink.getCheckOutDate() != null) {
-				mSearchParams.setEndDate(deepLink.getCheckOutDate());
-			}
-			if (deepLink.getNumAdults() != 0) {
-				mSearchParams.setNumAdults(deepLink.getNumAdults());
-			}
-			if (deepLink.getChildren() != null) {
-				mSearchParams.setChildTravelers(deepLink.getChildren());
-			}
+		// Fill HotelSearchParams with query data
+		hotelSearchParams = new HotelSearchParams();
+		if (deepLink.getCheckInDate() != null) {
+			hotelSearchParams.setCheckInDate(deepLink.getCheckInDate());
+		}
+		if (deepLink.getCheckOutDate() != null) {
+			hotelSearchParams.setCheckOutDate(deepLink.getCheckOutDate());
+		}
+		if (deepLink.getNumAdults() != 0) {
+			hotelSearchParams.setNumAdults(deepLink.getNumAdults());
+		}
+		if (deepLink.getChildren() != null) {
+			hotelSearchParams.setChildren(deepLink.getChildren());
+		}
+		// Determine the search location.  Defaults to "current location" if none supplied
+		// or the supplied variables could not be parsed.
+		if (deepLink.getHotelId() != null) {
+			hotelSearchParams.setSearchType(SearchType.HOTEL);
+			String hotelId = deepLink.getHotelId();
+			hotelSearchParams.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
+			hotelSearchParams.hotelId = hotelId;
+			hotelSearchParams.setRegionId(hotelId);
 
-			// Validation
-			if (!mSearchParams.isDurationValid()) {
-				mSearchParams.setDefaultDuration();
-			}
-			if (!mSearchParams.areGuestsValid()) {
-				mSearchParams.setDefaultGuests();
-			}
+			Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.getRegionId());
+		}
+		else if (deepLink.getRegionId() != null) {
+			hotelSearchParams.setSearchType(SearchType.CITY);
+			hotelSearchParams.setRegionId(deepLink.getRegionId());
+			hotelSearchParams.setQuery("", false);
 
-			BackgroundDownloader bgd = BackgroundDownloader.getInstance();
+			Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getRegionId());
+		}
+		else if (deepLink.getLocation() != null) {
+			hotelSearchParams.setSearchType(SearchType.CITY);
+			hotelSearchParams.setQuery(deepLink.getLocation());
 
-			// Determine the search location.  Defaults to "current location" if none supplied
-			// or the supplied variables could not be parsed.
-			if (deepLink.getHotelId() != null) {
-				final String hotelId = deepLink.getHotelId();
-				bgd.startDownload(DL_KEY_HOTEL_ID, new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestionsHotelId(hotelId);
-					}
-				}, mSuggestCallback);
-				return false;
-			}
-			else if (deepLink.getLocation() != null) {
-				final String query = deepLink.getLocation();
-				Log.d(TAG, "Setting hotel search location: " + query);
-				bgd.startDownload(DL_KEY_LOCATION_SUGGEST, new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(query);
-					}
-				}, mSuggestCallback);
-				return false;
-			}
-			else { // current location
-				final android.location.Location location =
-					LocationServices.getLastBestLocation(this, 60 * 1000 /* one hour */);
-				if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
-					mIsCurrentLocationSearch = true;
-					bgd.startDownload(DL_KEY_LAT_LNG, new BackgroundDownloader.Download<SuggestionResponse>() {
-						@Override
-						public SuggestionResponse doDownload() {
-							ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-							return services.suggestionsCityNearby(location.getLatitude(), location.getLongitude());
-						}
-					}, mSuggestCallback);
-					return false;
-				}
-				else {
-					Intent launchIntent = new Intent(DeepLinkRouterActivity.this, TabletLaunchActivity.class);
-					startActivity(launchIntent);
-				}
-			}
+			Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getQuery());
+		}
+
+		if (deepLink.getSortType() != null) {
+			hotelSearchParams.setSortType(deepLink.getSortType());
+			Log.d(TAG, "Setting hotel sort type: " + hotelSearchParams.getSortType());
+		}
+
+		if (deepLink.getMemberOnlyDealSearch()) {
+			NavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
 		}
 		else {
-			// Fill HotelSearchParams with query data
-			hotelSearchParams = new HotelSearchParams();
-			if (deepLink.getCheckInDate() != null) {
-				hotelSearchParams.setCheckInDate(deepLink.getCheckInDate());
-			}
-			if (deepLink.getCheckOutDate() != null) {
-				hotelSearchParams.setCheckOutDate(deepLink.getCheckOutDate());
-			}
-			if (deepLink.getNumAdults() != 0) {
-				hotelSearchParams.setNumAdults(deepLink.getNumAdults());
-			}
-			if (deepLink.getChildren() != null) {
-				hotelSearchParams.setChildren(deepLink.getChildren());
-			}
-			// Determine the search location.  Defaults to "current location" if none supplied
-			// or the supplied variables could not be parsed.
-			if (deepLink.getHotelId() != null) {
-				hotelSearchParams.setSearchType(SearchType.HOTEL);
-				String hotelId = deepLink.getHotelId();
-				hotelSearchParams.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
-				hotelSearchParams.hotelId = hotelId;
-				hotelSearchParams.setRegionId(hotelId);
-
-				Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.getRegionId());
-			}
-			else if (deepLink.getRegionId() != null) {
-				hotelSearchParams.setSearchType(SearchType.CITY);
-				hotelSearchParams.setRegionId(deepLink.getRegionId());
-				hotelSearchParams.setQuery("", false);
-
-				Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getRegionId());
-			}
-			else if (deepLink.getLocation() != null) {
-				hotelSearchParams.setSearchType(SearchType.CITY);
-				hotelSearchParams.setQuery(deepLink.getLocation());
-
-				Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getQuery());
-			}
-
-			if (deepLink.getSortType() != null) {
-				hotelSearchParams.setSortType(deepLink.getSortType());
-				Log.d(TAG, "Setting hotel sort type: " + hotelSearchParams.getSortType());
-			}
-
-			if (deepLink.getMemberOnlyDealSearch()) {
-				NavUtils.goToHotels(this, NavUtils.MEMBER_ONLY_DEAL_SEARCH);
-			}
-			else {
-				NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
-			}
-
-			finish();
-			return false;
+			NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
 		}
-		return true;
+
+		finish();
+		return false;
 	}
 
 	private void handleFlightSearch(FlightDeepLink flightDeepLink) {
 
-		if (ExpediaBookingApp.useTabletInterface()) {
-			mSearchParams = new SearchParams();
+		// Fill FlightSearchParams with query data
+		FlightSearchParams params = new FlightSearchParams();
 
-			if (flightDeepLink.getDepartureDate() != null) {
-				mSearchParams.setStartDate(flightDeepLink.getDepartureDate());
-			}
-			if (flightDeepLink.getReturnDate() != null) {
-				mSearchParams.setEndDate(flightDeepLink.getReturnDate());
-			}
-			if (flightDeepLink.getNumAdults() != 0) {
-				mSearchParams.setNumAdults(flightDeepLink.getNumAdults());
-			}
-			// Validation
-			if (!mSearchParams.isDurationValid()) {
-				mSearchParams.setDefaultDuration();
-			}
-			if (!mSearchParams.areGuestsValid()) {
-				mSearchParams.setDefaultGuests();
-			}
-
-			if (flightDeepLink.getOrigin() != null) {
-				SuggestionV2 origin = new SuggestionV2();
-				origin.setAirportCode(flightDeepLink.getOrigin());
-				origin.setDisplayName(flightDeepLink.getOrigin());
-				origin.setLocation(new Location());
-				mSearchParams.setOrigin(origin);
-			}
-
-			final String destAirportCode = flightDeepLink.getDestination();
-			BackgroundDownloader.getInstance().startDownload(DL_KEY_FLIGHT_SUGGEST,
-				new BackgroundDownloader.Download<SuggestionResponse>() {
-					@Override
-					public SuggestionResponse doDownload() {
-						ExpediaServices services = new ExpediaServices(DeepLinkRouterActivity.this);
-						return services.suggestions(destAirportCode);
-					}
-				}, mSuggestCallback);
+		if (flightDeepLink.getOrigin() != null) {
+			Location departureLocation = new Location();
+			departureLocation.setDestinationId(flightDeepLink.getOrigin());
+			params.setDepartureLocation(departureLocation);
+			Log.d(TAG, "Set flight origin: " + departureLocation.getDestinationId());
 		}
-		else {
-			// Fill FlightSearchParams with query data
-			FlightSearchParams params = new FlightSearchParams();
 
-			if (flightDeepLink.getOrigin() != null) {
-				Location departureLocation = new Location();
-				departureLocation.setDestinationId(flightDeepLink.getOrigin());
-				params.setDepartureLocation(departureLocation);
-				Log.d(TAG, "Set flight origin: " + departureLocation.getDestinationId());
-			}
-
-			if (flightDeepLink.getDestination() != null) {
-				Location arrivalLocation = new Location();
-				arrivalLocation.setDestinationId(flightDeepLink.getDestination());
-				params.setArrivalLocation(arrivalLocation);
-				Log.d(TAG, "Set flight destination: " + arrivalLocation.getDestinationId());
-			}
-
-			if (flightDeepLink.getDepartureDate() != null) {
-				Log.d(TAG, "Set flight departure date: " + flightDeepLink.getDepartureDate());
-				params.setDepartureDate(flightDeepLink.getDepartureDate());
-			}
-
-			if (flightDeepLink.getReturnDate() != null) {
-				params.setReturnDate(flightDeepLink.getReturnDate());
-				Log.d(TAG, "Set flight return date: " + flightDeepLink.getReturnDate());
-			}
-
-			params.ensureValidDates();
-
-			// Add adults (if supplied)
-			if (flightDeepLink.getNumAdults() != 0) {
-				params.setNumAdults(flightDeepLink.getNumAdults());
-			}
-
-			NavUtils.goToFlights(this, params);
+		if (flightDeepLink.getDestination() != null) {
+			Location arrivalLocation = new Location();
+			arrivalLocation.setDestinationId(flightDeepLink.getDestination());
+			params.setArrivalLocation(arrivalLocation);
+			Log.d(TAG, "Set flight destination: " + arrivalLocation.getDestinationId());
 		}
+
+		if (flightDeepLink.getDepartureDate() != null) {
+			Log.d(TAG, "Set flight departure date: " + flightDeepLink.getDepartureDate());
+			params.setDepartureDate(flightDeepLink.getDepartureDate());
+		}
+
+		if (flightDeepLink.getReturnDate() != null) {
+			params.setReturnDate(flightDeepLink.getReturnDate());
+			Log.d(TAG, "Set flight return date: " + flightDeepLink.getReturnDate());
+		}
+
+		params.ensureValidDates();
+
+		// Add adults (if supplied)
+		if (flightDeepLink.getNumAdults() != 0) {
+			params.setNumAdults(flightDeepLink.getNumAdults());
+		}
+
+		NavUtils.goToFlights(this, params);
 	}
 
 	private void handleShortUrl(ShortUrlDeepLink shortUrlDeepLink) {
@@ -520,7 +399,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@VisibleForTesting
 	protected void handleReviewFeedbackEmail() {
 		Intent intent = SocialUtils
-			.getEmailIntent(this, getString(R.string.email_app_review_feedback), getString(R.string.email_app_support_headline),
+			.getEmailIntent(this, getString(R.string.email_app_review_feedback),
+				getString(R.string.email_app_support_headline),
 				DebugInfoUtils.generateEmailBody(this));
 		startActivity(intent);
 	}
@@ -545,24 +425,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		BackgroundDownloader bgd = BackgroundDownloader.getInstance();
-		if (bgd.isDownloading(DL_KEY_LAT_LNG)) {
-			bgd.registerDownloadCallback(DL_KEY_LAT_LNG, mSuggestCallback);
-		}
-		if (bgd.isDownloading(DL_KEY_LOCATION_SUGGEST)) {
-			bgd.registerDownloadCallback(DL_KEY_LOCATION_SUGGEST, mSuggestCallback);
-		}
-		if (bgd.isDownloading(DL_KEY_HOTEL_ID)) {
-			bgd.registerDownloadCallback(DL_KEY_HOTEL_ID, mSuggestCallback);
-		}
-		if (bgd.isDownloading(DL_KEY_FLIGHT_SUGGEST)) {
-			bgd.registerDownloadCallback(DL_KEY_FLIGHT_SUGGEST, mSuggestCallback);
-		}
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 		BackgroundDownloader bgd = BackgroundDownloader.getInstance();
@@ -579,25 +441,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			bgd.unregisterDownloadCallback(DL_KEY_FLIGHT_SUGGEST);
 		}
 	}
-
-	private BackgroundDownloader.OnDownloadComplete<SuggestionResponse> mSuggestCallback = new BackgroundDownloader.OnDownloadComplete<SuggestionResponse>() {
-		@Override
-		public void onDownload(SuggestionResponse results) {
-			if (results != null && results.getSuggestions().size() > 0) {
-				SuggestionV2 destination = results.getSuggestions().get(0);
-				if (mIsCurrentLocationSearch) {
-					destination.setResultType(SuggestionV2.ResultType.CURRENT_LOCATION);
-				}
-				mSearchParams.setDestination(destination);
-				NavUtils.goToTabletResults(DeepLinkRouterActivity.this, mSearchParams, mLobToLaunch);
-			}
-			else {
-				Intent launchIntent = new Intent(DeepLinkRouterActivity.this, TabletLaunchActivity.class);
-				startActivity(launchIntent);
-			}
-			finish();
-		}
-	};
 
 	@Override
 	public void onUserAccountRefreshed() {
