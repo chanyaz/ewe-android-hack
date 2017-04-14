@@ -119,11 +119,13 @@
                         android:id="@+id/header_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/itin_card_expanded_image_height"
+                        android:importantForAccessibility="2"
                         android:gravity="center">
 
                         <com.expedia.bookings.widget.ParallaxContainer
                             android:id="@+id/header_image_container"
                             android:layout_width="match_parent"
+                            android:focusableInTouchMode="true"
                             android:layout_height="@dimen/itin_card_expanded_image_height"
                             app:scrollMin="@dimen/itin_card_expanded_parallax_slop">
 
@@ -142,6 +144,7 @@
                             android:id="@+id/header_overlay_image_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:importantForAccessibility="2"
                             android:scaleType="fitXY"
                             android:src="@drawable/bg_card_image_overlay" />
 
@@ -151,6 +154,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerInParent="true"
+                            android:importantForAccessibility="2"
                             android:gravity="center"
                             android:focusable="true"
                             android:orientation="vertical" >
@@ -160,6 +164,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:importantForAccessibility="2"
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:paddingLeft="4dp"
@@ -173,18 +178,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0"
+                                android:importantForAccessibility="2"
                                 android:gravity="center"
                                 android:paddingRight="4dp"
                                 android:maxLines="1"
                                 android:textColor="#9e9d9d"
                                 android:textSize="17sp"
                                 app:textStyle="normal" />
-
-                            <View
-                                android:id="@+id/header_itin_card_content_description_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="1dp"
-                                android:visibility="gone" />
 
                         </LinearLayout>
 
