@@ -47,7 +47,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewWithTextIsDisplayedAtPosition(4, R.id.top_amenity, "Book Now, Pay Later");
 
 		//test VIP message
-		assertViewWithTextIsNotDisplayedAtPosition(4, R.id.vip_message, "+VIP");
+		assertViewWithTextIsDisplayedAtPosition(4, R.id.vip_message, "+VIP");
 
 		//test urgency messages
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(2));
