@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.joda.time.LocalDate
 import org.junit.Test
 
@@ -53,6 +54,7 @@ class FlightAirlineFeeTest : NewFlightTestCase() {
         assertCheckoutOverviewMayChargeCardFeeTextShown()
 
         CheckoutViewModel.clickPaymentInfo()
+        onView(withId(R.id.card_fee_warning_text)).check(ViewAssertions.matches(not(isDisplayed())))
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
         CardInfoScreen.assertPaymentFormCardFeeWarningShown("Payment method fee: $2.50")

@@ -67,6 +67,7 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
         Observable.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, {
             flightChargesFees, obFeeDetailsUrl ->
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(flightChargesFees, obFeeDetailsUrl))
+            showCardFeeWarningText.onNext(Unit)
         }).subscribe()
 
         compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {

@@ -75,25 +75,27 @@ class FlightCheckoutPresenterTest {
 
     @Test
     fun showCardFeeWarnings(){
+        checkoutPresenter.flightCheckoutViewModel.showCardFeeWarningText.onNext(Unit)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.onNext(SpannedString("ABCDEFG"))
         assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
         assertEquals("ABCDEFG", checkoutPresenter.cardFeeWarningTextView.text.toString())
 
         var testSubscriber = TestSubscriber<Spanned>()
+        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(true)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(100))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         assertEquals("A payment method fee of $100 is included in the trip total.", checkoutPresenter.cardFeeWarningTextView.text.toString())
         assertEquals("Payment method fee: $100", checkoutPresenter.cardProcessingFeeTextView.text.toString())
-        assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
+        assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
 
         testSubscriber = TestSubscriber<Spanned>()
+        checkoutPresenter.paymentWidget.viewmodel.showingPaymentForm.onNext(false)
         checkoutPresenter.flightCheckoutViewModel.cardFeeWarningTextSubject.subscribe(testSubscriber)
         checkoutPresenter.flightCheckoutViewModel.selectedCardFeeObservable.onNext(getMoney(0))
         testSubscriber.awaitValueCount(1, 5, TimeUnit.SECONDS)
         assertEquals("",checkoutPresenter.cardFeeWarningTextView.text.toString())
-        assertViewIsNotVisible(checkoutPresenter.cardFeeWarningTextView)
-
+        assertViewIsVisible(checkoutPresenter.cardFeeWarningTextView)
     }
 
     private fun getMoney(moneyValue: Int): Money {
