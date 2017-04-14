@@ -118,7 +118,7 @@
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s%2$s</string>
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -364,7 +364,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%2$s(%3$s) %1$s</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s%2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">立即预订 %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -1662,6 +1662,8 @@
     <!-- Action Buttons -->
     <string name="itin_action_directions">路线</string>
     <string name="itin_action_call_hotel">致电酒店</string>
+    <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
+    <string name="itin_action_call_agency_cont_desc_TEMPLATE">致电 {agency}</string>
     <string name="itin_action_redeem">兑换</string>
     <string name="itin_action_support">客户支持服务</string>
     <string name="itin_action_share">分享</string>
@@ -1902,7 +1904,7 @@
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
-    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt;%2$s</string>
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
@@ -2162,7 +2164,7 @@
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您的旅行费用总计 &lt;b&gt;%1$s&lt;/b&gt;，包含度假费&lt;b&gt;%2$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订余额。</string>
     <!-- Pay later deposit amount -->
-    <string name="pay_later_deposit_policy">%1$s&lt;b&gt;%2$s&lt;/b&gt;</string>
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">输入旅客信息</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2345,7 +2347,7 @@
         <item quantity="one">+ 其他 {travelercount}位旅客</item>
         <item quantity="other">+ 其他 {travelercount}位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客{travelernumber}({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -3164,8 +3166,6 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">税费</string>
-    <!-- Label for the property fee for a hotel room booking. -->
-    <string name="property_fee">酒店费用</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">已包含</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -3423,9 +3423,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s外</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount}{currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">设置</string>
@@ -4071,6 +4071,7 @@
     <string name="hotels_filter_show_more_cont_desc">显示附近其他地区。按钮</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">隐藏部分附近地区。按钮</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">使用优惠券：您节省了 %1$s！</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4428,7 +4429,7 @@
     <string name="rail_station_info_TEMPLATE">{departure}- {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass}{fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4967,4 +4968,8 @@
     <string name="reset_filter">重置筛选条件</string>
     <!-- Filter no result error message -->
     <string name="error_no_filter_result_message">我们无法找到符合您筛选条件选项的酒店。</string>
+
+    <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
+    <string name="excludes_mandatory_fee_TEMPLATE">不包括 {amount} 每日度假费
+</string>
 </resources>
