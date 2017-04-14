@@ -12,7 +12,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 	// Internal view state
 	private Thumb pressedThumb = null;
 
-	private OnRangeSeekBarChangeListener listener;
+	protected OnRangeSeekBarChangeListener listener;
 
 	public FilterRangeSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);

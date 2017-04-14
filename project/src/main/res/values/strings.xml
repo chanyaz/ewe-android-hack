@@ -193,6 +193,9 @@
         <item quantity="other">{number} Results Filtered</item>
     </plurals>
 
+    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
+    <string name="price_range_filter_cont_desc_TEMPLATE">Seekbar, minimum price {min_price} to maximum price {max_price}</string>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s or similar</string>
@@ -3636,6 +3639,16 @@
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
     <!-- Content description for action: Press to filter for high-range hotel prices -->
     <!-- Content description for action: Press to remove hotel price filters -->
+
+    <!-- Custom Accessibility Action for increasing minimum price range on hotel filter screen -->
+    <string name="increase_price_minimum_filter">Increase minimum price.</string>
+    <!-- Custom Accessibility Action for decreasing minimum price range on hotel filter screen -->
+    <string name="decrease_price_minimum_filter">Decrease minimum price.</string>
+    <!-- Custom Accessibility Action for increasing maximum price range on hotel filter screen -->
+    <string name="increase_price_maximum_filter">Increase maximum price.</string>
+    <!-- Custom Accessibility Action for decreasing maximum price range on hotel filter screen -->
+    <string name="decrease_price_maximum_filter">Decrease maximum price.</string>
+
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <!-- Content description for action: Press to display favorable reviews -->
@@ -3794,10 +3807,6 @@
     <string name="price_range">Price Range</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sort by {sort}</string>
-    <!-- Hotel Price Range start filter label for accessibility -->
-    <string name="hotel_price_range_start">Price Range Start</string>
-    <!-- Hotel Price Range end filter label for accessibility -->
-    <string name="hotel_price_range_end">Price Range End</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="hotels_filter_show_more_cont_desc">Show more neighborhoods. Button</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
