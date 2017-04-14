@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Collection;
-
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -47,8 +45,8 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.AndroidUtils;
 
+import java.util.Collection;
 import kotlin.Unit;
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
@@ -402,7 +400,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private boolean isNewSignInScreen() {
 		return
-			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsNewSignInPage) && !AndroidUtils.isTablet(getActivity());
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsNewSignInPage);
 	}
 
 	private synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
