@@ -22,6 +22,8 @@ import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.utils.AbacusTestUtils;
@@ -45,6 +47,7 @@ public class ItinListFragmentTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY})
 	public void testReviewPromptOnlyShowsOnce() {
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		listFragment.showUserReview();
@@ -54,6 +57,7 @@ public class ItinListFragmentTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY})
 	public void testReviewPromptText() {
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
@@ -68,6 +72,7 @@ public class ItinListFragmentTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY})
 	public void testReviewPromptTextBucketed() {
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
