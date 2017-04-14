@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -100,6 +101,15 @@ class FlightTravelerAdvancedOptionsWidgetTest {
                 expectedType = Traveler.SeatPreference.WINDOW,
                 viewModelValue = widget.viewModel.seatPreferenceSubject.value,
                 textDisplayed = "Prefers: Window Seat")
+    }
+
+    @Test
+    fun testContactAirlineMessageForMaterialForms() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        widget = LayoutInflater.from(context).inflate(R.layout.test_flight_advanced_options_entry_widget, null) as FlightTravelerAdvancedOptionsWidget
+        val contactAirlineMessage = widget.findViewById(R.id.contact_airline_text) as TextView
+        assertEquals(View.VISIBLE, contactAirlineMessage.visibility)
+        assertEquals("Please contact airline to confirm requests", contactAirlineMessage.text)
     }
 
     @Test

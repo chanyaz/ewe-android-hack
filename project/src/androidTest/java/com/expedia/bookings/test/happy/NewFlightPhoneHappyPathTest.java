@@ -194,14 +194,15 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 
-		onView(withId(R.id.first_name_input)).perform(click());
+		onView(withId(R.id.contact_airline_text)).perform(scrollTo()).check(matches(isDisplayed()));
+		onView(withId(R.id.first_name_input)).perform(scrollTo(), click());
 		onView(withId(R.id.last_name_input)).perform(click());
 		onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()));
 		onView(withId(R.id.edit_email_address)).perform(click());
 		onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()));
 		onView(withId(R.id.edit_phone_number)).perform(scrollTo(), click());
 		onView(withText(R.string.email_validation_error_message)).check(matches(isDisplayed()));
-		onView(withId(R.id.middle_name_input)).perform(scrollTo(),click());
+		onView(withId(R.id.middle_name_input)).perform(scrollTo(), click());
 		Espresso.closeSoftKeyboard();
 		onView(withText(R.string.phone_validation_error_message)).check(matches(isDisplayed()));
 		Espresso.pressBack();
