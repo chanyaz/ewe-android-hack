@@ -22,7 +22,6 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
@@ -496,8 +495,7 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	private void handleLogin() {
-		Intent loginIntent = new Intent(getActivity(), AccountLibActivity.class);
-		startActivityForResult(loginIntent, Constants.RESULT_NO_CHANGES);
+		getActivity().onBackPressed();
 	}
 
 	private void showErrorRetryDialog(Context context, final WebView webView, String errorMessage,
