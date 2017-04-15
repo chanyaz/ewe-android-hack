@@ -485,6 +485,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             })
         } else {
             setUpBottomContainerState(isSlideToPurchaseLayoutVisible,!visible)
+            checkoutPresenter.adjustScrollingSpace(bottomContainer)
         }
     }
 
