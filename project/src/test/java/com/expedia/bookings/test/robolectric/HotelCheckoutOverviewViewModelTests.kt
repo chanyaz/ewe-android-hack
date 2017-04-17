@@ -41,7 +41,7 @@ class HotelCheckoutOverviewViewModelTest {
     @Before
     fun setup() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Hotels_Control)
+        activity.setTheme(R.style.Theme_Hotels_Default)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         sut = HotelCheckoutOverviewViewModel(activity, paymentModel)
     }

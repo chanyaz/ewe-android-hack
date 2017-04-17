@@ -39,7 +39,7 @@ public class PaymentWidgetPostalCodeTest {
 
 	private PaymentWidget getPaymentWidgetForHotels() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.Theme_Hotels_Control);
+		activity.setTheme(R.style.Theme_Hotels_Default);
 		Ui.getApplication(activity).defaultHotelComponents();
 
 		PaymentWidget paymentWidget = (PaymentWidget) LayoutInflater.from(activity)

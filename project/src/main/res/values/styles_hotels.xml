@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="Theme.Hotels.Control" parent="Base.Hotels.Control" />
-    <style name="Theme.Hotels.TestVariant" parent="Base.Hotels.TestVariant"/>
+    <style name="Theme.Hotels.Default" parent="Base.Hotels.Default" />
 
     <style name="Base.Hotels" parent="AppTheme.Base">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -32,48 +31,7 @@
         <item name="skin_rippleDrawable">@drawable/old_hotel_ripple_button</item>
     </style>
 
-    <style name="Base.Hotels.Control">
-        <item name="android:colorPrimaryDark">#0b514b</item>
-        <item name="android:colorButtonNormal">@color/hotels_primary_color</item>
-        <item name="android:colorEdgeEffect">@color/hotels_primary_color</item>
-
-        <item name="colorAccent">@color/hotels_primary_color</item>
-
-        <!-- General -->
-        <item name="primary_color">@color/hotels_primary_color</item>
-        <item name="primary_button_color">@color/hotels_primary_color</item>
-        <item name="primary_button_ripple_color">@color/hotel_button_ripple_color</item>
-
-        <!-- Search -->
-        <item name="skin_searchButtonSelectorDrawable">@drawable/old_hotel_ripple_button</item>
-        <item name="spinner_traveler_text_color_drawable">@drawable/hotel_traveler_text_color</item>
-
-        <!-- Results -->
-        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
-        <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
-        <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
-        <item name="hotel_urgency_background_color">@color/hotel_urgency_control_color</item>
-
-        <!-- InfoSite -->
-        <item name="pay_now_later_selector">@drawable/hotel_pay_now_later_button_selector</item>
-        <item name="hotel_pay_now_later_text">@color/sliding_group_text</item>
-        <item name="vip_info_select_ripple_drawable">@drawable/vip_info_select_ripple</item>
-        <item name="hotel_promo_background_colors">@color/hotel_promo_background</item>
-        <item name="map_pin_drawable">@drawable/map_marker_blue</item>
-        <item name="secondary_ripple_button_drawable">@drawable/hotel_select_room_button_selector</item>
-        <item name="hotel_select_room_ripple_drawable">@drawable/old_hotel_ripple_button</item>
-
-        <!-- Checkout -->
-        <item name="traveler_checkout_circle_drawable">@drawable/hotel_traveler_checkout_circle</item>
-
-        <!-- Used for other styles -->
-        <item name="accept_terms_text_color">@color/hotels_primary_color</item>
-        <item name="accept_terms_background_color">@color/white</item>
-        <item name="hotel_book_button_background_selector_drawable">@drawable/old_hotel_book_background_selector</item>
-    </style>
-
-
-    <style name="Base.Hotels.TestVariant">
+    <style name="Base.Hotels.Default">
         <item name="colorAccent">@color/app_primary</item>
 
         <!-- General -->
