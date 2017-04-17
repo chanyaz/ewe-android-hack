@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="@drawable/btn_hotel_attach"
+        android:background="?attr/itin_card_list_cross_sell_bg"
         android:gravity="center">
 
         <FrameLayout
@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:background="?attr/skin_itinDismissListSelectorDrawable"
             android:contentDescription="@string/hide_menu_btn_cont_desc"
-            android:src="@drawable/ic_itin_action_overflow_white"
+            android:src="?attr/itin_card_action_overflow"
             android:scaleType="centerInside"/>
 
     </LinearLayout>

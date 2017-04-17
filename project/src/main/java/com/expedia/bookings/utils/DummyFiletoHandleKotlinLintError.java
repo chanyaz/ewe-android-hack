@@ -830,7 +830,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_cardfee_error_title,
 		R.string.rail_cardfee_error_message,
 		R.layout.include_itin_card_summary_rail,
-		R.drawable.rail_itin_icon,
 		R.string.rail_result_card_cont_desc_TEMPLATE,
 		R.string.rail_railcard_applied_cont_desc,
 		R.string.rail_result_card_price_from_cont_desc_TEMPLATE,

@@ -80,7 +80,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public int getTypeIconResId() {
-		return R.drawable.ic_type_circle_activity;
+		return Ui.obtainThemeResID(getContext(), R.attr.itin_card_list_icon_activity_drawable);
 	}
 
 	@Override
