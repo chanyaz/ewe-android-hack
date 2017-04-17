@@ -48,6 +48,16 @@ class FlightItinContentGeneratorTest {
     }
 
     @Test
+    fun testFlightImageContentDescription() {
+        createSystemUnderTest()
+        itinCardData = ItinCardDataFlight(tripFlight, 0)
+        sut = FlightItinContentGenerator(getContext(), itinCardData)
+
+        val contDesc = sut.listCardContentDescription
+        assertEquals("Detroit Nov 18 FLIGHT Itinerary card button.", contDesc)
+    }
+
+    @Test
     fun testAirlinePhoneNumberFeatureOn() {
         createSystemUnderTest()
         givenGoodFlightItinDetailView()

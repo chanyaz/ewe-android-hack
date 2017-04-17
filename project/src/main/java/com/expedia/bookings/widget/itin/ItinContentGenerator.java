@@ -188,6 +188,14 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract List<Intent> getAddToCalendarIntents();
 
+	public String getListCardContentDescription() {
+		return Phrase.from(getContext(), R.string.header_itin_card_content_description_TEMPLATE)
+			.put("itin_card_header_text", getHeaderText())
+			.put("trip_start_date", getHeaderTextDate())
+			.put("line_of_business", getType().toString())
+			.format().toString();
+	}
+
 	// show check in link for flights only
 	public String getCheckInLink() {
 		if (getType() == Type.FLIGHT) {

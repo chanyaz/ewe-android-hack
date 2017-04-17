@@ -48,7 +48,6 @@ import com.expedia.bookings.widget.RecyclerGallery;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.CalendarAPIUtils;
-import com.squareup.phrase.Phrase;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener,
@@ -107,7 +106,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mTitleContentLayout;
 	private ViewGroup mHeaderLayout;
 	private ViewGroup mHeaderTextLayout;
-	private View mHeaderItinCardContentDescription;
 	private ViewGroup mSummarySectionLayout;
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
@@ -164,7 +162,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
 		mHeaderLayout = Ui.findView(this, R.id.header_layout);
 		mHeaderTextLayout = Ui.findView(this, R.id.header_text_layout);
-		mHeaderItinCardContentDescription = Ui.findView(this, R.id.header_itin_card_content_description_view);
 		mSummarySectionLayout = Ui.findView(this, R.id.summary_section_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
@@ -334,15 +331,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderTextView.setText(mItinContentGenerator.getHeaderText());
 		mHeaderTextDateView.setText(mItinContentGenerator.getHeaderTextDate());
 
-		if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
-			mHeaderItinCardContentDescription
-				.setContentDescription(Phrase.from(getContext(), R.string.header_itin_card_content_description_TEMPLATE)
-					.put("type", mItinContentGenerator.getType().toString())
-					.format());
+		if (AccessibilityUtil.isTalkBackEnabled(getContext()) && mDisplayState != DisplayState.EXPANDED) {
+			mHeaderImageContainer.setContentDescription(mItinContentGenerator.getListCardContentDescription());
 		}
-		mHeaderItinCardContentDescription
-			.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext()) ? VISIBLE : GONE);
-
 		// Summary text
 		wasNull = mSummaryView == null;
 		if (wasNull && mSummaryLayout.getChildCount() > 0) {
@@ -417,6 +408,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		if (detailsView != null) {
 			mDetailsLayout.removeAllViews();
 			mDetailsLayout.addView(detailsView);
+			detailsViewImageContDesc();
 		}
 	}
 
@@ -701,6 +693,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mChevronImageView
 				.setContentDescription(getContext().getString(R.string.trips_expand_button_label_cont_desc));
 		}
+	}
+
+	public void detailsViewImageContDesc() {
+		mHeaderImageContainer.setContentDescription(getContext().getString(R.string.gallery_cont_desc));
 	}
 
 	public AnimatorSet expand(boolean animate) {
