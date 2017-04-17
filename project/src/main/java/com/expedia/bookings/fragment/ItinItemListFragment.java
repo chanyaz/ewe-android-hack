@@ -37,6 +37,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
@@ -164,6 +165,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
 		mItinListView.addFooterView(guestItinView);
 		View guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
+
+		if (FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+			View itinListDivider = Ui.findView(guestItinView, R.id.itin_list_divider);
+			itinListDivider.setVisibility(View.GONE);
+		}
+
 		guestItinTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -27,7 +27,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="@drawable/cancel_icon"
+        android:drawableLeft="?attr/itin_card_detail_cancel_left_drawable"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="8dp"
@@ -45,7 +45,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="@drawable/ic_info"
+        android:drawableLeft="?attr/itin_card_detail_info_left_drawable"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="8dp"
@@ -62,7 +62,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableLeft="@drawable/ic_create_white_24dp"
+        android:drawableLeft="?attr/itin_card_detail_edit_left_drawable"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="8dp"
@@ -87,7 +87,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:background="@drawable/ic_reload_details" />
+            android:background="?attr/itin_card_detail_refresh_left_drawable" />
 
         <ProgressBar
             android:id="@+id/itin_details_progress_bar"

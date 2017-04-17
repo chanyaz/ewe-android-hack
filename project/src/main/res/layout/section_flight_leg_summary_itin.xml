@@ -18,8 +18,8 @@
         android:layout_toLeftOf="@+id/price_text_view"
         android:ellipsize="middle"
         android:maxLines="1"
-        android:textColor="@color/itin_white_text"
-        android:textSize="16sp"
+        android:textColor="?attr/itin_card_detail_flight_airline_text_color"
+        android:textSize="?attr/itin_card_detail_flight_airline_text_size"
         android:textStyle="bold"
         app:textStyle="medium" />
 
@@ -44,8 +44,8 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="1dp"
         android:layout_toRightOf="@+id/operating_carrier_image_view"
-        android:textColor="@color/itin_offwhite_text"
-        android:textSize="12sp"
+        android:textColor="?attr/itin_card_detail_flight_operating_carrier_text_color"
+        android:textSize="?attr/itin_card_detail_flight_operating_carrier_text_size"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.TextView
@@ -56,8 +56,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="6dp"
         android:paddingBottom="16dp"
-        android:textColor="@color/itin_offwhite_text"
-        android:textSize="15sp"
+        android:textColor="?attr/itin_card_detail_flight_airline_text_color"
+        android:textSize="?attr/itin_card_detail_flight_airline_text_size"
         app:textStyle="light" />
 
     <com.expedia.bookings.widget.TextView
@@ -68,8 +68,8 @@
         android:layout_below="@+id/operating_carrier_text_view"
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
-        android:textColor="@color/itin_offwhite_text"
-        android:textSize="15sp"
+        android:textColor="?attr/itin_card_detail_flight_airline_text_color"
+        android:textSize="?attr/itin_card_detail_flight_airline_text_size"
         app:textStyle="light" />
 
     <com.expedia.bookings.widget.TextView
@@ -96,7 +96,7 @@
         android:layout_toLeftOf="@+id/arrival_time_text_view"
         android:layout_toRightOf="@+id/departure_time_text_view"
         app:flightLineColor="?attr/skin_itinFlightsTripLineColor"
-        app:waypointTextColor="@color/itin_offwhite_text"
+        app:waypointTextColor="?attr/itin_card_detail_flight_trip_view_text_color"
         app:waypointTextTopMargin="4dp" />
 
     <com.expedia.bookings.widget.TextView

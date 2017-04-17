@@ -224,7 +224,7 @@
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/itin_close_icon</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_tripsTabText">@string/trips</item>
 
@@ -259,12 +259,40 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/ic_type_circle_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/rail_itin_icon</item>
+
         <item name="itin_air_attach_background">@drawable/btn_hotel_attach_normal</item>
         <item name="itin_air_attach_text_color">#FFFFFF</item>
         <item name="itin_air_attach_expiration_text_color">@color/air_attach_expiration_text_color</item>
         <item name="itin_air_attach_action_text_color">@color/itin_white_text</item>
         <item name="itin_air_attach_action_overflow">@drawable/ic_itin_action_overflow_white</item>
         <item name="itin_air_attach_banner_divider_color">@color/bg_air_attach_banner_divider</item>
+
+        <item name="itin_card_detail_title_bg">@drawable/bg_itin_card_title</item>
+        <item name="itin_card_detail_triplet_value_text_size">24sp</item>
+        <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
+        <item name="itin_card_detail_triplet_label_text_size">14sp</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray2</item>
+        <item name="itin_card_detail_section_header_text_size">14sp</item>
+        <item name="itin_card_detail_section_header_text_color">@color/white</item>
+        <item name="itin_card_detail_section_text_size">18sp</item>
+        <item name="itin_card_detail_section_text_color">@color/itin_section_text</item>
+        <item name="itin_card_detail_cancel_left_drawable">@drawable/cancel_icon</item>
+        <item name="itin_card_detail_info_left_drawable">@drawable/ic_info</item>
+        <item name="itin_card_detail_refresh_left_drawable">@drawable/ic_reload_details</item>
+        <item name="itin_card_detail_edit_left_drawable">@drawable/ic_create_white_24dp</item>
+        <item name="itin_card_detail_action_overflow">@drawable/itin_card_overflow_drawable</item>
+        <item name="itin_card_detail_departure_drawable">@drawable/ic_departure_details</item>
+        <item name="itin_card_detail_arrival_drawable">@drawable/ic_arrival_details</item>
+        <item name="itin_card_detail_map_icon">@drawable/ic_airport_map_actions</item>
+        <item name="itin_card_detail_flight_airline_text_size">16sp</item>
+        <item name="itin_card_detail_flight_airline_text_color">@color/itin_white_text</item>
+        <item name="itin_card_detail_flight_operating_carrier_text_size">12sp</item>
+        <item name="itin_card_detail_flight_operating_carrier_text_color">@color/itin_white_text</item>
+        <item name="itin_card_detail_flight_trip_view_text_color">@color/itin_offwhite_text</item>
+        <item name="itin_card_detail_flight_arrow_drawable">@drawable/ic_depart_arrive_arrow</item>
+        <item name="itin_add_guest_itin_left_drawable">@drawable/plus_itin</item>
+        <item name="itin_add_guest_itin_text_color">@color/launch_screen_itin_divider</item>
+        <item name="itin_card_detail_car_location_icon">@drawable/ic_location_pin</item>
     </style>
 
     <style name="NewLaunchTheme.Light">
@@ -298,12 +326,41 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/itin_lob_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/itin_lob_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/itin_lob_rail</item>
+
         <item name="itin_air_attach_background">@android:color/white</item>
         <item name="itin_air_attach_text_color">@color/gray10</item>
         <item name="itin_air_attach_expiration_text_color">@color/gray10</item>
         <item name="itin_air_attach_action_text_color">@color/gray10</item>
         <item name="itin_air_attach_action_overflow">@drawable/ic_itin_action_overflow_crystal_dark</item>
         <item name="itin_air_attach_banner_divider_color">@color/gray1</item>
+
+        <item name="itin_card_detail_title_bg">@android:color/white</item>
+        <item name="itin_card_detail_triplet_value_text_size">24sp</item>
+        <item name="itin_card_detail_triplet_value_text_color">@color/gray10</item>
+        <item name="itin_card_detail_triplet_label_text_size">12sp</item>
+        <item name="itin_card_detail_triplet_label_text_color">@color/gray6</item>
+        <item name="itin_card_detail_section_header_text_size">12sp</item>
+        <item name="itin_card_detail_section_header_text_color">@color/gray10</item>
+        <item name="itin_card_detail_section_text_size">16sp</item>
+        <item name="itin_card_detail_section_text_color">@color/gray6</item>
+        <item name="skin_itinCardTitleTextColor">@color/gray10</item>
+        <item name="itin_card_detail_cancel_left_drawable">@drawable/itin_cancel_icon</item>
+        <item name="itin_card_detail_info_left_drawable">@drawable/itin_info_icon</item>
+        <item name="itin_card_detail_refresh_left_drawable">@drawable/itin_refresh_icon</item>
+        <item name="itin_card_detail_edit_left_drawable">@drawable/itin_edit_icon</item>
+        <item name="itin_card_detail_action_overflow">@drawable/ic_itin_action_overflow_crystal</item>
+        <item name="itin_card_detail_departure_drawable">@drawable/ic_itin_departure_icon</item>
+        <item name="itin_card_detail_arrival_drawable">@drawable/ic_itin_arrival_icon</item>
+        <item name="itin_card_detail_map_icon">@drawable/itin_terminal_map_icon</item>
+        <item name="itin_card_detail_flight_airline_text_size">14sp</item>
+        <item name="itin_card_detail_flight_airline_text_color">@color/gray10</item>
+        <item name="itin_card_detail_flight_operating_carrier_text_size">12sp</item>
+        <item name="itin_card_detail_flight_operating_carrier_text_color">@color/gray6</item>
+        <item name="itin_card_detail_flight_trip_view_text_color">@color/exp_launch_secondary_blue</item>
+        <item name="itin_card_detail_flight_arrow_drawable">@drawable/itin_arrow_icon</item>
+        <item name="itin_add_guest_itin_left_drawable">@drawable/itin_plus_icon</item>
+        <item name="itin_add_guest_itin_text_color">@color/gray10</item>
+        <item name="itin_card_detail_car_location_icon">@drawable/itin_terminal_map_icon</item>
     </style>
 
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
