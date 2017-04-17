@@ -435,10 +435,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
-        } else {
-            val lp = scrollViewSpace.layoutParams
-            lp.height = 0
-            scrollViewSpace.layoutParams = lp
         }
         ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
     }
@@ -650,10 +646,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 travelersPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-            } else {
-                val lp = scrollViewSpace.layoutParams
-                lp.height = 0
-                scrollViewSpace.layoutParams = lp
             }
         }
     }
