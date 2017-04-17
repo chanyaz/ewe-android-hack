@@ -24,7 +24,7 @@ class ClientNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
         super.updateNeighborhoods(list)
         neighborhoodGroup.removeAllViews()
 
-        if (list.size > 1) {
+        if (list.size > 0) {
             for (i in 0..list.size - 1) {
                 val neighborhoodView = LayoutInflater.from(getContext())
                         .inflate(R.layout.section_hotel_neighborhood_row, neighborhoodGroup, false) as HotelsNeighborhoodFilter

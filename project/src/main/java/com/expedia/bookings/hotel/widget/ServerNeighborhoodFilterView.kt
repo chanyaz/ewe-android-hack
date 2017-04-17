@@ -26,7 +26,7 @@ class ServerNeighborhoodFilterView(context: Context, attrs: AttributeSet?) : Bas
         super.updateNeighborhoods(list)
         neighborhoodGroup.removeAllViews()
 
-        if (list.size > 1) {
+        if (list.size > 0) {
             for (i in 0..list.size - 1) {
                 val neighborhoodView = LayoutInflater.from(context)
                         .inflate(R.layout.hotel_neighbor_filter_radio_button, neighborhoodGroup, false) as RadioButton

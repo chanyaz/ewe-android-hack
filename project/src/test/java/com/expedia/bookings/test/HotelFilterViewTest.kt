@@ -105,6 +105,18 @@ class HotelFilterViewTest {
     }
 
     @Test
+    fun testOneNeighborhoodIsValid() {
+        // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/1682
+        initViewModel()
+        val list = ArrayList<HotelSearchResponse.Neighborhood>()
+        list.add(HotelSearchResponse.Neighborhood())
+        hotelFilterView.viewModel.neighborhoodListObservable.onNext(list)
+
+        assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
+        assertTrue(hotelFilterView.neighborhoodLabel.visibility == View.VISIBLE)
+    }
+
+    @Test
     fun testNeighborhoodNoneToMany() {
         initViewModel()
         hotelFilterView.viewModel.neighborhoodListObservable.onNext(emptyList())

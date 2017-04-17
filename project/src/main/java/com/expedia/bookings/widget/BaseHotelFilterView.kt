@@ -233,7 +233,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         }
 
         vm.neighborhoodListObservable.subscribe { list ->
-            if (list != null && list.size > 1) {
+            if (list != null && list.size > 0) {
                 neighborhoodLabel.visibility = View.VISIBLE
                 neighborhoodView.visibility = View.VISIBLE
                 neighborhoodView.updateNeighborhoods(list)
