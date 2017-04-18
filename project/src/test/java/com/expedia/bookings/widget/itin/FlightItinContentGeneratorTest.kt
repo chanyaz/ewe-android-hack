@@ -69,6 +69,7 @@ class FlightItinContentGeneratorTest {
 
         assertEquals(View.VISIBLE, textView.visibility)
         assertEquals("Total Duration: 4h 32m", textView.text)
+        assertEquals("Total Duration: 4 hour 32 minutes", textView.contentDescription)
     }
 
     @Test
