@@ -39,6 +39,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -417,45 +418,35 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-
-    open inner class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, paymentWidget.javaClass) {
-
+//    open inner class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, paymentWidget.javaClass) {
+    open inner class DefaultToPayment(override val presenter: BaseCheckoutPresenter) : ScaleTransition(this, mainContent, paymentWidget, CheckoutDefault::class.java, paymentWidget.javaClass) {
         override fun startTransition(forward: Boolean) {
-            presenter.startDefaultToPaymentTransition(forward)
+            super.startTransition(forward)
+            ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
+            if (!forward) {
+                Ui.hideKeyboard(paymentWidget)
+                invalidPaymentTypeWarningTextView.visibility = View.GONE
+                cardProcessingFeeTextView.visibility = View.GONE
+                debitCardsNotAcceptedTextView.visibility = View.GONE
+                paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+                scrollView.layoutParams.height = height
+                paymentWidget.viewmodel.showingPaymentForm.onNext(false)
+                mainContent.visibility = View.VISIBLE
+            } else {
+                decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
+            }
         }
 
         override fun endTransition(forward: Boolean) {
-            presenter.endDefaultToPaymentTransition(forward)
-        }
-    }
-
-    private fun endDefaultToPaymentTransition(forward: Boolean) {
-        if (!forward) {
-            ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
-            paymentWidget.setFocusForView()
-            decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
-            paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
-        }
-        ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
-    }
-
-    private fun startDefaultToPaymentTransition(forward: Boolean) {
-        loginWidget.setInverseVisibility(forward)
-        hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-        travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
-        legalInformationText.setInverseVisibility(forward)
-        depositPolicyText.setInverseVisibility(forward)
-        ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
-        if (!forward) {
-            Ui.hideKeyboard(paymentWidget)
-            invalidPaymentTypeWarningTextView.visibility = View.GONE
-            cardProcessingFeeTextView.visibility = View.GONE
-            debitCardsNotAcceptedTextView.visibility = View.GONE
-            paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-            scrollView.layoutParams.height = height
-            paymentWidget.viewmodel.showingPaymentForm.onNext(false)
-        } else {
-            decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
+            super.endTransition(forward)
+            if (!forward) {
+                ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
+                paymentWidget.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
+                paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
+                mainContent.visibility = View.VISIBLE
+            }
+            ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
         }
     }
 

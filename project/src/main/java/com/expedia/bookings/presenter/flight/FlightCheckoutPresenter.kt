@@ -20,9 +20,7 @@ import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.BaseCheckoutPresenter
-import com.expedia.bookings.widget.InsuranceWidget
-import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.*
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel
