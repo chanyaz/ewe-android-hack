@@ -21,7 +21,7 @@ public class RailSegment {
 	public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
 
 	public int durationMinutes() {
-		return DateUtils.parseDurationMinutes(duration);
+		return DateUtils.parseDurationMinutesFromISOFormat(duration);
 	}
 
 	public boolean isTransfer() {

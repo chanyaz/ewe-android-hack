@@ -70,12 +70,10 @@ public class FlightUtils {
 		return FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
 	}
 
-	public static String formatDuration(Context context, FlightLeg leg) {
-		return DateTimeUtils.formatDuration(context.getResources(), (int) (leg.getDuration() / 60000));
-	}
-
-	public static String formatTotalDuration(Context context, FlightLeg leg) {
-		return DateTimeUtils.formatTotalDuration(context.getResources(), leg.getDuration());
+	public static String formatTotalDuration(Context context, int legDuration) {
+		String hoursMinutes = DateTimeUtils.formatDuration(context.getResources(), legDuration);
+		String legDurationTime = Phrase.from(context.getString(R.string.total_duration_TEMPLATE)).put("hoursminutes", hoursMinutes).format().toString();
+		return legDurationTime;
 	}
 
 	/**

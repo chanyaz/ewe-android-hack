@@ -225,6 +225,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		if (tripFlight != null && tripFlight.getFlightTrip() != null && tripFlight.getFlightTrip().getLegCount() > 0) {
 			Resources res = getResources();
 			FlightLeg leg = data.getFlightLeg();
+			int legDurationMins = leg.durationMinutes();
 
 			FlightMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 
@@ -236,8 +237,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			TextView flightDuration = Ui.findView(view, R.id.flight_duration);
 
 			boolean isFlightDurationEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_flight_duration);
-			if (isFlightDurationEnabled) {
-				String duration = FlightUtils.formatTotalDuration(getContext(), leg);
+			if (isFlightDurationEnabled && legDurationMins > 0) {
+				String duration = FlightUtils.formatTotalDuration(getContext(), legDurationMins);
 				flightDuration.setText(duration);
 				flightDuration.setVisibility(View.VISIBLE);
 			}

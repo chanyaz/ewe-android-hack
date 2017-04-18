@@ -432,7 +432,7 @@ public class FlightTripView extends View {
 
 		// Calculate the ranges.  If there is a min/max time available,
 		// calibrate to that (otherwise assume we have the full width for the trip view)
-		long tripRangeMillis = mFlightLeg.getDuration();
+		long tripRangeMillis = mFlightLeg.getDurationFromWaypoints();
 		long totalRangeMillis = maxTime.getMillis() - minTime.getMillis();
 		float totalPossibleWidth = width - (2 * sidePadding);
 		float totalAvailableWidth = width - (2 * sidePadding) - (2 * circleDiameter); // Discount the start/end circles

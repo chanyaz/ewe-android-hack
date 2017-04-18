@@ -3,12 +3,10 @@ package com.expedia.bookings.activity;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import com.expedia.bookings.BuildConfig;
@@ -119,7 +117,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 			}
-			doAnimationThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
+			showSplashThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
 		}
 
 		@Override
@@ -129,17 +127,17 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch)
 				&& loadSignInViewAbTest) {
-				doAnimationThenLaunchOpeningView(LaunchDestination.SIGN_IN);
+				showSplashThenLaunchOpeningView(LaunchDestination.SIGN_IN);
 			}
 			else {
-				doAnimationThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
+				showSplashThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
 			}
 		}
 	};
 
 	private void finishActivity() {
 		finish();
-		overridePendingTransition(R.anim.fade_in, R.anim.slide_down);
+		overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
 	}
 
 	/**
@@ -209,41 +207,19 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		}
 	}
 
-	private void doAnimationThenLaunchOpeningView(final LaunchDestination destination) {
-		if (logoView.getHeight() != 0) {
-			logoView.animate().translationY(content.getHeight() / 2 + logoView.getHeight() / 2 + 2)
-				.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime)).setInterpolator(new LinearInterpolator()).setListener(
-				new Animator.AnimatorListener() {
-					@Override
-					public void onAnimationStart(Animator animator) {
-					}
-					@Override
-					public void onAnimationEnd(Animator animator) {
-						if (destination == LaunchDestination.LAUNCH_SCREEN) {
-							NavUtils.goToLaunchScreen(RouterActivity.this);
-						}
-						else {
-							NavUtils.goToSignIn(RouterActivity.this);
-						}
-						finishActivity();
-					}
-					@Override
-					public void onAnimationCancel(Animator animator) {
-					}
-
-					@Override
-					public void onAnimationRepeat(Animator animator) {
-					}
-				}).start();
-		}
-		else {
-			logoView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-				@Override
-				public void onGlobalLayout() {
-					logoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-					doAnimationThenLaunchOpeningView(destination);
+	private void showSplashThenLaunchOpeningView(final LaunchDestination destination) {
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (destination == LaunchDestination.LAUNCH_SCREEN) {
+					NavUtils.goToLaunchScreen(RouterActivity.this);
 				}
-			});
-		}
+				else {
+					NavUtils.goToSignIn(RouterActivity.this);
+				}
+				finishActivity();
+			}
+		}, getResources().getInteger(android.R.integer.config_longAnimTime));
 	}
 }
