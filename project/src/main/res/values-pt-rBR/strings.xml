@@ -193,6 +193,9 @@
         <item quantity="other">{number} resultados filtrados</item>
     </plurals>
 
+    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
+    <string name="price_range_filter_cont_desc_TEMPLATE">Barra de busca, de um preço mínimo de {min_price} a um preço máximo de {max_price}</string>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s ou semelhante</string>
@@ -305,29 +308,19 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Insira seu destino</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
-    <string name="fly_from_TEMPLATE">Voar de %1$s</string>
     <!-- Fly from… -->
-    <string name="Fly_from_dot_dot_dot">Voo de…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Selecione as datas</string>
     <!-- Select Start date - used for the LX Calendar. -->
     <string name="select_start_date">Selecionar a data inicial</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Hotéis para hoje</string>
     <!-- Missing flight info message -->
-    <string name="missing_flight_info_message_TEMPLATE">Para procurar voos para %s, diga de onde você está voando.</string>
     <!-- Missing flight info message -->
-    <string name="missing_flight_trip_date_message">Selecione uma data ou intervalo de datas válido.</string>
     <!-- Denotes the start date of the trip -->
-    <string name="trip_starts">A viagem começa</string>
     <!-- Denotes the end date of the trip -->
-    <string name="trip_ends">A viagem termina</string>
     <!-- Denotes that the return date for the trip is optional, in the event of a one-way flight ticket -->
-    <string name="trip_end_optional">Opcional</string>
     <!-- Button text for when flight origin is missing -->
-    <string name="missing_flight_info_button_prompt">Selecionar aeroporto</string>
 
     <!-- LX -->
     <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
@@ -787,50 +780,10 @@
     <!-- "Done" list header label -->
     <string name="Done">Concluído</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
-    <plurals name="x_Hotels_TEMPLATE">
-        <item quantity="zero">%s hotéis</item>
-        <item quantity="one">%s hotel</item>
-        <item quantity="two">%s hotéis</item>
-        <item quantity="few">%s hotéis</item>
-        <item quantity="many">%s hotéis</item>
-        <item quantity="other">%s hotéis</item>
-    </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
-    <plurals name="x_of_y_Hotels_TEMPLATE">
-        <item quantity="zero">%1$s de %2$s hotéis</item>
-        <item quantity="one">%1$s de %2$s hotel</item>
-        <item quantity="two">%1$s de %2$s hotéis</item>
-        <item quantity="few">%1$s de %2$s hotéis</item>
-        <item quantity="many">%1$s de %2$s hotéis</item>
-        <item quantity="other">%1$s de %2$s hotéis</item>
-    </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
-    <plurals name="of_y_hotels_TEMPLATE">
-        <item quantity="zero">de %s hotéis</item>
-        <item quantity="one">de %s hotel</item>
-        <item quantity="two">de %s hotéis</item>
-        <item quantity="few">de %s hotéis</item>
-        <item quantity="many">de %s hotéis</item>
-        <item quantity="other">de %s hotéis</item>
-    </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
-    <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s voo</item>
-        <item quantity="one">%s voo</item>
-        <item quantity="two">%s voos</item>
-        <item quantity="few">%s voos</item>
-        <item quantity="many">%s voos</item>
-        <item quantity="other">%s voos</item>
-    </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
-    <plurals name="x_Return_Flights_TEMPLATE">
-        <item quantity="zero">%s voos de volta</item>
-        <item quantity="one">%s voo de volta</item>
-        <item quantity="two">%s voos de volta</item>
-        <item quantity="few">%s voos de volta</item>
-        <item quantity="many">%s voos de volta</item>
-        <item quantity="other">%s voos de volta</item>
-    </plurals>
 
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">Selecionar ida</string>
@@ -846,7 +799,6 @@
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Preços somente de ida por pessoa</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
-    <string name="roundtrip">ida e volta</string>
     <!-- Label clarifying the type of flight trip -->
     <string name="Roundtrip">Ida e volta</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -854,38 +806,19 @@
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Preços somente de ida por pessoa, a partir de</string>
     <!-- Trip bucket, trip is empty message -->
-    <string name="trip_empty">Sua viagem está vazia.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
-    <string name="trip_bucket_book_flight">Reservar voo</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
-    <string name="trip_bucket_book_hotel">Reservar hotel</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Esgotado em nosso site</string>
     <!-- Tablet Trip bucket, expired text -->
-    <string name="trip_bucket_expired">Expirou</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">Voo de ida e volta para %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">Voo para %1$s</string>
     <!-- Tablet search results, no hotels available -->
-    <string name="tablet_search_results_hotels_unavailable">Nenhum hotel \n disponível em nosso site no momento.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
-    <string name="tablet_search_results_hotels_unavailable_tonight">Nenhum hotel\n disponível para esta noite em nosso site.</string>
     <!-- Tablet search results, no flights available -->
-    <string name="tablet_search_results_flights_unavailable">Nenhum voo \n disponível em nosso site no momento.</string>
     <!-- Tablet search results, no flights available due to invalid start date -->
-    <string name="flight_search_range_error_TEMPLATE">Não podemos buscar voos para mais de %1$s dias, a partir de hoje.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
-    <string name="tablet_tripbucket_item_removed">Removido</string>
     <!-- Label indicating how many items are being booked for the current trip -->
-    <plurals name="items_in_trip">
-        <item quantity="zero">Item incluído na viagem</item>
-        <item quantity="one">Item incluído na viagem</item>
-        <item quantity="two">Itens incluídos na viagem</item>
-        <item quantity="few">Itens incluídos na viagem</item>
-        <item quantity="many">Itens incluídos na viagem</item>
-        <item quantity="other">Itens incluídos na viagem</item>
-    </plurals>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Organizar por</string>
@@ -898,9 +831,7 @@
     <!-- "Filter By" section header -->
     <string name="Filter_By">Filtrar por</string>
     <!-- "Filters" section header -->
-    <string name="Filters">Filtro</string>
     <!-- "Areas"/neighborhoods section header -->
-    <string name="Areas">Áreas</string>
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Outras áreas</string>
     <!-- Short label for "sort by recommended" button -->
@@ -912,7 +843,6 @@
     <!-- Short label for "sort by distance" button -->
     <string name="distance">Distância</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">Descontos</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">A partir de %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -950,11 +880,8 @@
     </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
-    <string name="departure_airports">Aeroportos de partida</string>
     <!-- Header for a dropdown to select from a list of available arrival airports -->
-    <string name="arrival_airports">Aeroportos de chegada</string>
     <!-- Header for a dropdown to select form a list of airports -->
-    <string name="all_airports">Todos os aeroportos</string>
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates pay later -->
@@ -966,48 +893,27 @@
     <!-- Rooms and rates pay later deposit due now -->
     <string name="old_room_rate_pay_later_due_now">Devido agora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">%s/noite</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">Taxas do hotel para esta estadia (incluídas): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">Taxas do hotel para esta estadia (não incluídas): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
-    <string name="room_rate_button_add_to_trip">Adicionar à viagem</string>
     <!-- Rooms and rates button to select a particular room and view details -->
-    <string name="room_rate_button_select_room">Selecionar quarto</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s avaliações</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
-    <string name="n_recommend_TEMPLATE">%s%% recomendam</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out_TEMPLATE">Não há quartos disponíveis na {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_TEMPLATE">Indisponível na {brand}</string>
     <!-- Hotel gallery title -->
-    <string name="photos_for_TEMPLATE">Fotos para %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
-    <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">%s quartos restantes em nosso site</item>
-        <item quantity="one">%s quarto restante em nosso site</item>
-        <item quantity="two">%s quartos restantes em nosso site</item>
-        <item quantity="few">%s quartos restantes em nosso site</item>
-        <item quantity="many">%s quartos restantes em nosso site</item>
-        <item quantity="other">%s quartos restantes em nosso site</item>
-    </plurals>
     <!-- Title for the reviews section after we get the property name -->
-    <string name="reviews_for_TEMPLATE">Avaliações para %1$s</string>
     <!-- Information for the review about who submitted it and when -->
     <string name="submitted_by_on_date_TEMPLATE">%1$s em %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
-    <string name="flight_cities_TEMPLATE">%1$s a %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
-    <string name="flight_on_time_TEMPLATE">%s%% na hora</string>
 
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
-    <string name="round_trip">Ida e volta</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total com imposto</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
@@ -1021,13 +927,9 @@
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Check-out</string>
     <!-- Actionbar Title for default search results state -->
-    <string name="Create_a_Trip">Criar uma viagem</string>
     <!-- Your Trip -->
-    <string name="your_trip">Sua viagem</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">Nova reserva &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
-    <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Conectar com a {brand}</string>
@@ -1116,7 +1018,6 @@
     <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">de 5 (classificação do hóspede)</string>
     <!-- Hotel search list rating text -->
-    <string name="hotel_search_rating_text">de 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">somente para dispositivos móveis!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -1137,9 +1038,7 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Não é possível conectar.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
-    <string name="network_unavailable">Rede indisponível</string>
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
-    <string name="error_network_unavailable">Conecte-se a uma rede Wi-Fi ou\n rede de dados celulares para continuar</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viagens</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1147,24 +1046,12 @@
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Explore</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
-    <string name="Destination">Destino</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Este aplicativo necessita dos serviços do Google Play. Instale a última versão dos serviços do Google Play.</string>
     <!-- Label for tablet launch pin button that starts new search -->
-    <string name="explore_now">Explorar agora</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
-    <string name="your_search">Sua busca</string>
     <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
-    <string name="current_location_tile">Ofertas locais para esta noite</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
-    <plurals name="num_items_TEMPLATE">
-        <item quantity="zero">%s item</item>
-        <item quantity="one">%s item</item>
-        <item quantity="two">%s itens</item>
-        <item quantity="few">%s itens</item>
-        <item quantity="many">%s itens</item>
-        <item quantity="other">%s itens</item>
-    </plurals>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1174,7 +1061,6 @@
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Seu voo para %1$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
-    <string name="your_selected_flight_to_x_TEMPLATE">Seu voo selecionado para %1$s</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">Coleta do carro: %s</string>
     <!-- Notification text for car pick up -->
@@ -1665,6 +1551,8 @@
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
     <string name="itin_action_call_agency_cont_desc_TEMPLATE">Ligar para {agency}</string>
     <string name="itin_action_redeem">Utilizar</string>
+    <!-- Content description for the Support button on itinerary card that will call the customer support phone number. Example: Call Support Button -->
+    <string name="itin_action_call_support_cont_desc">Ligar para o suporte</string>
     <string name="itin_action_support">Assistência</string>
     <string name="itin_action_share">Compartilhar</string>
     <string name="itin_action_view">Visualizar itinerário</string>
@@ -1875,7 +1763,6 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">As reservas com dispositivos móveis ainda não estão disponíveis para seu local.</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
-    <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">Ainda não oferecemos suporte para voos em sua região. No entanto, você poderá usar esse serviço em &lt;a href=\"%1$s\"&gt;nosso site&lt;/a&gt;.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Os aeroportos de partida e chegada não podem ser o mesmo.</string>
 
@@ -1930,46 +1817,20 @@
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">Somente de ida para &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">De ida e volta de &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
-    <string name="book_now_price_TEMPLATE">Reserve agora para &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
-    <string name="one_way_price_min_TEMPLATE">Somente ida a partir de &lt;b&gt;%s&lt;/b&gt; por pessoa</string>
-    <string name="round_trip_price_min_TEMPLATE">Ida e volta a partir de &lt;b&gt;%s&lt;/b&gt; por pessoa</string>
-    <string name="book_now_price_min_TEMPLATE">Reserve agora a partir de &lt;b&gt;%s&lt;/b&gt; por pessoa</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
-    <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">%1$s partiu às &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">%1$s partiu às &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">%1$s partiu às &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">%1$s partiu às &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">%1$s partiu às &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="other">%1$s partiu às &lt;b&gt;%2$s&lt;/b&gt;</item>
-    </plurals>
     <!-- Book now info label, when there are only a few seats left. Variant for Australian
          compliance rules (d/5810) -->
-    <plurals name="urgency_book_min_TEMPLATE">
-        <item quantity="zero">Somente %1$s assento(s) a partir de &lt;b&gt;%2$s&lt;/b&gt; por pessoa</item>
-        <item quantity="one">Somente %1$s assento(s) a partir de &lt;b&gt;%2$s&lt;/b&gt; por pessoa</item>
-        <item quantity="two">Somente %1$s assento(s) a partir de &lt;b&gt;%2$s&lt;/b&gt; por pessoa</item>
-        <item quantity="few">Somente %1$s assento(s) a partir de &lt;b&gt;%2$s&lt;/b&gt; por pessoa</item>
-        <item quantity="many">Somente %1$s assento(s) a partir de &lt;b&gt;%2$s&lt;/b&gt; por pessoa</item>
-        <item quantity="other">Somente %1$s assento(s) a partir de &lt;b&gt;%2$s&lt;/b&gt; por pessoa</item>
-    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
-    <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
-    <string name="fare_name_and_price_min_TEMPLATE">%1$s a partir de %2$s por pessoa</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informações sobre as taxas de bagagem</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; de escala em %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
-    <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
-    <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Price per person. For example: "$20.31 per person" -->
     <string name="flight_details_price_per_person_TEMPLATE">{price} por pessoa</string>
     <!-- Messaging on flight details for basic economy" -->
@@ -1993,9 +1854,7 @@
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
-    <string name="depart_from_TEMPLATE">Partida de %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
-    <string name="arrive_at_TEMPLATE">Chegada a %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Operado por %s</string>
     <!-- Message to user indicating how many points will be earned for this booking; parameter is the number of points; e.g. "Earn 478 points" -->
@@ -2017,10 +1876,6 @@
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Taxas de processamento de pagamento</string>
     <!-- Label indicating number of tickets left for given flight (min: 1) -->
-    <plurals name="number_tickets_left_TEMPLATE">
-        <item quantity="one">{number_tickets_left} restante a</item>
-        <item quantity="other">{number_tickets_left} restantes a</item>
-    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Add new card -->
@@ -2030,7 +1885,6 @@
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">Novo cartão de crédito</string>
     <!-- Payment Method -->
-    <string name="payment_method">Detalhes de pagamento</string>
     <!-- Billing Address -->
     <string name="billing_address">Endereço de cobrança</string>
     <!-- Card Info -->
@@ -2050,13 +1904,11 @@
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">A atividade não aceita {card_type}</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Não são aceitos cartões de débito.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Total da viagem</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
-    <string name="total_price_min_label">Valor total a partir de</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Viagem para %1$s</string>
     <!-- Includes taxes and fees -->
@@ -2067,33 +1919,25 @@
     <string name="includes_flights_hotel">Inclui voos + hotel</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d Viajante</item>
-        <item quantity="one">%1$d Viajante</item>
-        <item quantity="two">%1$d Viajantes</item>
-        <item quantity="few">%1$d Viajantes</item>
-        <item quantity="many">%1$d Viajantes</item>
-        <item quantity="other">%1$d Viajantes</item>
+        <item quantity="zero">%1$d viajante</item>
+        <item quantity="one">%1$d viajante</item>
+        <item quantity="two">%1$d viajantes</item>
+        <item quantity="few">%1$d viajantes</item>
+        <item quantity="many">%1$d viajantes</item>
+        <item quantity="other">%1$d viajantes</item>
     </plurals>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Verificando alteração de preço…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">O preço mudou para %1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">O preço caiu de %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
-    <string name="airline_card_fee_TEMPLATE">Esta companhia aérea cobra uma taxa de &lt;b&gt;%1$s&lt;/b&gt; (incluída no total) para a utilização deste cartão.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
-    <string name="airline_card_fee_select_TEMPLATE">A companhia aérea cobra uma taxa de %1$s para a utilização do cartão %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
-    <string name="airline_card_not_supported_TEMPLATE">A companhia aérea não suporta a utilização do cartão %1$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
-    <string name="airline_card_not_supported_generic">A companhia aérea não aceita esta bandeira de cartão de crédito.</string>
     <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
-    <string name="hotel_card_fee_select_TEMPLATE">O hotel cobra uma taxa de %1$s para uso de %2$s</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
-    <string name="hotel_card_not_supported_TEMPLATE">O hotel não aceita %1$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
-    <string name="hotel_card_not_supported_generic">O hotel não aceita esta bandeira de cartão de crédito.</string>
 
     <!-- Checkout Activity -->
     <!-- Explicit acceptance of TOS -->
@@ -2101,11 +1945,8 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Aceito</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Deslize para comprar.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">deslize para reservar o hotel</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">deslize para reservar o voo</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">{dueamount} será debitado em seu cartão.</string>
     <!-- Your are using pwp points -->
@@ -2117,15 +1958,12 @@
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Valor devido hoje: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="amount_to_be_paid_now_TEMPLATE">Valor atual a ser pago: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="to_be_collected_by_the_hotel_TEMPLATE">A ser cobrado pelo hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Concluir reserva</string>
     <!-- Our price gaurentee string -->
     <string name="price_guarantee">Garantia de preço</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
-    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Cancelamento grátis&lt;/b&gt; até &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Desconectar</string>
     <!-- You'll earn points for this trip -->
@@ -2137,7 +1975,6 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Você ganhará {reward_currency} pontos com esta viagem!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
-    <string name="calculating_taxes_and_fees">Calculando impostos e taxas…</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Parece que o hotel acaba de aumentar o custo total desta estadia de %1$s para %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2148,7 +1985,6 @@
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Use o alfabeto latino</string>
     <!-- Label to show user when they use unsupported characters in their email -->
-    <string name="please_enter_a_valid_email_address">Insira um endereço de e-mail válido</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Taxas pagas no hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
@@ -2160,22 +1996,16 @@
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">O total para sua viagem será de &lt;b&gt;%1$s&lt;/b&gt;. Você pagará ao hotel o custo total da reserva (na moeda local do hotel) durante sua estadia.</string>
     <!-- Pay later disclaimer with resort fees -->
-    <string name="pay_later_resort_disclaimer_TEMPLATE">O total para sua viagem, incluindo a taxa de resort de &lt;b&gt;%1$s&lt;/b&gt;, é de &lt;b&gt;%2$s&lt;/b&gt;. Você pagará ao hotel o custo total da reserva (na moeda local do hotel) durante sua estadia.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
-    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">O total para sua viagem, incluindo a taxa de resort de &lt;b&gt;%1$s&lt;/b&gt;, é de &lt;b&gt;%2$s&lt;/b&gt;. Você pagará ao hotel o valor restante da reserva (na moeda local do hotel) durante sua estadia.</string>
     <!-- Pay later deposit amount -->
-    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Traveler info missing callout label -->
-    <string name="ab_test_flights_missing_info_callout">Insira os detalhes do viajante</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
     <string name="brand_account_cont_desc_TEMPLATE">Conta da {brand}</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
     <string name="signed_in_account_cont_desc_TEMPLATE">Conectado como {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
-    <string name="travelers">Viajantes</string>
     <!-- Payment -->
-    <string name="payment">Pagamento</string>
     <!-- Enter Payment Information -->
     <string name="enter_payment_information">Insira as informações de pagamento</string>
 
@@ -2190,9 +2020,7 @@
     <!-- Cost Summary -->
     <string name="cost_summary">Resumo do valor</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">Impostos e taxas</string>
     <!-- Taxes without airline fees -->
-    <string name="taxes_without_airline_fees">Impostos</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Taxa de reserva da {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2200,20 +2028,17 @@
     <!-- Flight -->
     <string name="flight">Voo</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">Viajante %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Dados do viajante</string>
 
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Informações do viajante</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Viajante principal</string>
     <!-- Heading for selecting travelers on flights and packages -->
     <string name="traveler_select_additional">Viajantes adicionais</string>
     <!-- Saved button for traveler/payment -->
-    <string name="saved_button">Salvo</string>
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Editar</string>
 
@@ -2224,36 +2049,22 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">Detalhes do hóspede</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">Detalhes do adulto %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
-    <string name="add_adult_number_variate2_TEMPLATE">Adulto %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult_variate2">Adulto</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">Detalhes da criança %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate2_TEMPLATE">%1$s anos</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Detalhes do bebê de colo %1$s</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Bebê de colo %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate2">Bebê de colo</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Detalhes da criança no assento %1$s</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Bebês no assento %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate2">Bebê no assento</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">O embarque poderá ser recusado se o nome do viajante não corresponder ao ID oficial com foto.</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Os nomes dos viajantes devem corresponder exatamente aos documentos oficiais com foto.</string>
 
     <!-- Special Assistance label template -->
-    <string name="special_assistance_label_TEMPLATE">Assistência especial: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
-    <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Código do país</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Código do país</string>
@@ -2304,7 +2115,6 @@
     <!-- Set expiration date button -->
     <string name="btn_set">Configurar</string>
     <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
-    <string name="Expires_TEMPLATE">Expira em %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -2408,7 +2218,6 @@
     <!-- redress number info msg -->
     <string name="redress_number_msg">O número de reparação é um número exclusivo emitido pela Administração de Segurança de Transportes (TSA) dos EUA para eliminar erros de identificação na lista de observação e verificar sua identidade.</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Salvando informações do viajante em sua conta…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Preferência de assento</string>
     <!-- Seat Preference -->
@@ -2416,7 +2225,6 @@
     <!-- Special Assistance -->
     <string name="special_assistance">Assistência especial</string>
     <!-- Add Redress # -->
-    <string name="add_redress_num">Adicionar nº reendereçamento</string>
 
     <!-- Entered invalid birthdate dialog -->
     <string name="invalid_birthdate_message">A idade inserida não corresponde à idade do viajante que você estava procurando. Atualize suas informações e tente concluir a reserva novamente.</string>
@@ -2487,7 +2295,6 @@
     <!-- Air attach savings messaging -->
     <string name="air_attach_potential_savings">economize até 55% em hotéis.</string>
     <!-- Air attach discounted hotel messaging -->
-    <string name="air_attach_amount_discounted_TEMPLATE">Se reservar seu hotel agora, você economizará %s!</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">A oferta expira em</string>
     <!-- Air attach offer expiration. daysorhours is the number of days/hours remaining for the offer, e.g. Offer expires in 10 days -->
@@ -2497,9 +2304,7 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">A oferta expira hoje</string>
     <!-- Air attach add hotel button -->
-    <string name="air_attach_add_hotel">Adicionar hotel</string>
     <!-- Air attach add hotel button subtitle -->
-    <string name="air_attach_with_discounts">com descontos</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
     <string name="air_attach_variant1_string1_TEMPLATE">Economize até 55% de desconto em hotéis em {location}</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
@@ -2562,10 +2367,8 @@
     <string name="filters_cleared">Filtros removidos</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">Seu voo é uma combinação de duas tarifas somente de ida, cada uma das quais sujeita a suas próprias regras e restrições.</string>
-    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Seu voo é uma combinação de duas tarifas somente de ida, cada uma das quais sujeita a suas próprias regras e restrições.</string>
     <!-- split ticket rules - cancellation policy -->
     <string name="split_ticket_rules_cancellation_policy">Se um dos voos for alterado ou cancelado, o outro voo não será alterado automaticamente. As alterações no outro voo podem incorrer em uma sobretaxa.</string>
-    <string name="split_ticket_rules_cancellation_policy_tablet">Se um dos voos for alterado ou cancelado, o outro voo não será alterado automaticamente. As alterações no outro voo podem incorrer em um sobretaxa.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Os voos de &lt;a href=\"{departurelink}\"&gt;ida&lt;/a&gt; e &lt;a href=\"{returnlink}\"&gt;volta&lt;/a&gt; têm suas próprias taxas de bagagem</string>
     <!-- Flight dialog  errors -->
@@ -2604,9 +2407,7 @@
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_TEMPLATE">Um de seus voos não está mais disponível na {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
-    <string name="error_flight_hold_expired">Infelizmente sua pré-reserva para esse voo expirou</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
-    <string name="error_flights_hold_expired">Infelizmente sua pré-reserva para esses voos expirou</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Selecione um novo voo</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2644,19 +2445,13 @@
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">cartão terminando em %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
-    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s terminando em %2$s</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Assinatura autorizada</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
-    <string name="Not_Valid_Unless_Signed">Não é válido sem assinatura</string>
     <!-- Label above cardholder's name on front of credit card on CVV screen -->
     <string name="Member">Associado</string>
     <!-- Default cardholder name on front of credit card on CVV screen -->
     <string name="Preferred_Customer">Cliente preferencial</string>
-    <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_back_of_card">Ver verso do cartão</string>
-    <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_front_of_card">Ver frente do cartão</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Insira o código de segurança</string>
     <string name="cvv_enter_security_code_v2">Código de segurança</string>
@@ -2695,10 +2490,9 @@
     <!-- Child age dialog button -->
     <string name="button_done">Concluído</string>
     <!-- Title of "select child age" spinner dialog box -->
-    <string name="prompt_select_child_age">Selecione a idade da criança (%1$s–%2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; ano</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; ano(s)</item>
         <item quantity="two">&lt;b&gt;%d&lt;/b&gt; anos</item>
         <item quantity="many">&lt;b&gt;%d&lt;/b&gt; anos</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; anos</item>
@@ -2728,11 +2522,9 @@
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s a %2$s</string>
     <!-- Hint for filtering results by hotel name -->
-    <string name="filter_hotel_name_hint">Filtrar pelo nome do hotel</string>
     <!-- Hint for filtering results by hotel name on material hotels -->
     <string name="filter_hotel_name_hint2">Nome do hotel</string>
     <!-- Label indicating that geolocation failed -->
-    <string name="geolocation_failed">Não foi possível determinar a posição de pesquisa.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Você quis dizer…</string>
     <!-- Button label for dismissing the flight guest picker -->
@@ -2789,10 +2581,8 @@
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
-    <string name="stop_description__nonstop">Sem escalas</string>
 
     <!-- Filter option for "show all" -->
-    <string name="all">Todos</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
@@ -2800,9 +2590,7 @@
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-    <string name="filter_distance_miles_template">%s mi</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-    <string name="filter_distance_kilometers_template">%s km</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -2814,7 +2602,6 @@
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Tente inserir datas diferentes ou outro local.</string>
     <!-- Message displayed when no hotel rooms are available -->
-    <string name="error_no_hotel_rooms_available">Nenhum quarto de hotel disponível em nosso site</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Selecionar outro quarto</string>
     <!-- Message displayed when room is sold out -->
@@ -2836,7 +2623,6 @@
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_off_template">%2.0f%% OFF</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_minus_template">-%2.0f%%</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filtrar</string>
@@ -2844,7 +2630,6 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">A partir de %s</string>
-    <string name="From_x_per_night_template">A partir de %s/noite</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Buscar nesta área</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -2861,7 +2646,6 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Carregando hotéis…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">Economize %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Sem conexão à internet</string>
     <!-- The label for deposit terms button -->
@@ -2881,7 +2665,6 @@
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Somente hotéis +VIP Access</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Somente +VIP Access</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">+VIP</string>
     <!-- ON and OFF text for toggle switches -->
@@ -2903,7 +2686,6 @@
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Nenhuma comodidade oferecida</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Business Center</string>
     <!-- Fitness center amenity -->
@@ -2980,11 +2762,10 @@
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Favorável</string>
     <!-- The text for the sort button, recent -->
-    <string name="user_review_sort_button_critical">Crítico</string>
+    <string name="user_review_sort_button_critical">Crítica</string>
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Carregando mais avaliações…</string>
     <!-- Read more of the review -->
-    <string name="user_review_read_more">Leia mais</string>
     <!-- Read more of the review -->
     <string name="more">mais</string>
     <!--
@@ -3041,9 +2822,7 @@
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">Buscando quartos disponíveis…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Não foi possível baixar as informações sobre quartos e tarifas.  Verifique sua conexão e tente novamente.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">por noite</string>
     <!-- Rate price displayed "total fee" -->
@@ -3124,7 +2903,6 @@
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">Este estabelecimento está passando por reformas</string>
     <!-- Rooms & rates more info link for renovation notice or resort fees -->
-    <string name="more_info">Mais informações</string>
 
     <!-- Booking info -->
     <!-- Quantity for the length of stay -->
@@ -3166,6 +2944,8 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Impostos e taxas</string>
+    <!-- Label for the property fee for a hotel room booking. -->
+    <string name="property_fee">Taxa do estabelecimento</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Incluídos</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -3187,7 +2967,6 @@
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Carregando a conta da {brand}</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Inserir um cupom ou código de promoção</string>
     <!-- Label for coupon code hint -->
     <string name="optional">Opcional</string>
     <!-- Label applying a coupon -->
@@ -3204,13 +2983,9 @@
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Digite o código do cupom</string>
     <!-- Message shown when applying coupon (in progress) -->
-    <string name="applying_coupon">Aplicando cupom…</string>
     <!-- Message shown when a coupon was successfully applied -->
-    <string name="coupon_applied">Cupom aplicado</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
-    <string name="coupon_saved_TEMPLATE">Você economizou %s!</string>
     <!-- Message shown when a coupon is being removed -->
-    <string name="coupon_removing_dialog">Removendo cupom</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Enviar</string>
     <!-- Coupon submit button for accessibility -->
@@ -3250,7 +3025,6 @@
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">No momento não podemos processar cupons. Tente novamente.</string>
     <!-- Error when applying coupon - session timeout -->
-    <string name="coupon_error_service_timeout">Você levou tempo demais para aplicar o código. Tente novamente.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
     <string name="coupon_error_invalid_stay_dates">O cupom não pode ser aplicado a estas datas de viagem.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
@@ -3333,6 +3107,8 @@
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">País</string>
+    <!-- Content description for the country POS selection button. E.g. USA, country button-->
+    <string name="country_pos_cont_desc_TEMPLATE">{countrycode}, botão relativo ao país</string>
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
@@ -3850,51 +3626,41 @@
     <string name="trips_refresh_trips_list_cont_desc">Pressione para atualizar a lista de viagens</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Pressione para filtrar os hotéis com classificação igual ou superior a três estrelas</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Pressione para filtrar os hotéis com classificação igual ou superior a quatro estrelas</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="filter_hotels_for_five_stars_cont_desc">Pressione para filtrar os hotéis cinco estrelas</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="filter_remove_hotel_star_filters_cont_desc">Pressione para remover o filtro de classificação por estrelas dos hotéis</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="filter_for_nearest_hotels_cont_desc">Pressione para filtrar os hotéis mais próximos, a um pequeno raio de distância de sua posição de busca</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="filter_for_further_distanced_hotels_cont_desc">Pressione para filtrar os hotéis a um raio médio de distância de sua posição de busca</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="filter_for_furthest_distanced_hotels_cont_desc">Pressione para filtrar os hotéis a um grande raio de distância de sua posição de busca</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="filter_remove_distance_filter_cont_desc">Pressione para apagar todos os filtros de distância na busca de hotéis</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="filter_for_low_range_hotel_prices_cont_desc">Pressione para filtrar os hotéis por preços mais baixos</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="filter_for_mid_range_hotel_prices_cont_desc">Pressione para filtrar os hotéis por preços médios</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="filter_for_high_range_hotel_prices_cont_desc">Pressione para filtrar os hotéis por preços mais elevados</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="filter_remove_hotel_price_filters_cont_desc">Remover os filtros de preço de hotéis</string>
+
+    <!-- Custom Accessibility Action for increasing minimum price range on hotel filter screen -->
+    <string name="increase_price_minimum_filter">Aumentar preço mínimo.</string>
+    <!-- Custom Accessibility Action for decreasing minimum price range on hotel filter screen -->
+    <string name="decrease_price_minimum_filter">Diminuir preço mínimo.</string>
+    <!-- Custom Accessibility Action for increasing maximum price range on hotel filter screen -->
+    <string name="increase_price_maximum_filter">Aumentar preço máximo.</string>
+    <!-- Custom Accessibility Action for decreasing maximum price range on hotel filter screen -->
+    <string name="decrease_price_maximum_filter">Diminuir preço máximo.</string>
+
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="display_recent_reviews_cont_desc">Pressione para visualizar as avaliações recentes</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="display_favorable_reviews_cont_desc">Pressione para visualizar as avaliações favoráveis</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="display_critical_reviews_cont_desc">Pressione para visualizar as avaliações críticas</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="flight_leg_baggage_fee_info_cont_desc">Pressione para ir para as informações sobre taxas de bagagem</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="checkout_enter_coupon_cont_desc">Pressione para inserir um código promocional ou de cupom</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="traveler_gender_edit_cont_desc">Pressione para selecionar o sexo do viajante</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="traveler_special_assistance_edit_cont_desc">Selecionar o tipo de assistência especial solicitada pelo viajante</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="traveler_seat_preference_edit_cont_desc">Selecionar o tipo de assento solicitado pelo viajante</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
     <string name="card_info_billing_address_country_cont_desc">Inserir o país do endereço para cobrança</string>
@@ -3905,9 +3671,7 @@
     <string name="hide_menu_btn_cont_desc">Pressione para visualizar as opções ocultadas</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="tablet_results_hotel_list_cont_desc">Resultados da busca de hotel</string>
     <!-- Content description for Flight Search Results -->
-    <string name="tablet_results_flight_list_cont_desc">Resultados da busca de voo</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
     <string name="pay_now_cont_desc">Pressione o botão para pagar agora</string>
@@ -3950,49 +3714,29 @@
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
-    <string name="tablet_confirmation_hotel_booked">Seu hotel foi reservado!</string>
     <!-- Header text to indicating booking confirmed for flight -->
-    <string name="tablet_confirmation_flight_booked">Seu voo foi reservado!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">Nº do itinerário %1$s enviado para %2$s</string>
     <!-- Share button text for hotels -->
-    <string name="tablet_confirmation_share_hotel">Compartilhe sua estadia</string>
     <!-- Share button text for flights -->
-    <string name="tablet_confirmation_share_flight">Compartilhar</string>
     <!-- Call support button text -->
-    <string name="tablet_confirmation_call_support">Ligar para o suporte</string>
     <!-- Book Next Item button text -->
-    <string name="tablet_confirmation_book_next">Reservar próximo item</string>
     <!-- Done Booking button text -->
-    <string name="tablet_confirmation_done_booking">Reserva concluída</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
-    <string name="tablet_confirmation_flights_from_to">%1$s a %2$s</string>
 
     <!-- Tablet Sold Out Screen -->
     <!-- Header text to indicating hotel sold out -->
-    <string name="tablet_sold_out_summary_text_hotel">Este quarto agora está esgotado em nosso site. Ops!</string>
     <!-- Header text to that the hold on the room has expired. -->
-    <string name="tablet_expired_summary_text_hotel">Infelizmente sua pré-reserva para este quarto expirou.</string>
     <!-- Button text to remove sold hotel -->
-    <string name="tablet_sold_out_remove_hotel">Remover hotel</string>
     <!-- Button text to select another hotel -->
-    <string name="tablet_sold_out_select_hotel">Selecionar outro hotel</string>
     <!-- Header text to indicating flight is sold out -->
-    <string name="tablet_sold_out_summary_text_flight">Este voo agora está esgotado em nosso site. Ops!</string>
     <!-- Header text to indicating flights are sold out -->
-    <string name="tablet_sold_out_summary_text_flights">Estes voos agora estão esgotados em nosso site. Ops!</string>
     <!-- Button text to remove sold flight -->
-    <string name="tablet_sold_out_remove_flight">Remover voo</string>
     <!-- Button text to select another flight -->
-    <string name="tablet_sold_out_select_flight">Selecionar outro voo</string>
 
     <!-- Tablet mismatched trip bucket item messages -->
     <!-- Dialog message when we detect the user has selected a redeye flight and the hotel checkin date is wrong -->
-    <string name="tablet_redeye_products_message">Deseja fazer check-in no hotel na mesma data de chegada de seu voo? Toque na opção Sim para remover a seleção atual e buscar hotéis para a data de check-in correta.</string>
     <!-- Dialog message when we detect the user has selected a flight and hotel that do not line up correctly with respect to dates -->
-    <string name="tablet_mismatched_products_message">As datas de voo e hotel selecionadas são diferentes. Deseja remover sua seleção atual e buscar hotéis para datas que correspondam às datas de seus voos?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Sim</string>
     <!-- Dialog negative button message -->
@@ -4063,10 +3807,6 @@
     <string name="price_range">Faixa de preço</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">Ordenar por {sort}</string>
-    <!-- Hotel Price Range start filter label for accessibility -->
-    <string name="hotel_price_range_start">Início da faixa de preço</string>
-    <!-- Hotel Price Range end filter label for accessibility -->
-    <string name="hotel_price_range_end">Fim da faixa de preço</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="hotels_filter_show_more_cont_desc">Exibir mais bairros. Botão</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
@@ -4329,7 +4069,10 @@
     <string name="package_flight_overview_total_duration_TEMPLATE">Duração total: {duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
     <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Duração total: {duration} • {distance} {distanceunit}</string>
-
+    <!-- Toolbar Title for flight overview template. Example: Thurs May 12 - Fri May 14, 2 guests -->
+    <string name="flight_overview_toolbar_TEMPLATE">{date}, {guests}</string>
+    <!-- Title for flight overview summary template. Example: SFO to DEL Thurs, May 12 -->
+    <string name="flight_overview_header_TEMPLATE">De {departureairportcode} a {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary} enviado para {email}</string>
 
@@ -4798,8 +4541,6 @@
     <!--Packages accessibility content description for hotel room selection collapse -->
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">desabilitado</string>
-    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
-    <string name="accessibility_cont_desc_pos_TEMPLATE">País: {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">O preço é de {activity_price}</string>
@@ -4932,6 +4673,7 @@
     <string name="member_deals_toolbar_title">Preços para associados</string>
     <string name="continue_booking">Continuar com a reserva</string>
     <string name="member_deal_hotel_only">Somente hotel</string>
+    <string name="member_deal_toolbar_close_cont_desc">Fechar tela de preços para associados</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Como determinamos a ordem de ordenação</string>
