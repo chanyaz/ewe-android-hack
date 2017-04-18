@@ -193,6 +193,9 @@
         <item quantity="other">{number} filtrerade resultat</item>
     </plurals>
 
+    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
+    <string name="price_range_filter_cont_desc_TEMPLATE">Sökfilter, minimumpris {min_price} till maxpris {max_price}</string>
+
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s eller liknande</string>
@@ -305,29 +308,19 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Ange din destination</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
-    <string name="fly_from_TEMPLATE">Flyg från %1$s</string>
     <!-- Fly from… -->
-    <string name="Fly_from_dot_dot_dot">Flyg från…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Välj datum</string>
     <!-- Select Start date - used for the LX Calendar. -->
     <string name="select_start_date">Välj startdatum</string>
     <!-- Hotels Tonight -->
-    <string name="hotels_tonight">Hotell ikväll</string>
     <!-- Missing flight info message -->
-    <string name="missing_flight_info_message_TEMPLATE">Berätta var du flyger från för att se flyg till %s.</string>
     <!-- Missing flight info message -->
-    <string name="missing_flight_trip_date_message">Välj ett giltigt datum eller datumintervall.</string>
     <!-- Denotes the start date of the trip -->
-    <string name="trip_starts">Avresa</string>
     <!-- Denotes the end date of the trip -->
-    <string name="trip_ends">Returresa</string>
     <!-- Denotes that the return date for the trip is optional, in the event of a one-way flight ticket -->
-    <string name="trip_end_optional">Valfritt</string>
     <!-- Button text for when flight origin is missing -->
-    <string name="missing_flight_info_button_prompt">Välj flygplats</string>
 
     <!-- LX -->
     <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
@@ -787,50 +780,10 @@
     <!-- "Done" list header label -->
     <string name="Done">Klar</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
-    <plurals name="x_Hotels_TEMPLATE">
-        <item quantity="zero">%s hotell</item>
-        <item quantity="one">%s hotell</item>
-        <item quantity="two">%s hotell</item>
-        <item quantity="few">%s hotell</item>
-        <item quantity="many">%s hotell</item>
-        <item quantity="other">%s hotell</item>
-    </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
-    <plurals name="x_of_y_Hotels_TEMPLATE">
-        <item quantity="zero">%1$s av %2$s hotell</item>
-        <item quantity="one">%1$s av %2$s hotell</item>
-        <item quantity="two">%1$s av %2$s hotell</item>
-        <item quantity="few">%1$s av %2$s hotell</item>
-        <item quantity="many">%1$s av %2$s hotell</item>
-        <item quantity="other">%1$s av %2$s hotell</item>
-    </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
-    <plurals name="of_y_hotels_TEMPLATE">
-        <item quantity="zero">av %s hotell</item>
-        <item quantity="one">av %s hotell</item>
-        <item quantity="two">av %s hotell</item>
-        <item quantity="few">av %s hotell</item>
-        <item quantity="many">av %s hotell</item>
-        <item quantity="other">av %s hotell</item>
-    </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
-    <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s flyg</item>
-        <item quantity="one">%s flyg</item>
-        <item quantity="two">%s flyg</item>
-        <item quantity="few">%s flyg</item>
-        <item quantity="many">%s flyg</item>
-        <item quantity="other">%s flyg</item>
-    </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
-    <plurals name="x_Return_Flights_TEMPLATE">
-        <item quantity="zero">%s returflyg</item>
-        <item quantity="one">%s returflyg</item>
-        <item quantity="two">%s returflyg</item>
-        <item quantity="few">%s returflyg</item>
-        <item quantity="many">%s returflyg</item>
-        <item quantity="other">%s returflyg</item>
-    </plurals>
 
     <!-- Label indicating the direction of the rails is outbond-->
     <string name="select_outbound">Välj avresa</string>
@@ -846,7 +799,6 @@
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Pris per person för enkelresa</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
-    <string name="roundtrip">retur</string>
     <!-- Label clarifying the type of flight trip -->
     <string name="Roundtrip">Retur</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -854,38 +806,19 @@
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_oneway_minimum_label">Pris per person för enkelresa, från</string>
     <!-- Trip bucket, trip is empty message -->
-    <string name="trip_empty">Din resa är tom.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
-    <string name="trip_bucket_book_flight">Boka flyg</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
-    <string name="trip_bucket_book_hotel">Boka hotell</string>
     <!-- Tablet Trip bucket, sold out text -->
     <string name="trip_bucket_sold_out">Slutsålt</string>
     <!-- Tablet Trip bucket, expired text -->
-    <string name="trip_bucket_expired">Gick ut</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">Tur- och returflyg till %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">Flyg till %1$s</string>
     <!-- Tablet search results, no hotels available -->
-    <string name="tablet_search_results_hotels_unavailable">Tyvärr är inga hotell \n tillgängliga just nu.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
-    <string name="tablet_search_results_hotels_unavailable_tonight">Tyvärr är inga hotell \n tillgängliga ikväll.</string>
     <!-- Tablet search results, no flights available -->
-    <string name="tablet_search_results_flights_unavailable">Tyvärr är inga flyg \n tillgängliga just nu.</string>
     <!-- Tablet search results, no flights available due to invalid start date -->
-    <string name="flight_search_range_error_TEMPLATE">Vi beklagar, men vi kan inte söka efter flyg som är längre fram i tiden än %1$s dagar fr.o.m. idag.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
-    <string name="tablet_tripbucket_item_removed">Borttagen</string>
     <!-- Label indicating how many items are being booked for the current trip -->
-    <plurals name="items_in_trip">
-        <item quantity="zero">artiklar i resplanen</item>
-        <item quantity="one">artikel i resplanen</item>
-        <item quantity="two">artiklar i resplanen</item>
-        <item quantity="few">artiklar i resplanen</item>
-        <item quantity="many">artiklar i resplanen</item>
-        <item quantity="other">artiklar i den här resplanen</item>
-    </plurals>
 
     <!-- LX Sort & Filter "Sort By" section header -->
     <string name="lx_sort_by">Sortera efter</string>
@@ -898,9 +831,7 @@
     <!-- "Filter By" section header -->
     <string name="Filter_By">Filtrera efter</string>
     <!-- "Filters" section header -->
-    <string name="Filters">Filter</string>
     <!-- "Areas"/neighborhoods section header -->
-    <string name="Areas">Områden</string>
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Övriga områden</string>
     <!-- Short label for "sort by recommended" button -->
@@ -912,7 +843,6 @@
     <!-- Short label for "sort by distance" button -->
     <string name="distance">Avstånd</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">Rabatter</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Från %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -950,11 +880,8 @@
     </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
-    <string name="departure_airports">Avgångsflygplatser</string>
     <!-- Header for a dropdown to select from a list of available arrival airports -->
-    <string name="arrival_airports">Ankomstflygplatser</string>
     <!-- Header for a dropdown to select form a list of airports -->
-    <string name="all_airports">Alla flygplatser</string>
 
     <!-- Tablet hotel details -->
     <!-- Rooms and rates pay later -->
@@ -966,48 +893,27 @@
     <!-- Rooms and rates pay later deposit due now -->
     <string name="old_room_rate_pay_later_due_now">Betalas nu</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
-    <string name="room_rate_per_night_template">%s/natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">Hotellavgifter för den här vistelsen (ingår): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">Hotellavgifter för den här vistelsen (ingår ej): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
-    <string name="room_rate_button_add_to_trip">Lägg till</string>
     <!-- Rooms and rates button to select a particular room and view details -->
-    <string name="room_rate_button_select_room">Välj rum</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s recensioner</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
-    <string name="n_recommend_TEMPLATE">%s%% rekommenderar</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out_TEMPLATE">Tyvärr är alla rum slutsålda på {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_TEMPLATE">Slutsålt på {brand}</string>
     <!-- Hotel gallery title -->
-    <string name="photos_for_TEMPLATE">Foton för %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
-    <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">%s rum kvar</item>
-        <item quantity="one">%s rum kvar</item>
-        <item quantity="two">%s rum kvar</item>
-        <item quantity="few">%s rum kvar</item>
-        <item quantity="many">%s rum kvar</item>
-        <item quantity="other">%s rum kvar</item>
-    </plurals>
     <!-- Title for the reviews section after we get the property name -->
-    <string name="reviews_for_TEMPLATE">Recensioner för %1$s</string>
     <!-- Information for the review about who submitted it and when -->
     <string name="submitted_by_on_date_TEMPLATE">%1$s %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
-    <string name="flight_cities_TEMPLATE">%1$s till %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
-    <string name="flight_on_time_TEMPLATE">%s%% i tid</string>
 
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
-    <string name="round_trip">Tur och retur</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Totalt med skatter</string>
     <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
@@ -1021,13 +927,9 @@
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Betalning</string>
     <!-- Actionbar Title for default search results state -->
-    <string name="Create_a_Trip">Skapa en resa</string>
     <!-- Your Trip -->
-    <string name="your_trip">Din resa</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
-    <string name="now_booking_TEMPLATE">Bokar nu &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
-    <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Logga in med {brand}</string>
@@ -1116,7 +1018,6 @@
     <!-- Hotel launch list rating text -->
     <string name="hotel_rating_text">av 5 – gästbetyg</string>
     <!-- Hotel search list rating text -->
-    <string name="hotel_search_rating_text">av 5</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">endast mobil!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -1137,9 +1038,7 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Tyvärr kan vi inte ansluta.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
-    <string name="network_unavailable">Nätverk otillgängligt</string>
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
-    <string name="error_network_unavailable">Anslut till wi-fi eller annat\nnätverk för att fortsätta</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Resor</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1147,24 +1046,12 @@
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">Utforska</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
-    <string name="Destination">Destination</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Den här appen kräver Google Play tjänster. Installera den senaste versionen av Google Play tjänster.</string>
     <!-- Label for tablet launch pin button that starts new search -->
-    <string name="explore_now">Utforska nu</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
-    <string name="your_search">Din sökning</string>
     <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
-    <string name="current_location_tile">Erbjudanden i närheten ikväll</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
-    <plurals name="num_items_TEMPLATE">
-        <item quantity="zero">%s komponenter</item>
-        <item quantity="one">%s komponent</item>
-        <item quantity="two">%s komponenter</item>
-        <item quantity="few">%s komponenter</item>
-        <item quantity="many">%s komponenter</item>
-        <item quantity="other">%s komponenter</item>
-    </plurals>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1174,7 +1061,6 @@
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Ditt flyg till %1$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
-    <string name="your_selected_flight_to_x_TEMPLATE">Ditt valda flyg till %1$s</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">Hämtning av bil – %s</string>
     <!-- Notification text for car pick up -->
@@ -1665,6 +1551,8 @@
     <!-- Content Description for Call Agency Button for car rentals in itinerary card. Example: Call Avis Button -->
     <string name="itin_action_call_agency_cont_desc_TEMPLATE">Ring {agency}</string>
     <string name="itin_action_redeem">Lös in</string>
+    <!-- Content description for the Support button on itinerary card that will call the customer support phone number. Example: Call Support Button -->
+    <string name="itin_action_call_support_cont_desc">Ring kundtjänst</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Dela</string>
     <string name="itin_action_view">Se resplan</string>
@@ -1875,7 +1763,6 @@
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Flygbokning via mobil är tyvärr inte tillgängligt där du befinner dig än.</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
-    <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">Tyvärr erbjuder vi inte flyg i din region än. De är dock tillgängliga på &lt;a href=\"%1$s\"&gt;vår hemsida&lt;/a&gt;.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Avgångs- och ankomstflygplats kan inte vara densamma.</string>
 
@@ -1930,46 +1817,20 @@
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">Enkelresa för &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">Tur- och returresa från &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
-    <string name="book_now_price_TEMPLATE">Boka nu för &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
-    <string name="one_way_price_min_TEMPLATE">Enkelresa från &lt;b&gt;%s&lt;/b&gt; per person</string>
-    <string name="round_trip_price_min_TEMPLATE">Tur- och returresa från &lt;b&gt;%s&lt;/b&gt; per person</string>
-    <string name="book_now_price_min_TEMPLATE">Boka nu från &lt;b&gt;%s&lt;/b&gt; per person</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
-    <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">%1$s kvar för &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">%1$s kvar för &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">%1$s kvar för &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">%1$s kvar för &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">%1$s kvar för &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="other">%1$s kvar för &lt;b&gt;%2$s&lt;/b&gt;</item>
-    </plurals>
     <!-- Book now info label, when there are only a few seats left. Variant for Australian
          compliance rules (d/5810) -->
-    <plurals name="urgency_book_min_TEMPLATE">
-        <item quantity="zero">%1$s kvar från &lt;b&gt;%2$s&lt;/b&gt; per person</item>
-        <item quantity="one">%1$s kvar från &lt;b&gt;%2$s&lt;/b&gt; per person</item>
-        <item quantity="two">%1$s kvar från &lt;b&gt;%2$s&lt;/b&gt; per person</item>
-        <item quantity="few">%1$s kvar från &lt;b&gt;%2$s&lt;/b&gt; per person</item>
-        <item quantity="many">%1$s kvar från &lt;b&gt;%2$s&lt;/b&gt; per person</item>
-        <item quantity="other">%1$s kvar från &lt;b&gt;%2$s&lt;/b&gt; per person</item>
-    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
-    <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
-    <string name="fare_name_and_price_min_TEMPLATE">%1$s från %2$s per person</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Information om bagageavgifter</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; mellanlandar i %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
-    <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
-    <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Price per person. For example: "$20.31 per person" -->
     <string name="flight_details_price_per_person_TEMPLATE">{price} per person</string>
     <!-- Messaging on flight details for basic economy" -->
@@ -1993,9 +1854,7 @@
     <!-- Label for showing 2 cabin classes ONLY on SRP when number of segments is exactly 2 like, 'Prem. Eco. + Business' -->
     <string name="flight_cabin_class_for_two_segment_TEMPLATE">{cabin_class_one} + {cabin_class_second}</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
-    <string name="depart_from_TEMPLATE">Från: %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
-    <string name="arrive_at_TEMPLATE">Till: %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">Trafikeras av %s</string>
     <!-- Message to user indicating how many points will be earned for this booking; parameter is the number of points; e.g. "Earn 478 points" -->
@@ -2017,10 +1876,6 @@
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Betalningsavgifter</string>
     <!-- Label indicating number of tickets left for given flight (min: 1) -->
-    <plurals name="number_tickets_left_TEMPLATE">
-        <item quantity="one">{number_tickets_left} kvar för</item>
-        <item quantity="other">{number_tickets_left} kvar för</item>
-    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Add new card -->
@@ -2030,7 +1885,6 @@
     <!-- New Credit card toolbar title shown on payment form -->
     <string name="new_credit_card">Nytt kreditkort</string>
     <!-- Payment Method -->
-    <string name="payment_method">Betalningsuppgifter</string>
     <!-- Billing Address -->
     <string name="billing_address">Faktureringsadress</string>
     <!-- Card Info -->
@@ -2050,13 +1904,11 @@
     <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">{card_type} accepteras inte för betalning av resan</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Inga bankkort accepteras.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Trip total price label -->
     <string name="total_price_label">Totalbelopp för resan</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
-    <string name="total_price_min_label">Totalt respris från</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Resa till %1$s</string>
     <!-- Includes taxes and fees -->
@@ -2075,25 +1927,17 @@
         <item quantity="other">%1$d resenärer</item>
     </plurals>
     <!-- Message when loading realtime flight information -->
-    <string name="loading_flight_details">Kollar efter prisändringar</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Pris ändrades från %1$s</string>
     <!-- Price dropped from -->
     <string name="price_dropped_from_TEMPLATE">Pris sjönk från %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
-    <string name="airline_card_fee_TEMPLATE">Flygbolaget tar ut en avgift på &lt;b&gt;%1$s&lt;/b&gt; (inkluderas i totalbeloppet) för att använda det här kortet.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
-    <string name="airline_card_fee_select_TEMPLATE">Flygbolaget tar ut en avgift på %1$s för att använda %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The airline does not support VISA." -->
-    <string name="airline_card_not_supported_TEMPLATE">Flygbolaget accepterar inte %1$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
-    <string name="airline_card_not_supported_generic">Flygbolaget accepterar inte den här typen av kreditkort.</string>
     <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
-    <string name="hotel_card_fee_select_TEMPLATE">Hotellet tar ut en avgift på %1$s för att använda %2$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
-    <string name="hotel_card_not_supported_TEMPLATE">Hotellet accepterar inte %1$s.</string>
     <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
-    <string name="hotel_card_not_supported_generic">Hotellet accepterar inte den här typen av kreditkort.</string>
 
     <!-- Checkout Activity -->
     <!-- Explicit acceptance of TOS -->
@@ -2101,11 +1945,8 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Jag godkänner villkoren</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Svep för att köpa.</string>
     <!-- Slide-to-book widget prompt for hotels -->
-    <string name="slide_to_book_hotel">svep för att boka hotell</string>
     <!-- Slide-to-book widget prompt for flights -->
-    <string name="slide_to_book_flight">svep för att boka flyg</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">Ditt kort kommer att debiteras {dueamount}</string>
     <!-- Your are using pwp points -->
@@ -2117,15 +1958,12 @@
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_template">Belopp att betala idag: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="amount_to_be_paid_now_TEMPLATE">Belopp att betala nu: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="to_be_collected_by_the_hotel_TEMPLATE">Hotellet debiterar följande: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Slutför bokning</string>
     <!-- Our price gaurentee string -->
     <string name="price_guarantee">Prisgaranti</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
-    <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis avbokning&lt;/b&gt; fram till &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Logga ut</string>
     <!-- You'll earn points for this trip -->
@@ -2137,7 +1975,6 @@
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du samlar {reward_currency} poäng med den här resan!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
-    <string name="calculating_taxes_and_fees">Räknar ut skatter och avgifter…</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Tyvärr verkar det som om hotellet precis höjde vistelsens totala kostnad från %1$s till %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2148,7 +1985,6 @@
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Använd det latinska alfabetet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
-    <string name="please_enter_a_valid_email_address">Ange en giltig e-postadress</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Avgifter som betalades på hotellet</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
@@ -2160,22 +1996,16 @@
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Totalbeloppet för din resa blir &lt;b&gt;%1$s&lt;/b&gt;. Du betalar hotellet den totala kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
     <!-- Pay later disclaimer with resort fees -->
-    <string name="pay_later_resort_disclaimer_TEMPLATE">Totalbeloppet för din resa, inklusive resortavgiften på &lt;b&gt;%1$s&lt;/b&gt;, blir &lt;b&gt;%2$s&lt;/b&gt;. Du betalar hotellet den totala kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
-    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Totalbeloppet för din resa, inklusive resortavgiften på &lt;b&gt;%1$s&lt;/b&gt;, blir &lt;b&gt;%2$s&lt;/b&gt;. Du betalar hotellet den resterande kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
     <!-- Pay later deposit amount -->
-    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Traveler info missing callout label -->
-    <string name="ab_test_flights_missing_info_callout">Ange resenärens uppgifter</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
     <string name="brand_account_cont_desc_TEMPLATE">{brand}-konto</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
     <string name="signed_in_account_cont_desc_TEMPLATE">Inloggad som {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
-    <string name="travelers">Resenärer</string>
     <!-- Payment -->
-    <string name="payment">Betalning</string>
     <!-- Enter Payment Information -->
     <string name="enter_payment_information">Ange betalningsuppgifter</string>
 
@@ -2190,9 +2020,7 @@
     <!-- Cost Summary -->
     <string name="cost_summary">Betalningsöversikt</string>
     <!-- Taxes and airline fees -->
-    <string name="taxes_and_airline_fees">Skatter och avgifter</string>
     <!-- Taxes without airline fees -->
-    <string name="taxes_without_airline_fees">Skatter</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand}s bokningsavgift</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2200,20 +2028,17 @@
     <!-- Flight -->
     <string name="flight">Flyg</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">Resenär %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Lägg till resenär</string>
 
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Resenärens uppgifter</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Huvudresenär</string>
     <!-- Heading for selecting travelers on flights and packages -->
     <string name="traveler_select_additional">Ytterligare resenärer</string>
     <!-- Saved button for traveler/payment -->
-    <string name="saved_button">Sparat</string>
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Ändra</string>
 
@@ -2224,36 +2049,22 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">Gästinformation</string>
     <!-- Add adult traveler number template -->
-    <string name="add_adult_number_TEMPLATE">Uppgifter för vuxen resenär %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
-    <string name="add_adult_number_variate2_TEMPLATE">Vuxen resenär %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult_variate2">Vuxen</string>
     <!-- Add child traveler number template -->
-    <string name="add_child_number_TEMPLATE">Uppgifter för barnresenär %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate2_TEMPLATE">%1$s-åring</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">Uppgifter för spädbarn %1$s i knä</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Spädbarn %1$s i knä</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate2">Spädbarn i knä</string>
     <!-- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_TEMPLATE">Uppgifter för spädbarn %1$s i säte</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Spädbarn %1$s i säte</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate2">Spädbarn i säte</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">Passagerare kan nekas ombordstigning om namnet i bokningen inte matchar namnet i den statligt utfärdade ID-handlingen</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
     <string name="name_must_match_warning_new">Resenärsnamnen måste överensstämma exakt med statligt utfärdat fotolegitimation.</string>
 
     <!-- Special Assistance label template -->
-    <string name="special_assistance_label_TEMPLATE">Specialassistans: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
-    <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <string name="phone_number_country_code_dropdown_cont_desc">Landskod</string>
     <!-- Country Code hint for material traveler form -->
     <string name="phone_number_country_code_hint">Landskod</string>
@@ -2304,7 +2115,6 @@
     <!-- Set expiration date button -->
     <string name="btn_set">OK</string>
     <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
-    <string name="Expires_TEMPLATE">Förfaller %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -2408,7 +2218,6 @@
     <!-- redress number info msg -->
     <string name="redress_number_msg">Redressnummer är ett unikt nummer, utfärdat av TSA, vilket hjälper TSA att utesluta felidentifieringar på bevakningslistor samt att styrka din identitet.</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Sparar resenärsinfo på ditt konto…</string>
     <!-- Seating Preference -->
     <string name="seating_preference">Platspreferens</string>
     <!-- Seat Preference -->
@@ -2416,7 +2225,6 @@
     <!-- Special Assistance -->
     <string name="special_assistance">Specialassistans</string>
     <!-- Add Redress # -->
-    <string name="add_redress_num">Lägg till redress #</string>
 
     <!-- Entered invalid birthdate dialog -->
     <string name="invalid_birthdate_message">Ålden du angav matchar inte åldern på resenären du sökte på. Uppdatera dina uppgifter och försök sen att checka ut igen.</string>
@@ -2487,7 +2295,6 @@
     <!-- Air attach savings messaging -->
     <string name="air_attach_potential_savings">Spara upp till 55% på ett hotell.</string>
     <!-- Air attach discounted hotel messaging -->
-    <string name="air_attach_amount_discounted_TEMPLATE">Du kan spara %s om du bokar ditt hotell nu.</string>
     <!-- Air attach offer expiration alert -->
     <string name="air_attach_expires">Erbjudandet går ut om</string>
     <!-- Air attach offer expiration. daysorhours is the number of days/hours remaining for the offer, e.g. Offer expires in 10 days -->
@@ -2497,9 +2304,7 @@
     <!-- Air attach expires today alert -->
     <string name="air_attach_expires_today">Erbjudandet går ut idag</string>
     <!-- Air attach add hotel button -->
-    <string name="air_attach_add_hotel">Lägg till hotell</string>
     <!-- Air attach add hotel button subtitle -->
-    <string name="air_attach_with_discounts">med rabatt</string>
     <!-- Air attach launch screen ab test message. location is location of hotel, e.g. Save up to 55% off San Francisco Hotels-->
     <string name="air_attach_variant1_string1_TEMPLATE">Spara upp till 55% på hotell i {location}</string>
     <!-- Air attach launch screen ab test message., location is the location of hotel, e.g. Up to 55% off San Francisco Hotels -->
@@ -2562,10 +2367,8 @@
     <string name="filters_cleared">Filter rensade</string>
     <!-- split ticket rules and restrictions -->
     <string name="split_ticket_rules_with_link_TEMPLATE">Ditt flyg är en kombination av två enkelresor; för vardera gäller separata regler och restriktioner.</string>
-    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Ditt flyg är en kombination av två enkelresor; för vardera gäller separata regler och restriktioner.</string>
     <!-- split ticket rules - cancellation policy -->
     <string name="split_ticket_rules_cancellation_policy">Om ett av dina flyg ändras eller avbokas, kommer inte den andra flygresan att ändras automatiskt. Ändringar av den andra flygresan kan medföra avgifter.</string>
-    <string name="split_ticket_rules_cancellation_policy_tablet">Om ett av dina flyg ändras eller avbokas, kommer inte den andra flygresan att ändras automatiskt. Ändringar av den andra flygresan kan medföra avgifter.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Separata bagageavgifter gäller för &lt;a href=\"{departurelink}\"&gt;avresan&lt;/a&gt; och &lt;a href=\"{returnlink}\"&gt;återresan&lt;/a&gt;</string>
     <!-- Flight dialog  errors -->
@@ -2604,9 +2407,7 @@
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
     <string name="error_flights_no_longer_available_TEMPLATE">Vi ber om ursäkt, men ett av dina flyg är tyvärr inte längre tillgängligt på {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
-    <string name="error_flight_hold_expired">Flyget kunde tyvärr bara hållas åt dig en viss tid och tidsfristen har nu löpt ut.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
-    <string name="error_flights_hold_expired">Flygen kunde tyvärr bara hållas åt dig en viss tid och tidsfristen har nu löpt ut.</string>
     <!-- Button label imploring users to pick a new flight due to unavailability -->
     <string name="pick_new_flight">Välj ett nytt flyg</string>
     <!-- Button label imploring users to pick flights due to unavailability -->
@@ -2644,19 +2445,13 @@
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kort som slutar på %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
-    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s slutar på %2$s</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Auktoriserad signatur</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
-    <string name="Not_Valid_Unless_Signed">Ogiltig om den inte signeras</string>
     <!-- Label above cardholder's name on front of credit card on CVV screen -->
     <string name="Member">Medlem</string>
     <!-- Default cardholder name on front of credit card on CVV screen -->
     <string name="Preferred_Customer">Prioriterad kund</string>
-    <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_back_of_card">Se kortets baksida</string>
-    <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_front_of_card">Se kortets framsida</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Ange säkerhetskod</string>
     <string name="cvv_enter_security_code_v2">CVV</string>
@@ -2695,7 +2490,6 @@
     <!-- Child age dialog button -->
     <string name="button_done">Klar</string>
     <!-- Title of "select child age" spinner dialog box -->
-    <string name="prompt_select_child_age">Ange barnets ålder (%1$s–%2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; år</item>
@@ -2728,11 +2522,9 @@
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s till %2$s</string>
     <!-- Hint for filtering results by hotel name -->
-    <string name="filter_hotel_name_hint">Filtrera efter hotellnamn</string>
     <!-- Hint for filtering results by hotel name on material hotels -->
     <string name="filter_hotel_name_hint2">Hotellnamn</string>
     <!-- Label indicating that geolocation failed -->
-    <string name="geolocation_failed">Kan ej bestämma sökplats.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Menade du…</string>
     <!-- Button label for dismissing the flight guest picker -->
@@ -2789,10 +2581,8 @@
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Nonstop flights -->
-    <string name="stop_description__nonstop">Inga stopp</string>
 
     <!-- Filter option for "show all" -->
-    <string name="all">Alla</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
     <string name="filter_price_cheap">$</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
@@ -2800,9 +2590,7 @@
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">$$$</string>
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
-    <string name="filter_distance_miles_template">%seng.mil</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-    <string name="filter_distance_kilometers_template">%s km</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
@@ -2814,7 +2602,6 @@
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Försök med annan ort eller annat datum.</string>
     <!-- Message displayed when no hotel rooms are available -->
-    <string name="error_no_hotel_rooms_available">Inga hotellrum tillgängliga</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Välj ett annat rum</string>
     <!-- Message displayed when room is sold out -->
@@ -2836,7 +2623,6 @@
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_off_template">%2.0f%% RABATT</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_minus_template">-%2.0f%%</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filter</string>
@@ -2844,7 +2630,6 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Från %s</string>
-    <string name="From_x_per_night_template">Från %s/natt</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Sök det här området</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -2861,7 +2646,6 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Hämtar hotell…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">Spara %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Ingen internetanslutning</string>
     <!-- The label for deposit terms button -->
@@ -2881,7 +2665,6 @@
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Endast hotell med +VIP Access</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="VIP_Access_Only">Endast +VIP Access</string>
     <!-- Title for VIP Access message for Hotel Results -->
     <string name="vip">+VIP</string>
     <!-- ON and OFF text for toggle switches -->
@@ -2903,7 +2686,6 @@
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Inga bekvämligheter erbjuds</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Businesscenter</string>
     <!-- Fitness center amenity -->
@@ -2984,7 +2766,6 @@
     <!-- Loading more reviews -->
     <string name="user_review_loading_more_reviews">Hämtar fler recensioner…</string>
     <!-- Read more of the review -->
-    <string name="user_review_read_more">Läs mer</string>
     <!-- Read more of the review -->
     <string name="more">mer</string>
     <!--
@@ -3041,9 +2822,7 @@
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
-    <string name="room_rates_loading">Söker efter lediga rum…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">Kunde inte ladda ner rum- och prisinformation. Kontrollera din anslutning och prova igen.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per natt</string>
     <!-- Rate price displayed "total fee" -->
@@ -3124,7 +2903,6 @@
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">Det pågår renoveringar på hotellet</string>
     <!-- Rooms & rates more info link for renovation notice or resort fees -->
-    <string name="more_info">Mer info</string>
 
     <!-- Booking info -->
     <!-- Quantity for the length of stay -->
@@ -3166,6 +2944,8 @@
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Skatter och avgifter</string>
+    <!-- Label for the property fee for a hotel room booking. -->
+    <string name="property_fee">Hotellavgift</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inkluderas</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
@@ -3187,7 +2967,6 @@
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Hämtar {brand}-konto</string>
     <!-- Label for coupon code area of booking form -->
-    <string name="coupon_code">Ange kupong- eller kampanjkod</string>
     <!-- Label for coupon code hint -->
     <string name="optional">Valfritt</string>
     <!-- Label applying a coupon -->
@@ -3204,13 +2983,9 @@
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Ange kupongkod</string>
     <!-- Message shown when applying coupon (in progress) -->
-    <string name="applying_coupon">Tillämpar kupong…</string>
     <!-- Message shown when a coupon was successfully applied -->
-    <string name="coupon_applied">Kupong har tillämpats</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
-    <string name="coupon_saved_TEMPLATE">Du sparade %s!</string>
     <!-- Message shown when a coupon is being removed -->
-    <string name="coupon_removing_dialog">Raderar kupong</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Skicka</string>
     <!-- Coupon submit button for accessibility -->
@@ -3250,7 +3025,6 @@
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Vi kan tyvärr inte processa kuponger just nu. Försök igen.</string>
     <!-- Error when applying coupon - session timeout -->
-    <string name="coupon_error_service_timeout">Tyvärr tog det för lång tid att tillämpa koden. Försök igen.</string>
     <!-- Error when applying coupon - Invalid Stay Dates -->
     <string name="coupon_error_invalid_stay_dates">Tyvärr kan inte kupongen inte tillämpas för dessa resedatum.</string>
     <!-- Error when applying coupon - Exceeded Earn Limit -->
@@ -3333,6 +3107,8 @@
     <!-- Preferences -->
     <!-- Title for point of sale setting -->
     <string name="preference_point_of_sale_title">Land</string>
+    <!-- Content description for the country POS selection button. E.g. USA, country button-->
+    <string name="country_pos_cont_desc_TEMPLATE">{countrycode}, landsknapp</string>
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
@@ -3850,51 +3626,41 @@
     <string name="trips_refresh_trips_list_cont_desc">Tryck för att uppdatera listan med resor</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
-    <string name="filter_hotels_for_three_or_more_stars_cont_desc">Tryck för att filtrera efter hotell med tre eller fler stjärnor</string>
     <!-- Content description for action: Press to filter for hotels hotels with four or more stars -->
-    <string name="filter_hotels_for_four_or_more_stars_cont_desc">Tryck för att filtrera efter hotell med fyra eller fler stjärnor</string>
     <!-- Content description for action: Press to filter for hotels with five stars -->
-    <string name="filter_hotels_for_five_stars_cont_desc">Tryck för att filtrera efter hotell med fem stjärnor</string>
     <!-- Content description for action: Press to remove hotel star filters -->
-    <string name="filter_remove_hotel_star_filters_cont_desc">Tryck för att ta bort stjärnfilter</string>
     <!-- Hotel distance filters -->
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
-    <string name="filter_for_nearest_hotels_cont_desc">Tryck för att filtrera efter hotell närmast dig inom en begränsad sökradie</string>
     <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
-    <string name="filter_for_further_distanced_hotels_cont_desc">Tryck för att filtrera efter hotell närmast dig inom en medelstor sökradie</string>
     <!-- Content description for action: Press to filter for hotels within largest radius from your search location -->
-    <string name="filter_for_furthest_distanced_hotels_cont_desc">Tryck för att filtrera efter hotell närmast dig inom största möjliga sökradie</string>
     <!-- Content description for action: Press to clear all distance filters for hotel search -->
-    <string name="filter_remove_distance_filter_cont_desc">Tryck för att rensa alla avståndsfilter i hotellsökningen</string>
     <!-- Hotel price filters -->
     <!-- Content description for action: Press to filter for low-range hotel prices -->
-    <string name="filter_for_low_range_hotel_prices_cont_desc">Tryck för att filtrera efter låga hotellpriser</string>
     <!-- Content description for action: Press to filter for mid-range hotel prices -->
-    <string name="filter_for_mid_range_hotel_prices_cont_desc">Tryck för att filtrera efter medelhöga hotellpriser</string>
     <!-- Content description for action: Press to filter for high-range hotel prices -->
-    <string name="filter_for_high_range_hotel_prices_cont_desc">Tryck för att filtrera efter höga hotellpriser</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="filter_remove_hotel_price_filters_cont_desc">Ta bort hotellprisfilter</string>
+
+    <!-- Custom Accessibility Action for increasing minimum price range on hotel filter screen -->
+    <string name="increase_price_minimum_filter">Öka minimumpris.</string>
+    <!-- Custom Accessibility Action for decreasing minimum price range on hotel filter screen -->
+    <string name="decrease_price_minimum_filter">Minska minimumpris.</string>
+    <!-- Custom Accessibility Action for increasing maximum price range on hotel filter screen -->
+    <string name="increase_price_maximum_filter">Öka maxpris.</string>
+    <!-- Custom Accessibility Action for decreasing maximum price range on hotel filter screen -->
+    <string name="decrease_price_maximum_filter">Minska maxpris.</string>
+
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
-    <string name="display_recent_reviews_cont_desc">Tryck för att visa de senaste recensionerna</string>
     <!-- Content description for action: Press to display favorable reviews -->
-    <string name="display_favorable_reviews_cont_desc">Tryck för att visa positiva recensioner</string>
     <!-- Content description for action: Press to display critical reviews -->
-    <string name="display_critical_reviews_cont_desc">Tryck för att visa negativa recensioner</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to go to baggage fee information -->
-    <string name="flight_leg_baggage_fee_info_cont_desc">Tryck för att gå till information om bagageavgifter</string>
     <!-- Checkout screen -->
     <!-- Content description for action: Press to enter a coupon or promotional code -->
-    <string name="checkout_enter_coupon_cont_desc">Tryck för att ange kupong- eller kampanjkod</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="traveler_gender_edit_cont_desc">Tryck för att välja resenärens kön</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="traveler_special_assistance_edit_cont_desc">Välj typ av specialassistans som resenären behöver</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="traveler_seat_preference_edit_cont_desc">Välj platstyp som resenären föredrar</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Select billing address country -->
     <string name="card_info_billing_address_country_cont_desc">Ange land för faktureringsadressen</string>
@@ -3905,9 +3671,7 @@
     <string name="hide_menu_btn_cont_desc">Tryck för att se visningsalternativ</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
-    <string name="tablet_results_hotel_list_cont_desc">Resultat för din hotellsökning</string>
     <!-- Content description for Flight Search Results -->
-    <string name="tablet_results_flight_list_cont_desc">Resultat för din flygsökning</string>
 
     <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
     <string name="pay_now_cont_desc">Tryck för att betala nu</string>
@@ -3950,49 +3714,29 @@
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
-    <string name="tablet_confirmation_hotel_booked">Ditt hotell är bokat!</string>
     <!-- Header text to indicating booking confirmed for flight -->
-    <string name="tablet_confirmation_flight_booked">Ditt flyg är bokat!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
-    <string name="tablet_itinerary_confirmation_TEMPLATE">Resplansnummer %1$s skickades till %2$s</string>
     <!-- Share button text for hotels -->
-    <string name="tablet_confirmation_share_hotel">Dela vistelse</string>
     <!-- Share button text for flights -->
-    <string name="tablet_confirmation_share_flight">Dela flyg</string>
     <!-- Call support button text -->
-    <string name="tablet_confirmation_call_support">Ring kundtjänst</string>
     <!-- Book Next Item button text -->
-    <string name="tablet_confirmation_book_next">Fortsätt boka</string>
     <!-- Done Booking button text -->
-    <string name="tablet_confirmation_done_booking">Färdigbokad</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
-    <string name="tablet_confirmation_flights_from_to">%1$s till %2$s</string>
 
     <!-- Tablet Sold Out Screen -->
     <!-- Header text to indicating hotel sold out -->
-    <string name="tablet_sold_out_summary_text_hotel">Tyvärr är rummet nu slutsålt. Vi beklagar!</string>
     <!-- Header text to that the hold on the room has expired. -->
-    <string name="tablet_expired_summary_text_hotel">Flyget kunde tyvärr bara hållas åt dig en viss tid och tidsfristen har nu löpt ut.</string>
     <!-- Button text to remove sold hotel -->
-    <string name="tablet_sold_out_remove_hotel">Ta bort hotell</string>
     <!-- Button text to select another hotel -->
-    <string name="tablet_sold_out_select_hotel">Välj ett annat hotell</string>
     <!-- Header text to indicating flight is sold out -->
-    <string name="tablet_sold_out_summary_text_flight">Tyvärr är det här flyget nu slutsålt.</string>
     <!-- Header text to indicating flights are sold out -->
-    <string name="tablet_sold_out_summary_text_flights">De här flygen är nu slutsålda. Vi beklagar!</string>
     <!-- Button text to remove sold flight -->
-    <string name="tablet_sold_out_remove_flight">Ta bort flyg</string>
     <!-- Button text to select another flight -->
-    <string name="tablet_sold_out_select_flight">Välj ett annat flyg</string>
 
     <!-- Tablet mismatched trip bucket item messages -->
     <!-- Dialog message when we detect the user has selected a redeye flight and the hotel checkin date is wrong -->
-    <string name="tablet_redeye_products_message">Vill du checka in på ditt hotell på samma dag som ditt flyg anländer? Klicka \&apos;Ja\&apos; för att ta bort ditt hotellval och sök efter hotell på rätt incheckningsdatum.</string>
     <!-- Dialog message when we detect the user has selected a flight and hotel that do not line up correctly with respect to dates -->
-    <string name="tablet_mismatched_products_message">Dina hotell- och flygdatum skiljer sig. Vill du ta bort ditt nuvarande hotellval och söka efter hotell med datum som matchar dina flyg?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Ja</string>
     <!-- Dialog negative button message -->
@@ -4063,10 +3807,6 @@
     <string name="price_range">Prisintervall</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sortera efter {sort}</string>
-    <!-- Hotel Price Range start filter label for accessibility -->
-    <string name="hotel_price_range_start">Prisintervall start</string>
-    <!-- Hotel Price Range end filter label for accessibility -->
-    <string name="hotel_price_range_end">Prisintervall slut</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="hotels_filter_show_more_cont_desc">Visa fler områden. Knapp</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
@@ -4329,7 +4069,10 @@
     <string name="package_flight_overview_total_duration_TEMPLATE">Total restid: {duration}</string>
     <!-- Example : Total Duration: 2h 20m • 939 miles -->
     <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Total restid: {duration} • {distance} {distanceunit}</string>
-
+    <!-- Toolbar Title for flight overview template. Example: Thurs May 12 - Fri May 14, 2 guests -->
+    <string name="flight_overview_toolbar_TEMPLATE">{date}, {guests}</string>
+    <!-- Title for flight overview summary template. Example: SFO to DEL Thurs, May 12 -->
+    <string name="flight_overview_header_TEMPLATE">{departureairportcode} till {arrivalairportcode}, {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary} skickades till {email}</string>
 
@@ -4798,8 +4541,6 @@
     <!--Packages accessibility content description for hotel room selection collapse -->
     <!-- Content Description for payment options list when card is not accepted -->
     <string name="accessibility_cont_desc_card_is_disabled">avaktiverad</string>
-    <!-- Content Description for pos dropdown on trips header e.g. Country United States -->
-    <string name="accessibility_cont_desc_pos_TEMPLATE">Land {country_name}</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Priset är {activity_price}</string>
@@ -4932,6 +4673,7 @@
     <string name="member_deals_toolbar_title">Medlemspriser</string>
     <string name="continue_booking">Fortsätt boka</string>
     <string name="member_deal_hotel_only">Endast hotell</string>
+    <string name="member_deal_toolbar_close_cont_desc">Stäng fönster med medlemspriser</string>
 
     <!-- Hotel results sorting faq webview title -->
     <string name="how_we_determine_sort_order">Så avgörs vår sorteringsordning</string>
