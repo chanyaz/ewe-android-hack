@@ -17,6 +17,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
     private val reviewsPageNumber = IntArray(3)
 
     val MIN_FAVORABLE_RATING = 3
+    val PAGE_SIZE = 25
 
     val reviewsSummaryObservable = PublishSubject.create<ReviewSummary>()
     val favorableReviewsObservable = PublishSubject.create<List<Review>>()
@@ -31,7 +32,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         val params = HotelReviewsParams.Builder()
                 .hotelId(hotelId)
                 .pageNumber(reviewsPageNumber[reviewSort.value]++)
-                .numReviewsPerPage(25)
+                .numReviewsPerPage(PAGE_SIZE)
                 .sortBy(reviewSort.sortByApiParam)
                 .languageSort(locale)
                 .build()
