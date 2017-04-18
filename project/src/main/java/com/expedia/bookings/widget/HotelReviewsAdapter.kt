@@ -38,8 +38,9 @@ class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm
 
     private fun addReviews(reviewSort: ReviewSort, reviews: List<Review>) {
         val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
+        hotelReviewsView.viewModel.moreReviewsAvailableObservable.onNext(reviews.size >= vm.PAGE_SIZE)
         hotelReviewsView.viewModel.reviewsObserver.onNext(reviews)
-        hotelReviewsView.recyclerAdapter.addReviews(reviews);
+        hotelReviewsView.recyclerAdapter.addReviews(reviews)
     }
 
     fun getReviewSort(position: Int): ReviewSort {
