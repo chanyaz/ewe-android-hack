@@ -5,12 +5,15 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
 import android.support.annotation.StringRes
 import android.support.v4.app.FragmentActivity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewParent
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.AboutWebViewActivity
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
@@ -35,6 +38,7 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -147,6 +151,15 @@ class AccountSettingsFragmentTest {
     @Test
     fun unitedKingdomDisplaysProperly() {
         doCountryTest(PointOfSaleId.UNITED_KINGDOM, "GBR", R.drawable.ic_flag_uk_icon)
+    }
+
+    @Test
+    fun appSupportEmailUs() {
+        var webViewActivity = Robolectric.buildActivity(AboutWebViewActivity::class.java).create().get()
+        var webView = LayoutInflater.from(webViewActivity).inflate(R.layout.web_view_toolbar, null) as FrameLayout
+        var toolbarView = webView.findViewById(R.id.toolbar) as android.support.v7.widget.Toolbar
+
+        assertFalse(toolbarView.isOverflowMenuShowing)
     }
 
     private fun doCountryTest(pointOfSaleId: PointOfSaleId, expectedCountryCode: String, expectedFlagResId: Int) {
