@@ -449,10 +449,6 @@
 
     <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown" />
 
-    <style name="FlightTheme.Rules">
-        <item name="android:logo">?attr/skin_flightRulesActionBarLogo</item>
-    </style>
-
     <style name="Theme.Phone.Rules">
         <item name="android:logo">?attr/skin_hotelRulesActionBarLogo</item>
     </style>
