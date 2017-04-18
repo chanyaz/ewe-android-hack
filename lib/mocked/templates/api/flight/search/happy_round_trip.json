@@ -40,6 +40,19 @@
             "state": "MI"
           }
         }
+      ],
+      "isBasicEconomy": true,
+      "basicEconomyTooltipInfo": [
+        {
+          "fareRulesTitle": "United Airlines Basic Economy Fare",
+          "fareRules": [
+            "1 personal item only, no access to overhead bin.",
+            "Seats assigned at check-in.",
+            "No upgrades.",
+            "Changes and refunds are not permitted.",
+            "Board in last group."
+          ]
+        }
       ]
     },
     {
@@ -48,7 +61,7 @@
       "segments": [
         {
           "airlineCode": "happy_round_trip",
-          "airlineName": "happy_round_trip",
+            "airlineName": "happy_round_trip",
           "arrivalAirportCode": "${arrivalAirport}",
           "arrivalAirportLocation": "${arrivalAirport}",
           "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
@@ -82,8 +95,31 @@
             "state": "California"
           }
         }
+      ],
+      "isBasicEconomy": true,
+      "basicEconomyTooltipInfo": [
+        {
+          "fareRulesTitle": "American Airlines Basic Economy Fare",
+          "fareRules": [
+            "1 personal item only, no access to overhead bin.",
+            "Seats assigned at check-in.",
+            "No upgrades.",
+            "Changes and refunds are not permit.",
+            "Board in last group."
+          ]
+        },
+        {
+          "fareRulesTitle": "American Airlines Basic Economy Fare",
+          "fareRules": [
+            "1 personal item only, no access to overhead bin.",
+            "Seats assigned at check-in.",
+            "No upgrades.",
+            "Changes and refunds are not permitted.",
+            "Board in last group."
+          ]
+        }
       ]
-    },
+  },
     {
       "legId": "34fa89938312d0fd8322ee27cb89f8a1",
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
@@ -156,6 +192,19 @@
             "country": "USA",
             "state": "MI"
           }
+        }
+      ],
+      "isBasicEconomy": true,
+      "basicEconomyTooltipInfo": [
+        {
+          "fareRulesTitle": "United Airlines Basic Economy Fare",
+          "fareRules": [
+            "1 personal item only, no access to overhead bin.",
+            "Seats assigned at check-in.",
+            "No upgrades.",
+            "Changes and refunds are not permitted.",
+            "Board in last group."
+          ]
         }
       ],
       "freeCancellationBy": {
@@ -253,7 +302,8 @@
             "state": "California"
           }
         }
-      ]
+      ],
+      "isBasicEconomy": false
     },
     {
       "legId": "leg5",

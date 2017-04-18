@@ -15,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -108,6 +109,45 @@ class FlightOverviewPresenterTest {
         assertEquals(View.GONE, sut.earnMessageTextView.visibility)
     }
 
+    @Test
+    fun showBasicEconomyTooltip() {
+        SettingUtils.save(context, R.string.preference_show_basic_economy_tooltip, true)
+        sut.vm = FlightOverviewViewModel(context)
+        val testSubscriber = TestSubscriber<Boolean>()
+        sut.vm.showBasicEconomyTooltip.subscribe(testSubscriber)
+
+        createSelectedFlightLeg()
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(false)
+        assertEquals(View.GONE, sut.basicEconomyTooltip.visibility)
+
+        createBasicEconomyTooltipInfo()
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+
+        testSubscriber.assertValueCount(2)
+        testSubscriber.assertValues(false, true)
+        assertEquals(View.VISIBLE, sut.basicEconomyTooltip.visibility)
+        assertEquals(View.GONE, sut.basicEconomyText.visibility)
+    }
+
+    @Test
+    fun basicEconomyTooltipDialogTest() {
+        SettingUtils.save(context, R.string.preference_show_basic_economy_tooltip, true)
+        sut.vm = FlightOverviewViewModel(context)
+        val toolTipRulesTestSubscriber = TestSubscriber<Array<String>>()
+        val toolTipTitleTestSubscriber = TestSubscriber<String>()
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe(toolTipTitleTestSubscriber)
+        sut.basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipFareRules.subscribe(toolTipRulesTestSubscriber)
+
+        createSelectedFlightLeg()
+        createBasicEconomyTooltipInfo()
+        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals(2, toolTipRulesTestSubscriber.onNextEvents[0].size)
+        assertEquals("1 personal item only, no access to overhead bin", toolTipRulesTestSubscriber.onNextEvents[0].get(0))
+        assertEquals("Seats assigned at check-in.", toolTipRulesTestSubscriber.onNextEvents[0].get(1))
+        assertEquals("United Airlines Basic Economy Fare", toolTipTitleTestSubscriber.onNextEvents[0])
+    }
+
     private fun createSelectedFlightLeg() {
         flightLeg = FlightLeg()
         flightLeg.flightSegments = emptyList()
@@ -119,5 +159,15 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("42.00", "USD")
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
+    }
+
+    private fun createBasicEconomyTooltipInfo() {
+        flightLeg.isBasicEconomy = true
+        val fareRules = arrayOf("1 personal item only, no access to overhead bin", "Seats assigned at check-in.")
+        val toolTipInfo = FlightLeg.BasicEconomyTooltipInfo()
+        toolTipInfo.fareRulesTitle = "United Airlines Basic Economy Fare"
+        toolTipInfo.fareRules = fareRules
+        flightLeg.basicEconomyTooltipInfo = ArrayList<FlightLeg.BasicEconomyTooltipInfo>()
+        flightLeg.basicEconomyTooltipInfo.add(toolTipInfo)
     }
 }
