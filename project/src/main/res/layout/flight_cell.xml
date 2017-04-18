@@ -57,12 +57,13 @@
                 android:paddingBottom="12dp"
                 android:paddingLeft="13dp"
                 android:paddingRight="13dp"
-                android:paddingTop="10dp">
+                android:paddingTop="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_time_detail_text_view"
@@ -83,13 +84,10 @@
                         android:id="@+id/flight_overview_expand_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/flight_info_container"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginRight="9dp"
-                        android:src="@drawable/read_more"
+                        android:layout_marginRight="1dp"
+                        android:src="@drawable/read_more_without_padding"
                         android:tint="@color/package_bundle_icon_color"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <LinearLayout
