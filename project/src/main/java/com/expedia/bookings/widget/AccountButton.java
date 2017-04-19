@@ -236,10 +236,7 @@ public class AccountButton extends LinearLayout {
 
 	@VisibleForTesting
 	protected void setLoginTextAndContentDescription(LineOfBusiness lob, RewardsInfo rewardsInfo) {
-		if (rewardsInfo != null && getRewardsForLOB(lob) != null && LoyaltyUtil.Companion
-			.shouldShowEarnMessage(Float.toString(getRewardsForLOB(lob).getPointsToEarn()),
-				lob == LineOfBusiness.PACKAGES)) {
-
+		if (rewardsInfo != null && getRewardsForLOB(lob) != null && shouldShowEarnMessage(lob, rewardsInfo)) {
 			if (rewardsInfo.hasAmountToEarn()) {
 				String rewardsToEarn = rewardsInfo.getTotalAmountToEarn().getFormattedMoneyFromAmountAndCurrencyCode(
 					Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
@@ -266,6 +263,12 @@ public class AccountButton extends LinearLayout {
 				.format());
 			mLoginContainer.setBackgroundResource(R.drawable.material_cko_acct_btn_bg);
 		}
+	}
+
+	private boolean shouldShowEarnMessage(LineOfBusiness lob, RewardsInfo rewardsInfo) {
+		return (rewardsInfo.hasAmountToEarn() || rewardsInfo.hasPointsToEarn()) && LoyaltyUtil.Companion
+			.shouldShowEarnMessage(Float.toString(getRewardsForLOB(lob).getPointsToEarn()),
+				lob == LineOfBusiness.PACKAGES);
 	}
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
