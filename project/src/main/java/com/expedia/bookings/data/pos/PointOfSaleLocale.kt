@@ -101,4 +101,7 @@ class PointOfSaleLocale(private val data: JSONObject) {
 
     /** Hotel Results Sort FAQ URL */
     val hotelResultsSortFaqUrl by lazy { data.optString("resultsSortFAQLegalLink") }
+
+    /** Cars Tab Web View URL */
+    val carsTabWebViewURL by lazy { data.optString("carsTabWebViewURL") }
 }
