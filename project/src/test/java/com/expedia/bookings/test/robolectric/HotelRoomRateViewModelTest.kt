@@ -20,7 +20,6 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -114,6 +113,22 @@ class HotelRoomRateViewModelTest {
         setupNonSoldOutRoomUnderTest()
 
         assertFalse(sut.shouldShowDiscountPercentage.value)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
+    fun showDailyMondatoryFee() {
+        setupDailyMandatoryFee(12.34f)
+        setupNonSoldOutRoomUnderTest()
+
+        assertEquals("Excludes $12.34 daily resort fee", sut.dailyMandatoryFeeMessageObservable.value.toString())
+    }
+
+    @Test
+    fun notShowDailyMondatoryFee() {
+        setupDailyMandatoryFee(0f)
+        setupNonSoldOutRoomUnderTest()
+        assertEquals("", sut.dailyMandatoryFeeMessageObservable.value.toString())
     }
 
     @Test
@@ -238,6 +253,10 @@ class HotelRoomRateViewModelTest {
         mockHotelDetailViewModel = HotelDetailViewModel(context)
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, false, LineOfBusiness.HOTELS)
+    }
+
+    private fun setupDailyMandatoryFee(dailyMandatoryFee: Float) {
+        hotelRoomResponse.rateInfo.chargeableRateInfo.dailyMandatoryFee = dailyMandatoryFee
     }
 
     private fun setupPackageRoomUnderTest() {
