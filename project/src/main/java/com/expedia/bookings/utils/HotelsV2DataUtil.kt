@@ -61,7 +61,7 @@ class HotelsV2DataUtil {
             val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
             val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, LoyaltyUtil.isShopWithPointsAvailable(context), filterUnavailable, params.sortType)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, LoyaltyUtil.isShopWithPointsAvailable(context), filterUnavailable, params.sortType, params.mctc)
             return v2params
         }
 

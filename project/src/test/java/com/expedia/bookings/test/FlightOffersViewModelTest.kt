@@ -267,6 +267,12 @@ class FlightOffersViewModelTest {
     }
 
     @Test
+    fun testObFeeDetailsUrl() {
+        sut.searchParamsObservable.onNext(flightSearchParams)
+        assertEquals(sut.obFeeDetailsUrlObservable.value, "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033")
+    }
+
+    @Test
     fun testInboundFlightMap() {
         val firstOutboundFlightId = "leg1"
         val secondOutboundFlightId = "34fa89938312d0fd8322ee27cb89f8a1"

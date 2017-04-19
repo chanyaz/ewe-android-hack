@@ -41,6 +41,7 @@ object NewLaunchScreen {
     }
 
     @JvmStatic fun tripsButton(): ViewInteraction {
+        waitForLOBHeaderToBeDisplayed()
         return onView(withText(R.string.trips))
     }
 

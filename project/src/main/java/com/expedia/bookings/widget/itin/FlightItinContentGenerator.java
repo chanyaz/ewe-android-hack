@@ -56,7 +56,6 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -236,10 +235,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			TextView passengerNameListTv = Ui.findView(view, R.id.passenger_name_list);
 			TextView flightDuration = Ui.findView(view, R.id.flight_duration);
 
-			boolean isFlightDurationEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_flight_duration);
-			if (isFlightDurationEnabled && legDurationMins > 0) {
+			if (legDurationMins > 0) {
 				String duration = FlightUtils.formatTotalDuration(getContext(), legDurationMins);
+				String durationContDesc = FlightUtils.totalDurationContDesc(getContext(), legDurationMins);
 				flightDuration.setText(duration);
+				flightDuration.setContentDescription(durationContDesc);
+
 				flightDuration.setVisibility(View.VISIBLE);
 			}
 			else {

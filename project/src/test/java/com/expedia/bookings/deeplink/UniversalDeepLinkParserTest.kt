@@ -260,6 +260,22 @@ class UniversalDeepLinkParserTest() {
         Assert.assertEquals(LocalDate(2017,5,31), parsed.checkOutDate)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun mctcSearchParsing() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/Hotel-Search?paandi=true&trv_tax=18.66&trv_di=B&ICMDTL=htl.1808319.taid.678590.geoid.187147.testslice..clickid.WLhB8goQHIEAAaxKd8cAAADk.AUDID.10532&trv_curr=USD&ICMCID=Meta.tripa.Expedia_US-DM&SC=2&mctc=9&trv_mbl=L&trv_bp=151.82&startDate=4%2F26%2F2017&endDate=4%2F30%2F2017&adults=2&selected=1808319&regionId=179898")
+        val parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        Assert.assertEquals(9, parsed.mctc)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun mctcOfferParsing() {
+        val data = Uri.parse("https://www.expedia.com/mobile/deeplink/Paris-Hotels-Hotel-Wilson-Opera.h1808319.Hotel-Information?langid=1033&mctc=5&chid=5bb6a8b1-86c6-4340-9ba1-fd3ef6906566&mrp=1&mdpcid=US.META.TRIVAGO.HOTELSCORESEARCH.HOTEL&mdpdtl=HTL.1808319.PARIS&trv_curr=USD&chkin=4/26/2017&chkout=4/30/2017&rateplanid=200803984_200803984_24&trv_dp=147&rm1=a2&paandi=true")
+        val parsed = parser.parseUniversalDeepLink(data) as HotelDeepLink
+        Assert.assertEquals(5, parsed.mctc)
+    }
+
 
     private fun assertChildTravelersEquals(childrenExpected: Array<ChildTraveler>, childrenActual: Array<ChildTraveler>) {
         Assert.assertEquals(childrenExpected.size, childrenActual.size)

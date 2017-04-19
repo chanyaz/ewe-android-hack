@@ -69,4 +69,15 @@ open class DeepLinkParser(assets: AssetManager) {
         }
         return 0
     }
+
+    protected fun getNullableIntegerParameterIfExists(data: Uri, queryParameterNames: Set<String>, parameterName: String): Int? {
+        if (queryParameterNames.contains(parameterName)) {
+            try {
+                return Integer.parseInt(data.getQueryParameter(parameterName))
+            }
+            catch (e: Exception) {
+            }
+        }
+        return null
+    }
 }

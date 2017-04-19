@@ -76,6 +76,27 @@ public class FlightUtils {
 		return legDurationTime;
 	}
 
+	public static String totalDurationContDesc(Context context, int legDuration) {
+		String duration;
+		String totalDurationContDesc;
+		int minutes = Math.abs(legDuration % 60);
+		int hours = Math.abs(legDuration / 60);
+
+		if (hours > 0) {
+			duration = Phrase.from(context, R.string.flight_hour_min_duration_template_cont_desc)
+				.put("h", hours)
+				.put("m", minutes)
+				.format().toString();
+		}
+		else {
+			duration = Phrase.from(context, R.string.flight_min_duration_template_cont_desc)
+				.put("m", minutes)
+				.format().toString();
+		}
+		totalDurationContDesc = Phrase.from(context, R.string.package_flight_overview_total_duration_TEMPLATE).put("duration", duration).format().toString();
+		return totalDurationContDesc;
+	}
+
 	/**
 	 * Returns the string meant to be displayed below the slide-to-purchase view; i.e. the final
 	 * prompt displayed before the card is actually charged. We want this message to be consistent
@@ -165,15 +186,14 @@ public class FlightUtils {
 					}
 				}
 				feeString = context.getString(R.string.Airline_fee);
-				feeUrl = PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
 			}
 			else {
 				// trip mayChargeObFees
 				drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
 				textViewResId = R.string.payment_and_baggage_fees_may_apply;
 				feeString = context.getString(R.string.payment_processing_fees);
-				feeUrl = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
 			}
+			feeUrl = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
 
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);

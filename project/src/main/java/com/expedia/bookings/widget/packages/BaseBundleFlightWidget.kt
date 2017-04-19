@@ -179,7 +179,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             AnimUtils.reverseRotate(flightCollapseIcon)
         }
         AnimUtils.reverseRotate(flightDetailsIcon)
-        flightDetailsIcon.clearAnimation()
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(false)
         }

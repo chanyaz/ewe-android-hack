@@ -27,19 +27,11 @@
                     android:paddingTop="8dp" />
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/flight_basic_economy_messaging"
-                    style="@style/ResultsDescriptionText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:visibility="gone"/>
-
-                <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_basic_economy_tooltip"
                     style="@style/BasicEconomyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
+                    android:layout_marginTop="4dp"
                     android:visibility="gone"/>
 
                 <android.support.v7.widget.CardView

@@ -11,7 +11,6 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
-import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray
@@ -65,10 +64,10 @@ class FlightItinCardTest {
 
     @Test
     fun testFlightDurationHourMin() {
-        SettingUtils.save(activity, R.string.preference_itin_flight_duration, true)
         createSystemUnderTest()
         sut.expand(false)
         assertEquals("Total Duration: 4h 32m", getFlightDurationTextView().text.toString())
+        assertEquals("Total Duration: 4 hour 32 minutes", getFlightDurationTextView().contentDescription)
     }
 
     @Test
@@ -87,6 +86,15 @@ class FlightItinCardTest {
         assertEquals(View.GONE, getUpgradeTextView().visibility)
     }
 
+    @Test
+    fun imageViewContDescFlightDetailsView() {
+        createSystemUnderTest()
+        sut.expand(false)
+        val imageView = sut.findViewById(R.id.header_image_container)
+
+        assertEquals("Image gallery", imageView.contentDescription)
+    }
+
     private fun getActionButtonLayout(): LinearLayout {
         val actionButtonLayout = sut.findViewById(R.id.action_button_layout) as LinearLayout
         return actionButtonLayout
@@ -96,7 +104,6 @@ class FlightItinCardTest {
         val actionButtonLayout = sut.findViewById(R.id.flight_duration) as TextView
         return actionButtonLayout
     }
-
 
     private fun createSystemUnderTest() {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()

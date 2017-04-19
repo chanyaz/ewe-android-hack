@@ -175,8 +175,8 @@
         <activity
             android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
             android:label="@string/legal_information"
+            android:theme="@style/Material.WebView.Theme"
             android:resizeableActivity="false"
-            android:theme="@style/FlightTheme.Rules"
             tools:ignore="UnusedAttribute" />
 
         <activity

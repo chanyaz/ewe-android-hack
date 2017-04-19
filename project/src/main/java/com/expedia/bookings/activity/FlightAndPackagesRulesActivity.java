@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
@@ -15,7 +16,7 @@ import com.expedia.bookings.fragment.FlightRulesFragmentV2;
 import com.expedia.bookings.fragment.PackagesRulesFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 
-public class FlightAndPackagesRulesActivity extends FragmentActivity {
+public class FlightAndPackagesRulesActivity extends AppCompatActivity {
 
 	public static final String LOB_KEY = "LOB";
 
@@ -33,9 +34,7 @@ public class FlightAndPackagesRulesActivity extends FragmentActivity {
 		if (shouldBail()) {
 			return;
 		}
-
 		setContentView(R.layout.activity_flight_and_packages_rules);
-
 
 		LineOfBusiness lob = LineOfBusiness.FLIGHTS;
 		BaseRulesFragment rulesFragment;
@@ -56,7 +55,9 @@ public class FlightAndPackagesRulesActivity extends FragmentActivity {
 
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, rulesFragment).commit();
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	private boolean shouldBail() {

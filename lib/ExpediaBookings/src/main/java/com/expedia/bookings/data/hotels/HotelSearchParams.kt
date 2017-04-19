@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.Strings
 import org.joda.time.LocalDate
 import java.util.HashMap
 
-open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, var shopWithPoints: Boolean, val filterUnavailable: Boolean, var sortType: String? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
+open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, var shopWithPoints: Boolean, val filterUnavailable: Boolean, var sortType: String? = null, var mctc: Int? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
     var serverSort: Boolean = false
@@ -181,9 +181,9 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         EXPERT_PICKS("ExpertPicks"),
         STARS("StarRatingDesc"),
         PRICE("PriceAsc"),
-        REVIEWS("Reviews "),
+        REVIEWS("Reviews"),
         DISTANCE("Distance"),
-        MOBILE_DEALS("MobileDeals ")
+        MOBILE_DEALS("MobileDeals")
     }
 
     data class PriceRange(val minPrice: Int, val maxPrice: Int) {

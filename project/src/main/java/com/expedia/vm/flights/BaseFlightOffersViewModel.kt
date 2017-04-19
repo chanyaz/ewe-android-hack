@@ -102,10 +102,6 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
         }
     }
 
-    protected fun getAirlineChargesPaymentFees(): Boolean {
-        return PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
-    }
-
     protected fun selectFlightOffer(outboundLegId: String, inboundLegId: String) {
         val offer = getFlightOffer(outboundLegId, inboundLegId)
         if (offer != null) {
@@ -183,13 +179,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
                 } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
                     errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
                 } else {
-                    val obFeeDetailsUrl =
-                            if (getAirlineChargesPaymentFees()) {
-                                PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
-                            } else {
-                                response.obFeesDetails
-                            }
-                    obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+                    obFeeDetailsUrlObservable.onNext(response.obFeesDetails)
                     makeFlightOffer(response)
                 }
             }

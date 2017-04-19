@@ -42,7 +42,7 @@ class CarWebViewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun carsLaunchButtonOpensWebView() {
 
-        setPOSWithCarWebViewEnabled()
+        setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_KINGDOM.id.toString())
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewUK)
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
@@ -54,7 +54,7 @@ class CarWebViewTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun carsLaunchButtonOpensNativeAbTestOff() {
-        setPOSWithCarWebViewEnabled()
+        setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_KINGDOM.id.toString())
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewUK)
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
@@ -81,13 +81,191 @@ class CarWebViewTest {
         assertEquals(CarActivity::class.java.name, intent.component.className)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewUS() {
+
+        setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_STATES.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewUS)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensNativeAbTestOffUS() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_STATES.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewUS)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewCA() {
+
+        setPOSWithCarWebViewEnabled(PointOfSaleId.CANADA.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewCA)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensNativeAbTestOffCA() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.CANADA.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewCA)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
+    fun carsLaunchButtonOpensWebViewTVLYCA() {
+
+        setPOSWithCarWebViewEnabled(PointOfSaleId.TRAVELOCITY_CA.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewCA)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.TRAVELOCITY))
+    fun carsLaunchButtonOpensNativeAbTestOffTVLYCA() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.TRAVELOCITY_CA.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewCA)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.WOTIF))
+    fun carsLaunchButtonOpensWebViewWotifAU() {
+
+        setPOSWithCarWebViewEnabled(PointOfSaleId.WOTIF.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewAUNZ)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.WOTIF))
+    fun carsLaunchButtonOpensNativeAbTestOffWotifAU() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.WOTIF.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewAUNZ)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewNZ() {
+
+        setPOSWithCarWebViewEnabled(PointOfSaleId.NEW_ZEALND.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewAUNZ)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensNativeAbTestOffNZ() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.NEW_ZEALND.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewAUNZ)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
+    fun carsLaunchButtonOpensWebViewEBCH() {
+
+        setPOSWithCarWebViewEnabled(PointOfSaleId.EBOOKERS_SWITZERLAND.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewEB)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EBOOKERS))
+    fun carsLaunchButtonOpensNativeAbTestOffEBCH() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.EBOOKERS_SWITZERLAND.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewEB)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ))
+    fun carsLaunchButtonOpensWebViewOB() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewOB)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.ORBITZ))
+    fun carsLaunchButtonOpensNativeAbTestOffOB() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewOB)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.CHEAPTICKETS))
+    fun carsLaunchButtonOpensWebViewCT() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewCT)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.CHEAPTICKETS))
+    fun carsLaunchButtonOpensNativeAbTestOffCT() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewCT)
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        assertEquals(CarActivity::class.java.name, intent.component.className)
+    }
+
     private fun goToCars() {
         NavUtils.goToCars(activity, null)
         activity.finish()
     }
 
-    private fun setPOSWithCarWebViewEnabled() {
-        SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.UNITED_KINGDOM.id.toString())
+    private fun setPOSWithCarWebViewEnabled(POSId: String) {
+        SettingUtils.save(activity, R.string.PointOfSaleKey, POSId)
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
