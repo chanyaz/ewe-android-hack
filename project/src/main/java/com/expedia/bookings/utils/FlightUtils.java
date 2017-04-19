@@ -165,15 +165,14 @@ public class FlightUtils {
 					}
 				}
 				feeString = context.getString(R.string.Airline_fee);
-				feeUrl = PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
 			}
 			else {
 				// trip mayChargeObFees
 				drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
 				textViewResId = R.string.payment_and_baggage_fees_may_apply;
 				feeString = context.getString(R.string.payment_processing_fees);
-				feeUrl = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
 			}
+			feeUrl = Db.getFlightSearch().getSearchResponse().getObFeesDetails();
 
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);

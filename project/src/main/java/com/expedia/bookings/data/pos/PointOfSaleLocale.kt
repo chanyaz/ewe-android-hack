@@ -61,9 +61,6 @@ class PointOfSaleLocale(private val data: JSONObject) {
     /** The URL for Terms of Booking for this POS (see GB) */
     val privacyPolicyUrl by lazy { data.optString("privacyPolicyURL", null) }
 
-    /** The URL for Privacy Policy for this POS */
-    val airlineFeeBasedOnPaymentMethodTermsAndConditionsURL by lazy { data.optString("airlineFeeBasedOnPaymentMethodTermsAndConditionsURL", null) }
-
     /** The language code that this locale associates with */
     val languageCode by lazy {
         if (data.optString("languageCode", null) != "zh-hant") data.optString("languageCode", null) else "zh"
