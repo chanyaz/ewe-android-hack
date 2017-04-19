@@ -69,6 +69,7 @@ class FlightItinCardTest {
         createSystemUnderTest()
         sut.expand(false)
         assertEquals("Total Duration: 4h 32m", getFlightDurationTextView().text.toString())
+        assertEquals("Total Duration: 4 hour 32 minutes", getFlightDurationTextView().contentDescription)
     }
 
     @Test
@@ -96,7 +97,6 @@ class FlightItinCardTest {
         val actionButtonLayout = sut.findViewById(R.id.flight_duration) as TextView
         return actionButtonLayout
     }
-
 
     private fun createSystemUnderTest() {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()

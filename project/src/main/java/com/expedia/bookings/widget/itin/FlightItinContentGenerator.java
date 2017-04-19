@@ -239,7 +239,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			boolean isFlightDurationEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_flight_duration);
 			if (isFlightDurationEnabled && legDurationMins > 0) {
 				String duration = FlightUtils.formatTotalDuration(getContext(), legDurationMins);
+				String durationContDesc = FlightUtils.totalDurationContDesc(getContext(), legDurationMins);
 				flightDuration.setText(duration);
+				flightDuration.setContentDescription(durationContDesc);
+
 				flightDuration.setVisibility(View.VISIBLE);
 			}
 			else {
