@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -208,7 +209,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	}
 
 	private void showSplashThenLaunchOpeningView(final LaunchDestination destination) {
-		Handler handler = new Handler();
+		Handler handler = new Handler(Looper.getMainLooper());
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
