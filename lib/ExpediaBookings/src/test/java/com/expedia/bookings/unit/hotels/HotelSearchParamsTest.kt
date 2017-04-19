@@ -77,6 +77,16 @@ class HotelSearchParamsTest {
     }
 
     @Test
+    fun testSortTypesMatchAPIExpectations() {
+        assertEquals("ExpertPicks", HotelSearchParams.SortType.EXPERT_PICKS.sortName)
+        assertEquals("StarRatingDesc", HotelSearchParams.SortType.STARS.sortName)
+        assertEquals("PriceAsc", HotelSearchParams.SortType.PRICE.sortName)
+        assertEquals("Reviews", HotelSearchParams.SortType.REVIEWS.sortName)
+        assertEquals("Distance", HotelSearchParams.SortType.DISTANCE.sortName)
+        assertEquals("MobileDeals", HotelSearchParams.SortType.MOBILE_DEALS.sortName)
+    }
+
+    @Test
     fun testServerSideSortWithSortType() {
         val searchParams = testParamBuilder.build()
         searchParams.serverSort = true
