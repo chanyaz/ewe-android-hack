@@ -58,6 +58,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppFlightStaticSortFilter = 13842;
 	public static final int EBAndroidAppFlightsMoreInfoOnOverview = 13505;
+	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Hotel Tests
@@ -171,6 +172,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarsWebViewAUNZ);
 		testIDs.add(EBAndroidAppCarsWebViewCA);
 		testIDs.add(EBAndroidAppCarsWebViewOB);
+		testIDs.add(EBAndroidAppUserOnboarding);
 		return testIDs;
 	}
 

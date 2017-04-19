@@ -43,12 +43,14 @@
     <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->
     <color name="white_19">#30FFFFFF</color> <!-- Disabled white text -->
     <color name="white_25">#40FFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
     <color name="white_70">#B3FFFFFF</color>
     <color name="white_85">#D9FFFFFF</color>
     <color name="black_20">#33000000</color>
     <color name="black_40">#64000000</color>
     <color name="black_50">#80000000</color>
     <color name="black_70">#BF000000</color>
+    <color name="exp_brand_blue_65">#A600355F</color>
     <color name="exp_launch_secondary_blue_70">#BF005199</color>
 
     <!-- Launch Screen colors -->

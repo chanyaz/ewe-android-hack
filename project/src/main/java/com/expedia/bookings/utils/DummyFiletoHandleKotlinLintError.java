@@ -965,6 +965,22 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.basic_economy_rules_tv,
 		R.layout.basic_economy_tooltip_info_stub,
 		R.string.price,
-		R.string.rating
+		R.string.rating,
+		R.layout.activity_onboarding,
+		R.layout.page_onboarding,
+		R.anim.slide_in_right,
+		R.anim.slide_out_left,
+		R.string.booking_page_title,
+		R.string.booking_page_subtitle,
+		R.string.trip_page_title,
+		R.string.trip_page_subtitle,
+		R.string.reward_page_title,
+		R.string.reward_page_subtitle_TEMPLATE,
+		R.color.onboarding_page_background_gradient,
+		R.drawable.onboarding_circle,
+		R.drawable.onboarding_circle_active,
+		R.drawable.onboarding_booking_placeholder,
+		R.drawable.onboarding_reward_placeholder,
+		R.drawable.onboarding_trip_placeholder,
 	};
 }

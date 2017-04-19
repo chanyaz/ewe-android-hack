@@ -3582,6 +3582,9 @@ public class OmnitureTracking {
 		if (User.isLoggedIn(sContext)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_new_user_onboarding)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
+		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
