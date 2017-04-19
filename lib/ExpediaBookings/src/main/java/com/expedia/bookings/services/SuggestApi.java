@@ -19,5 +19,7 @@ public interface SuggestApi {
 		@Query("features") String features,
 		@Query("client") String client,
 		@Query("lob") String lineOfBusiness,
-		@Query("siteid") Integer siteId);
+		@Query("siteid") Integer siteId,
+		@Query("max_results") Integer maxResults,
+		@Query("guid") String guid);
 }
