@@ -2735,6 +2735,13 @@ public class OmnitureTracking {
 		}
 	}
 
+	public static void trackFlightConfirmationAirAttachEligible() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, AIR_ATTACH_ELIGIBLE);
+		s.setProp(16, AIR_ATTACH_ELIGIBLE);
+		s.trackLink(null, "o", "Checkout", null, null);
+	}
+
 	private static void internalTrackTabletCheckoutPageLoad(LineOfBusiness lob,
 		String pageNameSuffix,
 		boolean includePaymentInfo, boolean isConfirmation) {
@@ -2843,7 +2850,7 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackAddHotelClick() {
+	public static void trackFlightConfirmationAirAttachClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, ADD_ATTACH_HOTEL);
 		s.setProp(16, ADD_ATTACH_HOTEL);
