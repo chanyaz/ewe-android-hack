@@ -14,6 +14,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
@@ -100,7 +101,6 @@ open class HotelViewModel(private val context: Context) {
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create<String>()
     val hotelDiscountPercentageObservable = BehaviorSubject.create<String>()
     val distanceFromCurrentLocation = BehaviorSubject.create<String>()
-    val adImpressionObservable = BehaviorSubject.create<String>()
 
     @CallSuper
     open fun bindHotelData(hotel: Hotel) {
@@ -133,7 +133,8 @@ open class HotelViewModel(private val context: Context) {
         distanceFromCurrentLocation.onNext(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
 
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
-            adImpressionObservable.onNext(hotel.impressionTrackingUrl)
+            AdImpressionTracking.trackAdClickOrImpressionWithTest(context, hotel.impressionTrackingUrl, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
+            hotel.hasShownImpression = true
         }
 
         Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut, showPackageTripSavings) {
@@ -224,10 +225,6 @@ open class HotelViewModel(private val context: Context) {
     }
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String)
-
-    fun setImpressionTracked(hotel: Hotel, tracked: Boolean) {
-        hotel.hasShownImpression = tracked
-    }
 
     open fun hasMemberDeal(hotel: Hotel): Boolean {
         return hotel.isMemberDeal && User.isLoggedIn(context)
