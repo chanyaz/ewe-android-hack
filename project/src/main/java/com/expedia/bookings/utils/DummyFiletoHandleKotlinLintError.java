@@ -966,6 +966,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.basic_economy_rules_tv,
 		R.layout.basic_economy_tooltip_info_stub,
 		R.string.price,
-		R.string.rating,
+		R.string.rating
 	};
 }
