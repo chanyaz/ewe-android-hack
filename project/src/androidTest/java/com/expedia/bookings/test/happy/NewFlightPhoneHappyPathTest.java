@@ -118,6 +118,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceIsNotAdded();
 		assertInsuranceToggleIsEnabled();
 
+		PackageScreen.clickLegalInformation();
+		assertLegalInformation();
+		Common.pressBack();
+
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
@@ -138,10 +142,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceIsNotVisible();
 		PackageScreen.clickPaymentDone();
 		onView(withId(R.id.card_fee_warning_text)).check(matches(isDisplayed()));
-		PackageScreen.clickLegalInformation();
-
-		assertLegalInformation();
-		Common.pressBack();
 
 		// TODO - assert checkout overview information
 		CheckoutViewModel.performSlideToPurchase();

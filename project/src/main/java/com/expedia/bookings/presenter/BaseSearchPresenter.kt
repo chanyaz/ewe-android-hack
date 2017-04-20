@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -264,6 +265,12 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             val searchEditText = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText?
             searchEditText?.setTextColor(ContextCompat.getColor(context, R.color.search_suggestion_v2))
             searchEditText?.setHintTextColor(ContextCompat.getColor(context, R.color.search_suggestion_hint_v2))
+            searchEditText?.setAccessibilityDelegate(object: AccessibilityDelegate() {
+                override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfo?) {
+                    super.onInitializeAccessibilityNodeInfo(host, info)
+                    info?.text = "${searchEditText.hint}, ${searchEditText.text}"
+                }
+            })
 
             val searchPlate = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_plate)
             searchPlate?.setBackgroundColor(android.R.color.transparent)
