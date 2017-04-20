@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.os.Looper;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -208,7 +209,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	}
 
 	private void showSplashThenLaunchOpeningView(final LaunchDestination destination) {
-		Handler handler = new Handler();
+		Handler handler = new Handler(Looper.getMainLooper());
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
