@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter
 
 import android.animation.Animator
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -12,12 +11,13 @@ import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.widget.Button
-import android.widget.LinearLayout
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.isDisabledSTPStateEnabled
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -25,17 +25,18 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.widget.AcceptTermsWidget
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.PriceChangeWidget
-import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
 import com.expedia.util.setInverseVisibility
+import com.expedia.util.unsubscribeOnClick
+import com.expedia.util.updateVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
@@ -60,20 +61,70 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     val disabledSTPStateEnabled = isDisabledSTPStateEnabled(context)
 
+    val slideTotalText by lazy {
+        bottomCheckoutContainer.slideTotalText
+    }
+
+    val slideToPurchaseSpace by lazy {
+        bottomCheckoutContainer.slideToPurchaseSpace
+    }
+
+    val totalPriceWidget by lazy {
+        bottomCheckoutContainer.totalPriceWidget
+    }
+
+    val slideToPurchaseLayout by lazy {
+        bottomCheckoutContainer.slideToPurchaseLayout
+    }
+
+    val priceChangeWidget by lazy {
+        bottomCheckoutContainer.priceChangeWidget
+    }
+
+    val slideToPurchase by lazy {
+        bottomCheckoutContainer.slideToPurchase
+    }
+
+    val accessiblePurchaseButton by lazy {
+        bottomCheckoutContainer.accessiblePurchaseButton
+    }
+
+    val bottomContainerDropShadow by lazy {
+        bottomCheckoutContainer.bottomContainerDropShadow
+    }
+
+    val bottomContainer by lazy {
+        bottomCheckoutContainer.bottomContainer
+    }
+
+    val checkoutButton by lazy {
+        bottomCheckoutContainer.checkoutButton
+    }
+
+    val checkoutButtonContainer by lazy {
+        bottomCheckoutContainer.checkoutButtonContainer
+    }
+
+    val acceptTermsWidget: AcceptTermsWidget by lazy {
+        val viewStub = bottomCheckoutContainer.acceptTermsWidget
+        val presenter = viewStub.inflate() as AcceptTermsWidget
+        presenter.acceptButton.setOnClickListener {
+            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
+            AnimUtils.slideDown(acceptTermsWidget)
+            acceptTermsWidget.visibility = View.GONE
+            acceptTermsWidget.acceptButton.unsubscribeOnClick()
+        }
+        presenter
+    }
+
     val ANIMATION_DURATION = 400
-    var checkoutButtonHeight = 0f
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
     protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
-    val checkoutButtonContainer: View by bindView(R.id.button_container)
-    val checkoutButton: Button by bindView(R.id.checkout_button)
-    val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
-    val bottomContainerDropShadow: View by bindView(R.id.bottom_container_drop_shadow)
-    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
-    val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
+    val bottomCheckoutContainer: BottomCheckoutContainer by bindView(R.id.bottom_checkout_container)
 
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
@@ -178,7 +229,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
-        setUpLayoutListeners()
+        checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.subscribe(bottomCheckoutContainer.viewModel.sliderPurchaseTotalText)
+        checkoutPresenter.getCheckoutViewModel().accessiblePurchaseButtonContentDescription.subscribe(bottomCheckoutContainer.viewModel.accessiblePurchaseButtonContentDescription)
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
@@ -225,9 +277,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
             checkoutPresenter.mainContent.visibility = View.VISIBLE
-            if (disabledSTPStateEnabled) {
-                toggleCheckoutButtonAndSliderVisibility(!forward)
-            }
+
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
@@ -241,18 +291,18 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val progress = Math.min(1f, range + f)
             translateHeader(progress, forward)
             translateCheckout(progress, forward)
-            translateBottomContainer(progress, forward)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            if (forward) {
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
+            } else {
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
+            }
             setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
-            if (!disabledSTPStateEnabled) {
-                toggleCheckoutButtonAndSliderVisibility(!forward)
-            }
-
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
@@ -290,31 +340,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         behavior.topAndBottomOffset = scrollY.toInt()
     }
 
-    private fun translateBottomContainer(f: Float, forward: Boolean) {
-        if (!disabledSTPStateEnabled) {
-            checkoutPresenter.sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
-            val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-            val bottomDistance = checkoutPresenter.sliderHeight - checkoutButtonHeight
-            val slideIn = if (hasCompleteInfo) {
-                bottomDistance - (f * (bottomDistance))
-            } else {
-                checkoutPresenter.sliderHeight - ((1 - f) * checkoutButtonHeight)
-            }
-            val slideOut = if (hasCompleteInfo) {
-                f * (bottomDistance)
-            } else {
-                checkoutPresenter.sliderHeight - (f * checkoutButtonHeight)
-            }
-            bottomContainer.translationY = if (forward) slideIn else slideOut
-            checkoutButtonContainer.translationY = if (forward) f * checkoutButtonHeight else (1 - f) * checkoutButtonHeight
-        }
-    }
-
     open protected fun resetCheckoutState() {
-        checkoutPresenter.slideToPurchase.resetSlider()
+        slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
-            toggleCheckoutButtonAndSliderVisibility(true)
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         }
     }
 
@@ -323,8 +353,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             super.endTransition(forward)
             bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
-                checkoutPresenter.slideToPurchase.resetSlider()
-                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
+                slideToPurchase.resetSlider()
+                slideToPurchaseLayout.setAccessibilityHoverFocus()
             } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()
@@ -365,8 +395,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun updateScrollingSpace(scrollSpaceView: View?) {
         val scrollSpaceViewLp = scrollSpaceView?.layoutParams
         var scrollspaceheight = bottomContainer.height + checkoutButtonContainer.height
-        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
-            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
+        if (slideToPurchaseLayout.height > 0) {
+            scrollspaceheight -= slideToPurchaseLayout.height
         }
         if (priceChangeWidget.height > 0) {
             scrollspaceheight -= priceChangeWidget.height
@@ -384,50 +414,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         scrollSpaceView?.layoutParams = layoutParams
     }
 
-    private fun setUpLayoutListeners() {
-        checkoutPresenter.slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                checkoutPresenter.sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
-                if (checkoutPresenter.sliderHeight != 0f) {
-                    checkoutPresenter.slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    bottomContainer.translationY = checkoutPresenter.sliderHeight
-                }
-            }
-        })
-        checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
-                if (checkoutPresenter.sliderHeight != 0f) {
-                    checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    checkoutButtonContainer.translationY = checkoutButtonHeight
-                }
-            }
-        })
-    }
-
-    fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
-        val shouldShowSlider = !showCheckoutButton && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-                && checkoutPresenter.currentState == BaseCheckoutPresenter.CheckoutDefault::class.java.name
-
-        setUpBottomContainerState(shouldShowSlider, showCheckoutButton)
-    }
-
-    private fun setUpBottomContainerState(shouldShowSlider: Boolean, showCheckoutButton: Boolean) {
-        if (disabledSTPStateEnabled) {
-            checkoutButtonContainer.translationY = 0f
-            if (shouldShowSlider) {
-                checkoutButtonContainer.translationY = checkoutButtonHeight
-                bottomContainer.translationY = 0f
-            } else {
-                bottomContainer.translationY = checkoutPresenter.sliderHeight - checkoutButtonHeight
-            }
-        } else {
-            checkoutButtonContainer.translationY = if (showCheckoutButton) 0f else checkoutButtonHeight
-            bottomContainer.translationY = if (showCheckoutButton) checkoutPresenter.sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else checkoutPresenter.sliderHeight
-            checkoutButton.isEnabled = showCheckoutButton
-        }
-    }
-
     fun resetPriceChange() {
         priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
         checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(null)
@@ -442,54 +428,16 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         return response?.getOldPrice() != null
     }
 
-    private fun animateInSlideToPurchase(visible: Boolean) {
-        if (AccessibilityUtil.isTalkBackEnabled(context) && visible) {
-            //hide the slider for talkback users and show a purchase button
-            checkoutPresenter.accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
-            checkoutPresenter.accessiblePurchaseButton.visibility = View.VISIBLE
-            checkoutPresenter.accessiblePurchaseButton.hideTouchTarget()
-            checkoutPresenter.slideToPurchase.visibility = View.GONE
-        } else {
-            checkoutPresenter.slideToPurchase.visibility = View.VISIBLE
-            checkoutPresenter.accessiblePurchaseButton.visibility = View.GONE
-        }
-        val isSlideToPurchaseLayoutVisible = visible && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-        if (checkoutPresenter.acceptTermsRequired) {
-            val termsAccepted = checkoutPresenter.acceptTermsWidget.vm.acceptedTermsObservable.value
-            if (!termsAccepted && isSlideToPurchaseLayoutVisible) {
-                checkoutPresenter.acceptTermsWidget.visibility = View.VISIBLE
-            }
-        }
-        if (isSlideToPurchaseLayoutVisible) {
+    private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
+        val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+                && state == TwoScreenOverviewState.CHECKOUT
+        toggleCheckoutButtonOrSlider(showSlider, state)
+        toggleAcceptTermsWidget(showSlider)
+        if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
         }
-        checkoutPresenter.slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
-        if (!disabledSTPStateEnabled) {
-            val distance = if (!isSlideToPurchaseLayoutVisible) checkoutPresenter.slideToPurchaseLayout.height.toFloat() else 0f
-            if (bottomContainer.translationY == distance) {
-                checkoutPresenter.adjustScrollingSpace(bottomContainer)
-                return
-            }
-            val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
-            animator.duration = 300
-            animator.start()
-            animator.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationCancel(p0: Animator?) {
-                }
-
-                override fun onAnimationStart(p0: Animator?) {
-                }
-
-                override fun onAnimationRepeat(p0: Animator?) {
-                }
-
-                override fun onAnimationEnd(p0: Animator?) {
-                    checkoutPresenter.adjustScrollingSpace(bottomContainer)
-                }
-            })
-        } else {
-            setUpBottomContainerState(isSlideToPurchaseLayoutVisible,!visible)
-        }
+        slideToPurchaseLayout.isFocusable = showSlider
+        checkoutPresenter.adjustScrollingSpace(bottomContainer)
     }
 
     fun trackShowBundleOverview() {
@@ -522,8 +470,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutButtonContainer.setInverseVisibility(forward)
             }
         }
-        checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.subscribe { isVisible ->
-            animateInSlideToPurchase(isVisible)
+        checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
+            val hasText = !checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.value.isNullOrEmpty()
+            slideToPurchaseSpace.setInverseVisibility(hasText)
+            slideTotalText.updateVisibility(hasText)
+            toggleBottomContainerViews(currentState)
         }
     }
 
@@ -551,7 +502,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutButton.setOnClickListener {
             if (currentState == BundleDefault::class.java.name) {
                 showCheckout()
-                checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
+                slideToPurchaseLayout.visibility = View.VISIBLE
             } else {
                 checkoutPresenter.doHarlemShakes()
             }
@@ -571,6 +522,20 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupViewModels() {
+        val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel()
+        bottomCheckoutContainerViewModel.slideAllTheWayObservable.subscribe{
+            val checkoutViewModel = checkoutPresenter.getCheckoutViewModel()
+            if (checkoutViewModel.builder.hasValidCVV()) {
+                val params = checkoutViewModel.builder.build()
+                if (!ExpediaBookingApp.isAutomation() && !checkoutViewModel.builder.hasValidCheckoutParams()) {
+                    Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${checkoutViewModel.builder.hasValidParams()}")))
+                }
+                checkoutViewModel.checkoutParams.onNext(params)
+            } else {
+                checkoutViewModel.slideAllTheWayObservable.onNext(Unit)
+            }
+        }
+        bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
         priceChangeViewModel = PriceChangeViewModel(context, checkoutPresenter.getLineOfBusiness())
         totalPriceViewModel = getPriceViewModel(context)
         baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
@@ -586,5 +551,37 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
         checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
         checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
+    }
+
+    private fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState) {
+        if (AccessibilityUtil.isTalkBackEnabled(context) && showSlider) {
+            //hide the slider for talkback users and show a purchase button
+            accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
+            accessiblePurchaseButton.visibility = View.VISIBLE
+            accessiblePurchaseButton.hideTouchTarget()
+            slideToPurchase.visibility = View.GONE
+        } else {
+            accessiblePurchaseButton.visibility = View.GONE
+            if (showSlider) {
+                slideToPurchase.visibility = View.VISIBLE
+                checkoutButtonContainer.visibility = View.GONE
+            } else {
+                if (state == TwoScreenOverviewState.BUNDLE|| (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
+                    checkoutButtonContainer.visibility = View.VISIBLE
+                } else {
+                    checkoutButtonContainer.visibility = View.GONE
+                }
+                slideToPurchase.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun toggleAcceptTermsWidget(showSlider: Boolean) {
+        if (checkoutPresenter.acceptTermsRequired) {
+            val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
+            if (!termsAccepted && showSlider) {
+                acceptTermsWidget.visibility = View.VISIBLE
+            }
+        }
     }
 }

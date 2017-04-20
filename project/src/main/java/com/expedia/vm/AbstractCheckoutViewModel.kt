@@ -11,6 +11,7 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -39,7 +40,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    val animateInSlideToPurchaseObservable = PublishSubject.create<Boolean>()
+    val bottomCheckoutContainerStateObservable = PublishSubject.create<TwoScreenOverviewState>()
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
     val bottomContainerInverseVisibilityObservable = PublishSubject.create<Boolean>()
     val checkoutRequestStartTimeObservable = BehaviorSubject.create<Long>()

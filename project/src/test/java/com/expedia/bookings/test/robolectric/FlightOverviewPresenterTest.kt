@@ -14,8 +14,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
-import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
-import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -29,7 +27,6 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.vm.FlightCheckoutOverviewViewModel
@@ -44,10 +41,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
@@ -143,10 +138,10 @@ class FlightOverviewPresenterTest {
     @Test
     fun testTotalPriceWidget() {
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
-        val totalPriceWidget = flightCheckoutPresenter.findViewById(R.id.total_price_widget) as TotalPriceWidget
-        val bundleTotalPrice = flightCheckoutPresenter.findViewById(R.id.bundle_total_price) as TextView
-        val bundleTotalText = flightCheckoutPresenter.findViewById(R.id.bundle_total_text) as TextView
-        val bundleTotalIncludes = flightCheckoutPresenter.findViewById(R.id.bundle_total_includes_text) as TextView
+        val totalPriceWidget = widget.totalPriceWidget
+        val bundleTotalPrice = totalPriceWidget.bundleTotalPrice
+        val bundleTotalText = totalPriceWidget.bundleTotalText
+        val bundleTotalIncludes = totalPriceWidget.bundleTotalIncludes
         assertEquals(View.VISIBLE, bundleTotalText.visibility)
         assertEquals(bundleTotalText.text.toString(), context.getString(R.string.trip_total))
         assertEquals(View.VISIBLE, bundleTotalIncludes.visibility)

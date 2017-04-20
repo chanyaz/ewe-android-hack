@@ -20,22 +20,11 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:fitsSystemWindows="true" />
 
-    <FrameLayout
-        android:id="@+id/button_container"
+    <com.expedia.bookings.presenter.BottomCheckoutContainer
+        android:id="@+id/bottom_checkout_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/white">
-
-        <Button
-            android:id="@+id/checkout_button"
-            style="@style/MaterialFooterRoundButtonText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_margin="9dp"
-            android:text="@string/Checkout" />
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom" />
 
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"

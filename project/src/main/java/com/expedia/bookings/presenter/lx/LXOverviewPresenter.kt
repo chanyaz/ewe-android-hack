@@ -30,8 +30,8 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
 
     override fun inflate() {
         View.inflate(context, R.layout.lx_overview, this)
-        checkoutPresenter.slideToPurchase.visibility = View.VISIBLE
-        checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
+        slideToPurchase.visibility = View.VISIBLE
+        slideToPurchaseLayout.visibility = View.VISIBLE
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.subscribe{ response ->
             val createTripResponse = response as LXCreateTripResponseV2
             val tripTotalPrice = if (createTripResponse.hasPriceChange()) createTripResponse.newTotalPrice else (checkoutPresenter.getCreateTripViewModel() as LXCreateTripViewModel).lxState.latestTotalPrice()

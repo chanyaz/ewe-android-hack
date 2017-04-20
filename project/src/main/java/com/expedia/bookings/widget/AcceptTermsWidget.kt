@@ -13,7 +13,7 @@ import com.expedia.vm.AcceptTermsViewModel
 class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
 
     val acceptButton: Button by bindView(R.id.i_accept_terms_button)
-    lateinit var vm: AcceptTermsViewModel
+    var vm: AcceptTermsViewModel
 
     init {
         View.inflate(context, R.layout.accept_terms_layout, this)
