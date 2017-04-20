@@ -50,6 +50,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     val disabledSTPStateEnabled = isDisabledSTPStateEnabled(context)
 
+    val totalPriceWidget by lazy{
+        bottomCheckoutContainer.totalPriceWidget
+    }
+
     val ANIMATION_DURATION = 400
     var checkoutButtonHeight = 0f
 
@@ -62,8 +66,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
     val bottomContainerDropShadow: View by bindView(R.id.bottom_container_drop_shadow)
-    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
-    val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
     val bottomCheckoutContainer: BottomCheckoutContainer by bindView(R.id.bottom_checkout_container)
 
     var scrollSpaceView: View? = null
@@ -81,16 +83,16 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
 
     protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
-        priceChangeWidget.viewmodel = vm
+        bottomCheckoutContainer.priceChangeWidget.viewmodel = vm
         vm.priceChangeVisibility.subscribe { visible ->
-            if (priceChangeWidget.measuredHeight == 0) {
-                priceChangeWidget.measure(MeasureSpec.makeMeasureSpec(this.width, MeasureSpec.AT_MOST),
+            if (bottomCheckoutContainer.priceChangeWidget.measuredHeight == 0) {
+                bottomCheckoutContainer.priceChangeWidget.measure(MeasureSpec.makeMeasureSpec(this.width, MeasureSpec.AT_MOST),
                         MeasureSpec.makeMeasureSpec(this.height, MeasureSpec.UNSPECIFIED))
             }
-            val height = priceChangeWidget.measuredHeight
+            val height = bottomCheckoutContainer.priceChangeWidget.measuredHeight
             if (visible) {
-                priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-                AnimUtils.slideInOut(priceChangeWidget, height, object : Animator.AnimatorListener {
+                bottomCheckoutContainer.priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+                AnimUtils.slideInOut(bottomCheckoutContainer.priceChangeWidget, height, object : Animator.AnimatorListener {
                     override fun onAnimationCancel(animation: Animator) {
                     }
 
@@ -101,27 +103,27 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                     }
 
                     override fun onAnimationEnd(animation: Animator) {
-                        priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                        bottomCheckoutContainer.priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
                     }
                 })
                 AnimUtils.slideInOut(bottomContainerDropShadow, height)
             } else {
-                priceChangeWidget.translationY = height.toFloat()
+                bottomCheckoutContainer.priceChangeWidget.translationY = height.toFloat()
             }
         }
     }
 
     protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.viewModel = vm
+        bottomCheckoutContainer.totalPriceWidget.viewModel = vm
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
             vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
     }
 
     protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.breakdown.viewmodel = vm
+        bottomCheckoutContainer.totalPriceWidget.breakdown.viewmodel = vm
         vm.iconVisibilityObservable.safeSubscribe { show ->
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
-            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
+            bottomCheckoutContainer.totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
+            bottomCheckoutContainer.totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
         }
     }
 
@@ -337,7 +339,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val didHandleBack = super.back()
         if (!didHandleBack) {
             resetPriceChange()
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            bottomCheckoutContainer.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         }
         return didHandleBack
     }
@@ -356,8 +358,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (bottomCheckoutContainer.slideToPurchaseLayout.height > 0) {
             scrollspaceheight -= bottomCheckoutContainer.slideToPurchaseLayout.height
         }
-        if (priceChangeWidget.height > 0) {
-            scrollspaceheight -= priceChangeWidget.height
+        if (bottomCheckoutContainer.priceChangeWidget.height > 0) {
+            scrollspaceheight -= bottomCheckoutContainer.priceChangeWidget.height
         }
         if (scrollSpaceViewLp?.height != scrollspaceheight) {
             scrollSpaceViewLp?.height = scrollspaceheight
@@ -417,13 +419,13 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     fun resetPriceChange() {
-        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
+        bottomCheckoutContainer.priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
         checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(null)
     }
 
     fun resetAndShowTotalPriceWidget() {
         resetPriceChange()
-        totalPriceWidget.resetPriceWidget()
+        bottomCheckoutContainer.totalPriceWidget.resetPriceWidget()
     }
 
     fun hasPriceChange(response: TripResponse?): Boolean {
@@ -566,13 +568,13 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     private fun setupCreateTripViewModelSubscriptions() {
         checkoutPresenter.getCreateTripViewModel().updatePriceChangeWidgetObservable.subscribe { response ->
-            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
+            bottomCheckoutContainer.priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
+            bottomCheckoutContainer.priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
         }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
             resetCheckoutState()
         }
-        checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
-        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
+        checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(bottomCheckoutContainer.priceChangeWidget.viewmodel.priceChangeVisibility)
+        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(bottomCheckoutContainer.priceChangeWidget.viewmodel.priceChangeVisibility)
     }
 }

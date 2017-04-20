@@ -94,7 +94,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             if (forward) {
-                checkoutPresenter.adjustScrollingSpace(checkoutPresenter.slideToPurchaseLayout)
+//                checkoutPresenter.adjustScrollingSpace(checkoutPresenter.slideToPurchaseLayout)
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
                 if (checkoutPresenter.getCheckoutViewModel().isValidForBooking()) {
                     checkoutPresenter.trackShowSlideToPurchase()
@@ -110,22 +110,22 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     open protected fun resetCheckoutState() {
-        checkoutPresenter.slideToPurchase.resetSlider()
+//        checkoutPresenter.slideToPurchase.resetSlider()
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (!forward) {
-                checkoutPresenter.slideToPurchase.resetSlider()
-                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
-            } else {
-                cvv.visibility = View.VISIBLE
-                trackPaymentCIDLoad()
-                postDelayed({
-                    AccessibilityUtil.setFocusToToolbarNavigationIcon(cvv.toolbar)
-                }, 100L)
-            }
+//            if (!forward) {
+//                checkoutPresenter.slideToPurchase.resetSlider()
+//                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
+//            } else {
+//                cvv.visibility = View.VISIBLE
+//                trackPaymentCIDLoad()
+//                postDelayed({
+//                    AccessibilityUtil.setFocusToToolbarNavigationIcon(cvv.toolbar)
+//                }, 100L)
+//            }
         }
     }
 
@@ -156,16 +156,16 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun updateScrollingSpace(scrollSpaceView: View?) {
-        val scrollSpaceViewLp = scrollSpaceView?.layoutParams
-        var scrollspaceheight = checkoutPresenter.slideToPurchaseLayout.height
-        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
-            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
-        }
-        if (scrollSpaceViewLp?.height != scrollspaceheight) {
-            scrollSpaceViewLp?.height = scrollspaceheight
-            scrollSpaceView?.layoutParams = scrollSpaceViewLp
-            scrollSpaceView?.requestLayout()
-        }
+//        val scrollSpaceViewLp = scrollSpaceView?.layoutParams
+//        var scrollspaceheight = checkoutPresenter.slideToPurchaseLayout.height
+//        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
+//            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
+//        }
+//        if (scrollSpaceViewLp?.height != scrollspaceheight) {
+//            scrollSpaceViewLp?.height = scrollspaceheight
+//            scrollSpaceView?.layoutParams = scrollSpaceViewLp
+//            scrollSpaceView?.requestLayout()
+//        }
     }
 
     fun resetScrollSpaceHeight() {

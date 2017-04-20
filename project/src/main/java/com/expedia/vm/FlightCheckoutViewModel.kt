@@ -45,7 +45,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
             builder.tealeafTransactionId(createTripResponse.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
-            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
+//            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
         }
 
         checkoutPriceChangeObservable.subscribe { checkoutResponse ->

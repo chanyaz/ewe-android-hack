@@ -1,18 +1,23 @@
 package com.expedia.bookings.presenter
 
+import android.animation.Animator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.setInverseVisibility
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
+import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.util.*
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
+import com.expedia.vm.PriceChangeViewModel
+import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 
 class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), SlideToWidgetLL.ISlideToListener {
     /** Slide to purchase **/
@@ -43,6 +48,22 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
     val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
+    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
+    val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
+
+    protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
+        totalPriceWidget.viewModel = vm
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+            vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+    }
+
+    protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
+        totalPriceWidget.breakdown.viewmodel = vm
+        vm.iconVisibilityObservable.safeSubscribe { show ->
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
+            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
+        }
+    }
 
 
     protected var viewModel: BottomCheckoutContainerViewModel by notNullAndObservable { vm ->

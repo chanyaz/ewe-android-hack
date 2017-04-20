@@ -60,9 +60,9 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                         .format().toString()
             }
             depositPolicyText.onNext(HtmlCompat.fromHtml(depositText))
-            sliderPurchaseTotalText.onNext(totalPrice)
+//            sliderPurchaseTotalText.onNext(totalPrice)
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
-            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
+//            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
         }
         legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
