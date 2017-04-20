@@ -31,11 +31,10 @@ abstract class BaseSearchViewModel(val context: Context) {
     val errorMaxRangeObservable = PublishSubject.create<String>()
     val travelersObservable = BehaviorSubject.create<TravelerParams>()
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
+    val hasValidDatesObservable = PublishSubject.create<Boolean>()
 
     val formattedOriginObservable = BehaviorSubject.create<String>()
     val formattedDestinationObservable = PublishSubject.create<String>()
-    val destinationValidObservable = BehaviorSubject.create<Boolean>(false)
-    val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
     var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
 
@@ -94,8 +93,6 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     open protected var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
-        destinationValidObservable.onNext(getParamsBuilder().hasDestinationLocation())
-        originValidObservable.onNext(getParamsBuilder().hasOriginAndDestination())
     }
 
     open protected fun updateTraveler() {

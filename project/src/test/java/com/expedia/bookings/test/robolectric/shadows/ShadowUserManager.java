@@ -9,7 +9,7 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 
 @Implements(UserManager.class)
-public class ShadowUserManager {
+public class ShadowUserManager extends org.robolectric.shadows.ShadowUserManager {
 	@Implementation
 	@TargetApi(18)
 	public Bundle getUserRestrictions() {

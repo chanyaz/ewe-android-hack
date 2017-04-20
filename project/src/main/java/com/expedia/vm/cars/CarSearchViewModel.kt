@@ -25,7 +25,6 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
-        originValidObservable.onNext(getParamsBuilder().hasOriginLocation())
     }
 
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->

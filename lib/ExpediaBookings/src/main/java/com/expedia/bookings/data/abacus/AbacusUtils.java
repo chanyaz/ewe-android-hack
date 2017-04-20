@@ -60,6 +60,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightsMoreInfoOnOverview = 13505;
 	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int EBAndroidAppFlightAATest = 14241;
+	public static final int EBAndroidAppFlightSearchFormValidation = 13843;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Hotel Tests
@@ -177,6 +178,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppUserOnboarding);
 		testIDs.add(EBAndroidAppPackagesRemoveBundleOverview);
 		testIDs.add(EBAndroidAppFlightAATest);
+		testIDs.add(EBAndroidAppFlightSearchFormValidation);
 		return testIDs;
 	}
 

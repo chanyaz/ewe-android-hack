@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -28,6 +29,7 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
+import rx.Observable
 import javax.inject.Inject
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -37,6 +39,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     }
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
+
+    val errorDrawable = ContextCompat.getDrawable(context,
+            Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -61,11 +66,28 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     put("travelers", noOfTravelers).format().toString()
         }
 
-        vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
-        vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
-        vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidgetV2) }
+        val isUserBucketedInSearchFormValidation = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSearchFormValidation, R.string.preference_flight_search_form_validations)
+        vm.errorNoDestinationObservable.subscribe {
+            AnimUtils.doTheHarlemShake(destinationCardView)
+            if (isUserBucketedInSearchFormValidation) {
+                destinationCardView.setEndDrawable(errorDrawable)
+            }
+        }
+        vm.errorNoOriginObservable.subscribe {
+            AnimUtils.doTheHarlemShake(originCardView)
+            if (isUserBucketedInSearchFormValidation) {
+                originCardView.setEndDrawable(errorDrawable)
+            }
+        }
+        vm.errorNoDatesObservable.subscribe {
+            AnimUtils.doTheHarlemShake(calendarWidgetV2)
+            if (isUserBucketedInSearchFormValidation) {
+                calendarWidgetV2.setEndDrawable(errorDrawable)
+            }
+        }
         vm.formattedOriginObservable.subscribe { text ->
             originCardView.setText(text)
+            originCardView.setEndDrawable(null)
             originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
@@ -76,6 +98,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         vm.formattedDestinationObservable.subscribe {
             text ->
             destinationCardView.setText(if (text.isNotEmpty()) text else context.resources.getString(R.string.fly_to_hint))
+            if (text.isNotEmpty()) {
+                destinationCardView.setEndDrawable(null)
+            }
             destinationCardView.contentDescription =
                     if (text.isNotEmpty())
                         Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
@@ -96,6 +121,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             calendarWidgetV2.contentDescription = text
         }
 
+        if (isUserBucketedInSearchFormValidation) {
+            Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
+                calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
+            }
+        }
+        
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)

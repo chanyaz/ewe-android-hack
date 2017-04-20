@@ -8,6 +8,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -71,17 +72,44 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
         } else {
+            if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSearchFormValidation, R.string.preference_flight_search_form_validations)) {
+                stepByStepSearchFormValidation()
+            }
+            else {
+                concurrentSearchFormValidation()
+            }
+        }
+    }
+
+    fun stepByStepSearchFormValidation() {
+        if (!getParamsBuilder().hasOriginLocation()) {
+            errorNoOriginObservable.onNext(Unit)
+        } else if (!getParamsBuilder().hasDestinationLocation()) {
+            errorNoDestinationObservable.onNext(Unit)
+        } else if (!getParamsBuilder().hasValidDates()) {
+            errorNoDatesObservable.onNext(Unit)
+        } else if (getParamsBuilder().isOriginSameAsDestination()) {
+            errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+        } else if (!getParamsBuilder().hasValidDateDuration()) {
+            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+        }
+    }
+
+    fun concurrentSearchFormValidation() {
+        if (!getParamsBuilder().areRequiredParamsFilled()) {
             if (!getParamsBuilder().hasOriginLocation()) {
                 errorNoOriginObservable.onNext(Unit)
-            } else if (!getParamsBuilder().hasDestinationLocation()) {
-                errorNoDestinationObservable.onNext(Unit)
-            } else if (!getParamsBuilder().hasValidDates()) {
-                errorNoDatesObservable.onNext(Unit)
-            } else if (getParamsBuilder().isOriginSameAsDestination()) {
-                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
-            } else if (!getParamsBuilder().hasValidDateDuration()) {
-                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             }
+            if (!getParamsBuilder().hasDestinationLocation()) {
+                errorNoDestinationObservable.onNext(Unit)
+            }
+            if (!getParamsBuilder().hasValidDates()) {
+                errorNoDatesObservable.onNext(Unit)
+            }
+        } else if (getParamsBuilder().isOriginSameAsDestination()) {
+            errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
+        } else if (!getParamsBuilder().hasValidDateDuration()) {
+            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
         }
     }
 
@@ -127,6 +155,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 end = start.plusDays(1)
             }
         }
+        val hasValidDates = when (isRoundTripSearchObservable.value) {
+            true -> start != null && end != null
+            false -> start != null
+        }
+        hasValidDatesObservable.onNext(hasValidDates)
+
         super.onDatesChanged(Pair(start, end))
     }
 

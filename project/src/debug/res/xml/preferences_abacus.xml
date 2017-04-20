@@ -285,6 +285,15 @@
             android:summary="%s"
             android:title="AA test for flights - 14241" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13843"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Search form validation - 13843" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

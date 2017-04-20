@@ -21,7 +21,7 @@ open class SearchInputTextView(context: Context, attrs: AttributeSet?): TextView
         }
     }
 
-    fun setEndDrawable(endDrawable: Drawable) {
+    fun setEndDrawable(endDrawable: Drawable?) {
         val startDrawable = compoundDrawables[0]
         val topDrawable = compoundDrawables[1]
         val bottomDrawable = compoundDrawables[3]
