@@ -29,7 +29,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
 		initializeFeatureCheck(R.string.preference_disabled_stp_state);
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
-		initializeFeatureCheck(R.string.preference_itin_flight_duration);
 		initializeFeatureCheck(R.string.preference_show_basic_economy);
 		initializeFeatureCheck(R.string.preference_show_basic_economy_tooltip);
 		initializeFeatureCheck(R.string.preference_itin_crystal_theme);

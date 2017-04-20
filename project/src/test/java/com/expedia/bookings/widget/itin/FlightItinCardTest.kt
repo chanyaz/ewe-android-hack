@@ -11,7 +11,6 @@ import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TextView
-import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray
@@ -65,7 +64,6 @@ class FlightItinCardTest {
 
     @Test
     fun testFlightDurationHourMin() {
-        SettingUtils.save(activity, R.string.preference_itin_flight_duration, true)
         createSystemUnderTest()
         sut.expand(false)
         assertEquals("Total Duration: 4h 32m", getFlightDurationTextView().text.toString())

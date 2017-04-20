@@ -94,12 +94,6 @@
             android:layout="@layout/preference"
             android:summary="Itinerary card detail view"
             android:title="Enable new itinerary detail view" />
-        
-        <CheckBoxPreference
-            android:key="@string/preference_itin_flight_duration"
-            android:layout="@layout/preference"
-            android:summary="Enable Show Flight Duration Itin"
-            android:title="Show Flight Duration Itin" />
 
         <CheckBoxPreference
             android:key="@string/preference_itin_crystal_theme"
