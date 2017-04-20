@@ -772,10 +772,6 @@ public class PointOfSale {
 			: getLoyaltyTermsAndConditionsUrl();
 	}
 
-	public String getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL() {
-		return getPosLocale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
-	}
-
 	public String getTermsOfBookingUrl() {
 		return getPosLocale().getTermsOfBookingUrl();
 	}
