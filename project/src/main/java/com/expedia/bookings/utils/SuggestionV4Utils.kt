@@ -8,7 +8,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log
 import com.mobiata.android.util.IoUtils
-import rx.subjects.PublishSubject
 import java.io.IOException
 import java.util.ArrayList
 
@@ -21,7 +20,6 @@ object SuggestionV4Utils {
     val RECENT_RAIL_SUGGESTIONS_FILE = "recent-rail-suggest-list.dat"
     val RECENT_LX_SUGGESTIONS_FILE =  "recent-lx-city-list-v4.dat"
 
-    val testSuggestionSavedSubject: PublishSubject<Unit> = PublishSubject.create<Unit>()
 
     fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(Runnable {
@@ -33,14 +31,14 @@ object SuggestionV4Utils {
             if (suggest.regionNames.displayName == context.getString(com.expedia.bookings.R.string.current_location)) {
                 suggest.regionNames.displayName = suggest.regionNames.shortName
             }
+            suggest.hierarchyInfo?.isChild = false
             val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
-            val recentSuggestions = suggestions.distinctBy { it.coordinates.lat }
+            val recentSuggestions = suggestions.distinctBy { it.gaiaId ?: it.regionNames.displayName }
 
             val type = object : TypeToken<List<SuggestionV4>>() {}.type
             val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
             try {
                 IoUtils.writeStringToFile(file, suggestionJson, context)
-                testSuggestionSavedSubject.onNext(Unit)
             } catch (e: IOException) {
                 Log.e("Save History Error: ", e)
             }
@@ -77,13 +75,13 @@ object SuggestionV4Utils {
             val regionName = SuggestionV4.RegionNames();
             val localizedNames = it.localizedNames.get(0)
             regionName.fullName = localizedNames.fullName
-            regionName.displayName = StrUtils.getDisplayNameForGaiaNearby(localizedNames.friendlyName, SuggestionStrUtils.formatAirportName(localizedNames.airportName))
+            regionName.displayName = StrUtils.getDisplayNameForGaiaNearby(localizedNames.friendlyName, localizedNames.airportName)
             regionName.shortName = localizedNames.shortName
             suggestion.regionNames = regionName
 
-            val hierarchyInfo = SuggestionV4.HierarchyInfo()
-            val country = SuggestionV4.Country()
-            val airport = SuggestionV4.Airport()
+            val hierarchyInfo = SuggestionV4.HierarchyInfo();
+            val country = SuggestionV4.Country();
+            val airport = SuggestionV4.Airport();
             country.name = it.country.name
             country.countryCode = it.country.code
             hierarchyInfo.country = country
