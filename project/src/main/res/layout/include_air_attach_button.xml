@@ -12,7 +12,7 @@
         android:id="@+id/itin_button_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/btn_hotel_attach_normal"
+        android:background="?attr/itin_air_attach_background"
         android:orientation="vertical">
 
         <LinearLayout
@@ -65,7 +65,7 @@
                     android:id="@+id/itin_air_attach_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
+                    android:textColor="?attr/itin_air_attach_text_color"
                     android:textStyle="bold"
                     android:text="@string/air_attach_alert" />
 
@@ -73,7 +73,7 @@
                     android:id="@+id/itin_air_attach_savings_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
+                    android:textColor="?attr/itin_air_attach_text_color"
                     android:text="@string/air_attach_potential_savings" />
 
                 <LinearLayout
@@ -88,7 +88,7 @@
                         android:id="@+id/itin_air_attach_expires_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/air_attach_expiration_text_color"
+                        android:textColor="?attr/itin_air_attach_expiration_text_color"
                         android:textSize="11dp"
                         android:text="@string/air_attach_expires" />
 
@@ -123,7 +123,7 @@
                 android:contentDescription="@string/hide_menu_btn_cont_desc"
                 android:gravity="top"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_itin_action_overflow_white"
+                android:src="?attr/itin_air_attach_action_overflow"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -133,7 +133,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/air_attach_banner_divider_margin_left"
             android:layout_marginRight="@dimen/air_attach_banner_divider_margin_right"
-            android:background="@color/bg_air_attach_banner_divider" />
+            android:background="?attr/itin_air_attach_banner_divider_color" />
 
         <LinearLayout
             android:id="@+id/button_action_layout"
@@ -154,7 +154,7 @@
                 android:padding="8dp"
                 android:text="@string/add_hotel_air_attach"
                 android:textAllCaps="true"
-                android:textColor="@color/itin_white_text"
+                android:textColor="?attr/itin_air_attach_action_text_color"
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
