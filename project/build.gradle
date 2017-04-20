@@ -217,6 +217,7 @@ android {
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
         buildConfigField "boolean", "IS_SCREENSHOT_BUILD", project.hasProperty("SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
+        buildConfigField "boolean", "ITIN_SCREENSHOT_BUILD", project.hasProperty("ITIN_SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
     }
 
     productFlavors {
