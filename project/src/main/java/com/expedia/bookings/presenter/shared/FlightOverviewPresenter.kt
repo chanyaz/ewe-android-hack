@@ -38,7 +38,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     val earnMessageTextView: TextView by bindView(R.id.earn_message)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
-    val basicEconomyText: TextView by bindView(R.id.flight_basic_economy_messaging)
     val basicEconomyTooltip: TextView by bindView(R.id.flight_basic_economy_tooltip)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
@@ -60,11 +59,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         View.inflate(getContext(), R.layout.widget_flight_overview, this)
         flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
         basicEconomyToolTipInfoView.viewmodel = BasicEconomyTooltipViewModel()
-        if(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_show_basic_economy_tooltip)){
-            basicEconomyTooltip.text = HtmlCompat.fromHtml(context.getString(R.string.flight_details_basic_economy_message))
-        } else {
-            basicEconomyText.text = HtmlCompat.fromHtml(context.getString(R.string.flight_details_basic_economy_message))
-        }
+        basicEconomyTooltip.text = HtmlCompat.fromHtml(context.getString(R.string.flight_details_basic_economy_message))
     }
 
     @Override
@@ -87,7 +82,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
             showEarnMessage || showBundlePrice
         }).subscribeVisibility(bundlePriceTextView)
         vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
-        vm.showBasicEconomyMessaging.subscribeVisibility(basicEconomyText)
         vm.showBasicEconomyTooltip.subscribeVisibility(basicEconomyTooltip)
         basicEconomyToolTipInfoView.viewmodel.basicEconomyTooltipTitle.subscribe { title ->
             dialog.setTitle(title)
