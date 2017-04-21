@@ -44,6 +44,8 @@
     <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
     <color name="actionbar_tab_text_selected">#FFFFFF</color>
     <color name="actionbar_tab_text_unselected">#8CFFFFFF</color>
+    <color name="placeholder_card_background_color">@color/exp_launch_secondary</color>
+    <color name="placeholder_card_button_text_color">@color/exp_launch_blue</color>
 
     <!--Splash-->
     <color name="splash_screen_bg">@color/launch_lob_bg</color>

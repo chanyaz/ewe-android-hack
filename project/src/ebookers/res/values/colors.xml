@@ -21,6 +21,8 @@
     <color name="bg_air_attach_banner_divider">@color/white</color>
     <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
+    <color name="placeholder_card_background_color">@color/lob_btn_color</color>
+    <color name="placeholder_card_button_text_color">@color/lob_btn_color</color>
 
     <!-- ebookers promotional offers color -->
     <color name="ebk_promo_color">#9E0089</color>
