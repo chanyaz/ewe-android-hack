@@ -272,6 +272,9 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (deepLink.getChildren() != null) {
 			hotelSearchParams.setChildren(deepLink.getChildren());
 		}
+		if (deepLink.getMctc() != null) {
+			hotelSearchParams.setMctc(deepLink.getMctc());
+		}
 		// Determine the search location.  Defaults to "current location" if none supplied
 		// or the supplied variables could not be parsed.
 		if (deepLink.getHotelId() != null) {

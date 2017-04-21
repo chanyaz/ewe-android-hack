@@ -40,7 +40,8 @@ public interface HotelApi {
 		@Query("shopWithPoints") Boolean shopWithPoints,
 		@Query("filterUnavailable") String filterUnavailable,
 		@Query("sortOrder") String sortOrder,
-		@QueryMap(encoded = true) Map<String, Object> filterParams);
+		@QueryMap(encoded = true) Map<String, Object> filterParams,
+		@Query("mctc") Integer mctc);
 
 	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0&enableSponsoredListings=true")
 	Observable<HotelSearchResponse> searchLPAS(
@@ -53,7 +54,8 @@ public interface HotelApi {
 		@Query("shopWithPoints") Boolean shopWithPoints,
 		@Query("filterUnavailable") String filterUnavailable,
 		@Query("sortOrder") String sortOrder,
-		@QueryMap(encoded = true) Map<String, Object> filterParams);
+		@QueryMap(encoded = true) Map<String, Object> filterParams,
+		@Query("mctc") Integer mctc);
 
 	@GET("/m/api/hotel/info?forceV2Search=true")
 	Observable<HotelOffersResponse> info(
@@ -65,7 +67,8 @@ public interface HotelApi {
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,
 		@Query("hotelId") String propertyId,
-		@Query("shopWithPoints") Boolean shopWithPoints);
+		@Query("shopWithPoints") Boolean shopWithPoints,
+		@Query("mctc") Integer mctc);
 
 	@GET("m/api/hotel/offers/v3?")
 	Observable<HotelOffersResponse> offersLPAS(
@@ -73,7 +76,8 @@ public interface HotelApi {
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,
 		@Query("hotelId") String propertyId,
-		@Query("shopWithPoints") Boolean shopWithPoints);
+		@Query("shopWithPoints") Boolean shopWithPoints,
+		@Query("mctc") Integer mctc);
 
 	@FormUrlEncoded
 	@POST("/api/m/trip/coupon")

@@ -63,7 +63,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         if (hitLPAS) {
             return hotelApi.searchLPAS(regionId, lat, long,
                     params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                    params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
+                    params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(), params.mctc)
                     .observeOn(observeOn)
                     .subscribeOn(subscribeOn)
                     .doOnNext {
@@ -76,7 +76,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
         return hotelApi.search(regionId, lat, long,
                 params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap())
+                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(), params.mctc)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {
@@ -91,7 +91,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                hitLPAS: Boolean = false): Subscription {
         if (hitLPAS) {
             return hotelApi.offersLPAS(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
-                    hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints)
+                    hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints, hotelSearchParams.mctc)
                     .observeOn(observeOn)
                     .subscribeOn(subscribeOn)
                     .doOnNext { response ->
@@ -100,7 +100,7 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                     .subscribe(observer)
         }
         return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
-                hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints)
+                hotelSearchParams.guestString, hotelId, hotelSearchParams.shopWithPoints, hotelSearchParams.mctc)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->

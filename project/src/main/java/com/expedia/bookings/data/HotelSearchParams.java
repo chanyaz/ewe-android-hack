@@ -58,6 +58,7 @@ public class HotelSearchParams implements JSONable {
 	private LocalDate mCheckOutDate;
 	private int mNumAdults;
 	private List<ChildTraveler> mChildren;
+	private int mMctc;
 
 	private String mSortType;
 	// These may be out of sync with freeform location; make sure to sync before
@@ -400,6 +401,14 @@ public class HotelSearchParams implements JSONable {
 
 	public String getRegionId() {
 		return mRegionId;
+	}
+
+	public void setMctc (int mctc) {
+		mMctc = mctc;
+	}
+
+	public int getMctc() {
+		return mMctc;
 	}
 
 	public void setCorrespondingAirportCode(String code) {
