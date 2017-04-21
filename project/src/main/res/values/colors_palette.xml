@@ -4,8 +4,8 @@
     https://github.com/ExpediaInc/ewe-android-eb/wiki/Design:-colors.xml-&-colors_palette.xml-best-practices.-->
     <!-- LOB colors -->
     <color name="exp_yellow">#FFC60B</color>
-    <color name="exp_lob_blue">#0888BD</color>
-    <color name="exp_lob_dark_blue">#0B75A1</color>
+    <color name="exp_lob_blue">@color/blue2</color>
+    <color name="exp_lob_dark_blue">@color/blue3</color>
     <color name="exp_lob_ripple_blue">#09688F</color>
 
     <color name="exp_hotel_green">#009688</color>
@@ -19,11 +19,11 @@
     <color name="exp_lx_orange">#CD4E05</color>
     <color name="exp_lx_secondary_orange">#F7840D</color>
 
-    <color name="exp_rail_light_navy">#0C7CDF</color>
-    <color name="exp_rail_navy">#1369B3</color>
-    <color name="exp_rail_dark_navy">#166097</color>
-    <color name="exp_rail_darker_navy">#0B3F6B</color>
-    <color name="dark_navy">#1E2E4A</color>
+    <color name="blue1">#0C7CDF</color>
+    <color name="blue2">#1369B3</color>
+    <color name="blue3">#166097</color>
+    <color name="blue4">#0B3F6B</color>
+    <color name="blue5">#1E2E4A</color>
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -73,6 +73,6 @@
 
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
     <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->
-    <color name="green_savings">#03AD1D</color>
+    <color name="green_savings">#0f7800</color>
     <color name="yellow_layover">#E0A81C</color>
 </resources>
