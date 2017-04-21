@@ -88,6 +88,15 @@ class FlightItinCardTest {
         assertEquals(View.GONE, getUpgradeTextView().visibility)
     }
 
+    @Test
+    fun imageViewContDescFlightDetailsView() {
+        createSystemUnderTest()
+        sut.expand(false)
+        val imageView = sut.findViewById(R.id.header_image_container)
+
+        assertEquals("Image gallery", imageView.contentDescription)
+    }
+
     private fun getActionButtonLayout(): LinearLayout {
         val actionButtonLayout = sut.findViewById(R.id.action_button_layout) as LinearLayout
         return actionButtonLayout
