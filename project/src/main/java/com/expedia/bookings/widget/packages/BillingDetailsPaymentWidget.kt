@@ -7,7 +7,6 @@ import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.view.View
 import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
@@ -171,26 +170,23 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             }
             onFocusChange(view, hasFocus)
         }
-
+        editCountryEditText?.setSingleLine()
         editCountryEditText?.subscribeMaterialFormsError(sectionLocation.billingCountryErrorSubject.map { it }, R.string.error_select_a_billing_country, R.drawable.material_dropdown)
 
         sectionLocation.billingCountryCodeSubject.subscribe { countryCode ->
             var billingCountry = countryCode
             if (billingCountry.isNullOrBlank()) {
                 billingCountry = PointOfSale.getPointOfSale().threeLetterCountryCode
-                val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(billingCountry)
-                val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
-                editCountryEditText?.setText(countryName)
                 updateCountryDependantFields(billingCountry)
                 sectionLocation.updateMaterialPostalFields(PointOfSale.getPointOfSale().pointOfSaleId)
             } else {
-                val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(billingCountry)
-                val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
-                editCountryEditText?.setText(countryName)
                 sectionLocation.billingCountryErrorSubject.onNext(false)
                 updateCountryDependantFields(billingCountry)
                 sectionLocation.validateCountryDependantFields()
             }
+            val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(billingCountry)
+            val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
+            editCountryEditText?.setText(countryName)
             sectionLocation.location.countryCode = billingCountry
         }
 
