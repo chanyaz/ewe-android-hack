@@ -58,25 +58,6 @@ class FlightOverviewPresenterTest {
     }
 
     @Test
-    fun showBasicEconomyMessage() {
-        val testSubscriber = TestSubscriber<Boolean>()
-        sut.vm.showBasicEconomyMessaging.subscribe(testSubscriber)
-
-        createSelectedFlightLeg()
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(false)
-        assertEquals(View.GONE, sut.basicEconomyText.visibility)
-
-        flightLeg.isBasicEconomy = true
-        sut.vm.selectedFlightLegSubject.onNext(flightLeg)
-
-        testSubscriber.assertValueCount(2)
-        testSubscriber.assertValues(false, true)
-        assertEquals(View.VISIBLE, sut.basicEconomyText.visibility)
-    }
-
-    @Test
     fun selectFlightButton() {
         createSelectedFlightLeg()
         val testSubscriber = TestSubscriber<FlightLeg>()
@@ -127,7 +108,6 @@ class FlightOverviewPresenterTest {
         testSubscriber.assertValueCount(2)
         testSubscriber.assertValues(false, true)
         assertEquals(View.VISIBLE, sut.basicEconomyTooltip.visibility)
-        assertEquals(View.GONE, sut.basicEconomyText.visibility)
     }
 
     @Test
