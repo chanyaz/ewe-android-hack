@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -180,13 +179,12 @@ public class ItineraryManager implements JSONable {
 	 * DLew since he's open to the idea of changing this
 	 * behavior.
 	 */
-	@Nullable
 	public Collection<Trip> getTrips() {
 		if (mTrips != null) {
 			return mTrips.values();
 		}
 
-		return null;
+		return Collections.emptyList();
 	}
 
 	public List<ItinCardData> getItinCardData() {
