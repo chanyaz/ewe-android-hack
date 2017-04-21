@@ -259,6 +259,12 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/ic_type_circle_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/rail_itin_icon</item>
+        <item name="itin_air_attach_background">@drawable/btn_hotel_attach_normal</item>
+        <item name="itin_air_attach_text_color">#FFFFFF</item>
+        <item name="itin_air_attach_expiration_text_color">@color/air_attach_expiration_text_color</item>
+        <item name="itin_air_attach_action_text_color">@color/itin_white_text</item>
+        <item name="itin_air_attach_action_overflow">@drawable/ic_itin_action_overflow_white</item>
+        <item name="itin_air_attach_banner_divider_color">@color/bg_air_attach_banner_divider</item>
     </style>
 
     <style name="NewLaunchTheme.Light">
@@ -292,6 +298,12 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/itin_lob_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/itin_lob_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/itin_lob_rail</item>
+        <item name="itin_air_attach_background">@android:color/white</item>
+        <item name="itin_air_attach_text_color">@color/gray10</item>
+        <item name="itin_air_attach_expiration_text_color">@color/gray10</item>
+        <item name="itin_air_attach_action_text_color">@color/gray10</item>
+        <item name="itin_air_attach_action_overflow">@drawable/ic_itin_action_overflow_crystal_dark</item>
+        <item name="itin_air_attach_banner_divider_color">@color/gray1</item>
     </style>
 
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
