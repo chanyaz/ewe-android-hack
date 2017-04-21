@@ -8,7 +8,7 @@
     <style name="Material.WebView.Theme" parent="@style/Theme.AppCompat.Light">
         <item name="android:colorPrimary">@color/app_primary</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorPrimaryDark">#04445e</item>
         <item name="android:colorButtonNormal">@color/app_primary</item>
         <item name="android:colorEdgeEffect">@color/app_primary</item>
