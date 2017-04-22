@@ -542,6 +542,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     override fun onNewCountrySelected(pointOfSaleId: Int) {
         accountFragment?.onNewCountrySelected(pointOfSaleId)
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
+        if (viewPager.currentItem == PAGER_POS_ITIN) {
+            OmnitureTracking.trackItinChangePOS()
+        }
 
         itinListFragment?.doLogout()
     }

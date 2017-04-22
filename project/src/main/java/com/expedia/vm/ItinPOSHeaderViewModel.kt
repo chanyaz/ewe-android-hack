@@ -20,9 +20,8 @@ class ItinPOSHeaderViewModel(pointOfSaleStateModel: PointOfSaleStateModel) {
                     posImageViewSubject.onNext(selectedPos.countryFlagResId)
                     posTextViewSubject.onNext(selectedPos.threeLetterCountryCode)
                     posUrlSubject.onNext(selectedPos.url.capitalize())
-
-                    OmnitureTracking.trackItinChangePOS()
                 }
+
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
     }
 }

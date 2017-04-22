@@ -78,6 +78,7 @@ class NewAddGuestItinActivity : AppCompatActivity(), AboutUtils.CountrySelectDia
         Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
 
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
+        OmnitureTracking.trackItinChangePOS()
     }
 
     override fun showDialogFragment(dialog: DialogFragment) {
