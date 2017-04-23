@@ -281,23 +281,23 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
-        if (!disabledSTPStateEnabled) {
-            checkoutPresenter.sliderHeight = bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat()
-            val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-            val bottomDistance = checkoutPresenter.sliderHeight - checkoutButtonHeight
-            val slideIn = if (hasCompleteInfo) {
-                bottomDistance - (f * (bottomDistance))
-            } else {
-                checkoutPresenter.sliderHeight - ((1 - f) * checkoutButtonHeight)
-            }
-            val slideOut = if (hasCompleteInfo) {
-                f * (bottomDistance)
-            } else {
-                checkoutPresenter.sliderHeight - (f * checkoutButtonHeight)
-            }
-            bottomContainer.translationY = if (forward) slideIn else slideOut
-            checkoutButtonContainer.translationY = if (forward) f * checkoutButtonHeight else (1 - f) * checkoutButtonHeight
-        }
+//        if (!disabledSTPStateEnabled) {
+//            checkoutPresenter.sliderHeight = bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat()
+//            val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+//            val bottomDistance = checkoutPresenter.sliderHeight - checkoutButtonHeight
+//            val slideIn = if (hasCompleteInfo) {
+//                bottomDistance - (f * (bottomDistance))
+//            } else {
+//                checkoutPresenter.sliderHeight - ((1 - f) * checkoutButtonHeight)
+//            }
+//            val slideOut = if (hasCompleteInfo) {
+//                f * (bottomDistance)
+//            } else {
+//                checkoutPresenter.sliderHeight - (f * checkoutButtonHeight)
+//            }
+//            bottomContainer.translationY = if (forward) slideIn else slideOut
+//            checkoutButtonContainer.translationY = if (forward) f * checkoutButtonHeight else (1 - f) * checkoutButtonHeight
+//        }
     }
 
     open protected fun resetCheckoutState() {
