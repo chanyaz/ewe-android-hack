@@ -205,7 +205,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.checkoutPriceChangeObservable.subscribe { response ->
-            vm.animateInSlideToPurchaseObservable.onNext(true)
+            vm.animateInSlideToPurchaseObservable.onNext(currentState)
             getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
             val oldPrice = response.getOldPrice()
@@ -384,7 +384,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             updateTravelerPresenter()
             if (forward) {
                 setToolbarTitle()
-                ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
+                ckoViewModel.animateInSlideToPurchaseObservable.onNext(CheckoutDefault::class.java.name)
             }
         }
     }
