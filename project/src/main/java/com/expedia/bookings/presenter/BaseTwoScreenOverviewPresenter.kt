@@ -375,24 +375,24 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setUpLayoutListeners() {
-        bottomCheckoutContainer.slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                checkoutPresenter.sliderHeight = bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat()
-                if (checkoutPresenter.sliderHeight != 0f) {
-                    bottomCheckoutContainer.slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    bottomContainer.translationY = checkoutPresenter.sliderHeight
-                }
-            }
-        })
-        checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
-                if (checkoutPresenter.sliderHeight != 0f) {
-                    checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    checkoutButtonContainer.translationY = checkoutButtonHeight
-                }
-            }
-        })
+//        bottomCheckoutContainer.slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//            override fun onGlobalLayout() {
+//                checkoutPresenter.sliderHeight = bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat()
+//                if (checkoutPresenter.sliderHeight != 0f) {
+//                    bottomCheckoutContainer.slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                    bottomContainer.translationY = checkoutPresenter.sliderHeight
+//                }
+//            }
+//        })
+//        checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//            override fun onGlobalLayout() {
+//                checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
+//                if (checkoutPresenter.sliderHeight != 0f) {
+//                    checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                    checkoutButtonContainer.translationY = checkoutButtonHeight
+//                }
+//            }
+//        })
     }
 
     fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
@@ -403,19 +403,19 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setUpBottomContainerState(shouldShowSlider: Boolean, showCheckoutButton: Boolean) {
-        if (disabledSTPStateEnabled) {
-            checkoutButtonContainer.translationY = 0f
-            if (shouldShowSlider) {
-                checkoutButtonContainer.translationY = checkoutButtonHeight
-                bottomContainer.translationY = 0f
-            } else {
-                bottomContainer.translationY = checkoutPresenter.sliderHeight - checkoutButtonHeight
-            }
-        } else {
-            checkoutButtonContainer.translationY = if (showCheckoutButton) 0f else checkoutButtonHeight
-            bottomContainer.translationY = if (showCheckoutButton) checkoutPresenter.sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else checkoutPresenter.sliderHeight
-            checkoutButton.isEnabled = showCheckoutButton
-        }
+//        if (disabledSTPStateEnabled) {
+//            checkoutButtonContainer.translationY = 0f
+//            if (shouldShowSlider) {
+//                checkoutButtonContainer.translationY = checkoutButtonHeight
+//                bottomContainer.translationY = 0f
+//            } else {
+//                bottomContainer.translationY = checkoutPresenter.sliderHeight - checkoutButtonHeight
+//            }
+//        } else {
+//            checkoutButtonContainer.translationY = if (showCheckoutButton) 0f else checkoutButtonHeight
+//            bottomContainer.translationY = if (showCheckoutButton) checkoutPresenter.sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else checkoutPresenter.sliderHeight
+//            checkoutButton.isEnabled = showCheckoutButton
+//        }
     }
 
     fun resetPriceChange() {
@@ -455,28 +455,28 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
         bottomCheckoutContainer.slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
         if (!disabledSTPStateEnabled) {
-            val distance = if (!isSlideToPurchaseLayoutVisible) bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat() else 0f
-            if (bottomContainer.translationY == distance) {
-                checkoutPresenter.adjustScrollingSpace(bottomContainer)
-                return
-            }
-            val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
-            animator.duration = 300
-            animator.start()
-            animator.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationCancel(p0: Animator?) {
-                }
-
-                override fun onAnimationStart(p0: Animator?) {
-                }
-
-                override fun onAnimationRepeat(p0: Animator?) {
-                }
-
-                override fun onAnimationEnd(p0: Animator?) {
+//            val distance = if (!isSlideToPurchaseLayoutVisible) bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat() else 0f
+//            if (bottomContainer.translationY == distance) {
+//                checkoutPresenter.adjustScrollingSpace(bottomContainer)
+//                return
+//            }
+//            val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
+//            animator.duration = 300
+//            animator.start()
+//            animator.addListener(object : Animator.AnimatorListener {
+//                override fun onAnimationCancel(p0: Animator?) {
+//                }
+//
+//                override fun onAnimationStart(p0: Animator?) {
+//                }`
+//
+//                override fun onAnimationRepeat(p0: Animator?) {
+//                }
+//
+//                override fun onAnimationEnd(p0: Animator?) {
                     checkoutPresenter.adjustScrollingSpace(bottomContainer)
-                }
-            })
+//                }
+//            })
         } else {
             setUpBottomContainerState(isSlideToPurchaseLayoutVisible,!visible)
         }
