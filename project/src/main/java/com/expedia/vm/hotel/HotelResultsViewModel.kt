@@ -80,11 +80,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         })
 
         hotelResultsObservable.subscribe {
-            AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
+            trackAdImpression(it.pageViewBeaconPixelUrl)
         }
 
         mapResultsObservable.subscribe {
-            AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
+            trackAdImpression(it.pageViewBeaconPixelUrl)
         }
     }
 
@@ -199,5 +199,9 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 return Sort.RECOMMENDED
             }
         }
+    }
+
+    private fun trackAdImpression(url: String) {
+        AdImpressionTracking.trackAdClickOrImpressionWithTest(context, url, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
     }
 }
