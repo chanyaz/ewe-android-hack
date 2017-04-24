@@ -188,6 +188,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.bg_message_loading,
 		R.string.zero_reviews,
 		R.drawable.google_search,
+		R.layout.new_flight_confirmation_presenter,
 		R.drawable.no_hotel_error,
 		R.string.reservation_already_exists_new_hotels,
 		R.string.search_again,
