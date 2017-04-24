@@ -79,6 +79,11 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCarsWebViewUK = 12913;
 	public static final int EBAndroidAppCarsWebViewTVLY = 13658;
 	public static final int EBAndroidAppCarsWebViewUS = 13648;
+	public static final int EBAndroidAppCarsWebViewCT = 13830;
+ 	public static final int EBAndroidAppCarsWebViewEB = 13826;
+ 	public static final int EBAndroidAppCarsWebViewAUNZ = 13828;
+ 	public static final int EBAndroidAppCarsWebViewCA = 13829;
+ 	public static final int EBAndroidAppCarsWebViewOB = 13660;
 
 	public enum DefaultVariant {
 		CONTROL,
@@ -161,6 +166,11 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarsWebViewUK);
 		testIDs.add(EBAndroidAppCarsWebViewTVLY);
 		testIDs.add(EBAndroidAppCarsWebViewUS);
+		testIDs.add(EBAndroidAppCarsWebViewCT);
+		testIDs.add(EBAndroidAppCarsWebViewEB);
+		testIDs.add(EBAndroidAppCarsWebViewAUNZ);
+		testIDs.add(EBAndroidAppCarsWebViewCA);
+		testIDs.add(EBAndroidAppCarsWebViewOB);
 		return testIDs;
 	}
 
