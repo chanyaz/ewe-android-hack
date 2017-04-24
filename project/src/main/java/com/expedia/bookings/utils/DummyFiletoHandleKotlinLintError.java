@@ -544,6 +544,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.booking_complete,
 		R.string.DONE,
 		R.string.airline_fee_notice,
+		R.string.airline_charge_notice,
 		R.string.airline_additional_fee_notice,
 		R.string.airline_fee_apply,
 		R.string.airline_maybe_fee_notice,

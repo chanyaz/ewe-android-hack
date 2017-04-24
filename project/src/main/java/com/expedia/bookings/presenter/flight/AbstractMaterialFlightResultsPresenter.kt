@@ -5,10 +5,8 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusTest
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
@@ -29,6 +27,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             if (travelerParams != null) {
                 overviewPresenter.vm.numberOfTravelers.onNext(travelerParams.guests)
             }
+            resultsPresenter.lineOfBusinessSubject.onNext(getLineOfBusiness())
             show(resultsPresenter, FLAG_CLEAR_BACKSTACK)
         }
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject)

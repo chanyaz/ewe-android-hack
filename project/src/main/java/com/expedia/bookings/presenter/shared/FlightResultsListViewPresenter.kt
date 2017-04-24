@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
@@ -22,9 +23,9 @@ import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
+import rx.Observable
 import rx.subjects.PublishSubject
 
 class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -34,6 +35,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val airlineChargesFeesTextView: TextView by bindView(R.id.airline_charges_fees_header)
     val filterButton: FlightFilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     lateinit private var flightListAdapter: AbstractFlightListAdapter
+    val lineOfBusinessSubject: PublishSubject<LineOfBusiness> = PublishSubject.create<LineOfBusiness>()
 
     // input
     val flightSelectedSubject = PublishSubject.create<FlightLeg>()
@@ -51,21 +53,28 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
-            if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {
-                airlineChargesFeesTextView.text = context.getString(R.string.airline_additional_fee_notice)
-            }
-        } else {
-            if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                airlineChargesFeesTextView.text = context.getString(R.string.airline_may_charge_notice)
-            } else {
-                airlineChargesFeesTextView.text = context.getString(R.string.airline_charge_notice)
-            }
-        }
+
         val selectedOutboundFlightViewModel = SelectedOutboundFlightViewModel(outboundFlightSelectedSubject, context)
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
         outboundFlightSelectedSubject.subscribe { positionChildren() }
         setupFilterButton()
+    }
+
+    private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean, lineOfBusiness: LineOfBusiness) {
+        if (showLegalPaymentMessage && lineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
+            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
+                airlineChargesFeesTextView.text = context.getString(R.string.airline_additional_fee_notice)
+            } else {
+                if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                    airlineChargesFeesTextView.text = context.getString(R.string.airline_may_charge_notice)
+                } else {
+                    airlineChargesFeesTextView.text = context.getString(R.string.airline_charge_notice)
+                }
+            }
+            airlineChargesFeesTextView.visibility = View.VISIBLE
+        } else {
+            airlineChargesFeesTextView.visibility = View.GONE
+        }
     }
 
     fun setAdapter(adapter: AbstractFlightListAdapter) {
@@ -80,10 +89,19 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     var resultsViewModel: FlightResultsViewModel by notNullAndObservable { vm ->
         vm.flightResultsObservable.subscribe(listResultsObserver)
-        vm.isOutboundResults.subscribe { this.isShowingOutboundResults = it }
+        vm.isOutboundResults.subscribe { isShowingOutboundResults = it }
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightSelection)
         vm.isOutboundResults.subscribeInverseVisibility(dockedOutboundFlightShadow)
-        vm.airlineChargesFeesSubject.subscribeVisibility(airlineChargesFeesTextView)
+
+        Observable.combineLatest(resultsViewModel.airlineChargesFeesSubject, lineOfBusinessSubject) {
+            showAirlineChargesFees, lineOfBusiness ->
+            object {
+                val showAirlineChargesFees = showAirlineChargesFees
+                val lineOfBusiness = lineOfBusiness
+            }
+        }.subscribe {
+            setPaymentLegalMessage(it.showAirlineChargesFees, it.lineOfBusiness)
+        }
     }
 
     val listResultsObserver = endlessObserver<List<FlightLeg>> {
@@ -95,8 +113,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     private fun setupFilterButton() {
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightStaticSortFilter)) {
             filterButton.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             recyclerView.addOnScrollListener(filterButton.hideShowOnRecyclerViewScrollListener())
             filterButton.visibility = View.GONE
         }
@@ -149,4 +166,5 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun getToolbarSize(): Float = Ui.getToolbarSize(context).toFloat()
+    fun getAirlinePaymentFeesTextView() = airlineChargesFeesTextView
 }
