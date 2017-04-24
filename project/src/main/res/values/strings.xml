@@ -3668,8 +3668,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">Press to view itinerary sharing options</string>
-    <!-- Content description for action: Press to view share options -->
-    <string name="hide_menu_btn_cont_desc">Press to view hide options</string>
+    <!-- Content description for hide overflow menu on cross sell: Options -->
+    <string name="hide_menu_btn_cont_desc">Options</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <!-- Content description for Flight Search Results -->
