@@ -2,7 +2,6 @@ package com.expedia.bookings.launch.widget;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -31,6 +30,7 @@ import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
@@ -348,22 +348,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	@VisibleForTesting
-	protected boolean customerHasTripsInNextTwoWeeks() {
-		Collection<Trip> customersTrips = getCustomerTrips();
-		boolean includeSharedItins = false;
-		return TripUtils.customerHasTripsInNextTwoWeeks(customersTrips, includeSharedItins);
-	}
-
-	@VisibleForTesting
 	protected List<Trip> getCustomerTrips() {
-		ArrayList<Trip> customerTrips = new ArrayList<>(ItineraryManager.getInstance().getTrips());
-		if (customerTrips == null) {
-			return Collections.emptyList();
-		}
-
-		return customerTrips;
+		return new ArrayList<>(ItineraryManager.getInstance().getTrips());
 	}
-
 
 	private final View.OnClickListener recommendedHotelsClickListener = new View.OnClickListener() {
 		@Override
@@ -456,15 +443,26 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
 	}
 
+	@VisibleForTesting
+	protected boolean showActiveItinLaunchScreenCard() {
+		return userBucketedForItinCardSignedIn() && ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(context);
+	}
+
+	@VisibleForTesting
+	protected boolean showGuestItinLaunchScreenCard() {
+		return userBucketedForItinCardGuest() && ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(context);
+	}
+
+	private boolean userBucketedForItinCardGuest() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
+	}
+
+	private boolean userBucketedForItinCardSignedIn() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
+	}
+
 	private boolean showItinCard() {
-		boolean bucketedSignedInUserWithTripInTwoWeeks =
-			userBucketedForItinCardSignedIn() && customerHasTripsInNextTwoWeeks() && User.isLoggedIn(context);
-		boolean bucketedGuestUserWithZeroTrips =
-			userBucketedForItinCardGuest() && !User.isLoggedIn(context) && getCustomerTrips().size() == 0;
-		if (bucketedSignedInUserWithTripInTwoWeeks || bucketedGuestUserWithZeroTrips) {
-			return true;
-		}
-		return false;
+		return showActiveItinLaunchScreenCard() || showGuestItinLaunchScreenCard();
 	}
 
 	private boolean userBucketedForPopularHotels() {
@@ -486,18 +484,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 	}
 
-	private boolean userBucketedForItinCardSignedIn() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
-	}
-
 	public int getOffset() {
 		return staticCards.size();
 	}
-
-	private boolean userBucketedForItinCardGuest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
-	}
-
 
 	private class ItinSyncListener extends ItineraryManager.ItinerarySyncAdapter {
 		@Override

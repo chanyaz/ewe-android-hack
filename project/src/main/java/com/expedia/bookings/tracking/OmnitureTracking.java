@@ -82,6 +82,7 @@ import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
@@ -3584,8 +3585,13 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
+
+		if (ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(sContext)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
+		}
+		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(sContext)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
+		}
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_itin_crystal_theme)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
 		}
