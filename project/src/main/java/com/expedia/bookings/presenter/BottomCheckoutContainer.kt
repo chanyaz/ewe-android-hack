@@ -1,6 +1,5 @@
 package com.expedia.bookings.presenter
 
-import android.animation.Animator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -8,7 +7,6 @@ import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
@@ -16,7 +14,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.util.*
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
-import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 
 class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), SlideToWidgetLL.ISlideToListener {
@@ -28,15 +25,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
     }
 
     override fun onSlideAllTheWay() {
-//        if (ckoViewModel.builder.hasValidCVV()) {
-//            val params = ckoViewModel.builder.build()
-//            if (!ExpediaBookingApp.isAutomation() && !ckoViewModel.builder.hasValidCheckoutParams()) {
-//                Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${ckoViewModel.builder.hasValidParams()}")))
-//            }
-//            ckoViewModel.checkoutParams.onNext(params)
-//        } else {
-//            ckoViewModel.slideAllTheWayObservable.onNext(Unit)
-//        }
+        viewModel.slideAllTheWayObservable.onNext(Unit)
     }
 
     override fun onSlideAbort() {
@@ -65,8 +54,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
         }
     }
 
-
-    protected var viewModel: BottomCheckoutContainerViewModel by notNullAndObservable { vm ->
+    var viewModel: BottomCheckoutContainerViewModel by notNullAndObservable { vm ->
         vm.sliderPurchaseTotalText.subscribeText(slideTotalText)
         vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.checkoutPriceChangeObservable.subscribe { response ->

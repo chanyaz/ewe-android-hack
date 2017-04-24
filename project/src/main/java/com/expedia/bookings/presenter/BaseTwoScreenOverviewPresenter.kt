@@ -14,7 +14,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
+import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -561,6 +563,21 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupViewModels() {
+        val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel()
+        bottomCheckoutContainerViewModel.slideAllTheWayObservable.subscribe{
+            val checkoutViewModel = checkoutPresenter.getCheckoutViewModel()
+            if (checkoutViewModel.builder.hasValidCVV()) {
+                val params = checkoutViewModel.builder.build()
+                if (!ExpediaBookingApp.isAutomation() && !checkoutViewModel.builder.hasValidCheckoutParams()) {
+                    Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${checkoutViewModel.builder.hasValidParams()}")))
+                }
+                checkoutViewModel.checkoutParams.onNext(params)
+            } else {
+                checkoutViewModel.slideAllTheWayObservable.onNext(Unit)
+            }
+        }
+        bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
+
         priceChangeViewModel = PriceChangeViewModel(context, checkoutPresenter.getLineOfBusiness())
         totalPriceViewModel = getPriceViewModel(context)
         baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
