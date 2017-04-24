@@ -503,7 +503,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.subscribe { isVisible ->
-            animateInSlideToPurchase(isVisible)
+//            animateInSlideToPurchase(isVisible)
         }
     }
 
