@@ -48,7 +48,8 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
         val traveler = getTraveler()
         val validForBooking = travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value, User.isLoggedIn(context))
         if (!validForBooking) {
-            if (currentStatusObservable.value == TravelerCheckoutStatus.CLEAN && travelerValidator.isTravelerEmpty(traveler)) {
+            if (travelerValidator.isTravelerEmpty(traveler)) {
+                currentStatusObservable.onNext(TravelerCheckoutStatus.CLEAN)
                 setTravelerSummaryInfo(getTitle(traveler), "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
             } else {
                 currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)

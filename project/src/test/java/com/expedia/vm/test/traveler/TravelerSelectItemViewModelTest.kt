@@ -118,17 +118,19 @@ class TravelerSelectItemViewModelTest {
         selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
         selectVM.passportRequired.onNext(false)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
-        assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
-        assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
-        assertEquals(expectedErrorColor, selectVM.subtitleTextColorObservable.value)
+        assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
+        assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
     }
 
     @Test
     fun testUpdateStatusDirtyNamedTraveler() {
         val travelerWithName = Traveler()
-        travelerWithName.fullName = mockTravelerProvider.testFullName
+        travelerWithName.firstName = mockTravelerProvider.testFirstName
+        travelerWithName.middleName = mockTravelerProvider.testMiddleName
+        travelerWithName.lastName = mockTravelerProvider.testLastName
 
         selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
         selectVM.passportRequired.onNext(false) 
