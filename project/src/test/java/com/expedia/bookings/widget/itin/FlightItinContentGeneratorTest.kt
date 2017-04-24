@@ -11,6 +11,7 @@ import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TicketingStatus
 import com.expedia.bookings.data.trips.TripFlight
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -21,9 +22,10 @@ import com.mobiata.flightlib.data.Flight
 import okio.Okio
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
+import org.robolectric.Robolectric
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -35,6 +37,13 @@ class FlightItinContentGeneratorTest {
     lateinit private var flightDetailView: View
     lateinit private var sut: FlightItinContentGenerator
     lateinit private var itinCardData: ItinCardDataFlight
+    lateinit private var activity: NewPhoneLaunchActivity
+
+    @Before
+    fun setup() {
+        activity = Robolectric.buildActivity(NewPhoneLaunchActivity::class.java).create().get()
+        activity.setTheme(R.style.NewLaunchTheme)
+    }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
@@ -162,7 +171,7 @@ class FlightItinContentGeneratorTest {
     }
 
     private fun getContext(): Context {
-        return RuntimeEnvironment.application
+        return activity
     }
 
     private fun callAddAirlineSupportNumber(parentContainer: FrameLayout): Boolean {

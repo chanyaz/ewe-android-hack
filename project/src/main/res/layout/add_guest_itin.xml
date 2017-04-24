@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <View
+        android:id="@+id/itin_list_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="center_vertical"
@@ -22,12 +23,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/enter_itinerary_number"
-        android:drawableLeft="@drawable/plus_itin"
+        android:drawableLeft="?attr/itin_add_guest_itin_left_drawable"
         android:drawablePadding="8dp"
         android:padding="16dp"
         android:text="@string/enter_a_guest_itinerary_number"
         android:textAllCaps="false"
-        android:textColor="@color/launch_screen_itin_divider"
+        android:textColor="?attr/itin_add_guest_itin_text_color"
         android:textSize="14sp"
         app:textStyle="medium" />
 

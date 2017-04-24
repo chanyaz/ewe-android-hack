@@ -11,13 +11,13 @@
         <item name="android:minHeight">26dp</item>
         <item name="android:background">@drawable/itin_section_divider</item>
         <item name="android:textAppearance">@style/TextAppearance.Small</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/itin_card_detail_section_header_text_color</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">?attr/itin_card_detail_section_header_text_size</item>
         <item name="textStyle">medium</item>
     </style>
 
@@ -27,8 +27,8 @@
 
     <style name="TextView.Itin.SectionText">
         <item name="android:minHeight">48dp</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/itin_section_text</item>
+        <item name="android:textSize">?attr/itin_card_detail_section_text_size</item>
+        <item name="android:textColor">?attr/itin_card_detail_section_text_color</item>
         <item name="textStyle">light</item>
     </style>
 

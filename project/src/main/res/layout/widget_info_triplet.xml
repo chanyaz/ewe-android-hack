@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="#f4f4f4"
-            android:textSize="24sp"
+            android:textColor="?attr/itin_card_detail_triplet_value_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_value_text_size"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
@@ -28,8 +28,8 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="-2dp"
             android:maxLines="1"
-            android:textColor="@color/gray2"
-            android:textSize="14sp"
+            android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_label_text_size"
             app:textStyle="light" />
     </LinearLayout>
 
@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:background="#4D555D" />
+        android:background="?attr/itin_card_summary_divider_color" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -54,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="#f4f4f4"
-            android:textSize="24sp"
+            android:textColor="?attr/itin_card_detail_triplet_value_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_value_text_size"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
@@ -65,8 +65,8 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="-2dp"
             android:maxLines="1"
-            android:textColor="@color/gray2"
-            android:textSize="14sp"
+            android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_label_text_size"
             app:textStyle="light" />
     </LinearLayout>
 
@@ -76,7 +76,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:background="#4D555D" />
+        android:background="?attr/itin_card_summary_divider_color" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -91,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="#f4f4f4"
-            android:textSize="24sp"
+            android:textColor="?attr/itin_card_detail_triplet_value_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_value_text_size"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
@@ -102,8 +102,8 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="-2dp"
             android:maxLines="1"
-            android:textColor="@color/gray2"
-            android:textSize="14sp"
+            android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_label_text_size"
             app:textStyle="light" />
     </LinearLayout>
 

@@ -58,10 +58,12 @@
 
         <item name="itin_card_summary_left_action_button_flight_drawable">@drawable/ic_direction</item>
         <item name="itin_card_summary_left_action_button_hotel_drawable">@drawable/ic_direction</item>
-        <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_crystal</item>
-        <item name="itin_card_summary_right_action_button_hotel_drawable">@drawable/ic_support_crystal</item>
+        <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_light</item>
+        <item name="itin_card_summary_right_action_button_hotel_drawable">@drawable/ic_phone</item>
         <item name="itin_card_list_icon_flight_drawable">@drawable/ic_type_circle_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
+        <item name="itin_card_detail_departure_drawable">@drawable/ic_departure_details</item>
+        <item name="itin_card_detail_arrival_drawable">@drawable/ic_arrival_details</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">

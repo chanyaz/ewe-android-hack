@@ -31,7 +31,7 @@
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/itin_title_height"
-                android:background="@drawable/bg_itin_card_title"
+                android:background="?attr/itin_card_detail_title_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="1dp"
@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/itin_divider_color" />
+                    android:background="?attr/itin_card_summary_divider_color" />
 
                 <FrameLayout
                     android:id="@+id/title_content_layout"
@@ -95,7 +95,7 @@
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="6dp"
-                        android:src="@drawable/itin_card_overflow_drawable" />
+                        android:src="?attr/itin_card_detail_action_overflow" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -285,7 +285,7 @@
                         android:layout_height="1dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
-                        android:background="#4D555D"
+                        android:background="?attr/itin_card_summary_divider_color"
                         android:visibility="gone" />
 
                     <!-- ###################################################################### -->

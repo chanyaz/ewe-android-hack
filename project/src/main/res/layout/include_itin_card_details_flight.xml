@@ -29,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/itin_white_text"
-                android:textSize="26sp"
+                android:textColor="?attr/itin_card_detail_triplet_value_text_color"
+                android:textSize="?attr/itin_card_detail_triplet_value_text_size"
                 app:textStyle="normal" />
 
             <com.expedia.bookings.widget.AutoResizeTextView
@@ -38,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/itin_offwhite_text"
-                android:textSize="14sp"
+                android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+                android:textSize="?attr/itin_card_detail_triplet_label_text_size"
                 app:textStyle="light" />
         </LinearLayout>
 
@@ -48,7 +48,7 @@
             android:layout_width="24dp"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:src="@drawable/ic_depart_arrive_arrow" />
+            android:src="?attr/itin_card_detail_flight_arrow_drawable" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -63,8 +63,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/itin_white_text"
-                android:textSize="26sp"
+                android:textColor="?attr/itin_card_detail_triplet_value_text_color"
+                android:textSize="?attr/itin_card_detail_triplet_value_text_size"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.AutoResizeTextView
@@ -72,8 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textColor="@color/itin_offwhite_text"
-                android:textSize="14sp"
+                android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+                android:textSize="?attr/itin_card_detail_triplet_label_text_size"
                 app:textStyle="light" />
         </LinearLayout>
 

@@ -13,24 +13,24 @@
             android:id="@+id/time_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/itin_section_text"
-            android:textSize="24dp"
+            android:textColor="?attr/itin_card_detail_triplet_value_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_value_text_size"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/date_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/itin_section_text"
-            android:textSize="16dp"
+            android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_label_text_size"
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/location_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="16dp"
+            android:textColor="?attr/itin_card_detail_triplet_label_text_color"
+            android:textSize="?attr/itin_card_detail_triplet_label_text_size"
             app:textStyle="light" />
     </LinearLayout>
 
@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:background="#4D555D" />
+        android:background="?attr/itin_card_summary_divider_color" />
 
     <ImageButton
         android:id="@+id/location_map_image_button"
@@ -47,6 +47,6 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/location_map_button_label_cont_desc"
-        android:src="@drawable/ic_location_pin" />
+        android:src="?attr/itin_card_detail_car_location_icon" />
 
 </merge>
