@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter
 
 import android.animation.Animator
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -22,7 +21,9 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.*
-import com.expedia.bookings.widget.*
+import com.expedia.bookings.widget.BaseCheckoutPresenter
+import com.expedia.bookings.widget.BundleOverviewHeader
+import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
@@ -442,10 +443,15 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             bottomCheckoutContainer.accessiblePurchaseButton.hideTouchTarget()
             bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
         } else {
-            bottomCheckoutContainer.slideToPurchase.visibility = View.VISIBLE
             bottomCheckoutContainer.accessiblePurchaseButton.visibility = View.GONE
         }
         val isSlideToPurchaseLayoutVisible = visible && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+
+        if (isSlideToPurchaseLayoutVisible) {
+            bottomCheckoutContainer.slideToPurchase.visibility = View.VISIBLE
+        } else {
+            bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
+        }
         if (checkoutPresenter.acceptTermsRequired) {
             val termsAccepted = checkoutPresenter.acceptTermsWidget.vm.acceptedTermsObservable.value
             if (!termsAccepted && isSlideToPurchaseLayoutVisible) {
@@ -456,31 +462,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.trackShowSlideToPurchase()
         }
         bottomCheckoutContainer.slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
+        checkoutPresenter.adjustScrollingSpace(bottomContainer)
+
         if (!disabledSTPStateEnabled) {
-//            val distance = if (!isSlideToPurchaseLayoutVisible) bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat() else 0f
-//            if (bottomContainer.translationY == distance) {
-//                checkoutPresenter.adjustScrollingSpace(bottomContainer)
-//                return
-//            }
-//            val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
-//            animator.duration = 300
-//            animator.start()
-//            animator.addListener(object : Animator.AnimatorListener {
-//                override fun onAnimationCancel(p0: Animator?) {
-//                }
-//
-//                override fun onAnimationStart(p0: Animator?) {
-//                }`
-//
-//                override fun onAnimationRepeat(p0: Animator?) {
-//                }
-//
-//                override fun onAnimationEnd(p0: Animator?) {
-                    checkoutPresenter.adjustScrollingSpace(bottomContainer)
-//                }
-//            })
+
         } else {
-            setUpBottomContainerState(isSlideToPurchaseLayoutVisible,!visible)
+            setUpBottomContainerState(isSlideToPurchaseLayoutVisible, !visible)
         }
     }
 
