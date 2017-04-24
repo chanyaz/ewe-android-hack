@@ -183,8 +183,12 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         searchMenu.setOnMenuItemClickListener({
-            searchOverlaySubject.onNext(Unit)
-            true
+            if (!transitionRunning) {
+                searchOverlaySubject.onNext(Unit)
+                true
+            } else {
+                false
+            }
         })
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable

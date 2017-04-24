@@ -523,8 +523,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterMenuItem.isVisible = getLineOfBusiness() == LineOfBusiness.PACKAGES
 
         toolbar.setNavigationOnClickListener { view ->
-            val activity = context as AppCompatActivity
-            activity.onBackPressed()
+            if (!transitionRunning) {
+                val activity = context as AppCompatActivity
+                activity.onBackPressed()
+            }
         }
 
 
@@ -1218,11 +1220,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun showWithTracking(newState: Any) {
-        when (newState) {
-            is ResultsMap -> trackSearchMap()
-            is ResultsFilter -> trackFilterShown()
+        if (!transitionRunning) {
+            when (newState) {
+                is ResultsMap -> trackSearchMap()
+                is ResultsFilter -> trackFilterShown()
+            }
+            show(newState)
         }
-        show(newState)
     }
 
     // Classes for state
