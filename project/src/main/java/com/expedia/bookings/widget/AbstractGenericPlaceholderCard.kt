@@ -1,30 +1,21 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Shader
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.os.Build
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.GenericViewModel
 
-abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Context, backgroundDrawable: Int): RecyclerView.ViewHolder(itemView) {
-    val topHalf: LinearLayout by bindView(R.id.top_half)
+abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
     val firstLineTextView: TextView by bindView(R.id.first_line)
     val secondLineTextView: TextView by bindView(R.id.second_line)
     val button_one: TextView by bindView(R.id.button_one)
     val button_two: TextView by bindView(R.id.button_two)
 
     init {
-        setupBackground(backgroundDrawable)
         setupFonts()
     }
 
@@ -52,12 +43,4 @@ abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Conte
 
     }
 
-    private fun setupBackground(backgroundDrawable: Int) {
-        val colorBackground = ShapeDrawable()
-        colorBackground.paint.color = ContextCompat.getColor(context, R.color.exp_launch_secondary)
-        val patternTopLayer = ContextCompat.getDrawable(context, backgroundDrawable) as BitmapDrawable
-        patternTopLayer.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT) // TODO - may not need this
-        patternTopLayer.alpha = 30
-        topHalf.background = LayerDrawable(arrayOf(colorBackground, patternTopLayer))
-    }
 }

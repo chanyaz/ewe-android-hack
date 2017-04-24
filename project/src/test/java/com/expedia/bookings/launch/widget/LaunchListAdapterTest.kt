@@ -7,6 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -23,7 +24,9 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.vm.SignInPlaceHolderViewModel
 import com.mobiata.android.util.SettingUtils
+import com.squareup.phrase.Phrase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -609,6 +612,32 @@ class LaunchListAdapterTest {
 
         val fourthPosition = sut.getItemViewType(3)
         assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
+    }
+
+    @Test
+    fun testSignInPlaceholderCardButtonTexts() {
+        givenSignInCardEnabled()
+        createSystemUnderTest()
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val recyclerView = RecyclerView(context)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = sut
+
+        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchDataItem.SIGN_IN_VIEW) as SignInPlaceholderCard
+        viewHolder.bind(makeSignInPlaceholderViewModel())
+
+        assertEquals(View.GONE, viewHolder.button_one.visibility)
+        assertEquals(View.GONE, viewHolder.button_two.visibility)
+    }
+
+    private fun makeSignInPlaceholderViewModel(): SignInPlaceHolderViewModel {
+        return SignInPlaceHolderViewModel(getBrandForSignInView(),
+                context.getString(R.string.earn_rewards_and_unlock_deals), "", "")
+    }
+
+    private fun getBrandForSignInView(): String {
+        return Phrase.from(context, R.string.shop_as_a_member_TEMPLATE)
+                .putOptional("brand", BuildConfig.brand).format().toString()
     }
 
     private fun assertViewHolderIsFullSpan(position: Int) {
