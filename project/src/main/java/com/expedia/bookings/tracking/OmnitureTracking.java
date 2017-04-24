@@ -2928,6 +2928,7 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_MAP_OPEN = "App.Itinerary.Hotel.Map";
 	private static final String ITIN_CHANGE_POSA = "App.Itinerary.POSa";
 	private static final String ITIN_HOTEL_INFO_EDIT_ROOM = "App.Itinerary.Hotel.Info.EditRoom";
+	private static final String ITIN_NEW_SIGN_IN = "App.Itinerary.Login.Start";
 	private static final String ITIN_USER_REFRESH = "App.Itinerary.User.Refresh";
 
 	public static void trackItinEmpty() {
@@ -3134,6 +3135,12 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
+		s.track();
+	}
+
+	public static void trackItinSignInExposure() {
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsNewSignInPage);
 		s.track();
 	}
 
@@ -6186,6 +6193,11 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
 		s.setEvar(37, paymentType.getOmnitureTrackingCode());
 		s.track();
+	}
+
+	public static void trackItinSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_NEW_SIGN_IN);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
 	public static void trackItinRefresh() {

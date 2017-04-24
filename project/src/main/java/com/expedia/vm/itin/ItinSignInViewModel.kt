@@ -14,6 +14,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -42,6 +43,7 @@ class ItinSignInViewModel(val context: Context) {
             syncItinManagerSubject.onNext(Unit)
         }
         else {
+            OmnitureTracking.trackItinSignIn()
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
             User.signIn(context as Activity, args)
         }
