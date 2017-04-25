@@ -202,7 +202,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             } else {
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
-            bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(false)
+            bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(currentState)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

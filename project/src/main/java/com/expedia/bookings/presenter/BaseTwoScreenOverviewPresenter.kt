@@ -220,11 +220,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
             checkoutPresenter.mainContent.visibility = View.VISIBLE
-            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(forward)
             if (forward) {
-                checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(checkoutPresenter.javaClass.name)
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(checkoutPresenter.javaClass.name)
             } else {
-                checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
             }
 //            if (disabledSTPStateEnabled) {
 //
@@ -316,7 +315,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
             //toggleCheckoutButtonAndSliderVisibility(true)
-            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(false)
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
             checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
         }
     }
@@ -512,14 +511,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutButtonContainer.setInverseVisibility(forward)
             }
         }
-        checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { showSlideToPurchase ->
-            animateInSlideToPurchase("")
+        checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
+            animateInSlideToPurchase(currentState)
         }
 
         Observable.combineLatest(checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable,
                 checkoutPresenter.getCheckoutViewModel().transitionToObservable,
                 { visible, transitionTo ->
-                    animateInSlideToPurchase(transitionTo)
+//                    animateInSlideToPurchase(transitionTo)
                 }).subscribe()
 
     }

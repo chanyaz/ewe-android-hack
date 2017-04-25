@@ -40,7 +40,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
 
-    val bottomCheckoutContainerStateObservable = PublishSubject.create<Boolean>()
+    val bottomCheckoutContainerStateObservable = PublishSubject.create<String>()
     val transitionToObservable = BehaviorSubject.create<String>()
 
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
