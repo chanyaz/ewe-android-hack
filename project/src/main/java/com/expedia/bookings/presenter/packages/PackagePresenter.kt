@@ -196,13 +196,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 // Just make bottom container invisible
-                //bundlePresenter.toggleCheckoutButtonAndSliderVisibility(false)
                 bundlePresenter.resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             } else {
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
+            bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(false)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

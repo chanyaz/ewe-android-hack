@@ -251,7 +251,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe { presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
         flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
-        presenter.toggleCheckoutButtonAndSliderVisibility(false)
+//        presenter.toggleCheckoutButtonAndSliderVisibility(false)
 
         if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_payment_legal_message)) {
             if (PointOfSale.getPointOfSale().showAirlinePaymentMethodFeeLegalMessage()) {

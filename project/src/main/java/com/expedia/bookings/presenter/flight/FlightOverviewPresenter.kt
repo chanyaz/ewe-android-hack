@@ -129,7 +129,9 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         bottomCheckoutContainer.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(!showCollapsedToolbar)
-            toggleCheckoutButtonAndSliderVisibility(true)
+//            toggleCheckoutButtonAndSliderVisibility(true)
+            checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(false)
+            checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
         }
     }
 

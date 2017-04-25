@@ -35,6 +35,8 @@ import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.Subscription
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
@@ -218,9 +220,15 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
             checkoutPresenter.mainContent.visibility = View.VISIBLE
-            if (disabledSTPStateEnabled) {
-                toggleCheckoutButtonAndSliderVisibility(!forward)
+            checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(forward)
+            if (forward) {
+                checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(checkoutPresenter.javaClass.name)
+            } else {
+                checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
             }
+//            if (disabledSTPStateEnabled) {
+//
+//            }
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
@@ -242,9 +250,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
-            if (!disabledSTPStateEnabled) {
-                toggleCheckoutButtonAndSliderVisibility(!forward)
-            }
+//            if (!disabledSTPStateEnabled) {
+//                toggleCheckoutButtonAndSliderVisibility(!forward)
+//            }
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
@@ -307,7 +315,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bottomCheckoutContainer.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
-            toggleCheckoutButtonAndSliderVisibility(true)
+            //toggleCheckoutButtonAndSliderVisibility(true)
+            checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(false)
+            checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
         }
     }
 
@@ -398,10 +408,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 //        })
     }
 
-    fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
-        animateInSlideToPurchase(!showCheckoutButton)
+//    fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
+//        animateInSlideToPurchase(!showCheckoutButton)
 //        setUpBottomContainerState(shouldShowSlider, showCheckoutButton)
-    }
+//    }
 
     private fun setUpBottomContainerState(shouldShowSlider: Boolean, showCheckoutButton: Boolean) {
 //        if (disabledSTPStateEnabled) {
@@ -433,9 +443,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         return response?.getOldPrice() != null
     }
 
-    private fun animateInSlideToPurchase(visible: Boolean) {
+    private fun animateInSlideToPurchase(visible: Boolean, transitionTo: String) {
         val shouldShowSlider = visible && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-                && checkoutPresenter.currentState == BaseCheckoutPresenter.CheckoutDefault::class.java.name
+                && transitionTo == BaseCheckoutPresenter.CheckoutDefault::class.java.name
 
 
         if (AccessibilityUtil.isTalkBackEnabled(context) && shouldShowSlider) {
@@ -450,10 +460,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 bottomCheckoutContainer.slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE
             } else {
-                if (visible) {
-                    checkoutButtonContainer.visibility = View.GONE
-                } else {
+                if (transitionTo == BundleDefault::class.java.name || (disabledSTPStateEnabled && transitionTo == BaseCheckoutPresenter.CheckoutDefault::class.java.name)) {
                     checkoutButtonContainer.visibility = View.VISIBLE
+                } else {
+                    checkoutButtonContainer.visibility = View.GONE
                 }
                 bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
             }
@@ -502,9 +512,16 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutButtonContainer.setInverseVisibility(forward)
             }
         }
-        checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.subscribe { isVisible ->
-//            animateInSlideToPurchase(isVisible)
+        checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.subscribe { showSlideToPurchase ->
+            animateInSlideToPurchase(showSlideToPurchase, "")
         }
+
+        Observable.combineLatest(checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable,
+                checkoutPresenter.getCheckoutViewModel().transitionToObservable,
+                { visible, transitionTo ->
+                    animateInSlideToPurchase(visible, transitionTo)
+                }).subscribe()
+
     }
 
     private fun setupPaymentWidgetSubscriptions() {
