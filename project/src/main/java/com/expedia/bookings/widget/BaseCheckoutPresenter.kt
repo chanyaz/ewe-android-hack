@@ -471,9 +471,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun logoutUser() {
         User.signOut(context)
+        updateDbTravelers()
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(false)
         ckoViewModel.transitionToObservable.onNext(CheckoutDefault::class.java.name)
-        updateDbTravelers()
         initLoggedInState(false)
         updateTravelerPresenter()
         tripViewModel.performCreateTrip.onNext(Unit)
