@@ -11,7 +11,6 @@ class BottomCheckoutContainerViewModel() {
     val noNetworkObservable = PublishSubject.create<Unit>()
     val animateInSlideToPurchaseObservable = PublishSubject.create<Boolean>()
     val checkoutPriceChangeObservable = PublishSubject.create<TripResponse>()
-    val accessiblePurchaseButtonClicked = PublishSubject.create<Unit>()
     val slideAllTheWayObservable = PublishSubject.create<Unit>()
 
 }

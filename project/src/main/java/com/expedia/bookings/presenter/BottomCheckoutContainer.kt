@@ -68,7 +68,7 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
             slideToPurchaseSpace.setInverseVisibility(hasText)
             slideTotalText.setInverseVisibility(!hasText)
         }
-        accessiblePurchaseButton.subscribeOnClick(vm.accessiblePurchaseButtonClicked)
+        accessiblePurchaseButton.subscribeOnClick(vm.slideAllTheWayObservable)
 
     }
 
@@ -79,16 +79,5 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
 
     private fun setUpClickListeners() {
         slideToPurchase.addSlideToListener(this)
-        accessiblePurchaseButton.setOnClickListener {
-            //            if (ckoViewModel.builder.hasValidCVV()) {
-//                val params = ckoViewModel.builder.build()
-//                if (!ExpediaBookingApp.isAutomation() && !ckoViewModel.builder.hasValidCheckoutParams()) {
-//                    Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${ckoViewModel.builder.hasValidParams()}")))
-//                }
-//                ckoViewModel.checkoutParams.onNext(params)
-//            } else {
-//                ckoViewModel.slideAllTheWayObservable.onNext(Unit)
-//            }
-        }
     }
 }
