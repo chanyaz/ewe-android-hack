@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import android.widget.DatePicker
 import android.widget.ImageButton
 import com.expedia.bookings.utils.DateFormatUtils
@@ -17,7 +16,7 @@ import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 
-open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment(), DatePickerDialog.OnDateSetListener, CalendarView.OnDateChangeListener {
+open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment(), DatePickerDialog.OnDateSetListener, DatePicker.OnDateChangedListener {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
@@ -40,7 +39,7 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
         val maxDate = currentDate.plusDays(baseSearchViewModel.getMaxDateRange())
         val startDate = baseSearchViewModel.startDate()
 
-        dialog.datePicker.calendarView.setOnDateChangeListener(this)
+        dialog.datePicker.init(currentDate.year, currentDate.monthOfYear, currentDate.dayOfMonth, this)
 
         if (baseSearchViewModel.accessibleStartDateSetObservable.value && startDate != null) {
             val endDate = startDate.plusDays(1)
@@ -131,7 +130,7 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
         }
     }
 
-    override fun onSelectedDayChange(view: CalendarView, year: Int, month: Int, dayOfMonth: Int) {
+    override fun onDateChanged(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
         val date = LocalDate(year, month.plus(1), dayOfMonth)
         view.announceForAccessibility(DateFormatUtils.formatLocalDateToShortDayAndDate(date))
     }
