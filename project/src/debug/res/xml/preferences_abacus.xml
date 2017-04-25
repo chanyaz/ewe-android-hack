@@ -587,6 +587,51 @@
             android:layout="@layout/preference"
             android:title="CarsWebView - US" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13830"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="CarsWebView - CT" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13826"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="CarsWebView - EB" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13828"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="CarsWebView - AUNZ" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13829"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="CarsWebView - CA" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13660"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="CarsWebView - OB" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
