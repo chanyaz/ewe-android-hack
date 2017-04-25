@@ -9,12 +9,13 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -28,6 +29,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     val destination: TextView by bindView(R.id.destination)
     val expediaPoints: TextView by bindView(R.id.expedia_points)
     val viewItinButton: Button by bindView(R.id.view_itin_button)
+    val isNewConfirmationScreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_additional_content_flight_confirmation)
 
     val outboundFlightCard: ConfirmationRowCardView by bindView(R.id.outbound_flight_card)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
@@ -44,7 +46,8 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     init {
-        View.inflate(context, R.layout.flight_confirmation_presenter, this)
+        View.inflate(context, if (isNewConfirmationScreenEnabled) R.layout.new_flight_confirmation_presenter
+                                else R.layout.flight_confirmation_presenter, this)
         confirmationContainer.setPadding(0, Ui.toolbarSizeWithStatusBar(context), 0, 0)
         viewItinButton.setOnClickListener {
             (context as AppCompatActivity).finish()
