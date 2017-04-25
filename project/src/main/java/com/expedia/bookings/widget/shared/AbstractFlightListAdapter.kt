@@ -130,7 +130,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 return LoadingViewHolder(view)
             }
             ViewTypes.FLIGHT_CELL_VIEW.ordinal -> {
-                val view = FlightCellWidget(parent.context, isRoundTripSearch, maxFlightDuration)
+                val view = FlightCellWidget(parent.context, maxFlightDuration)
                 return FlightViewHolder(view, parent.width)
             }
             else -> {
