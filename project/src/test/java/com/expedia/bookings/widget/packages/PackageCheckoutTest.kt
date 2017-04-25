@@ -124,7 +124,7 @@ class PackageCheckoutTest {
 
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
-        checkout.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(true)
+        checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(true)
 
         assertEquals(View.GONE, checkout.slideTotalText.visibility)
         assertEquals("", checkout.slideTotalText.text)

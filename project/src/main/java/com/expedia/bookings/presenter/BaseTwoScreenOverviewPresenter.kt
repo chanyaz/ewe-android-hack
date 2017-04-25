@@ -220,7 +220,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
             checkoutPresenter.mainContent.visibility = View.VISIBLE
-            checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(forward)
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(forward)
             if (forward) {
                 checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(checkoutPresenter.javaClass.name)
             } else {
@@ -316,7 +316,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
             //toggleCheckoutButtonAndSliderVisibility(true)
-            checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.onNext(false)
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(false)
             checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
         }
     }
@@ -443,8 +443,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         return response?.getOldPrice() != null
     }
 
-    private fun animateInSlideToPurchase(visible: Boolean, transitionTo: String) {
-        val shouldShowSlider = visible && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+    private fun animateInSlideToPurchase(transitionTo: String) {
+        val shouldShowSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && transitionTo == BaseCheckoutPresenter.CheckoutDefault::class.java.name
 
 
@@ -512,14 +512,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutButtonContainer.setInverseVisibility(forward)
             }
         }
-        checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.subscribe { showSlideToPurchase ->
-            animateInSlideToPurchase(showSlideToPurchase, "")
+        checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { showSlideToPurchase ->
+            animateInSlideToPurchase("")
         }
 
-        Observable.combineLatest(checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable,
+        Observable.combineLatest(checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable,
                 checkoutPresenter.getCheckoutViewModel().transitionToObservable,
                 { visible, transitionTo ->
-                    animateInSlideToPurchase(visible, transitionTo)
+                    animateInSlideToPurchase(transitionTo)
                 }).subscribe()
 
     }

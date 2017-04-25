@@ -39,8 +39,10 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    val animateInSlideToPurchaseObservable = PublishSubject.create<Boolean>()
+
+    val bottomCheckoutContainerStateObservable = PublishSubject.create<Boolean>()
     val transitionToObservable = BehaviorSubject.create<String>()
+
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
     val bottomContainerInverseVisibilityObservable = PublishSubject.create<Boolean>()
     val checkoutRequestStartTimeObservable = BehaviorSubject.create<Long>()
