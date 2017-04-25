@@ -79,16 +79,23 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/flight_duration_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/itin_card_summary_divider_color"
+        android:visibility="gone" />
+
     <com.expedia.bookings.widget.TextView
         android:id="@+id/flight_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#5B6470"
+        android:background="?attr/itin_card_detail_flight_trip_summary_bg_color"
         android:gravity="center"
         android:maxLines="1"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
-        android:textColor="@color/white"
+        android:textColor="?attr/itin_card_detail_flight_trip_summary_text_color"
         android:textSize="14sp" />
 
     <!-- MAP -->

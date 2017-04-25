@@ -5,6 +5,10 @@
         <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
 
+    <style name="Widget.BorderlessButton.Crystal">
+        <item name="android:background">@drawable/bg_btn_borderless_crystal_theme</item>
+    </style>
+
     <style name="ProgressBar.AddGuestItinNewScreen" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">true</item>
     </style>

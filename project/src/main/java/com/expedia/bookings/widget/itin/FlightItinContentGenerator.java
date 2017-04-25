@@ -41,6 +41,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -56,6 +57,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -234,6 +236,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			TextView arrivalTimeTzTv = Ui.findView(view, R.id.arrival_time_tz);
 			TextView passengerNameListTv = Ui.findView(view, R.id.passenger_name_list);
 			TextView flightDuration = Ui.findView(view, R.id.flight_duration);
+			View flightDurationDivider = Ui.findView(view, R.id.flight_duration_divider);
 
 			if (legDurationMins > 0) {
 				String duration = FlightUtils.formatTotalDuration(getContext(), legDurationMins);
@@ -242,6 +245,10 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				flightDuration.setContentDescription(durationContDesc);
 
 				flightDuration.setVisibility(View.VISIBLE);
+				if (FeatureToggleUtil
+					.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+					flightDurationDivider.setVisibility(View.VISIBLE);
+				}
 			}
 			else {
 				flightDuration.setVisibility(View.GONE);
@@ -733,7 +740,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			waypointTypeIcon.setContentDescription(getContext().getString(R.string.itin_departing_cont_desc));
 			break;
 		case LAYOVER:
-			waypointTypeIcon.setImageResource(R.drawable.ic_layover_details);
+			waypointTypeIcon.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_layover_drawable));
 			break;
 		case ARRIVAL:
 			waypointTypeIcon.setImageResource(Ui.obtainThemeResID(getContext(), R.attr.itin_card_detail_arrival_drawable));

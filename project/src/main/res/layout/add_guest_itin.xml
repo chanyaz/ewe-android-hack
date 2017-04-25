@@ -19,7 +19,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/add_guest_itin_text_view"
-        style="@style/Widget.BorderlessButton"
+        style="?attr/itin_add_guest_itin_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/enter_itinerary_number"

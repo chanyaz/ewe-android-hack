@@ -20,7 +20,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/cancel_hotel_room"
-        style="@style/TextView.Itin.SectionText"
+        style="?attr/itin_card_detail_section_text_capitalize_blue_style"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/reload_text_view"
-            style="@style/TextView.Itin.SectionText"
+            style="?attr/itin_card_detail_section_text_capitalize_blue_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/itin_details_reload_image_view"

@@ -1,10 +1,13 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Collection;
+
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -47,7 +50,6 @@ import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 
-import java.util.Collection;
 import kotlin.Unit;
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
@@ -149,6 +151,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mDeepRefreshLoadingView = Ui.findView(view, R.id.deep_refresh_loading_layout);
+
+		mItinListView.getItinCardDataAdapter().registerDataSetObserver(new DataSetObserver() {
+			@Override
+			public void onChanged() {
+				super.onChanged();
+				if (ItinItemListFragment.this.isVisible()) {
+					logCrystalThemeExposure();
+				}
+			}
+		});
 
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
@@ -756,5 +768,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void showDeepRefreshLoadingView(boolean show) {
 		mDeepRefreshLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
+	}
+
+	public void logCrystalThemeExposure() {
+		if (mItinListView.getItinCardDataAdapter().getCount() > 0 &&
+			ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled() &&
+			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_crystal_theme)) {
+			OmnitureTracking.trackPageLoadItinCrystalTheme();
+		}
 	}
 }

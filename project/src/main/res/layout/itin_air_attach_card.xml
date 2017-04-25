@@ -5,6 +5,6 @@
         layout="@layout/include_air_attach_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp" />
+        android:layout_marginLeft="?attr/itin_air_attach_margin_left_right"
+        android:layout_marginRight="?attr/itin_air_attach_margin_left_right" />
 </merge>

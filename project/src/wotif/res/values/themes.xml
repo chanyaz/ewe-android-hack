@@ -60,12 +60,22 @@
         <item name="itin_card_summary_left_action_button_hotel_drawable">@drawable/ic_direction</item>
         <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_light</item>
         <item name="itin_card_summary_right_action_button_hotel_drawable">@drawable/ic_phone</item>
+        <item name="itin_card_summary_left_action_button_activity_drawable">@drawable/ic_printer_redeem</item>
+        <item name="itin_card_summary_right_action_button_activity_drawable">@drawable/ic_phone</item>
         <item name="itin_card_list_icon_flight_drawable">@drawable/ic_type_circle_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
         <item name="itin_card_detail_departure_drawable">@drawable/ic_departure_details</item>
         <item name="itin_card_detail_arrival_drawable">@drawable/ic_arrival_details</item>
         <item name="itin_list_bg">#212527</item>
         <item name="itin_card_bg">@drawable/bg_itin_card</item>
+        <item name="itin_add_guest_itin_style">@style/Widget.BorderlessButton</item>
+        <item name="itin_air_attach_expires_in_text_color">@color/price_change_air_attach</item>
+        <item name="itin_air_attach_margin_left_right">4dp</item>
+        <item name="itin_cross_sell_card_margin_left_right">0dp</item>
+        <item name="itin_card_detail_section_text_capitalize_blue_style">@style/TextView.Itin.SectionText</item>
+        <item name="itin_card_detail_layover_drawable">@drawable/ic_layover_details</item>
+        <item name="itin_card_detail_flight_trip_summary_text_color">@color/white</item>
+        <item name="itin_card_detail_flight_trip_summary_bg_color">#5B6470</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">
