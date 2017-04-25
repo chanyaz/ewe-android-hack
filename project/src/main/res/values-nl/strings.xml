@@ -3001,7 +3001,7 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
@@ -4589,8 +4589,8 @@
         <item quantity="many">{guest} gasten</item>
         <item quantity="other">{guest} gasten</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">Knop reisplanoverzicht voor {type}</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text} {trip_start_date} {line_of_business} Knop reisplanoverzicht</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Naar klemboard kopiëren. Knop.</string>

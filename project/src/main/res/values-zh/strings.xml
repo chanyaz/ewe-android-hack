@@ -118,7 +118,7 @@
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
     <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s%2$s</string>
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -357,7 +357,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%2$s(%3$s) %1$s</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s%2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">立即预订 %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -1791,7 +1791,7 @@
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
-    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt;%2$s</string>
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
@@ -2157,7 +2157,7 @@
         <item quantity="one">+ 其他 {travelercount}位旅客</item>
         <item quantity="other">+ 其他 {travelercount}位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客{travelernumber}({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -3199,9 +3199,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s外</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount}{currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">设置</string>
@@ -4172,7 +4172,7 @@
     <string name="rail_station_info_TEMPLATE">{departure}- {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass}{fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4589,8 +4589,8 @@
         <item quantity="many">{guest}位住客</item>
         <item quantity="other">{guest}位住客</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">{type}行程卡按钮。</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text}{trip_start_date}{line_of_business}行程卡按钮。</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">复制到剪切板。按钮。</string>

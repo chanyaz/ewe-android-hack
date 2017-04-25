@@ -4589,8 +4589,8 @@
         <item quantity="many">{guest} tamu</item>
         <item quantity="other">{guest} tamu</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">Tombol kartu Itinerary {type}.</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text} {trip_start_date} {line_of_business} Tombol kartu Itinerary.</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Salin ke clipboard. Tombol.</string>
