@@ -47,6 +47,9 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
             activity.onBackPressed()
             toolbar.viewModel.menuVisibility.onNext(false)
         }
+        checkoutOverviewFloatingToolbar.destinationText.ellipsize = null
+        checkoutOverviewFloatingToolbar.destinationText.setSingleLine(false)
+        checkoutOverviewFloatingToolbar.destinationText.maxLines = 2
     }
 
     /** Collapsing Toolbar **/
@@ -71,7 +74,8 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     fun translateDatesTitleForHeaderToolbar() {
-        checkoutOverviewHeaderToolbar.checkInOutDates.translationY = - checkoutOverviewHeaderToolbar.destinationText.height * .25f
+        checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -((checkoutOverviewFloatingToolbar.destinationText.height
+                / checkoutOverviewFloatingToolbar.destinationText.lineCount) * .25f)
     }
 
     fun toggleOverviewHeader(show: Boolean) {
@@ -94,8 +98,8 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
         var maxScroll = appBarLayout.totalScrollRange
         if (maxScroll != 0) {
-            var percentage = Math.abs(offset) / maxScroll.toFloat()
-            isFullyExpanded = if (percentage == 0f) true else false
+            val percentage = Math.abs(offset) / maxScroll.toFloat()
+            isFullyExpanded = percentage == 0f
 
             if (isHideToolbarView) {
                 if (percentage == 1f) {
@@ -104,15 +108,13 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
                     }
                     checkoutOverviewHeaderToolbar.destinationText.visibility = View.VISIBLE
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 1f
-                    val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
-                    checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
+                    translateDatesTitleForHeaderToolbar()
                     isHideToolbarView = !isHideToolbarView
                 } else if (percentage >= .7f) {
                     checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                     val alpha = (percentage - .7f) / .3f
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = alpha
-                    val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
-                    checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
+                    translateDatesTitleForHeaderToolbar()
                 } else {
                     checkoutOverviewHeaderToolbar.visibility = View.GONE
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 0f
