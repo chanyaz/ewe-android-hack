@@ -32,7 +32,7 @@ public class AdImpressionTracking {
 
 	public static void trackAdClickOrImpressionWithTest(final Context context, final String url, final int testKey,
 		final List<BasicNameValuePair> query) {
-		if (url == null) {
+		if (url == null || url.trim().isEmpty()) {
 			return;
 		}
 		AbacusTest abacusTest = Db.getAbacusResponse().testForKey(testKey);
