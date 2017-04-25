@@ -72,6 +72,12 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		PermissionGranter.allowPermission("android.permission.ACCESS_FINE_LOCATION");
+	}
+
+	@Override
 	protected void tearDown() throws Exception {
 		Activity a = getActivity();
 		int currentWaitTime = 0;
