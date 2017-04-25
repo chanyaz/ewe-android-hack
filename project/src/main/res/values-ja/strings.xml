@@ -4587,10 +4587,10 @@
         <item quantity="one">宿泊者 {guest}名</item>
         <item quantity="two">宿泊者 {guest}名</item>
         <item quantity="many">宿泊者 {guest}名</item>
-        <item quantity="other">宿泊者 {guest}名</item>
+        <item quantity="other">宿泊者 {guest} 名</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">{type}旅程カードボタン。</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text}{trip_start_date}{line_of_business}旅程カードボタン。</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">クリックボードにコピー。ボタン。</string>
