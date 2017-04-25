@@ -316,7 +316,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             bundleOverviewHeader.toggleOverviewHeader(true)
             //toggleCheckoutButtonAndSliderVisibility(true)
             checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
-            checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
         }
     }
 
@@ -514,13 +513,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
             animateInSlideToPurchase(currentState)
         }
-
-        Observable.combineLatest(checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable,
-                checkoutPresenter.getCheckoutViewModel().transitionToObservable,
-                { visible, transitionTo ->
-//                    animateInSlideToPurchase(transitionTo)
-                }).subscribe()
-
     }
 
     private fun setupPaymentWidgetSubscriptions() {

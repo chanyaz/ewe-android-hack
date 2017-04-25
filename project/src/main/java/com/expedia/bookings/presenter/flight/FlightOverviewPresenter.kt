@@ -131,7 +131,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             bundleOverviewHeader.toggleOverviewHeader(!showCollapsedToolbar)
 //            toggleCheckoutButtonAndSliderVisibility(true)
             checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
-            checkoutPresenter.getCheckoutViewModel().transitionToObservable.onNext(BundleDefault::class.java.name)
         }
     }
 

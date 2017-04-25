@@ -386,7 +386,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (forward) {
                 setToolbarTitle()
                 ckoViewModel.bottomCheckoutContainerStateObservable.onNext(CheckoutDefault::class.java.name)
-                ckoViewModel.transitionToObservable.onNext(CheckoutDefault::class.java.name)
             } else {
                 ckoViewModel.bottomCheckoutContainerStateObservable.onNext(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name)
             }
@@ -408,7 +407,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun endDefaultToPaymentTransition(forward: Boolean) {
         if (!forward) {
             ckoViewModel.bottomCheckoutContainerStateObservable.onNext(CheckoutDefault::class.java.name)
-            ckoViewModel.transitionToObservable.onNext(CheckoutDefault::class.java.name)
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
@@ -474,7 +472,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         User.signOut(context)
         updateDbTravelers()
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(currentState)
-        ckoViewModel.transitionToObservable.onNext(CheckoutDefault::class.java.name)
         initLoggedInState(false)
         updateTravelerPresenter()
         tripViewModel.performCreateTrip.onNext(Unit)
@@ -598,7 +595,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             super.endTransition(forward)
             if (!forward) {
                 ckoViewModel.bottomCheckoutContainerStateObservable.onNext(CheckoutDefault::class.java.name)
-                ckoViewModel.transitionToObservable.onNext(CheckoutDefault::class.java.name)
                 travelersPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
