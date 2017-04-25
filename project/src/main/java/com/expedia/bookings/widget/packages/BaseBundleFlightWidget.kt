@@ -65,7 +65,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 true -> {
                     rowContainer = this.findViewById(R.id.detailed_row_container) as ViewGroup
                     rowContainer.visibility = VISIBLE
-                    val flightCell = FlightCellWidget(context, false, 0, false)
+                    val flightCell = FlightCellWidget(context, 0, false)
                     rowContainer.addView(flightCell)
                     flightDetailsContainer.setOnClickListener {
                         if (isFlightSegmentDetailsExpanded()) {
