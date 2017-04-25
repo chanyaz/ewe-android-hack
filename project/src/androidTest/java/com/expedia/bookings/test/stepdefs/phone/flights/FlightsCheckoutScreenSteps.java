@@ -1,20 +1,29 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
+import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay;
+import static org.hamcrest.Matchers.allOf;
+
 public class FlightsCheckoutScreenSteps {
 	@And("^I open traveller details$")
 	public void openTravellerDetails() throws Throwable {
@@ -53,5 +62,41 @@ public class FlightsCheckoutScreenSteps {
 	@And("^Passport field is shown as a mandatory field$")
 	public void isPassportFieldMandatory() throws Throwable {
 		onView(withText("Passport: Country")).check(matches(withCompoundDrawable(R.drawable.invalid)));
+	}
+
+	@Then("^I login with user having single stored card at checkout screen$")
+	public void loginWithSingleStoredCard() throws Throwable {
+		CheckoutViewModel.enterSingleCardLoginDetails();
+		CheckoutViewModel.pressDoLogin();
+	}
+
+	@Then("^I login with user having multiple stored card at checkout screen$")
+	public void loginWithMultipleStoredCard() throws Throwable {
+		CheckoutViewModel.enterLoginDetails("qa-ehcc@mobiata.com", "password");
+		CheckoutViewModel.pressDoLogin();
+	}
+
+	@And("^I wait for checkout screen to load$")
+	public void waitForTravelerContainerToAppear() throws Throwable {
+		waitForViewNotYetInLayoutToDisplay(withId(R.id.traveler_default_state), 10, TimeUnit.SECONDS);
+	}
+
+	@And("^Validate that Main traveller \"(.*?)\" is selected by default$")
+	public void validateMainTravellerSelected(String travelerName) throws Throwable {
+		onView(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_default_state)))).check(
+			matches(withText(travelerName)));
+	}
+	@And("^Validate that Credit card \"(.*?)\" is selected by default$")
+	public void validateCreditCardSelected(String creditCard) throws Throwable {
+		onView(allOf(withId(R.id.card_info_name), isDescendantOfA(withId(R.id.card_info_container)))).check(
+			matches(withText(creditCard)));
+	}
+	@And("^I click on Payment Info$")
+	public void clickPaymentInfo() throws Throwable {
+		CheckoutViewModel.clickPaymentInfo();
+	}
+	@And("^Validate that Credit card \"(.*?)\" is shown selected at Payment Method screen$")
+	public void validateSelectedPaymentMethod(String creditCard) throws Throwable {
+		onView(withText(creditCard)).check(matches(hasSibling(withImageDrawable(R.drawable.validated))));
 	}
 }
