@@ -529,7 +529,7 @@ class BillingDetailsPaymentWidgetTest {
         assertValidState(stateLayout, "State")
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
-        assertErrorState(stateLayout, "Enter a valid state")
+        assertValidState(stateLayout, "State")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("CAN")
@@ -537,7 +537,7 @@ class BillingDetailsPaymentWidgetTest {
 
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
-        assertErrorState(stateLayout, "Enter a valid province")
+        assertValidState(stateLayout, "Province")
 
         billingDetailsPaymentWidget.sectionLocation.resetValidation()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("MEX")
@@ -640,7 +640,7 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
 
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("CAN")
-        assertErrorState(postalLayout, "Enter a valid postal code")
+        assertValidState(postalLayout, "Postal Code")
         assertEquals(InputType.TYPE_CLASS_TEXT, billingDetailsPaymentWidget.creditCardPostalCode.inputType)
     }
 

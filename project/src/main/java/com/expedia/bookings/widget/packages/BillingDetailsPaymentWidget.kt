@@ -182,7 +182,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             } else {
                 sectionLocation.billingCountryErrorSubject.onNext(false)
                 updateCountryDependantFields(billingCountry)
-                sectionLocation.validateCountryDependantFields()
+                sectionLocation.resetCountryDependantValidation()
             }
             val countryPosition = sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(billingCountry)
             val countryName = sectionLocation.materialCountryAdapter.getItem(countryPosition)
