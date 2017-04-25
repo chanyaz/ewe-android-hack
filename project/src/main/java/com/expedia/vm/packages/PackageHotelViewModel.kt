@@ -19,31 +19,31 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
     override fun bindHotelData(hotel: Hotel) {
         super.bindHotelData(hotel)
 
-        val unrealDeal = getUnrealDeal(hotel)
+        val unrealDeal = getUnrealDeal()
         unrealDealMessageObservable.onNext(unrealDeal)
         unrealDealMessageVisibilityObservable.onNext(unrealDeal.isNotEmpty())
         priceIncludesFlightsObservable.onNext(hotel.isPackage)
     }
 
-    override fun getHotelContentDesc(hotel: Hotel): CharSequence {
-        var result = SpannableBuilder()
+    override fun getHotelContentDesc(): CharSequence {
+        val result = SpannableBuilder()
         if (unrealDealMessageVisibilityObservable.value) {
             result.append(Phrase.from(context, R.string.hotel_unreal_deal_cont_desc_TEMPLATE)
-                    .put("unrealdeal", getUnrealDeal(hotel).replace("\\p{P}", ""))
+                    .put("unrealdeal", getUnrealDeal().replace("\\p{P}", ""))
                     .format()
                     .toString())
         }
         result.append(Phrase.from(context, R.string.packages_hotel_details_cont_desc_TEMPLATE)
-                .put("hotel", hotel.localizedName)
-                .put("starrating", hotelStarRatingObservable.value.toString())
-                .put("guestrating", hotelGuestRatingObservable.value.toString())
-                .put("price", pricePerNightObservable.value)
+                .put("hotel", hotelName)
+                .put("starrating", hotelStarRating.toString())
+                .put("guestrating", hotelGuestRating.toString())
+                .put("price", pricePerNight)
                 .format()
                 .toString())
 
-        if (hotelStrikeThroughPriceVisibility.value) {
+        if (shouldShowStrikeThroughPrice()) {
             result.append(Phrase.from(context, R.string.hotel_price_cont_desc_TEMPLATE)
-                    .put("strikethroughprice", hotelStrikeThroughPriceFormatted.value)
+                    .put("strikethroughprice", hotelStrikeThroughPriceFormatted)
                     .format()
                     .toString())
         }
@@ -56,32 +56,32 @@ class PackageHotelViewModel(var context: Context) : HotelViewModel(context) {
         return false
     }
 
-    private fun getUnrealDeal(hotel: Hotel): String {
+    private fun getUnrealDeal(): String {
         if (hotel.packageOfferModel?.featuredDeal ?: false) {
             if (PointOfSale.getPointOfSale().shouldShowFreeUnrealDeal()) {
                 val dealVariation = hotel.packageOfferModel?.brandedDealData?.dealVariation ?: ""
                 return when (dealVariation) {
                     PackageOfferModel.DealVariation.FreeHotel -> resources.getString(R.string.free_hotel_deal)
                     PackageOfferModel.DealVariation.FreeFlight -> resources.getString(R.string.free_flight_deal)
-                    PackageOfferModel.DealVariation.HotelDeal -> getHotelDealMessage(hotel)
-                    PackageOfferModel.DealVariation.FreeOneNightHotel -> getFreeNightHotelMessage(hotel)
+                    PackageOfferModel.DealVariation.HotelDeal -> getHotelDealMessage()
+                    PackageOfferModel.DealVariation.FreeOneNightHotel -> getFreeNightHotelMessage()
                     else -> ""
                 }
             } else {
-                return getHotelDealMessage(hotel)
+                return getHotelDealMessage()
             }
         }
         return ""
     }
 
-    private fun getHotelDealMessage(hotel: Hotel): String {
+    private fun getHotelDealMessage(): String {
         return Phrase.from(resources.getString(R.string.hotel_deal_TEMPLATE))
                 .put("price", hotel.packageOfferModel?.brandedDealData?.savingsAmount)
                 .put("savings", hotel.packageOfferModel?.brandedDealData?.savingPercentageOverPackagePrice)
                 .format().toString()
     }
 
-    private fun getFreeNightHotelMessage(hotel: Hotel): String {
+    private fun getFreeNightHotelMessage(): String {
         val numberOfNights = hotel.packageOfferModel?.brandedDealData?.freeNights
         return Phrase.from(resources.getQuantityString(R.plurals.free_one_night_hotel_deal_TEMPLATE, numberOfNights?.toInt() ?: 1))
                 .put("night", numberOfNights)

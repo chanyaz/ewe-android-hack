@@ -20,10 +20,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.LayoutUtils
 import com.expedia.bookings.utils.bindView
@@ -32,11 +31,10 @@ import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellNameStarAmeni
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellPriceTopAmenity
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellVipMessage
-import com.expedia.util.subscribeColorFilter
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
-import com.expedia.util.getGuestRatingText
 import com.expedia.util.getGuestRatingBackground
+import com.expedia.util.getGuestRatingText
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
@@ -62,8 +60,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
     val guestRatingRecommendedText: TextView by root.bindView(R.id.guest_rating_recommended_text)
     val noGuestRating: TextView by root.bindView(R.id.no_guest_rating)
     val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
-    val ratingPointsContainer: LinearLayout by root.bindView (R.id.rating_earn_container)
-    val urgencyMessageContainer: HotelCellUrgencyMessage by root.bindView (R.id.urgency_message_layout)
+    val ratingPointsContainer: LinearLayout by root.bindView(R.id.rating_earn_container)
+    val urgencyMessageContainer: HotelCellUrgencyMessage by root.bindView(R.id.urgency_message_layout)
     val vipMessageContainer: HotelCellVipMessage by root.bindView(R.id.vip_message_container)
     val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
     val airAttachSVG: SVGView by root.bindView(R.id.air_attach_curve)
@@ -84,36 +82,30 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
     }
 
     @CallSuper
-    open fun bindViewModel() {
-        viewModel.hotelId.subscribe { hotelId ->
-            this.hotelId = hotelId
-        }
+    open fun bindHotelData(hotel: Hotel) {
+        viewModel.bindHotelData(hotel)
 
-        hotelNameStarAmenityDistance.bindHotelViewModel(viewModel)
-        hotelPriceTopAmenity.bindHotelViewModel(viewModel)
-        vipMessageContainer.bindHotelViewModel(viewModel)
-        urgencyMessageContainer.bindHotelViewModel(viewModel)
+        this.hotelId = hotel.hotelId
 
-        viewModel.hotelGuestRatingObservable.subscribe { rating ->
-            guestRating.text = rating.toString()
-            guestRating.background = getGuestRatingBackground(itemView.context)
-            guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
-        }
-        viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
-        viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRating)
-        viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRatingRecommendedText)
-        viewModel.noGuestRatingVisibility.subscribeVisibility(noGuestRating)
-        viewModel.showDiscountObservable.subscribeVisibility(discountPercentage)
-        viewModel.airAttachWithDiscountLabelVisibilityObservable.subscribeVisibility(airAttachContainer)
-        viewModel.airAttachIconWithoutDiscountLabelVisibility.subscribeVisibility(airAttachSWPImage)
-        viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
-        viewModel.earnMessagingObservable.subscribeText(earnMessagingText)
-        viewModel.earnMessagingVisibilityObservable.subscribeVisibility(earnMessagingText)
-        viewModel.ratingPointsContainerVisibilityObservable.subscribeVisibility(ratingPointsContainer)
+        hotelNameStarAmenityDistance.update(viewModel)
+        hotelPriceTopAmenity.update(viewModel)
+        vipMessageContainer.update(viewModel)
+        urgencyMessageContainer.update(viewModel)
 
-        viewModel.imageColorFilter.subscribeColorFilter(imageView)
+        imageView.colorFilter = viewModel.getImageColorFilter()
 
-        viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
+        updateDiscountPercentage()
+        updateHotelGuestRating()
+
+        updateAirAttach()
+
+        earnMessagingText.text = viewModel.earnMessage
+        earnMessagingText.updateVisibility(viewModel.showEarnMessage)
+
+        ratingPointsContainer.updateVisibility(viewModel.showRatingPointsContainer())
+
+        val url = viewModel.getHotelLargeThumbnailUrl()
+        if (url.isNotBlank()) {
             PicassoHelper.Builder(itemView.context)
                     .setPlaceholder(R.drawable.results_list_placeholder)
                     .setError(R.drawable.room_fallback)
@@ -123,13 +115,31 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
                     .load(HotelMedia(url).getBestUrls(width / 2))
         }
 
+        cardView.contentDescription = viewModel.getHotelContentDesc()
     }
 
-    @CallSuper
-    open fun bindHotelData(hotel: Hotel) {
-        viewModel.bindHotelData(hotel)
+    private fun updateAirAttach() {
+        airAttachContainer.updateVisibility(viewModel.showAirAttachWithDiscountLabel)
+        airAttachSWPImage.updateVisibility(viewModel.showAirAttachIconWithoutDiscountLabel)
+        airAttachDiscount.text = viewModel.hotelDiscountPercentage
+    }
 
-        cardView.contentDescription = viewModel.getHotelContentDesc(hotel)
+    private fun updateDiscountPercentage() {
+        discountPercentage.text = viewModel.hotelDiscountPercentage
+        discountPercentage.updateVisibility(viewModel.showDiscount)
+    }
+
+    private fun updateHotelGuestRating() {
+        if (viewModel.isHotelGuestRatingAvailable) {
+            val rating = viewModel.hotelGuestRating
+            guestRating.text = rating.toString()
+            guestRating.background = getGuestRatingBackground(itemView.context)
+            guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
+        }
+
+        guestRating.updateVisibility(viewModel.isHotelGuestRatingAvailable)
+        guestRatingRecommendedText.updateVisibility(viewModel.isHotelGuestRatingAvailable)
+        noGuestRating.setInverseVisibility(viewModel.isHotelGuestRatingAvailable)
     }
 
     override fun onClick(view: View) {

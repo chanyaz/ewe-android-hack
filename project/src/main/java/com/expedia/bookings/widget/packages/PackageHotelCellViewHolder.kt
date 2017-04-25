@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -24,8 +23,7 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCel
         bindViewModel()
     }
 
-    override fun bindViewModel() {
-        super.bindViewModel()
+    fun bindViewModel() {
         viewModel as PackageHotelViewModel
         viewModel.unrealDealMessageObservable.subscribeText(unrealDealMessage)
         viewModel.unrealDealMessageVisibilityObservable.subscribeVisibility(unrealDealMessageContainer)

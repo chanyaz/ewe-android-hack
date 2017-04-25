@@ -2,15 +2,11 @@ package com.expedia.bookings.widget.hotel.hotelCellModules
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextColor
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelViewModel
 
 class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -30,14 +26,14 @@ class HotelCellPriceTopAmenity(context: Context, attrs: AttributeSet) : LinearLa
         attrSet.recycle()
     }
 
-    fun bindHotelViewModel(viewModel: HotelViewModel) {
-        viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(strikeThroughPriceTextView)
-        viewModel.hotelStrikeThroughPriceFormatted.subscribeText(strikeThroughPriceTextView)
+    fun update(viewModel: HotelViewModel) {
+        strikeThroughPriceTextView.visibility = if (viewModel.shouldShowStrikeThroughPrice()) View.VISIBLE else View.GONE
+        strikeThroughPriceTextView.text = viewModel.hotelStrikeThroughPriceFormatted
 
-        viewModel.pricePerNightObservable.subscribeText(pricePerNightTextView)
-        viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNightTextView)
+        pricePerNightTextView.text = viewModel.pricePerNight
+        pricePerNightTextView.setTextColor(viewModel.pricePerNightColor)
 
-        viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTextView)
-        viewModel.topAmenityTitleObservable.subscribeText(topAmenityTextView)
+        topAmenityTextView.visibility = if (viewModel.topAmenityTitle.isNotBlank()) View.VISIBLE else View.GONE
+        topAmenityTextView.text = viewModel.topAmenityTitle
     }
 }

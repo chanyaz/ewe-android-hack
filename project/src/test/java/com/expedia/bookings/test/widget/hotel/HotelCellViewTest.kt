@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
-import com.mobiata.android.util.SettingUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +31,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -137,7 +134,6 @@ class HotelCellViewTest {
 
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("", hotelViewHolder.urgencyMessageContainer.urgencyMessageTextView.text)
-        Assert.assertEquals(View.GONE, hotelViewHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
     @Test fun testEarnMessaging() {

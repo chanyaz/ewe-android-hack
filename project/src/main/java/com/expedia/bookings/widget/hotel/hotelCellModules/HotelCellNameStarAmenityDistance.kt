@@ -9,10 +9,7 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeStarColor
-import com.expedia.util.subscribeStarRating
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import kotlin.properties.Delegates
 
@@ -45,12 +42,20 @@ class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : 
         attrSet.recycle()
     }
 
-    fun bindHotelViewModel(viewModel: HotelViewModel) {
-        viewModel.hotelNameObservable.subscribeText(hotelNameTextView)
-        viewModel.hotelStarRatingVisibilityObservable.subscribeVisibility(ratingBar)
-        viewModel.starRatingColor.subscribeStarColor(ratingBar)
-        viewModel.hotelStarRatingObservable.subscribeStarRating(ratingBar)
-        viewModel.hotelAmenityOrDistanceVisibilityObservable.subscribeVisibility(amenityOrDistanceFromLocationTextView)
-        viewModel.distanceFromCurrentLocation.subscribeText(amenityOrDistanceFromLocationTextView)
+    fun update(viewModel: HotelViewModel) {
+        hotelNameTextView.text = viewModel.hotelName
+        updateStarRating(viewModel)
+        updateAmenityAndDistance(viewModel)
+    }
+
+    private fun updateAmenityAndDistance(viewModel: HotelViewModel) {
+        amenityOrDistanceFromLocationTextView.text = viewModel.distanceFromCurrentLocation()
+        amenityOrDistanceFromLocationTextView.updateVisibility(viewModel.showHotelAmenityOrDistance)
+    }
+
+    private fun updateStarRating(viewModel: HotelViewModel) {
+        starRatingBar.updateVisibility(viewModel.showStarRating)
+        ratingBar.setRating(viewModel.hotelStarRating)
+        ratingBar.setStarColor(viewModel.getStarRatingColor())
     }
 }

@@ -114,7 +114,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             is AbstractHotelCellViewHolder -> {
                 val hotel = hotels[fixedPosition]
                 holder.bindHotelData(hotel)
-                hotelListItemsMetadata.add(HotelListItemMetadata(holder.viewModel.hotelId.value, holder.viewModel.soldOut))
+                hotelListItemsMetadata.add(HotelListItemMetadata(holder.hotelId, holder.viewModel.soldOut))
                 if (!newResultsConsumed) {
                     newResultsConsumed = true
                     allViewsLoadedTimeObservable.onNext(Unit)

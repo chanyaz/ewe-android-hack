@@ -23,245 +23,185 @@ import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.subjects.BehaviorSubject
 
 open class HotelViewModel(private val context: Context) {
-    val resources = context.resources
 
-    val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
+    var isHotelSoldOut = false
 
-    private val hotelObservable = BehaviorSubject.create<Hotel>()
+    protected val resources = context.resources
+    protected lateinit var hotel: Hotel
 
-    val hotelId = BehaviorSubject.create<String>()
+    private val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
+
     val soldOut = BehaviorSubject.create<Boolean>()
-    val starRatingColor = soldOut.map { if (it) ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
-    val imageColorFilter = soldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
-    val hotelNameObservable = BehaviorSubject.create<String>()
-    val hotelPriceFormatted = BehaviorSubject.create<CharSequence>()
-    val hotelStrikeThroughPriceFormatted = BehaviorSubject.create<CharSequence>()
-    val strikethroughPriceToShowUsers = BehaviorSubject.create<Float>()
-    val priceToShowUsers = BehaviorSubject.create<Float>()
-    val showPackageTripSavings = BehaviorSubject.create<Boolean>()
-    val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
 
-    val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>()
-    val showDiscountObservable = BehaviorSubject.create<Boolean>()
-    val hotelGuestRatingObservable = BehaviorSubject.create<Float>()
-    val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>()
-    val noGuestRatingVisibility = isHotelGuestRatingAvailableObservable.map { hasRating -> !hasRating }
-    val hotelPreviewRating = BehaviorSubject.create<Float>()
-    val hotelPreviewRatingVisibility = hotelPreviewRating.map { it >= 0.5f }
-    val pricePerNightObservable = BehaviorSubject.create<CharSequence>()
-    val pricePerNightColorObservable = BehaviorSubject.create<Int>()
+    val hotelId: String get() = hotel.hotelId
+    val hotelName: String get() = hotel.localizedName
+    val hotelPriceFormatted: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
+    val hotelStrikeThroughPriceFormatted: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage)
+    val strikeThroughPriceToShowUsers: Float get() = hotel.lowRateInfo?.strikethroughPriceToShowUsers ?: -1f
+    val priceToShowUsers: Float get() = hotel.lowRateInfo?.priceToShowUsers ?: -1f
+    val pricePerNight: CharSequence get() = priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)
+    val pricePerNightColor: Int get() = ContextCompat.getColor(context, getPricePerNightTextColor())
 
-    val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
-    val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
-    val mobileExclusiveUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
-    val soldOutUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
-    val memberDealUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
+    val topAmenityTitle: String get() = getTopAmenityTitle(resources)
+    val loyaltyAvailable: Boolean get() = hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false
+    val showDiscount: Boolean get() = (hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailable
+    val hotelDiscountPercentage: String get() = Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString()
 
-    val highestPriorityUrgencyMessageObservable = Observable.combineLatest(soldOutUrgency, memberDealUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency) {
-        soldOutUrgency, memberDealUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency ->
-        //Order in list below is important as it decides the priority of messages to be displayed in the urgency banner!
-        listOf(soldOutUrgency, memberDealUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency).firstOrNull { it != null }
+    val hotelStarRating: Float get() = hotel.hotelStarRating
+    val showStarRating: Boolean get() = hotelStarRating > 0
+    val hotelGuestRating: Float get() = hotel.hotelGuestRating ?: 0f
+    val isHotelGuestRatingAvailable: Boolean get() = hotelGuestRating > 0
+    val showNoGuestRating: Boolean get() = !isHotelGuestRatingAvailable
+    val showHotelPreviewRating: Boolean get() = hotelStarRating >= 0.5f
+    val showHotelAmenityOrDistance: Boolean get() = hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0
+
+    val earnMessage: String get() = LoyaltyUtil.getEarnMessagingString(context, hotel.isPackage, hotel.lowRateInfo?.loyaltyInfo?.earn, hotel.packageOfferModel?.loyaltyInfo?.earn)
+    val showEarnMessage: Boolean get() = LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)
+    val showAirAttachWithDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailable
+    val showAirAttachIconWithoutDiscountLabel: Boolean get() = (hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailable
+
+    init {
+        soldOut.subscribe { soldOut ->
+            isHotelSoldOut = soldOut
+        }
     }
-    val urgencyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val urgencyMessageBoxObservable = BehaviorSubject.create<String>()
-    val urgencyMessageTextColorObservable = BehaviorSubject.create<Int>()
-    val urgencyMessageBackgroundObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map {
-        ContextCompat.getColor(context, it!!.backgroundColorId)
-    }
-    val urgencyIconObservable = highestPriorityUrgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
-    val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
-
-    val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
-    val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>()
-    val earnMessagingObservable = BehaviorSubject.create<String>()
-    val earnMessagingVisibilityObservable = Observable.combineLatest(hotelObservable, earnMessagingObservable, { hotel, earnMessage ->
-        LoyaltyUtil.shouldShowEarnMessage(earnMessage, hotel.isPackage)
-    })
-    val topAmenityTitleObservable = BehaviorSubject.create<String>()
-    val topAmenityVisibilityObservable = topAmenityTitleObservable.map { topAmenityTitle ->
-        topAmenityTitle.isNotBlank()
-    }
-
-    val ratingPointsContainerVisibilityObservable = Observable.combineLatest(isHotelGuestRatingAvailableObservable, noGuestRatingVisibility, earnMessagingVisibilityObservable,
-            { guestRatingAvailable, noGuestRatingVisible, earnMessageVisible ->
-        guestRatingAvailable || noGuestRatingVisible || earnMessageVisible
-    })
-
-    val hotelStarRatingObservable = BehaviorSubject.create<Float>()
-    val hotelStarRatingContentDescriptionObservable = BehaviorSubject.create<String>()
-    val hotelStarRatingVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val hotelAmenityOrDistanceVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create<String>()
-    val hotelDiscountPercentageObservable = BehaviorSubject.create<String>()
-    val distanceFromCurrentLocation = BehaviorSubject.create<String>()
 
     @CallSuper
     open fun bindHotelData(hotel: Hotel) {
-        hotelObservable.onNext(hotel)
-
-        hotelId.onNext(hotel.hotelId)
-        soldOut.onNext(hotel.isSoldOut)
-        hotelNameObservable.onNext(hotel.localizedName)
-        hotelPriceFormatted.onNext(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
-        hotelStrikeThroughPriceFormatted.onNext(priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage))
-        strikethroughPriceToShowUsers.onNext(hotel.lowRateInfo?.strikethroughPriceToShowUsers ?: -1f)
-        priceToShowUsers.onNext(hotel.lowRateInfo?.priceToShowUsers ?: -1f)
-        showPackageTripSavings.onNext(hotel.isPackage && hotel.packageOfferModel?.price?.showTripSavings ?: false)
-        loyaltyAvailabilityObservable.onNext(hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false)
-        showDiscountObservable.onNext((hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailabilityObservable.value)
-        hotelGuestRatingObservable.onNext(hotel.hotelGuestRating)
-        isHotelGuestRatingAvailableObservable.onNext(hotel.hotelGuestRating > 0)
-        hotelPreviewRating.onNext(hotel.hotelStarRating)
-        pricePerNightObservable.onNext(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage))
-
-        airAttachWithDiscountLabelVisibilityObservable.onNext((hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailabilityObservable.value)
-        airAttachIconWithoutDiscountLabelVisibility.onNext((hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailabilityObservable.value)
-        earnMessagingObservable.onNext(LoyaltyUtil.getEarnMessagingString(context, hotel.isPackage, hotel.lowRateInfo?.loyaltyInfo?.earn, hotel.packageOfferModel?.loyaltyInfo?.earn))
-        topAmenityTitleObservable.onNext(getTopAmenityTitle(hotel, resources))
-
-        hotelStarRatingObservable.onNext(hotel.hotelStarRating)
-        hotelStarRatingVisibilityObservable.onNext(hotel.hotelStarRating > 0)
-        hotelAmenityOrDistanceVisibilityObservable.onNext(hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
-        hotelDiscountPercentageObservable.onNext(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString())
-        distanceFromCurrentLocation.onNext(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
+        this.hotel = hotel
+        this.isHotelSoldOut = hotel.isSoldOut
 
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
             AdImpressionTracking.trackAdClickOrImpressionWithTest(context, hotel.impressionTrackingUrl, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
             hotel.hasShownImpression = true
         }
+    }
 
-        Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut, showPackageTripSavings) {
-            strikethroughPriceToShowUsers, priceToShowUsers, soldOut, showPackageTripSavings ->
-            !soldOut && (if (hotel.isPackage) showPackageTripSavings else priceToShowUsers < strikethroughPriceToShowUsers) }.subscribe(hotelStrikeThroughPriceVisibility)
+    fun getStarRatingColor(): Int {
+        if (isHotelSoldOut) {
+            return ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray)
+        } else {
+            return ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color)
+        }
+    }
 
-        val url = if (hotel.isPackage) hotel.thumbnailUrl else Images.getMediaHost() + hotel.largeThumbnailUrl
-        if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)
+    fun getImageColorFilter() = if (isHotelSoldOut) HotelDetailView.zeroSaturationColorMatrixColorFilter else null
 
-        val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()
+    fun distanceFromCurrentLocation(): String {
+        if (hotel.proximityDistanceInMiles > 0) {
+            return HotelUtils.formatDistanceForNearby(resources, hotel, true)
+        } else return ""
+    }
+
+    fun shouldShowStrikeThroughPrice(): Boolean {
+        if (isHotelSoldOut) {
+            return false
+        }
+
+        if (hotel.isPackage) {
+            val showPackageTripSavings = hotel.packageOfferModel?.price?.showTripSavings ?: false
+            return showPackageTripSavings
+        } else {
+            return priceToShowUsers < strikeThroughPriceToShowUsers
+        }
+    }
+
+    fun getHotelLargeThumbnailUrl(): String {
+        if (hotel.isPackage) {
+            return hotel.thumbnailUrl ?: ""
+        }
+
+        return Images.getMediaHost() + hotel.largeThumbnailUrl
+    }
+
+    fun showVipMessage(): Boolean {
+        return (hotel.isVipAccess ?: false) && PointOfSale.getPointOfSale().supportsVipAccess()
+    }
+
+    fun showVipLoyaltyMessage(): Boolean {
         val isMidOrTopTier = Db.getUser()?.primaryTraveler?.loyaltyMembershipTier?.isMidOrTopTier ?: false
-        vipMessageVisibilityObservable.onNext(isVipAvailable)
-        val isVipLoyaltyApplied = isVipAvailable && isMidOrTopTier && loyaltyAvailabilityObservable.value
-        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
-
-        val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
-        mapLoyaltyMessageTextObservable.onNext(HtmlCompat.fromHtml(mapLoyaltyMessageString))
-
-        soldOut.map { soldOut ->
-            if (soldOut) {
-                UrgencyMessage(null, R.color.hotel_sold_out_color,
-                        resources.getString(R.string.trip_bucket_sold_out))
-            } else {
-                null
-            }
-        }.subscribe(soldOutUrgency)
-
-        if (hasMemberDeal(hotel)) {
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelMemberPricingBadge)) {
-                memberDealUrgency.onNext(HotelViewModel.UrgencyMessage(R.drawable.ic_hotel_member_test, R.color.hotel_member_pricing_color_test,
-                        resources.getString(R.string.member_pricing)))
-                urgencyMessageTextColorObservable.onNext(ContextCompat.getColor(context, R.color.hotel_member_pricing_color))
-            } else {
-                memberDealUrgency.onNext(HotelViewModel.UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
-                        resources.getString(R.string.member_pricing)))
-                urgencyMessageTextColorObservable.onNext(ContextCompat.getColor(context, R.color.white))
-            }
-        } else {
-            memberDealUrgency.onNext(null)
-            urgencyMessageTextColorObservable.onNext(ContextCompat.getColor(context, R.color.white))
-        }
-
-        if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
-            fewRoomsLeftUrgency.onNext(UrgencyMessage(R.drawable.urgency, R.color.hotel_urgency_message_color,
-                    resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)))
-        } else {
-            fewRoomsLeftUrgency.onNext(null)
-        }
-
-        if (hotel.isSameDayDRR) {
-            tonightOnlyUrgency.onNext(UrgencyMessage(R.drawable.tonight_only, R.color.hotel_tonight_only_color,
-                    resources.getString(R.string.tonight_only)))
-        } else {
-            tonightOnlyUrgency.onNext(null)
-        }
-
-        if (hotel.isDiscountRestrictedToCurrentSourceType) {
-            if (ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable == 0) {
-                mobileExclusiveUrgency.onNext(UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
-                        resources.getString(R.string.mobile_exclusive)))
-            } else {
-                mobileExclusiveUrgency.onNext(UrgencyMessage(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable,
-                        R.color.hotel_mobile_exclusive_color, ""))
-            }
-        } else {
-            mobileExclusiveUrgency.onNext(null)
-        }
-
-        highestPriorityUrgencyMessageObservable.map { it != null }.subscribe(urgencyMessageVisibilityObservable)
-        highestPriorityUrgencyMessageObservable.filter { it != null }.map {
-            it!!.message
-        }.subscribe(urgencyMessageBoxObservable)
-
-        hotelStarRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt()))
-
-        pricePerNightColorObservable.onNext(ContextCompat.getColor(context, getPricePerNightTextColor(hotel)))
+        return showVipMessage() && isMidOrTopTier && loyaltyAvailable
     }
 
-    private fun getTopAmenityTitle(hotel: Hotel, resources: Resources): String {
-        if (hotel.isSponsoredListing) {
-            return resources.getString(R.string.sponsored)
-        } else if (hotel.isShowEtpChoice) {
-            return resources.getString(R.string.book_now_pay_later)
-        } else if (hotel.hasFreeCancellation) {
-            return resources.getString(R.string.free_cancellation)
+    fun getMapLoyaltyMessageText(): Spanned {
+        if (showVipLoyaltyMessage()) {
+            return HtmlCompat.fromHtml(resources.getString(R.string.vip_loyalty_applied_map_message))
+        } else {
+            return HtmlCompat.fromHtml(resources.getString(R.string.regular_loyalty_applied_message))
         }
-        else return ""
     }
 
-    data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String)
+    fun showRatingPointsContainer(): Boolean {
+        return isHotelGuestRatingAvailable || showNoGuestRating || showEarnMessage
+    }
+
+    fun getHighestPriorityUrgencyMessage(): UrgencyMessage? {
+        val soldOutUrgency = getSoldOutUrgencyMessage()
+
+        if (soldOutUrgency != null) {
+            return soldOutUrgency
+        }
+
+        val memberDealUrgency = getMemberDealUrgencyMessage()
+        if (memberDealUrgency != null) {
+            return memberDealUrgency
+        }
+
+        val fewRoomsLeftUrgency = getFewRoomsLeftUrgencyMessage()
+        if (fewRoomsLeftUrgency != null) {
+            return fewRoomsLeftUrgency
+        }
+
+        val tonightOnlyUrgency = getTonightOnlyUrgencyMessage()
+        if (tonightOnlyUrgency != null) {
+            return tonightOnlyUrgency
+        }
+
+        return getMobileExclusiveUrgencyMessage()
+    }
 
     open fun hasMemberDeal(hotel: Hotel): Boolean {
         return hotel.isMemberDeal && User.isLoggedIn(context)
     }
 
     fun getRatingContentDesc(hotel: Hotel): String {
-        var phrase: Phrase
+        val phrase: Phrase
+        val hotelStarRatingContentDescription = HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt())
+
         if (hotel.hotelStarRating.toInt() <= 0 && hotel.hotelGuestRating <= 0f) {
             phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE)
                     .put("hotel", hotel.localizedName)
         } else if (hotel.hotelStarRating.toInt() <= 0) {
             phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_TEMPLATE)
                     .put("hotel", hotel.localizedName)
-                    .put("guestrating", hotelGuestRatingObservable.value.toString())
+                    .put("guestrating", hotel.hotelGuestRating.toString())
         } else if (hotel.hotelGuestRating <= 0f) {
             phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_guestrating_TEMPLATE)
                     .put("hotel", hotel.localizedName)
-                    .put("starrating", hotelStarRatingContentDescriptionObservable.value)
+                    .put("starrating", hotelStarRatingContentDescription)
         } else {
             phrase = Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
                     .put("hotel", hotel.localizedName)
-                    .put("starrating", hotelStarRatingContentDescriptionObservable.value)
-                    .put("guestrating", hotelGuestRatingObservable.value.toString())
+                    .put("starrating", hotelStarRatingContentDescription)
+                    .put("guestrating", hotel.hotelGuestRating.toString())
         }
         return phrase.format().toString()
     }
 
-    open fun getHotelContentDesc(hotel: Hotel): CharSequence {
+    open fun getHotelContentDesc(): CharSequence {
         val result = SpannableBuilder()
         result.append(getRatingContentDesc(hotel))
 
-        if (urgencyMessageVisibilityObservable.value) {
-            result.append(urgencyMessageBoxObservable.value + " ")
+        val urgencyMessage = getHighestPriorityUrgencyMessage()
+        if (urgencyMessage != null) {
+            result.append(urgencyMessage.message + " ")
         }
 
-        if (showDiscountObservable.value) {
-            val discountPercentage = Phrase.from(context , R.string.hotel_discount_percent_Template)
+        if (showDiscount) {
+            val discountPercentage = Phrase.from(context, R.string.hotel_discount_percent_Template)
                     .put("discount", Math.abs(hotel.lowRateInfo?.discountPercent?.toInt() ?: 0))
                     .format()
                     .toString()
@@ -272,19 +212,19 @@ open class HotelViewModel(private val context: Context) {
                     .toString())
         }
 
-        result.append(earnMessagingObservable.value + " ")
+        result.append(earnMessage + " ")
 
-        if (hotelStrikeThroughPriceVisibility.value) {
+        if (shouldShowStrikeThroughPrice()) {
             result.append(Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
-                    .put("strikethroughprice", hotelStrikeThroughPriceFormatted.value)
-                    .put("price", pricePerNightObservable.value)
+                    .put("strikethroughprice", hotelStrikeThroughPriceFormatted)
+                    .put("price", pricePerNight)
                     .format()
                     .toString())
         } else {
             result.append(Phrase.from(context, R.string.hotel_card_view_price_cont_desc_TEMPLATE)
-                .put("price", pricePerNightObservable.value)
-                .format()
-                .toString())
+                    .put("price", pricePerNight)
+                    .format()
+                    .toString())
         }
 
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
@@ -292,10 +232,83 @@ open class HotelViewModel(private val context: Context) {
         return result.build()
     }
 
-    private fun getPricePerNightTextColor(hotel: Hotel): Int {
+    private fun getSoldOutUrgencyMessage(): UrgencyMessage? {
+        if (isHotelSoldOut) {
+            return UrgencyMessage(null, R.color.hotel_sold_out_color, resources.getString(R.string.trip_bucket_sold_out))
+        }
+        return null
+    }
+
+    private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
+        if (hasMemberDeal(hotel)) {
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelMemberPricingBadge)) {
+                return UrgencyMessage(R.drawable.ic_hotel_member_test, R.color.hotel_member_pricing_color_test,
+                        resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_color)
+            } else {
+                return UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
+                        resources.getString(R.string.member_pricing))
+            }
+        }
+        return null
+    }
+
+    private fun getFewRoomsLeftUrgencyMessage(): UrgencyMessage? {
+        if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
+            return UrgencyMessage(R.drawable.urgency, R.color.hotel_urgency_message_color,
+                    resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate))
+        }
+        return null
+    }
+
+    private fun getTonightOnlyUrgencyMessage(): UrgencyMessage? {
+        if (hotel.isSameDayDRR) {
+            return UrgencyMessage(R.drawable.tonight_only, R.color.hotel_tonight_only_color,
+                    resources.getString(R.string.tonight_only))
+        }
+        return null
+    }
+
+    private fun getMobileExclusiveUrgencyMessage(): UrgencyMessage? {
+        if (hotel.isDiscountRestrictedToCurrentSourceType) {
+            if (ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable == 0) {
+                return UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
+                        resources.getString(R.string.mobile_exclusive))
+            } else {
+                return UrgencyMessage(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable,
+                        R.color.hotel_mobile_exclusive_color, "")
+            }
+        }
+        return null
+    }
+
+    private fun getTopAmenityTitle(resources: Resources): String {
+        if (hotel.isSponsoredListing) {
+            return resources.getString(R.string.sponsored)
+        } else if (hotel.isShowEtpChoice) {
+            return resources.getString(R.string.book_now_pay_later)
+        } else if (hotel.hasFreeCancellation) {
+            return resources.getString(R.string.free_cancellation)
+        } else return ""
+    }
+
+    private fun getPricePerNightTextColor(): Int {
         if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
             return R.color.hotels_primary_color
         }
         return R.color.hotel_cell_gray_text
+    }
+
+    data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String, val messageTextColorId: Int = R.color.white) {
+        fun hasIconDrawable(): Boolean {
+            return iconDrawableId != null
+        }
+
+        fun getMessageTextColor(context: Context): Int {
+            return ContextCompat.getColor(context, messageTextColorId)
+        }
+
+        fun getBackgroundColor(context: Context): Int {
+            return ContextCompat.getColor(context, backgroundColorId)
+        }
     }
 }

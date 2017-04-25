@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -19,7 +18,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.packages.PackageHotelCellViewHolder
 import org.junit.Assert
 import org.junit.Before
@@ -129,7 +127,6 @@ class PackageHotelCellTest {
 
         Assert.assertEquals(View.GONE, packageHotelHolder.urgencyMessageContainer.visibility)
         Assert.assertEquals("", packageHotelHolder.urgencyMessageContainer.urgencyMessageTextView.text)
-        Assert.assertEquals(View.GONE, packageHotelHolder.urgencyMessageContainer.urgencyIconImageView.visibility)
     }
 
     @Test fun testPriceIncludesFlights() {
