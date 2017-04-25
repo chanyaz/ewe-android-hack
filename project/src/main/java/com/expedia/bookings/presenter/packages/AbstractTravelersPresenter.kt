@@ -155,6 +155,9 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
             travelerEntryWidget.viewModel.validate()
         }
+        else if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.CLEAN) {
+            travelerEntryWidget.resetErrorState()
+        }
     }
 
     private fun showPickerWidget() {

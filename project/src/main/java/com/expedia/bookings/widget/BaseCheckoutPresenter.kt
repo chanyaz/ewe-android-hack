@@ -628,9 +628,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 Ui.hideKeyboard(travelersPresenter)
                 travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelersPresenter.viewModel.updateCompletionStatus()
-                if (travelersPresenter.viewModel.areTravelersEmpty()) {
-                    travelersPresenter.travelerEntryWidget.resetErrorState()
-                }
                 setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
                 travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
