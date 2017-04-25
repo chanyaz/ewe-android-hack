@@ -96,16 +96,17 @@ public class FlightDetailsScreenSteps {
 			.check(matches(withText(containsString(price))));
 
 	}
+
 	@And("^flight time on the flight details is \"([^\"]*)\"$")
 	public void verifyFlightDepartureArrivalTime(String time) throws Throwable {
-		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+		onView(allOf(withParent(withParent(withParent(withParent(withId(R.id.breakdown_container))))),
 			withId(R.id.departure_arrival_time), withText(time)))
 			.check(matches(isDisplayed()));
 	}
 
 	@And("^flight time for segment (\\d+) on the flight details is \"([^\"]*)\"$")
 	public void verifyFlightDepartureArrivalTimeForMultileg(int seg, String time) throws Throwable {
-		onView(allOf(withParent(withParent(withParent(withId(R.id.breakdown_container)))),
+		onView(allOf(withParent(withParent(withParent(withParent(withId(R.id.breakdown_container))))),
 			withId(R.id.departure_arrival_time), withText(time)))
 			.check(matches(isDisplayed()));
 	}
