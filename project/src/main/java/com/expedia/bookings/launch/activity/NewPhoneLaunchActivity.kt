@@ -279,7 +279,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
                     newPhoneLaunchFragment?.smoothScrollToTop()
                 }
-
             }
 
             if (tab.position != pagerPosition) {
@@ -301,6 +300,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     @Synchronized private fun gotoWaterfall() {
+
         if (pagerPosition != PAGER_POS_LAUNCH) {
             pagerPosition = PAGER_POS_LAUNCH
             viewPager.currentItem = PAGER_POS_LAUNCH
@@ -316,6 +316,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     @Synchronized private fun gotoItineraries() {
+        itinListFragment?.logCrystalThemeExposure()
+
         if (pagerPosition != PAGER_POS_ITIN) {
 
             itinListFragment?.resetTrackingState()
@@ -329,6 +331,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 supportInvalidateOptionsMenu()
             }
         }
+
         if (jumpToItinId != null) {
             itinListFragment?.showItinCard(jumpToItinId, false)
             jumpToItinId = null
