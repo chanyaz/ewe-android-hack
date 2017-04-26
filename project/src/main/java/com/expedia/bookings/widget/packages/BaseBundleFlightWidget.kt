@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -42,6 +44,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     abstract fun isInboundFlight(): Boolean
     var showFlightCabinClass = false
     var showCollapseIcon: Boolean = false
+    val isUserBucketedForRateDetailExpansionTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)
 
     protected val opacity: Float = 0.25f
 
@@ -52,7 +55,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     val travelInfoText: TextView by bindView(R.id.travel_info_view_text)
     val flightIcon: ImageView by bindView(R.id.package_flight_icon)
     lateinit var flightDetailsIcon: ImageView
-    lateinit var flightCollapseIcon: ImageView
+    var flightCollapseIcon: ImageView? = null
 
     val forwardArrow: ImageView by bindView(R.id.flight_forward_arrow_icon)
     val flightDetailsContainer: ViewGroup by bindView(R.id.flight_details_container)
@@ -144,6 +147,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightViewModel(context, selectedFlight))
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
+            if (isUserBucketedForRateDetailExpansionTest) {
+                expandFlightDetails(false)
+            }
         }
     }
 
@@ -161,7 +167,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     fun expandFlightDetails(trackClick: Boolean = true) {
         viewModel.flightsRowExpanded.onNext(Unit)
-        if (viewModel.showRowContainerWithMoreInfo.value) {
+        if (viewModel.showRowContainerWithMoreInfo.value && flightCollapseIcon != null) {
             rowContainer.visibility = Presenter.GONE
             AnimUtils.rotate(flightCollapseIcon)
         }
@@ -174,7 +180,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
     fun collapseFlightDetails(trackClick: Boolean = false) {
         flightDetailsContainer.visibility = Presenter.GONE
-        if (viewModel.showRowContainerWithMoreInfo.value) {
+        if (viewModel.showRowContainerWithMoreInfo.value && flightCollapseIcon != null) {
             rowContainer.visibility = Presenter.VISIBLE
             AnimUtils.reverseRotate(flightCollapseIcon)
         }
@@ -189,7 +195,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     }
 
     fun backButtonPressed() {
-        if (isFlightSegmentDetailsExpanded()) {
+        if (isUserBucketedForRateDetailExpansionTest && !isFlightSegmentDetailsExpanded()) {
+            expandFlightDetails()
+        } else if (isFlightSegmentDetailsExpanded()) {
             collapseFlightDetails()
         }
     }
