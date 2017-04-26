@@ -198,7 +198,7 @@ android {
         versionCode 1
         versionName "undefined"
 
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 23
 
         multiDexEnabled = true

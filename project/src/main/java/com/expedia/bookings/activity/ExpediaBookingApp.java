@@ -5,12 +5,12 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -73,10 +73,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
 import io.fabric.sdk.android.Fabric;
 
-public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
+public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 

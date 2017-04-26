@@ -184,9 +184,6 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
 
             itineraryNumber.onNext(itinNumber)
             itineraryNumberLabel.onNext(context.resources.getString(R.string.successful_checkout_TEMPLATE, itinNumber))
-            checkInDate.onNext(checkInLocalDate)
-            checkOutDate.onNext(checkOutLocalDate)
-            formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
 
             if (!Strings.isEmpty(photoThumbnailURL))
                 bigImageUrl.onNext(BuildConfig.MEDIA_URL + photoThumbnailURL)
