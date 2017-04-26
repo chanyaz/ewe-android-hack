@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -73,6 +75,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		else {
 			handleAppLaunch();
 		}
+
 	}
 
 	private void launchOpeningView() {
@@ -96,6 +99,9 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
+			if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_new_user_onboarding)) {
+				query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
+			}
 			if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_itin_crystal_theme)) {
 				query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
 			}
@@ -137,6 +143,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	};
 
 	private void finishActivity() {
+		SettingUtils.save(this, R.string.preference_onboarding_complete, true);
 		finish();
 		overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
 	}
@@ -213,14 +220,27 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				if (destination == LaunchDestination.LAUNCH_SCREEN) {
-					NavUtils.goToLaunchScreen(RouterActivity.this);
+				if (showNewUserOnboarding()) {
+					Intent intent = new Intent(RouterActivity.this, OnboardingActivity.class);
+					startActivity(intent);
 				}
 				else {
-					NavUtils.goToSignIn(RouterActivity.this);
+					if (destination == LaunchDestination.LAUNCH_SCREEN) {
+						NavUtils.goToLaunchScreen(RouterActivity.this);
+					}
+					else {
+						NavUtils.goToSignIn(RouterActivity.this);
+					}
 				}
 				finishActivity();
 			}
 		}, getResources().getInteger(android.R.integer.config_longAnimTime));
+	}
+
+	private boolean showNewUserOnboarding() {
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppUserOnboarding, R.string.preference_enable_new_user_onboarding)) {
+			return true;
+		}
+		return !SettingUtils.get(this, R.string.preference_onboarding_complete, false) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUserOnboarding);
 	}
 }

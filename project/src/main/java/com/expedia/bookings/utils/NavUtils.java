@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
@@ -133,13 +132,10 @@ public class NavUtils {
 	}
 
 	public static void goToSignIn(Context context, boolean showAccount, boolean useItinSyncExtender, int flags) {
-
-		TaskStackBuilder builder = TaskStackBuilder.create(context);
 		Intent intent = getLaunchIntent(context);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, showAccount);
-		builder.addNextIntent(intent);
-		builder.startActivities();
+		context.startActivity(intent);
 		Bundle bundle = new Bundle();
 		if (useItinSyncExtender) {
 			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItinerarySyncLoginExtender());

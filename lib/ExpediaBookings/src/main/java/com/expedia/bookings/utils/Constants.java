@@ -68,4 +68,11 @@ public class Constants {
 
 	//Save hotels map state
 	public static final String HOTELS_MAP_STATE = "HOTELS_MAP_STATE";
+
+	//	New User Onboarding
+	public static final int SWIPE_MIN_DISTANCE = 120;
+	public static final int SWIPE_THRESHOLD_VELOCITY = 250;
+	public static final String ONBOARDING_BOOKING_PAGE_URL = "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/Onboarding/expedia-onboarding-ad-1.jpg";
+	public static final String ONBOARDING_TRIP_PAGE_URL = "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/Onboarding/expedia-onboarding-ad-2.jpg";
+	public static final String ONBOARDING_REWARD_PAGE_URL = "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/Onboarding/expedia-onboarding-ad-3.jpg";
 }

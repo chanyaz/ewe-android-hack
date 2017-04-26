@@ -1035,6 +1035,16 @@
     <!-- Subtext for active itin card on guest user's launch screen -->
     <string name="launch_upcoming_trips_subtext_guest_user">Check the status of your existing trip and get updates in the app</string>
 
+    <!--Onboarding-->
+    <string name="booking_page_title">Book on the go</string>
+    <string name="booking_page_subtitle">Find the perfect flight, hotel, activities and more all from our app</string>
+    <string name="trip_page_title">Travel confidently</string>
+    <string name="trip_page_subtitle">Access your reservation details and get alerts on the go</string>
+    <string name="reward_page_title">Get rewarded</string>
+    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <string name="reward_page_subtitle_TEMPLATE">Sign up for a free {brand_reward_name} account and earn points on all your purchases</string>
+    <string name="onboarding_final_button_text">LET\'S GO</string>
+
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Unfortunately, we can\'t connect.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->

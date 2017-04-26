@@ -100,6 +100,7 @@
     <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
     <string name="preference_user_has_booked_hotel_or_flight">preference_user_has_booked_hotel_or_flight</string>
     <string name="preference_date_last_review_prompt_shown">preference_date_last_review_prompt_shown</string>
+    <string name="preference_onboarding_complete">preference_onboarding_complete</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
@@ -115,6 +116,7 @@
     <string name="preference_itin_crystal_theme">preference_itin_crystal_theme</string>
     <string name="preference_show_more_info_on_flight_overview">preference_show_more_info_on_flight_overviewg</string>
     <string name="preference_hotel_group_room_and_rate">preference_hotel_group_room_and_rate</string>
+    <string name="preference_enable_new_user_onboarding">preference_enable_new_user_onboarding</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
