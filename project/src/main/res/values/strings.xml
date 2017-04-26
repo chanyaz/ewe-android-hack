@@ -4232,6 +4232,8 @@
 
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}.</string>
+    <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1. 10 Years old selected."-->
+    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}. {currentselection} selected.</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">Select age for youth {youthnumber}.</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->

@@ -44,6 +44,12 @@
                     android:orientation="horizontal"
                     android:textSize="15sp">
 
+                    <!-- Empty text view for fixing a11y issue where first item of the dialog is being called on selecting a spinner item -->
+                    <TextView
+                        android:layout_width="1px"
+                        android:layout_height="1px"
+                        android:text=" " />
+
                     <ImageButton
                         android:id="@+id/adults_minus"
                         style="@style/TravelerIcon.Minus"
