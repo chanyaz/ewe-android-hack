@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -15,13 +13,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.DomainAdapter;
@@ -29,6 +27,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
+import java.util.List;
 
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {
@@ -238,6 +237,8 @@ public class AboutUtils {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
+			final Boolean isFeatureEnabled = FeatureToggleUtil
+				.isFeatureEnabled(getContext(), R.string.preference_change_pos_warning_message);
 
 			List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(getActivity());
 			int len = poses.size();
@@ -261,12 +262,20 @@ public class AboutUtils {
 			builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, final int newIndex) {
 					if (newIndex != startingIndex) {
-						ClearDataDialog clearDataDialog = new ClearDataDialog();
-
-						Bundle args = new Bundle();
-						args.putInt("selectedCountryPosId", entryValues[newIndex]);
-						clearDataDialog.setArguments(args);
-						((CountrySelectDialogListener) getActivity()).showDialogFragment(clearDataDialog);
+						if (isFeatureEnabled) {
+							ClearPrivateDataDialog clearDataDialog = new ClearPrivateDataDialog();
+							Bundle args = new Bundle();
+							args.putInt("selectedCountryPosId", entryValues[newIndex]);
+							clearDataDialog.setArguments(args);
+							((CountrySelectDialogListener) getActivity()).showDialogFragment(clearDataDialog);
+						}
+						else {
+							ClearDataDialog clearDataDialog = new ClearDataDialog();
+							Bundle args = new Bundle();
+							args.putInt("selectedCountryPosId", entryValues[newIndex]);
+							clearDataDialog.setArguments(args);
+							((CountrySelectDialogListener) getActivity()).showDialogFragment(clearDataDialog);
+						}
 					}
 				}
 			});
