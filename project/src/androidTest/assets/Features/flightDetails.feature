@@ -17,13 +17,13 @@ Feature: Flight Details on a seperate screen
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I click on the flight with airline name "happy_round_trip" at "21:00 - 23:00"
+    And I click on the flight with airline name "happy_round_trip" at "9:00 pm - 11:00 pm"
     Then on flight details screen the destination is "Delhi, India"
     And on flight details the traveler count is 5
     And on Flight detail check the date is as user selected
     And price displayed on flight details is "$696.00"
     And on flight details screen the urgency text is "1 seat left"
-    And flight time on the flight details is "21:00 - 23:00"
+    And flight time on the flight details is "9:00 pm - 11:00 pm"
     And airport names on the flight details is "(SFO) SFO - (DEL) DEL"
     And airline name on the flight details is "happy_round_trip"
     And flight duration on the flight details is "2h 0m"
@@ -47,18 +47,18 @@ Feature: Flight Details on a seperate screen
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I click on the flight with airline name "Virgin America" at "17:40 - 22:15"
+    And I click on the flight with airline name "Virgin America" at "5:40 pm - 10:15 pm"
     Then on flight details screen the destination is "Delhi, India"
     And on flight details the traveler count is 5
     And on Flight detail check the date is as user selected
     And price displayed on flight details is "$800.00"
-    And flight time for segment 1 on the flight details is "17:40 - 20:15"
+    And flight time for segment 1 on the flight details is "5:40 pm - 8:15 pm"
     And airport names on the flight details is "(SEA) Seattle, USA - (LAX) Los Angeles, USA"
     And airline name on the flight details is "Virgin America 798"
     And flight duration on the flight details is "2h 35m"
     And flight layover airport is "Layover in (LAX) Los Angeles, USA"
     And flight layover is for "45m"
-    And flight time for segment 2 on the flight details is "21:00 - 22:15"
+    And flight time for segment 2 on the flight details is "9:00 pm - 10:15 pm"
     And airport names on the flight details is "(LAX) Los Angeles, USA - (SFO) San Francisco, USA"
     And airline name on the flight details is "Virgin America 947"
     And flight duration on the flight details is "1h 15m"
@@ -80,7 +80,7 @@ Feature: Flight Details on a seperate screen
         | adults              | 3                                        |
         | child               | 2                                        |
       And I wait for results to load
-      And I click on the flight with airline name "happy_round_trip" at "21:00 - 23:00"
+      And I click on the flight with airline name "happy_round_trip" at "9:00 pm - 11:00 pm"
       And I press back
       And Validate that flight search results are displayed
 
@@ -98,21 +98,21 @@ Feature: Flight Details on a seperate screen
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I click on the flight with airline name "happy_round_trip" at "21:00 - 23:00"
+    And I click on the flight with airline name "happy_round_trip" at "9:00 pm - 11:00 pm"
     And I press back
     And Validate that flight search results are displayed
-    And I click on the flight with airline name "Virgin America" at "17:40 - 22:15"
+    And I click on the flight with airline name "Virgin America" at "5:40 pm - 10:15 pm"
     Then on flight details screen the destination is "Delhi, India"
     And on flight details the traveler count is 5
     And on Flight detail check the date is as user selected
     And price displayed on flight details is "$800.00"
-    And flight time for segment 1 on the flight details is "17:40 - 20:15"
+    And flight time for segment 1 on the flight details is "5:40 pm - 8:15 pm"
     And airport names on the flight details is "(SEA) Seattle, USA - (LAX) Los Angeles, USA"
     And airline name on the flight details is "Virgin America 798"
     And flight duration on the flight details is "2h 35m"
     And flight layover airport is "Layover in (LAX) Los Angeles, USA"
     And flight layover is for "45m"
-    And flight time for segment 2 on the flight details is "21:00 - 22:15"
+    And flight time for segment 2 on the flight details is "9:00 pm - 10:15 pm"
     And airport names on the flight details is "(LAX) Los Angeles, USA - (SFO) San Francisco, USA"
     And airline name on the flight details is "Virgin America 947"
     And flight duration on the flight details is "1h 15m"
