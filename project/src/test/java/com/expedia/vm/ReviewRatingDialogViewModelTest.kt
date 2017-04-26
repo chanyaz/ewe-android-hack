@@ -100,6 +100,7 @@ class ReviewRatingDialogViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY))
     fun testReviewPromptOnlyShowsAgainAfterCleared() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
 
@@ -111,6 +112,7 @@ class ReviewRatingDialogViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY))
     fun testReviewPromptShowsAfterThreeMonths() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
 
@@ -122,6 +124,7 @@ class ReviewRatingDialogViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY))
     fun testReviewPromptDoesNotShowBeforeThreeMonths() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
 
@@ -133,6 +136,7 @@ class ReviewRatingDialogViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.AIRASIAGO, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS, MultiBrand.CHEAPTICKETS, MultiBrand.WOTIF, MultiBrand.MRJET, MultiBrand.TRAVELOCITY))
     fun testReviewPromptDoesNotShowThreeMonthsInFuture() {
         SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
 
