@@ -47,7 +47,7 @@
             android:background="#FDFDFD"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <com.expedia.bookings.widget.SlideToWidgetLL
                 android:id="@+id/slide_to_purchase_widget"
