@@ -69,7 +69,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
             val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             destinationCardView.setText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             showDefault()
         }
     }

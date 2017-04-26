@@ -88,7 +88,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             updateDestinationText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             showDefault()
         }
     }

@@ -12,6 +12,7 @@ public class SuggestionStrUtils {
 	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
+	private static final Pattern DASH_WITHOUT_SPACES = Pattern.compile("\\S-\\S");
 
 
 	public static String formatCityName(String suggestion) {
@@ -47,9 +48,15 @@ public class SuggestionStrUtils {
 		if (cityCountryMatcher.find()) {
 			city = cityCountryMatcher.group(1);
 		}
-		if (city != null && city.contains("-")) {
-			city = city.replace("-", " - ");
-		}
+		city = formatDashWithoutSpace(city);
 		return city;
+	}
+
+	public static String formatDashWithoutSpace(String name) {
+		Matcher dashWithoutSpace = DASH_WITHOUT_SPACES.matcher(name);
+		if (dashWithoutSpace.find()) {
+			name = name.replace("-", " - ");
+		}
+		return name;
 	}
 }

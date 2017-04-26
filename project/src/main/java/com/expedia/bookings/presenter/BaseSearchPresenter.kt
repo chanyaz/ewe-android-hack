@@ -132,7 +132,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         return { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
             observer.onNext(suggestion)
-            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
+            SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
             val isOriginSelected = (observer == getSearchViewModel().originLocationObserver)
             if (isOriginSelected) {
                 firstLaunch = false
@@ -539,6 +539,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    open fun shouldSaveSuggestionHierarchyChildInfo(): Boolean {
+        return false
+    }
     abstract fun inflate()
     abstract fun getSuggestionHistoryFileName(): String
     abstract fun getSuggestionViewModel(): SuggestionAdapterViewModel
