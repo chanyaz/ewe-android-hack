@@ -7,6 +7,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
@@ -83,7 +84,7 @@ class UserReviewDialogViewModel(val context: Context) {
             val lastDate = DateTime(SettingUtils.get(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().millis))
             val hasBeenAtLeast3Months = Period(lastDate, DateTime.now(), PeriodType.yearMonthDayTime()).months >= 3
 
-            if ((!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight) {
+            if (ProductFlavorFeatureConfiguration.getInstance().shouldShowUserReview() && (!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight) {
                 OmnitureTracking.trackItinUserRating()
                 return true
             }

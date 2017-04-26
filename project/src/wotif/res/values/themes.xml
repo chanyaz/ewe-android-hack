@@ -64,6 +64,8 @@
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
         <item name="itin_card_detail_departure_drawable">@drawable/ic_departure_details</item>
         <item name="itin_card_detail_arrival_drawable">@drawable/ic_arrival_details</item>
+        <item name="itin_list_bg">#212527</item>
+        <item name="itin_card_bg">@drawable/bg_itin_card</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">

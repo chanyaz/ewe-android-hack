@@ -4,6 +4,8 @@
 
     <!-- Email addresses -->
     <string name="email_app_support">lastminute-android@mobiata.com</string>
+    <string name="email_app_review_feedback">lastminute-android@mobiata.com</string>
+
     <!-- App Support URL -->
     <string name="app_support_url_lastminute">http://www.mobiata.com/support/lastminute/android</string>
 
