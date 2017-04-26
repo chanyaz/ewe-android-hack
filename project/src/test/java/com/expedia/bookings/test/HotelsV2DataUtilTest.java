@@ -157,6 +157,7 @@ public class HotelsV2DataUtilTest {
 		Assert.assertEquals(testArrivalAirport.gaiaId, v2params.getSuggestion().gaiaId);
 		Assert.assertEquals(testArrivalAirport.coordinates, v2params.getSuggestion().coordinates);
 		Assert.assertEquals(testArrivalAirport.type, v2params.getSuggestion().type);
+		Assert.assertTrue(v2params.getShopWithPoints());
 
 		Assert.assertEquals(testSearchParams.getGuests(), v2params.getGuests());
 		Assert.assertEquals(testSearchParams.getAdults(), v2params.getAdults());

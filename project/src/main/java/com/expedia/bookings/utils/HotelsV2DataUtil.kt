@@ -96,7 +96,8 @@ class HotelsV2DataUtil {
 
             val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
 
-            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, false, filterUnavailable)
+            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges,
+                    shopWithPoints = true, filterUnavailable = filterUnavailable)
         }
 
         fun getHotelRatingContentDescription(context: Context, hotelStarRating: Int): String {
