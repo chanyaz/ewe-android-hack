@@ -1,15 +1,19 @@
 package com.expedia.bookings.onboarding.activity
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.enums.OnboardingPagerState
 import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
@@ -55,6 +59,8 @@ class OnboardingActivity: AppCompatActivity() {
         GestureDetectorCompat(this, flingListener)
     }
 
+    var isAnimating = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
@@ -65,19 +71,23 @@ class OnboardingActivity: AppCompatActivity() {
 
         previousButton.setOnClickListener { showPrevious() }
         nextButton.setOnClickListener { showNext() }
-        flingListener.leftFlingSiubject.subscribe { showPrevious() }
-        flingListener.rightFlingSiubject.subscribe { showNext() }
+        flingListener.leftFlingSubject.subscribe { showPrevious() }
+        flingListener.rightFlingSubject.subscribe { showNext() }
         finalButton.setOnClickListener { finishOnboarding() }
 
-        onPageSelectedListener.onPageSelected(0)
+        val handler = Handler()
+        handler.postDelayed({
+            updateTitle(0)
+        }, this.resources.getInteger(R.integer.splash_transition_duration).toLong())
+
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureDetector.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
 
-    val onPageSelectedListener = object: ViewPager.OnPageChangeListener {
+    private val onPageSelectedListener = object: ViewPager.OnPageChangeListener {
         override fun onPageSelected(position: Int) {
             updateTitle(position)
             updateButtonVisibility(position)
@@ -106,6 +116,13 @@ class OnboardingActivity: AppCompatActivity() {
         val pageState = OnboardingPagerState.values()[position]
         title.text = Phrase.from(this, pageState.titleResId).format().toString()
         subtitle.text = Phrase.from(this, pageState.subtitleResId).putOptional("brand_reward_name", this.getString(R.string.brand_reward_name)).format().toString()
+
+        if (position == 0) {
+            animateTitle(R.anim.fade_in)
+        }
+        else {
+            animateTitle(R.anim.slide_in_right)
+        }
     }
 
     private fun updateButtonVisibility(position: Int) {
@@ -140,10 +157,68 @@ class OnboardingActivity: AppCompatActivity() {
     }
 
     private fun showNext() {
-        viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+        if (!isAnimating && viewPager.currentItem < OnboardingPagerState.values().size -1 ) {
+            fadeOutTitleThenGoToNewPage(FlingType.RIGHT_FLING)
+        }
     }
 
     private fun showPrevious() {
-        viewPager.setCurrentItem(viewPager.currentItem - 1, true)
+        if (!isAnimating && viewPager.currentItem > 0) {
+            fadeOutTitleThenGoToNewPage(FlingType.LEFT_FLING)
+        }
+    }
+
+    fun animateTitle(animResTd: Int) {
+        val animateView1 = AnimationUtils.loadAnimation(this, animResTd)
+        animateView1.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
+        val animateView2 = AnimationUtils.loadAnimation(this, animResTd)
+        animateView2.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
+        animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong()
+
+        animateView2.setAnimationListener(object : AnimationListenerAdapter(){
+            override fun onAnimationStart(animation: Animation?) {
+                super.onAnimationStart(animation)
+                isAnimating = true
+            }
+            override fun onAnimationEnd(animation: Animation?) {
+                super.onAnimationEnd(animation)
+                isAnimating = false
+            }
+        })
+        subtitle.startAnimation(animateView1)
+        title.startAnimation(animateView2)
+    }
+
+
+    fun fadeOutTitleThenGoToNewPage(flingtype: FlingType) {
+        val animateView1 = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        animateView1.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
+        val animateView2 = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        animateView2.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
+        animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong()
+
+        animateView2.setAnimationListener(object : AnimationListenerAdapter(){
+            override fun onAnimationStart(animation: Animation?) {
+                super.onAnimationStart(animation)
+                isAnimating = true
+            }
+            override fun onAnimationEnd(animation: Animation?) {
+                super.onAnimationEnd(animation)
+                isAnimating = false
+                if (flingtype == FlingType.RIGHT_FLING) {
+                    viewPager.setCurrentItem(viewPager.currentItem + 1, true)
+                }
+                else if (flingtype == FlingType.LEFT_FLING) {
+                    viewPager.setCurrentItem(viewPager.currentItem - 1, true)
+                }
+            }
+        })
+        subtitle.startAnimation(animateView1)
+        title.startAnimation(animateView2)
+    }
+
+    enum class FlingType {
+        RIGHT_FLING,
+        LEFT_FLING,
     }
 }

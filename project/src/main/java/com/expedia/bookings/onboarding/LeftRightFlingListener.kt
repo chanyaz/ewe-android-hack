@@ -8,15 +8,15 @@ import rx.subjects.PublishSubject
 
 class LeftRightFlingListener : GestureDetector.SimpleOnGestureListener() {
 
-    val leftFlingSiubject = PublishSubject.create<Unit>()
-    val rightFlingSiubject = PublishSubject.create<Unit>()
+    val leftFlingSubject = PublishSubject.create<Unit>()
+    val rightFlingSubject = PublishSubject.create<Unit>()
 
     override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
         if (e1.x - e2.x > Constants.SWIPE_MIN_DISTANCE && Math.abs(velocityX) > Constants.SWIPE_THRESHOLD_VELOCITY) {
-            rightFlingSiubject.onNext(Unit)
+            rightFlingSubject.onNext(Unit)
             return true
         } else if (e2.x - e1.x > Constants.SWIPE_MIN_DISTANCE && Math.abs(velocityX) > Constants.SWIPE_THRESHOLD_VELOCITY) {
-            leftFlingSiubject.onNext(Unit)
+            leftFlingSubject.onNext(Unit)
             return true
         }
         return false
