@@ -74,7 +74,7 @@ Feature: Flights Search Results
 
     Examples:
       | AirlineName    | price | duration | timing             | number | cellNumber |
-      | Virgin America | 800   | 4h 35m   | 17:40 - 22:15 | 1      | 2          |
+      | Virgin America | 800   | 4h 35m   | 5:40 pm - 10:15 pm | 1      | 2          |
 
 
 
@@ -128,7 +128,7 @@ Feature: Flights Search Results
 
     Examples:
       | AirlineName       | price | duration | timing             | number | cellNumber |
-      | American Airlines | 696   | 2h 35m   | 17:40 - 20:15  | 0      | 1          |
+      | American Airlines | 696   | 2h 35m   | 5:40 pm - 8:15 pm  | 0      | 1          |
 
   @Flights @FlightSearchResults
   Scenario: UI validations on the docked outbound header view on inbound FSR
