@@ -40,20 +40,6 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
 
-    protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.viewModel = vm
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-    }
-
-    protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.breakdown.viewmodel = vm
-        vm.iconVisibilityObservable.safeSubscribe { show ->
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
-            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
-        }
-    }
-
     var viewModel: BottomCheckoutContainerViewModel by notNullAndObservable { vm ->
         vm.sliderPurchaseTotalText.subscribeText(slideTotalText)
         vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }

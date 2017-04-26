@@ -175,7 +175,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
-        setUpLayoutListeners()
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
@@ -225,9 +224,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             } else {
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
             }
-//            if (disabledSTPStateEnabled) {
-//
-//            }
+
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
@@ -241,7 +238,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val progress = Math.min(1f, range + f)
             translateHeader(progress, forward)
             translateCheckout(progress, forward)
-            translateBottomContainer(progress, forward)
         }
 
         override fun endTransition(forward: Boolean) {
@@ -249,10 +245,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
-//            if (!disabledSTPStateEnabled) {
-//                toggleCheckoutButtonAndSliderVisibility(!forward)
-//            }
-
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
@@ -290,31 +282,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         behavior.topAndBottomOffset = scrollY.toInt()
     }
 
-    private fun translateBottomContainer(f: Float, forward: Boolean) {
-//        if (!disabledSTPStateEnabled) {
-//            checkoutPresenter.sliderHeight = bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat()
-//            val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-//            val bottomDistance = checkoutPresenter.sliderHeight - checkoutButtonHeight
-//            val slideIn = if (hasCompleteInfo) {
-//                bottomDistance - (f * (bottomDistance))
-//            } else {
-//                checkoutPresenter.sliderHeight - ((1 - f) * checkoutButtonHeight)
-//            }
-//            val slideOut = if (hasCompleteInfo) {
-//                f * (bottomDistance)
-//            } else {
-//                checkoutPresenter.sliderHeight - (f * checkoutButtonHeight)
-//            }
-//            bottomContainer.translationY = if (forward) slideIn else slideOut
-//            checkoutButtonContainer.translationY = if (forward) f * checkoutButtonHeight else (1 - f) * checkoutButtonHeight
-//        }
-    }
-
     open protected fun resetCheckoutState() {
         bottomCheckoutContainer.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
-            //toggleCheckoutButtonAndSliderVisibility(true)
             checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
         }
     }
@@ -383,48 +354,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val layoutParams = scrollSpaceView?.layoutParams
         layoutParams?.height = 0
         scrollSpaceView?.layoutParams = layoutParams
-    }
-
-    private fun setUpLayoutListeners() {
-//        bottomCheckoutContainer.slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                checkoutPresenter.sliderHeight = bottomCheckoutContainer.slideToPurchaseLayout.height.toFloat()
-//                if (checkoutPresenter.sliderHeight != 0f) {
-//                    bottomCheckoutContainer.slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                    bottomContainer.translationY = checkoutPresenter.sliderHeight
-//                }
-//            }
-//        })
-//        checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
-//                if (checkoutPresenter.sliderHeight != 0f) {
-//                    checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                    checkoutButtonContainer.translationY = checkoutButtonHeight
-//                }
-//            }
-//        })
-    }
-
-//    fun toggleCheckoutButtonAndSliderVisibility(showCheckoutButton: Boolean) {
-//        animateInSlideToPurchase(!showCheckoutButton)
-//        setUpBottomContainerState(shouldShowSlider, showCheckoutButton)
-//    }
-
-    private fun setUpBottomContainerState(shouldShowSlider: Boolean, showCheckoutButton: Boolean) {
-//        if (disabledSTPStateEnabled) {
-//            checkoutButtonContainer.translationY = 0f
-//            if (shouldShowSlider) {
-//                checkoutButtonContainer.translationY = checkoutButtonHeight
-//                bottomContainer.translationY = 0f
-//            } else {
-//                bottomContainer.translationY = checkoutPresenter.sliderHeight - checkoutButtonHeight
-//            }
-//        } else {
-//            checkoutButtonContainer.translationY = if (showCheckoutButton) 0f else checkoutButtonHeight
-//            bottomContainer.translationY = if (showCheckoutButton) checkoutPresenter.sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else checkoutPresenter.sliderHeight
-//            checkoutButton.isEnabled = showCheckoutButton
-//        }
     }
 
     fun resetPriceChange() {
