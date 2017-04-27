@@ -182,7 +182,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             collapseRow(ANIMATION_DURATION)
         }
 
-        vm.totalMandatoryFeeMessageObservable.subscribe { mandatoryFeeMessage ->
+        vm.dailyMandatoryFeeMessageObservable.subscribe { mandatoryFeeMessage ->
             expandedMandatoryFee.text = mandatoryFeeMessage
             collapsedMandatoryFee.text = mandatoryFeeMessage
 

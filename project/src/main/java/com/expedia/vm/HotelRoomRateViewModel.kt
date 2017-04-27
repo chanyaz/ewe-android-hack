@@ -57,7 +57,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val dailyPricePerNightObservable = BehaviorSubject.create<String>()
     val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
     val depositTermsClickedObservable = PublishSubject.create<Unit>()
-    val totalMandatoryFeeMessageObservable = BehaviorSubject.create<String>()
+    val dailyMandatoryFeeMessageObservable = BehaviorSubject.create<String>()
 
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
 
@@ -134,22 +134,22 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
         val isBurnApplied = chargeableRateInfo.loyaltyInfo?.isBurnApplied ?: false
         val packageLoyaltyInfo = hotelRoomResponse.packageLoyaltyInformation
-        val totalMandatoryFee = Money(BigDecimal(hotelRate.totalMandatoryFees.toDouble()), currencyCode)
+        val dailyMandatoryFee = Money(BigDecimal(hotelRate.dailyMandatoryFee.toDouble()), currencyCode)
 
         //resetting the text for views
         strikeThroughPriceObservable.onNext("")
         discountPercentage.onNext("")
         expandedAmenityObservable.onNext("")
-        totalMandatoryFeeMessageObservable.onNext("")
+        dailyMandatoryFeeMessageObservable.onNext("")
 
         if (lob == LineOfBusiness.PACKAGES) {
             shouldShowDiscountPercentage.onNext(false)
         }
         else {
             shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isBurnApplied && !chargeableRateInfo.isShowAirAttached())
-            if (!totalMandatoryFee.isZero) {
-                val mandatoryMessage = Phrase.from(context, R.string.excludes_mandatory_fee_TEMPLATE).put("amount", totalMandatoryFee.formattedMoney).format().toString()
-                totalMandatoryFeeMessageObservable.onNext(mandatoryMessage)
+            if (!dailyMandatoryFee.isZero) {
+                val mandatoryMessage = Phrase.from(context, R.string.excludes_mandatory_fee_TEMPLATE).put("amount", dailyMandatoryFee.formattedMoney).format().toString()
+                dailyMandatoryFeeMessageObservable.onNext(mandatoryMessage)
             }
         }
         discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
