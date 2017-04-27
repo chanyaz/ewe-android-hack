@@ -35,8 +35,6 @@ import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
-import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.Subscription
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
@@ -219,11 +217,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
             checkoutPresenter.mainContent.visibility = View.VISIBLE
-            if (forward) {
-                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(checkoutPresenter.javaClass.name)
-            } else {
-                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
-            }
 
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
@@ -242,6 +235,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            if (forward) {
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BaseCheckoutPresenter.CheckoutDefault::class.java.name)
+            } else {
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
+            }
             setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
