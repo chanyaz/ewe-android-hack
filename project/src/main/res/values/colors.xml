@@ -43,6 +43,7 @@
 
     <!--Splash-->
     <color name="splash_screen_bg">@color/launch_lob_bg</color>
+    <color name="new_splash_screen_bg">@color/exp_yellow</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
