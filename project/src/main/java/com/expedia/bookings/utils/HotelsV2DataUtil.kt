@@ -2,10 +2,8 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -60,8 +58,7 @@ class HotelsV2DataUtil {
             val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.checkInDate)
             val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
-            val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, LoyaltyUtil.isShopWithPointsAvailable(context), filterUnavailable, params.sortType, params.mctc)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, LoyaltyUtil.isShopWithPointsAvailable(context), true, params.sortType, params.mctc)
             return v2params
         }
 
@@ -94,10 +91,7 @@ class HotelsV2DataUtil {
             suggestionV4.type = SearchType.CITY.name
             suggestionV4.regionNames = flightSearchParams.destination?.regionNames
 
-            val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
-
-            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges,
-                    shopWithPoints = true, filterUnavailable = filterUnavailable)
+            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, shopWithPoints = true, filterUnavailable = true)
         }
 
         fun getHotelRatingContentDescription(context: Context, hotelStarRating: Int): String {

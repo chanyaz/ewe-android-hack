@@ -3,9 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
@@ -20,7 +18,7 @@ import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
-    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), isFilterUnavailableEnabled())
+    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), true)
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
 
     // Outputs
@@ -138,10 +136,6 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return getDateAccessibilityText(context.getString(R.string.select_dates), dateNightText.toString())
         }
         return dateNightText.toString()
-    }
-
-    private fun isFilterUnavailableEnabled(): Boolean {
-        return !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
     }
 
     private fun getDateNightText(start: LocalDate, end: LocalDate, isContentDescription: Boolean) : CharSequence {
