@@ -4,12 +4,11 @@ import android.content.Context
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.SearchSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.Log
@@ -19,12 +18,14 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?, val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
+abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services,
+                                          locationObservable: Observable<Location>?,
+                                          val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
     private val currentLocationText = context.getString(R.string.current_location)
     // Outputs
     val suggestionsObservable = BehaviorSubject.create<List<SuggestionV4>>()
     var suggestions: List<SuggestionV4> = emptyList()
-    val suggestionSelectedSubject = PublishSubject.create<SuggestionV4>()
+    val suggestionSelectedSubject = PublishSubject.create<SearchSuggestion>()
 
     private var nearby: ArrayList<SuggestionV4> = ArrayList()
     private var lastQuery: String = ""
@@ -42,6 +43,10 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
         }
+    }
+
+    fun getLastQuery() : String {
+        return lastQuery
     }
 
     private fun suggestionsListWithNearby(): List<SuggestionV4> {

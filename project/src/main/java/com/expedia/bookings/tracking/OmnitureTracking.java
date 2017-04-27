@@ -83,6 +83,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
+import com.expedia.bookings.hotel.tracking.SuggestionTrackingData;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
@@ -290,6 +291,87 @@ public class OmnitureTracking {
 		// Send the tracking data
 		s.track();
 
+	}
+
+	public static void trackHotelSuggestionBehavior(SuggestionTrackingData trackingData) {
+		// https://confluence/pages/viewpage.action?pageId=679373062
+
+		StringBuilder linkSb = new StringBuilder("HTL.UpdateSearch.H");
+		linkSb.append(".").append(PointOfSale.getPointOfSale().getLocaleIdentifier())
+			.append(".").append(PointOfSale.getPointOfSale().getSiteId())
+			.append(".").append(getTypeAheadTriggerEventString(trackingData));
+
+		linkSb.append(".P");
+		if (trackingData.isParent() && !trackingData.isHistory()) {
+			linkSb.append(1);
+		}
+		else {
+			linkSb.append(0);
+		}
+		linkSb.append("C");
+		if (trackingData.isChild() && !trackingData.isHistory()) {
+			linkSb.append(1);
+		}
+		else {
+			linkSb.append(0);
+		}
+		linkSb.append("L").append(trackingData.getSelectedSuggestionPosition())
+			.append(".ESS#").append(trackingData.getSuggestionsShownCount() - trackingData.getPreviousSuggestionsShownCount())
+			.append(".UH#").append(trackingData.getPreviousSuggestionsShownCount());
+		String link = linkSb.toString();
+
+		ADMS_Measurement s = createTrackLinkEvent(link);
+
+		StringBuilder eventBuilder = new StringBuilder("event45");
+		eventBuilder.append(",event44=");
+		eventBuilder.append(trackingData.getSelectedSuggestionPosition());
+		eventBuilder.append(",event46=");
+		eventBuilder.append(trackingData.getCharactersTypedCount());
+		s.setEvents(eventBuilder.toString());
+
+		StringBuilder infoBuilder = new StringBuilder();
+		infoBuilder.append("GAI:").append(trackingData.getSuggestionGaiaId());
+		infoBuilder.append("|").append(trackingData.getSuggestionType());
+		infoBuilder.append("|").append("R#");
+		if (trackingData.isChild()) {
+			infoBuilder.append("child");
+		}
+		else {
+			infoBuilder.append("-");
+		}
+		infoBuilder.append("|").append(trackingData.getDisplayName());
+		if (trackingData.isHistory()) {
+			infoBuilder.append("|").append("USERHISTORY");
+		}
+		s.setEvar(48, infoBuilder.toString());
+		s.setProp(73, infoBuilder.toString());
+
+		s.trackLink(null, "o", "Hotel Search", null, null);
+	}
+
+	private static String getTypeAheadTriggerEventString(SuggestionTrackingData trackingData) {
+		StringBuilder sb = new StringBuilder();
+		if (trackingData.getSuggestionsFocused()) {
+			sb.append("TAShow.");
+		}
+		else {
+			sb.append("TANoShow.");
+		}
+		if (trackingData.getSuggestionSelected()) {
+			if (trackingData.getCharactersTypedCount() > 0) {
+				sb.append("TASelection");
+			}
+			else {
+				sb.append("TAFocus");
+			}
+		}
+		else if (trackingData.getSuggestionGaiaId() != null) {
+			sb.append("TAPrevSearch");
+		}
+		else {
+			sb.append("TaNoSelect");
+		}
+		return sb.toString();
 	}
 
 	public static void trackSwPToggle(boolean swpToggleState) {

@@ -63,8 +63,9 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
     }
 
     var suggestionViewModel: LXSuggestionAdapterViewModel by notNullAndObservable { vm ->
-        vm.suggestionSelectedSubject.subscribe { suggestion ->
+        vm.suggestionSelectedSubject.subscribe { searchSuggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
+            val suggestion = searchSuggestion.suggestionV4
             searchViewModel.destinationLocationObserver.onNext(suggestion)
             val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             destinationCardView.setText(suggestionName)
