@@ -76,6 +76,12 @@
         <item name="itin_card_detail_layover_drawable">@drawable/ic_layover_details</item>
         <item name="itin_card_detail_flight_trip_summary_text_color">@color/white</item>
         <item name="itin_card_detail_flight_trip_summary_bg_color">#5B6470</item>
+        <item name="itin_card_detail_flight_canceled_text_color">@color/itin_flight_canceled_color</item>
+        <item name="itin_card_detail_flight_delayed_text_color">@color/itin_flight_delayed_color</item>
+        <item name="itin_card_detail_flight_on_time_text_color">@color/itin_flight_on_time_color</item>
+        <item name="itin_card_detail_flight_canceled_drawable">@drawable/ic_flight_status_cancelled</item>
+        <item name="itin_card_detail_flight_delayed_drawable">@drawable/ic_flight_status_delayed</item>
+        <item name="itin_card_detail_flight_on_time_drawable">@drawable/ic_flight_status_on_time</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">

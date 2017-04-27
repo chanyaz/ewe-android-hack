@@ -84,6 +84,12 @@
     <attr name="itin_card_detail_flight_trip_summary_text_color" format="color"/>
     <attr name="itin_card_detail_flight_trip_summary_bg_color" format="color"/>
     <attr name="itin_card_detail_car_location_icon" format="reference"/>
+    <attr name="itin_card_detail_flight_canceled_text_color" format="color"/>
+    <attr name="itin_card_detail_flight_delayed_text_color" format="color"/>
+    <attr name="itin_card_detail_flight_on_time_text_color" format="color"/>
+    <attr name="itin_card_detail_flight_canceled_drawable" format="reference"/>
+    <attr name="itin_card_detail_flight_delayed_drawable" format="reference"/>
+    <attr name="itin_card_detail_flight_on_time_drawable" format="reference"/>
 
     <attr name="itin_add_guest_itin_left_drawable" format="reference"/>
     <attr name="itin_add_guest_itin_text_color" format="color"/>
