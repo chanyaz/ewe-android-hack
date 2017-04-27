@@ -45,7 +45,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(viewModel.paramsSubject.value?.suggestion)
+            setMapToInitialState(viewModel.getSearchParams()?.suggestion)
         }
     }
 

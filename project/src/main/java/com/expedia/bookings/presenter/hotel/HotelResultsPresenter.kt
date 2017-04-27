@@ -82,14 +82,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         mapViewModel.mapInitializedObservable.subscribe {
-            setMapToInitialState(viewModel.paramsSubject.value?.suggestion)
+            setMapToInitialState(viewModel.getSearchParams()?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
 
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelUrgencyMessage)) {
             vm.hotelResultsObservable.subscribe { response ->
-                urgencyViewModel.fetchCompressionScore(response.searchRegionId,
-                        vm.paramsSubject.value.checkIn, vm.paramsSubject.value.checkOut)
+                vm.getSearchParams()?.let { params ->
+                    urgencyViewModel.fetchCompressionScore(response.searchRegionId, params.checkIn, params.checkOut)
+                }
             }
         }
 
