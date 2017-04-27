@@ -30,6 +30,7 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
 
     override fun inflate() {
         View.inflate(context, R.layout.lx_overview, this)
+        //TODO need to fix this
 //        checkoutPresenter.slideToPurchase.visibility = View.VISIBLE
 //        checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.subscribe{ response ->

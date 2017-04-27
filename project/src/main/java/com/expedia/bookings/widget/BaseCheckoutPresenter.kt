@@ -28,6 +28,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.enums.PresenterState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -206,7 +207,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.checkoutPriceChangeObservable.subscribe { response ->
-            vm.bottomCheckoutContainerStateObservable.onNext(currentState)
+            vm.bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
             getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
             val oldPrice = response.getOldPrice()
@@ -385,9 +386,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             updateTravelerPresenter()
             if (forward) {
                 setToolbarTitle()
-                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(CheckoutDefault::class.java.name)
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
             } else {
-                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name)
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(PresenterState.BUNDLE)
             }
         }
     }
@@ -406,7 +407,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun endDefaultToPaymentTransition(forward: Boolean) {
         if (!forward) {
-            ckoViewModel.bottomCheckoutContainerStateObservable.onNext(CheckoutDefault::class.java.name)
+            ckoViewModel.bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
@@ -471,7 +472,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun logoutUser() {
         User.signOut(context)
         updateDbTravelers()
-        ckoViewModel.bottomCheckoutContainerStateObservable.onNext(currentState)
+        ckoViewModel.bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
         initLoggedInState(false)
         updateTravelerPresenter()
         tripViewModel.performCreateTrip.onNext(Unit)
@@ -481,7 +482,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         updateDbTravelers()
         initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
-        ckoViewModel.bottomCheckoutContainerStateObservable.onNext(currentState)
+        ckoViewModel.bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
     }
 
     fun clearPaymentInfo() {
@@ -594,7 +595,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(CheckoutDefault::class.java.name)
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
                 travelersPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
