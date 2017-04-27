@@ -13,6 +13,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.enums.OnboardingPagerState
 import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.mobiata.android.util.SettingUtils
@@ -81,6 +82,11 @@ class OnboardingActivity: AppCompatActivity() {
             updateTitle(position)
             updateButtonVisibility(position)
             updateCircles(position)
+            when(position) {
+                OnboardingPagerState.BOOKING_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.BOOKING_PAGE)
+                OnboardingPagerState.TRIP_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.TRIP_PAGE)
+                OnboardingPagerState.REWARD_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.REWARD_PAGE)
+            }
         }
         override fun onPageScrollStateChanged(state: Int) {
         }
@@ -89,6 +95,7 @@ class OnboardingActivity: AppCompatActivity() {
     }
 
     private fun finishOnboarding() {
+        OmnitureTracking.trackNewUserOnboardingGoSignIn()
         SettingUtils.save(this, R.string.preference_onboarding_complete, true)
         NavUtils.goToSignIn(this, false, false, 0)
         finish()
