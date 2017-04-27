@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import cucumber.api.java.en.And;
@@ -23,6 +25,9 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDraw
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay;
 import static org.hamcrest.Matchers.allOf;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static org.hamcrest.Matchers.not;
 
 public class FlightsCheckoutScreenSteps {
 	@And("^I open traveller details$")
@@ -97,6 +102,50 @@ public class FlightsCheckoutScreenSteps {
 	}
 	@And("^Validate that Credit card \"(.*?)\" is shown selected at Payment Method screen$")
 	public void validateSelectedPaymentMethod(String creditCard) throws Throwable {
-		onView(withText(creditCard)).check(matches(hasSibling(withImageDrawable(R.drawable.validated))));
+		onView(withText(creditCard))
+			.check(matches(hasSibling(withImageDrawable(R.drawable.validated))));
+	}
+
+	@And("^I tap on payment details$")
+	public void tapOnPaymentDetails() throws Throwable {
+		CheckoutViewModel.clickPaymentInfo();
+	}
+
+	@Then("^I verify that cardholder name field is present on the payment details form$")
+	public void verifyCardholderNameFieldIsPresent() throws Throwable {
+		CardInfoScreen.nameOnCardEditText().perform(waitForViewToDisplay()).check(matches(isDisplayed()));
+	}
+
+	@Then("^I tap on the cardholder name field$")
+	public void tapOnCardholderField() throws Throwable {
+		CardInfoScreen.nameOnCardEditText().perform(waitForViewToDisplay(),click());
+	}
+
+	@Then("^I enter the first name$")
+	public void enterFirstName() throws Throwable {
+		CardInfoScreen.typeTextNameOnCardEditText("test");
+	}
+
+	@Then("^I tap on some other field say Address field$")
+	public void tapSomeOtherField() throws Throwable {
+		BillingAddressScreen.addressLineOneEditText(R.id.section_location_address).perform(closeSoftKeyboard())
+		.perform((waitForViewToDisplay()), click());
+
+	}
+
+	@Then("^I enter the first name and last name$")
+	public void enterFirstAndLastName() throws Throwable {
+			CardInfoScreen.typeTextNameOnCardEditText("test test");
+	}
+
+	@Then("^I verify that no red exclamation is displayed on cardholder name$")
+	public void verifyRedExclamationNotPresent() throws Throwable {
+			CardInfoScreen.nameOnCardEditText()
+			.check(matches(not(withCompoundDrawable(R.drawable.invalid))));
+	}
+
+	@Then("^I verify that a red exclamation is displayed on cardholder name$")
+	public void verifyRedExclamation() throws Throwable {
+		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.invalid)));
 	}
 }
