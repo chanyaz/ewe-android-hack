@@ -1,7 +1,7 @@
 package com.expedia.bookings.enums;
 
-public enum PresenterState {
+enum class PresenterState {
 	CHECKOUT,
 	BUNDLE,
-	OTHER;
+	OTHER
 }

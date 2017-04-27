@@ -59,8 +59,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     val disabledSTPStateEnabled = isDisabledSTPStateEnabled(context)
 
-    val totalPriceWidget by lazy{
+    val totalPriceWidget by lazy {
         bottomCheckoutContainer.totalPriceWidget
+    }
+
+    val slideToPurchaseLayout by lazy {
+        bottomCheckoutContainer.slideToPurchaseLayout
     }
 
     val ANIMATION_DURATION = 400
@@ -290,7 +294,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bottomCheckoutContainer.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
-            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(PresenterState.BUNDLE)
         }
     }
 
@@ -382,7 +386,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
         }
-        bottomCheckoutContainer.slideToPurchaseLayout.isFocusable = showSlider
+        slideToPurchaseLayout.isFocusable = showSlider
         checkoutPresenter.adjustScrollingSpace(bottomContainer)
     }
 
@@ -418,6 +422,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
             toggleBottomContainerViews(currentState)
+        }
+        checkoutPresenter.getCheckoutViewModel().createTripResponseObservable.subscribe {
+
         }
     }
 
