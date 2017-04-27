@@ -983,5 +983,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.onboarding_booking_placeholder,
 		R.drawable.onboarding_reward_placeholder,
 		R.drawable.onboarding_trip_placeholder,
+		R.layout.hotel_room_card_view,
+		R.dimen.hotel_room_amenity_margin,
+		R.dimen.textview_drawable_padding,
+		R.string.before_TEMPLATE,
+		R.string.option_TEMPLATE,
+		R.layout.hotel_room_detail,
+		R.layout.hotel_room_header
 	};
 }

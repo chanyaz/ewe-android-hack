@@ -30,11 +30,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
@@ -42,7 +42,6 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -61,6 +60,8 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
+import com.expedia.vm.HotelRoomDetailViewModel
+import com.expedia.vm.HotelRoomHeaderViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -74,103 +75,103 @@ val HOTEL_DESC_COLLAPSE_LINES = 2
 
 class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
-    var hotelId: String by Delegates.notNull()
-    var bottomMargin = 0
-    val ANIMATION_DURATION = 200L
-    val SELECT_ROOM_ANIMATION = 300L
-    var resortViewHeight = 0
-    var selectRoomContainerHeight = 0
-    val screenSize by lazy { Ui.getScreenSize(context) }
+    private var hotelId: String by Delegates.notNull()
+    private var bottomMargin = 0
+    private val ANIMATION_DURATION = 200L
+    private val SELECT_ROOM_ANIMATION = 300L
+    private var resortViewHeight = 0
+    private var selectRoomContainerHeight = 0
+    private val screenSize by lazy { Ui.getScreenSize(context) }
 
-    var initialScrollTop = 0
+    private var initialScrollTop = 0
 
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
-    var toolBarHeight = 0
+    private var toolBarHeight = 0
 
-    var galleryHeight = 0
+    private var galleryHeight = 0
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
-    val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
-    val galleryRoot: LinearLayout by bindView(R.id.gallery)
+    private val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
+    private val galleryRoot: LinearLayout by bindView(R.id.gallery)
 
-    val priceContainer: ViewGroup by bindView(R.id.price_widget)
+    private val priceContainer: ViewGroup by bindView(R.id.price_widget)
     val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     val price: TextView by bindView(R.id.price)
-    val perDescriptor: TextView by bindView(R.id.per_night)
+    private val perDescriptor: TextView by bindView(R.id.per_night)
     val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
-    val priceWidget: View by bindView(R.id.price_widget)
-    val searchDatesInfo: TextView by bindView(R.id.search_dates_info)
-    val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
+    private val priceWidget: View by bindView(R.id.price_widget)
+    private val searchDatesInfo: TextView by bindView(R.id.search_dates_info)
+    private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
 
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
     val changeDatesButton: Button by bindView(R.id.change_dates_button)
     val stickySelectRoomContainer: ViewGroup by bindView(R.id.sticky_select_room_container)
-    val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
-    val userRating: TextView by bindView(R.id.user_rating)
-    val noGuestRating: TextView by bindView(R.id.no_guest_rating)
-    val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
-    val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
-    val readMoreView: ImageButton by bindView(R.id.read_more)
-    val hotelDescription: TextView by bindView(R.id.body_text)
-    val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
-    val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
-    val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
-    val gradientHeight = context.resources.getDimension(R.dimen.hotel_detail_gradient_height)
+    private val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
+    private val userRating: TextView by bindView(R.id.user_rating)
+    private val noGuestRating: TextView by bindView(R.id.no_guest_rating)
+    private val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
+    private val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
+    private val readMoreView: ImageButton by bindView(R.id.read_more)
+    private val hotelDescription: TextView by bindView(R.id.body_text)
+    private val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
+    private val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
+    private val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
+    private val gradientHeight = context.resources.getDimension(R.dimen.hotel_detail_gradient_height)
 
     val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: TextView by bindView(R.id.discount_percentage)
-    val airAttachSWPImage: ImageView by bindView(R.id.air_attach_swp_image_details)
+    private val airAttachSWPImage: ImageView by bindView(R.id.air_attach_swp_image_details)
     val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
     val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
     val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
     val promoMessage: TextView by bindView(R.id.promo_text)
-    val earnMessage: TextView by bindView(R.id.earn_message)
+    private val earnMessage: TextView by bindView(R.id.earn_message)
 
-    val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
-    val payNowButtonContainer: FrameLayout by bindView(R.id.radius_pay_now_container)
-    val payNowButton: TextView by bindView(R.id.radius_pay_now)
-    val payLaterButton: TextView by bindView(R.id.radius_pay_later)
+    private val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
+    private val payNowButtonContainer: FrameLayout by bindView(R.id.radius_pay_now_container)
+    private val payNowButton: TextView by bindView(R.id.radius_pay_now)
+    private val payLaterButton: TextView by bindView(R.id.radius_pay_later)
     val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
     val etpInfoText: TextView by bindView(R.id.etp_info_text)
-    val etpInfoTextSmall: TextView by bindView(R.id.etp_info_text_small)
-    val freeCancellation: TextView by bindView(R.id.free_cancellation)
-    val bestPriceGuarantee: TextView by bindView(R.id.best_price_guarantee)
-    val singleMessageContainer: ViewGroup by bindView(R.id.single_message_container)
-    val freeCancellationAndETPMessaging: ViewGroup by bindView(R.id.free_cancellation_etp_messaging)
+    private val etpInfoTextSmall: TextView by bindView(R.id.etp_info_text_small)
+    private val freeCancellation: TextView by bindView(R.id.free_cancellation)
+    private val bestPriceGuarantee: TextView by bindView(R.id.best_price_guarantee)
+    private val singleMessageContainer: ViewGroup by bindView(R.id.single_message_container)
+    private val freeCancellationAndETPMessaging: ViewGroup by bindView(R.id.free_cancellation_etp_messaging)
     val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
-    val etpContainerDropShadow: View by bindView(R.id.pay_later_drop_shadow)
-    val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
-    val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
+    private val etpContainerDropShadow: View by bindView(R.id.pay_later_drop_shadow)
+    private val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
+    private val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
     val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
-    val space: Space by bindView(R.id.spacer)
+    private val space: Space by bindView(R.id.spacer)
 
-    val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
-    val hotelGalleryIndicator: View by bindView(R.id.hotel_gallery_indicator)
-    val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
-    val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
-    val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
+    private val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
+    private val hotelGalleryIndicator: View by bindView(R.id.hotel_gallery_indicator)
+    private val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
+    private val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
+    private val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
 
-    val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
+    private val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
-    val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
+    private val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
     val roomRateRegularLoyaltyAppliedView: LinearLayout by bindView(R.id.room_rate_regular_loyalty_applied_container)
     val roomRateVIPLoyaltyAppliedContainer: View by bindView(R.id.room_rate_vip_loyalty_applied_container)
-    val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
-    val roomContainer: TableLayout by bindView(R.id.room_container)
-    val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
+    private val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
+    val roomContainer: LinearLayout by bindView(R.id.room_container)
+    private val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
-    val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
-    var statusBarHeight = 0
-    var offset: Float by Delegates.notNull()
-    var priceContainerLocation = IntArray(2)
-    var urgencyContainerLocation = IntArray(2)
-    var roomContainerPosition = IntArray(2)
+    private val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
+    private var statusBarHeight = 0
+    private var offset: Float by Delegates.notNull()
+    private var priceContainerLocation = IntArray(2)
+    private var urgencyContainerLocation = IntArray(2)
+    private var roomContainerPosition = IntArray(2)
 
-    var resortInAnimator: ObjectAnimator by Delegates.notNull()
-    var resortOutAnimator: ObjectAnimator by Delegates.notNull()
-    var selectRoomInAnimator: ObjectAnimator by Delegates.notNull()
-    var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
+    private var resortInAnimator: ObjectAnimator by Delegates.notNull()
+    private var resortOutAnimator: ObjectAnimator by Delegates.notNull()
+    private var selectRoomInAnimator: ObjectAnimator by Delegates.notNull()
+    private var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
 
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
@@ -383,11 +384,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
     }
 
-    val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+    private val scrollListener = ViewTreeObserver.OnScrollChangedListener {
         setViewVisibilities()
     }
 
-    val touchListener = View.OnTouchListener { v, event ->
+    private val touchListener = View.OnTouchListener { v, event ->
         val action = event.action;
         if (action == MotionEvent.ACTION_UP) {
             detailContainer.post { updateGallery(true) }
@@ -441,7 +442,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button);
     }
 
-    val payNowClickObserver: Observer<Unit> = endlessObserver {
+    private val payNowClickObserver: Observer<Unit> = endlessObserver {
         //pay now show all the offers
         payNowLaterSelectionChanged(true)
         viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
@@ -457,7 +458,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         HotelTracking.trackPayNowContainerClick()
     }
 
-    val payLaterClickObserver: Observer<Unit> = endlessObserver {
+    private val payLaterClickObserver: Observer<Unit> = endlessObserver {
         //pay later show only etp offers
         payNowLaterSelectionChanged(false)
         viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
@@ -493,10 +494,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
-        for (index in 0..(roomContainer.childCount - 1)) {
-            val room = roomContainer.getChildAt(index) as HotelRoomRateView
-            recycleImageView(room.roomHeaderImage)
-        }
+
+        recycleRoomImageViews()
         roomContainer.removeAllViews()
     }
 
@@ -616,10 +615,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private fun shouldShowETPContainer() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        if (roomContainerPosition[1] + roomContainer.height < offset + etpContainer.height) {
-            etpContainer.isEnabled = false
-        } else
-            etpContainer.isEnabled = true
+        etpContainer.isEnabled = roomContainerPosition[1] + roomContainer.height >= offset + etpContainer.height
     }
 
     private fun scrollToRoom(animate: Boolean) {
@@ -640,7 +636,13 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         //request focus for accessibility on first room row after scrolling
         Handler().postDelayed({
-            (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+            if (roomContainer.childCount >= 0) {
+                if (viewmodel.shouldGroupAndSortRoom()) {
+                    roomContainer.getChildAt(0).requestFocus()
+                } else {
+                    (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+                }
+            }
         }, 400L)
     }
 
@@ -767,18 +769,121 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                             payLater: Boolean) {
         val fadeRoomsOutAnimation = AlphaAnimation(1f, 0f)
         fadeRoomsOutAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+        if (viewmodel.shouldGroupAndSortRoom()) {
+            fadeRoomsOutAnimation.setAnimationListener(getGroupedRoomAnimationListener(roomList, payLater))
+        } else {
+            fadeRoomsOutAnimation.setAnimationListener(getRoomAnimationListener(roomList, topValueAddList, payLater))
+        }
+        roomContainer.startAnimation(fadeRoomsOutAnimation)
+    }
 
-        var roomListToUse = roomList
-        if (viewmodel.getLOB() == LineOfBusiness.HOTELS && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_group_room_and_rate)) {
-            roomListToUse = viewmodel.groupAndSortRoomList(roomList)
+    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) : HotelRoomHeaderView {
+        val headerViewModel = HotelRoomHeaderViewModel(context, hotelRoomResponse)
+
+        val header = HotelRoomHeaderView(context, headerViewModel)
+
+        header.roomInfoClickedSubject.subscribe {
+            // TODO: show pop up for room info https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/190
         }
 
-        fadeRoomsOutAnimation.setAnimationListener(getRoomAnimationListener(roomListToUse, topValueAddList, payLater))
-        roomContainer.startAnimation(fadeRoomsOutAnimation)
+        return header
+    }
+
+    private fun getRoomDetailView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String, rowIndex: Int, roomCount: Int, hasETP: Boolean) : HotelRoomDetailView {
+        val detailViewModel = HotelRoomDetailViewModel(context, hotelRoomResponse, hotelId, rowIndex, roomCount, hasETP)
+
+        val detail = HotelRoomDetailView(context, detailViewModel)
+
+        detail.hotelRoomRowClickedSubject.subscribe {
+            viewmodel.roomSelectedSubject.onNext(detail.viewModel.hotelRoomResponse)
+            viewmodel.selectedRoomIndex = detail.viewModel.rowIndex
+
+            if (detail.viewModel.hotelRoomResponse.isPackage) {
+                PackagesTracking().trackHotelRoomBookClick()
+            } else {
+                HotelTracking.trackLinkHotelRoomBookClick(detail.viewModel.hotelRoomResponse, detail.viewModel.hasETP)
+            }
+
+            if (detail.viewModel.hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
+                HotelTracking.trackLinkHotelAirAttachEligible(detail.viewModel.hotelRoomResponse, detail.viewModel.hotelId)
+            }
+        }
+
+        detail.depositTermsClickedSubject.subscribe {
+            viewmodel.depositInfoContainerClickObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelCountry, detail.viewModel.hotelRoomResponse))
+        }
+
+        return detail
+    }
+
+    private fun getGroupedRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, payLater: Boolean) : Animation.AnimationListener {
+         val fadeOutRoomListener = object : AnimationListenerAdapter() {
+            override fun onAnimationEnd(p0: Animation?) {
+                createGroupedRoomViews(roomList, payLater)
+            }
+        }
+        return fadeOutRoomListener
+    }
+
+    private fun createGroupedRoomViews(roomList: List<HotelOffersResponse.HotelRoomResponse>, payLater: Boolean) {
+        val fadeInRoomsAnimation = AlphaAnimation(0f, 1f)
+        fadeInRoomsAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+
+        recycleRoomImageViews()
+        roomContainer.removeAllViews()
+
+        val roomListToUse = ArrayList<HotelOffersResponse.HotelRoomResponse>()
+
+        roomList.forEach { room ->
+            if (payLater) {
+                roomListToUse.add(room.payLaterOffer)
+            } else {
+                roomListToUse.add(room)
+            }
+        }
+
+        val groupedRooms = viewmodel.groupAndSortRoomList(roomListToUse)
+        val viewModels = ArrayList<HotelRoomDetailViewModel>()
+        var roomOptionCount = 0
+        for ((roomType, roomResponses) in groupedRooms) {
+            if (roomResponses.count() >= 0) {
+                val cardView = Ui.inflate<HotelRoomCardView>(R.layout.hotel_room_card_view, roomContainer, false)
+
+                val header = getRoomHeaderView(roomResponses[0])
+                cardView.addViewToContainer(header)
+
+                var roomCount = if (roomResponses.count() > 1) 0 else -1
+                for (roomResponse in roomResponses) {
+                    val hasETP = viewmodel.hasETPObservable.value
+                    val hotelId = viewmodel.hotelOffersResponse.hotelId
+                    val detail = getRoomDetailView(roomResponse, hotelId, roomOptionCount, roomCount, hasETP)
+                    viewModels.add(detail.viewModel)
+                    cardView.addViewToContainer(detail)
+                    roomOptionCount++
+                    roomCount++
+                }
+
+                addViewToRoomContainer(cardView)
+
+                View.inflate(context, R.layout.grey_divider_bar, roomContainer)
+            }
+        }
+
+        roomContainer.startAnimation(fadeInRoomsAnimation)
+        viewmodel.hotelRoomDetailViewModelsObservable.onNext(viewModels)
     }
 
     private fun getRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>,
                                          payLater: Boolean) : Animation.AnimationListener {
+        val fadeOutRoomListener = object : AnimationListenerAdapter() {
+            override fun onAnimationEnd(p0: Animation?) {
+                createRoomViews(roomList, topValueAddList, payLater)
+            }
+        }
+        return fadeOutRoomListener
+    }
+
+    private fun createRoomViews(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>, payLater: Boolean) {
         val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.size)
         val fadeInRoomsAnimation = AlphaAnimation(0f, 1f)
         fadeInRoomsAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
@@ -794,32 +899,33 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
         })
 
-        val fadeOutRoomListener = object : AnimationListenerAdapter() {
-            override fun onAnimationEnd(p0: Animation?) {
-                recycleRoomImageViews()
-                roomContainer.removeAllViews()
+        recycleRoomImageViews()
+        roomContainer.removeAllViews()
 
-                roomList.forEachIndexed { roomResponseIndex, room ->
-                    val roomOffer = if (payLater) room.payLaterOffer else room
-                    val view = getHotelRoomRowView(roomResponseIndex, roomOffer, topValueAddList[roomResponseIndex])
-                    addRoomRowToParent(view)
-                    hotelRoomRateViewModels.add(view.viewModel)
-                }
-                viewmodel.lastExpandedRowIndexObservable.onNext(-1)
-                viewmodel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
-                roomContainer.startAnimation(fadeInRoomsAnimation)
-
-                //set focus on first room row for accessibility
-                (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
-            }
+        roomList.forEachIndexed { roomResponseIndex, room ->
+            val roomOffer = if (payLater) room.payLaterOffer else room
+            val view = getHotelRoomRowView(roomResponseIndex, roomOffer, topValueAddList[roomResponseIndex])
+            addViewToRoomContainer(view)
+            hotelRoomRateViewModels.add(view.viewModel)
         }
-        return fadeOutRoomListener
+        viewmodel.lastExpandedRowIndexObservable.onNext(-1)
+        viewmodel.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+        roomContainer.startAnimation(fadeInRoomsAnimation)
+
+        //set focus on first room row for accessibility
+        (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
     }
 
     private fun recycleRoomImageViews() {
+        val groupedRoom = viewmodel.shouldGroupAndSortRoom()
         for (index in 0..(roomContainer.childCount - 1)) {
-            val room = roomContainer.getChildAt(index) as HotelRoomRateView
-            recycleImageView(room.roomHeaderImage)
+            if (groupedRoom) {
+                val header = roomContainer.getChildAt(index) as? HotelRoomHeaderView
+                header?.recycleImageView()
+            } else {
+                val room = roomContainer.getChildAt(index) as HotelRoomRateView
+                recycleImageView(room.roomHeaderImage)
+            }
         }
     }
 
@@ -828,7 +934,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         imageView.setImageDrawable(null)
     }
 
-    private fun addRoomRowToParent(roomView: View) {
+    private fun addViewToRoomContainer(roomView: View) {
         var parent = roomView.parent
         if (parent != null) {
             (parent as ViewGroup).removeView(roomView)

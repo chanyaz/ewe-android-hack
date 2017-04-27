@@ -935,6 +935,10 @@
         <item name="android:textSize">@dimen/small_text_size</item>
     </style>
 
+    <style name="Core.Text.Small.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
     <style name="Core.Text.Small.LightColor">
         <item name="android:textColor">@color/light_text_color</item>
     </style>

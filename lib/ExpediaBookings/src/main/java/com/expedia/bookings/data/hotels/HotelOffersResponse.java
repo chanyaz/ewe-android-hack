@@ -138,6 +138,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 	}
 
 	public static class ValueAdds {
+		public String id;
 		public String description;
 	}
 
