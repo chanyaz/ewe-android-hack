@@ -19,8 +19,14 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.enums.PresenterState
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.isDisabledSTPStateEnabled
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
@@ -236,9 +242,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
-                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BaseCheckoutPresenter.CheckoutDefault::class.java.name)
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(PresenterState.CHECKOUT)
             } else {
-                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(BundleDefault::class.java.name)
+                checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(PresenterState.BUNDLE)
             }
             setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
@@ -368,42 +374,15 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         return response?.getOldPrice() != null
     }
 
-    private fun animateInSlideToPurchase(transitionTo: String) {
-        val shouldShowSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-                && transitionTo == BaseCheckoutPresenter.CheckoutDefault::class.java.name
-
-
-        if (AccessibilityUtil.isTalkBackEnabled(context) && shouldShowSlider) {
-            //hide the slider for talkback users and show a purchase button
-            bottomCheckoutContainer.accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
-            bottomCheckoutContainer.accessiblePurchaseButton.visibility = View.VISIBLE
-            bottomCheckoutContainer.accessiblePurchaseButton.hideTouchTarget()
-            bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
-        } else {
-            bottomCheckoutContainer.accessiblePurchaseButton.visibility = View.GONE
-            if (shouldShowSlider) {
-                bottomCheckoutContainer.slideToPurchase.visibility = View.VISIBLE
-                checkoutButtonContainer.visibility = View.GONE
-            } else {
-                if (transitionTo == BundleDefault::class.java.name || (disabledSTPStateEnabled && transitionTo == BaseCheckoutPresenter.CheckoutDefault::class.java.name)) {
-                    checkoutButtonContainer.visibility = View.VISIBLE
-                } else {
-                    checkoutButtonContainer.visibility = View.GONE
-                }
-                bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
-            }
-        }
-
-        if (checkoutPresenter.acceptTermsRequired) {
-            val termsAccepted = checkoutPresenter.acceptTermsWidget.vm.acceptedTermsObservable.value
-            if (!termsAccepted && shouldShowSlider) {
-                checkoutPresenter.acceptTermsWidget.visibility = View.VISIBLE
-            }
-        }
-        if (shouldShowSlider) {
+    private fun toggleBottomContainerViews(state: PresenterState) {
+        val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+                && state == PresenterState.CHECKOUT
+        toggleCheckoutButtonOrSlider(showSlider, state)
+        toggleAcceptTermsWidget(showSlider)
+        if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
         }
-        bottomCheckoutContainer.slideToPurchaseLayout.isFocusable = shouldShowSlider
+        bottomCheckoutContainer.slideToPurchaseLayout.isFocusable = showSlider
         checkoutPresenter.adjustScrollingSpace(bottomContainer)
     }
 
@@ -438,7 +417,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
-            animateInSlideToPurchase(currentState)
+            toggleBottomContainerViews(currentState)
         }
     }
 
@@ -516,5 +495,37 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
         checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(bottomCheckoutContainer.priceChangeWidget.viewmodel.priceChangeVisibility)
         checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(bottomCheckoutContainer.priceChangeWidget.viewmodel.priceChangeVisibility)
+    }
+
+    private fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: PresenterState) {
+        if (AccessibilityUtil.isTalkBackEnabled(context) && showSlider) {
+            //hide the slider for talkback users and show a purchase button
+            bottomCheckoutContainer.accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
+            bottomCheckoutContainer.accessiblePurchaseButton.visibility = View.VISIBLE
+            bottomCheckoutContainer.accessiblePurchaseButton.hideTouchTarget()
+            bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
+        } else {
+            bottomCheckoutContainer.accessiblePurchaseButton.visibility = View.GONE
+            if (showSlider) {
+                bottomCheckoutContainer.slideToPurchase.visibility = View.VISIBLE
+                checkoutButtonContainer.visibility = View.GONE
+            } else {
+                if (state == PresenterState.BUNDLE|| (disabledSTPStateEnabled && state == PresenterState.CHECKOUT)) {
+                    checkoutButtonContainer.visibility = View.VISIBLE
+                } else {
+                    checkoutButtonContainer.visibility = View.GONE
+                }
+                bottomCheckoutContainer.slideToPurchase.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun toggleAcceptTermsWidget(showSlider: Boolean) {
+        if (checkoutPresenter.acceptTermsRequired) {
+            val termsAccepted = checkoutPresenter.acceptTermsWidget.vm.acceptedTermsObservable.value
+            if (!termsAccepted && showSlider) {
+                checkoutPresenter.acceptTermsWidget.visibility = View.VISIBLE
+            }
+        }
     }
 }

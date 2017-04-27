@@ -6,15 +6,15 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
-import com.expedia.util.*
-import com.expedia.vm.BaseCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
 
 class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), SlideToWidgetLL.ISlideToListener {
     /** Slide to purchase **/

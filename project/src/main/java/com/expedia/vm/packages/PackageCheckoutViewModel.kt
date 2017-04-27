@@ -60,6 +60,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                         .format().toString()
             }
             depositPolicyText.onNext(HtmlCompat.fromHtml(depositText))
+            //TODO need to make changes
 //            sliderPurchaseTotalText.onNext(totalPrice)
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
 //            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
