@@ -55,6 +55,9 @@
     <color name="itin_flight_canceled_color">#C42126</color>
     <color name="itin_flight_delayed_color">#F7DE08</color>
     <color name="itin_flight_on_time_color">#A2D104</color>
+    <color name="itin_flight_canceled_color_crystal_theme">#E44A01</color>
+    <color name="itin_flight_delayed_color_crystal_theme">#E86E01</color>
+    <color name="itin_flight_on_time_color_crystal_theme">#409100</color>
     <color name="itin_checkin_now_color">#4CA0FF</color>
     <color name="itin_summary_divider_color">#4D555D</color>
     <color name="itin_unable_to_find_error_color">#FF642121</color>
