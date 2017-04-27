@@ -18,6 +18,9 @@
     <color name="bg_air_attach_banner_default">@color/action_bar_bg_color</color>
     <color name="bg_air_attach_phone_launch">@color/action_bar_bg_color</color>
 
+    <!--Splash-->
+    <color name="new_splash_screen_bg">@color/splash_screen_bg</color>
+
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
