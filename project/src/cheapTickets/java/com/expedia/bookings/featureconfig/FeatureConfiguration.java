@@ -424,4 +424,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean shouldShowUserReview() {
 		return true;
 	}
+
+	@Override
+	public boolean shouldShowVIPLoyaltyMessage() {
+		return false;
+	}
 }

@@ -405,4 +405,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
+	public boolean shouldShowVIPLoyaltyMessage() {
+		return false;
+	}
+
 }
