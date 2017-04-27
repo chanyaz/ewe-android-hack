@@ -214,6 +214,8 @@
 
     <!-- Price change colors -->
     <color name="price_change_air_attach">#fd8126</color>
+    <color name="air_attach_crystal_background">@color/white</color>
+    <color name="air_attach_crystal_text_color">@color/gray8</color>
 
     <color name="air_attach_expiration_text_color">#9e9d9d</color>
 

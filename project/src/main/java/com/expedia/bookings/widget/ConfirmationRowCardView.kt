@@ -3,12 +3,12 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -23,6 +23,16 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
     var viewModel: FlightConfirmationCardViewModel by notNullAndObservable { vm ->
         vm.titleSubject.subscribeText(title)
         vm.subtitleSubject.subscribeText(subTitle)
+        vm.urlSubject.subscribe { url ->
+            if (!url.isNullOrBlank()) {
+                val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
+                        .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
+                PicassoHelper.Builder(icon)
+                        .setError(fallbackDrawable)
+                        .build()
+                        .load(url)
+            }
+        }
     }
 
     override fun onFinishInflate() {
@@ -44,17 +54,5 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
         } finally {
             ta.recycle()
         }
-    }
-
-    fun setTitle(inputText: String) {
-        title.text = inputText
-    }
-
-    fun setSubTitle(inputText: String) {
-        subTitle.text = inputText
-    }
-
-    fun setIcon(drawable: Int) {
-        icon.setImageDrawable(ContextCompat.getDrawable(context, drawable))
     }
 }

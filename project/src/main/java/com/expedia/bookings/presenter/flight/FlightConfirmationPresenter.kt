@@ -20,6 +20,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 
 class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -62,7 +63,21 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     fun showConfirmationInfo(response: FlightCheckoutResponse, email: String){
+        setCardViewModels(response)
         viewModel.confirmationObservable.onNext(Pair(response, email))
         hotelCrossSell.viewModel.confirmationObservable.onNext(response)
+    }
+
+    fun setCardViewModels(response: FlightCheckoutResponse) {
+        val outbound = response.getFirstFlightLeg()
+        val inbound = response.getLastFlightLeg()
+        val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city ?: ""
+        val numberOfGuests = response.getOffer().numberOfTickets.toInt()
+
+        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
+        viewModel.destinationObservable.onNext(destinationCity)
+        if (inbound != outbound && viewModel.inboundCardVisibility.value ?: false) {
+            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests)
+        }
     }
 }

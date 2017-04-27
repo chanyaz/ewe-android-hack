@@ -90,9 +90,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             segment.arrivalCity = segment.arrivalAirportLocation
                             segment.departureDateTimeISO = segment.departureTimeRaw
                             segment.arrivalDateTimeISO = segment.arrivalTimeRaw
-                            if (segment.airlineCode != null) {
-                                segment.airlineLogoURL = Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", segment.airlineCode)
-                            }
+                            setAirlineLogoUrl(segment)
 
                             val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.arrivalTimeRaw)
                             val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.departureTimeRaw)
@@ -148,8 +146,28 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
         checkoutRequestSubscription = flightApi.checkout(params)
                                         .observeOn(observeOn)
                                         .subscribeOn(subscribeOn)
+                                        .doOnNext { response ->
+                                            if (response.hasErrors()
+                                                    || response.getFirstFlightTripDetails().legs.isEmpty()
+                                                    || response.getFirstFlightTripDetails().offer == null)
+                                                return@doOnNext
+
+                                            response.getFirstFlightTripDetails().getLegs().forEach { leg ->
+                                                val airlines = ArrayList<Airline>()
+                                                leg.segments.forEach { segment ->
+                                                    setAirlineLogoUrl(segment)
+                                                    airlines.add(Airline(segment.airlineName, segment.airlineLogoURL))
+                                                }
+                                                leg.airlines = airlines
+                                            }
+                                        }
                                         .subscribe(observer)
 
         return checkoutRequestSubscription as Subscription
+    }
+    private fun setAirlineLogoUrl(segment: FlightLeg.FlightSegment){
+        if (segment.airlineCode != null) {
+            segment.airlineLogoURL = Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", segment.airlineCode)
+        }
     }
 }

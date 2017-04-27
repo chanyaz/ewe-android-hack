@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.bindView
@@ -23,6 +24,7 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
     val airattachExpirationDaysRemainingTextView: TextView by bindView(R.id.itin_air_attach_expiration_date_text_view)
     val airAttachExpirationTodayTextView: TextView by bindView(R.id.air_attach_expires_today_text_view)
     val airAttachCountDownView: LinearLayout by bindView(R.id.air_attach_countdown_view)
+    val isNewConfirmationScreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_additional_content_flight_confirmation)
 
     var viewModel: HotelCrossSellViewModel by notNullAndObservable { vm ->
         vm.expiresTodayVisibility.subscribeVisibility(airAttachExpirationTodayTextView)
@@ -31,7 +33,7 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
     }
 
     init {
-        View.inflate(context, R.layout.widget_hotel_cross_sell, this)
+        View.inflate(context, if (isNewConfirmationScreenEnabled) R.layout.widget_crystal_hotel_cross_sell else R.layout.widget_hotel_cross_sell, this)
         viewModel = HotelCrossSellViewModel(context)
         airAttachContainer.setOnClickListener {
             FlightsV2Tracking.trackAirAttachClicked()

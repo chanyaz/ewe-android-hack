@@ -6,6 +6,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
+import junit.framework.Assert.assertNull
 import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,6 +20,7 @@ class FlightConfirmationCardViewModelTest {
 
         val titleSubscriber = TestSubscriber<String>()
         val subtitleSubscriber = TestSubscriber<String>()
+        val urlSubscriber = TestSubscriber<String>()
 
         val outboundDepartureDateTimeISO = DateTime.now().toString()
         val flightTime = FlightV2Utils.formatTimeShort(getContext(), outboundDepartureDateTimeISO)
@@ -29,9 +31,11 @@ class FlightConfirmationCardViewModelTest {
         val viewModel = FlightConfirmationCardViewModel(getContext(), flight, numberOfTravelers)
         viewModel.titleSubject.subscribe(titleSubscriber)
         viewModel.subtitleSubject.subscribe(subtitleSubscriber)
+        viewModel.urlSubject.subscribe(urlSubscriber)
 
         titleSubscriber.assertValue("Flight to (OAX) Oakland")
         subtitleSubscriber.assertValue("$formattedDate at $flightTime, $numberOfTravelers Travelers")
+        assertNull(urlSubscriber.onNextEvents.last())
     }
 
     fun formatDate(ISODate: String) : String {
@@ -48,6 +52,7 @@ class FlightConfirmationCardViewModelTest {
         val outboundCity = "Oakland"
         val flightSegment = makeFlightSegment(outboundAirportArrivalCode, outboundCity)
 
+        flightSegment.departureTimeRaw = departureTime
         flight.departureDateTimeISO = departureTime
 
         flight.segments.add(0, flightSegment)
