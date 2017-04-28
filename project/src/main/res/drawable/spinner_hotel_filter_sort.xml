@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape>
-            <solid android:color="@color/hotel_filter_spinner_dropdown_color"></solid>
-        </shape>
+        <ripple android:color="?android:attr/colorControlHighlight">
+            <shape>
+                <solid android:color="@color/hotel_filter_spinner_dropdown_color"></solid>
+            </shape>
+        </ripple>
     </item>
     <item android:right="15dp">
         <bitmap

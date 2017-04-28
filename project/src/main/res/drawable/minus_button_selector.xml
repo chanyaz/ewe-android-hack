@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/minus"  />
-</selector>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/lx_sort_filter_pressed_row_color">
+        <item android:drawable="@drawable/minus" />
+</ripple>
