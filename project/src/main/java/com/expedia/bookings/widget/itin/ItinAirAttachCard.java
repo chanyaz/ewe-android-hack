@@ -104,6 +104,10 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 			expirationDateTv.setText(Phrase
 				.from(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining))
 				.put("days", daysRemaining).format().toString());
+			if (FeatureToggleUtil
+				.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+				expirationDateTv.setCompoundDrawables(null, null, null, null);
+			}
 		}
 		else {
 			mExpirationCountdown.setVisibility(View.GONE);

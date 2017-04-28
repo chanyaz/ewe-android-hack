@@ -218,7 +218,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public SummaryButton getSummaryLeftButton() {
-		return new SummaryButton(R.drawable.ic_printer_redeem, getContext().getString(R.string.itin_action_redeem),
+		return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_left_action_button_activity_drawable), getContext().getString(R.string.itin_action_redeem),
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -240,7 +240,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 			return getSupportSummaryButton();
 		}
 
-		return new SummaryButton(R.drawable.ic_phone, getContext().getString(
+		return new SummaryButton(Ui.obtainThemeResID(getContext(), R.attr.itin_card_summary_right_action_button_activity_drawable), getContext().getString(
 			R.string.itin_action_support), actionText,
 			new OnClickListener() {
 				@Override
