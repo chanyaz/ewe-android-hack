@@ -390,7 +390,7 @@ class AbstractFlightListAdapterTest {
         return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
     }
 
-    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearch: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearch) {
+    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
         override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
             return false
         }
@@ -404,7 +404,7 @@ class AbstractFlightListAdapterTest {
         }
 
         override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel {
-            return FlightViewModel(context, flightLeg)
+            return FlightViewModel(context, flightLeg, isRoundTripSearchSubject)
         }
     }
 }

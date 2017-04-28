@@ -9,10 +9,12 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.Locale
 
-class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
+class FlightViewModel(context: Context, flightLeg: FlightLeg, val isRoundTripSearchSubject: BehaviorSubject<Boolean>? = null) : AbstractFlightViewModel(context, flightLeg) {
     override fun price(): String {
         val price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
         return Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)
@@ -32,7 +34,7 @@ class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightVi
     }
 
     override fun getRoundTripMessageVisibilty(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+        return (isRoundTripSearchSubject?.value ?: false) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
     }
 
     override fun isShowingFlightPriceDifference(): Boolean {
