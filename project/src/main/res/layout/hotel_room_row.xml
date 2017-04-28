@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/hotel_room_list_container_margin"
         android:layout_marginRight="@dimen/hotel_room_list_container_margin"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:importantForAccessibility="yes">
 
         <FrameLayout
             android:id="@+id/room_header_image_container"

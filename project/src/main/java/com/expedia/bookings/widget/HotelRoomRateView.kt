@@ -26,8 +26,8 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -120,7 +120,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         }
 
         vm.roomSoldOut.subscribe { soldOut ->
-            row.isEnabled = !soldOut
+            row.setOnClickListener(if (soldOut) null else rowClickListener)
+
             if (soldOut) {
                 hotelRoomRateActionButton.showSoldOutButton()
             }
@@ -129,10 +130,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             }
         }
 
-        row.setOnClickListener {
-            expandRowWithAnimation()
-            vm.roomRowExpanded()
-        }
+        row.setOnClickListener(rowClickListener)
 
         roomInfoContainer.setOnClickListener {
             if (roomInfoDescriptionText.visibility == View.GONE) {
@@ -197,6 +195,11 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
         vm.viewRoomButtonContentDescriptionObservable.subscribeContentDescription(hotelRoomRateActionButton.viewRoomButton)
         vm.bookButtonContentDescriptionObservable.subscribeContentDescription(hotelRoomRateActionButton.bookButton)
+    }
+
+    val rowClickListener = View.OnClickListener { view ->
+        expandRowWithAnimation()
+        viewModel.roomRowExpanded()
     }
 
     init {
@@ -289,7 +292,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding,
                     roomContainerLeftRightPadding, roomContainerTopBottomPadding)
-            row.isEnabled = false
+
+            row.setOnClickListener(null)
 
             val infoIcon: Drawable = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
             infoIcon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
@@ -334,7 +338,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             freeCancellation.visibility = View.GONE
             expandedMandatoryFee.visibility = View.GONE
 
-            row.isEnabled = !viewModel.roomSoldOut.value
+            row.setOnClickListener(if (viewModel.roomSoldOut.value) null else rowClickListener)
 
             depositTermsButton.visibility = View.GONE
             if (showTerms) {
