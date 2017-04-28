@@ -54,6 +54,9 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     }
 
     override fun getItemViewType(position: Int): Int {
+        if (isLoadingState()) {
+            return if (position == 0) ViewTypes.LOADING_FLIGHTS_HEADER_VIEW.ordinal else ViewTypes.LOADING_FLIGHTS_VIEW.ordinal
+        }
         if (position == 0) {
             return ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal
         } else if (!shouldShowBestFlight) {

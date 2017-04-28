@@ -80,6 +80,10 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         notifyDataSetChanged()
     }
 
+    fun isLoadingState(): Boolean {
+        return loadingState
+    }
+
     override fun getItemCount(): Int {
         return flights.size + adjustPosition()
     }

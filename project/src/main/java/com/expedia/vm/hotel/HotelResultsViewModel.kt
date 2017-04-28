@@ -1,6 +1,8 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -11,10 +13,17 @@ import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.packages.PackageApiError
+import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -24,7 +33,11 @@ import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
+class HotelResultsViewModel private constructor(private val context: Context, private val hotelServices: HotelServices?, private val packageServices: PackageServices?, private val lob: LineOfBusiness) {
+
+    constructor(context: Context, hotelServices: HotelServices, lob: LineOfBusiness) : this(context, hotelServices, null, lob)
+
+    constructor(context: Context, packageServices: PackageServices, lob: LineOfBusiness) : this(context, null, packageServices, lob)
 
     // Inputs
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
@@ -96,6 +109,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         return cachedParams
     }
 
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+    }
+
     private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false) {
         cachedParams = params
         val isPackages = lob == LineOfBusiness.PACKAGES
@@ -109,10 +127,14 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         searchingForHotelsDateTime.onNext(Unit)
 
         params.serverSort = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter) && !isPackages
-        searchHotels(params, isFilteredSearch)
+        if (lob == LineOfBusiness.HOTELS) {
+            searchStandAloneHotels(params, isFilteredSearch)
+        } else if (isPackages && isRemoveBundleOverviewFeatureEnabled() && !(context as AppCompatActivity).intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+            searchPackageHotels(Db.getPackageParams(), isFilteredSearch)
+        }
     }
 
-    private fun searchHotels(params: HotelSearchParams, isFilteredSearch: Boolean) {
+    private fun searchStandAloneHotels(params: HotelSearchParams, isFilteredSearch: Boolean) {
         val searchResponseObserver = object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isFilteredSearch)
@@ -126,25 +148,62 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             }
 
             override fun onError(e: Throwable?) {
-                if (RetrofitUtils.isNetworkError(e)) {
-                    val cancelFun = fun() {
-                        showHotelSearchViewObservable.onNext(Unit)
-                    }
-                    val retryFun = fun() {
-                        if (cachedParams != null) {
-                            doSearch(cachedParams!!, isFilteredSearch)
-                        } else {
-                            cancelFun
-                        }
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                }
+                onError(e, isFilteredSearch)
             }
         }
 
         hotelSearchSubscription = hotelServices?.search(params, resultsReceivedDateTimeObservable,
                 hitLPAS = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelLPASEndpoint))
                 ?.subscribe(searchResponseObserver)
+    }
+
+    private fun searchPackageHotels(params: PackageSearchParams, isFilteredSearch: Boolean) {
+        hotelSearchSubscription = packageServices?.packageSearch(params)?.subscribe(object : Observer<PackageSearchResponse> {
+            override fun onNext(response: PackageSearchResponse) {
+                if (response.hasErrors()) {
+                    onResponseError(response.firstError)
+                } else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                    onResponseError(PackageApiError.Code.search_response_null)
+                } else {
+                    Db.setPackageResponse(response)
+                    val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
+                    Db.getPackageParams().currentFlights = currentFlights
+                    Db.getPackageParams().defaultFlights = currentFlights.copyOf()
+                    PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
+                    onSearchResponse(HotelSearchResponse.convertPackageToSearchResponse(response), isFilteredSearch)
+                }
+            }
+
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable?) {
+                onError(e, isFilteredSearch)
+            }
+        })
+    }
+
+    private fun onError(e: Throwable?, isFilteredSearch: Boolean) {
+        if (RetrofitUtils.isNetworkError(e)) {
+            val cancelFun = fun() {
+                showHotelSearchViewObservable.onNext(Unit)
+            }
+            val retryFun = fun() {
+                if (cachedParams != null) {
+                    doSearch(cachedParams!!, isFilteredSearch)
+                } else {
+                    cancelFun()
+                }
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+    }
+
+    private fun onResponseError(code: PackageApiError.Code) {
+        val intent = Intent()
+        intent.putExtra(Constants.PACKAGE_API_ERROR, code.ordinal)
+        (context as android.app.Activity).setResult(Constants.PACKAGE_API_ERROR_RESULT_CODE, intent)
+        context.finish()
     }
 
     private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isFiltered: Boolean) {

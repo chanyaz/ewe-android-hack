@@ -86,6 +86,9 @@ public class AbacusUtils {
  	public static final int EBAndroidAppCarsWebViewCA = 13829;
  	public static final int EBAndroidAppCarsWebViewOB = 13660;
 
+	// Packages Tests
+	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
+
 	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
@@ -173,6 +176,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarsWebViewCA);
 		testIDs.add(EBAndroidAppCarsWebViewOB);
 		testIDs.add(EBAndroidAppUserOnboarding);
+		testIDs.add(EBAndroidAppPackagesRemoveBundleOverview);
 		return testIDs;
 	}
 

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
@@ -26,6 +27,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -51,6 +53,14 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     val confirmationViewStub: ViewStub by bindView(R.id.widget_package_confirmation_view_stub)
     val errorViewStub: ViewStub by bindView(R.id.widget_package_error_view_stub)
     val pageUsableData = PageUsableData()
+    val bundleLoadingView: View by lazy {
+        val bundleLoadingView = bundlePresenter.findViewById(R.id.bundle_loading_view)
+        val statusBarHeight = Ui.getStatusBarHeight(context)
+        if (statusBarHeight > 0) {
+            bundleLoadingView.setPadding(0, statusBarHeight, 0, 0)
+        }
+        bundleLoadingView
+    }
     val bundlePresenter: PackageOverviewPresenter by lazy {
         val presenter = bundlePresenterViewStub.inflate() as PackageOverviewPresenter
         val checkoutPresenter = presenter.getCheckoutPresenter()
@@ -304,8 +314,15 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         PackagesTracking().trackDestinationSearchInit()
     }
 
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+    }
+
     fun trackViewBundlePageLoad() {
-        PackagesTracking().trackViewBundlePageLoad()
+        if(!isRemoveBundleOverviewFeatureEnabled()) {
+            PackagesTracking().trackViewBundlePageLoad()
+        }
     }
 
     fun showBundleOverView() {
