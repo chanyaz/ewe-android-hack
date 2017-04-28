@@ -996,6 +996,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.before_TEMPLATE,
 		R.string.option_TEMPLATE,
 		R.layout.hotel_room_detail,
-		R.layout.hotel_room_header
+		R.layout.hotel_room_header,
+		R.string.view_room_button_content_description_TEMPLATE,
+		R.string.book_room_button_content_description_TEMPLATE
 	};
 }
