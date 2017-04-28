@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.Spinner
@@ -138,12 +139,20 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
                 }
                 spinner.onItemSelectedListener = selectedListener
             }
-            adultMinus.setAccessibilityHoverFocus()
         }
     }
 
     init {
         View.inflate(context, R.layout.widget_traveler_picker, this)
+        adultMinus.viewTreeObserver.addOnPreDrawListener(
+                object : ViewTreeObserver.OnPreDrawListener {
+                    override fun onPreDraw(): Boolean {
+                        adultMinus.viewTreeObserver.removeOnPreDrawListener(this)
+                        adultMinus.setAccessibilityHoverFocus()
+                        return true
+                    }
+                }
+        )
     }
 
     fun ImageButton.setImageButtonColorFilter(enabled: Boolean) {
