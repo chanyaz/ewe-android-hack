@@ -15,6 +15,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
     var textViewLeftX = 0
     var textViewWidth = 0
     val toolbarHeight = Ui.getStatusBarHeight(context)
+    var numOfLines = 1
 
     override fun layoutDependsOn(parent: CoordinatorLayout, child: CheckoutOverviewHeader, dependency: View): Boolean {
         return dependency is AppBarLayout
@@ -28,6 +29,11 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
             child.checkInOutDates.alpha = 1 - (percentage * 2)
             child.travelers.alpha = 1 - (percentage * 2)
+
+            if (numOfLines != child.destinationText.lineCount) {
+                resetValues()
+            }
+
             if (percentage == 0f && (textViewLeftX <= 0 || toolBarRightX <= 0
                     || (textViewWidth == 0 && child.destinationText.width != 0))) {
                 setupValues(child, dependency)
@@ -58,18 +64,25 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
     private fun setupValues(child: CheckoutOverviewHeader, dependency: View) {
         val toolbar = dependency.findViewById(R.id.checkout_toolbar) as CheckoutToolbar
-        textViewWidth = child.destinationText.width
         val fullWidth = child.width
-        child.destinationText.x = (fullWidth / 2f) - (textViewWidth/2f)
-        textViewLeftX = getLocation(child.destinationText)[0]
         toolBarRightX = getLocation(toolbar.getChildAt(0))[0] + toolbar.getChildAt(0).width
         child.destinationText.maxWidth = child.width - (toolBarRightX * 2)
+        textViewWidth = child.destinationText.width
+        child.destinationText.x = (fullWidth / 2f) - (textViewWidth/2f)
+        textViewLeftX = getLocation(child.destinationText)[0]
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+        numOfLines = child.destinationText.lineCount
     }
 
     private fun getLocation(view: View): IntArray {
         val location = IntArray(2)
         view.getLocationOnScreen(location)
         return location
+    }
+
+    private fun resetValues() {
+        toolBarRightX = 0
+        textViewLeftX = 0
+        textViewWidth = 0
     }
 }

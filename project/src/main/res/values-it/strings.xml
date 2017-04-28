@@ -2548,7 +2548,7 @@
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
-    <string name="member_pricing">Prezzi per iscritti</string>
+    <string name="member_pricing">Tariffe per soli iscritti</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -4589,8 +4589,8 @@
         <item quantity="many">{guest} ospiti</item>
         <item quantity="other">{guest} ospiti</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">Pulsante di riepilogo itinerario {type}.</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">Pulsante di riepilogo itinerario {itin_card_header_text} {trip_start_date} {line_of_business}.</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Copia negli appunti. Pulsante.</string>

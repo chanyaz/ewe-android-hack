@@ -8,7 +8,7 @@ import com.expedia.vm.flights.FlightViewModel
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
 
     override fun adjustPosition(): Int {
         return if (showAllFlightsHeader()) 2 else 1
@@ -23,6 +23,6 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     }
 
     override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): FlightViewModel {
-        return FlightViewModel(context, flightLeg)
+        return FlightViewModel(context, flightLeg, isRoundTripSearchSubject)
     }
 }

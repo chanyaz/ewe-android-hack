@@ -4589,8 +4589,8 @@
         <item quantity="many">ผู้เข้าพัก {guest} คน</item>
         <item quantity="other">ผู้เข้าพัก {guest} คน</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">ปุ่มบัตรแผนการเดินทางสำหรับ {type}</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">ปุ่มบัตรแผนการเดินทางสำหรับ {itin_card_header_text}{trip_start_date}{line_of_business}</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">คัดลอกไปยังคลิปบอร์ด ปุ่ม</string>

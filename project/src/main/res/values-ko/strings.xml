@@ -4589,8 +4589,8 @@
         <item quantity="many">숙박객 {guest}명</item>
         <item quantity="other">숙박객 {guest}명</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">{type} 일정 카드 버튼.</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text} {trip_start_date} {line_of_business} 일정 카드 버튼.</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">클립보드에 복사. 버튼.</string>

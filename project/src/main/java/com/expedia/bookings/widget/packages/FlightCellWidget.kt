@@ -14,7 +14,7 @@ import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.AbstractFlightViewModel
 
-class FlightCellWidget(context: Context, val isRoundTripSearch: Boolean, val maxFlightDuration: Int, showPrice: Boolean = true) : FrameLayout(context) {
+class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: Boolean = true) : FrameLayout(context) {
     val cardView: CardView by bindView(R.id.card_view)
     val flightTimeTextView: TextView by bindView(R.id.flight_time_detail_text_view)
     val priceTextView: TextView by bindView(R.id.price_text_view)
@@ -38,7 +38,7 @@ class FlightCellWidget(context: Context, val isRoundTripSearch: Boolean, val max
     }
 
     fun bind(viewModel: AbstractFlightViewModel) {
-        if (isRoundTripSearch && viewModel.getRoundTripMessageVisibilty()) {
+        if (viewModel.getRoundTripMessageVisibilty()) {
             roundTripTextView.visibility = View.VISIBLE
         } else {
             roundTripTextView.visibility = View.GONE
@@ -48,7 +48,7 @@ class FlightCellWidget(context: Context, val isRoundTripSearch: Boolean, val max
         flightDurationTextView.text = viewModel.duration
         val flight = viewModel.layover
         flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-        flightAirlineWidget.update(viewModel.airline, isRoundTripSearch && viewModel.getRoundTripMessageVisibilty(), viewModel.isEarnMessageVisible(viewModel.earnMessage))
+        flightAirlineWidget.update(viewModel.airline, viewModel.getRoundTripMessageVisibilty(), viewModel.isEarnMessageVisible(viewModel.earnMessage))
         if (viewModel.getFlightCabinPreferenceVisibility() && Strings.isNotEmpty(viewModel.flightCabinPreferences)) {
             flightCabinCodeTextView.visibility = View.VISIBLE
             flightCabinCodeTextView.text = viewModel.flightCabinPreferences

@@ -4589,8 +4589,8 @@
         <item quantity="many">{guest} personnes</item>
         <item quantity="other">{guest} personnes</item>
     </plurals>
-    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">Bouton de fiche d\&apos;itinéraire de type {type}</string>
+    <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">Bouton de fiche d\&apos;itinéraire de type {line_of_business}, {itin_card_header_text} le {trip_start_date}</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Copier dans le presse-papiers. Bouton.</string>
