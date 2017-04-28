@@ -71,7 +71,7 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
     }
 
     override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_car_search);
+        return context.resources.getInteger(R.integer.calendar_max_days_car_search)
     }
 
     override fun getMaxDateRange(): Int {

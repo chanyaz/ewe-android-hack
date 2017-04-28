@@ -243,7 +243,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.bundlePriceWidget.disable()
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener(null)
-        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
+        detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_package_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
         val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
 

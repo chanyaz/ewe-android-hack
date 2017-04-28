@@ -69,7 +69,7 @@ class HotelSearchTest {
         vm.datesUpdated(LocalDate.now(), null)
         vm.searchObserver.onNext(Unit)
         expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams)
@@ -78,7 +78,7 @@ class HotelSearchTest {
         vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
         vm.searchObserver.onNext(Unit)
         expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(3)).build() as HotelSearchParams)
@@ -90,7 +90,7 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
 
         //When last selectable date is selected error should be fired
-        val lastSelectableDate =  LocalDate.now().plusDays(activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+        val lastSelectableDate =  LocalDate.now().plusDays(activity.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
         vm.datesUpdated(lastSelectableDate, lastSelectableDate)
         vm.searchObserver.onNext(Unit)
 
@@ -119,7 +119,7 @@ class HotelSearchTest {
         vm.searchObserver.onNext(Unit)
 
         val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
                 .destination(suggestion)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder

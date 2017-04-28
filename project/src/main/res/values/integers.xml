@@ -15,8 +15,8 @@
     <!-- The maximum billing address length, according to sources -->
     <integer name="max_billing_address_length">40</integer>
 
-    <!-- The maximum number of days for paging in the future (from now) users can select to search -->
-    <integer name="calendar_max_selectable_date_range">500</integer>
+    <!-- The maximum number of days for paging in the future (from now) users can select to search on hotels only -->
+    <integer name="max_calendar_selectable_date_range_hotels_only">500</integer>
 
     <!-- The maximum number of days for paging in the future (from now) users can select to search -->
     <integer name="max_calendar_selectable_date_range">329</integer>

@@ -55,7 +55,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                    context.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+                    context.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
                     .destination(suggestion)
                     .startDate(cachedParams?.checkIn)
                     .endDate(cachedParams?.checkOut)
@@ -68,7 +68,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
         filterParamsSubject.subscribe(endlessObserver { filterParams ->
             val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                    context.resources.getInteger(R.integer.calendar_max_selectable_date_range))
+                    context.resources.getInteger(R.integer.max_calendar_selectable_date_range_hotels_only))
                     .destination(cachedParams?.suggestion)
                     .startDate(cachedParams?.checkIn)
                     .endDate(cachedParams?.checkOut)
