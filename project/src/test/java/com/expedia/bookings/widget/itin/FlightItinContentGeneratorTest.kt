@@ -57,6 +57,7 @@ class FlightItinContentGeneratorTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testFlightImageContentDescription() {
         createSystemUnderTest()
         itinCardData = ItinCardDataFlight(tripFlight, 0)

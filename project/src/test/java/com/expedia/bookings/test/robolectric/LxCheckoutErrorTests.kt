@@ -35,7 +35,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class LxCheckoutErrorTests {
