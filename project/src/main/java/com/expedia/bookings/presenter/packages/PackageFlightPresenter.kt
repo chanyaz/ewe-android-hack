@@ -33,8 +33,10 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
+import com.squareup.phrase.Phrase
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
@@ -137,6 +139,11 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
         menuFilter.actionView = toolbarFilterItemActionView
         filter.viewModelBase.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
+        filter.viewModelBase.filterCountObservable.map {
+            Phrase.from(resources.getQuantityString(R.plurals.no_of_filters_applied_TEMPLATE, it))
+                    .put("filterno", it)
+                    .format().toString()
+        }.subscribeContentDescription(filterCountText)
         filter.viewModelBase.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
         filter.viewModelBase.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
     }

@@ -2568,7 +2568,11 @@
         <item quantity="many">%d Rooms Left</item>
         <item quantity="other">%d Rooms Left</item>
     </plurals>
-
+    <!-- No of filters applied on packages -->
+    <plurals name="no_of_filters_applied_TEMPLATE">
+        <item quantity="one">{filterno} filter applied button</item>
+        <item quantity="other">{filterno} filters applied button</item>
+    </plurals>
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
     <string name="EnableLocationPermissionSettings_TEMPLATE">To use current location, you must allow {brand} to access your location.\n\nTo enable, go to settings, tap \"permissions\" and enable location.</string>
     <string name="go_to_settings">Go to Settings</string>

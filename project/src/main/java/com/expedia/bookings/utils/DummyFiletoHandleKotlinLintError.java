@@ -976,6 +976,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.trip_page_subtitle,
 		R.string.reward_page_title,
 		R.string.reward_page_subtitle_TEMPLATE,
+		R.plurals.no_of_filters_applied_TEMPLATE,
 		R.color.onboarding_page_background_gradient,
 		R.drawable.onboarding_circle,
 		R.drawable.onboarding_circle_active,
