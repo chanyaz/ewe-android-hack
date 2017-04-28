@@ -19,6 +19,10 @@ class HotelServerFilterViewModel(context: Context) : BaseHotelFilterViewModel(co
             }
             previousFilterChoices = userFilterChoices.copy()
         }
+
+        clearObservable.subscribe {
+            previousFilterChoices = null
+        }
     }
 
     override fun isClientSideFiltering(): Boolean {

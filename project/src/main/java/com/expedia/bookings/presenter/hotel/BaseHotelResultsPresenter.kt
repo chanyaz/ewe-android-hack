@@ -217,7 +217,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     protected fun inflateClientFilterView(viewStub: ViewStub) : HotelClientFilterView {
-        viewStub.layoutResource = R.layout.hotel_client_filter_stub;
+        viewStub.layoutResource = R.layout.hotel_client_filter_stub
         return viewStub.inflate() as HotelClientFilterView
     }
 
