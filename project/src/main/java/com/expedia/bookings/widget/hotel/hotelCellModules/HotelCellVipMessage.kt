@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.updateVisibility
@@ -28,7 +29,7 @@ class HotelCellVipMessage(context: Context, attrs: AttributeSet) : LinearLayout(
 
     fun update(viewModel: HotelViewModel) {
         vipMessageTextView.updateVisibility(viewModel.showVipMessage())
-        vipLoyaltyMessageTextView.updateVisibility(viewModel.showVipLoyaltyMessage())
+        vipLoyaltyMessageTextView.updateVisibility(viewModel.showVipLoyaltyMessage() && ProductFlavorFeatureConfiguration.getInstance().shouldShowVIPLoyaltyMessage())
         this.updateVisibility(viewModel.showVipMessage() || viewModel.showVipLoyaltyMessage())
     }
 }
