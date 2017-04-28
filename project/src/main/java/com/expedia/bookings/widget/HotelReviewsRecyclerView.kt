@@ -22,12 +22,12 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
 
     class HotelReviewsRecyclerAdapter : RecyclerView.Adapter<HotelReviewsViewHolder>() {
         val VIEW_TYPE_HEADER = 0
-        val VIEW_TYPE_REVIEW = 1;
-        val VIEW_TYPE_LOADING = 2;
+        val VIEW_TYPE_REVIEW = 1
+        val VIEW_TYPE_LOADING = 2
 
         val loadMoreObservable = BehaviorSubject.create<Unit>()
 
-        var moreReviewsAvailable = true
+        var moreReviewsAvailable = false
 
         private var reviews: ArrayList<HotelReviewsResponse.Review> = arrayListOf()
         private var reviewsSummary: HotelReviewsResponse.ReviewSummary = HotelReviewsResponse.ReviewSummary()
