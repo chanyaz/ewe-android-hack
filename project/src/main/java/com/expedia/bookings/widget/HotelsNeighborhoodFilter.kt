@@ -32,11 +32,13 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
         } else {
             neighborhoodDeselectedSubject.onNext(neighborhood)
         }
+        refreshContentDescription()
     }
 
     fun clear() {
         neighborhoodCheckBox.isChecked = false
         neighborhoodDeselectedSubject.onNext(neighborhood)
+        refreshContentDescription()
     }
 
     fun bind(neighborhood: Neighborhood) {
@@ -45,6 +47,19 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
         neighborhoodCheckBox.isChecked = false
 
         subscribeOnClick(checkObserver)
+        refreshContentDescription()
+    }
+
+    private fun refreshContentDescription() {
+        var contentDesc = StringBuilder(neighborhoodName.text)
+        contentDesc.append(". ")
+        if (neighborhoodCheckBox.isChecked) {
+            contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
+        }
+        else {
+            contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_unchecked))
+        }
+        this.contentDescription = contentDesc
     }
 }
 

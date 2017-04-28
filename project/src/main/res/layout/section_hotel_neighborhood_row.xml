@@ -7,7 +7,8 @@
     android:clickable="true"
     android:paddingBottom="5dp"
     android:paddingRight="@dimen/lx_sort_filter_padding"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:importantForAccessibility="yes">
 
     <CheckBox
         android:id="@+id/neighborhood_check_box"
@@ -16,7 +17,8 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/sort_filter_padding_checkmarks"
-        android:clickable="false" />
+        android:clickable="false"
+        android:importantForAccessibility="no"/>
 
     <TextView
         android:id="@+id/neighborhood_name"
@@ -27,7 +29,8 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/hotel_filter_neighborhood_text"
-        android:textSize="@dimen/package_sort_filter_label_text_size" />
+        android:textSize="@dimen/package_sort_filter_label_text_size"
+        android:importantForAccessibility="no"/>
 
 
 </com.expedia.bookings.widget.HotelsNeighborhoodFilter>
