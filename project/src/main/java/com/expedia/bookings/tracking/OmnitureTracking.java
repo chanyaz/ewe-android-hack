@@ -81,6 +81,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
+import com.expedia.bookings.enums.OnboardingPagerState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData;
@@ -3526,7 +3527,10 @@ public class OmnitureTracking {
 	private static final String ACCOUNT_APP_DOWNLOAD = "App.Account.Download";
 	private static final String ACCOUNT_SIGN_OUT = "App.Account.Logout";
 	private static final String MEMBER_PRICING_SCREEN = "App.MemberDeals";
-
+	private static final String NEW_USER_ONBOARDING_LOB = "App.Onboarding.MultiLOB";
+	private static final String NEW_USER_ONBOARDING_ITINERARY = "App.Onboarding.Itinerary";
+	private static final String NEW_USER_ONBOARDING_LOYALTY = "App.Onboarding.Loyalty";
+	private static final String NEW_USER_ONBOARDING_GO_SIGNIN = "App.Onboarding.SignIn";
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3701,6 +3705,31 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setEvar(12, MEMBER_PRICING_SCREEN);
 		s.track();
+	}
+
+	public static void trackNewUserOnboardingPage(OnboardingPagerState pagerState) {
+		String pageName = "";
+		switch(pagerState) {
+		case BOOKING_PAGE:
+			pageName = NEW_USER_ONBOARDING_LOB;
+			break;
+		case TRIP_PAGE:
+			pageName = NEW_USER_ONBOARDING_ITINERARY;
+			break;
+		case REWARD_PAGE:
+			pageName = NEW_USER_ONBOARDING_LOYALTY;
+			break;
+		}
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		s.track();
+	}
+
+	public static void trackNewUserOnboardingGoSignIn() {
+		Log.d(TAG, "Tracking \"Let's Go Button\" onClick");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(16, NEW_USER_ONBOARDING_GO_SIGNIN);
+		s.setEvar(28, NEW_USER_ONBOARDING_GO_SIGNIN);
+		s.trackLink(null, "o", "New User Onboarding", null, null);
 	}
 
 	public static void trackAccountPageLoad() {
