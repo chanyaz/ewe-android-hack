@@ -45,31 +45,32 @@ public class RailSearchPresenterTest extends RailTestCase {
 		onView(withText("12:55 PM – 4:16 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 
-	public void testRoundTripSearch() throws Throwable {
-		RailScreen.selectRoundTrip();
-		// Search button clicked without any input params
-		SearchScreen.searchButton().perform(click());
-		SearchScreen.searchButton().check(matches(isDisplayed()));
-
-		SearchScreen.selectRailOriginAndDestination();
-		RailScreen.calendarButton().perform(click());
-
-		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
-		LocalDate startDate = startDateTime.toLocalDate();
-		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
-
-		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
-		LocalDate endDate = endDateTime.toLocalDate();
-		String expectedEndDateTime = DateUtils.dateTimeToMMMdhmma(endDateTime);
-		RailScreen.selectDates(startDate, endDate);
-
-		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
-		EspressoUtils.assertViewIsDisplayed(R.id.return_slider_container);
-		RailScreen.dialogDoneButton().perform(click());
-
-		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime + " – " + expectedEndDateTime);
-		SearchScreen.searchButton().perform(click());
-
-		onView(withText(R.string.select_outbound)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
-	}
+// Disabled on April 28, 2017 for repeated flakiness - ScottW
+//	public void testRoundTripSearch() throws Throwable {
+//		RailScreen.selectRoundTrip();
+//		// Search button clicked without any input params
+//		SearchScreen.searchButton().perform(click());
+//		SearchScreen.searchButton().check(matches(isDisplayed()));
+//
+//		SearchScreen.selectRailOriginAndDestination();
+//		RailScreen.calendarButton().perform(click());
+//
+//		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
+//		LocalDate startDate = startDateTime.toLocalDate();
+//		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+//
+//		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
+//		LocalDate endDate = endDateTime.toLocalDate();
+//		String expectedEndDateTime = DateUtils.dateTimeToMMMdhmma(endDateTime);
+//		RailScreen.selectDates(startDate, endDate);
+//
+//		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
+//		EspressoUtils.assertViewIsDisplayed(R.id.return_slider_container);
+//		RailScreen.dialogDoneButton().perform(click());
+//
+//		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime + " – " + expectedEndDateTime);
+//		SearchScreen.searchButton().perform(click());
+//
+//		onView(withText(R.string.select_outbound)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+//	}
 }

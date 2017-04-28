@@ -69,25 +69,26 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         onView(withId(R.id.last_name_layout_input)).check(matches(hasTextInputLayoutErrorText("")))
     }
 
-    @Test
-    fun testPaymentInfoCCVClear() {
-        flightSearchAndGoToCheckout()
-        CheckoutViewModel.signInOnCheckout()
-        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
-
-        PackageScreen.clickPaymentInfo()
-        PaymentOptionsScreen.openCardPaymentSection()
-        fillPaymentInfo()
-
-        onView(withId(android.R.id.button1)).perform(click())
-        CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
-
-        PaymentOptionsScreen.assertCardSelectionMatches("Saved Expired Credit Card", 1)
-        Common.pressBack()
-        CheckoutViewModel.performSlideToPurchase()
-        EspressoUtils.assertViewIsDisplayed(R.id.cvv)
-    }
+// Disabled on April 28, 2017 for repeated flakiness - ScottW
+//    @Test
+//    fun testPaymentInfoCCVClear() {
+//        flightSearchAndGoToCheckout()
+//        CheckoutViewModel.signInOnCheckout()
+//        EspressoUtils.waitForViewNotYetInLayoutToDisplay(ViewMatchers.withId(R.id.login_widget), 10, TimeUnit.SECONDS)
+//
+//        PackageScreen.clickPaymentInfo()
+//        PaymentOptionsScreen.openCardPaymentSection()
+//        fillPaymentInfo()
+//
+//        onView(withId(android.R.id.button1)).perform(click())
+//        CheckoutViewModel.clickPaymentInfo()
+//        CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
+//
+//        PaymentOptionsScreen.assertCardSelectionMatches("Saved Expired Credit Card", 1)
+//        Common.pressBack()
+//        CheckoutViewModel.performSlideToPurchase()
+//        EspressoUtils.assertViewIsDisplayed(R.id.cvv)
+//    }
 
     @Test
     fun testTravelerAndPaymentInfoClearsOnNewFlightSearch() {

@@ -68,19 +68,20 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         assertInsuranceAfterPriceChange()
     }
 
-    @Test
-    fun testCheckoutSignedInPriceChange() {
-        getToCheckoutOverview(PriceChangeType.CHECKOUT)
-
-        CheckoutViewModel.signInOnCheckout()
-
-        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
-        CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
-        Common.pressBack()
-        CheckoutViewModel.performSlideToPurchase(true)
-        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
-    }
+// Disabled on April 28, 2017 for repeated flakiness - ScottW
+//    @Test
+//    fun testCheckoutSignedInPriceChange() {
+//        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+//
+//        CheckoutViewModel.signInOnCheckout()
+//
+//        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
+//        CheckoutViewModel.clickPaymentInfo()
+//        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
+//        Common.pressBack()
+//        CheckoutViewModel.performSlideToPurchase(true)
+//        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
+//    }
 
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, isOneWay)
