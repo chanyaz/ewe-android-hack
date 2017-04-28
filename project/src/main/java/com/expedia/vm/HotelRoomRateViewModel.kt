@@ -43,7 +43,6 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     var roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
     var roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
-    var soldOutButtonLabelObservable: Observable<CharSequence> = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
 
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
@@ -126,7 +125,6 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         roomHeaderImageObservable.onNext(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
         roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription)
         roomInfoVisibilityObservable = roomRateInfoTextObservable.map { roomInfoText -> !roomInfoText.isNullOrBlank() }
-        soldOutButtonLabelObservable = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
 
         val rateInfo = hotelRoomResponse.rateInfo
         val isPayLater = hotelRoomResponse.isPayLater

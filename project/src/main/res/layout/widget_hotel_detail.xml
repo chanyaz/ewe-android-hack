@@ -630,18 +630,19 @@
                     android:background="@color/hotel_detail_divider"
                     android:visibility="gone" />
 
-                <TableLayout
+                <LinearLayout
                     android:id="@+id/room_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/common_amenities_divider"/>
+                    android:layout_below="@+id/common_amenities_divider"
+                    android:orientation="vertical"/>
 
                 <TableLayout
                     android:id="@+id/property_info_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/room_container"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="10dp">
 
                 </TableLayout>
 

@@ -196,6 +196,10 @@
     <dimen name="hotel_detail_gradient_height">120dp</dimen>
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
     <dimen name="hotel_gallery_peak_amount">40dp</dimen>
+    <dimen name="hotel_room_top_padding">10dp</dimen>
+    <dimen name="hotel_room_padding">14dp</dimen>
+    <dimen name="hotel_room_card_padding">11dp</dimen>
+    <dimen name="hotel_room_amenity_margin">4dp</dimen>
 
     <!--Dimensions for hotel review row-->
     <dimen name="hotel_review_title_text_size">13dp</dimen>
@@ -365,5 +369,8 @@
          is along the minor axis (that is the screen is portrait).  This may
          be either a fraction or a dimension. -->
     <item type="dimen" name="abs__dialog_min_width_minor">72%</item>
+
+    <!-- Textview Image -->
+    <dimen name="textview_drawable_padding">9dp</dimen>
 
 </resources>

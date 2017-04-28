@@ -1824,6 +1824,8 @@
     <string name="hotel_free_cancellation_TEMPLATE">Free Cancellation by {date}</string>
     <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
     <string name="hotel_free_cancellation_before_TEMPLATE">Free cancellation before {date}</string>
+    <!--Hotel detail free cancellation deadline date template. E.g. "before Sun, May 21" -->
+    <string name="before_TEMPLATE">before {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -4728,4 +4730,7 @@
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">Excludes {amount} daily resort fee</string>
+
+    <!-- Hotel detail grouped room option message, example: Option 1 -->
+    <string name="option_TEMPLATE">Option {number}</string>
 </resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.HotelRoomCardView style="@style/MaterialCardView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/hotel_room_card_padding"
+    tools:layout_height="100dp">
+
+    <LinearLayout
+        android:id="@+id/hotel_room_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</com.expedia.bookings.widget.HotelRoomCardView>

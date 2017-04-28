@@ -24,6 +24,7 @@ import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
@@ -49,6 +50,7 @@ import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.LinkedHashMap
 import java.util.Locale
+import kotlin.comparisons.compareBy
 import kotlin.properties.Delegates
 
 abstract class BaseHotelDetailViewModel(val context: Context) :
@@ -111,6 +113,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val lastExpandedRowIndexObservable = BehaviorSubject.create<Int>()
     val rowExpandingObservable = PublishSubject.create<Int>()
     val hotelRoomRateViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomRateViewModel>>()
+    val hotelRoomDetailViewModelsObservable = BehaviorSubject.create<ArrayList<HotelRoomDetailViewModel>>()
 
     val hotelResortFeeObservable = BehaviorSubject.create<String>(null as String?)
     val hotelResortFeeIncludedTextObservable = BehaviorSubject.create<String>()
@@ -243,8 +246,12 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
         selectedRoomSoldOut.subscribe {
             if (selectedRoomIndex != -1) {
-                hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).collapseRoomObservable.onNext(Unit)
-                hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
+                if (shouldGroupAndSortRoom()) {
+                    hotelRoomDetailViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
+                } else {
+                    hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).collapseRoomObservable.onNext(Unit)
+                    hotelRoomRateViewModelsObservable.value.elementAt(selectedRoomIndex).roomSoldOut.onNext(true)
+                }
             }
         }
 
@@ -256,7 +263,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
         hotelRoomRateViewModelsObservable.subscribe { roomRateViewModels ->
             roomSubscriptions?.unsubscribe()
-            if (roomRateViewModels == null || roomRateViewModels.isEmpty()) {
+            if (roomRateViewModels.isEmpty()) {
                 return@subscribe
             }
 
@@ -271,6 +278,24 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             }
 
             allRoomsSoldOut.onNext(areAllRoomsSoldOut(roomRateViewModels))
+        }
+
+        hotelRoomDetailViewModelsObservable.subscribe { roomDetailViewModels ->
+            roomSubscriptions?.unsubscribe()
+            if (roomDetailViewModels.isEmpty()) {
+                return@subscribe
+            }
+
+            roomSubscriptions = CompositeSubscription()
+            roomDetailViewModels.forEach { roomViewModel ->
+                roomSubscriptions?.add(roomViewModel.roomSoldOut.subscribe {
+                    if (areAllRoomDetailsSoldOut(roomDetailViewModels)) {
+                        allRoomsSoldOut.onNext(true)
+                    }
+                })
+            }
+
+            allRoomsSoldOut.onNext(areAllRoomDetailsSoldOut(roomDetailViewModels))
         }
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
@@ -301,9 +326,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             galleryItemChangeObservable.onNext(Pair(position, ""))
     }
 
-    fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): List<HotelOffersResponse.HotelRoomResponse> {
+    fun shouldGroupAndSortRoom(): Boolean {
+        return getLOB() == LineOfBusiness.HOTELS &&
+                FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_group_room_and_rate)
+    }
+
+    fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>> {
         val roomOrderedMap = LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>>()
-        val sortedRoomList = roomList.sortedBy { room -> room.rateInfo.chargeableRateInfo.priceToShowUsers }
+        val sortedRoomList = roomList.sortedWith(compareBy({ it.rateInfo.chargeableRateInfo.priceToShowUsers }, { it.hasFreeCancellation }, { if (it.valueAdds != null) -it.valueAdds.count() else 0 } ))
 
         sortedRoomList.forEach { room ->
             if (roomOrderedMap[room.roomTypeCode] == null) {
@@ -313,13 +343,14 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
             roomOrderedMap[room.roomTypeCode]?.add(room)
         }
 
-        val groupSortedRoomList: ArrayList<HotelOffersResponse.HotelRoomResponse> = ArrayList()
+        return roomOrderedMap
+    }
 
-        for (value in roomOrderedMap.values) {
-            groupSortedRoomList.addAll(value)
+    private fun areAllRoomDetailsSoldOut(viewModels: ArrayList<HotelRoomDetailViewModel>): Boolean {
+        for (vm in viewModels) {
+            if (!vm.roomSoldOut.value) return false
         }
-
-        return groupSortedRoomList
+        return true
     }
 
     private fun areAllRoomsSoldOut(viewModels: ArrayList<HotelRoomRateViewModel>): Boolean {
@@ -337,7 +368,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         }
 
         var listHotelInfo = ArrayList<HotelOffersResponse.HotelText>()
-
         //Set up entire text for hotel info
         if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1) {
             for (index in 1..hotelOffersResponse.hotelOverviewText.size - 1) {

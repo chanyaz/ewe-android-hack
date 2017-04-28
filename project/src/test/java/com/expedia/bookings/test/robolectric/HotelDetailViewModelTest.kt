@@ -516,33 +516,40 @@ class HotelDetailViewModelTest {
     fun groupAndSortRoom() {
         val roomResponse = createRoomResponseList()
         val sorted = vm.groupAndSortRoomList(roomResponse)
-        assertEquals(5, sorted.count())
-        assertEquals(sorted[0].roomTypeCode, "1")
-        assertEquals(sorted[1].roomTypeCode, "1")
-        assertEquals(sorted[2].roomTypeCode, "3")
-        assertEquals(sorted[3].roomTypeCode, "2")
-        assertEquals(sorted[4].roomTypeCode, "2")
+        assertEquals(3, sorted.count())
+        assertEquals(sorted["1"]!![0]!!.roomTypeCode, "1")
+        assertEquals(sorted["1"]!![1]!!.roomTypeCode, "1")
+        assertEquals(sorted["1"]!![2]!!.roomTypeCode, "1")
+        assertEquals(sorted["3"]!![0]!!.roomTypeCode, "3")
+        assertEquals(sorted["2"]!![0]!!.roomTypeCode, "2")
+        assertEquals(sorted["2"]!![1]!!.roomTypeCode, "2")
 
-        assertEquals(sorted[0].rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
-        assertEquals(sorted[1].rateInfo.chargeableRateInfo.priceToShowUsers, 1000.toFloat())
-        assertEquals(sorted[2].rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
-        assertEquals(sorted[3].rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
-        assertEquals(sorted[4].rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
+        assertEquals(sorted["1"]!![0]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["1"]!![0]!!.hasFreeCancellation, false)
+        assertEquals(sorted["1"]!![1]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 10.toFloat())
+        assertEquals(sorted["1"]!![1]!!.hasFreeCancellation, true)
+        assertEquals(sorted["1"]!![2]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 1000.toFloat())
+        assertEquals(sorted["3"]!![0]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 15.toFloat())
+        assertEquals(sorted["2"]!![0]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 20.toFloat())
+        assertEquals(sorted["2"]!![1]!!.rateInfo.chargeableRateInfo.priceToShowUsers, 100.toFloat())
     }
 
     private fun createRoomResponseList() : List<HotelOffersResponse.HotelRoomResponse> {
         var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
-        rooms.add(createroomResponse("2", 20.toFloat()))
-        rooms.add(createroomResponse("1", 10.toFloat()))
-        rooms.add(createroomResponse("3", 15.toFloat()))
-        rooms.add(createroomResponse("1", 1000.toFloat()))
-        rooms.add(createroomResponse("2", 100.toFloat()))
+        rooms.add(createRoomResponse("2", 20.toFloat()))
+        rooms.add(createRoomResponse("1", 10.toFloat()))
+        rooms.last().hasFreeCancellation = true
+        rooms.add(createRoomResponse("3", 15.toFloat()))
+        rooms.add(createRoomResponse("1", 1000.toFloat()))
+        rooms.add(createRoomResponse("2", 100.toFloat()))
+        rooms.add(createRoomResponse("1", 10.toFloat()))
+        rooms.last().hasFreeCancellation = false
 
         return rooms
     }
 
-    private fun createroomResponse(roomTypeCode: String, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
+    private fun createRoomResponse(roomTypeCode: String, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
         var room = HotelOffersResponse.HotelRoomResponse()
         room.roomTypeCode = roomTypeCode
 

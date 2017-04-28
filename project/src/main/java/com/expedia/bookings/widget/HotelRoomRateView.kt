@@ -186,7 +186,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             expandedMandatoryFee.text = mandatoryFeeMessage
             collapsedMandatoryFee.text = mandatoryFeeMessage
 
-            if (mandatoryFeeMessage.isNotEmpty()) {
+            if (!mandatoryFeeMessage.isNullOrBlank()) {
                 expandedMandatoryFee.visibility = View.VISIBLE
                 collapsedMandatoryFee.visibility = View.VISIBLE
             } else {
