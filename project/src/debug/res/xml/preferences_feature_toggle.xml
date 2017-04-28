@@ -27,18 +27,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Launch Page Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_new_user_onboarding"
-            android:layout="@layout/preference"
-            android:summary="Enable New User Onboarding."
-            android:title="Enable New User Onboarding" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Material Flight Features">
 
         <CheckBoxPreference
