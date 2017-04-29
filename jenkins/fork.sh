@@ -3,7 +3,7 @@
 set -x
 
 GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
+HIPCHAT_TOKEN=MbeOZFJgjjlPeOfIrAnaktNXTz2gUeIjv4WjpElK
 
 if [ ! -d 'virtualenv' ] ; then
     virtualenv -p python2.7 virtualenv
