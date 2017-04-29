@@ -20,7 +20,6 @@ import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
-import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 
 
@@ -106,7 +105,6 @@ class OnboardingActivity: AppCompatActivity() {
 
     private fun finishOnboarding() {
         OmnitureTracking.trackNewUserOnboardingGoSignIn()
-        SettingUtils.save(this, R.string.preference_onboarding_complete, true)
         NavUtils.goToSignIn(this, false, false, 0)
         finish()
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)

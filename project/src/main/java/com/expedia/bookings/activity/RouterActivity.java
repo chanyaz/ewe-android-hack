@@ -75,7 +75,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		else {
 			handleAppLaunch();
 		}
-
 	}
 
 	private void launchOpeningView() {
@@ -99,9 +98,8 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
-			if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_enable_new_user_onboarding)) {
-				query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
-			}
+			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
+
 			if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_itin_crystal_theme)) {
 				query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
 			}
@@ -143,7 +141,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	};
 
 	private void finishActivity() {
-		SettingUtils.save(this, R.string.preference_onboarding_complete, true);
+		SettingUtils.save(this, R.string.preference_first_app_launch, false);
 		finish();
 		overridePendingTransition(R.anim.hold, R.anim.slide_down_splash);
 	}
@@ -238,9 +236,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	}
 
 	private boolean showNewUserOnboarding() {
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppUserOnboarding, R.string.preference_enable_new_user_onboarding)) {
-			return true;
-		}
-		return !SettingUtils.get(this, R.string.preference_onboarding_complete, false) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUserOnboarding);
+		return SettingUtils.get(this, R.string.preference_first_app_launch, true) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUserOnboarding);
 	}
 }
