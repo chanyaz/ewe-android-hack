@@ -983,6 +983,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.onboarding_booking_placeholder,
 		R.drawable.onboarding_reward_placeholder,
 		R.drawable.onboarding_trip_placeholder,
+		R.integer.onboarding_text_animation_duration,
+		R.integer.onboarding_text_animation_delay,
 		R.layout.hotel_room_card_view,
 		R.dimen.hotel_room_amenity_margin,
 		R.dimen.textview_drawable_padding,

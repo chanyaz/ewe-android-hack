@@ -302,4 +302,10 @@
     <!-- The maximum selectable date range for LX, end date selection is disabled -->
     <integer name="calendar_max_selection_date_range_lx">0</integer>
 
+    <!--Splash Screen-->
+    <integer name="splash_transition_duration">@android:integer/config_mediumAnimTime</integer>
+
+    <!--New User Onboarding-->
+    <integer name="onboarding_text_animation_duration">300</integer>
+    <integer name="onboarding_text_animation_delay">200</integer>
 </resources>

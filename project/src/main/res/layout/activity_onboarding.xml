@@ -31,11 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            style="@style/Core.Text.XLarge"
+            style="@style/Core.Text.XXLarge"
             android:textColor="@color/white"
             android:layout_marginBottom="40dp"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             tool:text="subtitle" />
 
         <Button
@@ -48,7 +48,8 @@
             android:textColor="@color/black"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="40dp" />
+            android:layout_marginBottom="40dp"
+            android:visibility="invisible"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +64,8 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="12dp"
-                android:src="@drawable/onboarding_left_arrow" />
+                android:src="@drawable/onboarding_left_arrow"
+                android:visibility="invisible"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +80,7 @@
                     android:id="@+id/onboarding_first_circle"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    tool:background="@drawable/onboarding_circle_active"/>
+                    android:background="@drawable/onboarding_circle_active"/>
 
                 <View
                     android:id="@+id/onboarding_second_circle"
@@ -86,13 +88,13 @@
                     android:layout_height="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    tool:background="@drawable/onboarding_circle_active" />
+                    android:background="@drawable/onboarding_circle" />
 
                 <View
                     android:id="@+id/onboarding_third_circle"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
-                    tool:background="@drawable/onboarding_circle_active"/>
+                    android:background="@drawable/onboarding_circle"/>
 
             </LinearLayout>
 

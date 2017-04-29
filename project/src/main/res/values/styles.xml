@@ -967,6 +967,10 @@
         <item name="textStyle">medium</item>
     </style>
 
+    <style name="Core.Text.XXLarge">
+        <item name="android:textSize">@dimen/xxlarge_text_size</item>
+    </style>
+
     <style name="Core.Text.XXXLarge">
         <item name="android:textSize">@dimen/xxxlarge_text_size</item>
     </style>
