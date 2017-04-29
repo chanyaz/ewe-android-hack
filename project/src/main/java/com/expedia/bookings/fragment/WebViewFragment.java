@@ -321,6 +321,7 @@ public class WebViewFragment extends DialogFragment {
 		if (mAttemptForceMobileSite) {
 			StringBuilder sb = new StringBuilder("Android ");
 			sb.append(mWebView.getSettings().getUserAgentString());
+			sb.append(" app.webview");
 			mWebView.getSettings().setUserAgentString(sb.toString());
 		}
 		mWebView.getSettings().setDisplayZoomControls(false);
