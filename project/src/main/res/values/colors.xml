@@ -329,7 +329,7 @@
     <color name="gt_primary_disabled_color">#40B93F62</color>
 
     <!--Account Lib Colors -->
-    <color name="btn_sign_in_normal">#f9e06e</color>
+    <color name="btn_sign_in_normal">@color/brand_secondary</color>
     <color name="btn_sign_in_pressed">#fae58b</color>
     <color name="btn_sign_in_focused">#f9e179</color>
     <color name="btn_sign_in_disabled">#80f9e06e</color>
