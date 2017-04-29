@@ -83,6 +83,8 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
                     .toString())
         }
 
+        result.append(Phrase.from(view.context, R.string.member_deal_hotel_only).format().toString())
+
         return result.build()
     }
 
