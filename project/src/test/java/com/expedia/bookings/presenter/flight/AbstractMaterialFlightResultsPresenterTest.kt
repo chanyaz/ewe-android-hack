@@ -13,6 +13,7 @@ import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -108,6 +109,28 @@ class AbstractMaterialFlightResultsPresenterTest {
         sut.flightOfferViewModel.outboundSelected.onNext(flightLegYesObFees)
 
         assertEquals(View.VISIBLE, sut.overviewPresenter.paymentFeesMayApplyTextView.visibility)
+    }
+
+    @Test
+    fun testLegalPaymentMessageOnOutboundFlight() {
+        SettingUtils.save(context, R.string.preference_payment_legal_message, true)
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
+        createSystemUnderTest(isOutboundPresenter = true)
+        sut.resultsPresenter.lineOfBusinessSubject.onNext(sut.getLineOfBusiness())
+        assertEquals(context.getString(R.string.airline_additional_fee_notice),
+                sut.resultsPresenter.getAirlinePaymentFeesTextView().text)
+        assertEquals(View.VISIBLE, sut.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
+    }
+
+    @Test
+    fun testLegalPaymentMessageOnInboundFlight() {
+        SettingUtils.save(context, R.string.preference_payment_legal_message, true)
+        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
+        createSystemUnderTest(isOutboundPresenter = false)
+        sut.resultsPresenter.lineOfBusinessSubject.onNext(sut.getLineOfBusiness())
+        assertEquals(context.getString(R.string.airline_additional_fee_notice),
+                sut.resultsPresenter.getAirlinePaymentFeesTextView().text)
+        assertEquals(View.VISIBLE, sut.resultsPresenter.getAirlinePaymentFeesTextView().visibility)
     }
 
     @Test
