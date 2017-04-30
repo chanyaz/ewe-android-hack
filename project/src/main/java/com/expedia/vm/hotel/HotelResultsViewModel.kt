@@ -27,7 +27,7 @@ import rx.subjects.PublishSubject
 class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
     // Inputs
-    val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
+    val paramsSubject = PublishSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
     val filterParamsSubject = PublishSubject.create<UserFilterChoices>()
 
@@ -46,13 +46,14 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
     private var hotelSearchSubscription: Subscription? = null
 
+    private var cachedParams: HotelSearchParams? = null
+
     init {
         paramsSubject.subscribe(endlessObserver { params ->
             doSearch(params)
         })
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
-            val cachedParams: HotelSearchParams? = paramsSubject.value
             val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                     context.resources.getInteger(R.integer.calendar_max_selectable_date_range))
                     .destination(suggestion)
@@ -66,7 +67,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         })
 
         filterParamsSubject.subscribe(endlessObserver { filterParams ->
-            val cachedParams: HotelSearchParams? = paramsSubject.value
             val builder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                     context.resources.getInteger(R.integer.calendar_max_selectable_date_range))
                     .destination(cachedParams?.suggestion)
@@ -92,7 +92,12 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         hotelSearchSubscription?.unsubscribe()
     }
 
+    fun getSearchParams() : HotelSearchParams? {
+        return cachedParams
+    }
+
     private fun doSearch(params: HotelSearchParams, isFilteredSearch: Boolean = false) {
+        cachedParams = params
         val isPackages = lob == LineOfBusiness.PACKAGES
 
         titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
@@ -122,11 +127,15 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
             override fun onError(e: Throwable?) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        doSearch(paramsSubject.value, isFilteredSearch)
-                    }
                     val cancelFun = fun() {
                         showHotelSearchViewObservable.onNext(Unit)
+                    }
+                    val retryFun = fun() {
+                        if (cachedParams != null) {
+                            doSearch(cachedParams!!, isFilteredSearch)
+                        } else {
+                            cancelFun
+                        }
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
