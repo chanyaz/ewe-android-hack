@@ -128,10 +128,16 @@
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.TerminalMapActivity"
+            android:name="com.expedia.bookings.activity.TerminalMapActivityV1"
             android:label="@string/Terminal_Map"
             android:resizeableActivity="false"
             android:theme="@style/TerminalMapTheme"
+            tools:ignore="UnusedAttribute" />
+        <activity
+            android:name="com.expedia.bookings.activity.TerminalMapActivityV2"
+            android:label="@string/Terminal_Map"
+            android:resizeableActivity="false"
+            android:theme="@style/Material.WebView.Theme"
             tools:ignore="UnusedAttribute" />
         <activity
             android:name="com.expedia.bookings.activity.StandaloneShareActivity"

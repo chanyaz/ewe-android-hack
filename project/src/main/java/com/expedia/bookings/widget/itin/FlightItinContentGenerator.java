@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
+import com.expedia.bookings.activity.TerminalMapActivityV2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TerminalMapActivity;
+import com.expedia.bookings.activity.TerminalMapActivityV1;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.Db;
@@ -1030,10 +1031,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						OmnitureTracking.trackItinFlightDirections();
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
-						Intent intent = TerminalMapActivity.createIntent(getActivity(), mAirport.mAirportCode);
+						Intent intent;
+						if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+							intent = TerminalMapActivityV2.createIntent(getActivity(), mAirport.mAirportCode);
+						}
+						else {
+							intent = TerminalMapActivityV1.createIntent(getActivity(), mAirport.mAirportCode);
+						}
 						getActivity().startActivity(intent);
 						TerminalMapsOrDirectionsDialogFragment.this.dismissAllowingStateLoss();
-
 						OmnitureTracking.trackItinFlightTerminalMaps();
 					}
 					else {
