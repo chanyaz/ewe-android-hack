@@ -102,7 +102,12 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
-            totalDurationContDescObserver.onNext(FlightV2Utils.getFlightLegDurationContentDescription(context, flight))
+            val totalDurationContentDescription = if (showRowContainerWithMoreInfo.value) {
+                FlightV2Utils.getFlightLegDurationWithButtonInfoContentDescription(context, flight)
+            } else {
+                FlightV2Utils.getFlightLegDurationContentDescription(context, flight)
+            }
+            totalDurationContDescObserver.onNext(totalDurationContentDescription)
             totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)
         }).subscribe()

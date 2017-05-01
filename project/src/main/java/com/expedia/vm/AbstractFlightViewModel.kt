@@ -25,7 +25,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     abstract fun getFlightCabinPreferenceVisibility(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
     abstract fun getRoundTripMessageVisibilty(): Boolean
-    abstract fun isShowingFlightPriceDifference(): Boolean
+    abstract fun getFlightDetailCardContDescriptionStringID(): Int
 
     fun getFlightContentDesc(isBestFlightVisible: Boolean): CharSequence {
         val result = SpannableBuilder()
@@ -33,8 +33,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
         if (isBestFlightVisible) {
             result.append(context.getString(R.string.best_flight_detail_card_cont_desc))
         }
-        result.append(Phrase.from(context, (if (isShowingFlightPriceDifference()) R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
-        else R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE))
+        result.append(Phrase.from(context, getFlightDetailCardContDescriptionStringID())
                 .put("time", asscesibleFlightTime)
                 .putOptional("price", price())
                 .putOptional("pricedifference", price())
@@ -67,7 +66,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
             result.append(Phrase.from(context.resources.getQuantityString(R.plurals.flight_detail_urgency_message_cont_desc_TEMPLATE, seatsLeft))
                     .put("seatsleft", seatsLeft).format().toString())
         }
-        result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
+        result.append(appendAccessibilityContentDescription())
 
         return result.build()
     }
@@ -78,5 +77,9 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
 
     fun getMinuteTimeContDesc(minutes: Int): CharSequence {
         return Phrase.from(context.resources.getQuantityString(R.plurals.minutes_from_now, minutes)).put("minutes", minutes).format().toString()
+    }
+
+    open fun appendAccessibilityContentDescription(): String{
+        return context.getString(R.string.accessibility_cont_desc_role_button);
     }
 }

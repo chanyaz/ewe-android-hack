@@ -1,6 +1,7 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Strings
@@ -31,7 +32,7 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
         return false
     }
 
-    override fun isShowingFlightPriceDifference(): Boolean {
-        return true
+    override fun getFlightDetailCardContDescriptionStringID(): Int {
+        return R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
     }
 }
