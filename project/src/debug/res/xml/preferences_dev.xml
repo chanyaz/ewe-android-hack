@@ -98,7 +98,7 @@
             android:title="Show OverFlow Menu in New Launch Screen" />
 
         <CheckBoxPreference
-            android:key="@string/preference_first_app_launch"
+            android:key="PREF_FIRST_LAUNCH"
             android:layout="@layout/preference"
             android:summary="Check to see first launch behavior (please kill and restart the app)"
             android:title="Show First App Launch Behavior" />
