@@ -16,13 +16,13 @@ Feature: Flights Overview
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     Then validate following information is present on the overview screen for isOutbound : true
       | destination                    | (DEL)                                             |
-      | travel date and traveller      | Mar 22 at 21:00, 1 Traveler                       |
-      | Flight time                    | 21:00 - 23:00                                     |
+      | travel date and traveller      | Mar 22 at 9:00 pm, 1 Traveler                     |
+      | Flight time                    | 9:00 pm - 11:00 pm                                     |
       | airport names                  | (SFO) SFO - (DEL) DEL                             |
       | airline name                   | happy_round_trip                                  |
       | flight duration                | 2h 0m                                             |
@@ -30,8 +30,8 @@ Feature: Flights Overview
     Then collapse the outbound widget
     Then validate following information is present on the overview screen for isOutbound : false
       | destination                    | (SFO)                                             |
-      | travel date and traveller      | Mar 22 at 17:40, 1 Traveler                       |
-      | Flight time                    | 17:40 - 20:15                                     |
+      | travel date and traveller      | Mar 22 at 5:40 pm, 1 Traveler                       |
+      | Flight time                    | 5:40 pm - 8:15 pm                                      |
       | airport names                  | (DEL) DEL - (SFO) SFO                             |
       | airline name                   | American Airlines 179                             |
       | flight duration                | 2h 35m                                            |
@@ -54,18 +54,18 @@ Feature: Flights Overview
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And select outbound flight from SRP
+    And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     Then validate following flight details for multi-leg flights
-      | first-segment flight time      | 17:40 - 20:15                                     |
-      | first-segment airport name     | (SEA) Seattle, USA - (LAX) Los Angeles, USA       |
-      | first-segment airline name     | Virgin America 798                                |
-      | first-segment flight duration  | 2h 35m                                            |
-      | second-segment flight time     | 21:00 - 22:15                                     |
-      | second-segment airport name    | (LAX) Los Angeles, USA - (SFO) San Francisco, USA |
-      | second-segment airline name    | Virgin America 947                                |
-      | second-segment flight duration | 1h 15m                                            |
+      | first-segment-flight time      | 5:40 pm - 8:15 pm                                 |
+      | first-segment-airport name     | (SEA) Seattle, USA - (LAX) Los Angeles, USA       |
+      | first-segment-airline name     | Virgin America 798                                |
+      | first-segment-flight duration  | 2h 35m                                            |
+      | second-segment-flight time     | 9:00 pm - 10:15 pm                                |
+      | second-segment-airport name    | (LAX) Los Angeles, USA - (SFO) San Francisco, USA |
+      | second-segment-airline name    | Virgin America 947                                |
+      | second-segment-flight duration | 1h 15m                                            |
     And validate layover of outbound flight is on "(LAX) Los Angeles, USA" for "45m"
     And validate total duration on flight Overview is "4h 35m" for isOutbound : true
 
@@ -85,9 +85,9 @@ Feature: Flights Overview
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And select outbound flight from SRP
+    And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     Then collapse the outbound widget
     And collapse the inbound widget
     Then validate free cancellation message is displayed
@@ -109,9 +109,9 @@ Feature: Flights Overview
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And select outbound flight from SRP
+    And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     Then collapse the outbound widget
     And collapse the inbound widget
     Then validate total price of the trip is "$64"
@@ -125,7 +125,7 @@ Feature: Flights Overview
     And I click on Done button
     And I click on checkout button
 
-  @Flights @FlightsOverview @Prod @Multi
+  @Flights @FlightsOverview @Prod
   Scenario: Verify cost summary popup for multi-travellers on Flights Overview.
     Given I launch the App
     And I bucket the following tests
@@ -141,9 +141,9 @@ Feature: Flights Overview
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     And I click on trip total link
     Then validate price info for multi travellers
     And validate price for "Expedia Booking Fee" is displayed

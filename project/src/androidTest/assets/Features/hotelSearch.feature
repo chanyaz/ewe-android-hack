@@ -1,6 +1,6 @@
 Feature: Hotel Search
 
-  @Int @HotelSearch
+  @Prod @HotelSearch
   Scenario Outline: Successfully searching for hotels with different combinations.
 
     Given I launch the App

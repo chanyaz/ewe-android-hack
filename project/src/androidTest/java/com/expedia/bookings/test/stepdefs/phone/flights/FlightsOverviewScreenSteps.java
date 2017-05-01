@@ -71,14 +71,14 @@ public class FlightsOverviewScreenSteps {
 
 	@Then("^validate following flight details for multi-leg flights$")
 	public void validateSegmentFlight(Map<String, String> parameters) throws Throwable {
-		validateSegmentFlight(R.id.departure_arrival_time, parameters.get("first-segment flight time"));
-		validateSegmentFlight(R.id.departure_arrival_airport, parameters.get("first-segment airport name"));
-		validateSegmentFlight(R.id.airline_airplane_type, parameters.get("first-segment airline name"));
-		validateSegmentFlight(R.id.flight_duration, parameters.get("first-segment flight duration"));
-		validateSegmentFlight(R.id.departure_arrival_time, parameters.get("second-segment flight time"));
-		validateSegmentFlight(R.id.departure_arrival_airport, parameters.get("second-segment airport name"));
-		validateSegmentFlight(R.id.airline_airplane_type, parameters.get("second-segment airline name"));
-		validateSegmentFlight(R.id.flight_duration, parameters.get("second-segment flight duration"));
+		validateSegmentFlight(R.id.departure_arrival_time, parameters.get("first-segment-flight time"));
+		validateSegmentFlight(R.id.departure_arrival_airport, parameters.get("first-segment-airport name"));
+		validateSegmentFlight(R.id.airline_airplane_type, parameters.get("first-segment-airline name"));
+		validateSegmentFlight(R.id.flight_duration, parameters.get("first-segment-flight duration"));
+		validateSegmentFlight(R.id.departure_arrival_time, parameters.get("second-segment-flight time"));
+		validateSegmentFlight(R.id.departure_arrival_airport, parameters.get("second-segment-airport name"));
+		validateSegmentFlight(R.id.airline_airplane_type, parameters.get("second-segment-airline name"));
+		validateSegmentFlight(R.id.flight_duration, parameters.get("second-segment-flight duration"));
 	}
 	@Then("^validate layover of outbound flight is on \"([^\"]*)\" for \"([^\"]*)\"$")
 	public void validateLayoverFlight(String layoverPlace, String layoverTime) throws Throwable {
@@ -92,17 +92,17 @@ public class FlightsOverviewScreenSteps {
 	@Then("^validate free cancellation message is displayed$")
 	public void validateFreeCancellation() throws Throwable {
 		onView(withId(R.id.free_cancellation_text))
-				.check(matches(allOf(withText("Free cancellation within 24 hours"), isDisplayed())));
+				.check(matches(allOf(withText(R.string.flights_free_cancellation), isDisplayed())));
 	}
 	@Then("^validate split ticket messaging is displayed$")
 	public void validateSplitTicketMessage() throws Throwable {
 		onView(withId(R.id.split_ticket_info_container))
 				.check(matches(hasDescendant(allOf(withId(R.id.split_ticket_rules_and_restrictions), withText
-						("Your flight is a combination of two one-way fares, each subject to its own rules and restrictions."),
+						(R.string.split_ticket_rules_with_link_TEMPLATE),
 						isDisplayed()))));
 		onView(withId(R.id.split_ticket_info_container))
 				.check(matches(hasDescendant(allOf(withId(R.id.split_ticket_cancellation_policy), withText
-								("If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge."),
+								(R.string.split_ticket_rules_cancellation_policy),
 						isDisplayed()))));
 		onView(withId(R.id.split_ticket_info_container))
 				.check(matches(hasDescendant(allOf(withId(R.id.split_ticket_baggage_fee_links), withText
@@ -162,7 +162,7 @@ public class FlightsOverviewScreenSteps {
 				.check(matches(withText(containsString(value))));
 	}
 	private void validateSegmentFlight(int resId, String value) throws Throwable {
-		onView(allOf(withParent(withParent(withParent(withParent(withParent(withParent(withParent(withId(R.id.package_bundle_outbound_flight_widget)))))))),
+		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(resId), withText(containsString(value)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 				.check(matches((withText(containsString(value)))));
 	}

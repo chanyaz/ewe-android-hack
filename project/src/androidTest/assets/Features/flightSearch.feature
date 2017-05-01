@@ -88,7 +88,7 @@ Feature: Flights Search
     Then I can trigger flights search
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
     And Validate that flight search results are displayed for inbound flights
 

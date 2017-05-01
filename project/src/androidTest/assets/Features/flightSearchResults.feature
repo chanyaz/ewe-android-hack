@@ -18,7 +18,7 @@ Feature: Flights Search Results
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
     And on outbound FSR the number of traveller are as user selected
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     And I verify date is as user selected for inbound flight
     And on inbound FSR the number of traveller are as user selected
 
@@ -114,7 +114,7 @@ Feature: Flights Search Results
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     Then Validate that flight time field at cell <cellNumber> is displayed: true and isOutBound : false
     And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : false
     And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : false
@@ -132,7 +132,6 @@ Feature: Flights Search Results
 
   @Flights @FlightSearchResults
   Scenario: UI validations on the docked outbound header view on inbound FSR
-
     Given I launch the App
     And I launch "Flights" LOB
     When I make a flight search with following parameters
@@ -145,13 +144,13 @@ Feature: Flights Search Results
       | adults              | 3                                        |
       | child               | 2                                        |
     And I wait for results to load
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     Then Validate that on the selected outbound docked view Flight label is displayed
     And Validate that on the selected outbound docked view Flight Airline name is displayed
     And Validate the toolbar header text on the selected outbound docked view
 
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightSearchResults
   Scenario: Validate urgency message is displayed when seats left is less than 6
     Given I launch the App
     And I bucket the following tests
@@ -172,7 +171,7 @@ Feature: Flights Search Results
 
 
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightSearchResults
   Scenario: Validate urgency message is not displayed when seats left is greater than 6
     Given I launch the App
     And I bucket the following tests
@@ -192,7 +191,7 @@ Feature: Flights Search Results
     Then urgency message on cell 2 isDisplayed : false
 
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightSearchResults
   Scenario: Verify roundtrip messaging not shown for one way trip
     Given I launch the App
     And I bucket the following tests
@@ -212,7 +211,7 @@ Feature: Flights Search Results
     And Validate that flight search results are displayed
     And Validate that round trip header at cell 1 is displayed: false and isOutBound : true
 
-  @Flights @Search @FlightResults @Prod @FlightCheckout
+  @Flights @Search @FlightSearchResults @Prod @FlightCheckout
   Scenario: Passport field is mandatory on checkout in international flights
 
     Given I launch the App
@@ -227,9 +226,9 @@ Feature: Flights Search Results
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     When I click on checkout button
     And I open traveller details
     Then Passport field is present on the traveler info form
@@ -264,16 +263,16 @@ Feature: Flights Search Results
     And I wait for results to load
     Then Validate legal compliance messaging on SRP and isOutbound : true
     And Validate the Per person roundtrip text and isOutbound : true
-    Then Select first outbound flight from SRP
+    Then I select outbound flight at position 1
     And Validate legal compliance message on flight detail screen and isOutbound : true
     Then Select outbound flight from Overview
     And Validate legal compliance messaging on SRP and isOutbound : false
     And Validate the Per person roundtrip text and isOutbound : false
-    Then Select first inbound flight from SRP
+    Then I select inbound flight at position 1
     And Validate legal compliance message on flight detail screen and isOutbound : false
 
 
-  @Flights @Search @FlightResults @Prod @FlightCheckout
+  @Flights @Search @FlightSearchResults @Prod @FlightCheckout
   Scenario: Passport field is mandatory on checkout in domestic flights for AirAsia
     Given I launch the App
     And I launch "Flights" LOB
@@ -291,9 +290,9 @@ Feature: Flights Search Results
     And I scroll to Airline Section
     And I select "AirAsia" checkbox
     And I click on sort and filter screen done button
-    And I select first flight
+    And I select outbound flight at position 1 and reach inbound FSR
     And I wait for inbound flights results to load
-    And I select first inbound flight
+    And I select inbound flight at position 1 and reach overview
     When I click on checkout button
     And I open traveller details
     Then Passport field is present on the traveler info form

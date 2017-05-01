@@ -1,6 +1,6 @@
 Feature: Testing sort and filter button of flight search screen
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightFilters
   Scenario: Verify by default Maximum flight duration is selected
 
     Given I launch the App
@@ -19,7 +19,7 @@ Feature: Testing sort and filter button of flight search screen
     And I click on sort and filter icon
     Then Validate that default flight duration is set to maximum
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightFilters
   Scenario: Verify scrubber moves by an hour
 
     Given I launch the App
@@ -39,7 +39,7 @@ Feature: Testing sort and filter button of flight search screen
     And I move the scrubber by an hour
     Then Validate scrubber moves by an hour
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightFilters
   Scenario: Verify number of results after filter applied
 
     Given I launch the App
@@ -64,7 +64,7 @@ Feature: Testing sort and filter button of flight search screen
     And I click on sort and filter screen done button
     Then Validate that after filter applied the number of result changes
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightFilters
   Scenario: Verify filtered results are as per the criteria
 
     Given I launch the App
@@ -90,7 +90,7 @@ Feature: Testing sort and filter button of flight search screen
     And I click on sort and filter screen done button
     Then Validate all results are "1 Stop"
 
-  @Flights @Search @FlightResults
+  @Flights @Search @FlightFilters
   Scenario: Verify number of results while applying filter
 
     Given I launch the App

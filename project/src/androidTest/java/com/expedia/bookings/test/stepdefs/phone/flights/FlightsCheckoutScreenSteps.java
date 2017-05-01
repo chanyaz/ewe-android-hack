@@ -15,6 +15,7 @@ import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -24,15 +25,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay;
-import static org.hamcrest.Matchers.allOf;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 public class FlightsCheckoutScreenSteps {
 	@And("^I open traveller details$")
 	public void openTravellerDetails() throws Throwable {
-		//Checkout.clickOnTravelerDetails();
 		FlightsScreen.selectTravellerDetails().perform(click());
 	}
 
