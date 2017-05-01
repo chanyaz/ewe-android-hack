@@ -356,6 +356,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     init {
         inflate()
 
+        fab.contentDescription = if(recyclerView.visibility == View.VISIBLE) context.getString(R.string.show_list) else context.getString(R.string.show_map)
         mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
         mapViewModel.clusterChangeSubject.subscribe {
             updateCarouselItems()
@@ -537,9 +538,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         fab.setOnClickListener { view ->
             if (!transitionRunning) {
                 if (recyclerView.visibility == View.VISIBLE) {
+                    fab.contentDescription = context.getString(R.string.show_list)
                     showWithTracking(ResultsMap())
                     trackSearchMap()
                 } else {
+                    fab.contentDescription = context.getString(R.string.show_map)
                     show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
                     trackMapToList()
                 }

@@ -3646,6 +3646,10 @@
     <string name="decrease_year_cont_desc">Decrease Year</string>
     <!-- Accessibility - Content Description for hotel map view on hotel details -->
     <string name="hotel_map_view_cont_desc">Hotel location Google Map View</string>
+    <!-- Accessibility - Content Description for showing map fab on hotel search result -->
+    <string name="show_map">Show map</string>
+    <!-- Accessibility - Content Description for showing list fab on hotel search result -->
+    <string name="show_list">Show list</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
     <!-- Label for package bundle price on overview-->
