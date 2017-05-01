@@ -16,10 +16,8 @@ pip install "requests-oauthlib==0.6.1"
 pip install "lxml==3.5.0"
 
 #Bender's Github Token
-GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
 MINGLE_PROJECT=eb_ad_app
 MINGLE_ACCESS_ID=mingler
 MINGLE_ACCESS_SECRET="+94zjsneYF6iwS1lqdLdKmvAyx0ilt8o1RuV71fKU+E="
 
-./on_pr_raised.py ${GITHUB_TOKEN} ${HIPCHAT_TOKEN} ${MINGLE_PROJECT} ${MINGLE_ACCESS_ID} ${MINGLE_ACCESS_SECRET} $ghprbPullId
+./on_pr_raised.py ${GITHUB_ACCESS_TOKEN} ${HIPCHAT_ACCESS_TOKEN} ${MINGLE_PROJECT} ${MINGLE_ACCESS_ID} ${MINGLE_ACCESS_SECRET} $ghprbPullId

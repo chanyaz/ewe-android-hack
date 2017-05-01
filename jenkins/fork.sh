@@ -2,9 +2,6 @@
 
 set -x
 
-GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-HIPCHAT_TOKEN=MbeOZFJgjjlPeOfIrAnaktNXTz2gUeIjv4WjpElK
-
 if [ ! -d 'virtualenv' ] ; then
     virtualenv -p python2.7 virtualenv
 fi
@@ -31,7 +28,7 @@ internal_artifact() {
 }
 
 # exit if finds 'needs-human' label
-python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId
 prLabeledAsNeedsHumanStatus=$?
 if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
    echo "PR is labeled needs-human, so exiting..."
@@ -39,7 +36,7 @@ if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
 fi
 
 # exit if UI tests not required
-python ./jenkins/changes_require_ui_test.py $GITHUB_TOKEN $ghprbPullId
+python ./jenkins/changes_require_ui_test.py $GITHUB_ACCESS_TOKEN $ghprbPullId
 requiresUITestRun=$?
 if [ $requiresUITestRun -ne 0 ]; then
    echo "PR does not have any changes which require UI tests to run"
@@ -81,5 +78,5 @@ for runCount in `seq 3`
 		fi
 	done
 
-python ./jenkins/pr_ui_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
 exit $?
