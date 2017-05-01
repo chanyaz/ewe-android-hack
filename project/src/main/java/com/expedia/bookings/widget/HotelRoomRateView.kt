@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -96,7 +97,6 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
 
     var viewModel: HotelRoomRateViewModel by notNullAndObservable { vm ->
-
         if (viewModel.lob == LineOfBusiness.PACKAGES) {
             hotelRoomRateActionButton.setSelectButtonText(context.getString(R.string.select))
             hotelRoomRateActionButton.showViewRoomButton()
@@ -194,6 +194,9 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 collapsedMandatoryFee.visibility = View.GONE
             }
         }
+
+        vm.viewRoomButtonContentDescriptionObservable.subscribeContentDescription(hotelRoomRateActionButton.viewRoomButton)
+        vm.bookButtonContentDescriptionObservable.subscribeContentDescription(hotelRoomRateActionButton.bookButton)
     }
 
     init {

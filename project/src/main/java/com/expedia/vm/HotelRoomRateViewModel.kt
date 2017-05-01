@@ -73,6 +73,9 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         depositTermsClickedObservable.onNext(Unit)
     }
 
+    val bookButtonContentDescriptionObservable = BehaviorSubject.create<String>()
+    val viewRoomButtonContentDescriptionObservable = BehaviorSubject.create<String>()
+
     fun bookRoomClicked() {
         roomSelectedObservable.onNext(Pair(rowIndex, hotelRoomResponse))
         viewRoomObservable.onNext(Unit)
@@ -205,6 +208,13 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
         lastRoomSelectedSubscription?.unsubscribe()
         roomSoldOut.onNext(false)
+
+        val viewRoomContentDescription = Phrase.from(context, R.string.view_room_button_content_description_TEMPLATE)
+                .put("room", roomTypeObservable.value ?: "").format().toString()
+        viewRoomButtonContentDescriptionObservable.onNext(viewRoomContentDescription)
+        val bookContentDescription = Phrase.from(context, R.string.book_room_button_content_description_TEMPLATE)
+                .put("room", roomTypeObservable.value ?: "").format().toString()
+        bookButtonContentDescriptionObservable.onNext(bookContentDescription)
     }
 
     init {
