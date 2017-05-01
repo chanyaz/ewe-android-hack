@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.AbstractFlightViewModel
+import com.mobiata.android.Log
 
 class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: Boolean = true) : FrameLayout(context) {
     val cardView: CardView by bindView(R.id.card_view)
@@ -72,7 +73,8 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
                 flightEarnMessage.visibility = View.GONE
             }
         }
-        cardView.contentDescription = viewModel.contentDescription
+        cardView.contentDescription = viewModel.getFlightContentDesc(bestFlightView.visibility == View.VISIBLE)
+        Log.e("content description  ", "content description" + cardView.contentDescription)
     }
 
     fun setMargins() {

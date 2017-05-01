@@ -27,11 +27,12 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     abstract fun getRoundTripMessageVisibilty(): Boolean
     abstract fun isShowingFlightPriceDifference(): Boolean
 
-    var contentDescription = getFlightContentDesc()
+    fun getFlightContentDesc(isBestFlightVisible: Boolean): CharSequence {
+        val result = SpannableBuilder()
 
-    fun getFlightContentDesc(): CharSequence {
-        var result = SpannableBuilder()
-
+        if (isBestFlightVisible) {
+            result.append(context.getString(R.string.best_flight_detail_card_cont_desc))
+        }
         result.append(Phrase.from(context, (if (isShowingFlightPriceDifference()) R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
         else R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE))
                 .put("time", asscesibleFlightTime)

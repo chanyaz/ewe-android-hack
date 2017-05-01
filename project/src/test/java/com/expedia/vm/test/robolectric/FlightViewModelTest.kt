@@ -88,7 +88,7 @@ class FlightViewModelTest {
         createSystemUnderTest()
         val expectedResult = SpannableBuilder()
         expectedResult.append("Flight time is 01:10:00 to 12:20:00 plus 1d with price $200. Flying with UnitedDelta. The flight duration is 19 hours 10 minutes with 1 stops\u0020Button")
-        assertEquals(expectedResult.build(), sut.getFlightContentDesc())
+        assertEquals(expectedResult.build(), sut.getFlightContentDesc(false))
     }
 
     private fun setPOS(pos: PointOfSaleId) {

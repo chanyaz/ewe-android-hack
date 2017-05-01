@@ -969,6 +969,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rating,
 		R.layout.activity_onboarding,
 		R.layout.page_onboarding,
+		R.string.best_flight_detail_card_cont_desc,
 		R.anim.slide_in_right,
 		R.anim.slide_out_left,
 		R.string.booking_page_title,
