@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.AccessibleCardView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -31,7 +32,7 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
-import com.expedia.vm.flights.FlightViewModel
+import com.expedia.vm.flights.FlightOverviewRowViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.squareup.phrase.Phrase
 
@@ -72,7 +73,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                     rowContainer.addView(flightCell)
                     flightDetailsContainer.setOnClickListener {
                         if (isFlightSegmentDetailsExpanded()) {
-                            collapseFlightDetails()
+                            collapseFlightDetails(true)
                         }
                     }
                     flightDetailsIcon = rowContainer.findViewById(R.id.flight_overview_expand_icon) as ImageView
@@ -127,7 +128,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
 
         vm.selectedFlightLegObservable.subscribe { selectedFlight ->
             showCollapseIcon = vm.showRowContainerWithMoreInfo.value
-            this.selectedCardObservable.onNext(Unit)
             var segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
                 segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, showFlightCabinClass, showCollapseIcon))
@@ -144,12 +144,13 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 this.selectedCardObservable.onNext(Unit)
             }
             if (vm.showRowContainerWithMoreInfo.value) {
-                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightViewModel(context, selectedFlight))
+                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight))
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
             if (isUserBucketedForRateDetailExpansionTest) {
                 expandFlightDetails(false)
             }
+            this.selectedCardObservable.onNext(Unit)
         }
     }
 
@@ -170,6 +171,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         if (viewModel.showRowContainerWithMoreInfo.value && flightCollapseIcon != null) {
             rowContainer.visibility = Presenter.GONE
             AnimUtils.rotate(flightCollapseIcon)
+            flightDetailsContainer.setAccessibilityHoverFocus(100)
         }
         flightDetailsContainer.visibility = Presenter.VISIBLE
         AnimUtils.rotate(flightDetailsIcon)
@@ -183,6 +185,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         if (viewModel.showRowContainerWithMoreInfo.value && flightCollapseIcon != null) {
             rowContainer.visibility = Presenter.VISIBLE
             AnimUtils.reverseRotate(flightCollapseIcon)
+            rowContainer.setAccessibilityHoverFocus(100)
         }
         AnimUtils.reverseRotate(flightDetailsIcon)
         if (trackClick) {
@@ -259,14 +262,18 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     }
 
     override fun selectedCardContentDescription(): String {
-        val searchParams = viewModel.searchParams.value
-        val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
-        return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
-                .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
-                .put("datetraveler", viewModel.travelInfoTextObservable.value)
-                .put("expandstate", expandState)
-                .format()
-                .toString()
+        if (viewModel.showRowContainerWithMoreInfo.value) {
+            return (rowContainer.getChildAt(0) as FlightCellWidget).cardView.contentDescription.toString()
+        } else {
+            val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
+            val searchParams = viewModel.searchParams.value
+            return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
+                    .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
+                    .put("datetraveler", viewModel.travelInfoTextObservable.value)
+                    .put("expandstate", expandState)
+                    .format()
+                    .toString()
+        }
     }
 
     fun trackBundleOverviewFlightExpandClick(isExpanding: Boolean) {

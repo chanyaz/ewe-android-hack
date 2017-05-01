@@ -1,6 +1,7 @@
 package com.expedia.vm.flights
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -14,7 +15,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.util.Locale
 
-class FlightViewModel(context: Context, flightLeg: FlightLeg, val isRoundTripSearchSubject: BehaviorSubject<Boolean>? = null) : AbstractFlightViewModel(context, flightLeg) {
+open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isRoundTripSearchSubject: BehaviorSubject<Boolean>? = null) : AbstractFlightViewModel(context, flightLeg) {
     override fun price(): String {
         val price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
         return Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)
@@ -37,7 +38,8 @@ class FlightViewModel(context: Context, flightLeg: FlightLeg, val isRoundTripSea
         return (isRoundTripSearchSubject?.value ?: false) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
     }
 
-    override fun isShowingFlightPriceDifference(): Boolean {
-        return false
+    override fun getFlightDetailCardContDescriptionStringID(): Int {
+        return R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE
     }
 }
+

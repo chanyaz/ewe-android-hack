@@ -160,6 +160,14 @@ class FlightV2UtilsTest {
         assertEquals("Total Duration: 2 hour 20 minutes • 939 miles", variantString)
     }
 
+    @Test
+    fun testFlightLegDurationWithButtonInfoContentDescription() {
+        testFlightLeg.durationHour = 2
+        testFlightLeg.durationMinute = 20
+        val controlString = FlightV2Utils.getFlightLegDurationWithButtonInfoContentDescription(activity, testFlightLeg)
+        assertEquals("Total Duration: 2 hour 20 minutes Expanded button. Double tap to collapse.", controlString)
+    }
+
     fun buildTestFlightLeg(): FlightLeg {
         val mockLeg = FlightLeg()
         mockLeg.departureDateTimeISO = testDepartTime
