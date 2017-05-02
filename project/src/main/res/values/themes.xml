@@ -229,7 +229,7 @@
         <item name="skin_tripsTabText">@string/trips</item>
 
         <!-- Itinerary Screen Related -->
-        <item name="itin_list_bg">#212527</item>
+        <item name="itin_list_bg">@color/exp_itin_bg</item>
         <item name="itin_card_bg">@drawable/bg_itin_card</item>
         <item name="itin_card_summary_text_left_drawable_hotel">@drawable/ic_check_in_bell</item>
         <item name="itin_card_summary_text_left_drawable_cars">@drawable/ic_pickup_keys</item>
@@ -312,7 +312,7 @@
     </style>
 
     <style name="NewLaunchTheme.Light">
-        <item name="itin_list_bg">@color/gray1</item>
+        <item name="itin_list_bg">@color/exp_itin_bg_crystal_theme</item>
         <item name="itin_card_bg">@android:color/white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/itin_close_icon</item>
         <item name="itin_card_summary_text_left_drawable_hotel">@drawable/check_in_crystal</item>

@@ -19,6 +19,9 @@
     <color name="exp_lx_orange">#CD4E05</color>
     <color name="exp_lx_secondary_orange">#F7840D</color>
 
+    <color name="exp_itin_bg">#212527</color>
+    <color name="exp_itin_bg_crystal_theme">@color/gray1</color>
+
     <color name="blue1">#0C7CDF</color>
     <color name="blue2">#1369B3</color>
     <color name="blue3">#166097</color>

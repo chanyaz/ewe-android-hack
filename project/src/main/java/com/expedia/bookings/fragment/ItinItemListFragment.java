@@ -11,6 +11,7 @@ import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -156,6 +157,21 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			@Override
 			public void onChanged() {
 				super.onChanged();
+
+				/**
+				 In the case when the user is Bucketed for Crystal Trips but not for New SignIn Widget then
+				 we have to make sure that the Background color is set appropriately. i.e. dark (older itin bg color) when list is empty.
+				 But make sure to update it to show the Crystal Trips background color if there happens to be a show (list is populated)
+				 */
+				if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+					if (mItinListView.getItinCardDataAdapter().getCount() == 0) {
+						mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg));
+					}
+					else {
+						mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg_crystal_theme));
+					}
+				}
+
 				if (ItinItemListFragment.this.isVisible()) {
 					logCrystalThemeExposure();
 				}
