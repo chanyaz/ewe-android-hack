@@ -410,6 +410,5 @@ class FlightOverviewPresenterTest {
 
     private fun setShowMoreInfoTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-        SettingUtils.save(context, R.string.preference_show_more_info_on_flight_overview, true)
     }
 }

@@ -66,8 +66,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     val isByotEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightByotSearch)
     val pageUsableData = PageUsableData()
-    val showMoreInfoOnOverview = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview, R.string.preference_show_more_info_on_flight_overview)
+    val showMoreInfoOnOverview = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
 
     val errorPresenter: FlightErrorPresenter by lazy {
         val viewStub = findViewById(R.id.error_presenter_stub) as ViewStub
