@@ -335,12 +335,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelClientFilterViewModel(context)
     }
 
-    fun reshowPreviousResult() {
+    fun showCachedResults() {
         filterView.viewModel.clearObservable.onNext(Unit)
+        val cachedResponse = filterView.viewModel.originalResponse ?: adapter.resultsSubject.value
         if (previousWasList) {
-            viewModel.hotelResultsObservable.onNext(adapter.resultsSubject.value)
+            viewModel.hotelResultsObservable.onNext(cachedResponse)
         } else {
-            viewModel.mapResultsObservable.onNext(adapter.resultsSubject.value)
+            viewModel.mapResultsObservable.onNext(cachedResponse)
         }
     }
 
