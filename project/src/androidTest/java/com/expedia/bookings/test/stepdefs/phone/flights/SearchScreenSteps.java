@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -13,11 +14,17 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
+import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
+import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
+
+import junit.framework.Assert;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -40,10 +47,21 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
-
 public class SearchScreenSteps {
 
 	int totalTravelers;
+	private ApiRequestData apiRequestData;
+
+	@And("^I want to intercept these calls$")
+	public void interceptApiCalls1(List<String> apiCallsAliases) throws Throwable {
+		StepDefUtils.interceptApiCalls(apiCallsAliases, new Function1<ApiRequestData, Unit>() {
+			@Override
+			public Unit invoke(ApiRequestData apiRequestData) {
+				SearchScreenSteps.this.apiRequestData = apiRequestData;
+				return null;
+			}
+		}, null);
+	}
 
 	@When("^I enter source and destination for flights$")
 	public void enterSourceAndDestination(Map<String, String> parameters) throws Throwable {
@@ -155,10 +173,14 @@ public class SearchScreenSteps {
 
 	@And("^search criteria is retained on the search form$")
 	public void checkFormDetails() throws Throwable {
-		onView(withId(R.id.origin_card)).check(matches(withText(containsString(TestUtilFlights.dataSet.get("source")))));
-		onView(withId(R.id.destination_card)).check(matches(withText(containsString(TestUtilFlights.dataSet.get("destination")))));
-		int totalNumberOfTravelers = Integer.parseInt(TestUtilFlights.dataSet.get("adults")) + Integer.parseInt(TestUtilFlights.dataSet.get("child"));
-		onView(withId(R.id.traveler_card)).check(matches(withText(containsString(String.valueOf(totalNumberOfTravelers) + " Traveler"))));
+		onView(withId(R.id.origin_card))
+			.check(matches(withText(containsString(TestUtilFlights.dataSet.get("source")))));
+		onView(withId(R.id.destination_card))
+			.check(matches(withText(containsString(TestUtilFlights.dataSet.get("destination")))));
+		int totalNumberOfTravelers = Integer.parseInt(TestUtilFlights.dataSet.get("adults")) + Integer
+			.parseInt(TestUtilFlights.dataSet.get("child"));
+		onView(withId(R.id.traveler_card))
+			.check(matches(withText(containsString(String.valueOf(totalNumberOfTravelers) + " Traveler"))));
 	}
 
 	@And("^I trigger flight search again with following parameters$")
@@ -314,29 +336,49 @@ public class SearchScreenSteps {
 	public void clickSelectDatedButton() throws Throwable {
 		SearchScreen.selectDateButton().perform(click());
 	}
+
 	@And("^I click on Done button$")
 	public void clickDoneButton() throws Throwable {
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
+
 	@When("^I click on class widget$")
 	public void clickPreferredClassWidget() throws Throwable {
-		onView(withId(R.id.flight_cabin_class_widget)).perform(click());
+		onView(withId(R.id.flight_cabin_class_widget)).perform(waitForViewToDisplay(), click());
 	}
+
 	@Then("^Validate \"([^\"]*)\" class is selected by default$")
 	public void economyClassDefault(String economyClass) throws Throwable {
 		onView(withId(R.id.parentPanel)).check(matches(hasDescendant(allOf(withId(R.id.economy_class),
-				withText(economyClass), isChecked()))));
+			withText(economyClass), isChecked()))));
 	}
+
 	@Then("^I click on \"([^\"]*)\" as preferred class$")
 	public void clickPreferredClass(String prefClass) throws Throwable {
 		onView(withText(prefClass)).perform(click());
 	}
+
 	@Then("^Validate \"([^\"]*)\" preferred class is displayed on search screen$")
 	public void validatePreferredClassSearchScreen(String checkClass) throws Throwable {
 		onView(withId(R.id.flight_cabin_class_widget)).check(matches(withText(containsString(checkClass))));
 	}
+
 	@Then("^Validate Search button is enabled$")
 	public void validateSearchButtonEnabled() throws Throwable {
 		SearchScreen.searchButton().check(matches(isEnabled()));
+	}
+
+	@Then("^Validate the flight Search API request query data for following parameters")
+	public void validateFlightSearchRequestQueryData(Map<String, String> expParameters) throws Throwable {
+		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
+			Assert.assertEquals(entry.getValue(), apiRequestData.getQueryParams().get(entry.getKey()).get(0));
+		}
+	}
+
+	@Then("^Validate the flight Search API request form data for following parameters")
+	public void validateFlightSearchRequestFormData(Map<String, String> expParameters) throws Throwable {
+		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
+			Assert.assertEquals(entry.getValue(), apiRequestData.getFormData().get(entry.getKey()));
+		}
 	}
 }

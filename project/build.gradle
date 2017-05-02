@@ -60,7 +60,6 @@ dependencies {
 
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
-    compile "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
     compile "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     compile 'com.squareup.okio:okio:1.11.0'
@@ -109,9 +108,7 @@ dependencies {
     debugCompile ("com.readystatesoftware.chuck:library:${chuckVersion}"){
         exclude group: 'com.android.support'
     }
-    releaseCompile ("com.readystatesoftware.chuck:library-no-op:${chuckVersion}"){
-        exclude group: 'com.android.support'
-    }
+    debugCompile "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
 
     // Test dependencies
     testCompile 'junit:junit:4.12'

@@ -20,35 +20,50 @@ import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
-import com.expedia.ui.EBPreferencesFragment;
 
 import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
-@Component(modules = {AppModule.class, UserModule.class})
+@Component(modules = { AppModule.class, UserModule.class })
 @Singleton
 public interface AppComponent {
 	void inject(ExpediaServices services);
+
 	void inject(UserAccountRefresher userAccountRefresher);
+
 	void inject(NewPhoneLaunchActivity activity);
+
 	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
+
 	void inject(LaunchListWidget launchListWidget);
-	void inject(EBPreferencesFragment ebPreferencesFragment);
+
 	void inject(AddGuestItinWidget addGuestItinWidget);
+
 	void inject(AccountSettingsFragment accountSettingsFragment);
 
 	PointOfSaleStateModel pointOfSaleStateModel();
+
 	Context appContext();
+
 	EndpointProvider endpointProvider();
+
 	OkHttpClient okHttpClient();
+
 	Interceptor requestInterceptor();
+
 	@Named("GaiaInterceptor")
 	Interceptor gaiaRequestInterceptor();
+
 	AbacusServices abacus();
+
 	ClientLogServices clientLog();
+
 	UserLoginStateChangedModel userLoginStateChangedModel();
+
 	AppStartupTimeLogger appStartupTimeLogger();
+
 	SmartOfferService smartOfferService();
+
 	UserStateManager userStateManager();
 }

@@ -2,8 +2,6 @@ package com.expedia.ui;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -24,18 +22,13 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BugShakerShim;
-import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.ChuckShim;
 import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.readystatesoftware.chuck.Chuck;
-import com.readystatesoftware.chuck.ChuckInterceptor;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
-
-	@Inject
-	ChuckInterceptor chuckInterceptor;
 
 	@Override
 	public void onStart() {
@@ -46,7 +39,6 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Ui.getApplication(getActivity()).appComponent().inject(this);
 
 		if (BuildConfig.DEBUG) {
 			addPreferencesFromResource(R.xml.preferences_dev);
@@ -112,13 +104,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			chuckNotificationPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				@Override
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					boolean isChuckNotificationEnabled = Boolean.valueOf(newValue.toString());
-					if (isChuckNotificationEnabled) {
-						chuckInterceptor.showNotification(true);
-					}
-					else {
-						chuckInterceptor.showNotification(false);
-					}
+					restartApp();
 					return true;
 				}
 			});
@@ -175,9 +161,10 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			ExpediaServices.removeUserCookieFromUserLoginCookies(getActivity());
 		}
 		else if (getString(R.string.preference_chuck_show_ui).equals(key)) {
-			Intent intent = Chuck.getLaunchIntent(getActivity());
-			startActivity(intent);
-
+			Intent intent = ChuckShim.getLaunchIntent(getActivity());
+			if (intent != null) {
+				startActivity(intent);
+			}
 		}
 		else if ("PREF_FIRST_LAUNCH".equals(key)) {
 			User.signOut(getContext());

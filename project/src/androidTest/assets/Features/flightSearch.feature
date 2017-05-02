@@ -375,3 +375,55 @@ Feature: Flights Search
     And I click on Done button
     And Validate "Economy" preferred class is displayed on search screen
     And Validate Search button is enabled
+
+  @Flights @FlightSearch @Prod
+  Scenario: Intercept Flight Search API call and validate request parameters for Premium class
+    Given I launch the App
+    And I want to intercept these calls
+      | FlightSearch |
+    And I bucket the following tests
+      |FlightPremiumClass|
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | LAS                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Las Vegas, NV (LAS - McCarran Intl.) |
+      | start_date          | 15                                        |
+      | end_date            | 20                                       |
+      | adults              | 2                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    Then Validate the flight Search API request query data for following parameters
+      | maxOfferCount                         | 1600                          |
+      | cabinClassPreference                  | COACH                         |
+      | childTravelerAge                      | 10                            |
+      | lccAndMerchantFareCheckoutAllowed     | true                          |
+      | sourceType                            | mobileapp                     |
+    Then Validate the flight Search API request form data for following parameters
+      | infantSeatingInLap                    | false                         |
+      | departureAirport                      | SFO                           |
+      | arrivalAirport                        | LAS                           |
+      | returnDate                            | 2017-05-29                    |
+      | departureDate                         | 2017-05-24                    |
+      | numberOfAdultTravelers                | 2                             |
+    And I click on search icon to go to search form
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And I wait for results to load
+    Then Validate the flight Search API request query data for following parameters
+      | maxOfferCount                         | 1600                          |
+      | cabinClassPreference                  | PREMIUM_COACH                 |
+      | childTravelerAge                      | 10                            |
+      | lccAndMerchantFareCheckoutAllowed     | true                          |
+      | sourceType                            | mobileapp                     |
+    Then Validate the flight Search API request form data for following parameters
+      | infantSeatingInLap                    | false                         |
+      | departureAirport                      | SFO                           |
+      | arrivalAirport                        | LAS                           |
+      | returnDate                            | 2017-05-29                    |
+      | departureDate                         | 2017-05-24                    |
+      | numberOfAdultTravelers                | 2                             |
+
