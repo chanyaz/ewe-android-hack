@@ -92,7 +92,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun showBasicEconomyTooltip() {
-        SettingUtils.save(context, R.string.preference_show_basic_economy_tooltip, true)
         sut.vm = FlightOverviewViewModel(context)
         val testSubscriber = TestSubscriber<Boolean>()
         sut.vm.showBasicEconomyTooltip.subscribe(testSubscriber)
@@ -112,7 +111,6 @@ class FlightOverviewPresenterTest {
 
     @Test
     fun basicEconomyTooltipDialogTest() {
-        SettingUtils.save(context, R.string.preference_show_basic_economy_tooltip, true)
         sut.vm = FlightOverviewViewModel(context)
         val toolTipRulesTestSubscriber = TestSubscriber<Array<String>>()
         val toolTipTitleTestSubscriber = TestSubscriber<String>()

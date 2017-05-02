@@ -17,7 +17,6 @@ import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.safeSubscribe
@@ -35,8 +34,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
     val isBucketedForExpandedRateDetailsTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)
-    val isBucketedForShowMoreDetailsOnOverview = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview, R.string.preference_show_more_info_on_flight_overview)
+    val isBucketedForShowMoreDetailsOnOverview = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
     val showCollapsedToolbar = isBucketedForShowMoreDetailsOnOverview || isBucketedForExpandedRateDetailsTest
 
     val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
