@@ -408,4 +408,6 @@
 
     <!-- EdiText allowed alpha numeric -->
     <string name="alpha_numeric_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
+
+    <string name="server_change_message">Changing the server requires a restart. By clicking OK, the app will close and relaunch</string>
 </resources>
