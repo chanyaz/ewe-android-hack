@@ -25,16 +25,30 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.core.AllOf.allOf;
 
 public class SearchResultsScreenSteps {
-	@Then("^I select first flight$")
-	public void selectFirstFlight() throws Throwable {
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
+	@Then("^I select outbound flight at position (\\d+) and reach inbound FSR$")
+	public void selectOutboundFlightReachInboundFSR(int pos) throws Throwable {
+		int position = pos - 1;
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), position);
 		FlightsScreen.selectOutboundFlight().perform(click());
 	}
 
-	@And("^I select first inbound flight$")
-	public void selectFirstInboundFlight() throws Throwable {
-		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(),0);
+	@Then("^I select outbound flight at position (\\d+)$")
+	public void selectOutboundFlight(int pos) throws Throwable {
+		int position = pos - 1;
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), position);
+	}
+
+	@And("^I select inbound flight at position (\\d+) and reach overview$")
+	public void selectInboundFlight(int pos) throws Throwable {
+		int position = pos - 1;
+		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), position);
 		FlightsScreen.selectInboundFlight().perform(ViewActions.waitForViewToDisplay(), click());
+	}
+
+	@And("^I select inbound flight at position (\\d+)$")
+	public void selectInboundFlightReachOverview(int pos) throws Throwable {
+		int position = pos - 1;
+		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), position);
 	}
 
 	@And("^I wait for results to load$")

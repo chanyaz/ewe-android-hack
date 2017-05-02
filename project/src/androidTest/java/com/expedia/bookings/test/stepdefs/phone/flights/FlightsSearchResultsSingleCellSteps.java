@@ -1,12 +1,13 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.util.concurrent.TimeUnit;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
-import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -152,17 +153,9 @@ public class FlightsSearchResultsSingleCellSteps {
 		legalComplianceAU(R.id.show_payment_fees, "Airline fee applies based on payment method", outBound);
 	}
 
-	@Then("^Select first outbound flight from SRP$")
-	public void selectoutboundflightSRP() throws Throwable {
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
-	}
 	@Then("^Select outbound flight from Overview$")
 	public void selectoutboundflightoverview() throws Throwable {
-		FlightsScreen.selectOutboundFlight().perform(waitFor(isDisplayed(), 4, TimeUnit.SECONDS),click());
-	}
-	@Then("^Select first inbound flight from SRP$")
-	public void selectinboundflightSRP() throws Throwable {
-		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
+		FlightsScreen.selectOutboundFlight().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS),click());
 	}
 
 	@Then("^multi carrier text is shown instead of Airline Name on cell (\\d+) isOutbound : (true|false)$")
