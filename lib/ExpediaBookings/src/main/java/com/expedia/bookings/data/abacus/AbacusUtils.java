@@ -18,7 +18,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
 	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
-	public static final int EBAndroidAppShowSignInFormOnLaunch = 8687;
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppSignInButtonYellow = 13002;
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
@@ -115,7 +114,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXCategoryABTest);
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
-		testIDs.add(EBAndroidAppShowSignInFormOnLaunch);
 		testIDs.add(EBAndroidAppLXRTROnSearchAndDetails);
 		testIDs.add(EBAndroidAppFeedsOnLaunch);
 		testIDs.add(EBAndroidAppSignInButtonYellow);
