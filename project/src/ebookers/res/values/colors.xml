@@ -24,7 +24,7 @@
     <color name="placeholder_card_button_text_color">@color/lob_btn_color</color>
 
     <!--Splash-->
-    <color name="new_splash_screen_bg">@color/splash_screen_bg</color>
+    <color name="splash_screen_bg">@color/white</color>
 
     <!-- ebookers promotional offers color -->
     <color name="ebk_promo_color">#9E0089</color>

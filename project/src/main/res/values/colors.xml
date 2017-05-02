@@ -33,7 +33,6 @@
 
     <color name="launch_list_bg">#ECEFF1</color>
     <color name="launch_screen_primary">@color/exp_old_launch</color>
-    <color name="launch_lob_bg">@color/white</color>
     <color name="launch_list_txt">@color/white</color>
     <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
     <color name="actionbar_tab_text_selected">#FFFFFF</color>
@@ -42,8 +41,7 @@
     <color name="placeholder_card_button_text_color">@color/exp_launch_blue</color>
 
     <!--Splash-->
-    <color name="splash_screen_bg">@color/launch_lob_bg</color>
-    <color name="new_splash_screen_bg">@color/exp_yellow</color>
+    <color name="splash_screen_bg">@color/exp_yellow</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
