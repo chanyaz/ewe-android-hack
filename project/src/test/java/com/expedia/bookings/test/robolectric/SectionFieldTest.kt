@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.section.SectionFieldList
-import com.expedia.bookings.section.ValidationIndicatorExclaimation
+import com.expedia.bookings.section.ValidationIndicatorExclamation
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,15 +21,15 @@ class SectionFieldTest {
     var context: Context by Delegates.notNull()
     val mFields = SectionFieldList<BillingInfo>()
 
-    val validLastName1 = ValidationIndicatorExclaimation<BillingInfo>(
+    val validLastName1 = ValidationIndicatorExclamation<BillingInfo>(
             R.id.edit_last_name)
-    val validFirstName = ValidationIndicatorExclaimation<BillingInfo>(
+    val validFirstName = ValidationIndicatorExclamation<BillingInfo>(
             R.id.edit_first_name)
-    val validLastName2 = ValidationIndicatorExclaimation<BillingInfo>(
+    val validLastName2 = ValidationIndicatorExclamation<BillingInfo>(
             R.id.edit_last_name)
-    val validEmail = ValidationIndicatorExclaimation<BillingInfo>(
+    val validEmail = ValidationIndicatorExclamation<BillingInfo>(
             R.id.edit_email_address)
-    val validEmail2 = ValidationIndicatorExclaimation<BillingInfo>(
+    val validEmail2 = ValidationIndicatorExclamation<BillingInfo>(
             R.id.edit_email_address)
 
     @Before

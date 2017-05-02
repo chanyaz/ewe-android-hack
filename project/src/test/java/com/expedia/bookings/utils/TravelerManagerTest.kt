@@ -3,8 +3,9 @@ package com.expedia.bookings.utils
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -25,7 +26,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class TravelerManagerTest {
-    val travelerManager = TravelerManager()
+    val travelerManager = TravelerManager(UserStateManager(RuntimeEnvironment.application))
     val mockTravelerProvider = MockTravelerProvider()
 
 
@@ -67,9 +68,9 @@ class TravelerManagerTest {
 
     @Test
     fun testOnSignInWhenUserLoggedIn() {
-        val testUser = User();
-        val testSavedPrimaryTraveler = Traveler();
-        val travelerWithCategory = Traveler();
+        val testUser = User()
+        val testSavedPrimaryTraveler = Traveler()
+        val travelerWithCategory = Traveler()
 
         testSavedPrimaryTraveler.passengerCategory = null
         travelerWithCategory.passengerCategory = PassengerCategory.ADULT
@@ -81,7 +82,7 @@ class TravelerManagerTest {
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
         mockTravelerProvider.updateDBWithMockTravelers(1, travelerWithCategory)
-        travelerManager.onSignIn(RuntimeEnvironment.application)
+        travelerManager.onSignIn()
         assertEquals(PassengerCategory.ADULT, Db.getTravelers()[0].passengerCategory,
                 "Expected Primary Traveler to inherit the PassengerCategory from Db")
         assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName,
@@ -90,13 +91,13 @@ class TravelerManagerTest {
 
     @Test
     fun testOnSignInWhenUserNotLoggedIn() {
-        val traveler = Traveler();
+        val traveler = Traveler()
 
         traveler.passengerCategory = PassengerCategory.ADULT
         traveler.firstName = mockTravelerProvider.testFirstName
 
         mockTravelerProvider.updateDBWithMockTravelers(1, traveler)
-        travelerManager.onSignIn(RuntimeEnvironment.application)
+        travelerManager.onSignIn()
         assertEquals(PassengerCategory.ADULT, Db.getTravelers()[0].passengerCategory,
                 "Not Signed In, nothing about traveler should change")
         assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName,
@@ -105,20 +106,20 @@ class TravelerManagerTest {
 
     @Test
     fun testUpdateTravelersWhenUserNotLoggedIn() {
-        travelerManager.updateRailTravelers(RuntimeEnvironment.application)
+        travelerManager.updateRailTravelers()
         assertTrue(Db.getTravelers().size == 1)
         assertNull(Db.getTravelers()[0].lastName)
     }
 
     @Test
     fun testUpdateTravelersWhenUserLoggedIn() {
-        val testUser = User();
+        val testUser = User()
         testUser.primaryTraveler = Traveler()
         testUser.primaryTraveler.firstName = mockTravelerProvider.testFirstName
 
         UserLoginTestUtil.setupUserAndMockLogin(testUser)
 
-        travelerManager.updateRailTravelers(RuntimeEnvironment.application)
+        travelerManager.updateRailTravelers()
         assertTrue(Db.getTravelers().size == 1)
         assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName)
     }

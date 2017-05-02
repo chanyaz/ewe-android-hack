@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.vm.LaunchScreenAirAttachViewModel
+import com.expedia.vm.launch.LaunchScreenAirAttachViewModel
 
 class LaunchScreenAirAttachCard(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val firstLineTextView: TextView by bindView(R.id.air_attach_first_line)

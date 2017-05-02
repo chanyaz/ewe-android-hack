@@ -31,8 +31,9 @@ import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -59,6 +60,7 @@ import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 import java.text.NumberFormat
 import java.util.Calendar
+import javax.inject.Inject
 
 class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
 
@@ -144,6 +146,9 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
     }
 
+    protected lateinit var userStateManager: UserStateManager
+        @Inject set
+
     val debugMenu: DebugMenu by lazy {
         DebugMenuFactory.newInstance(activity, ExpediaBookingPreferenceActivity::class.java)
     }
@@ -168,6 +173,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        Ui.getApplication(context).appComponent().inject(this)
         userAccountRefresher.setUserAccountRefreshListener(this)
         if (context is AccountFragmentListener) {
             val listener: AccountFragmentListener = context
@@ -336,7 +342,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
         })
 
-        if (User.isLoggedIn(context)) {
+        if (userStateManager.isUserAuthenticated()) {
             toolbarShadow.alpha = 0f
         }
     }
@@ -357,7 +363,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     val scrollListener = ViewTreeObserver.OnScrollChangedListener {
-        if (User.isLoggedIn(context)) {
+        if (userStateManager.isUserAuthenticated()) {
             val value = scrollContainer.scrollY / toolBarHeight
             toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
         }
@@ -469,7 +475,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     private fun adjustLoggedInViews() {
-        if (User.isLoggedIn(context)) {
+        if (userStateManager.isUserAuthenticated()) {
             toolbarShadow.alpha = 0f
             signInSection.visibility = View.GONE
             signOutButton.visibility = View.VISIBLE

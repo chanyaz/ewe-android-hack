@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -33,6 +32,8 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
+
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     abstract fun setUpTravelersViewModel(vm: TravelersViewModel)
 
@@ -112,7 +113,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
         override fun startTransition(forward: Boolean) {
             travelerEntryWidget.rootContainer.requestFocus()
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
-            travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
+            travelerEntryWidget.travelerButton.visibility = if (userStateManager.isUserAuthenticated() && forward) View.VISIBLE else View.GONE
             if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
             menuVisibility.onNext(forward)
             dropShadow.visibility = View.VISIBLE

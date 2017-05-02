@@ -11,7 +11,7 @@ import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.User
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -19,6 +19,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -75,7 +76,10 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
     val hotelConfirmationUISetObservable = BehaviorSubject.create<Boolean>()
 
     val showAddToCalendar = BehaviorSubject.create<Boolean>()
-    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+    protected lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
+
+    protected lateinit var userStateManager: UserStateManager
         @Inject set
 
     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
@@ -133,7 +137,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             customerEmail.onNext(it.checkoutResponse.bookingResponse.email)
 
             // Adding the guest trip in itin
-            if (!User.isLoggedIn(context)) {
+            if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(it.checkoutResponse.bookingResponse.email, itinNumber)
             } else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
                 // If user is logged in and if PWP or SWP is enabled for hotels, refresh user.
@@ -198,7 +202,7 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
             customerEmail.onNext(email)
 
             // Adding the guest trip in itin
-            if (!User.isLoggedIn(context)) {
+            if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             } else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
                 userAccountRefresher.forceAccountRefresh()

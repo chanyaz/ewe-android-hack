@@ -35,8 +35,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -53,14 +53,13 @@ import com.mobiata.android.validation.Validator;
 public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>,
 	ISectionEditable, InvalidCharacterListener {
 
-	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	SectionFieldList<Traveler> mFields = new SectionFieldList<Traveler>();
-
-	Context mContext;
+	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
+	SectionFieldList<Traveler> mFields = new SectionFieldList<>();
 
 	private Traveler mTraveler;
 
 	private FlightSearchParams mFlightSearchParams;
+	private UserStateManager userStateManager;
 
 	boolean mAutoChoosePassportCountry = true;
 
@@ -74,14 +73,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		init(context);
 	}
 
-	@SuppressLint("NewApi")
 	public SectionTravelerInfo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
 	}
 
 	private void init(Context context) {
-		mContext = context;
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 
 		//Display fields
 		mFields.add(mDisplayEmailDisclaimer);
@@ -148,10 +146,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		if (nameContainer != null) {
 			PointOfSale pos = PointOfSale.getPointOfSale();
 			if (pos.showLastNameFirst()) {
-				View.inflate(mContext, R.layout.include_edit_traveler_names_reversed, nameContainer);
+				View.inflate(getContext(), R.layout.include_edit_traveler_names_reversed, nameContainer);
 			}
 			else {
-				View.inflate(mContext, R.layout.include_edit_traveler_names, nameContainer);
+				View.inflate(getContext(), R.layout.include_edit_traveler_names, nameContainer);
 			}
 		}
 	}
@@ -172,7 +170,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 	// Remove email fields if user is logged in
 	private void removeFieldsForLoggedIn() {
-		if (User.isLoggedIn(mContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			mFields.removeField(mEditEmailAddress);
 			mFields.removeField(mDisplayEmailDisclaimer);
 		}
@@ -185,7 +183,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	public void refreshOnLoginStatusChange() {
-		if (User.isLoggedIn(mContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			mFields.removeField(mEditEmailAddress);
 		}
 		else {
@@ -220,19 +218,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mChangeListeners.clear();
 	}
 
-	/**
-	 * Helper for validation purposes, this must be called before bind
-	 *
-	 * @param enabled
-	 */
-	public void setAutoChoosePassportCountryEnabled(boolean enabled) {
-		mAutoChoosePassportCountry = enabled;
-	}
-
 	public String phoneToStringHelper(Phone phone) {
 		if (phone != null) {
-			String number = phone.getNumber() == null ? "" : phone.getNumber();
-			return number;
+			return phone.getNumber() == null ? "" : phone.getNumber();
 		}
 		return "";
 	}
@@ -245,7 +233,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	//////INVALID CHARACTER STUFF
 	//////////////////////////////////////
 
-	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
+	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
 
 	@Override
 	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
@@ -273,18 +261,18 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.setValidationIndicatorState(true);
 	}
 
-	ValidationIndicatorExclaimation<Traveler> mValidFirstName = new ValidationIndicatorExclaimation<Traveler>(
+	ValidationIndicatorExclamation<Traveler> mValidFirstName = new ValidationIndicatorExclamation<>(
 		R.id.edit_first_name);
 
-	ValidationIndicatorExclaimation<Traveler> mValidMiddleName = new ValidationIndicatorExclaimation<Traveler>(
+	ValidationIndicatorExclamation<Traveler> mValidMiddleName = new ValidationIndicatorExclamation<>(
 		R.id.edit_middle_name);
-	ValidationIndicatorExclaimation<Traveler> mValidLastName = new ValidationIndicatorExclaimation<Traveler>(
+	ValidationIndicatorExclamation<Traveler> mValidLastName = new ValidationIndicatorExclamation<>(
 		R.id.edit_last_name);
-	ValidationIndicatorExclaimation<Traveler> mValidPhoneNumber = new ValidationIndicatorExclaimation<Traveler>(
+	ValidationIndicatorExclamation<Traveler> mValidPhoneNumber = new ValidationIndicatorExclamation<>(
 		R.id.edit_phone_number);
-	ValidationIndicatorExclaimation<Traveler> mValidDateOfBirth = new ValidationIndicatorExclaimation<Traveler>(
+	ValidationIndicatorExclamation<Traveler> mValidDateOfBirth = new ValidationIndicatorExclamation<>(
 		R.id.edit_birth_date_text_btn);
-	ValidationIndicatorExclaimation<Traveler> mValidEmail = new ValidationIndicatorExclaimation<Traveler>(
+	ValidationIndicatorExclamation<Traveler> mValidEmail = new ValidationIndicatorExclamation<>(
 		R.id.edit_email_address);
 
 	//////////////////////////////////////
@@ -634,8 +622,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		@Override
 		public void setChangeListener(TextView field) {
 			//We are using a fragmentDialog so we need a fragmentActivity...
-			if (mContext instanceof FragmentActivity) {
-				final FragmentActivity fa = (FragmentActivity) mContext;
+			if (getContext() instanceof FragmentActivity) {
+				final FragmentActivity fa = (FragmentActivity) getContext();
 				final DatePickerDialog.OnDateSetListener listener = this;
 
 				//If we already have created the fragment, we need to set the listener again
@@ -705,12 +693,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			String btnTxt = "";
 			Spannable stringToSpan = null;
 			if (data.getBirthDate() != null) {
-				String formatStr = mContext.getString(R.string.born_on_colored_TEMPLATE);
-				String bdayStr = JodaUtils.formatLocalDate(mContext, data.getBirthDate(),
+				String formatStr = getResources().getString(R.string.born_on_colored_TEMPLATE);
+				String bdayStr = JodaUtils.formatLocalDate(getContext(), data.getBirthDate(),
 					DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 				btnTxt = String.format(formatStr, bdayStr);
 				stringToSpan = new SpannableString(btnTxt);
-				int color = mContext.getResources().getColor(R.color.checkout_traveler_birth_color);
+				int color = getResources().getColor(R.color.checkout_traveler_birth_color);
 				Ui.setTextStyleNormalText(stringToSpan, color, 0, btnTxt.indexOf(bdayStr));
 
 			}
@@ -721,7 +709,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 			@Override
 			public int validate(TextView obj) {
-				int retVal = ValidationError.NO_ERROR;
+				int retVal;
 				if (hasBoundData()) {
 					if (getData().getBirthDate() != null) {
 						LocalDate birthDate = getData().getBirthDate();
@@ -885,7 +873,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 			}
 			else {
-				String targetCountry = mContext.getString(PointOfSale.getPointOfSale()
+				String targetCountry = getResources().getString(PointOfSale.getPointOfSale()
 					.getCountryNameResId());
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
@@ -931,7 +919,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				getField().setAdapter(new GenderSpinnerAdapter(mContext));
+				getField().setAdapter(new GenderSpinnerAdapter(getContext()));
 			}
 		}
 
@@ -997,8 +985,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				SeatPreferenceSpinnerAdapter adapter = new SeatPreferenceSpinnerAdapter(mContext);
-				adapter.setFormatString(mContext.getString(R.string.prefers_seat_colored_TEMPLATE));
+				SeatPreferenceSpinnerAdapter adapter = new SeatPreferenceSpinnerAdapter(getContext());
+				adapter.setFormatString(getResources().getString(R.string.prefers_seat_colored_TEMPLATE));
 				adapter.setSpanColor(R.color.checkout_traveler_birth_color);
 				getField().setAdapter(adapter);
 			}
@@ -1068,7 +1056,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				getField().setAdapter(new AssistanceTypeSpinnerAdapter(mContext));
+				getField().setAdapter(new AssistanceTypeSpinnerAdapter(getContext()));
 			}
 		}
 

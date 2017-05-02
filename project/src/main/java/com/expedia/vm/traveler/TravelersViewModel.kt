@@ -1,16 +1,12 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
-import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
@@ -29,7 +25,7 @@ abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
     }
 
     override fun isValidForBooking(traveler: Traveler, index: Int): Boolean {
-        return travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value, User.isLoggedIn(context))
+        return travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value)
     }
 
     override fun isTravelerEmpty(traveler: Traveler): Boolean {

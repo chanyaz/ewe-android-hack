@@ -5,7 +5,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
@@ -300,8 +299,6 @@ class HotelDetailViewModelTest {
     private fun setMemberDeal(loginUser: Boolean, isMemberDeal: Boolean) {
         if (loginUser) {
             UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        } else if (User.isLoggedIn(context)) {
-            User.signOut(context)
         }
         offer1.hotelRoomResponse[0].isMemberDeal = isMemberDeal
     }

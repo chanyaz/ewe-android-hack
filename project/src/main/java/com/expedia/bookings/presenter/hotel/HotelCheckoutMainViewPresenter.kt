@@ -9,7 +9,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
@@ -189,9 +188,9 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         }
         else {
             val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
-            if (User.isLoggedIn(context) && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
+            if (userStateManager.isUserAuthenticated() && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
                 // This is to apply a coupon in case user signs in after applying a coupon. So there is no user preference.
-                var couponParams = HotelApplyCouponParameters.Builder()
+                val couponParams = HotelApplyCouponParameters.Builder()
                         .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
                         .couponCode(createTrip.coupon.code)
                         .isFromNotSignedInToSignedIn(true)

@@ -17,9 +17,10 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
@@ -54,6 +55,8 @@ public class AccountLibActivity extends AppCompatActivity
 
 	@InjectView(R.id.extender_status)
 	public TextView extenderStatus;
+
+	private UserStateManager userStateManager;
 
 	private LineOfBusiness lob = LineOfBusiness.HOTELS;
 	private LoginExtender loginExtender;
@@ -94,6 +97,8 @@ public class AccountLibActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		Config.InitialState startState = Config.InitialState.SignIn;
 
@@ -179,7 +184,7 @@ public class AccountLibActivity extends AppCompatActivity
 	@Override
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
-		if (User.isLoggedIn(this)) {
+		if (userStateManager.isUserAuthenticated()) {
 			if (userLoggedInWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
 				Db.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);

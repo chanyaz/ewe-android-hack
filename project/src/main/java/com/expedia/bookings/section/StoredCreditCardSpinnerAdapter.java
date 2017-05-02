@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.trips.TripBucketItem;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -32,6 +33,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	private static final int ITEM_VIEW_TYPE_COUNT = 4;
 
 	private TripBucketItem mTripBucketItem;
+	private UserStateManager userStateManager;
 
 	//It will be set true if user chose 'Save' on filling in new card details. If he chose 'No Thanks', it will be set false.
 	private boolean hasTemporarilySavedCard = false;
@@ -40,6 +42,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		super(context, R.layout.traveler_autocomplete_row);
 		mTripBucketItem = item;
 		hasTemporarilySavedCard = Db.getTemporarilySavedCard() != null;
+		userStateManager = com.expedia.bookings.utils.Ui.getApplication(context).appComponent().userStateManager();
 	}
 
 	@Override
@@ -176,7 +179,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	}
 
 	private List<StoredCreditCard> getAvailableStoredCards() {
-		return BookingInfoUtils.getStoredCreditCards(getContext());
+		return BookingInfoUtils.getStoredCreditCards(userStateManager);
 	}
 
 	public void refresh(TripBucketItem item) {

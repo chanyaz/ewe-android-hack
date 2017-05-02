@@ -1,5 +1,18 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +20,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -19,6 +31,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -45,7 +58,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -80,6 +92,8 @@ import com.expedia.bookings.data.rail.responses.RailTripOffer;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
 import com.expedia.bookings.enums.OnboardingPagerState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -109,18 +123,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+
 import kotlin.NotImplementedError;
 
 /**
@@ -140,10 +143,12 @@ public class OmnitureTracking {
 	private static final DateTimeFormatter sFormatter = DateTimeFormat.forPattern("E|hh:mma");
 
 	private static Context sContext = null;
+	private static UserStateManager userStateManager;
 
 	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
 		sContext = app.getApplicationContext();
+		userStateManager = app.appComponent().userStateManager();
 		ADMS_Measurement.sharedInstance(sContext);
 		app.registerActivityLifecycleCallbacks(sOmnitureActivityCallbacks);
 		sMarketingDate = SettingUtils
@@ -3667,11 +3672,11 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
-		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
+		if (isFirstAppLaunch && !userStateManager.isUserAuthenticated()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
-		if (User.isLoggedIn(sContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		}
 
@@ -3680,10 +3685,10 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 
-		if (ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(sContext)) {
+		if (ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		}
-		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(sContext)) {
+		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		}
 		s.setProp(2, "storefront");
@@ -4104,7 +4109,7 @@ public class OmnitureTracking {
 		String rewardsStatus = null;
 		String tuid = null;
 		// If the user is logged in, we want to send their email address along with request
-		if (User.isLoggedIn(sContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			// Load the user into the Db if it has not been done (which will most likely be the case on app launch)
 			if (Db.getUser() == null) {
 				Db.loadUser(sContext);
@@ -4140,7 +4145,7 @@ public class OmnitureTracking {
 			s.setProp(13, expediaId);
 		}
 
-		String evar55 = User.isLoggedIn(sContext) ? "loggedin | hard" : "unknown user";
+		String evar55 = userStateManager.isUserAuthenticated() ? "loggedin | hard" : "unknown user";
 		s.setEvar(55, evar55);
 
 		s.setEvar(56, rewardsStatus);
@@ -5666,11 +5671,11 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
-		if (User.isLoggedIn(sContext) && Db.getUser().hasAtLeastOneExpiredStoredCard()) {
+		if (userStateManager.isUserAuthenticated() && Db.getUser().hasAtLeastOneExpiredStoredCard()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
 		}
 
-		if (!User.isLoggedIn(sContext)) {
+		if (!userStateManager.isUserAuthenticated()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppSignInButtonYellow);
 		}
 

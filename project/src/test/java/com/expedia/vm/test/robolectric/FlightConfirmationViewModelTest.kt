@@ -4,7 +4,6 @@ import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripDetails
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -17,7 +16,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import org.joda.time.DateTime
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +24,6 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -43,7 +40,6 @@ class FlightConfirmationViewModelTest {
         activity.setTheme(R.style.Theme_Hotels_Default)
         Ui.getApplication(activity).defaultHotelComponents()
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        assertTrue(User.isLoggedIn(activity))
         shadowApplication = ShadowApplication.getInstance()
     }
 
@@ -134,7 +130,6 @@ class FlightConfirmationViewModelTest {
     @Test
     fun zeroFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "0"
 
@@ -148,7 +143,6 @@ class FlightConfirmationViewModelTest {
     @Test
     fun nullFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = null
 
@@ -162,7 +156,6 @@ class FlightConfirmationViewModelTest {
     @Test
     fun noShowFlightLoyaltyPoints(){
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
-        Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = "100"
         vm = FlightConfirmationViewModel(activity)

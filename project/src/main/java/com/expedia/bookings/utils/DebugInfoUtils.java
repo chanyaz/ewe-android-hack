@@ -10,9 +10,10 @@ import android.text.TextUtils;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PersistentCookieManagerV2;
@@ -27,6 +28,7 @@ import okhttp3.HttpUrl;
 public class DebugInfoUtils {
 
 	public static StringBuilder generateEmailBody(Context context) {
+		UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		StringBuilder body = new StringBuilder();
 
 		body.append("\n\n\n");
@@ -61,7 +63,7 @@ public class DebugInfoUtils {
 		body.append("\n\n");
 
 		User user = Db.getUser();
-		if (User.isLoggedIn(context) && user != null) {
+		if (userStateManager.isUserAuthenticated() && user != null) {
 			String email = user.getPrimaryTraveler().getEmail();
 			UserLoyaltyMembershipInformation loyaltyMembershipInformation = user.getLoyaltyMembershipInformation();
 

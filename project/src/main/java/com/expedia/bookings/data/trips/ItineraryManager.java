@@ -38,11 +38,12 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.PushNotificationUtils;
@@ -52,6 +53,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -102,6 +104,7 @@ public class ItineraryManager implements JSONable {
 
 	// Should be initialized from the Application so that this does not leak a component
 	private Context mContext;
+	private UserStateManager userStateManager;
 
 	// Don't try refreshing too often
 	private long mLastUpdateTime;
@@ -390,6 +393,7 @@ public class ItineraryManager implements JSONable {
 		long start = System.nanoTime();
 
 		mContext = context;
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 
 		loadStartAndEndTimes();
 
@@ -967,7 +971,7 @@ public class ItineraryManager implements JSONable {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
-		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext) && !hasFetchSharedInQueue()) {
+		else if (mTrips != null && mTrips.size() == 0 && !userStateManager.isUserAuthenticated() && !hasFetchSharedInQueue()) {
 			Log.d(LOGGING_TAG,
 				"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
 					+
@@ -1272,7 +1276,7 @@ public class ItineraryManager implements JSONable {
 			logStats();
 
 			mFinished = true;
-			if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
+			if (userStateManager.isUserAuthenticated() || (trips != null && trips.size() > 0)) {
 				// Only remember the last update time if there was something actually updated;
 				// either the user was logged in (but had no trips) or there are guest trips
 				// present.  Also, don't bother doing this w/ quick sync as we'll just be
@@ -1544,7 +1548,7 @@ public class ItineraryManager implements JSONable {
 
 		// If the user is logged in, retrieve a listing of current trips for logged in user
 		private void refreshUserList() {
-			if (!User.isLoggedIn(mContext)) {
+			if (!userStateManager.isUserAuthenticated()) {
 				Log.d(LOGGING_TAG, "User is not logged in, not refreshing user list.");
 			}
 			else {
@@ -1907,7 +1911,7 @@ public class ItineraryManager implements JSONable {
 
 			int siteId = PointOfSale.getPointOfSale().getSiteId();
 			long userTuid = 0;
-			if (User.isLoggedIn(mContext)) {
+			if (userStateManager.isUserAuthenticated()) {
 				if (Db.getUser() == null) {
 					Db.loadUser(mContext);
 				}

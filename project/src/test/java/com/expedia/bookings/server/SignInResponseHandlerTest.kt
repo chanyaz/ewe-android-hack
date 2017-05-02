@@ -2,7 +2,7 @@ package com.expedia.bookings.server
 
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.PaymentType
-import com.expedia.bookings.data.User
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner

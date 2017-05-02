@@ -19,6 +19,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -73,6 +74,8 @@ open class PaymentViewModel(val context: Context) {
     val ccFeeDisclaimer = PublishSubject.create<String>()
     val isFeatureEnabledForPaymentInfoTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidCheckoutPaymentTravelerInfo)
 
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     init {
         Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
             infoAndStatus, isRedeemable, splitsType ->
@@ -121,7 +124,7 @@ open class PaymentViewModel(val context: Context) {
             icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
             billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             emptyBillingInfo.onNext(Unit)
-            BookingInfoUtils.resetPreviousCreditCardSelectState(context, card)
+            BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, card)
             Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = null
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
             resetCardFees.onNext(Unit)

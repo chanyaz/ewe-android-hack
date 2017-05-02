@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
@@ -19,6 +18,7 @@ import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.LoyaltyUtil
@@ -68,6 +68,8 @@ open class HotelViewModel(private val context: Context) {
             isHotelSoldOut = soldOut
         }
     }
+
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     @CallSuper
     open fun bindHotelData(hotel: Hotel) {
@@ -164,7 +166,7 @@ open class HotelViewModel(private val context: Context) {
     }
 
     open fun hasMemberDeal(hotel: Hotel): Boolean {
-        return hotel.isMemberDeal && User.isLoggedIn(context)
+        return hotel.isMemberDeal && userStateManager.isUserAuthenticated()
     }
 
     fun getRatingContentDesc(hotel: Hotel): String {

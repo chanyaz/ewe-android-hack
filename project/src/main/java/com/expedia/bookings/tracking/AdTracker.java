@@ -1,8 +1,8 @@
 package com.expedia.bookings.tracking;
 
-import org.joda.time.LocalDate;
+import java.util.List;
 
-import android.content.Context;
+import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -17,24 +17,12 @@ import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
-import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.utils.TuneUtils;
-import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
 
-import java.util.List;
-
 public class AdTracker {
-	public static void init(Context context) {
-
-		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled()) {
-			FacebookEventsKt.facebookContext = context.getApplicationContext();
-			FacebookEventsKt.facebookLogger = AppEventsLogger.newLogger(context);
-		}
-	}
-
 	public static void trackLogin() {
 		// Other
 		TuneUtils.trackLogin();

@@ -14,9 +14,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.otto.Events
@@ -31,7 +31,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -67,7 +66,8 @@ import java.util.concurrent.TimeUnit
 class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr),
         SlideToWidgetLL.ISlideToListener, AccountButton.AccountButtonClickListener {
 
-    lateinit var travelerManager: TravelerManager
+    private val travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
+    private val userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager()
 
     val toolbar: CheckoutToolbar by bindView(R.id.rail_checkout_toolbar)
     val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
@@ -120,7 +120,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     init {
-        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
 
         View.inflate(context, R.layout.rail_checkout_presenter, this)
         toolbar.setNavigationOnClickListener {
@@ -154,7 +153,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         addTransition(defaultToPayment)
         addTransition(defaultToTraveler)
         addTransition(defaultToTicketDeliveryOptions)
-        initLoggedInState(User.isLoggedIn(context))
+        initLoggedInState(userStateManager.isUserAuthenticated())
     }
 
     override fun accountLoginClicked() {
@@ -240,14 +239,14 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private fun createLogoutDialog(): AlertDialog {
         val logoutUser = fun() {
             User.signOut(context)
-            resetTravelers(context)
+            resetTravelers()
             initLoggedInState(false)
         }
         return DialogFactory.createLogoutDialog(context, logoutUser)
     }
 
     private fun onLoginSuccess() {
-        resetTravelers(context)
+        resetTravelers()
         initLoggedInState(true)
     }
 
@@ -303,8 +302,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         show(DefaultCheckout())
     }
 
-    private fun resetTravelers(context: Context) {
-        travelerManager.updateRailTravelers(context)
+    private fun resetTravelers() {
+        travelerManager.updateRailTravelers()
         travelersViewModel.refresh()
         checkoutViewModel.clearTravelers.onNext(Unit)
     }
@@ -429,7 +428,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         override fun startTransition(forward: Boolean) {
             if (forward) {
                 travelerEntryWidget.viewModel = SimpleTravelerEntryWidgetViewModel(context, 0)
-                val userLoggedIn = User.isLoggedIn(context)
+                val userLoggedIn = userStateManager.isUserAuthenticated()
                 travelerEntryWidget.viewModel.showEmailSubject.onNext(!userLoggedIn)
                 travelerEntryWidget.viewModel.showTravelerButtonObservable.onNext(userLoggedIn)
                 paymentWidget.visibility = View.GONE

@@ -12,7 +12,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.LaunchScreenAirAttachViewModel
+import com.expedia.vm.launch.LaunchScreenAirAttachViewModel
 import com.mobiata.flightlib.data.Flight
 import com.mobiata.flightlib.data.Waypoint
 import org.joda.time.LocalDateTime

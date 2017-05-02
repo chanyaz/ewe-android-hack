@@ -384,7 +384,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOfferViewModel.searchParamsObservable.onNext(params)
             flightOfferViewModel.isOutboundSearch = true
             errorPresenter.getViewModel().paramsSubject.onNext(params)
-            travelerManager.updateDbTravelers(params, context)
+            travelerManager.updateDbTravelers(params)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
             outBoundPresenter.clearBackStack()

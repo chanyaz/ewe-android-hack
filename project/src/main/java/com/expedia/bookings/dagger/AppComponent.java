@@ -5,6 +5,8 @@ import javax.inject.Singleton;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.user.UserStateManager;
+import com.expedia.bookings.fragment.AccountSettingsFragment;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.model.PointOfSaleStateModel;
@@ -24,7 +26,7 @@ import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class, UserModule.class})
 @Singleton
 public interface AppComponent {
 	void inject(ExpediaServices services);
@@ -34,6 +36,7 @@ public interface AppComponent {
 	void inject(LaunchListWidget launchListWidget);
 	void inject(EBPreferencesFragment ebPreferencesFragment);
 	void inject(AddGuestItinWidget addGuestItinWidget);
+	void inject(AccountSettingsFragment accountSettingsFragment);
 
 	PointOfSaleStateModel pointOfSaleStateModel();
 	Context appContext();
@@ -47,4 +50,5 @@ public interface AppComponent {
 	UserLoginStateChangedModel userLoginStateChangedModel();
 	AppStartupTimeLogger appStartupTimeLogger();
 	SmartOfferService smartOfferService();
+	UserStateManager userStateManager();
 }

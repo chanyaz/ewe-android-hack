@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TravelerButton
 import com.expedia.bookings.widget.shared.EntryFormToolbar
 import com.expedia.bookings.widget.traveler.EmailEntryView
@@ -56,10 +56,11 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
     var compositeSubscription: CompositeSubscription? = null
 
     private val toolbar: EntryFormToolbar by bindView(R.id.rail_traveler_toolbar)
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
         View.inflate(context, R.layout.rail_traveler_entry_widget, this)
-        travelerButton.visibility == View.GONE
+        travelerButton.visibility = View.GONE
         travelerButton.setTravelButtonListener(this)
         toolbar.viewModel = toolbarViewModel
         toolbarViewModel.doneClicked.subscribe {
@@ -104,6 +105,12 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
         return nameEntryView.firstName.text.isNotEmpty()
                 && nameEntryView.lastName.text.isNotEmpty()
                 && phoneEntryView.phoneNumber.text.isNotEmpty()
-                && ((emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty()) || User.isLoggedIn(context) || emailEntryView.visibility == View.GONE)
+                && hasFilledEmailIfNecessary()
+    }
+
+    private fun hasFilledEmailIfNecessary(): Boolean {
+        return (emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty())
+                || userStateManager.isUserAuthenticated()
+                || emailEntryView.visibility == View.GONE
     }
 }

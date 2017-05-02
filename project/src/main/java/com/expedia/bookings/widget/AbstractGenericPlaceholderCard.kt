@@ -7,7 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.GenericViewModel
+import com.expedia.vm.launch.GenericViewModel
 
 abstract class AbstractGenericPlaceholderCard(itemView: View, val context: Context): RecyclerView.ViewHolder(itemView) {
     val firstLineTextView: TextView by bindView(R.id.first_line)

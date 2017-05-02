@@ -29,10 +29,10 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.PaymentType;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -56,10 +56,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	private final static DateTimeFormatter MONTHYEAR_FORMATTER = DateTimeFormat.forPattern("MM/yy");
 
-	Context mContext;
-
 	BillingInfo mBillingInfo;
 	LineOfBusiness mLineOfBusiness;
+	private UserStateManager userStateManager;
 
 	public SectionBillingInfo(Context context) {
 		super(context);
@@ -78,7 +77,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	}
 
 	private void init(Context context) {
-		mContext = context;
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIconGrey);
 		mFields.add(this.mDisplayCreditCardBrandIconWhite);
@@ -140,7 +139,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	private void postFinishInflate() {
 		//Remove email fields if user is logged in
-		if (User.isLoggedIn(mContext)) {
+		if (userStateManager.isUserAuthenticated()) {
 			mFields.removeField(mEditEmailAddress);
 			mFields.removeField(mDisplayEmailDisclaimer);
 		}
@@ -329,25 +328,25 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidCCNum = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_number);
-	ValidationIndicatorExclaimation<BillingInfo> mValidMaskedCCNum = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidMaskedCCNum = new ValidationIndicatorExclamation<>(
 		R.id.edit_masked_creditcard_number);
-	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclamation<>(
 		R.id.edit_name_on_card);
-	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidFirstName = new ValidationIndicatorExclamation<>(
 		R.id.edit_first_name);
-	ValidationIndicatorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidLastName = new ValidationIndicatorExclamation<>(
 		R.id.edit_last_name);
-	ValidationIndicatorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclamation<>(
 		R.id.edit_phone_number);
-	ValidationIndicatorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidEmail = new ValidationIndicatorExclamation<>(
 		R.id.edit_email_address);
-	ValidationIndicatorExclaimation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclamation<>(
 		R.id.edit_address_postal_code);
-	ValidationIndicatorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidExpiration = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_exp_text_btn);
-	ValidationIndicatorExclaimation<BillingInfo> mValidSecurityCode = new ValidationIndicatorExclaimation<>(
+	ValidationIndicatorExclamation<BillingInfo> mValidSecurityCode = new ValidationIndicatorExclamation<>(
 		R.id.edit_creditcard_cvv);
 
 	//////////////////////////////////////
@@ -937,8 +936,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		public void setChangeListener(final TextView field) {
-			if (mContext instanceof FragmentActivity) {
-				final FragmentActivity fa = (FragmentActivity) mContext;
+			if (getContext() instanceof FragmentActivity) {
+				final FragmentActivity fa = (FragmentActivity) getContext();
 				final OnSetExpirationListener listener = new OnSetExpirationListener() {
 					@Override
 					public void onExpirationSet(int month, int year) {

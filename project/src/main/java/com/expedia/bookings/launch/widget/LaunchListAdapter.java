@@ -19,7 +19,6 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -27,6 +26,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripUtils;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -40,15 +40,17 @@ import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsHelperKt;
-import com.expedia.vm.ActiveItinViewModel;
-import com.expedia.vm.LaunchScreenAirAttachViewModel;
-import com.expedia.vm.SignInPlaceHolderViewModel;
+import com.expedia.vm.launch.ActiveItinType;
+import com.expedia.vm.launch.ActiveItinViewModel;
+import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
+import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -84,12 +86,17 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private boolean showOnlyLOBView = false;
 	private PublishSubject<String> memberDealBackgroundUrlSubject = PublishSubject.create();
 
+	private UserStateManager userStateManager;
+
 	public LaunchListAdapter(Context context, View header) {
 		this.context = context;
 		headerView = header;
 		if (header == null) {
 			throw new IllegalArgumentException("Don't pass a null View into LaunchListAdapter");
 		}
+
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+
 		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
 		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
@@ -414,22 +421,24 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private ActiveItinViewModel makeActiveItinViewModel() {
-		if (User.isLoggedIn(context)) {
-			return new ActiveItinViewModel(context.getString(R.string.launch_upcoming_trips_signed_in),
+		if (userStateManager.isUserAuthenticated()) {
+			return new ActiveItinViewModel(ActiveItinType.SIGNED_IN,
+				context.getString(R.string.launch_upcoming_trips_signed_in),
 				context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
 		}
 		else {
-			return new ActiveItinViewModel(context.getString(R.string.launch_upcoming_trips_guest_user),
+			return new ActiveItinViewModel(ActiveItinType.GUEST,
+				context.getString(R.string.launch_upcoming_trips_guest_user),
 				context.getString(R.string.launch_upcoming_trips_subtext_guest_user));
 		}
 	}
 
 	private boolean showSignInCard() {
-		return userBucketedForSignIn(context) && !User.isLoggedIn(context);
+		return userBucketedForSignIn() && !userStateManager.isUserAuthenticated();
 	}
 
 	private boolean showAirAttachMessage() {
-		return userBucketedForAirAttach() && User.isLoggedIn(context)
+		return userBucketedForAirAttach() && userStateManager.isUserAuthenticated()
 			&& isPOSAndBrandAirAttachEnabled() && getUpcomingAirAttachQualifiedFlightTrip() != null;
 	}
 
@@ -445,12 +454,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	protected boolean showActiveItinLaunchScreenCard() {
-		return userBucketedForItinCardSignedIn() && ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(context);
+		return userBucketedForItinCardSignedIn() && ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager);
 	}
 
 	@VisibleForTesting
 	protected boolean showGuestItinLaunchScreenCard() {
-		return userBucketedForItinCardGuest() && ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(context);
+		return userBucketedForItinCardGuest() && ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager);
 	}
 
 	private boolean userBucketedForItinCardGuest() {
@@ -470,7 +479,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 	}
 
-	private boolean userBucketedForSignIn(Context context) {
+	private boolean userBucketedForSignIn() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 	}
 
@@ -480,7 +489,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
 	private boolean showMemberDeal() {
-		return User.isLoggedIn(context) &&
+		return userStateManager.isUserAuthenticated() &&
 			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 	}
 

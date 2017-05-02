@@ -11,10 +11,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
@@ -38,8 +39,10 @@ class ItinSignInViewModel(val context: Context) {
     val updateButtonColorSubject = PublishSubject.create<Int>()
     val syncItinManagerSubject = PublishSubject.create<Unit>()
 
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     var signInClickSubject = endlessObserver<Unit> {
-        if (User.isLoggedIn(context)) {
+        if (userStateManager.isUserAuthenticated()) {
             syncItinManagerSubject.onNext(Unit)
         }
         else {
@@ -78,7 +81,7 @@ class ItinSignInViewModel(val context: Context) {
             } else {
                 setState(MessageState.FAILURE)
             }
-        } else if (User.isLoggedIn(context) && Db.getUser() != null) {
+        } else if (userStateManager.isUserAuthenticated() && Db.getUser() != null) {
             setState(MessageState.NO_UPCOMING_TRIPS)
         } else {
             setState(MessageState.NOT_LOGGED_IN)

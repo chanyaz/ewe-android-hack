@@ -38,9 +38,10 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -109,12 +110,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private boolean notPortraitOrientation;
 
 	private GoogleApiClient mGoogleApiClient;
+	private UserStateManager userStateManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		notPortraitOrientation = !getResources().getBoolean(R.bool.portrait);
 		if (shouldBail()) {
@@ -423,7 +426,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		ViewGroup loyaltySection = Ui.findView(this, R.id.section_loyalty_info);
 		View sectionSignIn = Ui.findView(this, R.id.section_sign_in);
 
-		if (User.isLoggedIn(this)) {
+		if (userStateManager.isUserAuthenticated()) {
 			sectionSignIn.setVisibility(View.GONE);
 			toolbarSignedIn.setVisibility(View.VISIBLE);
 			toolbarNotSignedIn.setVisibility(View.GONE);

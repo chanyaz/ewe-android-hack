@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.User
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import org.junit.Assert.assertFalse

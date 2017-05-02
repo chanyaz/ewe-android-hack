@@ -24,11 +24,11 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.fragment.AccountSettingsFragment
@@ -41,7 +41,6 @@ import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
-import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
@@ -78,6 +77,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         @Inject set
 
     lateinit var pointOfSaleStateModel: PointOfSaleStateModel
+        @Inject set
+
+    lateinit var userStateManager: UserStateManager
         @Inject set
 
     var jumpToItinId: String? = null
@@ -345,7 +347,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     @Synchronized private fun gotoAccount() {
-        if (User.isLoggedIn(this@NewPhoneLaunchActivity)) {
+        if (userStateManager.isUserAuthenticated()) {
             accountFragment?.refreshUserInfo()
         }
         viewPager.currentItem = PAGER_POS_ACCOUNT
@@ -383,7 +385,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onResume() {
         super.onResume()
-        FacebookEvents.activateAppIfEnabledInConfig(this)
         when (viewPager.currentItem) {
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()

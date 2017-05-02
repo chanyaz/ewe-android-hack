@@ -1,8 +1,10 @@
 package com.expedia.bookings.section;
 
-import android.annotation.TargetApi;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import android.content.Context;
-import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,14 +18,12 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.mobiata.android.util.Ui;
 
-import java.util.ArrayList;
-import java.util.Locale;
 
 public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implements Filterable {
 
@@ -37,14 +37,21 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 
 	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
+	private UserStateManager userStateManager;
 
 	public TravelerAutoCompleteAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
+		init(context, R.drawable.traveler_circle);
 	}
 
 	public TravelerAutoCompleteAdapter(Context context, int travelerDrawable) {
 		super(context, R.layout.traveler_autocomplete_row);
+		init(context, travelerDrawable);
+	}
+
+	private void init(Context context, int travelerDrawable) {
 		mTravelerBackgroundDrawable = travelerDrawable;
+		userStateManager = com.expedia.bookings.utils.Ui.getApplication(context).appComponent().userStateManager();
 	}
 
 	@Override
@@ -86,9 +93,9 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	@NonNull
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 		final int itemType = getItemViewType(position);
 		Traveler traveler = getItem(position);
 		ViewHolder vh;
@@ -179,7 +186,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	}
 
 	protected boolean isUserLoggedIn() {
-		return User.isLoggedIn(getContext());
+		return userStateManager.isUserAuthenticated();
 	}
 
 	protected ArrayList<Traveler> getAvailableTravelers() {

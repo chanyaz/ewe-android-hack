@@ -1,4 +1,4 @@
-package com.expedia.vm
+package com.expedia.vm.launch
 
 import android.content.Context
 import android.view.View

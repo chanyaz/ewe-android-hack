@@ -3,17 +3,19 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
 import com.expedia.bookings.utils.TravelerUtils
+import com.expedia.bookings.utils.Ui
 
 class SimpleTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int) : BaseTravelerEntryWidgetViewModel(context, travelerIndex) {
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     init {
         updateTraveler(getTraveler())
     }
 
     override fun updateTraveler(traveler: Traveler) {
         Db.getTravelers()[travelerIndex] = traveler
-        if (User.isLoggedIn(context)) {
+        if (userStateManager.isUserAuthenticated()) {
             traveler.email = Db.getUser().primaryTraveler.email
         }
         nameViewModel.updateTravelerName(traveler.name)

@@ -3,7 +3,7 @@ package com.expedia.bookings.section
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

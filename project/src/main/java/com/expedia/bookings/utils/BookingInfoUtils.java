@@ -4,21 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.UserStateManager;
 
 public class BookingInfoUtils {
 
-	public static List<StoredCreditCard> getStoredCreditCards(Context context) {
+	public static List<StoredCreditCard> getStoredCreditCards(UserStateManager userStateManager) {
 		List<StoredCreditCard> cards = new ArrayList<>();
 		boolean seenSelectedCard = false;
 
-		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+		if (userStateManager.isUserAuthenticated() && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
 			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
 			if (currentCard != null && !seenSelectedCard) {
@@ -38,10 +36,9 @@ public class BookingInfoUtils {
 	 * If the current card is replaced by another stored card from the list, let's reset {@link StoredCreditCard#isSelectable()} state.
 	 * We need to do this so that the stored card is available to be selected again.
 	 */
-	public static void resetPreviousCreditCardSelectState(Context context, StoredCreditCard creditCard) {
+	public static void resetPreviousCreditCardSelectState(UserStateManager userStateManager, StoredCreditCard creditCard) {
 		// Check to find the desired credit card and reset his selectable state
-		if (creditCard != null && User.isLoggedIn(context) && Db.getUser() != null
-			&& Db.getUser().getStoredCreditCards() != null) {
+		if (creditCard != null && userStateManager.isUserAuthenticated() && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
 			for (int i = 0; i < dbCards.size(); i++) {
 				if (creditCard.compareTo(dbCards.get(i)) == 0) {

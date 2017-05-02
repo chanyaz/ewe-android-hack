@@ -21,9 +21,9 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
@@ -89,6 +89,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val doneClicked = PublishSubject.create<Unit>()
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
+
+    private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     val formFilledSubscriber = endlessObserver<String> {
         filledIn.onNext(isCompletelyFilled())
@@ -350,7 +352,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 if (tripItem.isPaymentTypeSupported(storedCard.type)) {
                     Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
                     val currentCC = Db.getBillingInfo().storedCard
-                    BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)
+                    BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, currentCC)
                     val card = storedCard
                     Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
                     Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
@@ -469,7 +471,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     /** Save card to account **/
     private fun shouldShowSaveDialog(): Boolean {
-        return User.isLoggedIn(context) &&
+        return userStateManager.isUserAuthenticated() &&
                 !sectionBillingInfo.billingInfo.saveCardToExpediaAccount &&
                 workingBillingInfoChanged() &&
                 Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard == null
@@ -532,7 +534,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     })
             storedCreditCardList.bind()
             if (!forward) validateAndBind()
-            else viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+            else viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu(!forward) else updateLegacyToolbarMenu(forward)
         }
     }
@@ -604,7 +606,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) {
                 validateAndBind()
-                viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
+                viewmodel.userHasAtleastOneStoredCard.onNext(userStateManager.isUserAuthenticated() && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
             if (getLineOfBusiness().isMaterialFormEnabled(context)) viewmodel.updateBackgroundColor.onNext(forward)
@@ -643,7 +645,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun shouldShowPaymentOptions(): Boolean {
-        return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()
+        return (userStateManager.isUserAuthenticated() && Db.getUser().storedCreditCards.isNotEmpty()
                 && getLineOfBusiness() != LineOfBusiness.RAILS)
                 || Db.getTemporarilySavedCard() != null
     }
@@ -727,7 +729,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     private fun goToFirstInvalidField() {
-        var firstInvalidField = sectionBillingInfo.getFirstInvalidField()
+        val firstInvalidField = sectionBillingInfo.getFirstInvalidField()
         if (firstInvalidField != null) {
             firstInvalidField.requestFocus()
             sectionBillingInfo.resetValidation(firstInvalidField.id, false)

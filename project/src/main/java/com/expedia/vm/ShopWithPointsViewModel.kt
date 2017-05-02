@@ -3,11 +3,12 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.hotel.HotelTracking
+import com.expedia.bookings.utils.Ui
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
@@ -18,12 +19,14 @@ import java.text.NumberFormat
 
 class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>, userLoginChangedModel: UserLoginStateChangedModel) {
 
+    private var userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+
     var subscription: Subscription
     val isShopWithPointsAvailableObservable = BehaviorSubject.create<Boolean>()
     val isShopWithPointsAvailableObservableIntermediateStream =
             Observable.concat(
-                    Observable.just(User.isLoggedIn(context)),
-                    userLoginChangedModel.userLoginStateChanged).map { LoyaltyUtil.isShopWithPointsAvailable(context) }
+                    Observable.just(userStateManager.isUserAuthenticated()),
+                    userLoginChangedModel.userLoginStateChanged).map { LoyaltyUtil.isShopWithPointsAvailable(userStateManager) }
 
     val shopWithPointsToggleObservable = BehaviorSubject.create<Boolean>(true)
 
@@ -34,12 +37,12 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
     val swpEffectiveAvailability = BehaviorSubject.create<Boolean>()
 
     val pointsDetailStringObservable = isShopWithPointsAvailableObservable.map {
-        var value: String?
+        val value: String?
         if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
-            val pointsAvailable = Db.getUser()?.loyaltyMembershipInformation?.loyaltyPointsAvailable?.toInt() ?: null
+            val pointsAvailable = Db.getUser()?.loyaltyMembershipInformation?.loyaltyPointsAvailable?.toInt()
             value = if (pointsAvailable != null) NumberFormat.getInstance().format(pointsAvailable) else null
         } else {
-            value = Db.getUser()?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode ?: null
+            value = Db.getUser()?.loyaltyMembershipInformation?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode
         }
         if (value != null) Phrase.from(context.resources, R.string.swp_widget_points_value_TEMPLATE).put("points_or_amount", value).format().toString() else ""
     }

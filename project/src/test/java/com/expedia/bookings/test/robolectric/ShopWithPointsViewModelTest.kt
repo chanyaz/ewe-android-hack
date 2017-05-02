@@ -4,10 +4,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
-import com.expedia.bookings.data.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands

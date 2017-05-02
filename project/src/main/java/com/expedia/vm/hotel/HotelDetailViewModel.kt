@@ -4,9 +4,10 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.User
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
@@ -61,7 +62,7 @@ open class HotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(con
     }
 
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
-        return roomOffer.isMemberDeal && User.isLoggedIn(context)
+        return roomOffer.isMemberDeal && userStateManager.isUserAuthenticated()
     }
 
     override fun trackHotelResortFeeInfoClick() {

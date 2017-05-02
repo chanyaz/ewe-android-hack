@@ -27,7 +27,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParam;
@@ -47,6 +47,7 @@ import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
@@ -65,10 +66,13 @@ public class TuneUtils {
 	private static Tune tune = null;
 	private static boolean initialized = false;
 	private static Context context;
+	private static UserStateManager userStateManager;
 
 	public static void init(Application app) {
 		initialized = true;
 		context = app.getApplicationContext();
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
+
 		app.registerActivityLifecycleCallbacks(new TuneActivityLifecycleCallbacks());
 
 		String advertiserID = app.getString(R.string.tune_sdk_app_advertiser_id);
@@ -967,7 +971,7 @@ public class TuneUtils {
 	// Helpers
 
 	private static String getMembershipTier() {
-		if (User.isLoggedIn(context)) {
+		if (userStateManager.isUserAuthenticated()) {
 			lazyLoadUser();
 			return User.getLoggedInLoyaltyMembershipTier(context).toApiValue();
 		}
@@ -975,7 +979,7 @@ public class TuneUtils {
 	}
 
 	private static String getTuid() {
-		if (User.isLoggedIn(context)) {
+		if (userStateManager.isUserAuthenticated()) {
 			lazyLoadUser();
 			return Db.getUser().getTuidString();
 		}
@@ -983,7 +987,7 @@ public class TuneUtils {
 	}
 
 	private static void lazyLoadUser() {
-		if (Db.getUser() == null && User.isLoggedIn(context)) {
+		if (Db.getUser() == null && userStateManager.isUserAuthenticated()) {
 			Db.loadUser(context);
 		}
 	}
@@ -998,7 +1002,7 @@ public class TuneUtils {
 	}
 
 	private static String isUserLoggedIn() {
-		return User.isLoggedIn(context) ? "1" : "0";
+		return userStateManager.isUserAuthenticated() ? "1" : "0";
 	}
 
 	private static String getAdvertiserRefId(String travelRecordLocator) {

@@ -10,16 +10,15 @@ import android.util.AttributeSet;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.trips.TripBucketItemCar;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.trips.TripBucketItemCar;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.CarServices;
@@ -259,7 +258,7 @@ public class CarCheckoutMainViewPresenter extends CheckoutBasePresenter implemen
 			new CarCheckoutParamsBuilder()
 				.firstName(mainContactInfoCardView.firstName.getText().toString())
 				.lastName(mainContactInfoCardView.lastName.getText().toString())
-				.emailAddress(User.isLoggedIn(getContext()) ? Db.getUser().getPrimaryTraveler().getEmail()
+				.emailAddress(userStateManager.isUserAuthenticated() ? Db.getUser().getPrimaryTraveler().getEmail()
 					: mainContactInfoCardView.emailAddress.getText().toString())
 				.grandTotal(carProduct.detailedFare.grandTotal)
 				.phoneCountryCode(

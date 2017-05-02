@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.mobiata.android.Log;
 

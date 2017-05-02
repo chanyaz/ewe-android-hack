@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.utils.UserAccountRefresher;
 

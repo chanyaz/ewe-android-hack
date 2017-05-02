@@ -153,7 +153,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
-            travelerManager.updateDbTravelers(params, context)
+            travelerManager.updateDbTravelers(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)
             showBundleOverView()

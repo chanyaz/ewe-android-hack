@@ -1,8 +1,8 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.data.User
-import com.expedia.bookings.data.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
@@ -20,40 +20,54 @@ import org.robolectric.annotation.Config
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class LoyaltyUtilTest {
     val context = RuntimeEnvironment.application
+    private lateinit var userStateManager: UserStateManager
 
     @Test
     fun testSWPDisabledNotSignedIn() {
+        givenUserIsNotSignedIn()
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_enabled_config.json")
         Assert.assertTrue(PointOfSale.getPointOfSale().isSWPEnabledForHotels)
 
-        Assert.assertFalse(LoyaltyUtil.isShopWithPointsAvailable(context))
+        Assert.assertFalse(LoyaltyUtil.isShopWithPointsAvailable(userStateManager))
     }
 
     @Test
     fun testSWPDisabledUserNotAllowed() {
-        signInUser(false)
+        givenUserIsSignedInButNotAllowedToSWP()
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_enabled_config.json")
         Assert.assertTrue(PointOfSale.getPointOfSale().isSWPEnabledForHotels)
 
-        Assert.assertFalse(LoyaltyUtil.isShopWithPointsAvailable(context))
+        Assert.assertFalse(LoyaltyUtil.isShopWithPointsAvailable(userStateManager))
     }
 
     @Test
     fun testSWPDisabledPOS() {
-        signInUser(true)
+        givenUserIsSignedInAndAllowedToSWP()
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_disabled_config.json")
         Assert.assertFalse(PointOfSale.getPointOfSale().isSWPEnabledForHotels)
 
-        Assert.assertFalse(LoyaltyUtil.isShopWithPointsAvailable(context))
+        Assert.assertFalse(LoyaltyUtil.isShopWithPointsAvailable(userStateManager))
     }
 
     @Test
     fun testSWPEnabledPOS() {
-        signInUser(true)
+        givenUserIsSignedInAndAllowedToSWP()
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_enabled_config.json")
         Assert.assertTrue(PointOfSale.getPointOfSale().isSWPEnabledForHotels)
 
-        Assert.assertTrue(LoyaltyUtil.isShopWithPointsAvailable(context))
+        Assert.assertTrue(LoyaltyUtil.isShopWithPointsAvailable(userStateManager))
+    }
+
+    private fun givenUserIsNotSignedIn() {
+        userStateManager = UserStateManager(context)
+    }
+
+    private fun givenUserIsSignedInAndAllowedToSWP() {
+        signInUser(true)
+    }
+
+    private fun givenUserIsSignedInButNotAllowedToSWP() {
+        signInUser(false)
     }
 
     private fun signInUser(allowShopWithPoints: Boolean) {
@@ -62,6 +76,6 @@ class LoyaltyUtilTest {
         val user = UserLoginTestUtil.mockUser()
         user.setLoyaltyMembershipInformation(loyaltyInfo)
         UserLoginTestUtil.setupUserAndMockLogin(user)
-        Assert.assertTrue(User.isLoggedIn(context))
+        userStateManager = UserStateManager(context)
     }
 }

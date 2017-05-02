@@ -1,4 +1,4 @@
-package com.expedia.bookings.data;
+package com.expedia.bookings.data.user;
 
 public class UserPreference {
 	public enum Category {

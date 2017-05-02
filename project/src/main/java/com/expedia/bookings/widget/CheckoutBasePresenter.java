@@ -22,16 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
@@ -43,6 +42,9 @@ import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import kotlin.Unit;
 import rx.Observer;
 
@@ -118,6 +120,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView currentExpandedCard;
 
 	protected UserAccountRefresher userAccountRefresher;
+	protected UserStateManager userStateManager;
 
 	private boolean listenToScroll = true;
 
@@ -125,6 +128,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
 		setupToolbar();
 
 		paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
@@ -177,7 +181,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		mainContactInfoCardView.addExpandedListener(this);
 		mainContactInfoCardView.setToolbarListener(toolbar);
-		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+		hintContainer.setVisibility(userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
 		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
 		slideToContainer.setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -506,7 +510,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			for (int i = 0; i < checkoutContent.getChildCount(); i++) {
 				View v = checkoutContent.getChildAt(i);
 				if (v == hintContainer) {
-					hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
+					hintContainer.setVisibility(forward ? userStateManager.isUserAuthenticated() ? GONE : VISIBLE : INVISIBLE);
 				}
 				else if (v == paymentInfoCardView) {
 					if (paymentInfoCardView.isCreditCardRequired()) {
@@ -581,7 +585,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void startTransition(boolean forward) {
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
-			hintContainer.setVisibility(forward ? View.GONE : User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
 			mainContactInfoCardView.setVisibility(
 				!forward ? View.VISIBLE : currentExpandedCard instanceof TravelerContactDetailsWidget ? VISIBLE : GONE);
 			paymentInfoCardView
@@ -636,7 +640,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void startTransition(boolean forward) {
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
-			hintContainer.setVisibility(forward ? View.GONE : User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
 			mainContactInfoCardView.setVisibility(forward ? View.GONE : View.VISIBLE);
 			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
@@ -686,7 +690,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void startTransition(boolean forward) {
 			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
-			hintContainer.setVisibility(forward ? View.GONE : User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+			hintContainer.setVisibility(forward ? View.GONE : userStateManager.isUserAuthenticated() ? GONE : VISIBLE);
 			mainContactInfoCardView.setVisibility(forward ? View.GONE : View.VISIBLE);
 			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
 			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
@@ -751,7 +755,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	private void doCreateTripAndScrollToCheckout() {
-		if (User.isLoggedIn(getContext())) {
+		if (userStateManager.isUserAuthenticated()) {
 			listenToScroll = true;
 			if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 				scrollToEnterDetails();
@@ -870,12 +874,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	};
 
 	protected void updateLoginWidget() {
-		loginWidget.bind(false, User.isLoggedIn(getContext()),
-			User.isLoggedIn(getContext()) ? Db.getUser() : null, getLineOfBusiness());
+		loginWidget.bind(false, userStateManager.isUserAuthenticated(),
+			userStateManager.isUserAuthenticated() ? Db.getUser() : null, getLineOfBusiness());
 	}
 
 	protected void selectFirstAvailableCardIfOnlyOneAvailable() {
-		if (User.isLoggedIn(getContext())) {
+		if (userStateManager.isUserAuthenticated()) {
 			if (paymentInfoCardView.getSectionBillingInfo().getBillingInfo() != null && !paymentInfoCardView
 				.getSectionBillingInfo().getBillingInfo().isCreditCardDataEnteredManually()
 				&& Db.getUser().getStoredCreditCards().size() == 1 && Db.getTemporarilySavedCard() == null) {

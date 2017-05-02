@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
@@ -17,6 +16,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -27,7 +27,7 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class PackageConfirmationViewModel(val context: Context) {
+class PackageConfirmationViewModel(private val context: Context) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
     val setRewardsPoints = PublishSubject.create<String>()
 
@@ -41,6 +41,8 @@ class PackageConfirmationViewModel(val context: Context) {
     val outboundFlightCardSubTitleObservable = BehaviorSubject.create<String>()
     val inboundFlightCardTitleObservable = BehaviorSubject.create<String>()
     val inboundFlightCardSubTitleObservable = BehaviorSubject.create<String>()
+
+    private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
     init {
         showConfirmation.subscribe { pair ->
@@ -58,14 +60,14 @@ class PackageConfirmationViewModel(val context: Context) {
                     .put("email", email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
-            if (!User.isLoggedIn(context)) {
+            if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
         }
 
         setRewardsPoints.subscribe { points ->
             if (points != null)
-                if (User.isLoggedIn(context) && PointOfSale.getPointOfSale().shouldShowRewards()) {
+                if (userStateManager.isUserAuthenticated() && PointOfSale.getPointOfSale().shouldShowRewards()) {
                     val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
                     if (Strings.isNotEmpty(rewardPointText)) {
                         rewardPointsObservable.onNext(rewardPointText)

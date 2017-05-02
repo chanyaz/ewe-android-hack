@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -12,25 +13,26 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
-import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.expedia.util.RxKt;
 import com.squareup.phrase.Phrase;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import rx.Observer;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
@@ -88,9 +90,12 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public PublishSubject<Boolean> filledIn = PublishSubject.create();
 	public CompositeSubscription compositeSubscription = new CompositeSubscription();
 
+	private UserStateManager userStateManager;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		userStateManager = Ui.getApplication(getContext()).appComponent().userStateManager();
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		if (PointOfSale.getPointOfSale().showLastNameFirst()) {
 			inflater.inflate(R.layout.traveler_contact_details_widget_reversed, this);
@@ -129,7 +134,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
-	protected void onVisibilityChanged(View changedView, int visibility) {
+	protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
 		super.onVisibilityChanged(changedView, visibility);
 		if (visibility == View.VISIBLE) {
 			compositeSubscription = new CompositeSubscription();
@@ -159,7 +164,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
 		emailOptInStatus = value;
-		if (lineOfBusiness == LineOfBusiness.HOTELS && !User.isLoggedIn(getContext())) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS && !userStateManager.isUserAuthenticated()) {
 			if (emailOptInStatus != null) {
 				switch (emailOptInStatus) {
 				case ALWAYS:
@@ -215,7 +220,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 		// User not logged in - empty form
 		// User not logged in - entering a new traveler
-		boolean isLoggedIn = User.isLoggedIn(getContext());
+		boolean isLoggedIn = userStateManager.isUserAuthenticated();
 		Traveler traveler = sectionTravelerInfo.getTraveler();
 
 		if (isLoggedIn) {
@@ -289,7 +294,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			if (mToolbarListener != null) {
 				mToolbarListener.setActionBarTitle(getActionBarTitle());
 			}
-			if (User.isLoggedIn(getContext())) {
+			if (userStateManager.isUserAuthenticated()) {
 				travelerButton.setVisibility(VISIBLE);
 			}
 			else {

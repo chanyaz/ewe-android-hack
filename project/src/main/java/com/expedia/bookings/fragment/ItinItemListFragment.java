@@ -30,13 +30,14 @@ import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
@@ -90,6 +91,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private boolean mCurrentSyncHasErrors = false;
 	private boolean mIsLoading = false;
 	private String mJumpToItinId = null;
+	private UserStateManager userStateManager;
 
 	//Have we tracked this itin list view yet?
 	private boolean mItinListTracked = false;
@@ -132,6 +134,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
+
+		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
@@ -462,7 +466,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	private void updateLoginState() {
-		if (User.isLoggedIn(getActivity()) && Db.getUser() != null) {
+		if (userStateManager.isUserAuthenticated() && Db.getUser() != null) {
 			setState(MessageState.NO_UPCOMING_TRIPS);
 		}
 		else {
@@ -471,7 +475,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void accountLogoutClicked() {
-		if (!User.isLoggedIn(getActivity())) {
+		if (!userStateManager.isUserAuthenticated()) {
 			doLogout();
 			return;
 		}
