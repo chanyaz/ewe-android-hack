@@ -327,6 +327,7 @@
 
     <!-- Footer button height -->
     <dimen name="footer_button_height">56dp</dimen>
+    <dimen name="flight_fsr_footer_button_height">100dp</dimen>
     <dimen name="new_launch_fab_width">@dimen/new_launch_fab_dimension</dimen>
     <dimen name="new_launch_fab_height">@dimen/new_launch_fab_dimension</dimen>
     <dimen name="new_launch_fab_dimension">56dp</dimen>
