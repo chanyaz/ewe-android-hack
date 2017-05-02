@@ -23,8 +23,6 @@ function prepareLocalMavenRepo() {
 function setUpForPythonScripts() {
 # do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
   if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true") ]]; then
-    GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-    HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
     export PYTHONIOENCODING=utf-8
 
     if [ ! -d 'virtualenv' ]; then
@@ -40,7 +38,7 @@ function setUpForPythonScripts() {
     pip install "lxml==3.5.0"
 
     # exit if finds 'needs-human' label
-    python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+    python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId
     prLabeledAsNeedsHumanStatus=$?
     if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
        echo "PR is labeled needs-human, so exiting..."
@@ -52,7 +50,7 @@ function setUpForPythonScripts() {
 function runPRPolice() {
   if [ "$isPRPoliceEnabled" == "true" ]; then
     # Invoke PR Police to check for issues
-    python ./jenkins/pr_police/PRPolice.py ${GITHUB_TOKEN} ${ghprbPullId}
+    python ./jenkins/pr_police/PRPolice.py ${GITHUB_ACCESS_TOKEN} ${ghprbPullId}
     prPoliceStatus=$?
   else
     echo "PR Police is disabled!"
@@ -95,13 +93,13 @@ function runKotlinUnusedResourceCheck() {
 
 function runFeedbackAndCoverageReports() {
   if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
-    python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
+    python ./jenkins/pr_unit_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
   fi
 
   if [[ "$flavor" == "Expedia" ]]; then
       if [[ $isJenkins && $unitTestStatus -eq 0 ]]; then
         BUILD_URL="https://jenkins-ewe-mobile-android-master.tools.expedia.com/job/$JOB_NAME/$BUILD_NUMBER"
-        python ./jenkins/report_missing_code_coverage.py $GITHUB_TOKEN $ghprbPullId $BUILD_URL project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml lib/ExpediaBookings/build/reports/jacoco/test/jacocoTestReport.xml
+        python ./jenkins/report_missing_code_coverage.py $GITHUB_ACCESS_TOKEN $ghprbPullId $BUILD_URL project/build/reports/jacoco/jacocoExpediaDebug/jacocoExpediaDebug.xml lib/ExpediaBookings/build/reports/jacoco/test/jacocoTestReport.xml
         coverageBotStatus=$?
       else
         echo "Either script was not run on Jenkins or the unit tests failed. Not invoking Coverage Bot."
