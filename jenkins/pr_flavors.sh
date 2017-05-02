@@ -5,8 +5,6 @@ set -e
 TERM=dumb
 
 flavor=$1
-GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
 
 if [ ! -d 'virtualenv' ] ; then
     virtualenv -p python2.7 virtualenv
@@ -20,7 +18,7 @@ pip install "github3.py==1.0.0.a4"
 pip install "hypchat==0.21"
 
 # exit if finds 'needs-human' label
-python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_TOKEN $ghprbPullId
+python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId
 prLabeledAsNeedsHumanStatus=$?
 if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
    echo "PR is labeled needs-human, so exiting..."
@@ -40,5 +38,5 @@ build() {
 build || build
 buildStatus=$?
 
-python ./jenkins/pr_flavors_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN $buildStatus
+python ./jenkins/pr_flavors_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN $buildStatus
 
