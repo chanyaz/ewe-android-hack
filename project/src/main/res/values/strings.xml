@@ -2760,6 +2760,8 @@
     <string name="view_room_button_content_description_TEMPLATE">View Room, {room}</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">Book, {room}</string>
+    <!-- Room description alert dialog title -->
+    <string name="room_description_title">Room Description</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovation Notice</string>
     <!-- This property is undergoing renovations -->

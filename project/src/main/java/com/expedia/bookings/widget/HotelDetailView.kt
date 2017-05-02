@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
@@ -182,7 +183,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
         detailContainer.setOnTouchListener(touchListener)
-        vm.hotelOffersSubject.subscribe{
+        vm.hotelOffersSubject.subscribe {
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
 
@@ -514,7 +515,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         //In case of slow scrolling, if gallery view is expanding more than halfway then scrollTo full screen else scrollTo initialScroollTop
         if ((toFullScreen && fromY > threshold && fromY < initialScrollTop) || (!toFullScreen)) {
             detailContainer.animateScrollY(fromY, initialScrollTop, ANIMATION_DURATION)
-        } else if (fromY < threshold ) {
+        } else if (fromY < threshold) {
             detailContainer.animateScrollY(fromY, 0, ANIMATION_DURATION)
         }
     }
@@ -604,7 +605,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset ||
-                detailContainer.getChildAt(detailContainer.childCount-1).bottom - detailContainer.height - detailContainer.scrollY <= stickySelectRoomContainer.height / 4
+                detailContainer.getChildAt(detailContainer.childCount - 1).bottom - detailContainer.height - detailContainer.scrollY <= stickySelectRoomContainer.height / 4
 
         if (showStickySelectRoom && !selectRoomInAnimator.isRunning && stickySelectRoomContainer.translationY != 0f) {
             selectRoomInAnimator.start()
@@ -777,19 +778,38 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         roomContainer.startAnimation(fadeRoomsOutAnimation)
     }
 
-    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) : HotelRoomHeaderView {
+    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse): HotelRoomHeaderView {
         val headerViewModel = HotelRoomHeaderViewModel(context, hotelRoomResponse)
 
         val header = HotelRoomHeaderView(context, headerViewModel)
 
         header.roomInfoClickedSubject.subscribe {
-            // TODO: show pop up for room info https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/190
+            showRoomDescriptionDialog(headerViewModel.roomDescriptionString)
         }
 
         return header
     }
 
-    private fun getRoomDetailView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String, rowIndex: Int, roomCount: Int, hasETP: Boolean) : HotelRoomDetailView {
+    private fun showRoomDescriptionDialog(roomInfo: String?) {
+        if (roomInfo.isNullOrBlank()) {
+            return
+        }
+        val roomTextView = View.inflate(context, R.layout.room_description_dialog, null) as android.widget.TextView
+        roomTextView.text = roomInfo
+
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.room_description_title)
+        builder.setView(roomTextView)
+        builder.setCancelable(false)
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which ->
+            dialog.dismiss()
+        })
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun getRoomDetailView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String, rowIndex: Int, roomCount: Int, hasETP: Boolean): HotelRoomDetailView {
         val detailViewModel = HotelRoomDetailViewModel(context, hotelRoomResponse, hotelId, rowIndex, roomCount, hasETP)
 
         val detail = HotelRoomDetailView(context, detailViewModel)
@@ -816,8 +836,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         return detail
     }
 
-    private fun getGroupedRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, payLater: Boolean) : Animation.AnimationListener {
-         val fadeOutRoomListener = object : AnimationListenerAdapter() {
+    private fun getGroupedRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, payLater: Boolean): Animation.AnimationListener {
+        val fadeOutRoomListener = object : AnimationListenerAdapter() {
             override fun onAnimationEnd(p0: Animation?) {
                 createGroupedRoomViews(roomList, payLater)
             }
@@ -874,7 +894,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun getRoomAnimationListener(roomList: List<HotelOffersResponse.HotelRoomResponse>, topValueAddList: List<String>,
-                                         payLater: Boolean) : Animation.AnimationListener {
+                                         payLater: Boolean): Animation.AnimationListener {
         val fadeOutRoomListener = object : AnimationListenerAdapter() {
             override fun onAnimationEnd(p0: Animation?) {
                 createRoomViews(roomList, topValueAddList, payLater)
@@ -943,7 +963,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun getHotelRoomRowView(roomIndex: Int, roomResponse: HotelOffersResponse.HotelRoomResponse,
-                                    uniqueValueAdd: String) : HotelRoomRateView {
+                                    uniqueValueAdd: String): HotelRoomRateView {
         val hasETP = viewmodel.hasETPObservable.value
         val view = HotelRoomRateView(context)
         view.viewModel = HotelRoomRateViewModel(context, viewmodel.hotelOffersResponse.hotelId,

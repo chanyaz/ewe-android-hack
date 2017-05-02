@@ -7,17 +7,23 @@ import com.expedia.bookings.utils.Images
 
 class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) {
 
-    val imageUrl: String?
-        get() = if (!hotelRoomResponse.roomThumbnailUrl.isNullOrBlank()) {
+    val imageUrl: String? by lazy { getHotelImageUrl() }
+    val roomTypeString by lazy { createRoomTypeString() }
+
+    val bedTypeString by lazy {
+        (hotelRoomResponse.bedTypes ?: emptyList()).map {
+            bedType ->
+            bedType.description
+        }.joinToString(context.resources.getString(R.string.delimiter_multiple_bed))
+    }
+
+    val roomDescriptionString: String? by lazy { hotelRoomResponse.roomLongDescription }
+
+    private fun getHotelImageUrl(): String? {
+        return if (!hotelRoomResponse.roomThumbnailUrl.isNullOrBlank()) {
             Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl
         } else null
-
-    val roomTypeString: String get() = createRoomTypeString()
-
-    val bedTypeString: String
-        get() = (hotelRoomResponse.bedTypes ?: emptyList()).map {
-            it.description
-        }.joinToString(context.resources.getString(R.string.delimiter_multiple_bed))
+    }
 
     private fun createRoomTypeString(): String {
         var trimmedRoomTypeString = hotelRoomResponse.roomTypeDescription
