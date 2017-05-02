@@ -7,8 +7,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -38,9 +36,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 	boolean loadSignInViewAbTest = false;
 
-	ImageView logoView;
-	View content;
-
 	private enum LaunchDestination {
 		SIGN_IN,
 		LAUNCH_SCREEN
@@ -49,7 +44,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash_screen);
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
 
@@ -63,9 +57,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		cleanupOldSuggestions();
 
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
-
-		content = findViewById(android.R.id.content);
-		logoView = (ImageView) findViewById(R.id.splash_logo_id);
 
 		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
