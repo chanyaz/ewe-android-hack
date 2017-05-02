@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -75,8 +76,10 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailLeg;
 import com.expedia.bookings.data.rail.responses.RailLegOption;
 import com.expedia.bookings.data.rail.responses.RailTripOffer;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.OnboardingPagerState;
@@ -2649,9 +2652,18 @@ public class OmnitureTracking {
 		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_track_users_itin_data) && userStateManager.isUserAuthenticated()) {
+			if (!TripUtils.createUsersTripTypeEventString(getUsersTrips()).isEmpty()) {
+				s.setEvents(TripUtils.createUsersTripTypeEventString(getUsersTrips()));
+			}
+		}
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
+	}
+
+	private static Collection<Trip> getUsersTrips() {
+		return ItineraryManager.getInstance().getTrips();
 	}
 
 	public static void trackPageLoadItinCrystalTheme() {

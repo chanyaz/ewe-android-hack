@@ -113,6 +113,7 @@
     <string name="preference_itin_crystal_theme">preference_itin_crystal_theme</string>
     <string name="preference_hotel_group_room_and_rate">preference_hotel_group_room_and_rate</string>
     <string name="preference_insurance_in_flight_summary">preference_insurance_in_flight_summary</string>
+    <string name="preference_track_users_itin_data">preference_track_users_itin_data</string>
     <string name="preference_packages_remove_bundle_overview">preference_packages_remove_bundle_overview</string>
     <string name="preference_flight_search_form_validations">preference_flight_search_form_validations</string>
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +14,8 @@ import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -177,6 +181,49 @@ public class TripUtils {
 				.generateHotelSearchParamsFromItinData(tripFlight, firstFlightLeg, secondFlightLeg);
 		}
 		return null;
+	}
+
+	//Below are methods used to populate Omniture data based on a User's Trip data
+
+	public static String createUsersTripTypeEventString(Collection<Trip> trips) {
+		HashSet<String> usersEventNumberSet = new HashSet<>();
+		String usersEventNumberString;
+		if (trips != null && !trips.isEmpty()) {
+			HashSet<TripComponent.Type> tripTypesAvailable = getTripTypesInUsersTrips(trips);
+			for (TripComponent.Type type : tripTypesAvailable) {
+				String eventNumber = createTripTypeEventHashMap().get(type);
+				if (eventNumber != null) {
+					usersEventNumberSet.add(eventNumber);
+				}
+			}
+		}
+		usersEventNumberString = TextUtils.join(",", usersEventNumberSet);
+		return usersEventNumberString;
+	}
+
+	private static HashSet<TripComponent.Type> getTripTypesInUsersTrips(Collection<Trip> trips) {
+		HashSet<TripComponent.Type> usersTripTypeHashSet = new HashSet<>();
+		for (Trip trip : trips) {
+			if (!trip.isShared()) {
+				for (TripComponent component : trip.getTripComponents()) {
+					usersTripTypeHashSet.add(component.getType());
+				}
+			}
+		}
+		return usersTripTypeHashSet;
+	}
+
+	private static HashMap<TripComponent.Type, String> createTripTypeEventHashMap() {
+		HashMap<TripComponent.Type, String> tripTypeEventHashMap = new HashMap<>();
+
+		tripTypeEventHashMap.put(TripComponent.Type.HOTEL, "event250");
+		tripTypeEventHashMap.put(TripComponent.Type.FLIGHT, "event251");
+		tripTypeEventHashMap.put(TripComponent.Type.CAR, "event252");
+		tripTypeEventHashMap.put(TripComponent.Type.ACTIVITY, "event253");
+		tripTypeEventHashMap.put(TripComponent.Type.RAILS, "event254");
+		tripTypeEventHashMap.put(TripComponent.Type.PACKAGE, "event255");
+
+		return tripTypeEventHashMap;
 	}
 
 }
