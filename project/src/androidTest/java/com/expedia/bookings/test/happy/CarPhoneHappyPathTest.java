@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.happy;
 
+import android.support.test.espresso.ViewInteraction;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -24,8 +26,9 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private final static int CREDIT_CARD_REQUIRED = 1;
 
 	private void goToCarDetails() throws Throwable {
-		NewLaunchScreen.carsLaunchButton().perform(click());
-
+		ViewInteraction carsLaunchButton = NewLaunchScreen.carsLaunchButton();
+		Common.delay(1);
+		carsLaunchButton.perform(click());
 		SearchScreen.doGenericCarSearch();
 		Common.delay(1);
 
