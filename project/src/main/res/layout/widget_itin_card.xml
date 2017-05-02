@@ -181,7 +181,7 @@
                                 android:gravity="center"
                                 android:paddingRight="4dp"
                                 android:maxLines="1"
-                                android:textColor="#9e9d9d"
+                                android:textColor="?attr/itin_card_summary_date_text_color"
                                 android:textSize="17sp"
                                 app:textStyle="normal" />
 
@@ -276,7 +276,7 @@
                             android:layout_marginRight="8dp"
                             android:scaleType="centerInside"
                             android:contentDescription="@string/trips_expand_button_label_cont_desc"
-                            android:src="@drawable/ic_expand_collapse" />
+                            android:src="?attr/itin_card_list_chevron_drawable" />
                     </LinearLayout>
 
                     <View
