@@ -131,8 +131,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/air_attach_banner_divider_margin_left"
-            android:layout_marginRight="@dimen/air_attach_banner_divider_margin_right"
+            android:layout_marginLeft="?attr/itin_air_attach_banner_divider_margin_left"
+            android:layout_marginRight="?attr/itin_air_attach_banner_divider_margin_right"
             android:background="?attr/itin_air_attach_banner_divider_color" />
 
         <LinearLayout

@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:background="?attr/skin_itinDismissListSelectorDrawable"
             android:contentDescription="@string/hide_menu_btn_cont_desc"
-            android:src="?attr/itin_card_action_overflow"
+            android:src="?attr/itin_air_attach_action_overflow"
             android:scaleType="centerInside"/>
 
     </LinearLayout>
