@@ -253,7 +253,6 @@
         <item name="itin_card_list_cross_sell_bg">@drawable/btn_hotel_attach</item>
         <item name="itin_card_list_cross_sell_text_color">@color/itin_white_text</item>
         <item name="itin_card_list_cross_sell_text_size">16sp</item>
-        <item name="itin_card_action_overflow">@drawable/ic_itin_action_overflow_white</item>
         <item name="itin_card_list_cross_sell_lx_left_drawable">@drawable/ic_activity_attach</item>
         <item name="itin_card_list_cross_sell_hotel_left_drawable">@drawable/ic_hotel_attach</item>
         <item name="itin_card_list_icon_activity_drawable">@drawable/ic_type_circle_activity</item>
@@ -273,6 +272,8 @@
         <item name="itin_air_attach_banner_divider_color">@color/bg_air_attach_banner_divider</item>
         <item name="itin_air_attach_expires_in_text_color">@color/price_change_air_attach</item>
         <item name="itin_air_attach_margin_left_right">4dp</item>
+        <item name="itin_air_attach_banner_divider_margin_left">@dimen/air_attach_banner_divider_margin_left</item>
+        <item name="itin_air_attach_banner_divider_margin_right">@dimen/air_attach_banner_divider_margin_right</item>
         <item name="itin_cross_sell_card_margin_left_right">0dp</item>
 
         <item name="itin_card_detail_title_bg">@drawable/bg_itin_card_title</item>
@@ -339,7 +340,6 @@
         <item name="itin_card_list_cross_sell_bg">@android:color/white</item>
         <item name="itin_card_list_cross_sell_text_color">@color/gray10</item>
         <item name="itin_card_list_cross_sell_text_size">16sp</item>
-        <item name="itin_card_action_overflow">@drawable/ic_itin_action_overflow_crystal</item>
         <item name="itin_card_list_cross_sell_lx_left_drawable">@drawable/ic_activity_attach_crystal</item>
         <item name="itin_card_list_cross_sell_hotel_left_drawable">@drawable/ic_hotel_attach_crystal</item>
         <item name="itin_card_list_icon_activity_drawable">@drawable/itin_lob_activity</item>
@@ -359,6 +359,8 @@
         <item name="itin_air_attach_banner_divider_color">@color/gray1</item>
         <item name="itin_air_attach_expires_in_text_color">@color/gray10</item>
         <item name="itin_air_attach_margin_left_right">8dp</item>
+        <item name="itin_air_attach_banner_divider_margin_left">@dimen/air_attach_banner_divider_margin_left_crystal_theme</item>
+        <item name="itin_air_attach_banner_divider_margin_right">@dimen/air_attach_banner_divider_margin_right_crystal_theme</item>
         <item name="itin_cross_sell_card_margin_left_right">4dp</item>
 
         <item name="itin_card_detail_title_bg">@android:color/white</item>

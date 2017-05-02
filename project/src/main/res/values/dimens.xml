@@ -347,6 +347,8 @@
     <!-- Air Attach banner -->
     <dimen name="air_attach_banner_divider_margin_right">8dp</dimen>
     <dimen name="air_attach_banner_divider_margin_left">8dp</dimen>
+    <dimen name="air_attach_banner_divider_margin_right_crystal_theme">0dp</dimen>
+    <dimen name="air_attach_banner_divider_margin_left_crystal_theme">0dp</dimen>
 
     <dimen name="earn_message_icon_dimen">0dp</dimen>
     <dimen name="overview_height">165dp</dimen>
