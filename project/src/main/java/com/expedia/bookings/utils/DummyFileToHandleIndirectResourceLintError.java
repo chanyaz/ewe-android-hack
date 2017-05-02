@@ -22,6 +22,8 @@ public class DummyFileToHandleIndirectResourceLintError {
 		R.drawable.ic_left_enabled,
 		R.drawable.ic_right_disabled,
 		R.drawable.ic_right_enabled,
+		R.color.btn_sign_in_pressed,
+		R.color.btn_sign_in_focused,
 		R.bool.tablet
 	};
 }
