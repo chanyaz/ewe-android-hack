@@ -145,3 +145,74 @@ Feature: Flights Checkout
     And I click on Payment Info
     And Validate that Credit card "Saved AmexTesting" is shown selected at Payment Method screen
 
+  @Flights @Prod @FlightsCheckout
+  Scenario: Passport field is mandatory on checkout in international flights
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    When I click on checkout button
+    And I open traveller details
+    Then Passport field is present on the traveler info form
+    When I fill the following details in the traveller details form:
+      | firstName   | Expedia      |
+      | lastName    | Automaton    |
+      | email       | abc@exp.com  |
+      | phoneNumber | 3432234      |
+      | year        | 1990         |
+      | month       | 3            |
+      | date        | 23           |
+      | gender      | Male         |
+    And I save the traveller details by hitting done
+    Then Traveller details are not saved
+    And Passport field is shown as a mandatory field
+
+  @Flights @Prod @FlightsCheckout
+  Scenario: Passport field is mandatory on checkout in domestic flights for AirAsia
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | KUL                                      |
+      | destination         | PEN                                      |
+      | source_suggest      | Kuala Lumpur, Malaysia (KUL - All Airports) |
+      | destination_suggest | Penang, Malaysia (PEN - Penang Intl.) |
+      | start_date          | 15                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I click on sort and filter icon
+    And I scroll to Airline Section
+    And I select "AirAsia" checkbox
+    And I click on sort and filter screen done button
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    When I click on checkout button
+    And I open traveller details
+    Then Passport field is present on the traveler info form
+    When I fill the following details in the traveller details form:
+      | firstName   | Expedia      |
+      | lastName    | Automaton    |
+      | email       | abc@exp.com  |
+      | phoneNumber | 3432234      |
+      | year        | 1990         |
+      | month       | 3            |
+      | date        | 23           |
+      | gender      | Male         |
+    And I save the traveller details by hitting done
+    Then Traveller details are not saved
+    And Passport field is shown as a mandatory field
+
