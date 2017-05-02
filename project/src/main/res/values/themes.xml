@@ -238,6 +238,7 @@
         <item name="itin_card_summary_text_line1_size">16sp</item>
         <item name="itin_card_summary_text_line2_color">@color/itin_offwhite_text</item>
         <item name="itin_card_summary_text_line2_size">15sp</item>
+        <item name="itin_card_summary_date_text_color">#9e9d9d</item>
         <item name="itin_card_summary_divider_color">@color/itin_summary_divider_color</item>
         <item name="itin_card_summary_action_button_text_color">@color/itin_white_text</item>
         <item name="itin_card_summary_action_button_text_size">12sp</item>
@@ -261,6 +262,7 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/ic_type_circle_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/ic_type_circle_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/rail_itin_icon</item>
+        <item name="itin_card_list_chevron_drawable">@drawable/ic_expand_collapse</item>
         <item name="itin_add_guest_itin_style">@style/Widget.BorderlessButton</item>
 
         <item name="itin_air_attach_background">@drawable/btn_hotel_attach_normal</item>
@@ -322,6 +324,7 @@
         <item name="itin_card_summary_text_line1_size">16sp</item>
         <item name="itin_card_summary_text_line2_color">@color/gray6</item>
         <item name="itin_card_summary_text_line2_size">12sp</item>
+        <item name="itin_card_summary_date_text_color">@android:color/white</item>
         <item name="itin_card_summary_divider_color">@color/gray1</item>
         <item name="itin_card_summary_action_button_text_color">@color/exp_launch_blue</item>
         <item name="itin_card_summary_action_button_text_size">16sp</item>
@@ -345,6 +348,7 @@
         <item name="itin_card_list_icon_flight_drawable">@drawable/itin_lob_flight</item>
         <item name="itin_card_list_icon_hotel_drawable">@drawable/itin_lob_hotel</item>
         <item name="itin_card_list_icon_rail_drawable">@drawable/itin_lob_rail</item>
+        <item name="itin_card_list_chevron_drawable">@drawable/ic_itin_chevron_crystal</item>
         <item name="itin_add_guest_itin_style">@style/Widget.BorderlessButton.Crystal</item>
 
         <item name="itin_air_attach_background">@android:color/white</item>
