@@ -5,8 +5,10 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -51,12 +53,18 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			String apiKey = getString(R.string.preference_which_api_to_use_key);
 			ListPreference apiPref = (ListPreference) findPreference(apiKey);
 			apiPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				public boolean onPreferenceChange(Preference preference, Object newValue) {
-					if ("Mock Mode".equals(newValue)) {
-						SettingUtils
-							.save(getActivity(), getString(R.string.preference_which_api_to_use_key), "Mock Mode");
-						restartApp();
-					}
+				public boolean onPreferenceChange(Preference preference, final Object newValue) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
+					builder.setTitle("Server Switching");
+					builder.setMessage(getActivity().getResources().getString(R.string.server_change_message));
+					builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							SettingUtils.save(getActivity(), getString(R.string.preference_disable_modern_https_security), !newValue.toString().equals("Production"));
+							SettingUtils.save(getActivity(), getString(R.string.preference_which_api_to_use_key), newValue.toString());
+							restartApp();
+						}
+					});
+					builder.create().show();
 					return true;
 				}
 			});
