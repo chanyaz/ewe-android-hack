@@ -1842,7 +1842,7 @@
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">经济型</string>
     <!-- Label for Business Economy -->
-    <string name="cabin_code_basic_economy">基本经济舱</string>
+    <string name="cabin_code_basic_economy">基础经济舱</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">高端经济舱</string>
     <!-- Label for "business" cabin code -->
@@ -2170,6 +2170,7 @@
     <string name="advanced">高级选项</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">高级选项（可选）</string>
+    <string name="contact_airline_message">请联系航空公司以确认请求</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->

@@ -2170,6 +2170,7 @@
     <string name="advanced">拡張設定</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">その他 (オプション)</string>
+    <string name="contact_airline_message">航空会社にご連絡のうえ、ご確認ください。</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->

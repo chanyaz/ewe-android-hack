@@ -2170,6 +2170,7 @@
     <string name="advanced">Erweitert</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Erweitert (optional)</string>
+    <string name="contact_airline_message">Bitte wenden Sie sich an die Fluggesellschaft, um die Anfragen zu bestätigen</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
