@@ -84,6 +84,7 @@ public class TuneUtils {
 			tune.setExistingUser(true);
 		}
 		tune.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
+		tune.setGoogleUserId(getExpediaUserId());
 		tune.setDebugMode(BuildConfig.DEBUG && SettingUtils
 			.get(context, context.getString(R.string.preference_enable_tune), false));
 		tune.registerDeeplinkListener(new TuneDeeplinkListener() {
@@ -982,6 +983,14 @@ public class TuneUtils {
 		if (userStateManager.isUserAuthenticated()) {
 			lazyLoadUser();
 			return Db.getUser().getTuidString();
+		}
+		return "";
+	}
+
+	private static String getExpediaUserId() {
+		if (userStateManager.isUserAuthenticated()) {
+			lazyLoadUser();
+			return Db.getUser().getExpediaUserId();
 		}
 		return "";
 	}
