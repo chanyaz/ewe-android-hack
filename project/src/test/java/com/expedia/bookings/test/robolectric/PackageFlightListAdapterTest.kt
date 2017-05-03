@@ -48,8 +48,23 @@ class PackageFlightListAdapterTest {
     }
 
     @Test
+    fun allFlightsLoadingHeaderView() {
+        createSystemUnderTest()
+        val itemViewType = sut.getItemViewType(0)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.LOADING_FLIGHTS_HEADER_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
+    fun allFlightsLoadingView() {
+        createSystemUnderTest()
+        val itemViewType = sut.getItemViewType(2)
+        assertEquals(AbstractFlightListAdapter.ViewTypes.LOADING_FLIGHTS_VIEW.ordinal, itemViewType)
+    }
+
+    @Test
     fun allFlightsHeaderShownForPackagesLOB() {
         createSystemUnderTest()
+        sut.setNewFlights(emptyList())
         sut.shouldShowBestFlight = true
         val itemViewType = sut.getItemViewType(2)
         assertEquals(AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_HEADER_VIEW.ordinal, itemViewType)
