@@ -927,7 +927,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.array.sort_options_flights,
 		R.layout.spinner_sort_item,
 		R.dimen.breakdown_text_margin,
-		R.integer.calendar_max_selectable_date_range,
+		R.integer.max_calendar_selectable_date_range_hotels_only,
 		R.layout.spinner_sort_dropdown_item,
 		R.string.select_dates_proper_case,
 		R.drawable.divider_row_filter_refinement,
