@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
@@ -45,7 +43,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     abstract fun isInboundFlight(): Boolean
     var showFlightCabinClass = false
     var showCollapseIcon: Boolean = false
-    val isUserBucketedForRateDetailExpansionTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)
 
     protected val opacity: Float = 0.25f
 
@@ -147,7 +144,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight))
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
-            if (isUserBucketedForRateDetailExpansionTest) {
+            if (viewModel.isUserBucketedForRateDetailExpansionTest) {
                 expandFlightDetails(false)
             }
             this.selectedCardObservable.onNext(Unit)
@@ -198,7 +195,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     }
 
     fun backButtonPressed() {
-        if (isUserBucketedForRateDetailExpansionTest && !isFlightSegmentDetailsExpanded()) {
+        if (viewModel.isUserBucketedForRateDetailExpansionTest && !isFlightSegmentDetailsExpanded()) {
             expandFlightDetails()
         } else if (isFlightSegmentDetailsExpanded()) {
             collapseFlightDetails()

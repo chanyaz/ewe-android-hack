@@ -46,6 +46,8 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
     val showRowContainerWithMoreInfo = BehaviorSubject.create<Boolean>(Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
             && (lob == LineOfBusiness.FLIGHTS_V2))
+    val isUserBucketedForRateDetailExpansionTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion) && (lob == LineOfBusiness.FLIGHTS_V2)
+
     init {
         Observable.combineLatest(searchTypeStateObservable, suggestion, date, guests, { searchType, suggestion, date, guests ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
