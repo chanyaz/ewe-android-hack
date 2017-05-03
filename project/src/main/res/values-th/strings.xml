@@ -1035,6 +1035,16 @@
     <!-- Subtext for active itin card on guest user's launch screen -->
     <string name="launch_upcoming_trips_subtext_guest_user">เช็คสถานะทริปปัจจุบันของคุณและติดตามอัพเดทล่าสุดผ่านแอพ</string>
 
+    <!--Onboarding-->
+    <string name="booking_page_title">จองได้ทุกที่ ทุกเวลา</string>
+    <string name="booking_page_subtitle">ค้นหาเที่ยวบิน โรงแรม กิจกรรมที่น่าสนใจ และอีกมากมายได้ครบบนแอพของเรา</string>
+    <string name="trip_page_title">เดินทางอย่างไร้กังวล</string>
+    <string name="trip_page_subtitle">ดูรายละเอียดการเดินทางและรับการแจ้งเตือนระหว่างเดินทาง</string>
+    <string name="reward_page_title">สะสมคะแนน</string>
+    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <string name="reward_page_subtitle_TEMPLATE">สมัครสมาชิก {brand_reward_name} ได้ฟรีแล้วเริ่มสะสมคะแนนจากทุกการจองได้เลย</string>
+    <string name="onboarding_final_button_text">สมัครเลย</string>
+
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -1814,6 +1824,8 @@
     <string name="hotel_free_cancellation_TEMPLATE">ยกเลิกฟรีภายใน {date}</string>
     <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
     <string name="hotel_free_cancellation_before_TEMPLATE">ยกเลิกฟรีก่อน {date}</string>
+    <!--Hotel detail free cancellation deadline date template. E.g. "before Sun, May 21" -->
+    <string name="before_TEMPLATE">ก่อน {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2558,7 +2570,11 @@
         <item quantity="many">เหลือเพียง %d ห้อง</item>
         <item quantity="other">เหลือ %d ห้อง</item>
     </plurals>
-
+    <!-- No of filters applied on packages -->
+    <plurals name="no_of_filters_applied_TEMPLATE">
+        <item quantity="one">{filterno} ปุ่มตัวกรอง</item>
+        <item quantity="other">{filterno} ปุ่มตัวกรอง</item>
+    </plurals>
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
     <string name="EnableLocationPermissionSettings_TEMPLATE">เพื่อใช้งานตำแหน่งปัจจุบัน คุณต้องอนุญาตให้ {brand} เข้าถึงตำแหน่งของคุณได้\n\nเพื่อเปิดใช้งาน โปรดไปยังการตั้งค่าและตรวจสอบ "การอนุญาต" แอพของคุณ</string>
     <string name="go_to_settings">ไปยังการตั้งค่า</string>
@@ -3668,8 +3684,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">กดเพื่อดูตัวเลือกการแชร์แผนการเดินทาง</string>
-    <!-- Content description for action: Press to view share options -->
-    <string name="hide_menu_btn_cont_desc">คลิกเพื่อดูตัวเลือกที่ซ่อนอยู่</string>
+    <!-- Content description for hide overflow menu on cross sell: Options -->
+    <string name="hide_menu_btn_cont_desc">ตัวเลือก</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <!-- Content description for Flight Search Results -->
@@ -4714,4 +4730,7 @@
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">ไม่รวมค่าธรรมเนียมรีสอร์ทรายวัน {amount}</string>
+
+    <!-- Hotel detail grouped room option message, example: Option 1 -->
+    <string name="option_TEMPLATE">ตัวเลือก {number}</string>
 </resources>
