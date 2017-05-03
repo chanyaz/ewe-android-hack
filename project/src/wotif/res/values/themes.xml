@@ -106,6 +106,8 @@
     
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
         <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_wotif</item>
+        <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_wotif</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
