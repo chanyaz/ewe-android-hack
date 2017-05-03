@@ -69,9 +69,6 @@ import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
@@ -87,6 +84,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
+import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -216,7 +214,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    protected fun inflateClientFilterView(viewStub: ViewStub) : HotelClientFilterView {
+    protected fun inflateClientFilterView(viewStub: ViewStub): HotelClientFilterView {
         viewStub.layoutResource = R.layout.hotel_client_filter_stub
         return viewStub.inflate() as HotelClientFilterView
     }
@@ -356,7 +354,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     init {
         inflate()
 
-        fab.contentDescription = if(recyclerView.visibility == View.VISIBLE) context.getString(R.string.show_list) else context.getString(R.string.show_map)
+        fab.contentDescription = if (recyclerView.visibility == View.VISIBLE) context.getString(R.string.show_list) else context.getString(R.string.show_map)
         mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
         mapViewModel.clusterChangeSubject.subscribe {
             updateCarouselItems()
@@ -551,9 +549,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         inflateAndSetupToolbarMenu()
 
-        filterView.viewModel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
-        filterView.viewModel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
-        filterView.viewModel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
+        filterView.viewModel.filterCountObservable.subscribe { filterCount ->
+            updateFilterCount(filterCount)
+        }
     }
 
     private fun inflateAndSetupToolbarMenu() {
@@ -580,6 +578,21 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView
         filterButtonText.visibility = GONE
+    }
+
+    private fun updateFilterCount(filterCount: Int) {
+        filterCountText.text = filterCount.toString()
+        val hasFilters = filterCount > 0
+        filterCountText.visibility = if (hasFilters) View.VISIBLE else View.GONE
+        filterPlaceholderImageView.visibility = if (hasFilters) View.GONE else View.VISIBLE
+
+        val contDescBuilder = StringBuilder()
+        if (hasFilters) {
+            val announcementString = Phrase.from(context.resources.getQuantityString(R.plurals.number_results_announcement_text_TEMPLATE, filterCount))
+                    .put("number", filterCount).format().toString()
+            contDescBuilder.append(announcementString).append(". ").append(resources.getString(R.string.sort_and_filter))
+            AccessibilityUtil.appendRoleContDesc(filterBtn as View, contDescBuilder.toString(), R.string.accessibility_cont_desc_role_button)
+        }
     }
 
     fun showDefault() {
@@ -946,7 +959,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 finalFabTranslation = if (isMapPinSelected) -fabHeightOffset() else 0f
             }
             hideBundlePriceOverview(!forwardToList)
-            updateFilterButtonText(forwardToList)
+            updateFilterButtonTextVisibility(forwardToList)
             showSearchMenu.onNext(forwardToList)
             showMenuItem(forwardToList)
         }
@@ -1202,7 +1215,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return set
     }
 
-    fun updateFilterButtonText(isResults: Boolean) {
+    fun updateFilterButtonTextVisibility(isResults: Boolean) {
         if (isResults) {
             filterButtonText.visibility = GONE
         } else {
@@ -1288,7 +1301,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     abstract fun inflate()
-    abstract fun inflateFilterView(viewStub: ViewStub) : BaseHotelFilterView
+    abstract fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()
