@@ -184,12 +184,12 @@
     <string name="clear_filters">絞り込みを削除</string>
     <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
-        <item quantity="one">結果 {number}件</item>
-        <item quantity="other">結果 {number}件</item>
+        <item quantity="one">結果 {number} 件</item>
+        <item quantity="other">結果 {number} 件</item>
     </plurals>
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
-        <item quantity="one">結果 {number}件を絞り込みました</item>
+        <item quantity="one">結果 {number} 件を絞り込みました</item>
         <item quantity="other">結果 {number} 件を絞り込みました</item>
     </plurals>
 
@@ -265,8 +265,8 @@
     <string name="accessibility_cost_summary_cont_desc_role_button">料金の概要情報ボタン</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
     <plurals name="number_of_errors_TEMPLATE">
-        <item quantity="one">フォームに {number}件のエラーがあります。</item>
-        <item quantity="other">フォームに {number}件のエラーがあります。</item>
+        <item quantity="one">フォームに {number} 件のエラーがあります。</item>
+        <item quantity="other">フォームに {number} 件のエラーがあります。</item>
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">ご確認の上、再度送信してください。</string>
@@ -363,7 +363,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">{duration}+</string>
     <!-- Cancellation policy template -->
-    <string name="lx_cancellation_policy_TEMPLATE">予約開始の{hours}時間前まで無料でキャンセルできます。この時間以降は、キャンセル、変更、および返金はできません。</string>
+    <string name="lx_cancellation_policy_TEMPLATE">予約開始の {hours} 時間前まで無料でキャンセルできます。この時間以降は、キャンセル、変更、および返金はできません。</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">この予約は返金不可のため、ご予約後の変更およびキャンセルはできません。</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -427,28 +427,28 @@
     <string name="ticket_type_vehicle">車両</string>
     <!-- LX Ticket type Plurals -->
     <plurals name="ticket_type_traveler_TEMPLATE">
-        <item quantity="one">旅行者 %1$s名</item>
-        <item quantity="other">旅行者 %1$s名</item>
+        <item quantity="one">旅行者 %1$s 名</item>
+        <item quantity="other">旅行者 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_adult_TEMPLATE">
-        <item quantity="one">大人 %1$s名</item>
-        <item quantity="other">大人 %1$s名</item>
+        <item quantity="one">大人 %1$s 名</item>
+        <item quantity="other">大人 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_child_TEMPLATE">
-        <item quantity="one">お子様 %1$s名</item>
-        <item quantity="other">お子様 %1$s名</item>
+        <item quantity="one">お子様 %1$s 名</item>
+        <item quantity="other">お子様 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_infant_TEMPLATE">
-        <item quantity="one">乳幼児 %1$s名</item>
-        <item quantity="other">乳幼児 %1$s名</item>
+        <item quantity="one">乳幼児 %1$s 名</item>
+        <item quantity="other">乳幼児 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_youth_TEMPLATE">
-        <item quantity="one">中人 %1$s名</item>
-        <item quantity="other">中人 %1$s名</item>
+        <item quantity="one">中人 %1$s 名</item>
+        <item quantity="other">中人 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_senior_TEMPLATE">
-        <item quantity="one">シニア %1$s名</item>
-        <item quantity="other">シニア %1$s名</item>
+        <item quantity="one">シニア %1$s 名</item>
+        <item quantity="other">シニア %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_group_TEMPLATE">
         <item quantity="one">グループ %1$s組</item>
@@ -463,12 +463,12 @@
         <item quantity="other">大人 2 名 %1$s組</item>
     </plurals>
     <plurals name="ticket_type_military_TEMPLATE">
-        <item quantity="one">軍関係者 %1$s名</item>
-        <item quantity="other">軍関係者 %1$s名</item>
+        <item quantity="one">軍関係者 %1$s 名</item>
+        <item quantity="other">軍関係者 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_student_TEMPLATE">
-        <item quantity="one">学生 %1$s名</item>
-        <item quantity="other">学生 %1$s名</item>
+        <item quantity="one">学生 %1$s 名</item>
+        <item quantity="other">学生 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_sedan_TEMPLATE">
         <item quantity="one">セダン %1$s台</item>
@@ -511,12 +511,12 @@
         <item quantity="other">本 %1$s 冊</item>
     </plurals>
     <plurals name="ticket_type_guide_TEMPLATE">
-        <item quantity="one">ガイド %1$s人</item>
-        <item quantity="other">ガイド %1$s人</item>
+        <item quantity="one">ガイド %1$s 人</item>
+        <item quantity="other">ガイド %1$s 人</item>
     </plurals>
     <plurals name="ticket_type_travel_card_TEMPLATE">
-        <item quantity="one">トラベルカード %1$s枚</item>
-        <item quantity="other">トラベルカード %1$s枚</item>
+        <item quantity="one">トラベルカード %1$s 枚</item>
+        <item quantity="other">トラベルカード %1$s 枚</item>
     </plurals>
     <plurals name="ticket_type_boat_TEMPLATE">
         <item quantity="one">ボート %1$s台</item>
@@ -531,12 +531,12 @@
         <item quantity="other">セレモニー %1$s回</item>
     </plurals>
     <plurals name="ticket_type_calling_card_TEMPLATE">
-        <item quantity="one">コーリングカード %1$s枚</item>
-        <item quantity="other">コーリングカード %1$s枚</item>
+        <item quantity="one">コーリングカード %1$s 枚</item>
+        <item quantity="other">コーリングカード %1$s 枚</item>
     </plurals>
     <plurals name="ticket_type_pass_TEMPLATE">
-        <item quantity="one">パス %1$s枚</item>
-        <item quantity="other">パス %1$s枚</item>
+        <item quantity="one">パス %1$s 枚</item>
+        <item quantity="other">パス %1$s 枚</item>
     </plurals>
     <plurals name="ticket_type_minibus_TEMPLATE">
         <item quantity="one">ミニバス %1$s台</item>
@@ -551,8 +551,8 @@
         <item quantity="other">デバイス %1$s台</item>
     </plurals>
     <plurals name="ticket_type_room_TEMPLATE">
-        <item quantity="one">%1$s室</item>
-        <item quantity="other">%1$s室</item>
+        <item quantity="one">%1$s 室</item>
+        <item quantity="other">%1$s 室</item>
     </plurals>
     <plurals name="ticket_type_carriage_TEMPLATE">
         <item quantity="one">馬車 %1$s台</item>
@@ -583,8 +583,8 @@
         <item quantity="other">スノーモービル %1$s台</item>
     </plurals>
     <plurals name="ticket_type_day_TEMPLATE">
-        <item quantity="one">%1$s日</item>
-        <item quantity="other">%1$s日</item>
+        <item quantity="one">%1$s 日</item>
+        <item quantity="other">%1$s 日</item>
     </plurals>
     <plurals name="ticket_type_bike_TEMPLATE">
         <item quantity="one">自転車 %1$s台</item>
@@ -756,9 +756,9 @@
     <string name="gt_error_current_location_no_results">周辺の交通機関を検索できませんでした。条件を変更して再検索してください。</string>
 
     <!-- Ground Transport bags text-->
-    <string name="lx_ground_transport_bags_text">手荷物 %1$s個</string>
+    <string name="lx_ground_transport_bags_text">手荷物 %1$s 個</string>
     <!-- Ground Transport passengers text-->
-    <string name="lx_ground_transport_passengers_text">乗客 %1$s名</string>
+    <string name="lx_ground_transport_passengers_text">乗客 %1$s 名</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">過去の日付が入力されています。新しい日付を選択してください。</string>
 
@@ -898,7 +898,7 @@
     <!-- Rooms and rates button to add selected room to trip -->
     <!-- Rooms and rates button to select a particular room and view details -->
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
-    <string name="n_reviews_TEMPLATE">%1$s件のレビュー</string>
+    <string name="n_reviews_TEMPLATE">%1$s 件のレビュー</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <!-- A message stating this hotel is all sold out for the given dates searched -->
     <!-- A message stating this hotel is sold out on Expedia -->
@@ -993,8 +993,8 @@
 
     <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
     <plurals name="search_rail_card_cont_desc_TEMPLATE">
-        <item quantity="one">レイルカード数。ボタン。ダイアログを開きます。レイルカード {count}枚</item>
-        <item quantity="other">レイルカード数。ボタン。ダイアログを開きます。レイルカード {count}枚</item>
+        <item quantity="one">レイルカード数。ボタン。ダイアログを開きます。レイルカード {count} 枚</item>
+        <item quantity="other">レイルカード数。ボタン。ダイアログを開きます。レイルカード {count} 枚</item>
     </plurals>
 
 
@@ -1034,6 +1034,16 @@
     <string name="launch_upcoming_trips_guest_user">まもなくご旅行日ですか ?</string>
     <!-- Subtext for active itin card on guest user's launch screen -->
     <string name="launch_upcoming_trips_subtext_guest_user">アプリで既存予約のステータスをチェックし、最新情報をゲットしましょう</string>
+
+    <!--Onboarding-->
+    <string name="booking_page_title">外出先でカンタン予約</string>
+    <string name="booking_page_subtitle">アプリでご希望のフライト、ホテル、現地オプショナルツアーを検索</string>
+    <string name="trip_page_title">旅先でも安心</string>
+    <string name="trip_page_subtitle">外出先でも予約詳細にアクセス &amp; 最新情報のアラートを受信</string>
+    <string name="reward_page_title">ポイントがたまる</string>
+    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <string name="reward_page_subtitle_TEMPLATE">{brand_reward_name} アカウントに無料登録して、すべての予約でポイント獲得</string>
+    <string name="onboarding_final_button_text">今すぐ利用する</string>
 
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">接続できません。</string>
@@ -1130,30 +1140,30 @@
     <string name="yesterday">昨日</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">{minutes}分</item>
-        <item quantity="one">{minutes}分</item>
-        <item quantity="two">{minutes}分</item>
-        <item quantity="few">{minutes}分</item>
-        <item quantity="many">{minutes}分</item>
-        <item quantity="other">{minutes}分</item>
+        <item quantity="zero">{minutes} 分</item>
+        <item quantity="one">{minutes} 分</item>
+        <item quantity="two">{minutes} 分</item>
+        <item quantity="few">{minutes} 分</item>
+        <item quantity="many">{minutes} 分</item>
+        <item quantity="other">{minutes} 分</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">{hours}時間</item>
-        <item quantity="one">{hours}時間</item>
-        <item quantity="two">{hours}時間</item>
-        <item quantity="few">{hours}時間</item>
-        <item quantity="many">{hours}時間</item>
-        <item quantity="other">{hours}時間</item>
+        <item quantity="zero">{hours} 時間</item>
+        <item quantity="one">{hours} 時間</item>
+        <item quantity="two">{hours} 時間</item>
+        <item quantity="few">{hours} 時間</item>
+        <item quantity="many">{hours} 時間</item>
+        <item quantity="other">{hours} 時間</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">{days}日</item>
-        <item quantity="one">{days}日</item>
-        <item quantity="two">{days}日</item>
-        <item quantity="few">{days}日</item>
-        <item quantity="many">{days}日</item>
-        <item quantity="other">{days}日</item>
+        <item quantity="zero">{days} 日</item>
+        <item quantity="one">{days} 日</item>
+        <item quantity="two">{days} 日</item>
+        <item quantity="few">{days} 日</item>
+        <item quantity="many">{days} 日</item>
+        <item quantity="other">{days} 日</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">シェアされた旅程</string>
@@ -1652,7 +1662,7 @@
     <!-- label for activity 1: expiration date -->
     <string name="share_template_long_activity_expires">有効期限 %1$s</string>
     <!-- label for activity 1: number of guests 2: list of guests -->
-    <string name="share_template_long_activity_guests_with_count">宿泊者 (%1$s名) \n%2$s</string>
+    <string name="share_template_long_activity_guests_with_count">宿泊者 (%1$s 名) \n%2$s</string>
 
     <!-- Social Chooser dialog -->
     <!-- Title for dialog asking the user to choose the type of message to share -->
@@ -1747,12 +1757,12 @@
     <string name="sort_description_duration">所要時間</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s日</item>
-        <item quantity="one">%s日</item>
-        <item quantity="two">%s日</item>
-        <item quantity="few">%s日</item>
-        <item quantity="many">%s日</item>
-        <item quantity="other">%s日</item>
+        <item quantity="zero">%s 日</item>
+        <item quantity="one">%s 日</item>
+        <item quantity="two">%s 日</item>
+        <item quantity="few">%s 日</item>
+        <item quantity="many">%s 日</item>
+        <item quantity="other">%s 日</item>
     </plurals>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">ページを読み込めません ! エラー メッセージ : %1$s</string>
@@ -1777,12 +1787,12 @@
     <string name="search_destination">都市名を検索</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">大人 %1$d名</item>
-        <item quantity="one">大人 %1$d名</item>
-        <item quantity="two">大人 %1$d名</item>
-        <item quantity="few">大人 %1$d名</item>
-        <item quantity="many">大人 %1$d名</item>
-        <item quantity="other">大人 %1$d名</item>
+        <item quantity="zero">大人 %1$d 名</item>
+        <item quantity="one">大人 %1$d 名</item>
+        <item quantity="two">大人 %1$d 名</item>
+        <item quantity="few">大人 %1$d 名</item>
+        <item quantity="many">大人 %1$d 名</item>
+        <item quantity="other">大人 %1$d 名</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">AirAsia ルートを読み込み中…</string>
@@ -1814,6 +1824,8 @@
     <string name="hotel_free_cancellation_TEMPLATE">無料キャンセル期限 : {date}</string>
     <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
     <string name="hotel_free_cancellation_before_TEMPLATE">無料キャンセル期限 : {date}</string>
+    <!--Hotel detail free cancellation deadline date template. E.g. "before Sun, May 21" -->
+    <string name="before_TEMPLATE">{date} まで</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1919,11 +1931,11 @@
     <string name="includes_flights_hotel">航空券 + ホテルを含む</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">旅行者 %1$d名</item>
-        <item quantity="one">旅行者 %1$d名</item>
-        <item quantity="two">旅行者 %1$d名</item>
-        <item quantity="few">旅行者 %1$d名</item>
-        <item quantity="many">旅行者 %1$d名</item>
+        <item quantity="zero">旅行者 %1$d 名</item>
+        <item quantity="one">旅行者 %1$d 名</item>
+        <item quantity="two">旅行者 %1$d 名</item>
+        <item quantity="few">旅行者 %1$d 名</item>
+        <item quantity="many">旅行者 %1$d 名</item>
         <item quantity="other">%1$d 名</item>
     </plurals>
     <!-- Message when loading realtime flight information -->
@@ -2154,8 +2166,8 @@
     <string name="enter_traveler_details">旅行者情報を入力</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">その他 {travelercount}名の旅行者</item>
-        <item quantity="other">その他 {travelercount}名の旅行者</item>
+        <item quantity="one">その他 {travelercount} 名の旅行者</item>
+        <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}歳</string>
@@ -2170,7 +2182,7 @@
     <string name="advanced">拡張設定</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">その他 (オプション)</string>
-    <string name="contact_airline_message">航空会社にご連絡のうえ、ご確認ください。</string>
+    <string name="contact_airline_message">航空会社にご連絡のうえ、ご確認ください</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2543,7 +2555,7 @@
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">今すぐ予約、後からお支払い</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">申し訳ありません。%1$s日以上の滞在は検索できません。</string>
+    <string name="hotel_search_range_error_TEMPLATE">申し訳ありません。%1$s 日以上の滞在は検索できません。</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">検索エラー</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2553,12 +2565,16 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">残り %d室 !</item>
-        <item quantity="two">残り %d室</item>
-        <item quantity="many">残り %d室</item>
-        <item quantity="other">残り %d室</item>
+        <item quantity="one">残り %d 室 !</item>
+        <item quantity="two">残り %d 室</item>
+        <item quantity="many">残り %d 室</item>
+        <item quantity="other">残り %d 室</item>
     </plurals>
-
+    <!-- No of filters applied on packages -->
+    <plurals name="no_of_filters_applied_TEMPLATE">
+        <item quantity="one">{filterno} つの絞り込み条件が適用されていますボタン</item>
+        <item quantity="other">{filterno} つの絞り込み条件が適用されていますボタン</item>
+    </plurals>
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
     <string name="EnableLocationPermissionSettings_TEMPLATE">現在地を利用するには、{brand}にロケーション情報を提供してください。\n\n設定を有効にするには、「許可」をタップして、アプリによる位置情報の取得を許可してください。</string>
     <string name="go_to_settings">今すぐ設定</string>
@@ -2636,9 +2652,9 @@
     <!-- Map pin text for sold out hotel(s)-->
     <string name="sold_out">完売</string>
     <!-- Map cluster text for number of hotels-->
-    <string name="cluster_number_of_hotels_template">%s軒のホテル</string>
+    <string name="cluster_number_of_hotels_template">%s 軒のホテル</string>
     <!-- Map cluster text for number of packages-->
-    <string name="cluster_number_of_packages_template">結果 %s件</string>
+    <string name="cluster_number_of_packages_template">結果 %s 件</string>
     <!-- Map cluster price from range-->
     <string name="cluster_price_from_range_template">%s～</string>
 
@@ -2774,17 +2790,17 @@
         1$ represents the number of guests that recommend this hotel
         2$ represents the total number of guests
     -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt;人中 &lt;b&gt;%1$d&lt;/b&gt; 人の宿泊者がこのホテルをお勧めしています。</string>
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 人中 &lt;b&gt;%1$d&lt;/b&gt; 人の宿泊者がこのホテルをお勧めしています。</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">レビューなし</string>
 
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">レビューなし</item>
-        <item quantity="one">%s件のレビューを表示</item>
-        <item quantity="two">%s件のレビューを表示</item>
-        <item quantity="many">%s件のレビューを表示</item>
-        <item quantity="other">%s件のレビューを表示</item>
+        <item quantity="one">%s 件のレビューを表示</item>
+        <item quantity="two">%s 件のレビューを表示</item>
+        <item quantity="many">%s 件のレビューを表示</item>
+        <item quantity="other">%s 件のレビューを表示</item>
     </plurals>
 
     <string name="zero_reviews">0 件のレビュー</string>
@@ -2835,32 +2851,32 @@
     <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
         <item quantity="zero">検索結果が見つかりませんでした</item>
         <item quantity="one">1 泊平均料金 • 結果 1 件</item>
-        <item quantity="many">1 泊平均料金 • 結果 %d件</item>
-        <item quantity="other">1 泊平均料金 • 結果 %d件</item>
+        <item quantity="many">1 泊平均料金 • 結果 %d 件</item>
+        <item quantity="other">1 泊平均料金 • 結果 %d 件</item>
     </plurals>
 
     <!-- Hotel Results Pricing Header - Default -->
     <plurals name="hotel_results_default_header_TEMPLATE">
         <item quantity="zero">検索結果が見つかりませんでした</item>
         <item quantity="one">結果 1 件</item>
-        <item quantity="other">結果 %d件</item>
+        <item quantity="other">結果 %d 件</item>
     </plurals>
 
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">検索結果が見つかりませんでした</item>
         <item quantity="one">合計宿泊料金 • 結果 1 件</item>
-        <item quantity="many">合計宿泊料金 • 結果 %d件</item>
-        <item quantity="other">合計宿泊料金 • 結果 %d件</item>
+        <item quantity="many">合計宿泊料金 • 結果 %d 件</item>
+        <item quantity="other">合計宿泊料金 • 結果 %d 件</item>
     </plurals>
 
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">空室はありません !</item>
         <item quantity="one">残り 1 室です !</item>
-        <item quantity="two">残り %d室です !</item>
-        <item quantity="many">残り %d室です !</item>
-        <item quantity="other">残り %d室です !</item>
+        <item quantity="two">残り %d 室です !</item>
+        <item quantity="many">残り %d 室です !</item>
+        <item quantity="other">残り %d 室です !</item>
     </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 予約済み</string>
@@ -2909,7 +2925,7 @@
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 泊</item>
-        <item quantity="other">%d泊</item>
+        <item quantity="other">%d 泊</item>
     </plurals>
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">追加ゲスト料金</string>
@@ -3116,43 +3132,43 @@
     <string name="app_not_available">お使いのスマートフォンにこのアクションに対応しているアプリがインストールされていないか、アクセスが制限されています。</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">大人 %d名</item>
-        <item quantity="one">大人 %d名</item>
-        <item quantity="two">大人 %d名</item>
-        <item quantity="many">大人 %d名</item>
-        <item quantity="other">大人 %d名</item>
+        <item quantity="zero">大人 %d 名</item>
+        <item quantity="one">大人 %d 名</item>
+        <item quantity="two">大人 %d 名</item>
+        <item quantity="many">大人 %d 名</item>
+        <item quantity="other">大人 %d 名</item>
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">お子様 %d名</item>
-        <item quantity="one">お子様 %d名</item>
-        <item quantity="two">お子様 %d名</item>
-        <item quantity="many">お子様 %d名</item>
-        <item quantity="other">お子様 %d名</item>
+        <item quantity="zero">お子様 %d 名</item>
+        <item quantity="one">お子様 %d 名</item>
+        <item quantity="two">お子様 %d 名</item>
+        <item quantity="many">お子様 %d 名</item>
+        <item quantity="other">お子様 %d 名</item>
     </plurals>
     <!-- A number of youth. Capitalized -->
     <plurals name="number_of_youth">
-        <item quantity="zero">中人 %d名</item>
-        <item quantity="one">中人 %d名</item>
-        <item quantity="two">中人 %d名</item>
-        <item quantity="many">中人 %d名</item>
-        <item quantity="other">中人 %d名</item>
+        <item quantity="zero">中人 %d 名</item>
+        <item quantity="one">中人 %d 名</item>
+        <item quantity="two">中人 %d 名</item>
+        <item quantity="many">中人 %d 名</item>
+        <item quantity="other">中人 %d 名</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
-        <item quantity="zero">シニア %d名</item>
-        <item quantity="one">シニア %d名</item>
-        <item quantity="two">シニア %d名</item>
-        <item quantity="many">シニア %d名</item>
-        <item quantity="other">シニア %d名</item>
+        <item quantity="zero">シニア %d 名</item>
+        <item quantity="one">シニア %d 名</item>
+        <item quantity="two">シニア %d 名</item>
+        <item quantity="many">シニア %d 名</item>
+        <item quantity="other">シニア %d 名</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">宿泊者 %d名</item>
-        <item quantity="one">宿泊者 %d名</item>
-        <item quantity="two">宿泊者 %d名</item>
-        <item quantity="many">宿泊者 %d名</item>
-        <item quantity="other">宿泊者 %d名</item>
+        <item quantity="zero">宿泊者 %d 名</item>
+        <item quantity="one">宿泊者 %d 名</item>
+        <item quantity="two">宿泊者 %d 名</item>
+        <item quantity="many">宿泊者 %d 名</item>
+        <item quantity="other">宿泊者 %d 名</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -3164,11 +3180,11 @@
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d泊</item>
-        <item quantity="one">%d泊</item>
-        <item quantity="two">%d泊</item>
-        <item quantity="many">%d泊</item>
-        <item quantity="other">%d泊</item>
+        <item quantity="zero">%d 泊</item>
+        <item quantity="one">%d 泊</item>
+        <item quantity="two">%d 泊</item>
+        <item quantity="many">%d 泊</item>
+        <item quantity="other">%d 泊</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -3181,11 +3197,11 @@
 
     <!-- A number of railcards. Capitalized -->
     <plurals name="number_of_railcards">
-        <item quantity="zero">レイルカード %d枚</item>
-        <item quantity="one">レイルカード %d枚</item>
-        <item quantity="two">レイルカード %d枚</item>
-        <item quantity="many">レイルカード %d枚</item>
-        <item quantity="other">レイルカード %d枚</item>
+        <item quantity="zero">レイルカード %d 枚</item>
+        <item quantity="one">レイルカード %d 枚</item>
+        <item quantity="two">レイルカード %d 枚</item>
+        <item quantity="many">レイルカード %d 枚</item>
+        <item quantity="other">レイルカード %d 枚</item>
     </plurals>
 
     <!-- Distance strings -->
@@ -3668,8 +3684,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">タップして旅程のシェアのオプションを表示</string>
-    <!-- Content description for action: Press to view share options -->
-    <string name="hide_menu_btn_cont_desc">タップして非表示の他のオプションを表示</string>
+    <!-- Content description for hide overflow menu on cross sell: Options -->
+    <string name="hide_menu_btn_cont_desc">オプション</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <!-- Content description for Flight Search Results -->
@@ -3684,13 +3700,13 @@
     <!-- Content description for car result door count e.g. Doors 2-4 -->
     <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount}ドア</string>
     <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount}人乗り</string>
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} 人乗り</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">手荷物 {bagscount}個</string>
+    <string name="cars_bags_count_cont_desc_TEMPLATE">手荷物 {bagscount} 個</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
-        <item quantity="one">{rating}つ星</item>
-        <item quantity="other">{rating}つ星</item>
+        <item quantity="one">{rating} つ星</item>
+        <item quantity="other">{rating} つ星</item>
     </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
     <string name="cars_filter_transmission_manual_button_cont_desc">マニュアル トランスミッション</string>
@@ -3876,8 +3892,8 @@
     <string name="hotel_deal_TEMPLATE">同時予約で、{price}({savings}%} 割引</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
-        <item quantity="one">航空券との同時予約で、このホテルが {night}泊無料になります。</item>
-        <item quantity="other">航空券との同時予約で、このホテルが {night}泊無料になります。</item>
+        <item quantity="one">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
+        <item quantity="other">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s%2$s、%3$s</string>
@@ -3937,14 +3953,14 @@
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s(%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
-    <string name="flight_hour_min_duration_template">%1$d時間 %2$d 分</string>
+    <string name="flight_hour_min_duration_template">%1$d 時間 %2$d 分</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_min_duration_template">%1$d分</string>
+    <string name="flight_min_duration_template">%1$d 分</string>
 
     <!-- Accessibility label for flight hour duration template e.g. 12 hour 42 minutes -->
-    <string name="flight_hour_min_duration_template_cont_desc">{h}時間 {m} 分</string>
+    <string name="flight_hour_min_duration_template_cont_desc">{h} 時間 {m} 分</string>
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
-    <string name="flight_min_duration_template_cont_desc">{m}分</string>
+    <string name="flight_min_duration_template_cont_desc">{m} 分</string>
 
     <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
@@ -4179,7 +4195,7 @@
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
 
     <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
-    <string name="rail_search_range_error_TEMPLATE">申し訳ありません。%1$s日以上間隔があいた往復電車は検索できません。</string>
+    <string name="rail_search_range_error_TEMPLATE">申し訳ありません。%1$s 日以上間隔があいた往復電車は検索できません。</string>
 
     <string name="rail_location_hint">都市または鉄道駅</string>
     <string name="error_same_station_departure_arrival">出発駅と到着駅にはそれぞれ別の駅を指定してください。</string>
@@ -4390,8 +4406,8 @@
     <string name="hotel_card_view_price_cont_desc_TEMPLATE">料金{price}。\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
-        <item quantity="one">旅行者数ボタン。ダイアログを開きます。旅行者 {travelers}名</item>
-        <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers}名</item>
+        <item quantity="one">旅行者数ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
+        <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
     </plurals>
     <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
     <string name="select_preferred_flight_class_cont_desc_TEMPLATE">ご希望のクラスを選択。ボタン。ダイアログを開きます。ご希望のクラス {seatingclass}</string>
@@ -4571,23 +4587,23 @@
     <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
-        <item quantity="one">{room}室</item>
-        <item quantity="other">{room}室</item>
+        <item quantity="one">{room} 室</item>
+        <item quantity="other">{room} 室</item>
     </plurals>
     <!-- Package cost summary row snippet  e.g. 1 night-->
     <plurals name="number_of_nights_TEMPLATE">
-        <item quantity="zero">{night}泊</item>
-        <item quantity="one">{night}泊</item>
-        <item quantity="two">{night}泊</item>
-        <item quantity="many">{night}泊</item>
-        <item quantity="other">{night}泊</item>
+        <item quantity="zero">{night} 泊</item>
+        <item quantity="one">{night} 泊</item>
+        <item quantity="two">{night} 泊</item>
+        <item quantity="many">{night} 泊</item>
+        <item quantity="other">{night} 泊</item>
     </plurals>
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
-        <item quantity="zero">宿泊者 {guest}名</item>
-        <item quantity="one">宿泊者 {guest}名</item>
-        <item quantity="two">宿泊者 {guest}名</item>
-        <item quantity="many">宿泊者 {guest}名</item>
+        <item quantity="zero">宿泊者 {guest} 名</item>
+        <item quantity="one">宿泊者 {guest} 名</item>
+        <item quantity="two">宿泊者 {guest} 名</item>
+        <item quantity="many">宿泊者 {guest} 名</item>
         <item quantity="other">宿泊者 {guest} 名</item>
     </plurals>
     <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
@@ -4714,4 +4730,7 @@
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
     <string name="excludes_mandatory_fee_TEMPLATE">リゾート料金 {amount} (1 日ごと) 別</string>
+
+    <!-- Hotel detail grouped room option message, example: Option 1 -->
+    <string name="option_TEMPLATE">オプション {number}</string>
 </resources>
