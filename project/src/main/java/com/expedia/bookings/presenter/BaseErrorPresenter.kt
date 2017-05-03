@@ -49,6 +49,7 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         View.inflate(getContext(), R.layout.error_widget, this)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         standardToolbar.navigationIcon = navIcon
+        standardToolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         standardToolbar.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
         standardToolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
         standardToolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance)

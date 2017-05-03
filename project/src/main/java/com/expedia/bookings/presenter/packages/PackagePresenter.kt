@@ -259,6 +259,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             if (!forward) {
                 trackViewBundlePageLoad()
             }
+            else{
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(errorPresenter.standardToolbar)
+            }
         }
     }
 
@@ -292,6 +295,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                     searchPresenter.searchButton.isEnabled = false
                 }
                 bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().reset()
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(searchPresenter.toolbar)
             }
         }
     }
