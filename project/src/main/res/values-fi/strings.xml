@@ -2170,6 +2170,7 @@
     <string name="advanced">Lisäasetukset</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Lisätiedot (valinnainen)</string>
+    <string name="contact_airline_message">Ole hyvä ja ota lentoyhtiöön yhteyttä vahvistaaksesi pyyntösi</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->

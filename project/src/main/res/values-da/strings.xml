@@ -2170,6 +2170,7 @@
     <string name="advanced">Avanceret</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Avanceret (valgfrit)</string>
+    <string name="contact_airline_message">Kontakt venligst flyselskabet for at bekræfte anmodninger</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
