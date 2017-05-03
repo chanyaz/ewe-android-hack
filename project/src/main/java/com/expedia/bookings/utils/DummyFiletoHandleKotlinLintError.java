@@ -181,6 +181,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.number_of_errors_TEMPLATE,
 		R.string.hotelsv2_slide_reserve,
 		R.string.hotelsv2_slide_purchase,
+		R.layout.flight_confirmation_summary_card,
+		R.string.confirmation_flight_reward_points_earned_TEMPLATE,
 		R.layout.slide_to_purchase_widget,
 		R.layout.filter_amenity_row,
 		R.dimen.widget_hotel_info_padding,

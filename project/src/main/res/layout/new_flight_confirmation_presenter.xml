@@ -54,6 +54,17 @@
                         app:row_icon="@drawable/packages_flight2_icon"
                         app:row_icon_tint_color="@color/flight_docked_text" />
 
+                    <include layout="@layout/grey_divider_bar" />
+
+                    <com.expedia.bookings.widget.ConfirmationSummaryCardView
+                        android:id="@+id/trip_summary_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:paddingTop="12dp" />
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
