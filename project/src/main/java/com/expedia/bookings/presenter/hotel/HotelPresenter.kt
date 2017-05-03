@@ -458,7 +458,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
         errorPresenter.getViewModel().filterNoResultsObservable.subscribe {
-            resultsPresenter.reshowPreviousResult()
+            resultsPresenter.showCachedResults()
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
