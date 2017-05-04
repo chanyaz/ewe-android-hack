@@ -153,10 +153,6 @@ public class LXScreen {
 		return onView(withId(R.id.rules));
 	}
 
-	public static ViewInteraction acceptTermsWidget() {
-		return onView(withId(R.id.layout_confirm_tos));
-	}
-
 	public static ViewInteraction rulesWidgetCancellationPolicyHeader() {
 		return onView(allOf(withId(R.id.cancellation_policy_header_text_view), withText(R.string.cancellation_policy)));
 	}

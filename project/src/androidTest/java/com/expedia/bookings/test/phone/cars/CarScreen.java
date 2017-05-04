@@ -246,8 +246,4 @@ public final class CarScreen {
 		return onView(allOf(isDescendantOfA(withId(R.id.checkout_error_widget)), withId(R.id.error_action_button)));
 	}
 
-	public static ViewInteraction acceptTermsWidget() {
-		return onView(withId(R.id.layout_confirm_tos));
-	}
-
 }

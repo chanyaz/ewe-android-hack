@@ -1,16 +1,13 @@
 package com.expedia.bookings.test.phone.lx;
 
-import java.util.concurrent.TimeUnit;
-
 import android.support.test.espresso.contrib.RecyclerViewActions;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.utils.LXDataUtils;
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -20,7 +17,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
-import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.not;
 
 public class LXCheckoutPresenterTest extends LxTestCase {
@@ -84,25 +80,5 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		LXScreen.rulesWidgetPrivacyPolicy().check(matches(isDisplayed()));
 		LXScreen.rulesWidgetToolbar().check(matches(isDisplayed()));
 		LXScreen.rulesWidgetToolbar().check(matches(hasDescendant(withText(R.string.legal_information))));
-	}
-
-	public void testAcceptTermsVisibilityHappyPathGuestUser() throws Throwable {
-		Common.setPOS(PointOfSaleId.FRANCE);
-		goToCheckout();
-		CheckoutViewModel.enterTravelerInfo();
-		CheckoutViewModel.enterPaymentInfo();
-		LXScreen.acceptTermsWidget().check(matches(isDisplayed()));
-	}
-
-	public void testAcceptTermsVisibilityOnBack() throws Throwable {
-		Common.setPOS(PointOfSaleId.FRANCE);
-		goToCheckout();
-		CheckoutViewModel.enterTravelerInfo();
-		CheckoutViewModel.enterPaymentInfo();
-		Common.pressBack();
-		LXInfositeScreen.bookNowButton("2-Day").perform(clickWhenEnabled());
-		CheckoutViewModel.travelerInfo().perform(waitForViewToDisplay());
-		LXScreen.acceptTermsWidget().check(matches(not(isDisplayed())));
-
 	}
 }
