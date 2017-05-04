@@ -152,7 +152,7 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
                 spinner.onItemSelectedListener = selectedListener
             } else {
                 when (ageNumber) {
-                    CHILDREN_NUMBER -> spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
+                    CHILDREN_NUMBER -> spinner.contentDescription = Phrase.from(context, R.string.search_child_age_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
                     YOUTH_NUMBER -> spinner.contentDescription = Phrase.from(context, R.string.search_youth_drop_down_cont_desc_TEMPLATE).put("youthnumber", i + 1).format().toString()
                     SENIOR_NUMBER -> spinner.contentDescription = Phrase.from(context, R.string.search_senior_drop_down_cont_desc_TEMPLATE).put("seniornumber", i + 1).format().toString()
                 }
