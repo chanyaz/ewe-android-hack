@@ -281,6 +281,7 @@
         <item name="itin_card_detail_triplet_value_text_color">#f4f4f4</item>
         <item name="itin_card_detail_triplet_label_text_size">14sp</item>
         <item name="itin_card_detail_triplet_label_text_color">@color/gray2</item>
+        <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider</item>
         <item name="itin_card_detail_section_header_text_size">14sp</item>
         <item name="itin_card_detail_section_header_text_color">@color/white</item>
         <item name="itin_card_detail_section_text_size">18sp</item>
@@ -312,6 +313,7 @@
         <item name="itin_card_detail_flight_canceled_drawable">@drawable/ic_flight_status_cancelled</item>
         <item name="itin_card_detail_flight_delayed_drawable">@drawable/ic_flight_status_delayed</item>
         <item name="itin_card_detail_flight_on_time_drawable">@drawable/ic_flight_status_on_time</item>
+        <item name="itin_card_detail_horizontal_divider_color">@color/itin_divider_color</item>
     </style>
 
     <style name="NewLaunchTheme.Light">
@@ -368,12 +370,13 @@
         <item name="itin_card_detail_triplet_value_text_color">@color/gray10</item>
         <item name="itin_card_detail_triplet_label_text_size">12sp</item>
         <item name="itin_card_detail_triplet_label_text_color">@color/gray6</item>
+        <item name="itin_card_detail_section_header_underline_drawable">@drawable/itin_section_divider_crystal</item>
         <item name="itin_card_detail_section_header_text_size">12sp</item>
         <item name="itin_card_detail_section_header_text_color">@color/gray10</item>
         <item name="itin_card_detail_section_text_size">16sp</item>
         <item name="itin_card_detail_section_text_color">@color/gray6</item>
         <item name="skin_itinCardTitleTextColor">@color/gray10</item>
-        <item name="itin_card_detail_section_text_capitalize_blue_style">@style/TextView.Itin.SectionText.Capitalize.Blue</item>
+        <item name="itin_card_detail_section_text_capitalize_blue_style">@style/ItineraryCardActionItemTextView.Blue</item>
         <item name="itin_card_detail_cancel_left_drawable">@drawable/itin_cancel_icon</item>
         <item name="itin_card_detail_info_left_drawable">@drawable/itin_info_icon</item>
         <item name="itin_card_detail_refresh_left_drawable">@drawable/itin_refresh_icon</item>
@@ -400,6 +403,7 @@
         <item name="itin_card_detail_flight_canceled_drawable">@drawable/ic_flight_status_cancelled_crystal_theme</item>
         <item name="itin_card_detail_flight_delayed_drawable">@drawable/ic_flight_status_delayed_crystal_theme</item>
         <item name="itin_card_detail_flight_on_time_drawable">@drawable/ic_flight_status_on_time_crystal_theme</item>
+        <item name="itin_card_detail_horizontal_divider_color">@color/gray1</item>
     </style>
 
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
