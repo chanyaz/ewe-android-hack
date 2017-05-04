@@ -7,10 +7,10 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.trips.TripBucketItem
 import com.expedia.bookings.server.ParserUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.NumberUtils
 import com.squareup.phrase.Phrase
 
 fun ValidFormOfPayment.getNewTotalPriceWithFee(originalTotalPrice: Money): Money {
@@ -33,7 +33,7 @@ object ValidFormOfPaymentUtils {
         val oldPayment = ValidPayment()
         oldPayment.name = newPayment.name
         oldPayment.paymentType = CurrencyUtils.parsePaymentType(newPayment.name)
-        oldPayment.fee = ParserUtils.createMoney(newPayment.fee, newPayment.feeCurrencyCode)
+        oldPayment.fee = ParserUtils.createMoney(getPaymentFee(newPayment.fee), newPayment.feeCurrencyCode)
         return oldPayment
     }
 
@@ -92,5 +92,17 @@ object ValidFormOfPaymentUtils {
             else -> ""
         }
         return invalidPaymentWarningMsg
+    }
+
+    /**
+     * Since the API is returning some fees as word translations, ex. "Kostenlos", we'll return an empty string if the fee
+     * is not a parseable number. Otherwise, we'll just return the fee, ex. "1.50"
+     */
+    fun getPaymentFee(fee: String?) : String {
+        if (fee == null || NumberUtils.parseDoubleSafe(fee) == null) {
+            return ""
+        } else {
+            return fee
+        }
     }
 }

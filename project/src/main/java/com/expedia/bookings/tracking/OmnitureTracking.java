@@ -5849,9 +5849,7 @@ public class OmnitureTracking {
 
 		s.setProducts(getFlightProductString(false));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_show_more_info_on_flight_overview)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview);
 
 		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
 		appendPageLoadTimeEvents(eventStringBuilder, overviewPageUsableData.getLoadTimeInSeconds());
