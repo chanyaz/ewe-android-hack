@@ -5728,6 +5728,7 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
 
 		s.track();
 	}
