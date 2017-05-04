@@ -80,7 +80,7 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
             val galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
             var holder = gallery.findViewHolderForAdapterPosition(index)
             if (holder != null) {
-                holder = holder as RecyclerGallery.RecyclerAdapter.ViewHolder
+                holder = holder as RecyclerGallery.RecyclerAdapter.GalleryViewHolder
                 holder.mImageView?.setIntermediateValue(height - galleryHeight, height,
                         0f / galleryHeight)
             }

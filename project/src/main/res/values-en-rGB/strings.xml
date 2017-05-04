@@ -4622,7 +4622,7 @@
     <string name="gallery_cont_desc">"Image gallery"</string>
 
     <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
-    <string name="gallery_photo_count_content_description_TEMPLATE">View {index} of {count} gallery photos button</string>
+    <string name="gallery_photo_count_cont_desc_TEMPLATE">View {index} of {count} gallery photos button</string>
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Multiple Carriers</string>

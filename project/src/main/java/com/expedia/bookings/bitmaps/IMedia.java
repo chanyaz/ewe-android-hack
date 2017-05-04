@@ -9,4 +9,6 @@ public interface IMedia {
 	boolean getIsPlaceHolder();
 	int getPlaceHolderId();
 	int getFallbackImage();
+
+	String getDescription();
 }

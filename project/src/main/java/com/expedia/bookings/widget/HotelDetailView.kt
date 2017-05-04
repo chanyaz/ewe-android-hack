@@ -533,7 +533,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 val lp = galleryContainer.layoutParams
                 lp.height = height
                 galleryContainer.layoutParams = lp
-
                 galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
                 initialScrollTop = height - galleryHeight
 
@@ -728,7 +727,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (index >= 0 && index < gallery.adapter.itemCount) {
             var holder = gallery.findViewHolderForAdapterPosition(index)
             if (holder != null) {
-                holder = holder as RecyclerGallery.RecyclerAdapter.ViewHolder
+                holder = holder as RecyclerGallery.RecyclerAdapter.GalleryViewHolder
                 holder.mImageView?.setIntermediateValue(height - initialScrollTop, height,
                         detailContainer.scrollY.toFloat() / initialScrollTop)
             }

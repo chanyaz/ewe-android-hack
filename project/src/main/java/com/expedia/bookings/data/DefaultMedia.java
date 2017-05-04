@@ -72,4 +72,9 @@ public class DefaultMedia implements IMedia {
 	public int getFallbackImage() {
 		return 0;
 	}
+
+	@Override
+	public String getDescription() {
+		return imageCaption;
+	}
 }
