@@ -1000,6 +1000,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_room_header,
 		R.string.view_room_button_content_description_TEMPLATE,
 		R.string.book_room_button_content_description_TEMPLATE,
+		R.layout.room_description_dialog,
+		R.string.room_description_title,
 		R.dimen.flight_fsr_footer_button_height,
 		R.string.show_map,
 		R.string.show_list
