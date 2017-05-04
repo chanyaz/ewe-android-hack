@@ -2,7 +2,7 @@
 <com.expedia.bookings.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#262626">
+    android:background="?attr/itin_hotel_gallery_bg">
 
     <com.expedia.bookings.widget.RecyclerGallery
         android:id="@+id/images_gallery"

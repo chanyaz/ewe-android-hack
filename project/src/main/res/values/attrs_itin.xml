@@ -98,4 +98,6 @@
 
     <attr name="itin_add_guest_itin_left_drawable" format="reference"/>
     <attr name="itin_add_guest_itin_text_color" format="color"/>
+
+    <attr name="itin_hotel_gallery_bg" format="color"/>
 </resources>
