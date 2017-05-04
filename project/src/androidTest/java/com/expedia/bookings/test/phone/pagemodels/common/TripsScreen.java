@@ -21,7 +21,7 @@ public class TripsScreen {
 	}
 
 	public static ViewInteraction logInButton() {
-		return onView(allOf(withId(LOG_IN_BUTTON_ID), withText("Sign in for your trips")));
+		return onView(allOf(withId(LOG_IN_BUTTON_ID), withText(R.string.sign_in_for_your_trips)));
 	}
 
 	public static ViewInteraction refreshTripsButton() {
