@@ -472,11 +472,11 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction showInsuranceBenefits() {
-		return onView(withId(R.id.insurance_description)).perform(click());
+		return onView(allOf(withId(R.id.insurance_description), isDisplayed())).perform(click());
 	}
 
 	public static ViewInteraction showInsuranceTerms() {
-		return onView(withId(R.id.insurance_terms)).perform(click());
+		return onView(allOf(withId(R.id.insurance_terms), isDisplayed())).perform(click());
 	}
 
 	public static ViewInteraction showPriceBreakdown() {
@@ -484,11 +484,11 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction toggleInsuranceSwitch() {
-		return onView(withId(R.id.insurance_switch)).perform(click());
+		return onView(allOf(withId(R.id.insurance_switch), isDisplayed())).perform(click());
 	}
 
 	public static ViewInteraction toggleInsuranceSwitchProgrammatically() {
-		return onView(withId(R.id.insurance_switch)).perform(toggleProgrammatically());
+		return onView(allOf(withId(R.id.insurance_switch), isDisplayed())).perform(toggleProgrammatically());
 	}
 
 	public static void enterPaymentInfo(@NotNull String nameOnCard) {

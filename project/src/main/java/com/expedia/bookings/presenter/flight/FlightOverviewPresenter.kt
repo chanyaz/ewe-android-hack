@@ -15,22 +15,30 @@ import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
+import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
+import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.FlightTotalPriceViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
+import javax.inject.Inject
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
+
+    lateinit var insuranceServices: InsuranceServices
+        @Inject set
 
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
@@ -72,8 +80,19 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         flightSummary.viewmodel = FlightOverviewSummaryViewModel(context)
     }
 
+    val insuranceWidget: InsuranceWidget by lazy {
+        val widget = findViewById(R.id.insurance_widget) as InsuranceWidget
+        widget.viewModel = InsuranceViewModel(context, insuranceServices)
+        widget.viewModel.updatedTripObservable.subscribe(checkoutPresenter.getCreateTripViewModel().createTripResponseObservable)
+        widget
+    }
+
     override fun inflate() {
         View.inflate(context, R.layout.flight_overview, this)
+    }
+
+    override fun injectComponents() {
+        Ui.getApplication(context).flightComponent().inject(this)
     }
 
     override fun onFinishInflate() {
@@ -99,6 +118,15 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.subTitleText.filter { Strings.isNotEmpty(it) }.subscribe {
                 bundleOverviewHeader.checkoutOverviewHeaderToolbar.checkInOutDates.text = it
             }
+        }
+    }
+
+    override val defaultTransition = object : TwoScreenOverviewDefaultTransition() {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
+                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
         }
     }
 
@@ -147,6 +175,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
+        insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
         viewModel.showBasicEconomyMessageObservable.onNext(shouldShowBasicEconomyMessage(tripResponse))
         basicEconomyInfoWebView.loadData(tripResponse.details.basicEconomyFareRules)
         overviewPageUsableData.markAllViewsLoaded(System.currentTimeMillis())

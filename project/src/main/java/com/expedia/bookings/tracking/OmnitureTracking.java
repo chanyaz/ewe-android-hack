@@ -5668,7 +5668,6 @@ public class OmnitureTracking {
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
-
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
 		if (userStateManager.isUserAuthenticated() && Db.getUser().hasAtLeastOneExpiredStoredCard()) {
@@ -5844,6 +5843,9 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_insurance_in_flight_summary)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
+		}
 
 		s.setProducts(getFlightProductString(false));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);

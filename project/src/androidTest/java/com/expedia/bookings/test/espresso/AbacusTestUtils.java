@@ -7,7 +7,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 public class AbacusTestUtils {
 
 	public static void updateABTest(int key, int value) {
-		AbacusResponse abacusResponse = new AbacusResponse();
+		AbacusResponse abacusResponse = Db.getAbacusResponse();
 		abacusResponse.updateABTestForDebug(key, value);
 		Db.setAbacusResponse(abacusResponse);
 	}
