@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.Spinner
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.util.notNullAndObservable
@@ -132,9 +131,8 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
                     spinner.visibility = View.INVISIBLE
                     spinner.setSelection(DEFAULT_CHILD_AGE)
                 } else {
+                    spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
                     spinner.setSelection(travelers.childrenAges[i])
-                    val selectedText = StrUtils.getChildTravelerAgeText(resources, spinner.selectedItem as Int)
-                    spinner.contentDescription = Phrase.from(context, R.string.search_child_age_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).put("currentselection", selectedText).format().toString()
                     spinner.visibility = View.VISIBLE
                 }
                 spinner.onItemSelectedListener = selectedListener

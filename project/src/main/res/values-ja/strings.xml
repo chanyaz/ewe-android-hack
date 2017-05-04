@@ -4437,7 +4437,7 @@
     <string name="rails_remove_senior_traveler_cont_desc">旅行者からシニア 1 名を削除する</string>
 
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様 {childnumber}の年齢を選択してください。</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber}の年齢を選択してください。</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">中人 {youthnumber}の年齢を選択してください。</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->

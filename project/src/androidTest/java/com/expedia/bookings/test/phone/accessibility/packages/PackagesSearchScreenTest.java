@@ -81,13 +81,13 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		SearchScreen.addChildButton().check(matches(ViewMatchers.withContentDescription("Add one child traveler")));
 		SearchScreen.removeChildButton().check(matches(ViewMatchers.withContentDescription("Remove one child traveler")));
 		SearchScreen.incrementChildrenButton();
-		SearchScreen.childAgeDropDown(1).check(matches(ViewMatchers.withContentDescription("Select age for child 1. 10 years old selected.")));
+		SearchScreen.childAgeDropDown(1).check(matches(ViewMatchers.withContentDescription("Select age for child 1.")));
 		SearchScreen.incrementChildrenButton();
-		SearchScreen.childAgeDropDown(2).check(matches(ViewMatchers.withContentDescription("Select age for child 2. 10 years old selected.")));
+		SearchScreen.childAgeDropDown(2).check(matches(ViewMatchers.withContentDescription("Select age for child 2.")));
 		SearchScreen.incrementChildrenButton();
-		SearchScreen.childAgeDropDown(3).check(matches(ViewMatchers.withContentDescription("Select age for child 3. 10 years old selected.")));
+		SearchScreen.childAgeDropDown(3).check(matches(ViewMatchers.withContentDescription("Select age for child 3.")));
 		SearchScreen.incrementChildrenButton();
-		SearchScreen.childAgeDropDown(4).check(matches(ViewMatchers.withContentDescription("Select age for child 4. 10 years old selected.")));
+		SearchScreen.childAgeDropDown(4).check(matches(ViewMatchers.withContentDescription("Select age for child 4.")));
 		Common.delay(1);
 	}
 
