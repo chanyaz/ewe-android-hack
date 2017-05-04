@@ -80,11 +80,9 @@
         android:gravity="bottom|right"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/discount_percentage_text_view"
@@ -101,29 +99,27 @@
                 android:textColor="@color/white"
                 android:visibility="gone" />
 
-            <LinearLayout
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/pay_later_price_text_view"
+                style="@style/Core.Text.Default.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/discount_percentage_text_view"
                 android:layout_marginLeft="4dp"
-                android:orientation="vertical">
+                android:layout_toRightOf="@+id/discount_percentage_text_view"
+                android:alpha=".7" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/pay_later_price_text_view"
-                    style="@style/Core.Text.Default.LightColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".7" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/strike_through_price_text_view"
+                style="@style/Core.Text.Default.LightColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/discount_percentage_text_view"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/discount_percentage_text_view"
+                android:alpha=".7" />
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/strike_through_price_text_view"
-                    style="@style/Core.Text.Default.LightColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".7" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/deposit_terms_text_view"

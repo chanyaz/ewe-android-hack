@@ -1,11 +1,16 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.utils.Images
 
-class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse) {
+class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, val roomCount: Int) {
 
     val imageUrl: String? by lazy { getHotelImageUrl() }
     val roomTypeString by lazy { createRoomTypeString() }
@@ -25,12 +30,21 @@ class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: Hote
         } else null
     }
 
-    private fun createRoomTypeString(): String {
-        var trimmedRoomTypeString = hotelRoomResponse.roomTypeDescription
-        val dashIndex = trimmedRoomTypeString.indexOf(" - ")
-        if (dashIndex != -1) {
-            trimmedRoomTypeString = trimmedRoomTypeString.substring(0, dashIndex)
+    private fun createRoomTypeString(): CharSequence {
+        var detailString = hotelRoomResponse.roomTypeDescriptionDetail
+        val roomTypeDescription = hotelRoomResponse.roomTypeDescriptionWithoutDetail
+        if (roomCount < 0 && !detailString.isNullOrBlank()) {
+            detailString = "  (" + detailString + ")"
+
+            val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.small_text_size)
+            val span = SpannableString(roomTypeDescription + detailString)
+
+            span.setSpan(AbsoluteSizeSpan(smallTextSize), roomTypeDescription.length, roomTypeDescription.length + detailString.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.light_text_color)), roomTypeDescription.length, roomTypeDescription.length + detailString.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+
+            return span
         }
-        return trimmedRoomTypeString
+
+        return roomTypeDescription
     }
 }

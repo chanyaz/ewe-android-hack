@@ -1,6 +1,9 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.graphics.Typeface
+import android.support.v4.content.ContextCompat
+import android.text.SpannableString
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -14,15 +17,16 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.util.ArrayList
+import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 
 class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, val hotelId: String, val rowIndex: Int, val optionIndex: Int, val hasETP: Boolean) {
 
     val isPackage: Boolean get() = hotelRoomResponse.isPackage
 
-    val optionString: String?
-        get() = if (optionIndex >= 0) {
-            Phrase.from(context, R.string.option_TEMPLATE).put("number", optionIndex + 1).format().toString()
-        } else { null }
+    val optionString: SpannableString? get() = createOptionString()
 
     val cancellationString: String
         get() = if (hotelRoomResponse.hasFreeCancellation) {
@@ -43,7 +47,9 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         get() = if (!isPackage && chargeableRateInfo.isDiscountPercentNotZero
                 && !(hotelLoyaltyInfo?.isBurnApplied ?: false) && !chargeableRateInfo.isShowAirAttached()) {
             context.resources.getString(R.string.percent_off_TEMPLATE, HotelUtils.getDiscountPercent(chargeableRateInfo))
-        } else { null }
+        } else {
+            null
+        }
 
     val payLaterPriceString: String? get() = createPayLaterPriceString()
 
@@ -52,7 +58,9 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     val strikeThroughString: String?
         get() = if (!isPayLater && chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers) {
             Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
-        } else { null }
+        } else {
+            null
+        }
 
     val pricePerNightString: String? get() = createPricePerNightString()
 
@@ -69,6 +77,34 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     private val priceToShowUser = Money(BigDecimal(chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode).formattedMoney
     private val isTotalPrice = chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES
     private val haveDepositTerm = hotelRoomResponse.depositPolicy != null && !hotelRoomResponse.depositPolicy.isEmpty()
+
+    private fun createOptionString(): SpannableString? {
+        if (optionIndex >= 0) {
+            var optionString = Phrase.from(context, R.string.option_TEMPLATE).put("number", optionIndex + 1).format().toString()
+
+            val largeTextSize = context.resources.getDimensionPixelSize(R.dimen.large_text_size)
+            val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.small_text_size)
+
+            var detailString = hotelRoomResponse.roomTypeDescriptionDetail
+
+            if (!detailString.isNullOrBlank()) {
+                detailString = "  (" + detailString + ")"
+                val span = SpannableString(optionString + detailString)
+
+                span.setSpan(AbsoluteSizeSpan(smallTextSize), optionString.length, optionString.length + detailString.length, SPAN_INCLUSIVE_INCLUSIVE)
+                span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.light_text_color)), optionString.length, optionString.length + detailString.length, SPAN_INCLUSIVE_INCLUSIVE)
+
+                return span
+            } else {
+                val span = SpannableString(optionString)
+                span.setSpan(AbsoluteSizeSpan(largeTextSize), 0, optionString.length, SPAN_INCLUSIVE_INCLUSIVE)
+                span.setSpan(StyleSpan(Typeface.BOLD), 0, optionString.length, SPAN_INCLUSIVE_INCLUSIVE)
+
+                return span
+            }
+        }
+        return null
+    }
 
     private fun createCancellationTimeString(): String? {
         if (hotelRoomResponse.hasFreeCancellation && hotelRoomResponse.freeCancellationWindowDate != null) {
