@@ -9,7 +9,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">26dp</item>
-        <item name="android:background">@drawable/itin_section_divider</item>
+        <item name="android:background">?attr/itin_card_detail_section_header_underline_drawable</item>
         <item name="android:textAppearance">@style/TextAppearance.Small</item>
         <item name="android:textColor">?attr/itin_card_detail_section_header_text_color</item>
         <item name="android:gravity">center_vertical</item>
@@ -37,6 +37,17 @@
     </style>
 
     <style name="TextView.Itin.SectionText.Capitalize.Blue">
+        <item name="android:textColor">@color/exp_launch_blue</item>
+    </style>
+
+    <style name="ItineraryCardActionItemTextView">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/itin_card_summary_action_button_text_color</item>
+        <item name="android:textSize">?attr/itin_card_summary_action_button_text_size</item>
+        <item name="textStyle">bold</item>
+    </style>
+
+    <style name="ItineraryCardActionItemTextView.Blue">
         <item name="android:textColor">@color/exp_launch_blue</item>
     </style>
 

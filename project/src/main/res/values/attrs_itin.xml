@@ -62,11 +62,13 @@
     <attr name="itin_card_detail_triplet_label_text_size" format="dimension"/>
     <attr name="itin_card_detail_triplet_label_text_color" format="reference|color"/>
 
+    <attr name="itin_card_detail_section_header_underline_drawable" format="dimension"/>
     <attr name="itin_card_detail_section_header_text_size" format="dimension"/>
     <attr name="itin_card_detail_section_header_text_color" format="reference|color"/>
     <attr name="itin_card_detail_section_text_size" format="dimension"/>
     <attr name="itin_card_detail_section_text_color" format="reference|color"/>
     <attr name="itin_card_detail_section_text_capitalize_blue_style" format="reference"/>
+    <attr name="itin_card_detail_horizontal_divider_color" format="reference|color"/>
 
     <attr name="itin_card_detail_cancel_left_drawable" format="reference"/>
     <attr name="itin_card_detail_info_left_drawable" format="reference"/>

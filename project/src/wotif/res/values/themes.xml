@@ -82,6 +82,7 @@
         <item name="itin_card_detail_flight_canceled_drawable">@drawable/ic_flight_status_cancelled</item>
         <item name="itin_card_detail_flight_delayed_drawable">@drawable/ic_flight_status_delayed</item>
         <item name="itin_card_detail_flight_on_time_drawable">@drawable/ic_flight_status_on_time</item>
+        <item name="itin_card_detail_horizontal_divider_color">@color/itin_divider_color</item>
     </style>
 
     <style name="FlightActionBarWotif" parent="FlightActionBar">
