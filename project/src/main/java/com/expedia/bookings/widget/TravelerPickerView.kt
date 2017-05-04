@@ -134,7 +134,7 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
                 } else {
                     spinner.setSelection(travelers.childrenAges[i])
                     val selectedText = StrUtils.getChildTravelerAgeText(resources, spinner.selectedItem as Int)
-                    spinner.contentDescription = Phrase.from(context, R.string.search_child_age_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).put("currentselection", selectedText).format().toString()
+                    spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).put("currentselection", selectedText).format().toString()
                     spinner.visibility = View.VISIBLE
                 }
                 spinner.onItemSelectedListener = selectedListener
