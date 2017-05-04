@@ -13,10 +13,12 @@ import rx.subjects.BehaviorSubject
 class FlightConfirmationCardViewModel (private val context: Context, flightLeg: FlightLeg, numberOfGuests: Int) {
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = BehaviorSubject.create<String>()
+    val urlSubject = BehaviorSubject.create<String>()
 
     init {
         titleSubject.onNext(getFlightTitle(flightLeg))
-        subtitleSubject.onNext(getFlightSubtitle(flightLeg.departureDateTimeISO, numberOfGuests))
+        subtitleSubject.onNext(getFlightSubtitle(flightLeg.segments.first().departureTimeRaw, numberOfGuests))
+        urlSubject.onNext(getAirlineUrl(flightLeg))
     }
 
     private fun getFlightTitle(flightLeg: FlightLeg) : String {
@@ -35,5 +37,14 @@ class FlightConfirmationCardViewModel (private val context: Context, flightLeg: 
          val numberOfGuests = StrUtils.formatTravelerString(context, guests)
 
          return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, localDepartureDateDate, departureTime, numberOfGuests)
+    }
+
+    fun getAirlineUrl(flightLeg: FlightLeg) : String? {
+        return when {
+            flightLeg.airlines.size == 1 -> flightLeg.airlines.first().airlineLogoUrl
+            flightLeg.airlines.size > 1 && FlightV2Utils.getDistinctiveAirline(flightLeg.airlines).size == 1 ->
+                FlightV2Utils.getDistinctiveAirline(flightLeg.airlines).first().airlineLogoUrl
+            else -> null
+        }
     }
 }

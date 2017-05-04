@@ -191,6 +191,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.new_flight_confirmation_presenter,
 		R.drawable.no_hotel_error,
 		R.string.reservation_already_exists_new_hotels,
+		R.layout.widget_crystal_hotel_cross_sell,
 		R.string.search_again,
 		R.string.phone_number_field_text,
 		R.string.first_name_field_text,

@@ -59,6 +59,11 @@ class FlightCheckoutResponse() : FlightTripResponse() {
         return if (flightsDetailResponse != null) flightsDetailResponse[0] else details
     }
 
+    fun getFirstFlightLeg(): FlightLeg {
+        val legs = getFirstFlightTripDetails().getLegs()
+        return legs.first()
+    }
+
     /**
      * This method's been created because the aggregated response tag is missing in case of price change.
      * Every other time, we should be relying on aggregated response to give us the flight trip details
@@ -69,7 +74,7 @@ class FlightCheckoutResponse() : FlightTripResponse() {
     }
 
     fun getLastFlightLeg(): FlightLeg {
-        val legs = getLastFlightTripDetails().legs
+        val legs = getLastFlightTripDetails().getLegs()
         return legs[legs.size - 1]
     }
 

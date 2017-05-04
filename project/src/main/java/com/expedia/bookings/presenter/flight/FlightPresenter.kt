@@ -313,16 +313,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightConfirmationPresenter
         presenter.viewModel = FlightConfirmationViewModel(context)
 
-        flightOfferViewModel.confirmedInboundFlightSelection.subscribe { inbound ->
-            val numberOfGuests = searchViewModel.searchParamsObservable.value.guests
-            presenter.inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests)
-        }
-        flightOfferViewModel.confirmedOutboundFlightSelection.subscribe { outbound ->
-            val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
-            val numberOfGuests = searchViewModel.searchParamsObservable.value.guests
-            presenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
-            presenter.viewModel.destinationObservable.onNext(destinationCity)
-        }
         searchViewModel.searchParamsObservable.subscribe(presenter.hotelCrossSell.viewModel.searchParamsObservable)
         searchViewModel.isRoundTripSearchObservable.subscribe(presenter.viewModel.inboundCardVisibility)
         presenter
