@@ -55,6 +55,8 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
             travelerParamsObservable.onNext(TravelerParams(travelerParams.numberOfAdults + 1, travelerParams.childrenAges, emptyList(), emptyList()))
             trackTravelerPickerClick("Add.Adult")
         }
+        adultTravelerCountChangeObservable.onNext(Unit)
+
     }
 
     val decrementAdultsObserver: Observer<Unit> = endlessObserver {
@@ -63,6 +65,7 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
             travelerParamsObservable.onNext(TravelerParams(travelerParams.numberOfAdults - 1, travelerParams.childrenAges, emptyList(), emptyList()))
             trackTravelerPickerClick("Remove.Adult")
         }
+        adultTravelerCountChangeObservable.onNext(Unit)
     }
 
     val incrementChildrenObserver: Observer<Unit> = endlessObserver {
@@ -71,6 +74,7 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
             travelerParamsObservable.onNext(TravelerParams(travelerParams.numberOfAdults, travelerParams.childrenAges.plus(childAges[travelerParams.childrenAges.size]), emptyList(), emptyList()))
             trackTravelerPickerClick("Add.Child")
         }
+        childTravelerCountChangeObservable.onNext(Unit)
     }
 
     val decrementChildrenObserver: Observer<Unit> = endlessObserver {
@@ -79,6 +83,7 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
             travelerParamsObservable.onNext(TravelerParams(travelerParams.numberOfAdults, travelerParams.childrenAges.subList(0, travelerParams.childrenAges.size - 1), emptyList(), emptyList()))
             trackTravelerPickerClick("Remove.Child")
         }
+        childTravelerCountChangeObservable.onNext(Unit)
     }
 
     val childAgeSelectedObserver: Observer<Pair<Int, Int>> = endlessObserver { p ->

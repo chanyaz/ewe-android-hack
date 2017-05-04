@@ -58,7 +58,6 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
         vm.showInfantErrorMessage.subscribeTextAndVisibility(infantError)
         adultPlus.subscribeOnClick(vm.incrementAdultsObserver)
         adultMinus.subscribeOnClick(vm.decrementAdultsObserver)
-
         childPlus.subscribeOnClick(vm.incrementChildrenObserver)
         childMinus.subscribeOnClick(vm.decrementChildrenObserver)
         vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
@@ -84,6 +83,12 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
         vm.childMinusObservable.subscribe {
             childMinus.isEnabled = it
             childMinus.setImageButtonColorFilter(it)
+        }
+        vm.adultTravelerCountChangeObservable.subscribe {
+            adultPlus.announceForAccessibility(adultText.text)
+        }
+        vm.childTravelerCountChangeObservable.subscribe {
+            childPlus.announceForAccessibility(childText.text)
         }
 
         for (i in childSpinners.indices) {
