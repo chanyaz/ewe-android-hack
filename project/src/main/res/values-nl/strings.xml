@@ -4437,7 +4437,7 @@
     <string name="rails_remove_senior_traveler_cont_desc">Verwijder 1 senior</string>
 
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor kind {childnumber}</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor kind {childnumber}</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor jongere {youthnumber}.</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
