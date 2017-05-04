@@ -390,7 +390,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		// Nothing to do if there are no itineraries
 		int len = itinCardDatas.size();
 		if (len == 0) {
-			return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
+			return new Pair<>(summaryCardPosition, altSummaryCardPosition);
 		}
 
 		// Calculate the summary (and possibly alternate) positions
@@ -448,10 +448,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// 2. The current summary card is not happening in the next 3 hours
 			// Use the first in-progress card as summary instead
 			DateTime startDate = summaryCardData.getStartDate();
-			if (firstInProgressCard.getEndDate().isBefore(startDate)
+			if (firstInProgressCard != null
+				&& firstInProgressCard.getEndDate().isBefore(startDate)
 				&& nowMillis < startDate.getMillis() - threeHours) {
 				summaryCardPosition = firstInProgressCardPos;
-				summaryCardData = firstInProgressCard;
 			}
 
 			// See if we have an alt summary card we want
@@ -474,7 +474,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 		}
 
-		return new Pair<Integer, Integer>(summaryCardPosition, altSummaryCardPosition);
+		return new Pair<>(summaryCardPosition, altSummaryCardPosition);
 	}
 
 	private boolean isValidForSummary(ItinCardData data) {
