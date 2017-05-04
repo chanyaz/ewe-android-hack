@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.Ui;
@@ -177,6 +178,9 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			Intent intent = Chuck.getLaunchIntent(getActivity());
 			startActivity(intent);
 
+		}
+		else if ("PREF_FIRST_LAUNCH".equals(key)) {
+			User.signOut(getContext());
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

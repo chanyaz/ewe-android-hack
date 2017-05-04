@@ -1,5 +1,6 @@
 package com.expedia.bookings.onboarding.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.view.GestureDetectorCompat
@@ -9,8 +10,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Scroller
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.AnimationListenerAdapter
@@ -18,6 +22,7 @@ import com.expedia.bookings.enums.OnboardingPagerState
 import com.expedia.bookings.onboarding.LeftRightFlingListener
 import com.expedia.bookings.onboarding.adapter.OnboardingPagerAdapter
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.widget.DisableableViewPager
 import com.squareup.phrase.Phrase
@@ -59,6 +64,7 @@ class OnboardingActivity: AppCompatActivity() {
     }
 
     var isAnimating = false
+    var previousItem = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +73,11 @@ class OnboardingActivity: AppCompatActivity() {
         viewPager.adapter = pagerAdapter
         viewPager.setPageSwipingEnabled(false)
         viewPager.addOnPageChangeListener(onPageSelectedListener)
+
+        val mScroller = ViewPager::class.java.getDeclaredField("mScroller")
+        mScroller.isAccessible = true
+        val scroller = FixedSpeedScroller(this, DecelerateInterpolator())
+        mScroller.set(viewPager, scroller)
 
         previousButton.setOnClickListener { showPrevious() }
         nextButton.setOnClickListener { showNext() }
@@ -96,6 +107,7 @@ class OnboardingActivity: AppCompatActivity() {
                 OnboardingPagerState.TRIP_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.TRIP_PAGE)
                 OnboardingPagerState.REWARD_PAGE.ordinal -> OmnitureTracking.trackNewUserOnboardingPage(OnboardingPagerState.REWARD_PAGE)
             }
+            previousItem = viewPager.currentItem
         }
         override fun onPageScrollStateChanged(state: Int) {
         }
@@ -115,11 +127,11 @@ class OnboardingActivity: AppCompatActivity() {
         title.text = Phrase.from(this, pageState.titleResId).format().toString()
         subtitle.text = Phrase.from(this, pageState.subtitleResId).putOptional("brand_reward_name", this.getString(R.string.brand_reward_name)).format().toString()
 
-        if (position == 0) {
-            animateTitle(R.anim.fade_in)
+        if (position == 0 || position < previousItem) {
+            animateTextWhenNewPageLoaded(R.anim.reset_translate_and_fade_in)
         }
         else {
-            animateTitle(R.anim.slide_in_right)
+            animateTextWhenNewPageLoaded(R.anim.slide_in_right)
         }
     }
 
@@ -156,28 +168,26 @@ class OnboardingActivity: AppCompatActivity() {
 
     private fun showNext() {
         if (!isAnimating && viewPager.currentItem < OnboardingPagerState.values().size -1 ) {
-            fadeOutTitleThenGoToNewPage(FlingType.RIGHT_FLING)
+            animateTextThenGoToNewPage(FlingType.RIGHT_FLING)
         }
     }
 
     private fun showPrevious() {
         if (!isAnimating && viewPager.currentItem > 0) {
-            fadeOutTitleThenGoToNewPage(FlingType.LEFT_FLING)
+            animateTextThenGoToNewPage(FlingType.LEFT_FLING)
         }
     }
 
-    fun animateTitle(animResTd: Int) {
+    fun animateTextWhenNewPageLoaded(animResTd: Int) {
+        isAnimating = true
         val animateView1 = AnimationUtils.loadAnimation(this, animResTd)
         animateView1.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
+        animateView1.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong()
         val animateView2 = AnimationUtils.loadAnimation(this, animResTd)
         animateView2.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
-        animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong()
+        animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong() * 2
 
         animateView2.setAnimationListener(object : AnimationListenerAdapter(){
-            override fun onAnimationStart(animation: Animation?) {
-                super.onAnimationStart(animation)
-                isAnimating = true
-            }
             override fun onAnimationEnd(animation: Animation?) {
                 super.onAnimationEnd(animation)
                 isAnimating = false
@@ -188,18 +198,16 @@ class OnboardingActivity: AppCompatActivity() {
     }
 
 
-    fun fadeOutTitleThenGoToNewPage(flingtype: FlingType) {
-        val animateView1 = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+    fun animateTextThenGoToNewPage(flingtype: FlingType) {
+        isAnimating = true
+        val animResId = if (flingtype == FlingType.RIGHT_FLING) R.anim.fade_out else R.anim.slide_out_right
+        val animateView1 = AnimationUtils.loadAnimation(this, animResId)
         animateView1.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
-        val animateView2 = AnimationUtils.loadAnimation(this, R.anim.fade_out)
+        val animateView2 = AnimationUtils.loadAnimation(this, animResId)
         animateView2.duration = this.resources.getInteger(R.integer.onboarding_text_animation_duration).toLong()
         animateView2.startOffset = this.resources.getInteger(R.integer.onboarding_text_animation_delay).toLong()
 
         animateView2.setAnimationListener(object : AnimationListenerAdapter(){
-            override fun onAnimationStart(animation: Animation?) {
-                super.onAnimationStart(animation)
-                isAnimating = true
-            }
             override fun onAnimationEnd(animation: Animation?) {
                 super.onAnimationEnd(animation)
                 isAnimating = false
@@ -218,5 +226,16 @@ class OnboardingActivity: AppCompatActivity() {
     enum class FlingType {
         RIGHT_FLING,
         LEFT_FLING,
+    }
+
+    inner class FixedSpeedScroller : Scroller {
+        private val mDuration = resources.getInteger(R.integer.onboarding_pager_transition_duration)
+        constructor(context: Context, interpolator: Interpolator) : super(context, interpolator) {}
+        override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
+            super.startScroll(startX, startY, dx, dy, mDuration)
+        }
+        override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int) {
+            super.startScroll(startX, startY, dx, dy, mDuration)
+        }
     }
 }

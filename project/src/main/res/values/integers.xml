@@ -307,5 +307,6 @@
 
     <!--New User Onboarding-->
     <integer name="onboarding_text_animation_duration">300</integer>
-    <integer name="onboarding_text_animation_delay">200</integer>
+    <integer name="onboarding_text_animation_delay">100</integer>
+    <integer name="onboarding_pager_transition_duration">500</integer>
 </resources>
