@@ -710,7 +710,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 */
 	protected View getHorizontalDividerView(int margin) {
 		View v = new View(this.getContext());
-		v.setBackgroundColor(getResources().getColor(R.color.itin_divider_color));
+		v.setBackgroundColor(Ui.obtainThemeColor(getContext(), R.attr.itin_card_detail_horizontal_divider_color));
 		int divHeight = getResources().getDimensionPixelSize(R.dimen.one_px_hdpi_two_px_xhdpi);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, divHeight);
 		lp.leftMargin = margin;

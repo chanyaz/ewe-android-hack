@@ -28,16 +28,13 @@
 
             <com.expedia.bookings.widget.AutoResizeTextView
                 android:id="@+id/summary_left_button"
+                style="@style/ItineraryCardActionItemTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawablePadding="10dp"
                 android:focusable="true"
                 android:gravity="center"
-                android:padding="8dp"
-                android:textAllCaps="true"
-                android:textColor="?attr/itin_card_summary_action_button_text_color"
-                android:textSize="?attr/itin_card_summary_action_button_text_size"
-                app:textStyle="bold" />
+                android:padding="8dp" />
         </LinearLayout>
 
         <View
@@ -60,16 +57,13 @@
 
             <com.expedia.bookings.widget.AutoResizeTextView
                 android:id="@+id/summary_right_button"
+                style="@style/ItineraryCardActionItemTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawablePadding="10dp"
                 android:focusable="true"
                 android:gravity="center"
-                android:padding="8dp"
-                android:textAllCaps="true"
-                android:textColor="?attr/itin_card_summary_action_button_text_color"
-                android:textSize="?attr/itin_card_summary_action_button_text_size"
-                app:textStyle="bold" />
+                android:padding="8dp" />
         </LinearLayout>
     </com.expedia.bookings.widget.NoPressLinearLayout>
 
