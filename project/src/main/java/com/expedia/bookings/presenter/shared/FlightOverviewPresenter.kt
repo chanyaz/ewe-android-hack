@@ -11,7 +11,6 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
