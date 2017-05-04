@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -68,6 +69,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             originCardView.contentDescription = Phrase.from(context, R.string.search_flying_from_destination_cont_desc_TEMPLATE)
                     .put("from_destination", text)
                     .format().toString()
+        }
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            calendarWidgetV2.setAccessibilityHoverFocus()
         }
         vm.formattedDestinationObservable.subscribe {
             text ->

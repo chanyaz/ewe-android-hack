@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.LXSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -55,6 +56,10 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         vm.dateAccessibilityObservable.subscribe{
             text ->
             calendarWidgetV2.contentDescription = text
+        }
+
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            calendarWidgetV2.setAccessibilityHoverFocus()
         }
     }
 
