@@ -36,11 +36,11 @@ import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
@@ -168,7 +168,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 val numberOfSavedCards = Db.getUser()?.storedCreditCards?.size ?: 0
                 val tempSavedCard = Db.getTemporarilySavedCard()
-                if (numberOfSavedCards >= 1 && tempSavedCard == null && !hasStoredCard()) {
+                val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
+                val isSelectedCardSupported = sectionBillingInfo.billingInfo.storedCard?.type ?: PaymentType.UNKNOWN
+                if (numberOfSavedCards >= 1 && tempSavedCard == null &&
+                        !(hasStoredCard() || tripItem.isPaymentTypeSupported(isSelectedCardSupported))) {
                     selectFirstAvailableCard()
                 } else if (numberOfSavedCards == 0 && tempSavedCard != null) {
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
