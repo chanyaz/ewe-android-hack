@@ -4122,6 +4122,8 @@
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">You\'re going to</string>
+    <!-- Message telling you on confirmation that your trip is booked -->
+    <string name="trip_is_booked">Your trip is booked!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Need a rental car?</string>
     <!-- Cars cross-sell origin description template-->

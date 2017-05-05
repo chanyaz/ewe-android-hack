@@ -15,12 +15,14 @@
         android:src="@drawable/confirmation_checkmark" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/trip_booked_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingTop="10dp"
         android:text="@string/yay_going_somewhere"
         android:textColor="@color/itin_white_text"
+        android:ellipsize="end"
         android:textSize="15sp" />
 
     <com.expedia.bookings.widget.TextView

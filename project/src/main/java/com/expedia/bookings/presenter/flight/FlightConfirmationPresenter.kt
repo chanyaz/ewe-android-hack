@@ -29,6 +29,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val confirmationContainer: LinearLayout by bindView(R.id.confirmation_container)
     val itinNumber: TextView by bindView(R.id.itin_number)
+    val tripBookedMessage: TextView by bindView(R.id.trip_booked_message)
     val destination: TextView by bindView(R.id.destination)
     val expediaPoints: TextView by bindView(R.id.expedia_points)
     val viewItinButton: Button by bindView(R.id.view_itin_button)
@@ -69,7 +70,10 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
         }
-        if (isNewConfirmationScreenEnabled) flightSummary = findViewById(R.id.trip_summary_card) as ConfirmationSummaryCardView
+        if (isNewConfirmationScreenEnabled) {
+            flightSummary = findViewById(R.id.trip_summary_card) as ConfirmationSummaryCardView
+            tripBookedMessage.setText(R.string.trip_is_booked)
+        }
     }
 
     override fun back(): Boolean {
