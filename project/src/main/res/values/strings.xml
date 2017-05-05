@@ -2782,10 +2782,10 @@
     <string name="dialog_clear_private_data_msg">This will remove all search history.</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove search history.</string>
-    <!-- Title for dialog confirming the clearing of private data when feature toggle enabled-->
-    <string name="dialog_clear_private_data_title_logged_in_user_feature_toggle">Are you sure?</string>
-    <!-- Message for dialog confirming the clearing of private data when feature toggle enabled. Ex: Changing the country will sign you out of your Expedia account​ -->
-    <string name="dialog_sign_out_and_clear_private_data_msg_feature_toggle_TEMPLATE">Changing the country will sign you out of your {brand} account​.</string>
+    <!-- Title for dialog confirming the clearing of private data when user is logged in-->
+    <string name="dialog_clear_private_data_title_logged_in_user">Are you sure?</string>
+    <!-- Message for dialog confirming the clearing of private data when user is logged in. Ex: Changing the country will sign you out of your Expedia account​ -->
+    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">Changing the country will sign you out of your {brand} account​.</string>
     <!-- Continue button for dialog confirming the clearing of private data -->
     <string name="continue_button">Continue</string>
     <!-- Title for dialog after private data has been cleared -->

@@ -44,9 +44,9 @@ public class ClearPrivateDataDialog extends DialogFragment {
 
 		if (isUserLoggedIn) {
 			if (isChangingCountry) {
-				dialogTitle = R.string.dialog_clear_private_data_title_logged_in_user_feature_toggle;
+				dialogTitle = R.string.dialog_clear_private_data_title_logged_in_user;
 				dialogMessage = Phrase.from(getContext(),
-					R.string.dialog_sign_out_and_clear_private_data_msg_feature_toggle_TEMPLATE)
+					R.string.dialog_sign_out_and_clear_private_data_msg_TEMPLATE)
 					.put("brand", BuildConfig.brand).format().toString();
 				dialogPositiveButton = R.string.continue_button;
 			}
