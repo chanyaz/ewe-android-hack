@@ -3,6 +3,7 @@ package com.expedia.vm.test.robolectric
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.test.MultiBrand
@@ -20,6 +21,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
@@ -105,6 +107,11 @@ class FlightConfirmationViewModelTest {
         timeField.set(offerTimeField , dateOfExpiration)
         boolField.set(qualifierObject, true)
         timeRemainingField.set(qualifierObject, offerTimeField )
+
+        val totalPrice = Money("100", "USD")
+        val priceField = response.javaClass.getDeclaredField("totalChargesPrice")
+        priceField.isAccessible = true
+        priceField.set(response, totalPrice)
         field.set(response, qualifierObject)
 
         return response
@@ -120,7 +127,6 @@ class FlightConfirmationViewModelTest {
 
         val boolField = qualifierObject.javaClass.getDeclaredField("hasAirAttach")
         boolField.isAccessible = true
-
         boolField.set(qualifierObject, false)
         field.set(response, qualifierObject)
 
@@ -167,5 +173,63 @@ class FlightConfirmationViewModelTest {
         expediaPointsSubscriber.assertValueCount(0)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRewardsPointsStringNotToggled() {
+        val rewardsString = TestSubscriber<String>()
+        vm = FlightConfirmationViewModel(activity)
+        vm.rewardPointsObservable.subscribe(rewardsString)
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
+
+        vm.setRewardsPoints.onNext("100")
+        rewardsString.assertValue("100 Expedia+ Points")
+    }
+
+    @Test
+    fun testRewardsPointsStringToggled() {
+        val rewardsString = TestSubscriber<String>()
+        vm = FlightConfirmationViewModel(activity)
+        vm.isNewConfirmationScreenEnabled.onNext(true)
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
+        vm.rewardPointsObservable.subscribe(rewardsString)
+
+        vm.setRewardsPoints.onNext("100")
+        rewardsString.assertValue("100 points earned")
+    }
+
+    @Test
+    fun testNumberOfTravelersString() {
+        val travelersString = TestSubscriber<String>()
+        val numberOfTravelers = 5
+        vm = FlightConfirmationViewModel(activity)
+        vm.isNewConfirmationScreenEnabled.onNext(true)
+        vm.formattedTravelersStringSubject.subscribe(travelersString)
+
+        vm.numberOfTravelersSubject.onNext(numberOfTravelers)
+        travelersString.assertValue("5 Travelers")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTripTotalPriceStringWhenToggled() {
+        val priceString = TestSubscriber<String>()
+        vm = FlightConfirmationViewModel(activity)
+        vm.isNewConfirmationScreenEnabled.onNext(true)
+        vm.tripTotalPriceSubject.subscribe(priceString)
+        vm.confirmationObservable.onNext(Pair(getCheckoutResponse(DateTime.now().toString()), customerEmail))
+
+        priceString.assertValue("$100")
+    }
+
+    @Test
+    fun testTripTotalPriceEmptyWhenNotToggled() {
+        val priceString = TestSubscriber<String>()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
+        vm = FlightConfirmationViewModel(activity)
+        vm.tripTotalPriceSubject.subscribe(priceString)
+        vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
+
+        priceString.assertNoValues()
+    }
 
 }

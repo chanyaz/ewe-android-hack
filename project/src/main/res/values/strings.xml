@@ -3819,6 +3819,8 @@
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
     <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} Points</string>
+    <!-- Confirmation Text in new Flights Confirmation Summary widget indicating rewards earned for the booked flight E.g. 183 points earned-->
+    <string name="confirmation_flight_reward_points_earned_TEMPLATE">{rewardpoints} points earned</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flight Duration</string>

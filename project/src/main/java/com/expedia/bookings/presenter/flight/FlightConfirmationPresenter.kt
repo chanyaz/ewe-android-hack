@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ConfirmationRowCardView
+import com.expedia.bookings.widget.ConfirmationSummaryCardView
 import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
@@ -34,16 +35,23 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val outboundFlightCard: ConfirmationRowCardView by bindView(R.id.outbound_flight_card)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
-
+//    TODO flight summary cannot be null on new confirmation screen, but must be null on old confirmation screen
+    var flightSummary: ConfirmationSummaryCardView ?= null
     val hotelCrossSell: HotelCrossSellView by bindView(R.id.hotel_cross_sell_widget)
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.destinationObservable.subscribeText(destination)
-        vm.rewardPointsObservable.subscribeTextAndVisibility(expediaPoints)
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)
         vm.crossSellWidgetVisibility.subscribeVisibility(hotelCrossSell)
+        vm.isNewConfirmationScreenEnabled.onNext(isNewConfirmationScreenEnabled)
+        if (isNewConfirmationScreenEnabled) {
+            vm.formattedTravelersStringSubject.subscribeText(flightSummary?.numberOfTravelers)
+            vm.tripTotalPriceSubject.subscribeText(flightSummary?.tripPrice)
+        }
+        vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary?.pointsAdded ?: expediaPoints)
+
     }
 
     init {
@@ -54,6 +62,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
         }
+        if (isNewConfirmationScreenEnabled) flightSummary = findViewById(R.id.trip_summary_card) as ConfirmationSummaryCardView
     }
 
     override fun back(): Boolean {
@@ -76,6 +85,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
         outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
         viewModel.destinationObservable.onNext(destinationCity)
+        viewModel.numberOfTravelersSubject.onNext(numberOfGuests)
         if (inbound != outbound && viewModel.inboundCardVisibility.value ?: false) {
             inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests)
         }
