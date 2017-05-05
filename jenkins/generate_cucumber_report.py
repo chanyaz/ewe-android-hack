@@ -280,38 +280,45 @@ def main():
         testCasesReportJsonFilePath='project/build/outputs/' + deviceIdentifier + '/cucumber-htmlreport/cucumber.json'
         failedTestcaseImageDirectoryPath = deviceIdentifier + '/cucumber-images'
         if os.path.exists(testCasesReportJsonFilePath):
-            with open(testCasesReportJsonFilePath) as reportJsonFile:
-                jsonReport = json.load(reportJsonFile)
-            for features in jsonReport:
-                featureName = features['name']
-                feature_testcases_json = features['elements']
-                allTestCases = []
-                print featureName
-                print "*************"
-                allTestCases.append(generateTestcasesHTML(feature_testcases_json, failedTestcaseImageDirectoryPath))
-                allTestCasesHTML=''.join(allTestCases)
-                allFeatureResults.append("""\n<div class="cucumber-feature">
-                        <div class="feature-title feature-title-background"><span>Feature:{featureName} run on Device: {deviceIdentifier}</span></div>
-                            <div class="testcases">
-                                <div class="rTable">
-                                    <div class="rTableHeading">
-                                        <div class="rTableHead width-66">
-                                            Testcases
+            try:
+                with open(testCasesReportJsonFilePath) as reportJsonFile:
+                    jsonReport = json.load(reportJsonFile)
+                for features in jsonReport:
+                    featureName = features['name']
+                    feature_testcases_json = features['elements']
+                    allTestCases = []
+                    print featureName
+                    print "*************"
+                    allTestCases.append(generateTestcasesHTML(feature_testcases_json, failedTestcaseImageDirectoryPath))
+                    allTestCasesHTML=''.join(allTestCases)
+                    allFeatureResults.append("""\n<div class="cucumber-feature">
+                            <div class="feature-title feature-title-background"><span>Feature:{featureName} run on Device: {deviceIdentifier}</span></div>
+                                <div class="testcases">
+                                    <div class="rTable">
+                                        <div class="rTableHeading">
+                                            <div class="rTableHead width-66">
+                                                Testcases
+                                            </div>
+                                            <div class="rTableHead width-15">
+                                                Execution Time (in seconds)
+                                            </div>
+                                            <div class="rTableHead width-15">
+                                                Status
+                                            </div>
                                         </div>
-                                        <div class="rTableHead width-15">
-                                            Execution Time (in seconds)
+                                        <div class="rTableBody">
+                                            {allTestCasesHTML}
                                         </div>
-                                        <div class="rTableHead width-15">
-                                            Status
-                                        </div>
-                                    </div>
-                                    <div class="rTableBody">
-                                        {allTestCasesHTML}
                                     </div>
                                 </div>
-                            </div>
+                        </div>
+                        """.format(deviceIdentifier=deviceIdentifier, featureName=featureName, allTestCasesHTML=allTestCasesHTML ))
+            except Exception, e:
+                allFeatureResults.append("""\n
+                    <div class="cucumber-feature">
+                        <div class="feature-title failed"><span>Something went wrong on device : {deviceIdentifier}</span></div>
                     </div>
-                    """.format(deviceIdentifier=deviceIdentifier, featureName=featureName, allTestCasesHTML=allTestCasesHTML ))
+                    """.format(deviceIdentifier=deviceIdentifier ))
         else:
             allFeatureResults.append("""\n
                     <div class="cucumber-feature">
