@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -13,19 +14,23 @@ import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 
 open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    val title: TextView by bindView(R.id.first_row)
-    val subTitle: TextView by bindView(R.id.second_row)
+    val title: TextView by bindView(R.id.confirmation_title)
+    val subTitle: TextView by bindView(R.id.confirmation_subtitle)
     val icon: ImageView by bindView(R.id.icon)
     val isNewConfirmationScreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_additional_content_flight_confirmation)
 
     var viewModel: FlightConfirmationCardViewModel by notNullAndObservable { vm ->
         vm.titleSubject.subscribeText(title)
         vm.subtitleSubject.subscribeText(subTitle)
-        if (isNewConfirmationScreenEnabled)  {
+        if (isNewConfirmationScreenEnabled) {
+            title.typeface = Typeface.DEFAULT_BOLD
+            val titleSupplement = findViewById(R.id.confirmation_title_supplement) as TextView
+            vm.secondaryTitleSubject.subscribeTextAndVisibility(titleSupplement)
             vm.urlSubject.subscribe { url ->
                 if (!url.isNullOrBlank()) {
                     val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)

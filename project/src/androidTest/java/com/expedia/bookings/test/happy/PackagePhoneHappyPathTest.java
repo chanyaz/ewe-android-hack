@@ -173,12 +173,12 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertConfirmation() {
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Feb 2 - Feb 4, 1 Guest"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.inbound_flight_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.destination_card_row)), withText("Feb 2 - Feb 4, 1 Guest"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.outbound_flight_card)), withText("Flight to (DTW) Detroit"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.outbound_flight_card)))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_title), isDescendantOfA(withId(R.id.inbound_flight_card)), withText("Flight to (SFO) San Francisco"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.confirmation_subtitle), isDescendantOfA(withId(R.id.inbound_flight_card)))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.itin_number), withText("#1126420960431 sent to test@email.com"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary"))).check(matches(isDisplayed()));
 	}

@@ -10,41 +10,55 @@ import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import rx.subjects.BehaviorSubject
 
-class FlightConfirmationCardViewModel (private val context: Context, flightLeg: FlightLeg, numberOfGuests: Int) {
+class FlightConfirmationCardViewModel (private val context: Context, flightLeg: FlightLeg, numberOfGuests: Int, val isNewConfirmationScreenEnabled: Boolean = false) {
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = BehaviorSubject.create<String>()
     val urlSubject = BehaviorSubject.create<String>()
+    val secondaryTitleSubject = BehaviorSubject.create<String>()
 
     init {
+        if (isNewConfirmationScreenEnabled) {
+            secondaryTitleSubject.onNext(FlightV2Utils.getDepartureOnDateString(context, flightLeg))
+            urlSubject.onNext(FlightV2Utils.getAirlineUrl(flightLeg))
+        }
         titleSubject.onNext(getFlightTitle(flightLeg))
-        subtitleSubject.onNext(getFlightSubtitle(flightLeg.segments.first().departureTimeRaw, numberOfGuests))
-        urlSubject.onNext(getAirlineUrl(flightLeg))
+        subtitleSubject.onNext(getFlightSubtitle(flightLeg, numberOfGuests))
     }
 
     private fun getFlightTitle(flightLeg: FlightLeg) : String {
-        val airportCode = flightLeg.segments?.last()?.arrivalAirportCode ?: ""
-        val airportCity = flightLeg.segments?.last()?.arrivalAirportAddress?.city ?: ""
+        val arrivalAirportCode = flightLeg.segments?.last()?.arrivalAirportCode ?: ""
 
-        return Phrase.from(context.getString(R.string.flight_to_card_TEMPLATE))
-                .put("airportcode", airportCode)
-                .put("airportcity", airportCity)
-                .format().toString()
+        if (isNewConfirmationScreenEnabled) {
+            val departureAirportCode = flightLeg.segments?.first()?.departureAirportCode ?: ""
+            return context.getString(R.string.SharedItin_Title_Flight_TEMPLATE, departureAirportCode, arrivalAirportCode)
+        } else {
+            val airportCity = flightLeg.segments?.last()?.arrivalAirportAddress?.city ?: ""
+
+            return Phrase.from(context.getString(R.string.flight_to_card_TEMPLATE))
+                    .put("airportcode", arrivalAirportCode )
+                    .put("airportcity", airportCity)
+                    .format().toString()
+        }
     }
 
-     fun getFlightSubtitle(departureDateTime: String?, guests: Int): String? {
-         val localDepartureDateDate = DateUtils.localDateToMMMd(DateTime.parse(departureDateTime).toLocalDate())
-         val departureTime = FlightV2Utils.formatTimeShort(context, departureDateTime ?: "")
-         val numberOfGuests = StrUtils.formatTravelerString(context, guests)
+    private fun getFlightSubtitle(flightLeg: FlightLeg, guests: Int): String? {
+        val departureDateTime = flightLeg.segments.first().departureTimeRaw
+        val departureTime = FlightV2Utils.formatTimeShort(context, departureDateTime ?: "")
+        
+        if (isNewConfirmationScreenEnabled) {
+            val arrivalTime = FlightV2Utils.formatTimeShort(context, flightLeg.segments.last().arrivalTimeRaw ?: "")
+            val stops = FlightV2Utils.getFlightStopString(context, flightLeg)
 
-         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, localDepartureDateDate, departureTime, numberOfGuests)
-    }
+            return Phrase.from(context.getString(R.string.flight_to_card_crystal_subtitle_TEMPLATE))
+                    .put("departuretime", departureTime)
+                    .put("arrivaltime", arrivalTime)
+                    .put("stops", stops)
+                    .format().toString()
+        } else {
+            val localDepartureDateDate = DateUtils.localDateToMMMd(DateTime.parse(departureDateTime).toLocalDate())
+            val numberOfGuests = StrUtils.formatTravelerString(context, guests)
 
-    fun getAirlineUrl(flightLeg: FlightLeg) : String? {
-        return when {
-            flightLeg.airlines.size == 1 -> flightLeg.airlines.first().airlineLogoUrl
-            flightLeg.airlines.size > 1 && FlightV2Utils.getDistinctiveAirline(flightLeg.airlines).size == 1 ->
-                FlightV2Utils.getDistinctiveAirline(flightLeg.airlines).first().airlineLogoUrl
-            else -> null
+            return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, localDepartureDateDate, departureTime, numberOfGuests)
         }
     }
 }

@@ -10,9 +10,9 @@ import com.expedia.bookings.utils.bindView
 
 class ConfirmationSummaryCardView (context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
 
-    val numberOfTravelers : TextView by bindView(R.id.number_travelers)
-    val pointsAdded : TextView by bindView(R.id.points_rewards)
-    val tripPrice: TextView by bindView(R.id.trip_total_cash)
+    val numberOfTravelers : TextView by bindView(R.id.trip_number_of_travelers)
+    val pointsEarned: TextView by bindView(R.id.trip_points_earned)
+    val tripPrice: TextView by bindView(R.id.trip_total_cost)
 
     init {
         View.inflate(context, R.layout.flight_confirmation_summary_card, this)

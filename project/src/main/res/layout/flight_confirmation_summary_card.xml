@@ -19,7 +19,7 @@
                 android:text="@string/trip_total"/>
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/number_travelers"
+                android:id="@+id/trip_number_of_travelers"
                 style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -35,13 +35,13 @@
             android:gravity="right">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/trip_total_cash"
+                android:id="@+id/trip_total_cost"
                 style="@style/BundleOverviewWidgets.PrimaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/points_rewards"
+                android:id="@+id/trip_points_earned"
                 style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
