@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.rail.widget.RailTravelerWidgetV2
 import com.expedia.bookings.rail.widget.PositionObservableTabLayout
 import com.expedia.bookings.rail.widget.RailSearchWidget
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
@@ -96,6 +97,9 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
         vm.formattedOriginObservable.subscribeText(originCardView)
         vm.formattedDestinationObservable.subscribeText(destinationCardView)
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            searchWidget.calendarWidget.setAccessibilityHoverFocus()
+        }
 
         searchViewModel.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.white) else ContextCompat.getColor(context, R.color.white_disabled))

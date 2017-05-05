@@ -37,7 +37,6 @@ abstract class BaseSearchViewModel(val context: Context) {
     val destinationValidObservable = BehaviorSubject.create<Boolean>(false)
     val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
-    var accessibleStartDateSetObservable = BehaviorSubject.create<Boolean>(false)
     var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
 
     protected var selectedDates: Pair<LocalDate?, LocalDate?> = Pair(null, null)

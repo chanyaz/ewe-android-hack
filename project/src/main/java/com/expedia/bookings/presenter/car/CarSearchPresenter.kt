@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
 import com.expedia.bookings.widget.suggestions.CarSuggestionAdapter
 import com.expedia.util.notNullAndObservable
@@ -76,6 +77,9 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
         vm.errorMaxRangeObservable.subscribe { message ->
             showErrorDialog(message)
+        }
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            calendarWidget.setAccessibilityHoverFocus()
         }
         searchButton.subscribeOnClick(vm.searchObserver)
 

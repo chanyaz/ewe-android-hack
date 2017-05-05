@@ -107,6 +107,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
         }
         userTappedDone = false
         calendar.hideToolTip()
+        baseSearchViewModel.a11yFocusSelectDatesObservable.onNext(Unit)
     }
 
     override fun onDestroyView() {

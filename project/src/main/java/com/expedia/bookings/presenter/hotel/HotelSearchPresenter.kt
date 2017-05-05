@@ -14,11 +14,12 @@ import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
+import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
@@ -71,6 +72,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         vm.dateAccessibilityObservable.subscribe { text ->
             calendarWidgetV2.contentDescription = text
+        }
+
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            calendarWidgetV2.setAccessibilityHoverFocus()
         }
 
         searchButton.setOnClickListener {

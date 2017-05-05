@@ -4236,10 +4236,6 @@
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">Select age for youth {youthnumber}.</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">Select age for senior {seniornumber}.</string>
-    <!--Announce for choosing start date before showing datepicker dialog-->
-    <string name="packages_search_datepicker_announce_accessibility_start_date">Choose your start date.</string>
-    <!--Announce for choosing end date before showing datepicker dialog-->
-    <string name="packages_search_datepicker_announce_accessibility_end_date">Choose your end date.</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Show more airlines. Button</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->

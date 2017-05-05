@@ -729,8 +729,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.search_type_icon,
 		R.layout.car_dropdown_item,
 		R.string.location_edit_box_cont_desc_TEMPLATE,
-		R.string.packages_search_datepicker_announce_accessibility_start_date,
-		R.string.packages_search_datepicker_announce_accessibility_end_date,
 		R.string.trip_dates_cont_desc,
 		R.string.search_date_range_cont_desc_TEMPLATE,
 		R.color.points_available_text_color,
