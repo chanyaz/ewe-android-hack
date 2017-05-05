@@ -766,7 +766,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.total_fee,
 		R.string.additional_fees_at_check_in,
 		R.string.non_us_resort_fee_format_TEMPLATE,
-		R.string.search_child_drop_down_cont_desc_TEMPLATE,
+		R.string.search_child_age_drop_down_cont_desc_TEMPLATE,
 		R.string.search_senior_drop_down_cont_desc_TEMPLATE,
 		R.layout.traveler_count_selector,
 		R.layout.widget_rail_traveler_search,
