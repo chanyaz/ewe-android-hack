@@ -1,11 +1,10 @@
 package com.expedia.vm.test.robolectric
 
-import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.AccountSettingsFragmentTest
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
@@ -17,7 +16,6 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,7 +36,6 @@ class ClearPrivateDataDialogTest {
     lateinit var fragment: AccountSettingsFragment
     lateinit private var activity: NewPhoneLaunchActivity
     lateinit private var pointOfSaleStateModel: PointOfSaleStateModel
-    lateinit private var view: View
 
     @Before
     fun before() {
@@ -46,33 +43,6 @@ class ClearPrivateDataDialogTest {
         activity.setTheme(R.style.NewLaunchTheme)
         pointOfSaleStateModel = PointOfSaleStateModel()
         setPointOfSale(PointOfSaleId.UNITED_STATES)
-    }
-
-    @Test
-    fun testClearPrivateDataWhenFeatureEnabledAndGuestUser() {
-        givenNewWarningMessageFeatureEnabled()
-        givenFragmentSetup()
-        fragment.onAboutRowClicked(10)
-        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-
-        assertNotNull(alertDialog)
-        assertEquals("Clear Private Data?", alertDialog.title)
-        assertEquals("This will remove all search history.", alertDialog.message)
-        assertTrue(alertDialog.isCancelable)
-    }
-
-    @Test
-    fun testClearPrivateDataWhenFeatureEnabledUserLoggedIn() {
-        givenNewWarningMessageFeatureEnabled()
-        givenFragmentSetup()
-        givenSignedInAsUser(givenUser())
-        fragment.onAboutRowClicked(10)
-        val alertDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
-
-        assertNotNull(alertDialog)
-        assertEquals("Clear Private Data?", alertDialog.title)
-        assertEquals("This will sign you out and remove search history.", alertDialog.message)
-        assertTrue(alertDialog.isCancelable)
     }
 
     @Test
@@ -122,9 +92,4 @@ class ClearPrivateDataDialogTest {
         PointOfSaleTestConfiguration.configurePOS(activity, "ExpediaSharedData/ExpediaPointOfSaleConfig.json", Integer.toString(posId.id), false)
         pointOfSaleStateModel.pointOfSaleChangedSubject.onNext(PointOfSale.getPointOfSale())
     }
-
-    private fun givenNewWarningMessageFeatureEnabled() {
-        SettingUtils.save(activity, R.string.preference_change_pos_warning_message, true)
-    }
-
 }

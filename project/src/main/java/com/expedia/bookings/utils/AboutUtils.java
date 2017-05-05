@@ -197,48 +197,12 @@ public class AboutUtils {
 
 	}
 
-	public static class ClearDataDialog extends DialogFragment {
-		@NonNull
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			final int selectedCountryPosId = getArguments().getInt("selectedCountryPosId");
-			Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle(R.string.dialog_clear_private_data_title);
-			if (userIsAuthenticated(getActivity())) {
-				builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
-			}
-			else {
-				builder.setMessage(R.string.dialog_clear_private_data_msg);
-			}
-			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					((CountrySelectDialogListener) getActivity())
-						.onNewCountrySelected(selectedCountryPosId);
-					AbacusHelperUtils.generateAbacusGuid(getContext());
-				}
-			});
-			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// ignore, just let the dialog go away
-				}
-			});
-			return builder.create();
-		}
-
-		private boolean userIsAuthenticated(Context context) {
-			return Ui.getApplication(context).appComponent().userStateManager().isUserAuthenticated();
-		}
-	}
-
 	public static class CountrySelectDialog extends DialogFragment {
 
 		@NonNull
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
-			final Boolean isFeatureEnabled = FeatureToggleUtil
-				.isFeatureEnabled(getContext(), R.string.preference_change_pos_warning_message);
 
 			List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(getActivity());
 			int len = poses.size();
@@ -262,20 +226,11 @@ public class AboutUtils {
 			builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, final int newIndex) {
 					if (newIndex != startingIndex) {
-						if (isFeatureEnabled) {
-							ClearPrivateDataDialog clearDataDialog = new ClearPrivateDataDialog();
-							Bundle args = new Bundle();
-							args.putInt("selectedCountryPosId", entryValues[newIndex]);
-							clearDataDialog.setArguments(args);
-							((CountrySelectDialogListener) getActivity()).showDialogFragment(clearDataDialog);
-						}
-						else {
-							ClearDataDialog clearDataDialog = new ClearDataDialog();
-							Bundle args = new Bundle();
-							args.putInt("selectedCountryPosId", entryValues[newIndex]);
-							clearDataDialog.setArguments(args);
-							((CountrySelectDialogListener) getActivity()).showDialogFragment(clearDataDialog);
-						}
+						ClearPrivateDataDialog clearDataDialog = new ClearPrivateDataDialog();
+						Bundle args = new Bundle();
+						args.putInt("selectedCountryPosId", entryValues[newIndex]);
+						clearDataDialog.setArguments(args);
+						((CountrySelectDialogListener) getActivity()).showDialogFragment(clearDataDialog);
 					}
 				}
 			});
