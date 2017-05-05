@@ -1,30 +1,27 @@
 package com.expedia.bookings.activity;
 
-import java.util.ArrayList;
-
-import android.app.ActionBar;
-import android.app.ActionBar.OnNavigationListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.TerminalMapFragment;
 import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
-import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import java.util.ArrayList;
 
-public class TerminalMapActivity extends FragmentActivity implements OnNavigationListener {
+public class TerminalMapActivityV2 extends AppCompatActivity implements ActionBar.OnNavigationListener {
 
 	public static final String ARG_AIRPORT_CODE = "ARG_AIRPORT_CODE";
 
@@ -38,7 +35,7 @@ public class TerminalMapActivity extends FragmentActivity implements OnNavigatio
 	private int mSpinnerPosition = 0;
 
 	public static Intent createIntent(Context context, String airportCode) {
-		Intent intent = new Intent(context, TerminalMapActivity.class);
+		Intent intent = new Intent(context, TerminalMapActivityV2.class);
 		intent.putExtra(ARG_AIRPORT_CODE, airportCode);
 		return intent;
 	}
@@ -47,12 +44,15 @@ public class TerminalMapActivity extends FragmentActivity implements OnNavigatio
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Actionbar
-		ActionBar actionBar = getActionBar();
+		setContentView(R.layout.fragment_container_with_toolbar);
+
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setPadding(0, 0, getResources().getDimensionPixelSize(R.dimen.terminal_menu_padding), 0);
+		setSupportActionBar(toolbar);
+
+		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
+
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 		if (getIntent().hasExtra(ARG_AIRPORT_CODE)) {
@@ -85,7 +85,7 @@ public class TerminalMapActivity extends FragmentActivity implements OnNavigatio
 		if (mTerminalMap == null) {
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 			mTerminalMap = TerminalMapFragment.newInstance();
-			transaction.add(android.R.id.content, mTerminalMap, FRAG_TAG_TERMINAL_MAP);
+			transaction.add(R.id.fragment_container, mTerminalMap, FRAG_TAG_TERMINAL_MAP);
 			transaction.commit();
 		}
 	}
@@ -123,7 +123,6 @@ public class TerminalMapActivity extends FragmentActivity implements OnNavigatio
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu_terminal_map, menu);
-		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_legend);
 		return true;
 	}
 

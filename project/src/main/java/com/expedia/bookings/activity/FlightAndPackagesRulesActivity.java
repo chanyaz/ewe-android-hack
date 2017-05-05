@@ -34,7 +34,7 @@ public class FlightAndPackagesRulesActivity extends AppCompatActivity {
 		if (shouldBail()) {
 			return;
 		}
-		setContentView(R.layout.activity_flight_and_packages_rules);
+		setContentView(R.layout.fragment_container_with_toolbar);
 
 		LineOfBusiness lob = LineOfBusiness.FLIGHTS;
 		BaseRulesFragment rulesFragment;

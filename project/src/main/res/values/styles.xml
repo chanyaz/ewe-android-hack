@@ -24,6 +24,15 @@
         <item name="colorControlNormal">#C3C3C3</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
+        <item name="android:dropDownListViewStyle">@style/TerminalMapSpinnerStyle</item>
+        <item name="skin_terminalChooserTextColor">@color/white</item>
+    </style>
+
+    <style name="TerminalMapSpinnerStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:background">@color/app_primary</item>
+        <item name="android:divider">@drawable/grey_divider</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <item name="android:dropDownWidth">match_parent</item>
     </style>
 
     <style name="AppTheme.Base" parent="@style/Theme.AppCompat.Light">
