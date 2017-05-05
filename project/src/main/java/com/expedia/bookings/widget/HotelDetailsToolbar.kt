@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.extension.shouldShowCircleForRatings
@@ -28,6 +29,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
+    val toolbarWrapper: LinearLayout by bindView(R.id.toolbar_wrapper)
     var navIcon: ArrowXDrawable by Delegates.notNull()
 
     var viewmodel: HotelDetailToolbarViewModel by Delegates.notNull()
@@ -72,5 +74,11 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         }
         vm.hotelRatingContentDescriptionObservable.subscribeContentDescription(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
+    }
+
+    fun refreshForCystalTheme() {
+        toolBarGradient.visibility = View.GONE
+        toolBarRating.visibility = View.GONE
+        toolbarWrapper.setBackgroundColor(ContextCompat.getColor(context, R.color.exp_launch_blue))
     }
 }

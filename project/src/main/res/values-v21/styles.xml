@@ -6,7 +6,7 @@
     </style>
 
     <style name="Widget.BorderlessButton.Crystal">
-        <item name="android:background">@drawable/bg_btn_borderless_crystal_theme</item>
+        <item name="android:background">@drawable/bg_btn_borderless_ripple</item>
     </style>
 
     <style name="ProgressBar.AddGuestItinNewScreen" parent="@android:style/Widget.Material.ProgressBar.Horizontal">
