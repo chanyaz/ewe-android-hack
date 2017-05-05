@@ -138,7 +138,6 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 } else {
                     collapseFlightDetails(true)
                 }
-                this.selectedCardObservable.onNext(Unit)
             }
             if (vm.showRowContainerWithMoreInfo.value) {
                 (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight))
@@ -175,6 +174,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(true)
         }
+        this.selectedCardObservable.onNext(Unit)
     }
 
     fun collapseFlightDetails(trackClick: Boolean = false) {
@@ -188,6 +188,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(false)
         }
+        this.selectedCardObservable.onNext(Unit)
     }
 
     fun isFlightSegmentDetailsExpanded(): Boolean {

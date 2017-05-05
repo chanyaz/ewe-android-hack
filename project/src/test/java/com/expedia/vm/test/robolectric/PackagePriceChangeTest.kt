@@ -76,6 +76,7 @@ class PackagePriceChangeTest {
         overview = activity.findViewById(R.id.package_overview_presenter) as PackageOverviewPresenter
         checkout = overview.getCheckoutPresenter()
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
+        overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
         overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
     }
 
@@ -282,24 +283,33 @@ class PackagePriceChangeTest {
     }
 
     private fun setPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean) {
+        Db.setPackageParams(getPackageSearchParams(adults, children, infantsInLap))
+    }
+
+    private fun getPackageSearchParams(adults: Int, children: List<Int>, infantsInLap: Boolean): PackageSearchParams {
         val origin = SuggestionV4()
         val hierarchyInfo = SuggestionV4.HierarchyInfo()
         val airport = SuggestionV4.Airport()
         airport.airportCode = "SFO"
         hierarchyInfo.airport = airport
-        origin.hierarchyInfo = hierarchyInfo
+        val regionNames = SuggestionV4.RegionNames()
+        regionNames.displayName = "San Francisco"
+        regionNames.shortName = "SFO"
+        regionNames.fullName = "SFO - San Francisco"
 
+        origin.hierarchyInfo = hierarchyInfo
         val destination = SuggestionV4()
         destination.hierarchyInfo = hierarchyInfo
+        destination.regionNames = regionNames
+        origin.regionNames = regionNames
 
-        val packageParams = PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap)
+        return PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap)
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(2))
                 .origin(origin)
                 .destination(destination)
                 .adults(adults)
                 .children(children).build() as PackageSearchParams
-        Db.setPackageParams(packageParams)
     }
 
     private fun setupFlightProduct() : PackageCreateTripResponse.FlightProduct {

@@ -111,6 +111,7 @@ class PackageInboundFlightWidgetTest {
                 .destination(SuggestionV4())
                 .build() as PackageSearchParams
         testWidget.viewModel.searchParams.onNext(packageParams)
+        testWidget.viewModel.travelInfoTextObservable.onNext("")
     }
 
     private fun buildMockOriginSuggestion() : SuggestionV4 {
