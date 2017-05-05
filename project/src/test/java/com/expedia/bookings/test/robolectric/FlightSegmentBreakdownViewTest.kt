@@ -36,7 +36,6 @@ class FlightSegmentBreakdownViewTest {
     @Test
     fun testVisibiltyOfCollapseIcon() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsMoreInfoOnOverview)
-        SettingUtils.save(getContext(), R.string.preference_show_more_info_on_flight_overview, true)
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", true))
         assertEquals(View.VISIBLE, sut.linearLayout.findViewById(R.id.flight_overview_collapse_icon).visibility)
         sut.viewmodel.addSegmentRowsObserver.onNext(getFlightSegmentBreakdownList("coach", false))

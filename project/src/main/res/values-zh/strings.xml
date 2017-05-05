@@ -184,13 +184,13 @@
     <string name="clear_filters">清除筛选条件</string>
     <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
-        <item quantity="one">{number}个结果</item>
-        <item quantity="other">{number}个结果</item>
+        <item quantity="one">{number} 个结果</item>
+        <item quantity="other">{number} 个结果</item>
     </plurals>
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
-        <item quantity="one">筛选出 {number}个结果</item>
-        <item quantity="other">筛选出 {number}个结果</item>
+        <item quantity="one">筛选出 {number} 个结果</item>
+        <item quantity="other">筛选出 {number} 个结果</item>
     </plurals>
 
     <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
@@ -265,8 +265,8 @@
     <string name="accessibility_cost_summary_cont_desc_role_button">按钮：费用摘要信息</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
     <plurals name="number_of_errors_TEMPLATE">
-        <item quantity="one">您的表格有 {number}个错误。</item>
-        <item quantity="other">您的表格有 {number}个错误。</item>
+        <item quantity="one">您的表格有 {number} 个错误。</item>
+        <item quantity="other">您的表格有 {number} 个错误。</item>
     </plurals>
     <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
     <string name="accessibility_announcement_please_review_and_resubmit">请检查并重新提交。</string>
@@ -427,192 +427,192 @@
     <string name="ticket_type_vehicle">车</string>
     <!-- LX Ticket type Plurals -->
     <plurals name="ticket_type_traveler_TEMPLATE">
-        <item quantity="one">%1$s位旅客</item>
-        <item quantity="other">%1$s位旅客</item>
+        <item quantity="one">%1$s 位旅客</item>
+        <item quantity="other">%1$s 位旅客</item>
     </plurals>
     <plurals name="ticket_type_adult_TEMPLATE">
-        <item quantity="one">%1$s位成人</item>
-        <item quantity="other">%1$s位成人</item>
+        <item quantity="one">%1$s 位成人</item>
+        <item quantity="other">%1$s 位成人</item>
     </plurals>
     <plurals name="ticket_type_child_TEMPLATE">
-        <item quantity="one">%1$s名儿童</item>
-        <item quantity="other">%1$s名儿童</item>
+        <item quantity="one">%1$s 名儿童</item>
+        <item quantity="other">%1$s 名儿童</item>
     </plurals>
     <plurals name="ticket_type_infant_TEMPLATE">
-        <item quantity="one">%1$s名婴儿</item>
-        <item quantity="other">%1$s名婴儿</item>
+        <item quantity="one">%1$s 名婴儿</item>
+        <item quantity="other">%1$s 名婴儿</item>
     </plurals>
     <plurals name="ticket_type_youth_TEMPLATE">
-        <item quantity="one">%1$s名青少年</item>
-        <item quantity="other">%1$s名青少年</item>
+        <item quantity="one">%1$s 名青少年</item>
+        <item quantity="other">%1$s 名青少年</item>
     </plurals>
     <plurals name="ticket_type_senior_TEMPLATE">
-        <item quantity="one">%1$s位老人</item>
-        <item quantity="other">%1$s位老人</item>
+        <item quantity="one">%1$s 位老人</item>
+        <item quantity="other">%1$s 位老人</item>
     </plurals>
     <plurals name="ticket_type_group_TEMPLATE">
-        <item quantity="one">%1$s个团体</item>
-        <item quantity="other">%1$s个团体</item>
+        <item quantity="one">%1$s 个团体</item>
+        <item quantity="other">%1$s 个团体</item>
     </plurals>
     <plurals name="ticket_type_couple_TEMPLATE">
-        <item quantity="one">%1$s对情侣/夫妻</item>
-        <item quantity="other">%1$s对情侣/夫妻</item>
+        <item quantity="one">%1$s 对情侣/夫妻</item>
+        <item quantity="other">%1$s 对情侣/夫妻</item>
     </plurals>
     <plurals name="ticket_type_two_adults_TEMPLATE">
         <item quantity="one">%1$s组 2 位成人</item>
         <item quantity="other">%1$s组 2 位成人</item>
     </plurals>
     <plurals name="ticket_type_military_TEMPLATE">
-        <item quantity="one">%1$s位军人</item>
-        <item quantity="other">%1$s位军人</item>
+        <item quantity="one">%1$s 位军人</item>
+        <item quantity="other">%1$s 位军人</item>
     </plurals>
     <plurals name="ticket_type_student_TEMPLATE">
-        <item quantity="one">%1$s名学生</item>
-        <item quantity="other">%1$s名学生</item>
+        <item quantity="one">%1$s 名学生</item>
+        <item quantity="other">%1$s 名学生</item>
     </plurals>
     <plurals name="ticket_type_sedan_TEMPLATE">
-        <item quantity="one">%1$s辆四门轿车</item>
-        <item quantity="other">%1$s辆四门轿车</item>
+        <item quantity="one">%1$s 辆四门轿车</item>
+        <item quantity="other">%1$s 辆四门轿车</item>
     </plurals>
     <plurals name="ticket_type_minivan_TEMPLATE">
-        <item quantity="one">%1$s辆商务车</item>
-        <item quantity="other">%1$s辆商务车</item>
+        <item quantity="one">%1$s 辆商务车</item>
+        <item quantity="other">%1$s 辆商务车</item>
     </plurals>
     <plurals name="ticket_type_water_taxi_TEMPLATE">
-        <item quantity="one">%1$s辆水上出租车</item>
-        <item quantity="other">%1$s辆水上出租车</item>
+        <item quantity="one">%1$s 辆水上出租车</item>
+        <item quantity="other">%1$s 辆水上出租车</item>
     </plurals>
     <plurals name="ticket_type_suv_TEMPLATE">
-        <item quantity="one">%1$s辆 SUV</item>
-        <item quantity="other">%1$s辆 SUV</item>
+        <item quantity="one">%1$s 辆 SUV</item>
+        <item quantity="other">%1$s 辆 SUV</item>
     </plurals>
     <plurals name="ticket_type_executive_car_TEMPLATE">
-        <item quantity="one">%1$s辆行政级轿车</item>
-        <item quantity="other">%1$s辆行政级轿车</item>
+        <item quantity="one">%1$s 辆行政级轿车</item>
+        <item quantity="other">%1$s 辆行政级轿车</item>
     </plurals>
     <plurals name="ticket_type_luxury_car_TEMPLATE">
-        <item quantity="one">%1$s辆豪华车</item>
-        <item quantity="other">%1$s辆豪华车</item>
+        <item quantity="one">%1$s 辆豪华车</item>
+        <item quantity="other">%1$s 辆豪华车</item>
     </plurals>
     <plurals name="ticket_type_limousine_TEMPLATE">
-        <item quantity="one">%1$s辆豪华轿车</item>
-        <item quantity="other">%1$s辆豪华轿车</item>
+        <item quantity="one">%1$s 辆豪华轿车</item>
+        <item quantity="other">%1$s 辆豪华轿车</item>
     </plurals>
     <plurals name="ticket_type_towncar_TEMPLATE">
-        <item quantity="one">%1$s辆城市型车</item>
-        <item quantity="other">%1$s辆城市型车</item>
+        <item quantity="one">%1$s 辆城市型车</item>
+        <item quantity="other">%1$s 辆城市型车</item>
     </plurals>
     <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
-        <item quantity="one">%1$s个停车位</item>
-        <item quantity="other">%1$s个停车位</item>
+        <item quantity="one">%1$s 个停车位</item>
+        <item quantity="other">%1$s 个停车位</item>
     </plurals>
     <plurals name="ticket_type_book_TEMPLATE">
-        <item quantity="one">%1$s本</item>
-        <item quantity="other">%1$s本</item>
+        <item quantity="one">%1$s 本书</item>
+        <item quantity="other">%1$s 本书</item>
     </plurals>
     <plurals name="ticket_type_guide_TEMPLATE">
-        <item quantity="one">%1$s本指南</item>
-        <item quantity="other">%1$s本指南</item>
+        <item quantity="one">%1$s 本指南</item>
+        <item quantity="other">%1$s 本指南</item>
     </plurals>
     <plurals name="ticket_type_travel_card_TEMPLATE">
-        <item quantity="one">%1$s张旅游卡</item>
-        <item quantity="other">%1$s张旅游卡</item>
+        <item quantity="one">%1$s 张旅游卡</item>
+        <item quantity="other">%1$s 张旅游卡</item>
     </plurals>
     <plurals name="ticket_type_boat_TEMPLATE">
-        <item quantity="one">%1$s艘船</item>
-        <item quantity="other">%1$s艘船</item>
+        <item quantity="one">%1$s 艘船</item>
+        <item quantity="other">%1$s 艘船</item>
     </plurals>
     <plurals name="ticket_type_motorcycle_TEMPLATE">
-        <item quantity="one">%1$s辆摩托车</item>
-        <item quantity="other">%1$s辆摩托车</item>
+        <item quantity="one">%1$s 辆摩托车</item>
+        <item quantity="other">%1$s 辆摩托车</item>
     </plurals>
     <plurals name="ticket_type_ceremony_TEMPLATE">
-        <item quantity="one">%1$s次典礼</item>
-        <item quantity="other">%1$s次典礼</item>
+        <item quantity="one">%1$s 次典礼</item>
+        <item quantity="other">%1$s 次典礼</item>
     </plurals>
     <plurals name="ticket_type_calling_card_TEMPLATE">
-        <item quantity="one">%1$s张电话卡</item>
-        <item quantity="other">%1$s张电话卡</item>
+        <item quantity="one">%1$s 张电话卡</item>
+        <item quantity="other">%1$s 张电话卡</item>
     </plurals>
     <plurals name="ticket_type_pass_TEMPLATE">
-        <item quantity="one">%1$s张通行证</item>
-        <item quantity="other">%1$s张通行证</item>
+        <item quantity="one">%1$s 张通行证</item>
+        <item quantity="other">%1$s 张通行证</item>
     </plurals>
     <plurals name="ticket_type_minibus_TEMPLATE">
-        <item quantity="one">%1$s辆迷你巴士</item>
-        <item quantity="other">%1$s辆迷你巴士</item>
+        <item quantity="one">%1$s 辆迷你巴士</item>
+        <item quantity="other">%1$s 辆迷你巴士</item>
     </plurals>
     <plurals name="ticket_type_helicopter_TEMPLATE">
-        <item quantity="one">%1$s架直升机</item>
-        <item quantity="other">%1$s架直升机</item>
+        <item quantity="one">%1$s 架直升机</item>
+        <item quantity="other">%1$s 架直升机</item>
     </plurals>
     <plurals name="ticket_type_device_TEMPLATE">
-        <item quantity="one">%1$s台设备</item>
-        <item quantity="other">%1$s台设备</item>
+        <item quantity="one">%1$s 台设备</item>
+        <item quantity="other">%1$s 台设备</item>
     </plurals>
     <plurals name="ticket_type_room_TEMPLATE">
-        <item quantity="one">%1$s间房</item>
-        <item quantity="other">%1$s间房</item>
+        <item quantity="one">%1$s 间房</item>
+        <item quantity="other">%1$s 间房</item>
     </plurals>
     <plurals name="ticket_type_carriage_TEMPLATE">
-        <item quantity="one">%1$s辆马车</item>
-        <item quantity="other">%1$s辆马车</item>
+        <item quantity="one">%1$s 辆马车</item>
+        <item quantity="other">%1$s 辆马车</item>
     </plurals>
     <plurals name="ticket_type_buggy_TEMPLATE">
-        <item quantity="one">%1$s辆童车</item>
-        <item quantity="other">%1$s辆童车</item>
+        <item quantity="one">%1$s 辆童车</item>
+        <item quantity="other">%1$s 辆童车</item>
     </plurals>
     <plurals name="ticket_type_atv_TEMPLATE">
-        <item quantity="one">%1$s辆全地形车</item>
-        <item quantity="other">%1$s辆全地形车</item>
+        <item quantity="one">%1$s 辆全地形车</item>
+        <item quantity="other">%1$s 辆全地形车</item>
     </plurals>
     <plurals name="ticket_type_jet_ski_TEMPLATE">
-        <item quantity="one">%1$s艘水上摩托艇</item>
-        <item quantity="other">%1$s艘水上摩托艇</item>
+        <item quantity="one">%1$s 艘水上摩托艇</item>
+        <item quantity="other">%1$s 艘水上摩托艇</item>
     </plurals>
     <plurals name="ticket_type_scooter_TEMPLATE">
-        <item quantity="one">%1$s辆踏板摩托车</item>
-        <item quantity="other">%1$s辆踏板摩托车</item>
+        <item quantity="one">%1$s 辆踏板摩托车</item>
+        <item quantity="other">%1$s 辆踏板摩托车</item>
     </plurals>
     <plurals name="ticket_type_scooter_car_TEMPLATE">
-        <item quantity="one">%1$s辆小汽车</item>
-        <item quantity="other">%1$s辆小汽车</item>
+        <item quantity="one">%1$s 辆小汽车</item>
+        <item quantity="other">%1$s 辆小汽车</item>
     </plurals>
     <plurals name="ticket_type_snowmobile_TEMPLATE">
-        <item quantity="one">%1$s辆雪地摩托车</item>
-        <item quantity="other">%1$s辆雪地摩托车</item>
+        <item quantity="one">%1$s 辆雪地摩托车</item>
+        <item quantity="other">%1$s 辆雪地摩托车</item>
     </plurals>
     <plurals name="ticket_type_day_TEMPLATE">
-        <item quantity="one">%1$s天</item>
-        <item quantity="other">%1$s天</item>
+        <item quantity="one">%1$s 天</item>
+        <item quantity="other">%1$s 天</item>
     </plurals>
     <plurals name="ticket_type_bike_TEMPLATE">
-        <item quantity="one">%1$s辆自行车</item>
-        <item quantity="other">%1$s辆自行车</item>
+        <item quantity="one">%1$s 辆自行车</item>
+        <item quantity="other">%1$s 辆自行车</item>
     </plurals>
     <plurals name="ticket_type_week_TEMPLATE">
-        <item quantity="one">%1$s周</item>
-        <item quantity="other">%1$s周</item>
+        <item quantity="one">%1$s 周</item>
+        <item quantity="other">%1$s 周</item>
     </plurals>
     <plurals name="ticket_type_subscription_TEMPLATE">
-        <item quantity="one">%1$s次订阅</item>
-        <item quantity="other">%1$s次订阅</item>
+        <item quantity="one">%1$s 次订阅</item>
+        <item quantity="other">%1$s 次订阅</item>
     </plurals>
     <plurals name="ticket_type_electric_bike_TEMPLATE">
-        <item quantity="one">%1$s辆电动自行车</item>
-        <item quantity="other">%1$s辆电动自行车</item>
+        <item quantity="one">%1$s 辆电动自行车</item>
+        <item quantity="other">%1$s 辆电动自行车</item>
     </plurals>
     <plurals name="ticket_type_segway_TEMPLATE">
-        <item quantity="one">%1$s辆电动平衡车</item>
-        <item quantity="other">%1$s辆电动平衡车</item>
+        <item quantity="one">%1$s 辆电动平衡车</item>
+        <item quantity="other">%1$s 辆电动平衡车</item>
     </plurals>
     <plurals name="ticket_type_vehicle_TEMPLATE">
-        <item quantity="one">%1$s辆车</item>
-        <item quantity="other">%1$s辆车</item>
+        <item quantity="one">%1$s 辆车</item>
+        <item quantity="other">%1$s 辆车</item>
     </plurals>
     <plurals name="rail_changes_TEMPLATE">
-        <item quantity="one">换车 %1$s次</item>
-        <item quantity="other">换车 %1$s次</item>
+        <item quantity="one">换车 %1$s 次</item>
+        <item quantity="other">换车 %1$s 次</item>
     </plurals>
 
     <!-- Activity search results per ticket type -->
@@ -636,7 +636,7 @@
     <string name="per_ticket_type_limousine">每辆豪华轿车</string>
     <string name="per_ticket_type_towncar">每辆城市型车</string>
     <string name="per_ticket_type_vehicle_parking_spot">每个停车位</string>
-    <string name="per_ticket_type_book">每本</string>
+    <string name="per_ticket_type_book">每本书</string>
     <string name="per_ticket_type_guide">每份指南</string>
     <string name="per_ticket_type_travel_card">每张旅游卡</string>
     <string name="per_ticket_type_boat">每艘船</string>
@@ -756,9 +756,9 @@
     <string name="gt_error_current_location_no_results">我们找不到任何在您附近的交通服务。请选择其他条件，再搜索一次。</string>
 
     <!-- Ground Transport bags text-->
-    <string name="lx_ground_transport_bags_text">%1$s个旅行袋</string>
+    <string name="lx_ground_transport_bags_text">%1$s 个旅行袋</string>
     <!-- Ground Transport passengers text-->
-    <string name="lx_ground_transport_passengers_text">%1$s位乘客</string>
+    <string name="lx_ground_transport_passengers_text">%1$s 位乘客</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">此日期已过去了，请选择新的日期。</string>
 
@@ -872,11 +872,11 @@
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
         <item quantity="zero">直达</item>
-        <item quantity="one">%s次经停</item>
-        <item quantity="two">%s次经停</item>
-        <item quantity="few">%s次经停</item>
-        <item quantity="many">%s次经停</item>
-        <item quantity="other">%s次经停</item>
+        <item quantity="one">%s 次经停</item>
+        <item quantity="two">%s 次经停</item>
+        <item quantity="few">%s 次经停</item>
+        <item quantity="many">%s 次经停</item>
+        <item quantity="other">%s 次经停</item>
     </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
@@ -889,7 +889,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">{amount}现在支付</string>
+    <string name="room_rate_pay_later_due_now">现在支付 {amount}</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="old_room_rate_pay_later_due_now">现在支付</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
@@ -898,7 +898,7 @@
     <!-- Rooms and rates button to add selected room to trip -->
     <!-- Rooms and rates button to select a particular room and view details -->
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
-    <string name="n_reviews_TEMPLATE">%1$s条点评</string>
+    <string name="n_reviews_TEMPLATE">%1$s 条点评</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <!-- A message stating this hotel is all sold out for the given dates searched -->
     <!-- A message stating this hotel is sold out on Expedia -->
@@ -934,7 +934,7 @@
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">登录 {brand}</string>
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
-    <string name="Sign_in_with_cont_desc_TEMPLATE">登录 {brand}按钮</string>
+    <string name="Sign_in_with_cont_desc_TEMPLATE">登录 {brand} 按钮</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward}Expedia+ 积分</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
@@ -993,8 +993,8 @@
 
     <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
     <plurals name="search_rail_card_cont_desc_TEMPLATE">
-        <item quantity="one">铁路卡数目。按钮。打开对话框。{count}张铁路卡</item>
-        <item quantity="other">铁路卡数目。按钮。打开对话框。{count}张铁路卡</item>
+        <item quantity="one">铁路卡数目。按钮。打开对话框。{count} 张铁路卡</item>
+        <item quantity="other">铁路卡数目。按钮。打开对话框。{count} 张铁路卡</item>
     </plurals>
 
 
@@ -1035,6 +1035,16 @@
     <!-- Subtext for active itin card on guest user's launch screen -->
     <string name="launch_upcoming_trips_subtext_guest_user">使用 App 查看现有行程的状态，了解最新更新</string>
 
+    <!--Onboarding-->
+    <string name="booking_page_title">随时随地，轻松预订</string>
+    <string name="booking_page_subtitle">理想的机票、酒店、旅游活动，一个 App 全部搞定</string>
+    <string name="trip_page_title">快乐启程，安心无忧</string>
+    <string name="trip_page_subtitle">随时查阅详细预订信息，接收各种提醒</string>
+    <string name="reward_page_title">丰富奖励，非您莫属</string>
+    <!-- Sign up for a free Expedia+ account and earn points on all your purchases -->
+    <string name="reward_page_subtitle_TEMPLATE">免费注册 {brand_reward_name} 帐户，所有消费都能累积积分</string>
+    <string name="onboarding_final_button_text">马上出发</string>
+
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很遗憾，我们无法建立连接。</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -1057,9 +1067,9 @@
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">可以办理登机</string>
     <!-- Content for flight Check In Local Notification -->
-    <string name="x_flight_to_x_TEMPLATE">%1$s个航班飞往 %2$s</string>
+    <string name="x_flight_to_x_TEMPLATE">%1$s 个航班飞往 %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
-    <string name="your_flight_to_x_TEMPLATE">您飞往 %1$s的航班</string>
+    <string name="your_flight_to_x_TEMPLATE">您飞往%1$s的航班</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">取车 – %s</string>
@@ -1087,13 +1097,13 @@
     <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">找不到行程。请在帐户页面上确定国家/地区设置是否与您预订时所使用的网址相符。</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
-    <string name="unable_to_find_registered_user_itinerary_template">这不是个访客行程单。请登录此行程单所关联的 {brand}帐户。</string>
+    <string name="unable_to_find_registered_user_itinerary_template">这不是个访客行程单。请登录此行程单所关联的 {brand} 帐户。</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">查找以访客身份预订的行程</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">输入行程单信息</string>
     <!-- Expedia Itinerary -->
-    <string name="itinerary_TEMPLATE">{brand}行程编号</string>
+    <string name="itinerary_TEMPLATE">{brand} 行程编号</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
     <string name="rewards_base_tier_customer_support">Expedia +blue 客户支持</string>
     <!-- Label for exclusive phone number for middle tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1130,30 +1140,30 @@
     <string name="yesterday">昨天</string>
     <!-- "XX Minutes" - an event happening XX minutes in the future -->
     <plurals name="minutes_from_now">
-        <item quantity="zero">{minutes}分钟</item>
-        <item quantity="one">{minutes}分钟</item>
-        <item quantity="two">{minutes}分钟</item>
-        <item quantity="few">{minutes}分钟</item>
-        <item quantity="many">{minutes}分钟</item>
-        <item quantity="other">{minutes}分钟</item>
+        <item quantity="zero">{minutes} 分钟</item>
+        <item quantity="one">{minutes} 分钟</item>
+        <item quantity="two">{minutes} 分钟</item>
+        <item quantity="few">{minutes} 分钟</item>
+        <item quantity="many">{minutes} 分钟</item>
+        <item quantity="other">{minutes} 分钟</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
-        <item quantity="zero">{hours}小时</item>
-        <item quantity="one">{hours}小时</item>
-        <item quantity="two">{hours}小时</item>
-        <item quantity="few">{hours}小时</item>
-        <item quantity="many">{hours}小时</item>
-        <item quantity="other">{hours}小时</item>
+        <item quantity="zero">{hours} 小时</item>
+        <item quantity="one">{hours} 小时</item>
+        <item quantity="two">{hours} 小时</item>
+        <item quantity="few">{hours} 小时</item>
+        <item quantity="many">{hours} 小时</item>
+        <item quantity="other">{hours} 小时</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">{days}天</item>
-        <item quantity="one">{days}天</item>
-        <item quantity="two">{days}天</item>
-        <item quantity="few">{days}天</item>
-        <item quantity="many">{days}天</item>
-        <item quantity="other">{days}天</item>
+        <item quantity="zero">{days} 天</item>
+        <item quantity="one">{days} 天</item>
+        <item quantity="two">{days} 天</item>
+        <item quantity="few">{days} 天</item>
+        <item quantity="many">{days} 天</item>
+        <item quantity="other">{days} 天</item>
     </plurals>
     <!-- Shared Itin - Fallback name for itin card -->
     <string name="sharedItin_card_fallback_name">分享的行程</string>
@@ -1268,13 +1278,13 @@
     <!-- Flight has been cancelled -->
     <string name="flight_cancelled">航班已取消</string>
     <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
-    <string name="flight_to_city_cancelled_TEMPLATE">飞往 %1$s的航班已取消</string>
+    <string name="flight_to_city_cancelled_TEMPLATE">飞往%1$s的航班已取消</string>
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">航班已改变航向</string>
     <!-- Flight has been diverted (location unknown) -->
     <string name="flight_diverted">航班已改航</string>
     <!-- Flight has been diverted to {airport} template -->
-    <string name="flight_diverted_TEMPLATE">航班已备降至 %1$s</string>
+    <string name="flight_diverted_TEMPLATE">航班已备降至%1$s</string>
     <!-- Flight departs on {date} template -->
     <string name="flight_departs_on_TEMPLATE">出发日期：%1$s</string>
     <!-- Departs early {duration from now} -->
@@ -1580,7 +1590,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">电话\n%s</string>
     <!-- App download link -->
-    <string name="share_long_ad_TEMPLATE">预订酒店、机票，查看并分享您的行程。马上下载免费的{brand}App。\n{appinfourl}</string>
+    <string name="share_long_ad_TEMPLATE">预订酒店、机票，查看并分享您的行程。马上下载免费的 {brand} App。\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我 %2$s飞往%1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1668,9 +1678,9 @@
     <!-- Label for Facebook Sharing in task manager and share menu -->
     <string name="Facebook">Facebook</string>
     <!-- Template for title/name of the facebook post - Hotels -->
-    <string name="share_facebook_template_title_hotel">住在 %1$s</string>
+    <string name="share_facebook_template_title_hotel">住在%1$s</string>
     <!-- Template for title/name of the facebook post - Flights -->
-    <string name="share_facebook_template_title_flight">飞往 %1$s</string>
+    <string name="share_facebook_template_title_flight">飞往%1$s</string>
     <!-- Template for title/name of the facebook post - Cars -->
     <string name="share_facebook_template_title_car">租车选择了 %1$s</string>
 
@@ -1693,7 +1703,7 @@
     <string name="flights_free_cancellation">24 小时内免费取消</string>
     <!-- Card fee warning text on checkout overview.
         Example: A payment method fee of $3.00 is included in the trip total. -->
-    <string name="flights_payment_method_fee_warning_TEMPLATE">行程总计中已包含 {card_fee}的付款手续费。</string>
+    <string name="flights_payment_method_fee_warning_TEMPLATE">行程总计中已包含 {card_fee} 的付款手续费。</string>
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">根据卡的类型，付款时可能会有&lt;a href=\"{airline_fee_url}\"&gt;航空公司收费&lt;/a&gt;。该费用将添加到付款总额。</string>
@@ -1724,7 +1734,7 @@
     <string name="flight_error_retry">重试</string>
 
     <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
-    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class}({booking_code})</string>
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -1738,7 +1748,7 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">选择</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
-    <string name="error_server_TEMPLATE">很抱歉，我们无法连接{brand}的服务器。请稍后再试一次。</string>
+    <string name="error_server_TEMPLATE">很抱歉，我们无法连接 {brand} 的服务器。请稍后再试一次。</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">出发时间</string>
     <!-- Sort by arrival time label -->
@@ -1747,12 +1757,12 @@
     <string name="sort_description_duration">时长</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s天</item>
-        <item quantity="one">%s天</item>
-        <item quantity="two">%s天</item>
-        <item quantity="few">%s天</item>
-        <item quantity="many">%s天</item>
-        <item quantity="other">%s天</item>
+        <item quantity="zero">%s 天</item>
+        <item quantity="one">%s 天</item>
+        <item quantity="two">%s 天</item>
+        <item quantity="few">%s 天</item>
+        <item quantity="many">%s 天</item>
+        <item quantity="other">%s 天</item>
     </plurals>
     <!-- Error message template when loading a webpage fails -->
     <string name="web_view_loading_error_TEMPLATE">加载页面时出错！错误消息：%1$s</string>
@@ -1777,12 +1787,12 @@
     <string name="search_destination">搜索目的地</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d位成人</item>
-        <item quantity="one">%1$d位成人</item>
-        <item quantity="two">%1$d位成人</item>
-        <item quantity="few">%1$d位成人</item>
-        <item quantity="many">%1$d位成人</item>
-        <item quantity="other">%1$d位成人</item>
+        <item quantity="zero">%1$d 位成人</item>
+        <item quantity="one">%1$d 位成人</item>
+        <item quantity="two">%1$d 位成人</item>
+        <item quantity="few">%1$d 位成人</item>
+        <item quantity="many">%1$d 位成人</item>
+        <item quantity="other">%1$d 位成人</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">正在加载亚航航线…</string>
@@ -1814,6 +1824,8 @@
     <string name="hotel_free_cancellation_TEMPLATE">免费取消期限截至 {date}</string>
     <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
     <string name="hotel_free_cancellation_before_TEMPLATE">{date}前免费取消预订</string>
+    <!--Hotel detail free cancellation deadline date template. E.g. "before Sun, May 21" -->
+    <string name="before_TEMPLATE">在 {date}前</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1842,7 +1854,7 @@
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">经济型</string>
     <!-- Label for Business Economy -->
-    <string name="cabin_code_basic_economy">基本经济舱</string>
+    <string name="cabin_code_basic_economy">基础经济舱</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">高端经济舱</string>
     <!-- Label for "business" cabin code -->
@@ -1858,7 +1870,7 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">由 %s运营</string>
     <!-- Message to user indicating how many points will be earned for this booking; parameter is the number of points; e.g. "Earn 478 points" -->
-    <string name="earn_points_TEMPLATE">获取 {points}分</string>
+    <string name="earn_points_TEMPLATE">获取 {points} 分</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
     <string name="earn_amount_TEMPLATE">赚取 {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
@@ -1919,12 +1931,12 @@
     <string name="includes_flights_hotel">包含机 + 酒</string>
     <!-- Number of travelers template -->
     <plurals name="number_of_travelers_TEMPLATE">
-        <item quantity="zero">%1$d位旅客</item>
-        <item quantity="one">%1$d位旅客</item>
-        <item quantity="two">%1$d位旅客</item>
-        <item quantity="few">%1$d位旅客</item>
-        <item quantity="many">%1$d位旅客</item>
-        <item quantity="other">%1$d位旅客</item>
+        <item quantity="zero">%1$d 位旅客</item>
+        <item quantity="one">%1$d 位旅客</item>
+        <item quantity="two">%1$d 位旅客</item>
+        <item quantity="few">%1$d 位旅客</item>
+        <item quantity="many">%1$d 位旅客</item>
+        <item quantity="other">%1$d 位旅客</item>
     </plurals>
     <!-- Message when loading realtime flight information -->
     <!-- Price changed from -->
@@ -1967,13 +1979,13 @@
     <!-- Sign out -->
     <string name="sign_out">退出</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">此次预订将累积 {reward_currency}分！</string>
+    <string name="youll_earn_points_TEMPLATE">此次预订将累积 {reward_currency} 分！</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">您是我们尊贵的会员！</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
-    <string name="shop_as_a_member_TEMPLATE">以 {brand}会员身份预订！</string>
+    <string name="shop_as_a_member_TEMPLATE">以 {brand} 会员身份预订！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_rewards_currency_for_this_trip_TEMPLATE">预订此行程将累积 {reward_currency}分！</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">预订此行程将累积 {reward_currency} 分！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">很抱歉，酒店好像刚刚提高了您在 %1$s到 %2$s 期间入住客房的价格。</string>
@@ -2000,9 +2012,9 @@
     <!-- Pay later deposit amount -->
     <!-- Flights AB Test Traveler info missing callout label -->
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
-    <string name="brand_account_cont_desc_TEMPLATE">{brand}帐户</string>
+    <string name="brand_account_cont_desc_TEMPLATE">{brand} 帐户</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
-    <string name="signed_in_account_cont_desc_TEMPLATE">使用 {email}登录</string>
+    <string name="signed_in_account_cont_desc_TEMPLATE">使用 {email} 登录</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <!-- Payment -->
@@ -2022,7 +2034,7 @@
     <!-- Taxes and airline fees -->
     <!-- Taxes without airline fees -->
     <!-- Expedia booking fee -->
-    <string name="brand_booking_fee">{brand}预订费</string>
+    <string name="brand_booking_fee">{brand} 预订费</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="payment_method_fee">付款手续费</string>
     <!-- Flight -->
@@ -2094,9 +2106,9 @@
     <!-- email disclaimer -->
     <string name="email_disclaimer">您的确认邮件将会发送到这里。</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
-    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">我不想接收 {brand}发送的旅行优惠、特别促销和其他信息。</string>
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">我不想接收 {brand} 发送的旅行优惠、特别促销和其他信息。</string>
     <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
-    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">我要接收 {brand}发送旅行优惠、特别促销和其他信息。</string>
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">我要接收 {brand} 发送旅行优惠、特别促销和其他信息。</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
@@ -2144,7 +2156,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">保存帐单信息</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message_TEMPLATE">是否将此付款方式保存到您的 {brand}帐户，以方便将来预订？</string>
+    <string name="save_billing_info_message_TEMPLATE">是否将此付款方式保存到您的 {brand} 帐户，以方便将来预订？</string>
     <!-- save -->
     <string name="save">保存</string>
 
@@ -2154,22 +2166,23 @@
     <string name="enter_traveler_details">输入旅客信息</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ 其他 {travelercount}位旅客</item>
-        <item quantity="other">+ 其他 {travelercount}位旅客</item>
+        <item quantity="one">+ 其他 {travelercount} 位旅客</item>
+        <item quantity="other">+ 其他 {travelercount} 位旅客</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
-    <string name="traveler_child_age_TEMPLATE">{age}岁</string>
+    <string name="traveler_child_age_TEMPLATE">{age} 岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">保存旅客</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">是否将 {name}的信息保存到您的 {brand} 帐户，以方便将来预订？</string>
+    <string name="save_traveler_message_TEMPLATE">是否将 {name} 的信息保存到您的 {brand} 帐户，以方便将来预订？</string>
     <!-- no thanks -->
     <string name="no_thanks">不，谢谢</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">高级选项</string>
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">高级选项（可选）</string>
+    <string name="contact_airline_message">请联系航空公司以确认请求</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2285,7 +2298,7 @@
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">添加到日历</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_customer_support_TEMPLATE">致电 {brand}客户支持</string>
+    <string name="call_customer_support_TEMPLATE">致电 {brand} 客户支持</string>
     <!-- Insurance -->
     <string name="insurance">保险</string>
     <!-- Insurance label on itin section -->
@@ -2336,7 +2349,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand}行程编号：{itinerary}</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand} 行程编号：{itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">前往机场的路线：%s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -2401,11 +2414,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">很抱歉，我们暂时无法处理您的订单。请再试一次。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我们暂时无法处理您的订单。请再试一次或致电 {brand}客服，并提供此行程编号：{itinerary}</string>
+    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我们暂时无法处理您的订单。请再试一次或致电 {brand} 客服，并提供此行程编号：{itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">非常抱歉，您选择的航班在 {brand}上已经没有余票。</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">非常抱歉，您选择的航班在 {brand} 上已经没有余票。</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">非常抱歉，您选择的某个航班在 {brand}上已经没有余票。</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">非常抱歉，您选择的某个航班在 {brand} 上已经没有余票。</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
     <!-- Button label imploring users to pick a new flight due to unavailability -->
@@ -2443,7 +2456,7 @@
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
     <string name="security_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;的安全码</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
-    <string name="card_ending_TEMPLATE">以 %s结尾的信用卡</string>
+    <string name="card_ending_TEMPLATE">以 %s 结尾的信用卡</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">授权签名</string>
@@ -2542,7 +2555,7 @@
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">现在预订，到店付款</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
-    <string name="hotel_search_range_error_TEMPLATE">很抱歉，我们无法搜索超过 %1$s天的酒店预订。</string>
+    <string name="hotel_search_range_error_TEMPLATE">很抱歉，我们无法搜索超过 %1$s 天的酒店预订。</string>
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">搜索错误</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
@@ -2552,14 +2565,18 @@
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">只剩 %d间房！</item>
-        <item quantity="two">只剩 %d间房</item>
-        <item quantity="many">只剩 %d间房</item>
-        <item quantity="other">我们的 APP 还剩 %d间房</item>
+        <item quantity="one">只剩 %d 间房！</item>
+        <item quantity="two">只剩 %d 间房</item>
+        <item quantity="many">只剩 %d 间房</item>
+        <item quantity="other">只剩 %d 间房</item>
     </plurals>
-
+    <!-- No of filters applied on packages -->
+    <plurals name="no_of_filters_applied_TEMPLATE">
+        <item quantity="one">已用 {filterno} 个筛选条件的按钮</item>
+        <item quantity="other">已用 {filterno} 个筛选条件的按钮</item>
+    </plurals>
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">要使用当前位置，必须允许{brand}访问您的位置信息。\n\n要允许访问，请转到 \"设置\"，按 \"权限\" 并启用定位服务。</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">要使用当前位置，必须允许 {brand} 访问您的位置信息。\n\n要允许访问，请转到 \"设置\"，按 \"权限\" 并启用定位服务。</string>
     <string name="go_to_settings">转到设置</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
@@ -2607,7 +2624,7 @@
     <!-- Message displayed when room is sold out -->
     <string name="error_room_sold_out">此房间已经订满。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_TEMPLATE">非常抱歉，这家酒店在 {brand}上已经订完。</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">非常抱歉，这家酒店在 {brand} 上已经订完。</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2635,9 +2652,9 @@
     <!-- Map pin text for sold out hotel(s)-->
     <string name="sold_out">已订完</string>
     <!-- Map cluster text for number of hotels-->
-    <string name="cluster_number_of_hotels_template">%s家酒店</string>
+    <string name="cluster_number_of_hotels_template">%s 家酒店</string>
     <!-- Map cluster text for number of packages-->
-    <string name="cluster_number_of_packages_template">%s个结果</string>
+    <string name="cluster_number_of_packages_template">%s 个结果</string>
     <!-- Map cluster price from range-->
     <string name="cluster_price_from_range_template">%s起</string>
 
@@ -2780,10 +2797,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">没有点评</item>
-        <item quantity="one">查看 %s条点评</item>
-        <item quantity="two">查看 %s条点评</item>
-        <item quantity="many">查看 %s条点评</item>
-        <item quantity="other">查看 %s条点评</item>
+        <item quantity="one">查看 %s 条点评</item>
+        <item quantity="two">查看 %s 条点评</item>
+        <item quantity="many">查看 %s 条点评</item>
+        <item quantity="other">查看 %s 条点评</item>
     </plurals>
 
     <string name="zero_reviews">0 条点评</string>
@@ -2812,7 +2829,7 @@
     <string name="etp_pay_later_cancellation_text">在酒店的取消截止日期之前都可以免费取消。</string>
     <string name="etp_pay_now_option_text">立即在线付款</string>
     <string name="etp_pay_now_charges_text_TEMPLATE">{brand}将处理您的付款信息。</string>
-    <string name="etp_pay_now_currency_text_TEMPLATE">您将以您的当地货币 %s付款。</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">您将以您的当地货币 %s 付款。</string>
     <string name="etp_pay_now_cancellation_text">在酒店的取消截止日期之前都可以免费取消。</string>
 
     <!-- ETP pay later deposit info message -->
@@ -2834,8 +2851,8 @@
     <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
         <item quantity="zero">无结果</item>
         <item quantity="one">每晚均价 • 1 条结果</item>
-        <item quantity="many">每晚均价 • %d条结果</item>
-        <item quantity="other">每晚均价 • %d条结果</item>
+        <item quantity="many">每晚均价 • %d 条结果</item>
+        <item quantity="other">每晚均价 • %d 条结果</item>
     </plurals>
 
     <!-- Hotel Results Pricing Header - Default -->
@@ -2849,17 +2866,17 @@
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">无结果</item>
         <item quantity="one">住宿总价 • 1 条结果</item>
-        <item quantity="many">住宿总价 • %d条结果</item>
-        <item quantity="other">住宿总价 • %d条结果</item>
+        <item quantity="many">住宿总价 • %d 条结果</item>
+        <item quantity="other">住宿总价 • %d 条结果</item>
     </plurals>
 
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">没房了！</item>
         <item quantity="one">只剩 1 间房了！</item>
-        <item quantity="two">只剩 %d间房了！</item>
-        <item quantity="many">只剩 %d间房了！</item>
-        <item quantity="other">只剩 %d间房了！</item>
+        <item quantity="two">只剩 %d 间房了！</item>
+        <item quantity="many">只剩 %d 间房了！</item>
+        <item quantity="other">只剩 %d 间房了！</item>
     </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 已订出</string>
@@ -2908,7 +2925,7 @@
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 晚</item>
-        <item quantity="other">%d晚</item>
+        <item quantity="other">%d 晚</item>
     </plurals>
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">加人费用</string>
@@ -2937,7 +2954,7 @@
     <!-- Itinerary number label content description -->
     <string name="itinerary_number_cont_desc">行程编号</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_TEMPLATE">若对您的预订有任何疑问，请拨电 {phone}联系 {brand}。</string>
+    <string name="contact_phone_TEMPLATE">若对您的预订有任何疑问，请拨电 {phone} 联系 {brand}。</string>
     <!-- Webview title for password recovery -->
     <string name="title_forgot_password">忘记密码</string>
 
@@ -2953,7 +2970,7 @@
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">未知</string>
     <!-- Label indicating the points consumed by a user eg: 5000 points-->
-    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points}分</string>
+    <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} 分</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to open account settings screen -->
@@ -2963,9 +2980,9 @@
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">正在登录…</string>
     <!-- Label for sign out confirmation -->
-    <string name="sign_out_confirmation_TEMPLATE">确定要退出您的 {brand}帐户？</string>
+    <string name="sign_out_confirmation_TEMPLATE">确定要退出您的 {brand} 帐户？</string>
     <!-- Label for loading user profile from Expedia -->
-    <string name="loading_brand_account_TEMPLATE">正在加载 {brand}帐户</string>
+    <string name="loading_brand_account_TEMPLATE">正在加载 {brand} 帐户</string>
     <!-- Label for coupon code area of booking form -->
     <!-- Label for coupon code hint -->
     <string name="optional">可选</string>
@@ -3056,9 +3073,9 @@
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">网站</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="website_TEMPLATE">{brand}网站</string>
+    <string name="website_TEMPLATE">{brand} 网站</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
-    <string name="rewards_visa_card_TEMPLATE">申请 {brand_reward_name}Visa® 信用卡</string>
+    <string name="rewards_visa_card_TEMPLATE">申请 {brand_reward_name} Visa® 信用卡</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App 支持</string>
     <!-- Section label for app settings functionality -->
@@ -3088,7 +3105,7 @@
     <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
     <string name="available_loyalty_points">可用积分</string>
     <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
-    <string name="loyalty_points_pending">%1$s分待处理</string>
+    <string name="loyalty_points_pending">%1$s 分待处理</string>
     <!-- Label (positioned above points) indicating the monetary ($) value of the customers points -->
     <string name="points_value_label">积分价值</string>
     <!-- Label (positioned above) for customer points value currency -->
@@ -3115,43 +3132,43 @@
     <string name="app_not_available">手机没有安装执行此操作的应用，或者禁止使用该应用。</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d位成人</item>
-        <item quantity="one">%d位成人</item>
-        <item quantity="two">%d位成人</item>
-        <item quantity="many">%d位成人</item>
-        <item quantity="other">%d位成人</item>
+        <item quantity="zero">%d 位成人</item>
+        <item quantity="one">%d 位成人</item>
+        <item quantity="two">%d 位成人</item>
+        <item quantity="many">%d 位成人</item>
+        <item quantity="other">%d 位成人</item>
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
-        <item quantity="zero">%d名儿童</item>
-        <item quantity="one">%d名儿童</item>
-        <item quantity="two">%d名儿童</item>
-        <item quantity="many">%d名儿童</item>
-        <item quantity="other">%d名儿童</item>
+        <item quantity="zero">%d 名儿童</item>
+        <item quantity="one">%d 名儿童</item>
+        <item quantity="two">%d 名儿童</item>
+        <item quantity="many">%d 名儿童</item>
+        <item quantity="other">%d 名儿童</item>
     </plurals>
     <!-- A number of youth. Capitalized -->
     <plurals name="number_of_youth">
-        <item quantity="zero">%d名青少年</item>
-        <item quantity="one">%d名青少年</item>
-        <item quantity="two">%d名青少年</item>
-        <item quantity="many">%d名青少年</item>
-        <item quantity="other">%d名青少年</item>
+        <item quantity="zero">%d 名青少年</item>
+        <item quantity="one">%d 名青少年</item>
+        <item quantity="two">%d 名青少年</item>
+        <item quantity="many">%d 名青少年</item>
+        <item quantity="other">%d 名青少年</item>
     </plurals>
     <!-- A number of senior. Capitalized -->
     <plurals name="number_of_senior">
-        <item quantity="zero">%d位老人</item>
-        <item quantity="one">%d位老人</item>
-        <item quantity="two">%d位老人</item>
-        <item quantity="many">%d位老人</item>
-        <item quantity="other">%d位老人</item>
+        <item quantity="zero">%d 位老人</item>
+        <item quantity="one">%d 位老人</item>
+        <item quantity="two">%d 位老人</item>
+        <item quantity="many">%d 位老人</item>
+        <item quantity="other">%d 位老人</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d位住客</item>
-        <item quantity="one">%d位住客</item>
-        <item quantity="two">%d位住客</item>
-        <item quantity="many">%d位住客</item>
-        <item quantity="other">%d位住客</item>
+        <item quantity="zero">%d 位住客</item>
+        <item quantity="one">%d 位住客</item>
+        <item quantity="two">%d 位住客</item>
+        <item quantity="many">%d 位住客</item>
+        <item quantity="other">%d 位住客</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -3163,11 +3180,11 @@
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d晚</item>
-        <item quantity="one">%d晚</item>
-        <item quantity="two">%d晚</item>
-        <item quantity="many">%d晚</item>
-        <item quantity="other">%d晚</item>
+        <item quantity="zero">%d 晚</item>
+        <item quantity="one">%d 晚</item>
+        <item quantity="two">%d 晚</item>
+        <item quantity="many">%d 晚</item>
+        <item quantity="other">%d 晚</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -3180,11 +3197,11 @@
 
     <!-- A number of railcards. Capitalized -->
     <plurals name="number_of_railcards">
-        <item quantity="zero">%d张铁路卡</item>
-        <item quantity="one">%d张铁路卡</item>
-        <item quantity="two">%d张铁路卡</item>
-        <item quantity="many">%d张铁路卡</item>
-        <item quantity="other">%d张铁路卡</item>
+        <item quantity="zero">%d 张铁路卡</item>
+        <item quantity="one">%d 张铁路卡</item>
+        <item quantity="two">%d 张铁路卡</item>
+        <item quantity="many">%d 张铁路卡</item>
+        <item quantity="other">%d 张铁路卡</item>
     </plurals>
 
     <!-- Distance strings -->
@@ -3218,7 +3235,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">遇到错误，无法完成您的预订。请再试一次。</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">您已成功预订酒店！如果您需要马上使用行程单，请致电 {brand}客服。</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">您已成功预订酒店！如果您需要马上使用行程单，请致电 {brand} 客服。</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">很抱歉，您要求的客房不再可供预订。</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -3247,7 +3264,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">很抱歉，您要求的客房不再可供预订。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">很抱歉，我们无法连接至{brand}。请再试一次。</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">很抱歉，我们无法连接至 {brand}。请再试一次。</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -3614,7 +3631,7 @@
     <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">您飞往 %1$s的航班现在从第 %2$s 号登机口起飞。</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">您的行李将送到第 %1$s号行李提取处。</string>
+    <string name="S_Push_baggage_BAGGAGE">您的行李将送到第 %1$s 号行李提取处。</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
     <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s，您的预订已经确认了！在应用中查看详细信息。</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
@@ -3667,8 +3684,8 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="share_menu_btn_cont_desc">按住屏幕，查看行程分享选项。</string>
-    <!-- Content description for action: Press to view share options -->
-    <string name="hide_menu_btn_cont_desc">按住屏幕，查看隐藏的选项</string>
+    <!-- Content description for hide overflow menu on cross sell: Options -->
+    <string name="hide_menu_btn_cont_desc">选项</string>
     <!-- Tablet Search Results Content Descriptions -->
     <!-- Content description for Hotel Search Results -->
     <!-- Content description for Flight Search Results -->
@@ -3681,15 +3698,15 @@
     <!-- Content description for Cars filter button -->
     <string name="cars_filter_button_cont_desc">筛选按钮</string>
     <!-- Content description for car result door count e.g. Doors 2-4 -->
-    <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount}门</string>
+    <string name="cars_door_count_cont_desc_TEMPLATE">{doorcount} 门</string>
     <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount}座</string>
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} 座</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount}个旅行袋</string>
+    <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount} 个旅行袋</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
-        <item quantity="one">{rating}星</item>
-        <item quantity="other">{rating}星</item>
+        <item quantity="one">{rating} 星</item>
+        <item quantity="other">{rating} 星</item>
     </plurals>
     <!-- Content descriptions for Cars filter transmission buttons -->
     <string name="cars_filter_transmission_manual_button_cont_desc">手动档</string>
@@ -3749,7 +3766,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已查阅并同意{terms_of_use}和{privacy_policy}。</string>
     <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">马上加入{brand_reward_name}计划。加入 {brand_reward_name}计划即表示，我接受全部{terms_and_conditions}。</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">马上加入{brand_reward_name}计划。加入{brand_reward_name}计划即表示，我接受全部{terms_and_conditions}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">选择每个儿童的年龄</string>
@@ -3936,19 +3953,19 @@
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s(%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
-    <string name="flight_hour_min_duration_template">%1$d小时 %2$d 分钟</string>
+    <string name="flight_hour_min_duration_template">%1$d 小时 %2$d 分钟</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_min_duration_template">%1$d分钟</string>
+    <string name="flight_min_duration_template">%1$d 分钟</string>
 
     <!-- Accessibility label for flight hour duration template e.g. 12 hour 42 minutes -->
-    <string name="flight_hour_min_duration_template_cont_desc">{h}小时 {m} 分钟</string>
+    <string name="flight_hour_min_duration_template_cont_desc">{h} 小时 {m} 分钟</string>
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
-    <string name="flight_min_duration_template_cont_desc">{m}分钟</string>
+    <string name="flight_min_duration_template_cont_desc">{m} 分钟</string>
 
     <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">此价格的机票还剩 {seats}张</item>
-        <item quantity="other">此价格的机票还剩 {seats}张</item>
+        <item quantity="one">此价格的机票还剩 {seats} 张</item>
+        <item quantity="other">此价格的机票还剩 {seats} 张</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime}- {arrivaltime} - {elapseddays} 天</string>
@@ -4044,8 +4061,8 @@
     <string name="user_enters_more_than_trip">积分价值不能超出今天应付的款额。</string>
     <string name="pwp_calculating_points">正在计算积分…</string>
     <plurals name="pwp_points_applied_TEMPLATE">
-        <item quantity="one">使用了 {points}分</item>
-        <item quantity="other">使用了 {points}分</item>
+        <item quantity="one">使用了 {points} 分</item>
+        <item quantity="other">使用了 {points} 分</item>
     </plurals>
 
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">应付余额：</string>
@@ -4054,8 +4071,8 @@
     <!-- Package Flight Overview -->
     <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
     <plurals name="package_flight_overview_urgency_message_TEMPLATE">
-        <item quantity="one">还剩 {seats}个座位</item>
-        <item quantity="other">还剩 {seats}个座位</item>
+        <item quantity="one">还剩 {seats} 个座位</item>
+        <item quantity="other">还剩 {seats} 个座位</item>
     </plurals>
     <string name="package_flight_overview_baggage_fees">行李费信息</string>
     <string name="package_flight_overview_select_flight">选择此航班</string>
@@ -4240,7 +4257,7 @@
     <!--Rails content description for results card Railcard applied portion -->
     <string name="rail_railcard_applied_cont_desc">使用了铁路卡</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
-   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">票价 {price}起</string>
+   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">票价 {price} 起</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">所选出发行程：</string>
     <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
@@ -4295,7 +4312,7 @@
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">使用了 2 倍 Expedia+ 积分！</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
-    <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount}分</string>
+    <string name="swp_widget_points_value_TEMPLATE">您有 {points_or_amount} 分</string>
     <string name="vip_loyalty_applied_map_message">使用了 &lt;b&gt;+VIP&lt;/b&gt; 2 倍 Expedia+ 积分！</string>
     <string name="swp_off_widget_header">使用 Expedia+ 积分</string>
     <string name="swp_on_widget_header">使用了 Expedia+ 积分</string>
@@ -4315,13 +4332,13 @@
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
-    <string name="bucks_available_TEMPLATE">{money}Orbucks 可用</string>
+    <string name="bucks_available_TEMPLATE">{money} Orbucks 可用</string>
     <!-- Label indicating Orbucks Applied By User. Eg: $1000.12 in Orbucks applied-->
-    <string name="bucks_applied_TEMPLATE">使用了 {money}Orbucks</string>
+    <string name="bucks_applied_TEMPLATE">使用了 {money} Orbucks</string>
     <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
-    <string name="you_are_using_bucks_TEMPLATE">您将使用 {amount}Orbucks</string>
+    <string name="you_are_using_bucks_TEMPLATE">您将使用 {amount} Orbucks</string>
     <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
-    <string name="payment_through_card_and_bucks_TEMPLATE">您将使用 {amount}Orbucks\n将向您的卡收取 {dueamount}</string>
+    <string name="payment_through_card_and_bucks_TEMPLATE">您将使用 {amount} Orbucks\n将向您的卡收取 {dueamount}</string>
 
     <!-- Feeds -->
     <!-- Label for Browse hotels card for staff picked city/destination -->
@@ -4347,13 +4364,13 @@
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">航班出发时间 {time}，价差为{price}。搭乘{airline}航班。飞行时间 {hours}{minutes}，经停 {stops} 次\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分{starrating} 分（满分 5 分）。住客评分{guestrating}分（满分 5 分）。价格{price}。含酒店和机票\u0020</string>
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格{price}。含酒店和机票\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分{starrating} 分（满分 5 分）。住客评分{guestrating}分（满分 5 分）。\u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel}住客评分{guestrating} 分（满分 5 分）。\u0020</string>
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel}住客评分 {guestrating} 分（满分 5 分）。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
-    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}，评分{starrating} 分（满分 5 分）。\u0020</string>
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
     <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
@@ -4372,8 +4389,8 @@
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">中途停留{layoverhours}{layovermins}。\u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
     <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
-        <item quantity="one">此价格的机票只剩 {seatsleft}张</item>
-        <item quantity="other">此价格的机票只剩 {seatsleft}张</item>
+        <item quantity="one">此价格的机票只剩 {seatsleft} 张</item>
+        <item quantity="other">此价格的机票只剩 {seatsleft} 张</item>
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">飞往。按钮。{to_destination}</string>
@@ -4386,11 +4403,11 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">选择旅行日期。按钮。打开对话框</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">价格{price}。\u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">价格 {price}。\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
-        <item quantity="one">旅客人数。按钮。打开对话框。{travelers}位旅客</item>
-        <item quantity="other">旅客人数。按钮。打开对话框。{travelers}位旅客</item>
+        <item quantity="one">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
+        <item quantity="other">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
     </plurals>
     <!--Select preferred flight class content description template. Eg. Select preferred class. Button. Opens dialog. Preferred class business-->
     <string name="select_preferred_flight_class_cont_desc_TEMPLATE">选择需要的等级。按钮。打开对话框。需要的等级：{seatingclass}</string>
@@ -4420,11 +4437,11 @@
     <string name="rails_remove_senior_traveler_cont_desc">删除一位老年旅客</string>
 
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="search_child_drop_down_cont_desc_TEMPLATE">选择第 {childnumber}名儿童的年龄。</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">选择第 {childnumber} 名儿童的年龄。</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
-    <string name="search_youth_drop_down_cont_desc_TEMPLATE">选择第 {youthnumber}名青少年的年龄。</string>
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">选择第 {youthnumber} 名青少年的年龄。</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
-    <string name="search_senior_drop_down_cont_desc_TEMPLATE">选择第 {seniornumber}名老人的年龄。</string>
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">选择第 {seniornumber} 名老人的年龄。</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_start_date">选择您的出发日期。</string>
@@ -4440,18 +4457,18 @@
 
 
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
-    <string name="flight_overview_price_widget_TEMPLATE">行程总计{totalprice}。包含税费。{savings}</string>
+    <string name="flight_overview_price_widget_TEMPLATE">行程总计 {totalprice}。包含税费。{savings}</string>
     <!--Content description for Flights total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">行程总计{totalprice}。包含税费。{savings}。费用明细对话框。按钮。</string>
+    <string name="flight_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">行程总计 {totalprice}。包含税费。{savings}。费用明细对话框。按钮。</string>
     <!--Content description for Flights sliding widget, with instruction to expand to show more details. Example: Trip total is {totalprice}. Includes taxes and fees. Button to view flights.-->
-    <string name="flight_overview_price_widget_button_open_TEMPLATE">行程价格为每人{price_per_person}。包含税费。查看航班的按钮。</string>
+    <string name="flight_overview_price_widget_button_open_TEMPLATE">行程价格为每人 {price_per_person}。包含税费。查看航班的按钮。</string>
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget_TEMPLATE">套餐总价为{totalprice}。此价格不含机票和酒店的税费。{savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套餐总价为{totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人{price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
     <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}之旅；{startdate}至 {enddate}，{guests} 位旅客</string>
     <!-- Package filter checkbox.
@@ -4546,7 +4563,7 @@
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">价格为 {activity_price}</string>
 
     <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
-    <string name="activity_price_with_discount_cont_desc_TEMPLATE">价格为{activity_price}。折扣前的价格为 {activity_original_price}</string>
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">价格为 {activity_price}。折扣前的价格为 {activity_original_price}</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">复选框。已选中。</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -4570,27 +4587,27 @@
     <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
     <plurals name="number_of_room_TEMPLATE">
-        <item quantity="one">{room}间房</item>
-        <item quantity="other">{room}间房</item>
+        <item quantity="one">{room} 间房</item>
+        <item quantity="other">{room} 间房</item>
     </plurals>
     <!-- Package cost summary row snippet  e.g. 1 night-->
     <plurals name="number_of_nights_TEMPLATE">
-        <item quantity="zero">{night}晚</item>
-        <item quantity="one">{night}晚</item>
-        <item quantity="two">{night}晚</item>
-        <item quantity="many">{night}晚</item>
-        <item quantity="other">{night}晚</item>
+        <item quantity="zero">{night} 晚</item>
+        <item quantity="one">{night} 晚</item>
+        <item quantity="two">{night} 晚</item>
+        <item quantity="many">{night} 晚</item>
+        <item quantity="other">{night} 晚</item>
     </plurals>
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
-        <item quantity="zero">{guest}位住客</item>
-        <item quantity="one">{guest}位住客</item>
-        <item quantity="two">{guest}位住客</item>
-        <item quantity="many">{guest}位住客</item>
-        <item quantity="other">{guest}位住客</item>
+        <item quantity="zero">{guest} 位住客</item>
+        <item quantity="one">{guest} 位住客</item>
+        <item quantity="two">{guest} 位住客</item>
+        <item quantity="many">{guest} 位住客</item>
+        <item quantity="other">{guest} 位住客</item>
     </plurals>
     <!-- Trips summary card. Example: Trip to SFO on 28th September, Activity Itinerary card button. -->
-    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text}{trip_start_date}{line_of_business}行程卡按钮。</string>
+    <string name="header_itin_card_content_description_TEMPLATE">{itin_card_header_text} {trip_start_date} {line_of_business}行程卡按钮。</string>
 
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">复制到剪切板。按钮。</string>
@@ -4605,7 +4622,7 @@
     <string name="gallery_cont_desc">照片库</string>
 
     <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
-    <string name="gallery_photo_count_content_description_TEMPLATE">按钮：查看第 {index}张照片（共 {count} 张）</string>
+    <string name="gallery_photo_count_content_description_TEMPLATE">按钮：查看第 {index} 张照片（共 {count} 张）</string>
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">多家运营商</string>
@@ -4712,6 +4729,8 @@
     <string name="error_no_filter_result_message">我们无法找到符合您筛选条件选项的酒店。</string>
 
     <!-- Hotel info site mandatory fee message, example: Excludes $13.37 daily resort fee -->
-    <string name="excludes_mandatory_fee_TEMPLATE">不包括 {amount}每日度假费
-</string>
+    <string name="excludes_mandatory_fee_TEMPLATE">不包括 {amount} 每日度假费</string>
+
+    <!-- Hotel detail grouped room option message, example: Option 1 -->
+    <string name="option_TEMPLATE">选项 {number}</string>
 </resources>

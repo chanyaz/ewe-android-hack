@@ -30,8 +30,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_additional_content_flight_confirmation);
 		initializeFeatureCheck(R.string.preference_disabled_stp_state);
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
-		initializeFeatureCheck(R.string.preference_show_basic_economy);
-		initializeFeatureCheck(R.string.preference_show_basic_economy_tooltip);
 		initializeFeatureCheck(R.string.preference_change_pos_warning_message);
 		initializeFeatureCheck(R.string.preference_itin_crystal_theme);
 		initializeFeatureCheck(R.string.preference_hotel_group_room_and_rate);

@@ -34,7 +34,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
             cityTitle.onNext(text)
         }).subscribe()
 
-        Observable.zip(checkIn, checkOut, { checkIn, checkOut ->
+        Observable.combineLatest(checkIn, checkOut, { checkIn, checkOut ->
             var text: String
             var contDesc: String
             if (checkIn != null && checkOut != null) {
@@ -53,13 +53,17 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
             travelersTitle.onNext(text)
         }
 
-        Observable.zip(datesTitle, travelersTitle, datesTitleContDesc) { datesTitle, travelersTitle, datesTitleContDesc ->
+        Observable.combineLatest(datesTitle, travelersTitle) { datesTitle, travelersTitle ->
             subTitleText.onNext(Phrase.from(context, R.string.flight_overview_toolbar_TEMPLATE)
                     .put("date", datesTitle).put("guests", travelersTitle)
                     .format().toString())
+        }.subscribe()
+
+        Observable.combineLatest(datesTitleContDesc, travelersTitle) { datesTitleContDesc, travelersTitle ->
             subTitleContDesc.onNext(Phrase.from(context, R.string.flight_overview_toolbar_TEMPLATE)
                     .put("date", datesTitleContDesc).put("guests", travelersTitle)
                     .format().toString())
         }.subscribe()
+
     }
 }
