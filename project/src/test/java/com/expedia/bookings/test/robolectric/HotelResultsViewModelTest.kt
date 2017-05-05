@@ -1,23 +1,33 @@
 package com.expedia.bookings.test.robolectric
 
+import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.hotel.HotelResultsViewModel
+import com.expedia.vm.packages.PackageSearchType
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.Observable
 import rx.observers.TestSubscriber
@@ -31,6 +41,8 @@ class HotelResultsViewModelTest {
 
     val context = RuntimeEnvironment.application
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+        @Rule get
+    var packageServiceRule = ServicesRule(PackageServices::class.java)
         @Rule get
 
     lateinit var sut: HotelResultsViewModel
@@ -172,6 +184,54 @@ class HotelResultsViewModelTest {
         searchResponseObservable.onNext(makeDummyHotelSearchResponse())
 
         testSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testPackageSearchResponse() {
+        setRemoveBundleOverviewScreenTest()
+        Db.setPackageParams(setUpParams())
+        val activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
+
+        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+
+        val viewModel = HotelResultsViewModel(activity, packageServiceRule.services!!, LineOfBusiness.PACKAGES)
+        viewModel.hotelResultsObservable.subscribe(resultsSubscriber)
+        viewModel.paramsSubject.onNext(makeHappyParams())
+
+        resultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
+        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNoErrors()
+        resultsSubscriber.assertValueCount(1)
+    }
+
+    private fun setUpParams(): PackageSearchParams {
+        val packageParams = PackageSearchParams.Builder(26, 329)
+                .origin(getDummySuggestion())
+                .destination(getDummySuggestion())
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+        Db.setPackageParams(packageParams)
+        return packageParams
+    }
+
+    private fun getDummySuggestion(): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = ""
+        suggestion.regionNames.fullName = ""
+        suggestion.regionNames.shortName = ""
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
+        suggestion.hierarchyInfo!!.airport!!.multicity = "happy"
+        return suggestion
+    }
+
+    private fun setRemoveBundleOverviewScreenTest() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        SettingUtils.save(context, R.string.preference_packages_remove_bundle_overview, true)
     }
 
     private fun <T> anyObject(): T {

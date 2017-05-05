@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -10,6 +11,7 @@ import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -52,7 +54,12 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("enddate", DateUtils.localDateToMMMd(params.endDate))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+
+            if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
+                autoAdvanceObservable.onNext(PackageSearchType.HOTEL)
+            } else {
+                searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+            }
         }
 
         flightParamsObservable.subscribe { params ->
@@ -63,8 +70,15 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("enddate", DateUtils.localDateToMMMd(params.endDate))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests))
                     .format().toString())
-            searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
-        }
+            val type = if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT
+
+            if (isRemoveBundleOverviewFeatureEnabled() && packageServices != null) {
+                flightResultsObservable.onNext(type)
+                autoAdvanceObservable.onNext(type)
+            } else {
+                searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(type))
+            }
+    }
 
         createTripObservable.subscribe { trip ->
             var hotel = trip.packageDetails.hotel
@@ -94,6 +108,11 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 cancelSearchSubject.onNext(Unit)
             }
         }
+    }
+
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     fun resetStepText() {

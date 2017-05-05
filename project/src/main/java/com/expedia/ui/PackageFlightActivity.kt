@@ -2,13 +2,13 @@ package com.expedia.ui
 
 import android.os.Bundle
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.packages.PackageFlightPresenter
+import com.expedia.bookings.presenter.packages.PackageFlightContainerPresenter
 import com.expedia.bookings.utils.Ui
 
 class PackageFlightActivity : AbstractAppCompatActivity() {
-    val flightsPresenter: PackageFlightPresenter by lazy {
-        val presenter = findViewById(R.id.package_flight_presenter) as PackageFlightPresenter
-        presenter
+
+    val flightContainerPresenter: PackageFlightContainerPresenter by lazy {
+        findViewById(R.id.package_flight_container) as PackageFlightContainerPresenter
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +18,7 @@ class PackageFlightActivity : AbstractAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!flightsPresenter.back()) {
+        if (!flightContainerPresenter.back()) {
             super.onBackPressed()
         }
     }

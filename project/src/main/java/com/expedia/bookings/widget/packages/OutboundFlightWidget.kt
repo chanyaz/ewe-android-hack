@@ -6,9 +6,12 @@ import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.ui.PackageFlightActivity
 import com.squareup.phrase.Phrase
@@ -18,10 +21,15 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
         return false
     }
 
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+    }
+
     override fun showLoading() {
         toggleFlightWidget(1f, false)
 
-        viewModel.showLoadingStateObservable.onNext(true)
+        viewModel.showLoadingStateObservable.onNext(!isRemoveBundleOverviewFeatureEnabled())
         viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to,
                 StrUtils.formatCityName(viewModel.searchParams.value.destination)))
     }

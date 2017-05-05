@@ -17,11 +17,13 @@ import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -36,6 +38,7 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
@@ -56,6 +59,7 @@ import com.google.android.gms.maps.MapView
 import rx.Observable
 import rx.Observer
 import rx.Subscriber
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -71,6 +75,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
+
+    val dataAvailableSubject = PublishSubject.create<PackageSearchResponse>()
+    val trackEventSubject = PublishSubject.create<Unit>()
 
     val slideDownAnimation by lazy {
         val anim = AnimationUtils.loadAnimation(context, R.anim.slide_down)
@@ -89,11 +96,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val presenter = viewStub.inflate() as PackageHotelResultsPresenter
         val resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
         resultsMapView.visibility = View.VISIBLE
-        removeView(resultsMapView);
+        removeView(resultsMapView)
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewModel = HotelResultsViewModel(context, null, LineOfBusiness.PACKAGES)
+        presenter.viewModel = HotelResultsViewModel(context, packageServices, LineOfBusiness.PACKAGES)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter
@@ -178,10 +185,19 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     init {
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
+
+        Observable.combineLatest(dataAvailableSubject, trackEventSubject, { packageSearchResponse, trackEvent -> packageSearchResponse }).subscribe {
+            trackSearchResult(it)
+        }
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
         resultsToOverview.animationDuration = duration
+    }
+
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     override fun onFinishInflate() {
@@ -189,9 +205,20 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_HOTEL)
-        bundleSlidingWidget.animationFinished.subscribe {
-            resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+
+        resultsPresenter.viewModel.hotelResultsObservable.subscribe {
+            bindData()
         }
+
+        if(!isRemoveBundleOverviewFeatureEnabled()) {
+            bundleSlidingWidget.animationFinished.subscribe {
+                resultsPresenter.viewModel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+            }
+        }
+    }
+
+    private fun bindData() {
+        dataAvailableSubject.onNext(Db.getPackageResponse())
         val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
         val zero = Money(BigDecimal(0), currencyCode)
@@ -363,7 +390,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
             } else {
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(resultsPresenter.toolbar)
-                trackSearchResult()
+                trackEventSubject.onNext(Unit)
             }
         }
     }
@@ -419,7 +446,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
                 resultsPresenter.viewModel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
-                trackSearchResult()
+                trackEventSubject.onNext(Unit)
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {
                 //change hotel room
@@ -429,9 +456,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private fun trackSearchResult() {
-        PackagesTracking().trackHotelSearchResultLoad(PackageResponseUtils.loadPackageResponse(context,
-                PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE))
+    override fun back(): Boolean {
+        resultsPresenter.viewModel.unsubscribeSearchResponse()
+        return super.back()
+    }
+
+    private fun trackSearchResult(response: PackageSearchResponse) {
+        PackagesTracking().trackHotelSearchResultLoad(response)
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {

@@ -12,22 +12,21 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.BundleWidget
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.packages.BundleOverviewViewModel
-import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.PackageSearchType
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import rx.subjects.PublishSubject
@@ -60,7 +59,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                 if (bundlePriceWidget.height != 0) {
                     bundlePriceWidget.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     val activity = context as Activity
-                    if (activity.intent.extras == null) {
+                    if (!isRemoveBundleOverviewFeatureEnabled() && activity.intent.extras == null) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true, false)
                         bundleFooterContainer.translationY = -statusBarHeight.toFloat()
@@ -78,6 +77,11 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                 }
             }
         })
+    }
+
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     fun startBundleTransition(forward: Boolean) {
@@ -231,6 +235,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+
+        bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+        bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
 
         updateBundleViews(product)
     }

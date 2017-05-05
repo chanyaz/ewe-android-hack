@@ -6,7 +6,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.InboundFlightWidget
@@ -31,9 +34,14 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
 
     val toggleMenuObservable = BehaviorSubject.create<Boolean>()
 
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+    }
+
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
-            bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
+            bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(!isRemoveBundleOverviewFeatureEnabled())
 
             outboundFlightWidget.updateHotelParams(param)
             inboundFlightWidget.updateHotelParams(param)

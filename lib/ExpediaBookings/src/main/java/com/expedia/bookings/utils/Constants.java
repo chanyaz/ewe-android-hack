@@ -3,12 +3,14 @@ package com.expedia.bookings.utils;
 public class Constants {
 	public static final String PRODUCT_FLIGHT = "flight";
 	public static final String PRODUCT_HOTEL = "hotel";
+	public static final String PRODUCT_PACKAGE_LOADING = "packageLoading";
 	public static final int HOTEL_REQUEST_CODE = 101;
 	public static final String RAW_TEXT_SEARCH = "RAW_TEXT_SEARCH";
 	public static final int PERMISSION_REQUEST_LOCATION = 7;
 	public static final int PERMISSION_REQUEST_LOCATION_WITH_RATIONALE = 8;
 	public static final int PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE = 102;
 	public static final int PACKAGE_FLIGHT_RETURN_REQUEST_CODE = 103;
+	public static final int PACKAGE_API_ERROR_RESULT_CODE = 104;
 	//For more info on Package trip type https://confluence/display/POS/GetPackages+API
 	public static final String PACKAGE_TRIP_TYPE = "2"; // 2 mean BYOT (build your own trip)
 	public static final String NUMBER_OF_ROOMS = "1";
@@ -17,6 +19,7 @@ public class Constants {
 	public static final String PACKAGE_CHANGE_FLIGHT = "CHANGE_FLIGHT";
 	public static final String PACKAGE_FILTER_CHANGE_FLIGHT = "filterChangeFlight";
 	public static final String PACKAGE_HOTEL_OFFERS_ERROR = "package hotel offers error";
+	public static final String PACKAGE_API_ERROR = "packageApiError";
 
 	// itin airline code for check in
 	public static final String ITIN_CHECK_IN_AIRLINE_NAME = "ITIN_CHECK_IN_AIRLINE_NAME";

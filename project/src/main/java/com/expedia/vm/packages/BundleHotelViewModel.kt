@@ -41,15 +41,17 @@ class BundleHotelViewModel(val context: Context) {
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             } else {
-                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
-                hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
-                        .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
-                        .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
-                        .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
-                        .format()
-                        .toString())
 
+                if(Db.getPackageResponse() != null) {
+                    val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+                    hotelDatesGuestObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                            .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                            .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
+                            .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests))
+                            .format()
+                            .toString())
+                }
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             }

@@ -7,6 +7,8 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
@@ -14,6 +16,7 @@ import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
 
@@ -32,39 +35,57 @@ class PackageActivity : AbstractAppCompatActivity() {
         Ui.showTransparentStatusBar(this)
     }
 
+    private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
+        return FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_packages_remove_bundle_overview) &&
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
+        packagePresenter.bundleLoadingView.visibility = if(isRemoveBundleOverviewFeatureEnabled()) View.VISIBLE else View.GONE
 
-        if (resultCode == Activity.RESULT_CANCELED) {
-            val obj = packagePresenter.backStack.peek()
-            if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
-                onBackPressed()
-            } else {
-                PackagesTracking().trackViewBundlePageLoad()
-                if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
-                    Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+        when (resultCode) {
+            Activity.RESULT_CANCELED -> {
+                val obj = packagePresenter.backStack.peek()
+                if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
+                    onBackPressed()
+                } else {
+                    if (isRemoveBundleOverviewFeatureEnabled()) {
+                        onBackPressed()
+                    } else {
+                        PackagesTracking().trackViewBundlePageLoad()
+                    }
+                    if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+                        Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 
-                    //revert bundle view to be the state loaded outbound flights
-                    packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
-                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+                        //revert bundle view to be the state loaded outbound flights
+                        packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
+                        packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
 
-                    val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
-                    packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+                        val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
+                        packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
 
-                } else if (packagePresenter.backStack.size == 2) {
-                    Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+                    } else if (packagePresenter.backStack.size == 2) {
+                        Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 
-                    //revert bundle view to be the state loaded hotels
-                    packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
-                    packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
-                    packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
+                        //revert bundle view to be the state loaded hotels
+                        packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
+                        packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
+                        packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
+                    }
+                }
+                return
+            }
+            Constants.PACKAGE_API_ERROR_RESULT_CODE -> {
+                val errorCodeOrdinal = data?.extras?.getInt(Constants.PACKAGE_API_ERROR)
+                if (errorCodeOrdinal != null) {
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.errorObservable.onNext(PackageApiError.Code.values()[errorCodeOrdinal])
                 }
             }
-            return
         }
 
         when (requestCode) {
@@ -179,11 +200,14 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun packageFlightSearch() {
-        PackagesTracking().trackViewBundlePageLoad()
+        if(!isRemoveBundleOverviewFeatureEnabled()) {
+            PackagesTracking().trackViewBundlePageLoad()
+        }
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
     }
 
     private fun packageCreateTrip() {
+        packagePresenter.bundleLoadingView.visibility = View.GONE
         Db.getPackageParams().pageType = null
         changedOutboundFlight = false
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
