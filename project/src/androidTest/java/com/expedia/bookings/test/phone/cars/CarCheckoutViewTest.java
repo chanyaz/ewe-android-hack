@@ -2,18 +2,11 @@ package com.expedia.bookings.test.phone.cars;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.CarTestCase;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertTextWithChildrenIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
@@ -55,23 +48,6 @@ public class CarCheckoutViewTest extends CarTestCase {
 		SearchScreen.doGenericCarSearch();
 		CarScreen.selectCarCategory(CATEGORY);
 		CarScreen.selectCarOffer(carOfferIndex);
-	}
-
-	public void testAcceptTermsVisibilityOnBack() throws Throwable {
-		Common.setPOS(PointOfSaleId.FRANCE);
-		gotoCheckout(CREDIT_CARD_NOT_REQUIRED);
-		screenshot("Checkout_Payment_Card");
-		CheckoutViewModel.enterTravelerInfo();
-		Common.pressBack();
-		Common.delay(1);
-		CarScreen.searchButtonOnDetails().perform(click());
-		CarScreen.locationCardView().perform(click());
-		CarScreen.pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"));
-		CarScreen.selectPickupLocation("San Francisco, CA");
-		CarScreen.searchButton().perform(click());
-		CarScreen.selectCarCategory(CATEGORY);
-		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
-		CarScreen.acceptTermsWidget().check(matches((isDisplayed())));
 	}
 
 }
