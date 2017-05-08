@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
-import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -32,14 +32,14 @@ import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.facebook.appevents.AppEventsLogger;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
 import rx.Observer;
 
+
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
-	boolean loadSignInViewAbTest = false;
+	boolean loadSignInView = false;
 	private UserStateManager userStateManager;
 
 	ImageView logoView;
@@ -85,13 +85,10 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		boolean isUsersFirstLaunchOfApp = ExpediaBookingApp.isFirstLaunchEver();
 		boolean isNewVersionOfApp = ExpediaBookingApp.isFirstLaunchOfAppVersion();
 		boolean userNotLoggedIn = !userStateManager.isUserAuthenticated();
-		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
+		loadSignInView = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			if (loadSignInViewAbTest) {
-				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch);
-			}
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppLOBAccentuating);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
@@ -110,39 +107,38 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		}
 
 		Ui.getApplication(this).appComponent().abacus()
-			.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
+				.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 	}
 
 	private Observer<AbacusResponse> evaluatePreLaunchABTestsSubscriber = new Observer<AbacusResponse>() {
 
 		@Override
 		public void onCompleted() {
-			Log.d("Abacus:showSignInOnLaunchTest - onCompleted");
 		}
 
 		@Override
 		public void onError(Throwable e) {
-			Log.d("Abacus:showSignInOnLaunchTest - onError");
 			if (BuildConfig.DEBUG) {
 				AbacusHelperUtils.updateAbacus(new AbacusResponse(), RouterActivity.this);
 			}
-			showSplashThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
+			launchScreenSelection();
 		}
 
 		@Override
 		public void onNext(AbacusResponse abacusResponse) {
-			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInFormOnLaunch)
-				&& loadSignInViewAbTest) {
-				showSplashThenLaunchOpeningView(LaunchDestination.SIGN_IN);
-			}
-			else {
-				showSplashThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
-			}
+			launchScreenSelection();
 		}
 	};
+
+	private void launchScreenSelection() {
+		if (loadSignInView && !ExpediaBookingApp.isInstrumentation()) {
+			showSplashThenLaunchOpeningView(LaunchDestination.SIGN_IN);
+		}
+		else {
+			showSplashThenLaunchOpeningView(LaunchDestination.LAUNCH_SCREEN);
+		}
+	}
 
 	private void finishActivity() {
 		finish();
