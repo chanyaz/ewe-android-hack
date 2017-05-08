@@ -870,7 +870,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.itin_card_details,
 		R.layout.widget_rating_dialog,
 		R.string.max_two_infants_seated_per_adult,
-		R.string.package_flight_overview_total_duration_with_distance_TEMPLATE,
 		R.string.itinerary_number_hint,
 		R.string.itinerary_number_error_message,
 		R.string.nav_hotels,

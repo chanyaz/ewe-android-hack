@@ -226,15 +226,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="12766"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Material Flight - Distance on Flight Detail - 12766" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="13035"
             android:layout="@layout/preference"
             android:summary="%s"
