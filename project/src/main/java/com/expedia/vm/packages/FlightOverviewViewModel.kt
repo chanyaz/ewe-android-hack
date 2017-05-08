@@ -16,10 +16,6 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
         return selectedFlight.packageOfferModel.price.differentialPriceFormatted
     }
 
-    override fun showFlightDistance(selectedFlight: FlightLeg): Boolean {
-        return false
-    }
-
     override fun shouldShowBasicEconomyMessage(selectedFlight: FlightLeg): Boolean {
         return false
     }

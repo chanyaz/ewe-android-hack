@@ -106,11 +106,4 @@ class PackagesFlightOverviewViewModelTest {
         assertEquals("$646.00/person", sut.bundlePriceSubject.value)
     }
 
-    @Test
-    fun testFlightDistanceVisibilty() {
-        setupSystemUnderTest()
-        setupFlightLeg()
-
-        assertFalse(sut.showFlightDistance(flightLeg))
-    }
 }

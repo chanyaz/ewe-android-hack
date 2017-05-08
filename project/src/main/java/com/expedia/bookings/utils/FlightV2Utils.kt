@@ -31,16 +31,9 @@ object FlightV2Utils {
         return getDurationString(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
 
-    @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg, showFlightDistance: Boolean = false): String {
+    @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg): String {
         val flightDuration = getDurationContentDesc(context, flightLeg.durationHour, flightLeg.durationMinute)
-        val flightDistance = flightLeg.totalTravelDistance
-        val flightDistanceUnit = flightLeg.totalTravelDistanceUnits
-
-        if (showFlightDistance) {
-            return getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
-        } else {
-            return getTotalDurationString(context, flightDuration)
-        }
+        return getTotalDurationString(context, flightDuration)
     }
 
     @JvmStatic fun getFlightLegDurationWithButtonInfoContentDescription(context: Context, flightLeg: FlightLeg): String {
@@ -55,14 +48,6 @@ object FlightV2Utils {
                 .format().toString()
     }
 
-    private fun getTotalDurationWithDistanceString(context: Context, flightDuration: String, distance: String, distanceUnit: String): String {
-        return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_with_distance_TEMPLATE))
-                .put("duration", flightDuration)
-                .put("distance", distance.toString())
-                .put("distanceunit", distanceUnit)
-                .format().toString()
-    }
-
     @JvmStatic fun getFlightSegmentLayoverDurationContentDescription(context: Context, segment: FlightLeg.FlightSegment): String {
         return getDurationContentDesc(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
@@ -71,22 +56,11 @@ object FlightV2Utils {
         return getDurationContentDesc(context, segment.durationHours, segment.durationMinutes)
     }
 
-    @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int, showFlightDistance: Boolean = false): CharSequence {
+    @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
         val flightDuration = FlightV2Utils.getFlightDurationString(context, flight)
-        val flightDistance = flight.totalTravelDistance
-        val flightDistanceUnit = flight.totalTravelDistanceUnits
-        val totalDuration: String
-        val start: Int
-        val end: Int
-        if (showFlightDistance) {
-            totalDuration = getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
-            start = totalDuration.indexOf(flightDuration)
-            end = totalDuration.length
-        } else {
-            totalDuration = getTotalDurationString(context, flightDuration)
-            start = totalDuration.indexOf(flightDuration)
-            end = start + flightDuration.length
-        }
+        val totalDuration = getTotalDurationString(context, flightDuration)
+        val start = totalDuration.indexOf(flightDuration)
+        val end = start + flightDuration.length
 
         val colorSpan = ForegroundColorSpan(ContextCompat.getColor(context, colorId))
         val totalDurationStyledString = SpannableStringBuilder(totalDuration)
