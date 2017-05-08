@@ -101,7 +101,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         setTextAndVisibility(roomLeftTextView, viewModel.roomLeftString)
     }
 
-    private fun setTextAndVisibility(textView: TextView, text: String?) {
+    private fun setTextAndVisibility(textView: TextView, text: CharSequence?) {
         if (text.isNullOrBlank()) {
             textView.visibility = View.GONE
         } else {

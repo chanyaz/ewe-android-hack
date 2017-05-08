@@ -120,6 +120,32 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isPackage() {
 			return packageHotelDeltaPrice != null;
 		}
+
+		public String getRoomTypeDescriptionWithoutDetail() {
+			if (roomTypeDescription == null) {
+				return "";
+			}
+			String detailSeparator = " - ";
+			String detailString = roomTypeDescription;
+			int separatorIndex = detailString.indexOf(detailSeparator);
+			if (separatorIndex != -1) {
+				return detailString.substring(0, separatorIndex);
+			}
+			return roomTypeDescription;
+		}
+
+		public String getRoomTypeDescriptionDetail() {
+			if (roomTypeDescription == null) {
+				return "";
+			}
+			String detailSeparator = " - ";
+			String detailString = roomTypeDescription;
+			int separatorIndex = detailString.indexOf(detailSeparator);
+			if (separatorIndex != -1) {
+				return detailString.substring(separatorIndex + detailSeparator.length(), detailString.length());
+			}
+			return "";
+		}
 	}
 
 	public static class BedTypes {

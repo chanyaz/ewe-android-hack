@@ -778,8 +778,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         roomContainer.startAnimation(fadeRoomsOutAnimation)
     }
 
-    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse): HotelRoomHeaderView {
-        val headerViewModel = HotelRoomHeaderViewModel(context, hotelRoomResponse)
+    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, roomCount: Int) : HotelRoomHeaderView {
+        val headerViewModel = HotelRoomHeaderViewModel(context, hotelRoomResponse, roomCount)
 
         val header = HotelRoomHeaderView(context, headerViewModel)
 
@@ -868,11 +868,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         for ((roomType, roomResponses) in groupedRooms) {
             if (roomResponses.count() >= 0) {
                 val cardView = Ui.inflate<HotelRoomCardView>(R.layout.hotel_room_card_view, roomContainer, false)
+                var roomCount = if (roomResponses.count() > 1) 0 else -1
 
-                val header = getRoomHeaderView(roomResponses[0])
+                val header = getRoomHeaderView(roomResponses[0], roomCount)
                 cardView.addViewToContainer(header)
 
-                var roomCount = if (roomResponses.count() > 1) 0 else -1
                 for (roomResponse in roomResponses) {
                     val hasETP = viewmodel.hasETPObservable.value
                     val hotelId = viewmodel.hotelOffersResponse.hotelId
