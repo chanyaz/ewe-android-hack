@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.text.HtmlCompat
@@ -32,6 +33,11 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
+    val performSearchObserver = endlessObserver<PackageSearchParams> {
+        travelerValidator.updateForNewSearch(it)
+        searchParamsObservable.onNext(it)
+    }
+
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
     }
@@ -45,9 +51,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
-                val packageSearchParams = getParamsBuilder().build()
-                travelerValidator.updateForNewSearch(packageSearchParams)
-                searchParamsObservable.onNext(packageSearchParams)
+                performSearchObserver.onNext(getParamsBuilder().build())
             }
         } else {
             if (!getParamsBuilder().hasOriginAndDestination()) {

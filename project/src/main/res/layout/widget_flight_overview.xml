@@ -21,7 +21,7 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/flight_overview_urgency_messaging"
-                    style="@style/ResultsDescriptionText"
+                    style="@style/ResultsDescriptionText.Center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="8dp" />

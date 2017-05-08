@@ -37,5 +37,4 @@ public class AbacusPreferencesFragment extends BasePreferenceFragment {
 			return true;
 		}
 	};
-
 }

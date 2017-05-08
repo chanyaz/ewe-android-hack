@@ -57,6 +57,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
 	public static final int EBAndroidAppFlightStaticSortFilter = 13842;
 	public static final int EBAndroidAppFlightsMoreInfoOnOverview = 13505;
+	public static final int EBAndroidAppFlightsCrossSellPackageOnFSR = 14183;
 	public static final int EBAndroidAppFlightAATest = 14241;
 	public static final int EBAndroidAppFlightSearchFormValidation = 13843;
 	public static final int EBAndroidAppFlightHideFSRInfographic = 13844;
@@ -156,6 +157,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelServerSideFilter);
 		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
+		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
 		testIDs.add(EBAndroidAppHotelResultsCardReadability);
 		testIDs.add(EBAndroidAppHotelNoStickyETP);

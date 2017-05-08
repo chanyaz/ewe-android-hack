@@ -149,18 +149,6 @@ public class Db {
 		return sDb.mFlightSearchParams;
 	}
 
-	// Search params getter required for TravelerValidator
-	public static AbstractFlightSearchParams getSearchParams() {
-		if (sDb.mPackageParams != null) {
-			return sDb.mPackageParams;
-		}
-		else if (sDb.mFlightSearchParams != null) {
-			return sDb.mFlightSearchParams;
-		}
-
-		return null;
-	}
-
 	public static void setPackageSelectedHotel(Hotel packageSelectedHotel, HotelOffersResponse.HotelRoomResponse packageSelectedRoom) {
 		sDb.mPackageSelectedHotel = packageSelectedHotel;
 		sDb.mPackageSelectedRoom = packageSelectedRoom;
@@ -213,7 +201,6 @@ public class Db {
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
-		sDb.mFlightSearchParams = null;
 		sDb.mPackageParams = params;
 	}
 

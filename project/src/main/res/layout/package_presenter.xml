@@ -12,6 +12,7 @@
     <com.expedia.bookings.presenter.packages.PackageSearchPresenter
         android:id="@+id/widget_package_search_presenter"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent"
         android:background="@color/gray1" />
 

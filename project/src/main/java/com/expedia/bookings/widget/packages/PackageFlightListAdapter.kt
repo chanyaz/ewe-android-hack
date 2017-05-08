@@ -45,7 +45,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         when (viewType) {
             ViewTypes.BEST_FLIGHT_VIEW.ordinal -> {
                 val view = FlightCellWidget(parent.context)
-                return BestFlightViewHolder(view, parent.width)
+                return BestFlightViewHolder(view)
             }
             else -> {
                 return super.onCreateViewHolder(parent, viewType)
@@ -70,7 +70,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         }
     }
 
-    inner class BestFlightViewHolder(root: FlightCellWidget, width: Int) : FlightViewHolder(root, width) {
+    inner class BestFlightViewHolder(root: FlightCellWidget) : FlightViewHolder(root) {
         init {
             flightCell.bestFlightView.visibility = View.VISIBLE
         }

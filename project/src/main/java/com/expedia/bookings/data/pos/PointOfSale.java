@@ -201,6 +201,9 @@ public class PointOfSale {
 	// Should we show Payment Legal Message
 	private boolean showAirlinePaymentMethodFeeLegalMessage;
 
+	// Should Cross Sell Package on FSR
+	private boolean isCrossSellPackageOnFSR;
+
 	private static boolean sIsTablet;
 
 	private boolean mShouldShowKnownTravelerNumber;
@@ -878,6 +881,10 @@ public class PointOfSale {
 		return !airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.NONE);
 	}
 
+	public boolean isCrossSellPackageOnFSR() {
+		return isCrossSellPackageOnFSR;
+	}
+
 	public boolean airlineMayChargePaymentMethodFee() {
 		return airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.MIGHT_CHARGE);
 	}
@@ -1353,6 +1360,7 @@ public class PointOfSale {
 		pos.mShouldShowKnownTravelerNumber = data.optBoolean("shouldShowKnownTravelerNumber", false);
 		pos.mShouldFormatTravelerPhoneNumber = data.optBoolean("shouldFormatTravelerPhoneNumber", false);
 		pos.showAirlinePaymentMethodFeeLegalMessage = data.optBoolean("showAirlinePaymentMethodFeeLegalMessage", false);
+		pos.isCrossSellPackageOnFSR = data.optBoolean("crossSellPackageOnFSR", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
