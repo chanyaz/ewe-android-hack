@@ -85,6 +85,7 @@ public class AbacusUtils {
  	public static final int EBAndroidAppCarsWebViewAUNZ = 13828;
  	public static final int EBAndroidAppCarsWebViewCA = 13829;
  	public static final int EBAndroidAppCarsWebViewOB = 13660;
+	public static final int EBAndroidAppCarsWebViewEMEA = 13827;
 
 	// Packages Tests
 	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
@@ -173,6 +174,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarsWebViewAUNZ);
 		testIDs.add(EBAndroidAppCarsWebViewCA);
 		testIDs.add(EBAndroidAppCarsWebViewOB);
+		testIDs.add(EBAndroidAppCarsWebViewEMEA);
 		testIDs.add(EBAndroidAppUserOnboarding);
 		testIDs.add(EBAndroidAppPackagesRemoveBundleOverview);
 		testIDs.add(EBAndroidAppFlightAATest);
