@@ -34,6 +34,7 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
@@ -385,7 +386,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onDraw(Canvas canvas) {
 		//Draw the path behind the views
-		if (!isInDetailMode() && !FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+		if (!isInDetailMode() && !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 			drawPathView(canvas);
 		}
 

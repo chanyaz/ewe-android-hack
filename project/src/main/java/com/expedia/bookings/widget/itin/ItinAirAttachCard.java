@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.AirAttach;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.model.DismissedItinButton;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
@@ -89,8 +89,7 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 
 		Ui.setText(this, R.id.action_text_view, buttonText);
 
-		if (FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 			TextView actionTextView = Ui.findView(this, R.id.action_text_view);
 			actionTextView.setCompoundDrawables(null, null, null, null);
 		}
@@ -104,8 +103,7 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 			expirationDateTv.setText(Phrase
 				.from(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining))
 				.put("days", daysRemaining).format().toString());
-			if (FeatureToggleUtil
-				.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 				expirationDateTv.setCompoundDrawables(null, null, null, null);
 			}
 		}
