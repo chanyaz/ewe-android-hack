@@ -25,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -42,15 +43,34 @@ public class FlightsCheckoutScreenSteps {
 
 	@And("^I fill the following details in the traveller details form:$")
 	public void fillTravellersDetails(Map<String, String> parameters) throws Throwable {
-		PackageScreen.enterFirstName(parameters.get("firstName"));
-		PackageScreen.enterLastName(parameters.get("lastName"));
-		PackageScreen.enterEmail(parameters.get("email"));
-		PackageScreen.enterPhoneNumber(parameters.get("phoneNumber"));
-		int year = Integer.parseInt(parameters.get("year"));
-		int month = Integer.parseInt(parameters.get("month"));
-		int date = Integer.parseInt(parameters.get("date"));
-		PackageScreen.selectBirthDate(year,month,date);
-		PackageScreen.selectGender(parameters.get("gender"));
+		for (String key : parameters.keySet()) {
+			switch (key) {
+			case "firstName":
+				PackageScreen.enterFirstName(parameters.get("firstName"));
+				break;
+			case "lastName":
+				PackageScreen.enterLastName(parameters.get("lastName"));
+				break;
+			case "email":
+				PackageScreen.enterEmail(parameters.get("email"));
+				break;
+			case "phoneNumber":
+				PackageScreen.enterPhoneNumber(parameters.get("phoneNumber"));
+				break;
+			case "year":
+				int year = Integer.parseInt(parameters.get("year"));
+				int month = Integer.parseInt(parameters.get("month"));
+				int date = Integer.parseInt(parameters.get("date"));
+				PackageScreen.selectBirthDate(year,month,date);
+				break;
+			case "gender":
+				PackageScreen.selectGender(parameters.get("gender"));
+				break;
+			case "passport":
+				selectPassport(parameters.get("passport"));
+				break;
+			}
+		}
 	}
 
 	@And("^I save the traveller details by hitting done$")
@@ -128,23 +148,34 @@ public class FlightsCheckoutScreenSteps {
 	@Then("^I tap on some other field say Address field$")
 	public void tapSomeOtherField() throws Throwable {
 		BillingAddressScreen.addressLineOneEditText(R.id.section_location_address).perform(closeSoftKeyboard())
-		.perform((waitForViewToDisplay()), click());
+			.perform((waitForViewToDisplay()), click());
 
 	}
 
 	@Then("^I enter the first name and last name$")
 	public void enterFirstAndLastName() throws Throwable {
-			CardInfoScreen.typeTextNameOnCardEditText("test test");
+		CardInfoScreen.typeTextNameOnCardEditText("test test");
 	}
 
 	@Then("^I verify that no red exclamation is displayed on cardholder name$")
 	public void verifyRedExclamationNotPresent() throws Throwable {
-			CardInfoScreen.nameOnCardEditText()
+		CardInfoScreen.nameOnCardEditText()
 			.check(matches(not(withCompoundDrawable(R.drawable.invalid))));
 	}
 
 	@Then("^I verify that a red exclamation is displayed on cardholder name$")
 	public void verifyRedExclamation() throws Throwable {
 		CardInfoScreen.nameOnCardEditText().check(matches(withCompoundDrawable(R.drawable.invalid)));
+	}
+	@Then("^I fill the payment details$")
+	public void fillPaymentDetails() throws Throwable {
+		onView(withId(R.id.edit_creditcard_number)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		PackageScreen.enterCreditCard();
+		PackageScreen.completePaymentForm();
+		PackageScreen.clickPaymentDone();
+	}
+	private void selectPassport(String country) {
+		onView(withId(R.id.passport_country_spinner)).perform(click());
+		onView(withText(country)).perform(click());
 	}
 }

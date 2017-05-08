@@ -216,3 +216,89 @@ Feature: Flights Checkout
     Then Traveller details are not saved
     And Passport field is shown as a mandatory field
 
+  @Flights @FlightsCheckout @Prod
+  Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for round trip flights.
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    When I click on checkout button
+    And I wait for checkout screen to load
+    And I open traveller details
+    When I fill the following details in the traveller details form:
+      | firstName   | Mobiata      |
+      | lastName    | Auto         |
+      | email       | abc@exp.com  |
+      | phoneNumber | 3432234      |
+      | year        | 1990         |
+      | month       | 3            |
+      | date        | 23           |
+      | gender      | Male         |
+      | passport    | United States|
+    And I save the traveller details by hitting done
+    And I click on Payment Info
+    And I fill the payment details
+    And Validate that Main traveller "Mobiata Auto" is selected by default
+    And Validate that Credit card "Visa …1111" is selected by default
+    And I press back
+    And I press back
+    And I press back
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 2 and reach overview
+    When I click on checkout button
+    And I wait for checkout screen to load
+    And Validate that Main traveller "Traveler Details" is selected by default
+    And Validate that Credit card "Payment Method" is selected by default
+
+  @Flights @FlightsCheckout @Prod
+  Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for one-way trip flights.
+    Given I launch the App
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 5 |
+    And I can trigger flights search
+    And I wait for results to load
+    And I select outbound flight at position 1 and reach inbound FSR
+    When I click on checkout button
+    And I wait for checkout screen to load
+    And I open traveller details
+    When I fill the following details in the traveller details form:
+      | firstName   | Mobiata      |
+      | lastName    | Auto         |
+      | email       | abc@exp.com  |
+      | phoneNumber | 3432234      |
+      | year        | 1990         |
+      | month       | 3            |
+      | date        | 23           |
+      | gender      | Male         |
+      | passport    | United States|
+    And I save the traveller details by hitting done
+    And I click on Payment Info
+    And I fill the payment details
+    And Validate that Main traveller "Mobiata Auto" is selected by default
+    And Validate that Credit card "Visa …1111" is selected by default
+    And I press back
+    And I press back
+    And I press back
+    And I select outbound flight at position 2 and reach inbound FSR
+    When I click on checkout button
+    And I wait for checkout screen to load
+    And Validate that Main traveller "Traveler Details" is selected by default
+    And Validate that Credit card "Payment Method" is selected by default
