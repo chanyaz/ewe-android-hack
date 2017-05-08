@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">ดูเหมือนว่าสายการบินจะเก็บค่าธรรมเนียมการชำระเงินคุณอีก %1$s และเพิ่งขึ้นราคาตั๋วของคุณอีก %2$s คุณต้องการที่จะชำระเงินจำนวน %3$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">ดูเหมือนว่าสายการบินจะเก็บค่าธรรมเนียมการชำระเงินคุณอีก %1$s แต่เราเพิ่งพบเที่ยวบินที่คุณต้องการในราคาที่ถูกกว่า %2$s คุณต้องการที่จะชำระเงินจำนวน %3$s ซึ่งเป็นยอดรวมใหม่นี้หรือไม่</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">หมายเลขบัตรเครดิตที่ป้อนไม่ถูกต้อง โปรดลองอีกครั้ง</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">ชื่อผู้ถือบัตรที่คุณได้ป้อนไว้ไม่ตรงกับชื่อบนบัตรเครดิต โปรดลองอีกครั้ง</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">ขออภัย ระบบยังไม่รองรับการจองสำหรับเด็กอายุต่ำกว่า 18 ปี</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้ง</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">ระบบจะให้คุณออกจากระบบและล้างประวัติการค้นหา</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">ล้างข้อมูลส่วนตัวแล้ว</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">ขออภัย คุณต้องระบุรหัสไปรษณีย์เพื่อดำเนินการบัตรเครดิตของคุณ</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">กำลังจอง…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

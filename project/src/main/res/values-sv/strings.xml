@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s och biljettpriset steg precis med %2$s. Är du villig att betala det nya totalbeloppet på %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det verkar som att flygbolaget tar ut en betalningsavgift på %1$s, men vi hittade dina flyg på rea för %2$s mindre. Är du villig att betala det nya totalbeloppet på %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Kreditkortsnumret som du angav är ogiltigt, försök igen.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Kortinnehavarens namn som angavs matchar inte namnet på kreditkortet. Försök igen.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Tyvärr är bokningar för minderåriga (under 18 år) inte tillgängliga än.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Vi ber om ursäkt, tyvärr verkar vi inte kunna utföra bokningen just nu. Försök igen.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Du kommer att loggas ut och sökhistoriken rensas.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Personliga uppgifter raderade</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Vi ber om ursäkt, men vi behöver ett giltigt postnummer för att kunna godkänna dina kreditkortsuppgifter.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Bokar…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

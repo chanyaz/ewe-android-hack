@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">クレジットカード手数料として %1$sが航空会社から請求され、航空券の料金が%2$s 値上げされました。新しい料金は %3$sです。この金額でよろしいですか ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">クレジットカード手数料として %1$sが航空会社から請求されましたが、%2$s 安く提供できるフライトがあります。新しい料金は %3$sです。この金額でよろしいですか ?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">入力されたクレジットカード番号は無効です。再度入力してください。</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">入力したクレジットカード名義人がクレジットカードに記載された名前と異なります。もう一度お試しください。</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">申し訳ありません。現時点では、18 歳未満のお子様のご予約には対応しておりません。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">申し訳ありません。現在お客様のご予約を完了できません。もう一度お試しください。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">実行すると一旦サインアウトされ、検索履歴が削除されます。</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">個人データが削除されました</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">申し訳ありせん。クレジットカードでのお手続には有効な郵便番号が必要です。</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">予約中…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

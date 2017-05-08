@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.phone.profile;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.hamcrest.Description;
@@ -16,25 +15,21 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.account.Config;
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.activity.AccountSettingsActivity;
-import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
-import com.squareup.phrase.Phrase;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -42,9 +37,10 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToStartActivityWithExtra;
-import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToViewUri;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -54,7 +50,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class ProfileScreenTest {
 
 	@Rule
-	public IntentsTestRule<AccountSettingsActivity> intentRule = new IntentsTestRule<>(AccountSettingsActivity.class);
+	public IntentsTestRule<NewPhoneLaunchActivity> intentRule = new IntentsTestRule<>(NewPhoneLaunchActivity.class);
 
 	@Before
 	public void stubAllExternalIntents() {
@@ -65,39 +61,9 @@ public class ProfileScreenTest {
 	}
 
 	@Test
-	public void externalButtons() {
-		Context context = intentRule.getActivity();
-
-		ProfileScreen.clickExpediaWebsite(context);
-		assertIntentFiredToViewUri(PointOfSale.getPointOfSale().getWebsiteUrl());
-
-		ProfileScreen.clickAppSupport();
-		assertIntentFiredToStartAboutWebViewWithUrl(
-				ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(context));
-
-		ProfileScreen.clickRateApp();
-		assertIntentFiredToViewAppInPlayStore(context.getPackageName());
-
-		ProfileScreen.clickWereHiring();
-		assertIntentFiredToStartAboutWebViewWithUrl("http://www.lifeatexpedia.com");
-
-		ProfileScreen.clickTerms();
-		assertIntentFiredToStartAboutWebViewWithUrl(PointOfSale.getPointOfSale().getTermsAndConditionsUrl());
-
-		ProfileScreen.clickPrivacyPolicy();
-		assertIntentFiredToStartAboutWebViewWithUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
-
-		ProfileScreen.clickOpenSource();
-		assertIntentFiredToViewOpenSourceLicenses();
-
-		ProfileScreen.clickCopyrightLogo();
-		assertIntentFiredToViewUri(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context));
-
-		Intents.assertNoUnverifiedIntents();
-	}
-
-	@Test
 	public void clearPrivateData() {
+		NewLaunchScreen.accountButton().perform(click());
+
 		ProfileScreen.clickClearPrivateData();
 		assertViewWithTextIsDisplayed(R.string.dialog_clear_private_data_title);
 		assertViewWithTextIsDisplayed(R.string.dialog_clear_private_data_msg);
@@ -105,23 +71,9 @@ public class ProfileScreenTest {
 	}
 
 	@Test
-	public void checkStaticText() {
-		Context context = intentRule.getActivity();
-
-		ProfileScreen.scrollToCopyright();
-		assertViewWithTextIsDisplayed(R.id.copyright_info, Phrase.from(context, R.string.copyright_TEMPLATE)
-				.put("brand", BuildConfig.brand)
-				.put("year", Calendar.getInstance().get(Calendar.YEAR))
-				.format()
-				.toString());
-		assertViewWithTextIsDisplayed(R.id.open_source_credits_textview,
-				context.getString(R.string.this_app_makes_use_of_the_following) + " "
-						+ context.getString(R.string.open_source_names)
-						+ "\n\n" + context.getString(R.string.stack_blur_credit));
-	}
-
-	@Test
 	public void signInButtons() {
+		NewLaunchScreen.accountButton().perform(click());
+
 		ProfileScreen.clickSignInButton();
 		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.SignIn);
 
@@ -135,6 +87,7 @@ public class ProfileScreenTest {
 	@Test
 	public void changeCountry() {
 		Context context = intentRule.getActivity();
+		NewLaunchScreen.accountButton().perform(click());
 
 		List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(context);
 		for (PointOfSale pos : poses) {
@@ -146,7 +99,7 @@ public class ProfileScreenTest {
 
 			String country = context.getString(pos.getCountryNameResId());
 			String url = pos.getUrl();
-			assertViewWithTextIsDisplayed(country + " - " + url);
+			onView(withText(country + " - " + url)).perform(scrollTo()).check(matches(isDisplayed()));
 
 			if (pos.showAtolInfo()) {
 				ProfileScreen.atolInformation().perform(scrollTo(), click());
@@ -168,20 +121,8 @@ public class ProfileScreenTest {
 		ProfileScreen.clickOK();
 	}
 
-	private static void assertIntentFiredToViewAppInPlayStore(String appPackage) {
-		assertIntentFiredToViewUri("market://details?id=" + appPackage);
-	}
-
-	private static void assertIntentFiredToStartAboutWebViewWithUrl(String url) {
-		assertIntentFiredToStartActivityWithExtra(AboutWebViewActivity.class, equalTo("ARG_URL"), containsString(url));
-	}
-
 	private static void assertIntentFiredToStartWebViewWithRawHtmlContaining(String html) {
 		assertIntentFiredToStartActivityWithExtra(WebViewActivity.class, equalTo("ARG_HTML_DATA"), containsString(html));
-	}
-
-	private static void assertIntentFiredToViewOpenSourceLicenses() {
-		intended(hasComponent(OpenSourceLicenseWebViewActivity.class.getName()));
 	}
 
 	private static void assertIntentFiredToStartSignInWithInitialState(Config.InitialState initialState) {

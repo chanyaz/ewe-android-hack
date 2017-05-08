@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement. Le prix de votre billet a donc augmenté de %2$s. Consentez-vous à payer le nouveau total de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Il semble que la compagnie aérienne exige des frais de %1$s pour le traitement du paiement, mais nous avons trouvé les mêmes vols en vente à %2$s de moins. Consentez-vous à payer le nouveau total de %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Le numéro de carte de crédit entré n\&apos;est pas valide, veuillez réessayer.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Le nom du titulaire de la carte que vous avez entré ne correspond pas au nom sur la carte de crédit. Veuillez réessayer.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Désolé, les réservations pour enfant de moins de 18 ans ne sont pas acceptées.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Ceci vous déconnectera et effacera votre historique de recherche.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Données confidentielles effacées</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Nous sommes désolés, mais un code postal valide est requis pour traiter votre carte de crédit.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Réservation…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

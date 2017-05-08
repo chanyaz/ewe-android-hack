@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling. Prisen på billetten har derfor steget med %2$s. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det ser ut til at flyselskapet tar et gebyr på %1$s for betalingsbehandling, men vi har nettopp funnet dine flyvninger på salg for %2$s mindre. Er du villig til å betale det nye totalbeløpet på %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Kredittkortnummeret du oppga er ugyldig. Prøv på nytt.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Kortinnehaverens navn som du anga stemmer ikke overens med navnet på kortet. Prøv på nytt.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Beklager, bestilling for barn under 18 støttes ikke for øyeblikket.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Dessverre kan vi ikke behandle din bestilling akkurat nå. Prøv på nytt.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Dette vil logge deg av og fjerne søkehistorikken.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">De private opplysningene ble fjernet</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Beklager, vi trenger et gyldig postnummer for å behandle kortet ditt.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Bestiller…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

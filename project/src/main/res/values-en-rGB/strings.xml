@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">It looks like the airline is charging a payment processing fee of %1$s and has just raised the price of your ticket by %2$s. Are you happy to pay a new total of %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">It looks like the airline is charging a payment processing fee of %1$s but we just found your requested flights on sale for %2$s less. Are you happy to pay a new total of %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">The cardholder name that you entered does not match the name on the credit card. Please try again.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Sorry, booking for children under the age of 18 is not yet supported.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">This will sign you out and remove search history.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Private data cleared</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">We\'re sorry, but a valid postal code is required to process your credit card.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Booking…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

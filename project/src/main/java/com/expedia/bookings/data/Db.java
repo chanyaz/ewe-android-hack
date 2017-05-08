@@ -635,18 +635,6 @@ public class Db {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Memory test
-
-	private boolean mMemoryTestActive;
-	public static void setMemoryTestActive(boolean memoryTestActive) {
-		sDb.mMemoryTestActive = memoryTestActive;
-	}
-
-	public static boolean getMemoryTestActive() {
-		return sDb.mMemoryTestActive;
-	}
-
 	private static void putJsonable(JSONObject obj, String key, JSONable jsonable) throws JSONException {
 		JSONUtils.putJSONable(obj, key, jsonable);
 	}

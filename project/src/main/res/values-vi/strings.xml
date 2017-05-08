@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s và nâng giá vé của quý vị thêm %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Dường như hãng hàng không sẽ thu phí quy trình thanh toán %1$s, tuy nhiên, chúng tôi phát hiện chuyến bay quý vị yêu cầu vừa giảm giá %2$s. Quý vị có đồng ý thanh toán tổng giá mới %3$s không?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Số thẻ tín dụng quý vị nhập không hợp lệ, vui lòng nhập lại.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Tên chủ thẻ quý vị nhập không trùng khớp tên trên thẻ tín dụng. Vui lòng thử lại.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Rất tiếc, hiện tính năng đặt cho trẻ em dưới 18 tuổi chưa được hỗ trợ.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Với thao tác này, quý vị sẽ thoát tài khoản và xóa toàn bộ thông tin tìm kiếm.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Đã xóa dữ liệu cá nhân</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Rất tiếc, chúng tôi cần mã bưu chính hợp lệ để tiến hành thủ tục thanh tóa trên thẻ tín dụng của quý vị.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Đang đặt…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->

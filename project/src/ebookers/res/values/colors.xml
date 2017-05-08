@@ -91,7 +91,6 @@
     <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
 
-    <color name="account_screen_back_nav_color">@color/white</color>
     <color name="account_sign_out_button_background_color">#003366</color>
     <color name="account_sign_in_button_background_color">@color/action_bar_bg_color</color>
 

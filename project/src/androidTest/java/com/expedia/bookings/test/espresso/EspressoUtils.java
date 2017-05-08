@@ -6,8 +6,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
@@ -21,9 +19,7 @@ import android.view.View;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -178,20 +174,6 @@ public class EspressoUtils {
 
 	public static void assertContainsImageDrawable(@IdRes int viewID,  @IdRes int parentId, @DrawableRes int imageID) {
 		onView(allOf(withId(viewID), withParent(withId(parentId)), isDisplayed())).check(matches(withImageDrawable(imageID)));
-	}
-
-	public static void assertIntentFiredToViewUri(String uri) {
-		intended(allOf(
-				hasAction(Intent.ACTION_VIEW),
-				hasData(uri)
-		));
-	}
-
-	public static void assertIntentFiredToViewUri(Matcher<Uri> matcher) {
-		intended(allOf(
-				hasAction(Intent.ACTION_VIEW),
-				hasData(matcher)
-		));
 	}
 
 	public static <T> void assertIntentFiredToStartActivityWithExtra(Class<?> activityClass, Matcher<String> keyMatcher, Matcher<T> valueMatcher) {
