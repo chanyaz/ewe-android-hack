@@ -198,6 +198,37 @@ class CarWebViewTest {
         verifyCarsAppViewIsLaunched()
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewDE() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.GERMANY.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewEMEA)
+        verifyCarsWebViewIsLaunched()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensNativeAbTestOffDE() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.GERMANY.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewEMEA)
+        verifyCarsAppViewIsLaunched()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewFR() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.FRANCE.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewEMEA)
+        verifyCarsWebViewIsLaunched()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensNativeAbTestOffFR() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.FRANCE.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsWebViewEMEA)
+        verifyCarsAppViewIsLaunched()
+    }
 
     private fun goToCars() {
         NavUtils.goToCars(activity, null)
