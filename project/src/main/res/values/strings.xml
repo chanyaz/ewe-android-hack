@@ -973,7 +973,7 @@
 
     <!--Onboarding-->
     <string name="booking_page_title">Book on the go</string>
-    <string name="booking_page_subtitle">Find the perfect flight, hotel, activities and more all from our app</string>
+    <string name="booking_page_subtitle">Find the perfect flights, hotels, activities and more all from our app</string>
     <string name="trip_page_title">Travel confidently</string>
     <string name="trip_page_subtitle">Access your reservation details and get alerts on the go</string>
     <string name="reward_page_title">Get rewarded</string>
