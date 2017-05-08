@@ -791,7 +791,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void logCrystalThemeExposure() {
-		if (mItinListView.getItinCardDataAdapter().getCount() > 0 &&
+		if (mItinListView != null && mItinListView.getItinCardDataAdapter().getCount() > 0 &&
 			ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled() &&
 			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_crystal_theme)) {
 			OmnitureTracking.trackPageLoadItinCrystalTheme();
