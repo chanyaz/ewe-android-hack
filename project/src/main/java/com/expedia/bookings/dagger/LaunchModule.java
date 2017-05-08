@@ -3,9 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.LaunchScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.CollectionServices;
-import com.expedia.bookings.services.FeedsService;
 import com.expedia.bookings.services.HotelServices;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Interceptor;
@@ -28,12 +26,4 @@ public final class LaunchModule {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new CollectionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
-
-	@Provides
-	@LaunchScope
-	FeedsService provideFeedsService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new FeedsService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
 }
