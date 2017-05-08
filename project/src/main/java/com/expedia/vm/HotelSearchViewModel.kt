@@ -32,7 +32,6 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
-        destinationValidObservable.onNext(getParamsBuilder().hasDestinationLocation())
     }
 
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->

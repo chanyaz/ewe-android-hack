@@ -41,21 +41,21 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
+import kotlin.Unit;
 import rx.observers.TestSubscriber;
 
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by vsuriyal on 12/30/16.
- */
 @RunWith(RobolectricRunner.class)
-@Config(shadows = {ShadowGCM.class,ShadowUserManager.class})
+@Config(shadows = {ShadowGCM.class, ShadowUserManager.class})
 public class FlightSearchPresenterTest {
 	private FlightSearchPresenter widget;
 	private FragmentActivity activity;
@@ -375,6 +375,52 @@ public class FlightSearchPresenterTest {
 		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
 
 		isRoundTripSearchSubscriber.assertValue(true);
+	}
+
+	@Test
+	public void testSearchValidationStepByStep() {
+		initializeWidget();
+		FlightSearchViewModel vm = widget.getSearchViewModel();
+		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
+
+		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
+		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
+		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestSubscriber);
+
+		vm.getPerformSearchObserver().onNext(Unit.INSTANCE);
+		errorNoOriginObservableTestSubscriber.assertValueCount(1);
+		errorNoDestinationTestSubscriber.assertValueCount(0);
+		errorNoDatesObservableTestSubscriber.assertValueCount(0);
+
+		assertNull(widget.getDestinationCardView().getCompoundDrawables()[2]);
+		assertNull(widget.getOriginCardView().getCompoundDrawables()[2]);
+		assertNull(widget.getCalendarWidgetV2().getCompoundDrawables()[2]);
+	}
+
+	@Test
+	public void testSearchValidationConcurrent() {
+		SettingUtils.save(activity, R.string.preference_flight_search_form_validations, true);
+		RoboTestHelper.INSTANCE.bucketTests(AbacusUtils.EBAndroidAppFlightSearchFormValidation);
+		initializeWidget();
+		FlightSearchViewModel vm = widget.getSearchViewModel();
+		TestSubscriber<Unit> errorNoDestinationTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoOriginObservableTestSubscriber = new TestSubscriber();
+		TestSubscriber<Unit> errorNoDatesObservableTestSubscriber = new TestSubscriber();
+
+		vm.getErrorNoDestinationObservable().subscribe(errorNoDestinationTestSubscriber);
+		vm.getErrorNoOriginObservable().subscribe(errorNoOriginObservableTestSubscriber);
+		vm.getErrorNoDatesObservable().subscribe(errorNoDatesObservableTestSubscriber);
+
+		vm.getPerformSearchObserver().onNext(Unit.INSTANCE);
+		errorNoOriginObservableTestSubscriber.assertValueCount(1);
+		errorNoDestinationTestSubscriber.assertValueCount(1);
+		errorNoDatesObservableTestSubscriber.assertValueCount(1);
+
+		assertNotNull(widget.getDestinationCardView().getCompoundDrawablesRelative()[2]);
+		assertNotNull(widget.getOriginCardView().getCompoundDrawablesRelative()[2]);
+		assertNotNull(widget.getCalendarWidgetV2().getCompoundDrawablesRelative()[2]);
 	}
 
 	@Test
