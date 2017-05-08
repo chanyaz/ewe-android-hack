@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -19,18 +20,21 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
     val title: TextView by bindView(R.id.first_row)
     val subTitle: TextView by bindView(R.id.second_row)
     val icon: ImageView by bindView(R.id.icon)
+    val isNewConfirmationScreenEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_additional_content_flight_confirmation)
 
     var viewModel: FlightConfirmationCardViewModel by notNullAndObservable { vm ->
         vm.titleSubject.subscribeText(title)
         vm.subtitleSubject.subscribeText(subTitle)
-        vm.urlSubject.subscribe { url ->
-            if (!url.isNullOrBlank()) {
-                val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
-                        .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
-                PicassoHelper.Builder(icon)
-                        .setError(fallbackDrawable)
-                        .build()
-                        .load(url)
+        if (isNewConfirmationScreenEnabled)  {
+            vm.urlSubject.subscribe { url ->
+                if (!url.isNullOrBlank()) {
+                    val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
+                            .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
+                    PicassoHelper.Builder(icon)
+                            .setError(fallbackDrawable)
+                            .build()
+                            .load(url)
+                }
             }
         }
     }
