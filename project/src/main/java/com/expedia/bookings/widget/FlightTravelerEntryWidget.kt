@@ -38,8 +38,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val passportCountryInputLayout: TextInputLayout by bindView(R.id.passport_country_layout_btn)
     val passportCountryEditBox: EditText by bindView(R.id.passport_country_btn)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
-    var advancedButton: LinearLayout? = null
-    var advancedOptionsIcon: ImageView? = null
+    val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
+    val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -142,14 +142,13 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             setOnFocusChangeListenerForView(tsaEntryView.genderEditText!!)
         } else {
             tsaEntryView.genderSpinner?.addOnFocusChangeListener(this)
-            advancedOptionsIcon = findViewById(R.id.traveler_advanced_options_icon) as ImageView
-            advancedButton = findViewById(R.id.traveler_advanced_options_button) as LinearLayout
-            advancedButton?.setOnClickListener {
-                if (advancedOptionsWidget.visibility == Presenter.GONE) {
-                    showAdvancedOptions()
-                } else {
-                    hideAdvancedOptions()
-                }
+        }
+
+        advancedButton.setOnClickListener {
+            if (advancedOptionsWidget.visibility == Presenter.GONE) {
+                showAdvancedOptions()
+            } else {
+                hideAdvancedOptions()
             }
         }
         val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
