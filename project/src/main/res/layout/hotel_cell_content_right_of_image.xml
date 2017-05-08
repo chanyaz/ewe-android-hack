@@ -22,6 +22,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/pinned_hotel_view"
+                style="@style/Core.Text.Large.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:background="?attr/primary_color"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:text="@string/you_picked_this_hotel_label"
+                tools:visibility="visible"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="96dp"

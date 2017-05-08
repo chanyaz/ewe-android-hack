@@ -20,9 +20,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.animation.ScaleInRunnable
 import com.expedia.bookings.hotel.animation.ScaleOutRunnable
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
@@ -42,7 +44,6 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelClientFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.hotel.HotelServerFilterViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
 import rx.Observer
@@ -50,7 +51,6 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
-
     val urgencyDropDownContainer: LinearLayout by bindView(R.id.hotel_urgency_container)
     val urgencyPercentBookedView: TextView by bindView(R.id.urgency_percentage_view)
     val urgencyDescriptionView: TextView by bindView(R.id.urgency_destination_description_view)
@@ -78,9 +78,15 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     init {
         showSearchMenu.subscribe { searchMenu.isVisible = it }
+
+        if (!filterView.viewModel.isClientSideFiltering()) {
+            filterView.viewModel.filterByParamsObservable.subscribe { params ->
+                viewModel.filterParamsSubject.onNext(params)
+            }
+        }
     }
 
-    override var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
+    var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
         mapViewModel.mapInitializedObservable.subscribe {
             setMapToInitialState(viewModel.getSearchParams()?.suggestion)
         }
@@ -126,19 +132,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             toolbarSubtitle.text = it
         }
 
-        vm.paramsSubject.subscribe { params ->
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
-
-            setMapToInitialState(params.suggestion)
-            showLoading()
-            show(ResultsList())
-
-            filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
-            filterView.viewModel.clearObservable.onNext(Unit)
-            if (params.suggestion.gaiaId != null) {
-                filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
-            }
-        }
+        vm.paramsSubject.subscribe { params -> resetForNewSearch(params) }
 
         vm.sortByDeepLinkSubject.subscribe { sortType ->
             filterView.viewModel.sortByObservable.onNext(sortType)
@@ -163,7 +157,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 showMapLoadingOverlay()
             }
         }
-
         vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewModel.isCurrentLocationSearch)
 
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
@@ -342,6 +335,20 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             viewModel.hotelResultsObservable.onNext(cachedResponse)
         } else {
             viewModel.mapResultsObservable.onNext(cachedResponse)
+        }
+    }
+
+    private fun resetForNewSearch(params: HotelSearchParams) {
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
+
+        setMapToInitialState(params.suggestion)
+        showLoading()
+        show(ResultsList())
+
+        filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
+        filterView.viewModel.clearObservable.onNext(Unit)
+        if (params.suggestion.gaiaId != null) {
+            filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
         }
     }
 

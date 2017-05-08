@@ -59,11 +59,15 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         val lat = getLatitude(params.suggestion)
         val long = getLongitude(params.suggestion)
         var regionId = getRegionId(params)
+        if (params.suggestion.hotelId != null) {
+            params.enableSponsoredListings = false
+        }
 
         if (hitLPAS) {
-            return hotelApi.searchLPAS(regionId, lat, long,
+            return hotelApi.searchLPAS(regionId, params.suggestion.hotelId, lat, long,
                     params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                    params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(), params.mctc)
+                    params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(),
+                    params.mctc, params.enableSponsoredListings)
                     .observeOn(observeOn)
                     .subscribeOn(subscribeOn)
                     .doOnNext {
@@ -74,9 +78,10 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                     }
         }
 
-        return hotelApi.search(regionId, lat, long,
+        return hotelApi.search(regionId, params.suggestion.hotelId, lat, long,
                 params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints,
-                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(), params.mctc)
+                params.filterUnavailable.toString(), params.getSortOrder().sortName, params.filterOptions?.getFiltersQueryMap() ?: HashMap(),
+                params.mctc, params.enableSponsoredListings)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext {

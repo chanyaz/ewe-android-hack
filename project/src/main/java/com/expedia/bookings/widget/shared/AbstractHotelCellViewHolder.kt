@@ -52,6 +52,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
     val resources = root.resources
 
     var hotelId: String by Delegates.notNull()
+
+    val pinnedHotelTextView: TextView by root.bindView(R.id.pinned_hotel_view)
     val imageView: ImageView by root.bindView(R.id.background)
     val gradient: View by root.bindView(R.id.foreground)
     val hotelNameStarAmenityDistance: HotelCellNameStarAmenityDistance by root.bindView(R.id.hotel_name_star_amenity_distance)
@@ -116,6 +118,10 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         }
 
         cardView.contentDescription = viewModel.getHotelContentDesc()
+    }
+
+    fun markPinned(pin: Boolean) {
+        pinnedHotelTextView.updateVisibility(pin)
     }
 
     private fun updateAirAttach() {

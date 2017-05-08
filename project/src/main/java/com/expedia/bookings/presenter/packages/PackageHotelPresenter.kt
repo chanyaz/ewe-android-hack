@@ -27,6 +27,7 @@ import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.vm.PackageHotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
@@ -53,7 +54,6 @@ import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observable
@@ -100,7 +100,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewModel = HotelResultsViewModel(context, packageServices, LineOfBusiness.PACKAGES)
+        presenter.viewModel = PackageHotelResultsViewModel(context, packageServices)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter

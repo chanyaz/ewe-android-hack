@@ -22,7 +22,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelItinDetailsResponse
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -31,6 +30,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.hotel.provider.HotelSearchProvider
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
@@ -66,7 +66,8 @@ import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
+import com.expedia.bookings.hotel.vm.HotelResultsViewModel
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import rx.Observable
@@ -156,7 +157,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewModel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
+        presenter.viewModel = HotelResultsViewModel(getContext(), HotelSearchProvider(hotelServices))
 
         presenter.viewModel.searchingForHotelsDateTime.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
@@ -842,8 +843,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
         errorPresenter.getViewModel().paramsSubject.onNext(params)
         if (params.suggestion.hotelId != null) {
-            // Hotel name search - go straight to details
-            showDetails(params.suggestion.hotelId, true)
+            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_pinned_search)) {
+                show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+                resultsPresenter.viewModel.paramsSubject.onNext(params)
+            } else {
+                showDetails(params.suggestion.hotelId, true)
+            }
         } else if (params.suggestion.type.equals("RAW_TEXT_SEARCH")) {
             // fire off geo search to resolve raw text into lat/long
             geoCodeSearchModel.searchObserver.onNext(params)
