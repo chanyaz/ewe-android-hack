@@ -115,7 +115,7 @@ def generateStepsHTML(testcaseStepsJson, testExecutionTime, testcaseStatus, isAf
                         <div class="rTableCell width-10">{stepStatus}</div>
                         <div class="rTableCell width-20">{errorMessage}</div>
                     </div>
-			""".format(stepStatus=stepStatus,stepKeyword=stepKeyword,stepDataHTML=stepDataHTML, stepName=stepName, stepDuration=stepDuration/1e9, errorMessage=errorMessage.encode('utf-8')))
+			""".format(stepStatus=stepStatus,stepKeyword=stepKeyword,stepDataHTML=stepDataHTML.encode('utf-8'), stepName=stepName.encode('utf-8'), stepDuration=stepDuration/1e9, errorMessage=errorMessage.encode('utf-8')))
 
     testCaseStepsGeneratedHTML=''.join(testCaseStepsGenerated)
     return testCaseStepsGeneratedHTML, testExecutionTime, testcaseStatus
