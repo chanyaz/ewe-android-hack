@@ -35,7 +35,6 @@ public class PicassoHelper implements Target, Callback {
 	private int mDefaultResId;
 	private int mErrorResId;
 
-	private boolean mBlur;
 	private boolean mPalette;
 	private boolean mFade;
 	private boolean mFit;
@@ -88,10 +87,6 @@ public class PicassoHelper implements Target, Callback {
 	private void loadImage(RequestCreator requestCreator) {
 		if (mDefaultResId != 0) {
 			requestCreator = requestCreator.placeholder(mDefaultResId);
-		}
-
-		if (mBlur) {
-			requestCreator = requestCreator.transform(new BlurTransform(mContext));
 		}
 
 		if (mPalette) {
@@ -249,10 +244,6 @@ public class PicassoHelper implements Target, Callback {
 		mErrorResId = errorResId;
 	}
 
-	private void setBlurTransformation(boolean value) {
-		mBlur = value;
-	}
-
 	private void setFit(boolean fit) {
 		mFit = fit;
 	}
@@ -312,7 +303,6 @@ public class PicassoHelper implements Target, Callback {
 		private Callback mCallback;
 		private PicassoTarget mTarget;
 
-		private boolean mBlur;
 		private boolean mPalette;
 		private boolean mFade;
 		private boolean mFit;
@@ -356,11 +346,6 @@ public class PicassoHelper implements Target, Callback {
 			return this;
 		}
 
-		public Builder applyBlurTransformation(boolean value) {
-			mBlur = value;
-			return this;
-		}
-
 		public Builder applyPaletteTransformation(PaletteCallback callback) {
 			if (callback != null) {
 				mPalette = true;
@@ -393,7 +378,6 @@ public class PicassoHelper implements Target, Callback {
 			PicassoHelper picassoHelper = new PicassoHelper(mContext);
 			picassoHelper.setPlaceholder(mDefaultResId);
 			picassoHelper.setError(mErrorResId);
-			picassoHelper.setBlurTransformation(mBlur);
 			picassoHelper.setFit(mFit);
 			picassoHelper.setCenterCrop(mCenterCrop);
 			picassoHelper.setPaletteTransformation(mPalette);

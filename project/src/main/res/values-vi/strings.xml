@@ -3088,8 +3088,6 @@
     <string name="info_label_privacy_policy">Quyền riêng tư</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Bản quyền 2012-{year} {brand}, Inc.\nMọi quyền được bảo lưu.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Ứng dụng này sử dụng thuật toán Stack Blur của Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Bản quyền các phần mềm mã nguồn mở</string>
     <!-- String for acrediting the open source libraries we use -->

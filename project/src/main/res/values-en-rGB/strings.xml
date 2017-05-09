@@ -3088,8 +3088,6 @@
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">This app makes use of the Stack Blur algorithm by Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->

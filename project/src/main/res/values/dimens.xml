@@ -11,10 +11,6 @@
 
     <dimen name="action_bar_selected_tab_underline_height">1dp</dimen>
 
-    <!-- Values that L2ImageCache will use for Stack Blur -->
-    <fraction name="stack_blur_darken_multiplier">65%</fraction>
-    <dimen name="stack_blur_radius">25dp</dimen>
-
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>

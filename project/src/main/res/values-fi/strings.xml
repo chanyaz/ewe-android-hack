@@ -3088,10 +3088,6 @@
     <string name="info_label_privacy_policy">Tietosuojakäytännöt</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012–{year} {brand}, Inc.\nKaikki oikeudet pidätetään.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Tämä sovellus käyttää Mario Klingemannin Stack Blur -algoritmia.</string>
-    <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Avoimen lähdekoodin ohjelmistolisenssit</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Tämä sovellus käyttää seuraavia avoimen lähdekoodin kirjastoja:</string>
 

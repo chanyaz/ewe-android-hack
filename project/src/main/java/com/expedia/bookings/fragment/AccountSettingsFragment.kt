@@ -302,8 +302,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         // All done
         ft.commit()
 
-        openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names) + "\n\n" + (
-                getString(R.string.stack_blur_credit))
+        openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
 
         signInButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null)

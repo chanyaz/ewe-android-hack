@@ -207,8 +207,7 @@ class AccountSettingsFragmentTest {
         assertEquals(expected, copyrightView.text)
 
         expected = activity.getString(R.string.this_app_makes_use_of_the_following) + " " +
-                activity.getString(R.string.open_source_names) + "\n\n" +
-                activity.getString(R.string.stack_blur_credit)
+                activity.getString(R.string.open_source_names)
         val ossView = fragment.view?.findViewById(R.id.open_source_credits_textview) as TextView
         assertEquals(expected, ossView.text)
     }
