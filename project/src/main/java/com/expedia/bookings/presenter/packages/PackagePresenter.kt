@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
@@ -126,7 +127,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         hotelOffersErrorObservable.subscribe(presenter.getViewModel().hotelOffersApiErrorObserver)
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
-            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.bottomCheckoutContainer.slideToPurchase.resetSlider()
         }
 
         presenter.viewmodel.createTripUnknownErrorObservable.subscribe {
@@ -137,7 +138,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.show(bundlePresenter.getCheckoutPresenter())
-            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.bottomCheckoutContainer.slideToPurchase.resetSlider()
             bundlePresenter.getCheckoutPresenter().openTravelerPresenter()
         }
 
@@ -205,13 +206,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleWidget.collapseBundleWidgets()
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-                bundlePresenter.toggleCheckoutButtonAndSliderVisibility(false)
                 bundlePresenter.resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             } else {
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
+            bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

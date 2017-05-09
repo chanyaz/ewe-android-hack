@@ -1001,11 +1001,13 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.book_room_button_content_description_TEMPLATE,
 		R.layout.room_description_dialog,
 		R.string.room_description_title,
+		R.layout.bottom_checkout_container,
 		R.dimen.flight_fsr_footer_button_height,
 		R.string.show_map,
 		R.string.show_list,
 		R.anim.slide_out_right,
 		R.anim.reset_translate_and_fade_in,
-		R.integer.onboarding_pager_transition_duration
+		R.integer.onboarding_pager_transition_duration,
+		R.layout.bottom_checkout_container
 	};
 }

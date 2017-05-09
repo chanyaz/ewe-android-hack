@@ -29,6 +29,8 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
@@ -61,7 +63,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
+abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr),
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
     protected lateinit var paymentViewModel: PaymentViewModel
@@ -117,11 +119,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
-    val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
-    val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
-    val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
-    val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
-    val slideToPurchaseSpace: Space by bindView(R.id.slide_to_purchase_space)
 
     val rootWindow: Window by lazy { (context as Activity).window }
     val decorView: View by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
@@ -186,17 +183,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
-    val acceptTermsWidget: AcceptTermsWidget by lazy {
-        val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
-        val presenter = viewStub.inflate() as AcceptTermsWidget
-        presenter.acceptButton.setOnClickListener {
-            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
-            AnimUtils.slideDown(acceptTermsWidget)
-            acceptTermsWidget.visibility = View.GONE
-            acceptTermsWidget.acceptButton.unsubscribeOnClick()
-        }
-        presenter
-    }
 
     var travelerManager: TravelerManager by Delegates.notNull()
 
@@ -206,8 +192,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeText(depositPolicyText)
-        vm.sliderPurchaseTotalText.subscribeText(slideTotalText)
-        vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.showCheckoutDialogObservable.subscribe { show ->
             if (show) {
                 checkoutDialog.show()
@@ -216,8 +200,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.checkoutPriceChangeObservable.subscribe { response ->
-            slideToPurchase.resetSlider()
-            vm.animateInSlideToPurchaseObservable.onNext(true)
+            vm.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
             getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
             val oldPrice = response.getOldPrice()
@@ -226,16 +209,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
             handleCheckoutPriceChange(response)
         }
-        vm.noNetworkObservable.subscribe {
-            slideToPurchase.resetSlider()
-        }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeText(cardFeeWarningTextView)
-        vm.animateInSlideToPurchaseObservable.subscribe {
-            val hasText = !vm.sliderPurchaseTotalText.value.isNullOrEmpty()
-            slideToPurchaseSpace.setInverseVisibility(hasText)
-            slideTotalText.setInverseVisibility(!hasText)
-        }
         vm.showCardFeeWarningText.subscribe {
             cardFeeWarningTextView.visibility = View.VISIBLE
         }
@@ -347,20 +322,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun setupClickListeners() {
         loginWidget.setListener(this)
-        slideToPurchase.addSlideToListener(this)
         legalInformationText.setOnClickListener {
             context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
-        }
-        accessiblePurchaseButton.setOnClickListener {
-            if (ckoViewModel.builder.hasValidCVV()) {
-                val params = ckoViewModel.builder.build()
-                if (!ExpediaBookingApp.isAutomation() && !ckoViewModel.builder.hasValidCheckoutParams()) {
-                    Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${ckoViewModel.builder.hasValidParams()}")))
-                }
-                ckoViewModel.checkoutParams.onNext(params)
-            } else {
-                ckoViewModel.slideAllTheWayObservable.onNext(Unit)
-            }
         }
     }
 
@@ -418,7 +381,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             updateTravelerPresenter()
             if (forward) {
                 setToolbarTitle()
-                ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
+            } else {
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             }
         }
     }
@@ -436,7 +401,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun endDefaultToPaymentTransition(forward: Boolean) {
         if (!forward) {
-            ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
+            ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
             paymentWidget.setFocusForView()
             decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             paymentWidget.viewmodel.updateBackgroundColor.onNext(forward)
@@ -484,29 +449,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
     }
 
-    /** Slide to purchase **/
-    override fun onSlideStart() {
-    }
-
-    override fun onSlideProgress(pixels: Float, total: Float) {
-    }
-
-    override fun onSlideAllTheWay() {
-        if (ckoViewModel.builder.hasValidCVV()) {
-            val params = ckoViewModel.builder.build()
-            if (!ExpediaBookingApp.isAutomation() && !ckoViewModel.builder.hasValidCheckoutParams()) {
-                Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${ckoViewModel.builder.hasValidParams()}")))
-            }
-            ckoViewModel.checkoutParams.onNext(params)
-        } else {
-            ckoViewModel.slideAllTheWayObservable.onNext(Unit)
-        }
-    }
-
-    override fun onSlideAbort() {
-        slideToPurchase.resetSlider()
-    }
-
     /** User account refresher **/
     override fun onUserAccountRefreshed() {
         tripViewModel.performCreateTrip.onNext(Unit)
@@ -523,8 +465,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun logoutUser() {
         User.signOut(context)
-        ckoViewModel.animateInSlideToPurchaseObservable.onNext(false)
         updateDbTravelers()
+        ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
         initLoggedInState(false)
         updateTravelerPresenter()
         tripViewModel.performCreateTrip.onNext(Unit)
@@ -534,7 +476,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         updateDbTravelers()
         initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
-        ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
+        ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
     }
 
     fun clearPaymentInfo() {
@@ -644,7 +586,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
+                ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
                 travelersPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)

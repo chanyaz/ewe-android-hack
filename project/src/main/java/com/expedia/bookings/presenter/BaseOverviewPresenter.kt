@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
@@ -12,6 +13,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.util.endlessObserver
 import com.expedia.util.safeSubscribe
 
@@ -23,6 +25,16 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
+    /*Need to re-do this work if we get back to implementing this presenter for Universal checkout*/
+    val slideToPurchaseLayout by lazy {
+        findViewById(R.id.slide_to_purchase_layout) as LinearLayout
+    }
+
+    /*Need to re-do this work if we get back to implementing this presenter for Universal checkout*/
+    val slideToPurchase by lazy {
+        findViewById(R.id.slide_to_purchase_widget) as SlideToWidgetLL
+    }
 
     init {
         inflate()
@@ -92,9 +104,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
-            if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             if (forward) {
-                checkoutPresenter.adjustScrollingSpace(checkoutPresenter.slideToPurchaseLayout)
+                checkoutPresenter.adjustScrollingSpace(slideToPurchaseLayout)
+                checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
                 if (checkoutPresenter.getCheckoutViewModel().isValidForBooking()) {
                     checkoutPresenter.trackShowSlideToPurchase()
@@ -110,15 +122,15 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     open protected fun resetCheckoutState() {
-        checkoutPresenter.slideToPurchase.resetSlider()
+        slideToPurchase.resetSlider()
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                checkoutPresenter.slideToPurchase.resetSlider()
-                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
+                slideToPurchase.resetSlider()
+                slideToPurchaseLayout.setAccessibilityHoverFocus()
             } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()
@@ -157,9 +169,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun updateScrollingSpace(scrollSpaceView: View?) {
         val scrollSpaceViewLp = scrollSpaceView?.layoutParams
-        var scrollspaceheight = checkoutPresenter.slideToPurchaseLayout.height
-        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
-            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
+        var scrollspaceheight = slideToPurchaseLayout.height
+        if (slideToPurchaseLayout.height > 0) {
+            scrollspaceheight -= slideToPurchaseLayout.height
         }
         if (scrollSpaceViewLp?.height != scrollspaceheight) {
             scrollSpaceViewLp?.height = scrollspaceheight
