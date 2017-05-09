@@ -993,8 +993,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.integer.onboarding_text_animation_duration,
 		R.integer.onboarding_text_animation_delay,
 		R.layout.hotel_room_card_view,
-		R.dimen.hotel_room_amenity_margin,
-		R.dimen.textview_drawable_padding,
 		R.string.before_TEMPLATE,
 		R.string.option_TEMPLATE,
 		R.layout.hotel_room_detail,
@@ -1035,6 +1033,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.reward_base_tier_name_short,
 		R.string.reward_middle_tier_name_short,
 		R.string.reward_top_tier_name_short,
-		R.string.show_list
+		R.string.show_list,
+		R.drawable.ic_amenity_wifi,
+		R.layout.room_value_add_row
 	};
 }

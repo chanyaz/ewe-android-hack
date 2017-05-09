@@ -16,8 +16,7 @@ class HotelRoomHeaderViewModel(val context: Context, val hotelRoomResponse: Hote
     val roomTypeString by lazy { createRoomTypeString() }
 
     val bedTypeString by lazy {
-        (hotelRoomResponse.bedTypes ?: emptyList()).map {
-            bedType ->
+        (hotelRoomResponse.bedTypes ?: emptyList()).map { bedType ->
             bedType.description
         }.joinToString(context.resources.getString(R.string.delimiter_multiple_bed))
     }
