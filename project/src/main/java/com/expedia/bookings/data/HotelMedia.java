@@ -381,4 +381,9 @@ public class HotelMedia implements JSONable, IMedia {
 	public int getFallbackImage() {
 		return R.drawable.room_fallback;
 	}
+
+	@Override
+	public String getDescription() {
+		return mDescription;
+	}
 }

@@ -190,7 +190,7 @@ public class RecyclerGallery extends RecyclerView {
 		initViews();
 	}
 
-	public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+	public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.GalleryViewHolder> {
 		private List<? extends IMedia> mMedia;
 		private FrameLayout.LayoutParams mLayoutParams;
 
@@ -216,7 +216,7 @@ public class RecyclerGallery extends RecyclerView {
 			mLayoutParams.width = (int) imageWidth;
 		}
 
-		public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+		public class GalleryViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 			@InjectView(R.id.gallery_item_progress_bar)
 			public ProgressBar progressBar;
 			@InjectView(R.id.photo_count_textview)
@@ -224,7 +224,7 @@ public class RecyclerGallery extends RecyclerView {
 			@InjectView(R.id.gallery_item_image_view)
 			public HotelDetailsGalleryImageView mImageView;
 
-			public ViewHolder(View root) {
+			public GalleryViewHolder(View root) {
 				super(root);
 				ButterKnife.inject(this, itemView);
 				mImageView.setLayoutParams(mLayoutParams);
@@ -242,12 +242,28 @@ public class RecyclerGallery extends RecyclerView {
 						.put("index", String.valueOf(getAdapterPosition() + 1))
 						.put("count", String.valueOf(getItemCount()))
 						.format().toString());
-					photoCountTextView.setContentDescription(
-						Phrase.from(getContext(), R.string.gallery_photo_count_content_description_TEMPLATE)
-							.put("index", String.valueOf(getAdapterPosition() + 1))
-							.put("count", String.valueOf(getItemCount()))
-							.format().toString());
 				}
+				updateContDesc();
+			}
+
+			private void updateContDesc() {
+				IMedia media = mMedia.get(getAdapterPosition());
+				String contDesc;
+				String imageDescription = media.getDescription();
+				if (imageDescription != null) {
+					contDesc = Phrase.from(getContext(), R.string.gallery_photo_count_plus_description_cont_desc_TEMPLATE)
+						.put("index", String.valueOf(getAdapterPosition() + 1))
+						.put("count", String.valueOf(getItemCount()))
+						.put("api_description", imageDescription)
+						.format().toString();
+				}
+				else {
+					contDesc = Phrase.from(getContext(), R.string.gallery_photo_count_cont_desc_TEMPLATE)
+						.put("index", String.valueOf(getAdapterPosition() + 1))
+						.put("count", String.valueOf(getItemCount()))
+						.format().toString();
+				}
+				itemView.setContentDescription(contDesc);
 			}
 
 			@Override
@@ -299,16 +315,16 @@ public class RecyclerGallery extends RecyclerView {
 		}
 
 		@Override
-		public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+		public GalleryViewHolder onCreateViewHolder(ViewGroup parent,
 			int viewType) {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
-			ViewHolder vh = new ViewHolder(root);
+			GalleryViewHolder vh = new GalleryViewHolder(root);
 			return vh;
 		}
 
 		@Override
-		public void onBindViewHolder(final ViewHolder holder, int position) {
+		public void onBindViewHolder(final GalleryViewHolder holder, int position) {
 			IMedia media = mMedia.get(position);
 			if (media.getIsPlaceHolder()) {
 				media.loadErrorImage(holder.mImageView, holder.callback, media.getFallbackImage());
@@ -320,7 +336,6 @@ public class RecyclerGallery extends RecyclerView {
 			if (enableProgressBarOnImageViews) {
 				holder.progressBar.setVisibility(View.VISIBLE);
 			}
-
 			holder.bind();
 		}
 
@@ -336,10 +351,10 @@ public class RecyclerGallery extends RecyclerView {
 
 	}
 
-	public RecyclerAdapter.ViewHolder getSelectedViewHolder() {
+	public RecyclerAdapter.GalleryViewHolder getSelectedViewHolder() {
 		ViewHolder vh = findViewHolderForAdapterPosition(getSelectedItem());
 		if (vh != null) {
-			return (RecyclerAdapter.ViewHolder) vh;
+			return (RecyclerAdapter.GalleryViewHolder) vh;
 		}
 		return null;
 	}
