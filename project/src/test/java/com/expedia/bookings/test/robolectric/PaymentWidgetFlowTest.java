@@ -51,7 +51,11 @@ import com.expedia.bookings.widget.StoredCreditCardList;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.PaymentViewModel;
 
+import kotlin.Unit;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRunner.class)
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
@@ -178,7 +182,7 @@ public class PaymentWidgetFlowTest {
 		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
 		PackageCreateTripResponse response = new PackageCreateTripResponse();
-		response.setValidFormsOfPayment(setupValidFormsOfPayment());
+		response.setValidFormsOfPayment(setupValidFormsOfPayment(PaymentType.CARD_VISA));
 		TripBucketItem tripItem = new TripBucketItemPackages(response);
 		Db.getTripBucket().add((TripBucketItemPackages) tripItem);
 
@@ -221,7 +225,7 @@ public class PaymentWidgetFlowTest {
 		UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser());
 
 		FlightCreateTripResponse response = new FlightCreateTripResponse();
-		response.setValidFormsOfPayment(setupValidFormsOfPayment());
+		response.setValidFormsOfPayment(setupValidFormsOfPayment(PaymentType.CARD_VISA));
 		TripBucketItemFlightV2 tripItem = new TripBucketItemFlightV2(response);
 		Db.getTripBucket().add(tripItem);
 
@@ -281,9 +285,62 @@ public class PaymentWidgetFlowTest {
 		assertEquals(PaymentType.CARD_DISCOVER, paymentWidget.getCardType());
 	}
 
+	@Test
+	public void testSelectCorrectSavedCard() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Packages);
+		Ui.getApplication(activity).defaultPackageComponents();
+		PaymentWidget paymentWidget = (PaymentWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.payment_widget, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.FLIGHTS_V2);
+
+		Db.getTripBucket().clear();
+		FlightCreateTripResponse response = new FlightCreateTripResponse();
+		response.setValidFormsOfPayment(setupValidFormsOfPayment(PaymentType.CARD_MAESTRO));
+		TripBucketItemFlightV2 tripItem = new TripBucketItemFlightV2(response);
+		Db.getTripBucket().add(tripItem);
+
+		User user = new User();
+		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));
+		user.addStoredCreditCard(getNewCard(PaymentType.CARD_VISA));
+		Db.setUser(user);
+
+		paymentWidget.selectFirstAvailableCard();
+
+		assertTrue(paymentWidget.getSectionBillingInfo().getBillingInfo().getStoredCard().getType() == PaymentType.CARD_MAESTRO);
+
+		Db.getTripBucket().clear();
+		response = new FlightCreateTripResponse();
+		response.setValidFormsOfPayment(setupValidFormsOfPayment(PaymentType.CARD_VISA));
+		tripItem = new TripBucketItemFlightV2(response);
+		Db.getTripBucket().add(tripItem);
+
+		paymentWidget.selectFirstAvailableCard();
+		assertEquals(PaymentType.CARD_VISA, paymentWidget.getCardType());
+	}
+
+	@Test
+	public void testClearTempCard() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.Theme_Hotels_Default);
+		Ui.getApplication(activity).defaultHotelComponents();
+		PaymentWidgetV2 paymentWidget = (PaymentWidgetV2) LayoutInflater.from(activity)
+			.inflate(R.layout.payment_widget_v2, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
+		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
+		paymentWidget.userChoosesToSaveCard();
+
+		assertTrue(paymentWidget.hasTempCard());
+		paymentWidget.getViewmodel().getClearTemporaryCardObservable().onNext(Unit.INSTANCE);
+		assertFalse(paymentWidget.hasTempCard());
+	}
+
 	private void setUserWithStoredCard(PaymentWidget paymentWidget) {
 		User user = new User();
-		user.addStoredCreditCard(getNewCard());
+		user.addStoredCreditCard(getNewCard(PaymentType.CARD_MAESTRO));
 		Db.setUser(user);
 
 		paymentWidget.getViewmodel().isCreditCardRequired().onNext(true);
@@ -291,12 +348,12 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.selectFirstAvailableCard();
 	}
 
-	private StoredCreditCard getNewCard() {
+	private StoredCreditCard getNewCard(PaymentType paymentType) {
 		StoredCreditCard card = new StoredCreditCard();
 
 		card.setCardNumber("1234567812345678");
 		card.setId("stored-card-id");
-		card.setType(PaymentType.CARD_MAESTRO);
+		card.setType(paymentType);
 		card.setDescription("shouldBeInvalid");
 		card.setIsGoogleWallet(false);
 		return card;
@@ -310,10 +367,10 @@ public class PaymentWidgetFlowTest {
 		return validPayments;
 	}
 
-	private ArrayList setupValidFormsOfPayment() {
+	private ArrayList setupValidFormsOfPayment(PaymentType paymentType) {
 		ArrayList<ValidFormOfPayment> validFormsOfPayment = new ArrayList<>();
 		ValidFormOfPayment validPayment = new ValidFormOfPayment();
-		validPayment.name = "Visa";
+		validPayment.name = paymentType.getOmnitureTrackingCode();
 		ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, validPayment);
 		return validFormsOfPayment;
 	}

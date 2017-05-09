@@ -227,6 +227,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
         vm.performCreateTrip.map { false }.subscribe(vm.showPriceChangeWidgetObservable)
+        vm.performCreateTrip.subscribe {
+            paymentViewModel.clearTemporaryCardObservable.onNext(Unit)
+            paymentWidget.clearPaymentInfo()
+            paymentWidget.removeStoredCard()
+        }
         vm.priceChangeAlertPriceObservable.map { response ->
             Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode) }
                 .distinctUntilChanged().map { it.first != null && it.second != null }
@@ -474,8 +479,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun onLoginSuccess() {
         updateDbTravelers()
-        initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
+        initLoggedInState(true)
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
     }
 
