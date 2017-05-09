@@ -161,6 +161,28 @@ class FlightTravelerEntryWidgetTest {
         assertEquals("fake@gmail.com", widget.emailEntryView.emailAddress.text.toString())
     }
 
+    @Test
+    fun testMaterialOnAddNewTravelerValidation() {
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.onTravelerChosen(traveler)
+
+        widget.nameEntryView.viewModel.validate()
+        widget.emailEntryView.viewModel.validate()
+        widget.phoneEntryView.viewModel.validate()
+
+        assertFalse(widget.nameEntryView.firstName.valid)
+        assertFalse(widget.nameEntryView.lastName.valid)
+        assertFalse(widget.emailEntryView.emailAddress.valid)
+        assertFalse(widget.phoneEntryView.phoneNumber.valid)
+
+        widget.onAddNewTravelerSelected()
+        assertTrue(widget.nameEntryView.firstName.valid)
+        assertTrue(widget.nameEntryView.lastName.valid)
+        assertTrue(widget.emailEntryView.emailAddress.valid)
+        assertTrue(widget.phoneEntryView.phoneNumber.valid)
+    }
+
     private fun givenMaterialForm(isMaterialForm: Boolean) {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 
