@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.traveler.EmailEntryView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
@@ -130,6 +131,9 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         newTraveler.passengerCategory = passengerCategory
         newTraveler.phoneCountryCode = viewModel.getTraveler().phoneCountryCode
         viewModel.updateTraveler(newTraveler)
+        if (isMaterialFormsEnabled()) {
+            resetErrorState()
+        }
     }
 
 
