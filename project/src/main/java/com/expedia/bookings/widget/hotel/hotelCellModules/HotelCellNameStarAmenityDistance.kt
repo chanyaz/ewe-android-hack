@@ -54,7 +54,7 @@ class HotelCellNameStarAmenityDistance(context: Context, attrs: AttributeSet) : 
     }
 
     private fun updateStarRating(viewModel: HotelViewModel) {
-        starRatingBar.updateVisibility(viewModel.showStarRating)
+        ratingBar.updateVisibility(viewModel.showStarRating)
         ratingBar.setRating(viewModel.hotelStarRating)
         ratingBar.setStarColor(viewModel.getStarRatingColor())
     }
