@@ -90,8 +90,8 @@ function uninstallBuild() {
     # unistall old apks
     adb -s $device uninstall ${packageName}.debug
     echo "Uninstalled ${packageName}.debug"
-    adb -s $device uninstall ${packageName}.test
-    echo "Uninstalled ${packageName}.test"
+    adb -s $device uninstall "com.expedia.bookings.test"
+    echo "Uninstalled com.expedia.bookings.test"
 }
 
 function runCucumberTests() {
