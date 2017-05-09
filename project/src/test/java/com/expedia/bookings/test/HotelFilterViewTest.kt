@@ -2,7 +2,6 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import android.view.View
-import android.widget.ArrayAdapter
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -53,7 +52,7 @@ class HotelFilterViewTest {
     fun testVipAccessVisibilityGermanPosDisabled() {
         setPOS(PointOfSaleId.GERMANY)
         initViewModel()
-        assertEquals(View.GONE, hotelFilterView.filterVipContainer.visibility)
+        assertEquals(View.GONE, hotelFilterView.filterVipView.visibility)
         assertEquals(View.GONE, hotelFilterView.optionLabel.visibility)
         setPOS(PointOfSaleId.UNITED_STATES)
     }
@@ -62,7 +61,7 @@ class HotelFilterViewTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testVipAccessVisibilityUsPos() {
         initViewModel()
-        assertEquals(View.VISIBLE, hotelFilterView.filterVipContainer.visibility)
+        assertEquals(View.VISIBLE, hotelFilterView.filterVipView.visibility)
         assertEquals(View.VISIBLE, hotelFilterView.optionLabel.visibility)
     }
 
@@ -71,15 +70,7 @@ class HotelFilterViewTest {
         initViewModel()
         hotelFilterView.sortByObserver.onNext(false)
         val enumOfSortingList = listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
-        val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
-        assertEquals(expectedEnumOfSortingLists, enumOfSortingList)
-    }
-
-    @Test
-    fun testClearFilterContentDesc() {
-        initViewModel()
-        val clearFilterCD = hotelFilterView.clearNameButton.contentDescription.toString()
-        assertEquals("Clear Filters", clearFilterCD)
+        assertEquals(hotelFilterView.hotelSortOptionsView.getSortItems(), enumOfSortingList)
     }
 
     @Test
@@ -88,9 +79,7 @@ class HotelFilterViewTest {
         hotelFilterView.shopWithPointsViewModel?.swpEffectiveAvailability?.onNext(true)
         hotelFilterView.sortByObserver.onNext(false)
         val enumOfSortingList = listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.RATING).toCollection(ArrayList<Sort>())
-        val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
-
-        assertEquals(expectedEnumOfSortingLists, enumOfSortingList)
+        assertEquals(hotelFilterView.hotelSortOptionsView.getSortItems(), enumOfSortingList)
     }
 
     @Test
@@ -134,16 +123,7 @@ class HotelFilterViewTest {
     private fun initViewModel() {
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelClientFilterView
         hotelFilterView.viewModel = HotelClientFilterViewModel(activity)
-        hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
-        hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
-    }
-
-    fun getItems(adapter: ArrayAdapter<Sort>): ArrayList<Sort> {
-        val array: ArrayList<Sort> = arrayListOf()
-        for (i in 1..adapter.count)
-            array.add(adapter.getItem(i - 1))
-        return array
     }
 
     private fun getNeighborhoodList() : List<HotelSearchResponse.Neighborhood> {

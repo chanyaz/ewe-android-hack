@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
@@ -38,6 +39,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().destination(suggestion)
         locationTextObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    val advancedOptionsObserver = endlessObserver<UserFilterChoices> { searchOptions ->
+        updateAdvancedSearchOptions(searchOptions)
     }
 
     init {
@@ -136,6 +141,14 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return getDateAccessibilityText(context.getString(R.string.select_dates), dateNightText.toString())
         }
         return dateNightText.toString()
+    }
+
+    private fun updateAdvancedSearchOptions(searchOptions: UserFilterChoices) {
+        val searchBuilder = getParamsBuilder()
+        searchBuilder.hotelName(searchOptions.name)
+        searchBuilder.starRatings(searchOptions.hotelStarRating.getStarRatingParamsAsList())
+        searchBuilder.vipOnly(searchOptions.isVipOnlyAccess)
+        searchBuilder.userSort(searchOptions.userSort.toServerSort())
     }
 
     private fun getDateNightText(start: LocalDate, end: LocalDate, isContentDescription: Boolean) : CharSequence {

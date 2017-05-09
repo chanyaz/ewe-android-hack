@@ -10,6 +10,12 @@
             android:layout="@layout/preference"
             android:title="Hotel Pinned Search"
             android:summary="Deeplink to Results Not InfoSite" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_hotel_advanced_search_options"
+            android:layout="@layout/preference"
+            android:summary="Advanced search options"
+            android:title="Enable Advanced Search Options" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -110,7 +116,7 @@
             android:key="@string/preference_payment_legal_message"
             android:layout="@layout/preference"
             android:summary="Payment Legal Message"
-            android:title="Payment Legal Message"/>
+            android:title="Payment Legal Message" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -121,7 +127,7 @@
             android:key="@string/preference_packages_remove_bundle_overview"
             android:layout="@layout/preference"
             android:summary="Packages Remove Bundle Overview"
-            android:title="Packages Remove Overview"/>
+            android:title="Packages Remove Overview" />
     </PreferenceCategory>
 
 </PreferenceScreen>
