@@ -19,6 +19,10 @@
     <string name="package_search_traveler_default_text">1 Traveler</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Drag to modify</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Select date to change</string>
+    <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
+    <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->

@@ -125,6 +125,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         val (start, end) = dates
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end, isRoundTripSearchObservable.value))
         setUpTimeSliderSubject.onNext(dates)
 
         super.onDatesChanged(dates)

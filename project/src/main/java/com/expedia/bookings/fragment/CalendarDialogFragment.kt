@@ -21,6 +21,7 @@ import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
+import rx.Observable
 import org.joda.time.LocalDate
 
 open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment() {
@@ -78,10 +79,15 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
             calendarPickerView.hideToolTip()
         }
 
-        baseSearchViewModel.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
-            val (top, bottom) = p
-            calendarPickerView.setToolTipText(top, bottom, true)
-        })
+        Observable.zip(baseSearchViewModel.calendarTooltipTextObservable, baseSearchViewModel.calendarTooltipContDescObservable, {
+            tooltipText, tooltipContDescription ->
+            val (top, bottom) = tooltipText
+            object {
+                val top = top
+                val bottom = bottom
+                val tooltipContDescription = tooltipContDescription
+            }
+        }).subscribe(endlessObserver { calendarPickerView.setToolTipText(it.top, it.bottom, it.tooltipContDescription, true) })
 
         baseSearchViewModel.dateInstructionObservable.subscribe({
             calendar.setInstructionText(it)

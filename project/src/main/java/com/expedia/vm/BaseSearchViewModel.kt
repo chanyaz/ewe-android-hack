@@ -21,6 +21,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
     var dateTextObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
+    val calendarTooltipContDescObservable = PublishSubject.create<String>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
@@ -121,6 +122,25 @@ abstract class BaseSearchViewModel(val context: Context) {
         } else {
             val dateText = getStartDashEndDateString(start!!, end)
             return Pair(dateText, instructionsText)
+        }
+    }
+
+    open protected fun getToolTipContentDescription(startDate: LocalDate?, endDate: LocalDate?, isRoundTripSearch: Boolean = true): String {
+        if (startDate == null && endDate == null) {
+            return context.resources.getString(R.string.select_dates_proper_case)
+        } else if (endDate == null && isRoundTripSearch) {
+            return Phrase.from(context, R.string.calendar_start_date_tooltip_cont_desc_TEMPLATE)
+                    .put("selecteddate", DateUtils.localDateToMMMd(startDate))
+                    .put("instructiontext", getCalendarToolTipInstructions(startDate, endDate))
+                    .format().toString()
+        } else if (endDate == null && !isRoundTripSearch) {
+            return Phrase.from(context, R.string.calendar_complete_tooltip_cont_desc_TEMPLATE)
+                    .put("selecteddate", DateUtils.localDateToMMMd(startDate))
+                    .format().toString()
+        } else {
+            return Phrase.from(context, R.string.calendar_complete_tooltip_cont_desc_TEMPLATE)
+                    .put("selecteddate", getStartToEndDateString(startDate!!, endDate!!))
+                    .format().toString()
         }
     }
 

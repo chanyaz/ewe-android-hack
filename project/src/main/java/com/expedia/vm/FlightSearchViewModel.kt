@@ -149,6 +149,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end, isRoundTripSearchObservable.value))
 
         if (!isStartDateOnlyAllowed()) {
             if (start != null && end == null) {

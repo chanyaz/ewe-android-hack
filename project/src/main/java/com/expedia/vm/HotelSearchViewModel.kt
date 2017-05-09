@@ -90,6 +90,7 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
 
         if (start != null && (end == null || start.equals(end))) {
             end = start.plusDays(1)

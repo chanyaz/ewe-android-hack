@@ -32,6 +32,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CalendarWidgetV2;
 import com.expedia.bookings.widget.FlightCabinClassPickerView;
@@ -427,6 +428,54 @@ public class FlightSearchPresenterTest {
 	public void testOriginDestinationPlaceholders() {
 		assertEquals(activity.getString(R.string.fly_from_hint), widget.getOriginSearchBoxPlaceholderText());
 		assertEquals(activity.getString(R.string.fly_to_hint), widget.getDestinationSearchBoxPlaceholderText());
+	}
+
+	@Test
+	public void testCalendarTooltipContentDescriptionForRoundtrip() {
+		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
+		initializeWidget();
+		FlightSearchViewModel vm = widget.getSearchViewModel();
+		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);
+
+		//When dates are not selected
+		vm.datesUpdated(null, null);
+		assertEquals("Select dates", toolTipContDescTestSubscriber.getOnNextEvents().get(0));
+
+		//When start date is selected
+		LocalDate dateNow = LocalDate.now();
+		vm.datesUpdated(dateNow, null);
+		assertEquals(getExpectedToolTipContDesc(dateNow, null),
+			toolTipContDescTestSubscriber.getOnNextEvents().get(1));
+
+		//When start and end date is selected
+		vm.datesUpdated(dateNow, dateNow.plusDays(3));
+		assertEquals(getExpectedToolTipContDesc(dateNow, dateNow.plusDays(3)),
+			toolTipContDescTestSubscriber.getOnNextEvents().get(2));
+	}
+
+	@Test
+	public void testCalendarTooltipContentDescriptionForOneWay() {
+		TestSubscriber<String> toolTipContDescTestSubscriber = new TestSubscriber<>();
+		initializeWidget();
+		FlightSearchViewModel vm = widget.getSearchViewModel();
+		vm.getCalendarTooltipContDescObservable().subscribe(toolTipContDescTestSubscriber);
+		vm.isRoundTripSearchObservable().onNext(false);
+
+		//When dates are not selected
+		vm.datesUpdated(null, null);
+		assertEquals("Select dates", toolTipContDescTestSubscriber.getOnNextEvents().get(0));
+
+		//When start date is selected
+		LocalDate dateNow = LocalDate.now();
+		vm.datesUpdated(dateNow, null);
+		assertEquals(DateUtils.localDateToMMMd(dateNow) + ". Select date to change",
+			toolTipContDescTestSubscriber.getOnNextEvents().get(1));
+	}
+
+	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {
+		return (endDate == null) ? DateUtils.localDateToMMMd(startDate) + ". Next: Select return date" :
+			DateUtils.localDateToMMMd(startDate)
+				+ " to " + DateUtils.localDateToMMMd(startDate.plusDays(3)) + ". Select date to change";
 	}
 
 	private void initializeWidget() {
