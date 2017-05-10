@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/parent_room_type_and_price_container"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="13sp"
                 app:textStyle="medium" />
@@ -154,7 +154,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/collapsed_bed_type_text_view"
                 android:layout_marginTop="3dp"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="12sp"
                 app:textStyle="normal" />
@@ -166,7 +166,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/collapsed_urgency_text_view"
                 android:layout_marginTop="5dp"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="10sp"
                 app:textStyle="normal" />
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/parent_room_type_and_price_container"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:drawableLeft="@drawable/room_bed"
                 android:drawablePadding="9dp"
                 android:textColor="@color/hotelsv2_checkout_text_color"
@@ -191,7 +191,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/expanded_bed_type_text_view"
                 android:layout_marginTop="4dp"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:drawableLeft="@drawable/room_checkmark"
                 android:drawablePadding="9dp"
                 android:textColor="@color/hotelsv2_checkout_text_color"
@@ -205,7 +205,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/expanded_amenity_text_view"
                 android:layout_marginTop="4dp"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:drawableLeft="@drawable/room_checkmark"
                 android:drawablePadding="9dp"
                 android:textColor="@color/hotelsv2_checkout_text_color"
@@ -219,33 +219,39 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/expanded_free_cancellation_text_view"
                 android:layout_marginTop="6dp"
-                android:layout_toLeftOf="@+id/hotel_room_row_button"
+                android:layout_toLeftOf="@+id/earn_row_button_container"
                 android:gravity="left"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="10sp"
                 android:visibility="gone" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/collapsed_earn_message_text_view"
+            <LinearLayout
+                android:id="@+id/earn_row_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/parent_room_type_and_price_container"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:drawableLeft="@drawable/earn_message_icon"
-                android:drawablePadding="@dimen/earn_message_icon_dimen"
-                android:textColor="@color/hotel_earn_message_text_color"
-                android:textSize="12sp"
-                app:textStyle="normal" />
+                android:gravity="right"
+                android:orientation="vertical">
 
-            <com.expedia.bookings.widget.HotelRoomRateActionButton
-                android:id="@+id/hotel_room_row_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/collapsed_earn_message_text_view"
-                />
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/collapsed_earn_message_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/earn_message_icon"
+                    android:drawablePadding="@dimen/earn_message_icon_dimen"
+                    android:textColor="@color/hotel_earn_message_text_color"
+                    android:textSize="12sp"
+                    app:textStyle="normal" />
+
+                <com.expedia.bookings.widget.HotelRoomRateActionButton
+                    android:id="@+id/hotel_room_row_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -300,7 +306,9 @@
                 android:paddingTop="8dp"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="11sp" />
+
         </RelativeLayout>
+
     </LinearLayout>
 
     <View
