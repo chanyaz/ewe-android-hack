@@ -73,4 +73,7 @@
     <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Member Discounts</string>
+
+    <!--New User Onboarding 3rd page Brand-Specific String-->
+    <string name="reward_page_subtitle_TEMPLATE">Sign up for a free Travelocity account</string>
 </resources>

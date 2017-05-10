@@ -10,4 +10,6 @@
     <string name="acct_Wotif_account_already_exists">A Wotif account already exists with this email</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Mates Rates</string>
+    <!--New User Onboarding 3rd page Brand-Specific String-->
+    <string name="reward_page_subtitle_TEMPLATE">Sign up for a free Wotif account</string>
 </resources>
