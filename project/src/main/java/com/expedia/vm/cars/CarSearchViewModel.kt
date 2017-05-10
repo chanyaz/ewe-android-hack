@@ -87,8 +87,10 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         super.onDatesChanged(dates)
-        dateInstructionObservable.onNext(getDateInstructionText(dates.first, dates.second))
-        calendarTooltipTextObservable.onNext(getToolTipText(dates.first, dates.second))
+        val (startDate, endDate) = dates
+        dateInstructionObservable.onNext(getDateInstructionText(startDate, endDate))
+        calendarTooltipTextObservable.onNext(getToolTipText(startDate, endDate))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(startDate, endDate))
 
         setUpTimeSliderSubject.onNext(dates)
     }

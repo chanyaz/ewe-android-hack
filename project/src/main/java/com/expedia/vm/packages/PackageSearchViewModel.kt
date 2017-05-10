@@ -91,6 +91,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
+        calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
 
         super.onDatesChanged(Pair(start, end))
     }

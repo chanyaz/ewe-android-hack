@@ -750,6 +750,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.done_cont_desc,
 		R.string.next_cont_desc,
 		R.drawable.ic_airline_backup,
+		R.string.calendar_complete_tooltip_cont_desc_TEMPLATE,
+		R.string.calendar_start_date_tooltip_cont_desc_TEMPLATE,
 		R.string.includes_flights_hotel,
 		R.string.discount_minus_amount,
 		R.string.local_charges_due_at_hotel,
