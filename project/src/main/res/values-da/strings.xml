@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s og har lige hævet prisen på din flybillet med %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Det lader til, at flyselskabet opkræver et betalingsgebyr på %1$s, men vi har lige fundet dine ønskede flybilletter på udsalg, hvor du kan spare %2$s. Vil du gerne betale det nye samlede beløb på %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Du har indtastet et ugyldigt kortnummer. Prøv venligst igen.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Det indtastede navn på kortholderen stemmer ikke overens med navnet på kreditkortet. Forsøg venligst igen.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Vi beklager, men reservationer for børn under 18 år understøttes endnu ikke.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din bestilling i øjeblikket. Forsøg venligst igen.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Dette vil logge dig af og fjerne søgehistorikken.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Personlige oplysninger er slettet</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Vi beklager, men du skal indtaste et gyldigt postnummer, før betalingen med dit kreditkort kan gennemføres.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Reserverer…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,8 +3088,6 @@
     <string name="info_label_privacy_policy">Fortrolighedspolitik</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rettigheder forbeholdes.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Denne app anvender Stack Blur-algoritmen af Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Licenser til open source-software</string>
     <!-- String for acrediting the open source libraries we use -->

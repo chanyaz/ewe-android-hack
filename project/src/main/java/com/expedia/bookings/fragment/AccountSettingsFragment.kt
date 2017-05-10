@@ -2,16 +2,12 @@ package com.expedia.bookings.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AlertDialog
-import android.view.GestureDetector
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -96,10 +92,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)
     }
-
-    private var gestureDetector: GestureDetectorCompat? = null
-
-    private var secretCount = 0
 
     private var appSettingsFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
@@ -193,7 +185,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gestureDetector = GestureDetectorCompat(context, mOnGestureListener)
         var builder: AboutSectionFragment.Builder
         val ft = childFragmentManager.beginTransaction()
         setGoogleAccountChangeVisibility(googleAccountChange)
@@ -311,8 +302,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         // All done
         ft.commit()
 
-        openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names) + "\n\n" + (
-                getString(R.string.stack_blur_credit))
+        openSourceCredits.text = getString(R.string.this_app_makes_use_of_the_following) + " " + getString(R.string.open_source_names)
 
         signInButton.setOnClickListener {
             val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null)
@@ -373,44 +363,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         super.onPause()
         Events.unregister(this)
         scrollContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
-    }
-
-    private val mOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            val screenSize = AndroidUtils.getScreenSize(context)
-            val hitRect: Rect
-            val fourthWidth = screenSize.x / 4
-            val fourthHeight = screenSize.y / 4
-
-            if (secretCount % 2 == 0) {
-                // Bottom left
-                hitRect = Rect(0, 3 * fourthHeight, fourthWidth, screenSize.y)
-            } else {
-                // Bottom right
-                hitRect = Rect(3 * fourthWidth, 3 * fourthHeight, screenSize.x, screenSize.y)
-            }
-
-            if (hitRect.contains(e.x.toInt(), e.y.toInt())) {
-                if (secretCount == 7) {
-                    activateSecret()
-                    secretCount = 0
-                } else {
-                    secretCount++
-                }
-            } else {
-                secretCount = 0
-            }
-
-            return false
-        }
-    }
-
-    private fun activateSecret() {
-        // Normally we wouldn't access the Fragment's logo directly, but this is a special case.
-        logo.setImageResource(R.drawable.ic_secret)
-        if (BuildConfig.DEBUG) {
-            Db.setMemoryTestActive(true)
-        }
     }
 
     fun showDialogFragment(dialog: DialogFragment) {

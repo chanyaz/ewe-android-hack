@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하고 고객님의 항공권 가격을 %2$s만큼 올린 것 같습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">해당 항공사가 %1$s의 결제 처리 요금을 부과하지만 고객님이 요청하신 항공편의 가격이 %2$s만큼 할인된 것이 방금 확인되었습니다. 결제할 새 총액은 %3$s인데 괜찮으세요?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">입력하신 신용카드 번호가 올바르지 않습니다. 다시 입력해 주세요.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">입력하신 카드 소유자 이름이 신용카드상의 이름과 일치하지 않습니다. 다시 시도해 주세요.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">죄송합니다. 만 18세 미만 아동의 예약은 아직 지원되지 않습니다.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">그러면 로그아웃되고 검색 기록이 삭제됩니다.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">개인 정보가 삭제되었습니다.</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">죄송합니다. 고객님의 신용카드를 처리하려면 유효한 CVC 번호가 필요합니다.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">예약 중…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,8 +3088,6 @@
     <string name="info_label_privacy_policy">개인정보 보호정책</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">이 앱은 마리오 클링거만(Mario Klingemann)의 Stack Blur 알고리즘을 사용합니다.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스</string>
     <!-- String for acrediting the open source libraries we use -->

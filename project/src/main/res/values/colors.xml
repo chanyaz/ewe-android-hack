@@ -447,7 +447,6 @@
     <!-- Account Screen -->
     <color name="about_row_primary_text_color">@color/gray7</color>
     <color name="about_row_secondary_text_color">@color/gray6</color>
-    <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">@color/gray1</color>
     <color name="account_toolbar_text_color">@color/white</color>
     <color name="account_toolbar_text_color_light">#9fff</color>
@@ -462,7 +461,6 @@
     <color name="account_sign_in_button_separator_color">#b3b3b3</color>
     <color name="material_tab_text">@color/cardview_divider_lines_gray</color>
     <color name="material_tab_text_selected">@color/white</color>
-    <color name="account_screen_back_nav_color">@color/white</color>
     <color name="account_reward_base_tier_color">@color/reward_base_tier_color</color>
     <color name="account_reward_base_tier_text_color">@color/reward_base_tier_text_color</color>
     <color name="account_reward_middle_tier_color">@color/reward_middle_tier_color</color>

@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s dan baru saja menaikkan harga tiket Anda sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Sepertinya maskapai penerbangan ini mengenakan biaya pemrosesan pembayaran sebesar %1$s tapi kami baru saja menemukan penerbangan yang Anda minta sedang didiskon sebesar %2$s. Apakah Anda bersedia membayar jumlah yang baru sebesar %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Nomor kartu kredit yang Anda masukkan tidak valid. Silakan coba lagi.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Nama pemegang kartu yang Anda masukkan tidak cocok dengan nama pada kartu kredit. Silakan coba lagi.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Maaf, sistem kami belum mendukung pemesanan untuk anak di bawah 18 tahun.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Ini akan membuat Anda keluar dan riwayat pencarian dihapus.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Data pribadi dihapus</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Maaf, tapi kami memerlukan kode pos yang benar untuk memproses kartu kredit Anda.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Memesan…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,8 +3088,6 @@
     <string name="info_label_privacy_policy">Kebijakan Privasi</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Hak cipta 2012-{year} {brand}, Inc.\nSemua hak dilindungi undang-undang.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Aplikasi ini menggunakan algoritma Stack Blur oleh Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Lisensi Perangkat Lunak Open Source</string>
     <!-- String for acrediting the open source libraries we use -->

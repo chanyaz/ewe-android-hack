@@ -2406,12 +2406,8 @@
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Die Fluglinie berechnet eine Zahlungsgebühr in Höhe von %1$s, aber wir haben gerade ein Angebot für Ihren Flug gefunden, das 
 %2$s günstiger ist. Sind Sie mit dem neuen Gesamtpreis von %3$s einverstanden?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Die Kreditkartennummer ist ungültig. Bitte versuchen Sie es erneut.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Der eingegebene Name des Karteninhabers stimmt nicht mit dem Namen auf der Kreditkarte überein. Bitte versuchen Sie es erneut.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Leider ist das Buchen für Kinder unter 18 Jahren noch nicht möglich.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Leider können wir Ihre Bestellung derzeit nicht bearbeiten. Bitte versuchen Sie es erneut.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2940,8 +2936,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Dadurch werden Sie abgemeldet und Ihr Suchverlauf wird gelöscht.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Ihre privaten Daten wurden gelöscht.</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Leider brauchen wir eine gültige Postleitzahl, um Ihre Kreditkarte belasten zu können.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Es wird gebucht…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3095,8 +3089,6 @@
     <string name="info_label_privacy_policy">Datenschutzrichtlinie</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle Rechte vorbehalten.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Diese App arbeitet mit dem Stack-Blurr-Algorithmus von Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Open-Source-Softwarelizenzen</string>
     <!-- String for acrediting the open source libraries we use -->

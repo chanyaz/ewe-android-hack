@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Parece que a companhia aérea está cobrando uma taxa de processamento de %1$s e acaba de aumentar o preço de sua passagem em %2$s. Deseja pagar um novo total de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Parece que a companhia aérea está cobrando uma taxa de processamento de %1$s mas acabamos de encontrar o voo solicitado em oferta por %2$s menos. Deseja pagar um novo total de %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">O número de cartão de crédito que você inseriu não é válido. Tente novamente.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">O nome do titular do cartão inserido não corresponde ao nome no cartão de crédito. Tente novamente.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Ainda não é possível fazer reserva para pessoas de menos de 18 anos.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">No momento, não foi possível processar seu pedido. Tente novamente.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Essa ação irá desconectá-lo e remover todo o histórico de busca.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Dados privados apagados</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">É necessário um CEP válido para processarmos seu cartão de crédito.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Fazendo a reserva…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,8 +3088,6 @@
     <string name="info_label_privacy_policy">Política de privacidade</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{brand} {year} , Inc.\nTodos os direitos reservados.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Este app utiliza o algoritmo Stack Blur de Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Licenças de software open source</string>
     <!-- String for acrediting the open source libraries we use -->

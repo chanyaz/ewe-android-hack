@@ -296,11 +296,6 @@
         <!-- About/Preferences/WebView activities -->
 
         <activity
-            android:name="com.expedia.bookings.activity.AccountSettingsActivity"
-            android:resizeableActivity="false"
-            android:theme="@style/AccountSettingsTheme"
-            tools:ignore="UnusedAttribute" />
-        <activity
             android:name="com.expedia.bookings.activity.WebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />

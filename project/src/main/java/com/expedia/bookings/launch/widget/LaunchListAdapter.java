@@ -34,7 +34,6 @@ import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.launch.vm.BigImageLaunchViewModel;
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
@@ -245,16 +244,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			((CollectionViewHolder) holder).getBackgroundImage().setImageDrawable(drawable);
 
 			((CollectionViewHolder) holder).bindListData(locationDataItem.getCollection(), fullWidthTile, false);
-		}
-		else if (holder instanceof LaunchHeaderViewHolder) {
-			if (BuildConfig.DEBUG && Db.getMemoryTestActive()) {
-				headerView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Events.post(new Events.MemoryTestImpetus());
-					}
-				});
-			}
 		}
 	}
 

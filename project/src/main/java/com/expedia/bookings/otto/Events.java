@@ -1021,20 +1021,6 @@ public class Events {
 	public static class PhoneLaunchOnPOSChange {
 	}
 
-
-	// Memory testing
-
-	public static class MemoryTestImpetus {
-	}
-
-	public static class MemoryTestInput {
-		public int viewId;
-
-		public MemoryTestInput(int viewId) {
-			this.viewId = viewId;
-		}
-	}
-
 	public static class LoggedInSuccessful {
 
 	}

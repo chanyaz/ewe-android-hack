@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">似乎该航空公司收取 %1$s的帐款处理费用，并且刚刚将您的票价调高了%2$s。您是否乐意支付新的总价 %3$s？</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">似乎该航空公司收取 %1$s的帐款处理费用，但我们刚发现您申请的航班降价了%2$s。您是否乐意支付新的总价 %3$s？</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">您输入的信用卡号无效，请再试一次。</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">您输入的持卡人姓名与信用卡不符。请再试一次。</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">很抱歉，尚不支持为年龄不满 18 岁的儿童进行预订。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">很抱歉，我们暂时无法处理您的订单。请再试一次。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">您将退出帐户并删除搜索历史记录。</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">隐私数据已清除</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">很抱歉，需要提供有效的邮政编码，才能处理您的信用卡。</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">正在预订…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,8 +3088,6 @@
     <string name="info_label_privacy_policy">隐私政策</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© 版权所有 2012-{year}{brand}, Inc.\n保留所有权利。</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">此应用程序使用 Mario Klingemann 开发的 Stack Blur 算法。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">开源软件许可</string>
     <!-- String for acrediting the open source libraries we use -->

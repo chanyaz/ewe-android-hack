@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
@@ -7,20 +8,25 @@ import android.support.annotation.StringRes
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AboutWebViewActivity
+import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.user.User
-import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -29,14 +35,18 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.mobiata.android.fragment.AboutSectionFragment
+import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
+import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil
+import java.util.Calendar
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -154,10 +164,59 @@ class AccountSettingsFragmentTest {
     }
 
     @Test
+    fun buttonsToExternalResourcesWorkProperly() {
+        givenSignedInAsUser(getNonRewardsMember())
+        givenFragmentSetup()
+
+        clickViewWithTextInSection("Expedia Website", R.id.section_contact_us)
+        assertIntentFiredToViewUri(PointOfSale.getPointOfSale().websiteUrl)
+
+        clickViewWithTextInSection("App Support", R.id.section_contact_us)
+        assertIntentFiredToOpenWebviewWithUri(ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(activity))
+
+        clickViewWithTextInSection("Rate our app!", R.id.section_communicate)
+        assertIntentFiredToViewUri("market://details?id=" + activity.packageName)
+
+        clickViewWithTextInSection("We're Hiring!", R.id.section_communicate)
+        assertIntentFiredToOpenWebviewWithUri("http://www.lifeatexpedia.com")
+
+        clickViewWithTextInSection("Terms and Conditions", R.id.section_legal)
+        assertIntentFiredToOpenWebviewWithUri(PointOfSale.getPointOfSale().termsAndConditionsUrl)
+
+        clickViewWithTextInSection("Privacy Policy", R.id.section_legal)
+        assertIntentFiredToOpenWebviewWithUri(PointOfSale.getPointOfSale().privacyPolicyUrl)
+
+        clickViewWithTextInSection("Open Source Software Licenses", R.id.section_legal)
+        assertIntentFiredToViewOSSLicenses()
+
+        fragment.view?.findViewById(R.id.logo)?.performClick()
+        assertIntentFiredToViewUri(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(activity))
+    }
+
+    @Test
+    fun staticTextIsCorrect() {
+        givenSignedInAsUser(getNonRewardsMember())
+        givenFragmentSetup()
+
+        var expected = Phrase.from(activity, R.string.copyright_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .put("year", Calendar.getInstance().get(Calendar.YEAR))
+                .format()
+                .toString()
+        val copyrightView = fragment.view?.findViewById(R.id.copyright_info) as TextView
+        assertEquals(expected, copyrightView.text)
+
+        expected = activity.getString(R.string.this_app_makes_use_of_the_following) + " " +
+                activity.getString(R.string.open_source_names)
+        val ossView = fragment.view?.findViewById(R.id.open_source_credits_textview) as TextView
+        assertEquals(expected, ossView.text)
+    }
+
+    @Test
     fun appSupportEmailUs() {
-        var webViewActivity = Robolectric.buildActivity(AboutWebViewActivity::class.java).create().get()
-        var webView = LayoutInflater.from(webViewActivity).inflate(R.layout.web_view_toolbar, null) as FrameLayout
-        var toolbarView = webView.findViewById(R.id.toolbar) as android.support.v7.widget.Toolbar
+        val webViewActivity = Robolectric.buildActivity(AboutWebViewActivity::class.java).create().get()
+        val webView = LayoutInflater.from(webViewActivity).inflate(R.layout.web_view_toolbar, null) as FrameLayout
+        val toolbarView = webView.findViewById(R.id.toolbar) as android.support.v7.widget.Toolbar
 
         assertFalse(toolbarView.isOverflowMenuShowing)
     }
@@ -168,11 +227,16 @@ class AccountSettingsFragmentTest {
         givenFragmentSetup()
 
         assertCountryViewDisplayed(expectedCountryCode, expectedFlagResId, R.id.second_row_country)
+
+        clickViewWithTextInSection("Booking Support", R.id.section_contact_us)
+        clickPhoneSupportButton()
+        assertIntentFiredToDialPhone(PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()))
     }
 
     private fun givenFragmentSetup() {
         fragment = AccountSettingsFragment()
         SupportFragmentTestUtil.startVisibleFragment(fragment, FragmentUtilActivity::class.java, 1)
+        (fragment.activity as FragmentUtilActivity).setFragment(fragment)
     }
 
     private fun givenSignedInAsUser(user: User) {
@@ -265,6 +329,28 @@ class AccountSettingsFragmentTest {
         return user
     }
 
+    private fun clickViewWithTextInSection(expectedText: String, @IdRes sectionId: Int) {
+        val sectionView = fragment.view?.findViewById(sectionId) as ViewGroup
+
+        clickChildViewWithText(expectedText, sectionView)
+    }
+
+    private fun clickChildViewWithText(expectedText: String, viewGroup: ViewGroup) {
+        for (i in 0..viewGroup.childCount-1) {
+            val childView = viewGroup.getChildAt(i)
+            if (childView is ViewGroup) {
+                clickChildViewWithText(expectedText, childView)
+            } else if (childView is TextView && childView.text == expectedText) {
+                childView.performClick()
+            }
+        }
+    }
+
+    private fun clickPhoneSupportButton() {
+        val dialog = ShadowAlertDialog.getLatestAlertDialog()
+        Shadows.shadowOf(dialog).clickOnItem(0)
+    }
+
     private fun assertTextIsDisplayedInTextView(expectedString: String, @IdRes viewId: Int) {
         assertViewIsEffectivelyVisibile(viewId)
         assertEquals(expectedString, (fragment.view?.findViewById(viewId) as TextView).text)
@@ -305,12 +391,57 @@ class AccountSettingsFragmentTest {
         }
     }
 
-    class FragmentUtilActivity() : FragmentActivity(), AboutSectionFragment.AboutSectionFragmentListener {
+    private fun assertIntentFiredToViewOSSLicenses() {
+        val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertEquals(OpenSourceLicenseWebViewActivity::class.java.name, actualIntent.component.className)
+    }
+
+    private fun assertIntentFiredToOpenWebviewWithUri(uri: String?) {
+        val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertEquals(AboutWebViewActivity::class.java.name, actualIntent.component.className)
+        assertStartsWith(uri, actualIntent.getStringExtra("ARG_URL"))
+    }
+
+    private fun assertIntentFiredToViewUri(uri: String?) {
+        val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertEquals(Intent.ACTION_VIEW, actualIntent.action)
+        assertEquals(uri, actualIntent.data.toString())
+    }
+
+    private fun assertIntentFiredToDialPhone(phoneNumber: String?) {
+        val actualIntent = Shadows.shadowOf(activity).nextStartedActivity
+        assertEquals(Intent.ACTION_VIEW, actualIntent.action)
+        val actualPhoneNumber = actualIntent.data.toString().replace("[^0-9]".toRegex(), "")
+        val expectedPhoneNumber = phoneNumber?.replace("[^0-9]".toRegex(), "")
+        assertEquals(expectedPhoneNumber, actualPhoneNumber)
+    }
+
+    private fun assertStartsWith(expected: String?, actual: String?) {
+        assertEquals(expected, actual?.substring(0, expected?.length ?: 0))
+    }
+
+    class FragmentUtilActivity() : FragmentActivity(), AboutSectionFragment.AboutSectionFragmentListener, CopyrightFragment.CopyrightFragmentListener {
+
+        lateinit private var fragment: AccountSettingsFragment
+
+        fun setFragment(fragment: AccountSettingsFragment) {
+            this.fragment = fragment
+        }
+
         override fun onAboutRowClicked(tag: Int): Boolean {
-            return true
+            return fragment.onAboutRowClicked(tag)
         }
 
         override fun onAboutRowRebind(tag: Int, titleTextView: TextView?, descriptionTextView: TextView?) {
+            fragment.onAboutRowRebind(tag, titleTextView, descriptionTextView)
+        }
+
+        override fun onLogoLongClick(): Boolean {
+            return false
+        }
+
+        override fun onLogoClick() {
+            fragment.onCopyrightLogoClick()
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {

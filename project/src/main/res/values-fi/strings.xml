@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Lentoyhtiö veloittaa %1$s käsittelymaksun, ja hinta on myös noussut %2$s. Haluatko maksaa uuden hinnan %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Lentoyhtiö veloittaa %1$s käsittelymaksun, mutta me löysimme etsimäsi lennot tarjouksesta %2$s halvemmalla. Haluatko maksaa uuden hinnan %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Antamasi luottokortin numero on väärin, yritä uudelleen.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">Antamasi kortin haltijan nimi ei ole sama kuin luottokortissa. Ole hyvä ja yritä uudelleen.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Valitettavasti et voi tehdä varauksia alle 18-vuotiaille.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Valitettavasti emme pysty käsittelemään tilaustasi juuri nyt. Ole hyvä ja yritä uudelleen.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Tämä kirjaa sinut ulos ja poistaa hakuhistorian.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Henkilökohtaiset tiedot poistettu</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">Valitettavasti voimassa oleva postinumero vaaditaan, jotta voimme käsitellä luottokorttisi tiedot.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Varataan…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,10 +3088,6 @@
     <string name="info_label_privacy_policy">Tietosuojakäytännöt</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012–{year} {brand}, Inc.\nKaikki oikeudet pidätetään.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Tämä sovellus käyttää Mario Klingemannin Stack Blur -algoritmia.</string>
-    <!-- String where we link to the google play services open source licenses -->
-    <string name="open_source_software_licenses">Avoimen lähdekoodin ohjelmistolisenssit</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Tämä sovellus käyttää seuraavia avoimen lähdekoodin kirjastoja:</string>
 

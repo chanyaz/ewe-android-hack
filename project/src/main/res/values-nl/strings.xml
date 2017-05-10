@@ -2405,12 +2405,8 @@
     <string name="error_flight_price_increased_with_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt en net de prijs van je vlucht verhoogd heeft met %2$s. Ga je akkoord met het nieuwe totaalbedrag van %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Het lijkt erop dat de airline een betalingstoeslag van %1$s in rekening brengt maar dat je aangevraagde vluchten net worden aangeboden voor %2$s minder. Ga je akkoord met het nieuwe totaalbedrag van %3$s?</string>
-    <!-- Error shown to user if their credit card number is invalid -->
-    <string name="error_invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">De ingevoerde naam van de kaarthouder stemt niet overeen met de naam op de creditcard. Probeer het opnieuw.</string>
-    <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
-    <string name="error_booking_with_minor">Helaas, boekingen voor kinderen onder 18 jaar is nog niet mogelijk.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
@@ -2939,8 +2935,6 @@
     <string name="dialog_sign_out_and_clear_private_data_msg">Dit meldt u af en verwijdert uw zoekgeschiedenis.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Privégegevens gewist</string>
-    <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">We hebben een geldige postcode nodig om je creditcard te verwerken.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Bezig met boeken…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -3094,8 +3088,6 @@
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rechten voorbehouden.</string>
-    <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
-    <string name="stack_blur_credit">Deze app gebruikt het Stack Blur algoritme van Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Open Source Software-licenties</string>
     <!-- String for acrediting the open source libraries we use -->
