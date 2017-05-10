@@ -11,6 +11,11 @@ fun TextView.setInverseVisibility(forward: Boolean) {
     this.visibility = if (!forward && this.text.isNotEmpty()) View.VISIBLE else View.GONE
 }
 
+fun TextView.setTextAndVisibility(text: CharSequence?) {
+    this.text = text ?: ""
+    setInverseVisibility(text.isNullOrBlank())
+}
+
 fun View.updateVisibility(show: Boolean) {
     this.visibility = if (show) View.VISIBLE else View.GONE
 }

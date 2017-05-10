@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.ColorFilter
 import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.support.v4.content.ContextCompat
-import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
@@ -14,6 +16,10 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomDetailViewModel
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.expedia.bookings.data.hotel.HotelValueAdd
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.setTextAndVisibility
+import com.expedia.util.updateVisibility
 import rx.subjects.PublishSubject
 
 class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewModel) : RelativeLayout(context) {
@@ -21,7 +27,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     private val optionTextView: TextView by bindView(R.id.option_text_view)
     private val cancellationTextView: TextView by bindView(R.id.cancellation_text_view)
     private val cancellationTimeTextView: TextView by bindView(R.id.cancellation_time_text_view)
-    private val amenitiesContainer: LinearLayout by bindView(R.id.amenities_container)
+    private val valueAddsContainer: LinearLayout by bindView(R.id.value_adds_container)
     private val earnMessageTextView: TextView by bindView(R.id.earn_message_text_view)
     private val mandatoryFeeTextView: TextView by bindView(R.id.mandatory_fee_text_view)
     private val discountPercentageTextView: TextView by bindView(R.id.discount_percentage_text_view)
@@ -42,6 +48,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         View.inflate(context, R.layout.hotel_room_detail, this)
 
         hotelRoomRowButton.showBookButton()
+        hotelRoomRowButton.setBookButtonText(context.getString(R.string.select))
 
         val infoIcon = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
         infoIcon.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
@@ -60,27 +67,31 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
     }
 
     fun bindViewModel(viewModel: HotelRoomDetailViewModel) {
-        setTextAndVisibility(optionTextView, viewModel.optionString)
-        setTextAndVisibility(cancellationTextView, viewModel.cancellationString)
-        setTextAndVisibility(cancellationTimeTextView, viewModel.cancellationTimeString)
-        if (viewModel.amenityToShow.count() >= 0) {
-            amenitiesContainer.visibility = View.VISIBLE
-            viewModel.amenityToShow.forEach { amenity ->
-                amenitiesContainer.addView(createAmenityTextView(amenity.first, amenity.second))
+        optionTextView.setTextAndVisibility(viewModel.optionString)
+        cancellationTextView.setTextAndVisibility(viewModel.cancellationString)
+        cancellationTimeTextView.setTextAndVisibility(viewModel.cancellationTimeString)
+        val valueAddsToShow = viewModel.getValueAdds()
+        if (valueAddsToShow.count() >= 0) {
+            val srcColor = ContextCompat.getColor(context, R.color.hotelsv2_amenity_icon_color)
+            val filter = PorterDuffColorFilter(srcColor, PorterDuff.Mode.SRC_ATOP)
+
+            valueAddsContainer.visibility = View.VISIBLE
+            valueAddsToShow.forEach { valueAdd ->
+                createValueAddTextView(valueAdd, filter, valueAddsContainer)
             }
         } else {
-            amenitiesContainer.visibility = View.GONE
+            valueAddsContainer.visibility = View.GONE
         }
-        setTextAndVisibility(earnMessageTextView, viewModel.earnMessageString)
-        setTextAndVisibility(mandatoryFeeTextView, viewModel.mandatoryFeeString)
-        setTextAndVisibility(discountPercentageTextView, viewModel.discountPercentageString)
-        setTextAndVisibility(payLaterPriceTextView, viewModel.payLaterPriceString)
-        setVisibility(depositTermsTextView, viewModel.showDepositTerm)
+        earnMessageTextView.setTextAndVisibility(viewModel.earnMessageString)
+        mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
+        discountPercentageTextView.setTextAndVisibility(viewModel.discountPercentageString)
+        payLaterPriceTextView.setTextAndVisibility(viewModel.payLaterPriceString)
+        depositTermsTextView.updateVisibility(viewModel.showDepositTerm)
         depositTermsTextView.subscribeOnClick(depositTermsClickedSubject)
-        setTextAndVisibility(strikeThroughTextView, viewModel.strikeThroughString)
-        setTextAndVisibility(pricePerNightTextView, viewModel.pricePerNightString)
-        setVisibility(perNightTextView, viewModel.showPerNight)
-        setTextAndVisibility(mandatoryFeeTextView, viewModel.mandatoryFeeString)
+        strikeThroughTextView.setTextAndVisibility(viewModel.strikeThroughString)
+        pricePerNightTextView.setTextAndVisibility(viewModel.pricePerNightString)
+        perNightTextView.updateVisibility(viewModel.showPerNight)
+        mandatoryFeeTextView.setTextAndVisibility(viewModel.mandatoryFeeString)
 
         hotelRoomRowButton.bookButtonClickedSubject.subscribe(hotelRoomRowClickedSubject)
 
@@ -97,37 +108,21 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
             }
         }
 
-        roomLeftContainer.visibility = if (viewModel.roomLeftString.isNullOrBlank()) View.GONE else View.VISIBLE
-        setTextAndVisibility(roomLeftTextView, viewModel.roomLeftString)
+        roomLeftContainer.setInverseVisibility(viewModel.roomLeftString.isNullOrBlank())
+        roomLeftTextView.setTextAndVisibility(viewModel.roomLeftString)
     }
 
-    private fun setTextAndVisibility(textView: TextView, text: CharSequence?) {
-        if (text.isNullOrBlank()) {
-            textView.visibility = View.GONE
-        } else {
-            textView.text = text
-            textView.visibility = View.VISIBLE
-        }
-    }
+    private fun createValueAddTextView(valueAdd: HotelValueAdd, filter: ColorFilter, viewGroup: ViewGroup) {
+        val valueAddLayout = Ui.inflate<LinearLayout>(R.layout.room_value_add_row, viewGroup, false)
+        val valueAddTextView = valueAddLayout.findViewById(R.id.value_add_label) as android.widget.TextView
+        val valueAddIconView = valueAddLayout.findViewById(R.id.value_add_icon) as ImageView
 
-    private fun setVisibility(view: View, visible: Boolean) {
-        view.visibility = if (visible) View.VISIBLE else View.GONE
-    }
+        val icon = ContextCompat.getDrawable(context, valueAdd.iconId)
+        icon.colorFilter = filter
 
-    private fun createAmenityTextView(description: String, iconId: Int) : TextView {
-        val amenityView = TextView(context)
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.setMargins(0, context.resources.getDimensionPixelSize(R.dimen.hotel_room_amenity_margin), 0, 0)
-        amenityView.layoutParams = params
+        valueAddTextView.text = valueAdd.description
+        valueAddIconView.setImageDrawable(icon)
 
-        amenityView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10.toFloat())
-        amenityView.setTextColor(ContextCompat.getColor(context, R.color.light_text_color))
-
-        amenityView.compoundDrawablePadding = context.resources.getDimensionPixelSize(R.dimen.textview_drawable_padding)
-        amenityView.setCompoundDrawablesWithIntrinsicBounds(iconId, 0, 0, 0)
-
-        amenityView.text = description
-
-        return amenityView
+        viewGroup.addView(valueAddLayout)
     }
 }

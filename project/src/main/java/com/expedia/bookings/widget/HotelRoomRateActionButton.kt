@@ -56,4 +56,8 @@ class HotelRoomRateActionButton(context: Context, attrs: AttributeSet?) : FrameL
     fun setSelectButtonText(text: String) {
         viewRoomButton.text = text
     }
+
+    fun setBookButtonText(text: String) {
+        bookButton.text = text
+    }
 }

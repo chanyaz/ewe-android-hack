@@ -4,12 +4,19 @@ import android.content.Context
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
 import android.text.SpannableString
+import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotel.HotelValueAdd
+import com.expedia.bookings.data.hotel.ValueAddsEnum
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.util.LoyaltyUtil
@@ -17,10 +24,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.util.ArrayList
-import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
+import java.util.TreeSet
 
 class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, val hotelId: String, val rowIndex: Int, val optionIndex: Int, val hasETP: Boolean) {
 
@@ -36,8 +40,6 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
         }
 
     val cancellationTimeString: String? get() = createCancellationTimeString()
-
-    val amenityToShow: List<Pair<String, Int>> get() = createAmenityToShow()
 
     val earnMessageString: String? get() = createEarnMessageString()
 
@@ -78,9 +80,29 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     private val isTotalPrice = chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES
     private val haveDepositTerm = hotelRoomResponse.depositPolicy != null && !hotelRoomResponse.depositPolicy.isEmpty()
 
+    fun getValueAdds(): List<HotelValueAdd> {
+        val valueAddsTreeSet = TreeSet<HotelValueAdd>()
+        if (CollectionUtils.isNotEmpty(hotelRoomResponse.valueAdds)) {
+            val valueAdds = hotelRoomResponse.valueAdds
+            valueAdds.forEach { valueAdd ->
+                when (valueAdd.id.toInt()) {
+                // taken from https://confluence/pages/viewpage.action?pageId=587907920 and
+                // https://opengrok/source/xref/expweb-trunk/bizconfig/com/expedia/www/domain/services/hotel/config/AmenityConfig.properties.xml
+                    512, 2, 8, 4, 8192, 4096, 16777216, 33554432, 67108864, 1073742786, 1073742857, 2111, 2085, 4363,
+                    2102, 2207, 2206, 2194, 2193, 2205, 2103, 2105, 2104, 3969, 4647, 4646, 4648, 4649, 4650, 4651, 2001 -> valueAddsTreeSet.add(HotelValueAdd(ValueAddsEnum.BREAKFAST, valueAdd.description))
+                    2048, 1024, 1073742787, 4347, 2403, 4345, 2405, 2407, 4154, 2191, 2192, 2404, 2406 -> valueAddsTreeSet.add(HotelValueAdd(ValueAddsEnum.INTERNET, valueAdd.description))
+                    16384, 128, 2195, 2109, 4449, 4447, 4445, 4443, 3863, 3861, 2011 -> valueAddsTreeSet.add(HotelValueAdd(ValueAddsEnum.PARKING, valueAdd.description))
+                    2196, 32768, 10 -> valueAddsTreeSet.add(HotelValueAdd(ValueAddsEnum.FREE_AIRPORT_SHUTTLE, valueAdd.description))
+                }
+            }
+        }
+
+        return ArrayList<HotelValueAdd>(valueAddsTreeSet)
+    }
+
     private fun createOptionString(): SpannableString? {
         if (optionIndex >= 0) {
-            var optionString = Phrase.from(context, R.string.option_TEMPLATE).put("number", optionIndex + 1).format().toString()
+            val optionString = Phrase.from(context, R.string.option_TEMPLATE).put("number", optionIndex + 1).format().toString()
 
             val largeTextSize = context.resources.getDimensionPixelSize(R.dimen.large_text_size)
             val smallTextSize = context.resources.getDimensionPixelSize(R.dimen.small_text_size)
@@ -113,20 +135,6 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
             return Phrase.from(context, R.string.before_TEMPLATE).put("date", cancellationDate).format().toString()
         }
         return null
-    }
-
-    private fun createAmenityToShow(): List<Pair<String, Int>> {
-        val amenities = ArrayList<Pair<String, Int>>()
-        if (hotelRoomResponse.valueAdds != null && hotelRoomResponse.valueAdds.isNotEmpty()) {
-            hotelRoomResponse.valueAdds.forEach { valueAdd ->
-                // TODO: create function to get value add icon and string from id
-                // https://eiwork.mingle.thoughtworks.com/projects/ebapp/cards/189
-                val amenityAndIcon = Pair<String, Int>(valueAdd.description, R.drawable.checkmark)
-                amenities.add(amenityAndIcon)
-            }
-        }
-
-        return amenities
     }
 
     private fun createEarnMessageString(): String? {
@@ -173,9 +181,13 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     }
 
     private fun createRoomLeftString(): String? {
-        val roomLeft = hotelRoomResponse.currentAllotment.toInt()
-        if (roomLeft != null && roomLeft > 0 && roomLeft <= ROOMS_LEFT_CUTOFF) {
-            return context.resources.getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft)
+        try {
+            val roomLeft = hotelRoomResponse.currentAllotment.toInt()
+            if (roomLeft > 0 && roomLeft <= ROOMS_LEFT_CUTOFF) {
+                return context.resources.getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft)
+            }
+        } catch (e: NumberFormatException) {
+            return null
         }
         return null
     }

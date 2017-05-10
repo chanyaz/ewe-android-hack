@@ -7,7 +7,6 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -26,7 +25,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class HotelValueAddsTest {
+class HotelDetailViewModelValueAddsTest {
     var server: MockWebServer = MockWebServer()
         @Rule get
 
