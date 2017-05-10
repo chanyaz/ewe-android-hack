@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.happy;
 
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -8,6 +11,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.widget.Button;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -23,8 +27,6 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.mobiata.android.util.SettingUtils;
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -196,7 +198,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 
-		onView(withId(R.id.contact_airline_text)).perform(scrollTo()).check(matches(isDisplayed()));
 		onView(withId(R.id.first_name_input)).perform(scrollTo(), click());
 		onView(withId(R.id.last_name_input)).perform(click());
 		onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()));
@@ -227,7 +228,9 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989, 6, 9);
 		PackageScreen.materialSelectGender("Male");
+		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
+		onView(withId(R.id.contact_airline_text)).perform(scrollTo()).check(matches(isDisplayed()));
 		PackageScreen.clickTravelerDone();
 
 		PackageScreen.clickPaymentInfo();

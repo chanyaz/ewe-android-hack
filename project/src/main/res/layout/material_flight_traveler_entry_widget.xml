@@ -73,10 +73,36 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <LinearLayout
+            android:id="@+id/traveler_advanced_options_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/advanced_optional"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:id="@+id/traveler_advanced_options_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/advanced_options_text"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center"
+                android:src="@drawable/read_more"
+                android:tint="@color/black" />
+
+        </LinearLayout>
+
         <com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
             android:id="@+id/traveler_advanced_options_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:paddingTop="12dp"
             android:paddingBottom="9dp"/>
 
