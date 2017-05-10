@@ -9,7 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.test.espresso.TabletViewActions
+import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import org.hamcrest.Matchers.allOf
@@ -22,7 +22,7 @@ object FlightsScreen {
     }
 
     fun selectDate(start: LocalDate) {
-        SearchScreen.calendar().perform(TabletViewActions.clickDates(start, null))
+        SearchScreen.calendar().perform(CalendarPickerActions.clickDates(start, null))
         SearchScreen.searchAlertDialogDone().perform(click())
     }
 

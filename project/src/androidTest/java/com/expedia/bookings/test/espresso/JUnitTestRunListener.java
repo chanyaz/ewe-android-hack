@@ -7,7 +7,7 @@ import org.junit.runner.notification.RunListener;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.BuildConfig;
-import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.expedia.bookings.test.Settings;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.mobiata.android.Log;
 

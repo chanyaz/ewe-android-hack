@@ -8,7 +8,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
-import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.expedia.bookings.test.Settings;
 import com.expedia.bookings.utils.ExpediaMockWebServer;
 
 public class ExpediaMockWebServerRule implements TestRule {

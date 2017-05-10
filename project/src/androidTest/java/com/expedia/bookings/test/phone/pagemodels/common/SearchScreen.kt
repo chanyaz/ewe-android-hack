@@ -18,7 +18,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
-import com.expedia.bookings.test.espresso.TabletViewActions
+import com.expedia.bookings.test.espresso.CalendarPickerActions
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.hotels.HotelScreen
@@ -46,15 +46,15 @@ object SearchScreen {
     }
 
     @JvmStatic fun selectDates(start: LocalDate, end: LocalDate?) {
-        calendar().perform(TabletViewActions.clickDates(start, end))
+        calendar().perform(CalendarPickerActions.clickDates(start, end))
         searchAlertDialogDone().perform(click())
     }
 
     @JvmStatic fun chooseDates(start: LocalDate, end: LocalDate?) {
-        calendar().perform(TabletViewActions.clickDates(start, end))
+        calendar().perform(CalendarPickerActions.clickDates(start, end))
     }
     @JvmStatic fun validateDatesToolTip(firstLine: String, secondLine: String) {
-        calendar().perform(TabletViewActions.validateDatesTooltip(firstLine, secondLine))
+        calendar().perform(CalendarPickerActions.validateDatesTooltip(firstLine, secondLine))
     }
 
     @JvmStatic fun searchAlertDialogDone(): ViewInteraction {
@@ -332,7 +332,7 @@ object SearchScreen {
     }
 
     fun selectDate(startDate: LocalDate?) {
-        calendar().perform(TabletViewActions.clickDates(startDate, null))
+        calendar().perform(CalendarPickerActions.clickDates(startDate, null))
         searchAlertDialogDone().perform(click())
     }
 }

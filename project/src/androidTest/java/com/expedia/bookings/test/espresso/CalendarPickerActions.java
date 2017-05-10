@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.espresso;
 
-import android.view.View;
-
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
@@ -9,6 +7,7 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -17,9 +16,9 @@ import com.mobiata.android.time.widget.CalendarPicker;
 
 import junit.framework.Assert;
 
-public final class TabletViewActions {
+public final class CalendarPickerActions {
 
-	private TabletViewActions() {
+	private CalendarPickerActions() {
 		// ignore
 	}
 

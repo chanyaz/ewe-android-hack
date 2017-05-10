@@ -9,7 +9,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RouterActivity;
-import com.expedia.bookings.test.tablet.pagemodels.Settings;
+import com.expedia.bookings.test.Settings;
 import com.mobiata.android.util.SettingUtils;
 
 public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
