@@ -17,6 +17,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
@@ -134,6 +137,7 @@ public class RecyclerGallery extends RecyclerView {
 			if (v == null) {
 				return;
 			}
+			v.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 			offset = mLayoutManager.getRightDecorationWidth(v);
 		}
 		else {
@@ -142,13 +146,13 @@ public class RecyclerGallery extends RecyclerView {
 			if (v == null) {
 				return;
 			}
+			v.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 			offset = mLayoutManager.getLeftDecorationWidth(v);
 		}
 		if (mScrollListener != null) {
 			mScrollListener.onGalleryItemScrolled(position);
 		}
 		smoothScrollBy(getScrollDistance(v, offset), 0);
-
 	}
 
 	private int getScrollDistance(View v, int offset) {
@@ -188,6 +192,10 @@ public class RecyclerGallery extends RecyclerView {
 		mMode = mode;
 		removeItemDecoration(mDecoration);
 		initViews();
+	}
+
+	protected boolean useCollapsedGalleryContDesc() {
+		return false;
 	}
 
 	public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.GalleryViewHolder> {
@@ -246,24 +254,30 @@ public class RecyclerGallery extends RecyclerView {
 				updateContDesc();
 			}
 
-			private void updateContDesc() {
-				IMedia media = mMedia.get(getAdapterPosition());
-				String contDesc;
-				String imageDescription = media.getDescription();
-				if (imageDescription != null) {
-					contDesc = Phrase.from(getContext(), R.string.gallery_photo_count_plus_description_cont_desc_TEMPLATE)
-						.put("index", String.valueOf(getAdapterPosition() + 1))
-						.put("count", String.valueOf(getItemCount()))
-						.put("api_description", imageDescription)
-						.format().toString();
+			protected void updateContDesc() {
+				if (useCollapsedGalleryContDesc()) {
+					itemView.setContentDescription(getContext().getString(R.string.collapsed_gallery_photo_cont_desc));
 				}
 				else {
-					contDesc = Phrase.from(getContext(), R.string.gallery_photo_count_cont_desc_TEMPLATE)
-						.put("index", String.valueOf(getAdapterPosition() + 1))
-						.put("count", String.valueOf(getItemCount()))
-						.format().toString();
+					IMedia media = mMedia.get(getAdapterPosition());
+					String contDesc;
+					String imageDescription = media.getDescription();
+					if (imageDescription != null) {
+						contDesc = Phrase
+							.from(getContext(), R.string.gallery_photo_count_plus_description_cont_desc_TEMPLATE)
+							.put("index", String.valueOf(getAdapterPosition() + 1))
+							.put("count", String.valueOf(getItemCount()))
+							.put("api_description", imageDescription)
+							.format().toString();
+					}
+					else {
+						contDesc = Phrase.from(getContext(), R.string.gallery_photo_count_cont_desc_TEMPLATE)
+							.put("index", String.valueOf(getAdapterPosition() + 1))
+							.put("count", String.valueOf(getItemCount()))
+							.format().toString();
+					}
+					itemView.setContentDescription(contDesc);
 				}
-				itemView.setContentDescription(contDesc);
 			}
 
 			@Override
@@ -320,6 +334,19 @@ public class RecyclerGallery extends RecyclerView {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
 			GalleryViewHolder vh = new GalleryViewHolder(root);
+
+			vh.itemView.setAccessibilityDelegate(new AccessibilityDelegate () {
+				@Override
+				public void onInitializeAccessibilityNodeInfo(View v, AccessibilityNodeInfo info) {
+					super.onInitializeAccessibilityNodeInfo(v, info);
+
+					if (useCollapsedGalleryContDesc()) {
+						String description = getContext().getString(R.string.collapsed_gallery_photo_click_cont_desc);
+						AccessibilityAction customClick = new AccessibilityAction(AccessibilityNodeInfo.ACTION_CLICK, description);
+						info.addAction(customClick);
+					}
+				}
+			});
 			return vh;
 		}
 
@@ -451,7 +478,7 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	private void animatePeakWithBounce(View view) {
-		final Long duration =  1000L;
+		final Long duration = 1000L;
 		final int peakAmount = (int) getResources().getDimension(R.dimen.hotel_gallery_peak_amount);
 		view.animate().translationX(-peakAmount).setStartDelay(duration / 2)
 			.setInterpolator(new AccelerateInterpolator()).setDuration(duration / 4)
@@ -470,6 +497,7 @@ public class RecyclerGallery extends RecyclerView {
 			this.interpolator = interpolator;
 			this.duration = duration;
 		}
+
 		@Override
 		public void run() {
 			View view = viewReference.get();

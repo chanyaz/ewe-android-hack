@@ -4331,6 +4331,7 @@
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">Back</string>
     <string name="toolbar_nav_icon_close_cont_desc">Close</string>
+    <string name="toolbar_nav_icon_close_gallery_cont_desc">Close gallery photos</string>
     <string name="search_button_cont_desc">Search Button</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Duration {duration}</string>
@@ -4414,13 +4415,17 @@
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
-    <!-- Content description for hotel immage gallery -->
+    <!-- Content description for hotel image gallery -->
     <string name="gallery_cont_desc">"Image gallery"</string>
 
     <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14" -->
     <string name="gallery_photo_count_cont_desc_TEMPLATE">View {index} of {count}</string>
     <!-- Content Description of gallery index plus description from the api. For Example: "View 1 of 14 Lobby" or "View 1 of 4 Bathroom -->
     <string name="gallery_photo_count_plus_description_cont_desc_TEMPLATE">View {index} of {count} {api_description}</string>
+    <!-- Content Description for gallery photo. -->
+    <string name="collapsed_gallery_photo_cont_desc">Gallery photos</string>
+    <!-- Content Description for gallery photo. -->
+    <string name="collapsed_gallery_photo_click_cont_desc">Browse photos</string>
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Multiple Carriers</string>

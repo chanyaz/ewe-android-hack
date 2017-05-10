@@ -90,7 +90,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var toolBarHeight = 0
 
     private var galleryHeight = 0
-    val gallery: RecyclerGallery by bindView(R.id.images_gallery)
+    val gallery: HotelDetailRecyclerGallery by bindView(R.id.images_gallery)
     private val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
     private val galleryRoot: LinearLayout by bindView(R.id.gallery)
 
@@ -355,7 +355,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
-        galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
 
         vm.propertyInfoListObservable.subscribe { infoList ->
             propertyTextContainer.removeAllViews()
@@ -379,7 +378,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.sectionImageObservable.subscribe { isExpanded ->
             if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
         }
-        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.scrollY, -initialScrollTop, 500) }
+        vm.galleryClickedSubject.subscribe {
+            detailContainer.animateScrollY(detailContainer.scrollY, -initialScrollTop, 500)
+        }
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
@@ -390,7 +391,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private val touchListener = View.OnTouchListener { v, event ->
-        val action = event.action;
+        val action = event.action
         if (action == MotionEvent.ACTION_UP) {
             detailContainer.post { updateGallery(true) }
         }
@@ -467,7 +468,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         roomRateRegularLoyaltyAppliedView.visibility = View.GONE
         HotelTracking.trackPayLaterContainerClick()
     }
-
 
     fun resetViews() {
         detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
@@ -654,6 +654,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
+    private var previousYOffset = 0
+
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
 
@@ -667,10 +669,21 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         // Hotel gallery collapsed
         if (yoffset == initialScrollTop) {
             (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(false)
+
+            hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
+            gallery.prepareCollapseState(true)
         }
         // Hotel gallery expanded
         if (yoffset == 0) {
             (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(true)
+
+            hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_gallery_cont_desc)
+            gallery.prepareCollapseState(false)
+        }
+
+        if (previousYOffset == 0 && yoffset >= 10) {
+            detailContainer.stopNestedScroll()
+            detailContainer.smoothScrollTo(0, initialScrollTop)
         }
 
         miniMapView.translationY = yoffset * 0.15f
@@ -711,6 +724,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             hotelDetailsToolbar.navIcon.parameter = 1 - arrowRatio
             hotelGalleryDescriptionContainer.alpha = 1 - arrowRatio
         }
+
+        previousYOffset = yoffset
     }
 
     private fun getArrowRotationRatio(scrollY: Int): Float {
