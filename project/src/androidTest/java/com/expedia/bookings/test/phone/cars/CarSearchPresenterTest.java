@@ -161,7 +161,7 @@ public final class CarSearchPresenterTest {
 		CarScreen.alertDialogPositiveButton().check(matches(isDisplayed()));
 	}
 
-	@Test
+	/*@Test
 	public void testStartTimeBeforeCurrentTime() throws Throwable {
 		//All `step` vars below are 30-minute-steps as on the Time Bar for Cars Search
 
@@ -193,7 +193,7 @@ public final class CarSearchPresenterTest {
 			today.withTimeAtStartOfDay().plusMillis(currentTimeSteps * millisInOneStep),
 			tomorrow.withTimeAtStartOfDay().plusMillis(ninePMSteps * millisInOneStep), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
-	}
+	}*/
 
 	@Test
 	public void testEndTimeBeforeStartTimeSameDay() throws Throwable {
