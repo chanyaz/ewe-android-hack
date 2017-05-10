@@ -20,7 +20,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppSignInButtonYellow = 13002;
-	public static final int EBAndroidAppFeedsOnLaunch = 10065;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppRemoveExpiredCreditCards = 13046;
@@ -116,7 +115,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
 		testIDs.add(EBAndroidAppLXRTROnSearchAndDetails);
-		testIDs.add(EBAndroidAppFeedsOnLaunch);
 		testIDs.add(EBAndroidAppSignInButtonYellow);
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		testIDs.add(EBAndroidAppSmartLockTest);

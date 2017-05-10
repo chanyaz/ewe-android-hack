@@ -19,7 +19,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
     private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
     private val railApiRequestDispatcher = RailApiRequestDispatcher(fileOpener)
-    private val feedsApiRequestDispatcher = FeedsApiRequestDispatcher(fileOpener)
     private val cardFeeServiceRequestDispatcher = CardFeeServiceRequestDispatcher(fileOpener)
     private val sosApiRequestDispatcher = SOSApiRequestDispatcher(fileOpener)
 
@@ -33,11 +32,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         // Card fee API
         if (request.path.startsWith("/api/flight/trip/cardFee")) {
             return cardFeeServiceRequestDispatcher.dispatch(request)
-        }
-
-        //Feeds API
-        if(request.path.startsWith("/feeds/api")){
-            return feedsApiRequestDispatcher.dispatch(request)
         }
 
         // Rails API
