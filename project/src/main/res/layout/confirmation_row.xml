@@ -17,14 +17,28 @@
         android:layout_marginBottom="1dp"
         android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
+        <LinearLayout
             android:id="@+id/first_row"
-            style="@style/BundleOverviewWidgets.PrimaryText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/confirmation_title"
+                style="@style/BundleOverviewWidgets.PrimaryText"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/confirmation_title_supplement"
+                android:textSize="@dimen/packages_bundle_overview_footer_primary_text"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:visibility="gone"/>
+
+        </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/second_row"
+            android:id="@+id/confirmation_subtitle"
             style="@style/BundleOverviewWidgets.SecondaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

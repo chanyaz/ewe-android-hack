@@ -50,7 +50,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             vm.formattedTravelersStringSubject.subscribeText(flightSummary?.numberOfTravelers)
             vm.tripTotalPriceSubject.subscribeText(flightSummary?.tripPrice)
         }
-        vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary?.pointsAdded ?: expediaPoints)
+        vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary?.pointsEarned ?: expediaPoints)
 
     }
 
@@ -83,11 +83,11 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city ?: ""
         val numberOfGuests = response.getOffer().numberOfTickets.toInt()
 
-        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
+        outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests, isNewConfirmationScreenEnabled)
         viewModel.destinationObservable.onNext(destinationCity)
         viewModel.numberOfTravelersSubject.onNext(numberOfGuests)
         if (inbound != outbound && viewModel.inboundCardVisibility.value ?: false) {
-            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests)
+            inboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, inbound, numberOfGuests, isNewConfirmationScreenEnabled)
         }
     }
 }

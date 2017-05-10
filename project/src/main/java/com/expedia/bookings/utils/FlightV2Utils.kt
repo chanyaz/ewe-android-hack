@@ -261,6 +261,22 @@ object FlightV2Utils {
         }
     }
 
+    @JvmStatic fun getAirlineUrl(flightLeg: FlightLeg) : String? {
+            return when {
+                flightLeg.airlines.size == 1 -> flightLeg.airlines.first().airlineLogoUrl
+                flightLeg.airlines.size > 1 && getDistinctiveAirline(flightLeg.airlines).size == 1 ->
+                    getDistinctiveAirline(flightLeg.airlines).first().airlineLogoUrl
+                else -> null
+            }
+        }
+
+    @JvmStatic fun getDepartureOnDateString(context: Context, flightLeg: FlightLeg) : String {
+        val date = DateUtils.localDateToMMMd(DateTime.parse(flightLeg.segments.first().departureTimeRaw).toLocalDate())
+        return " " + Phrase.from(context.getString(R.string.flight_confirmation_crystal_title_on_date_TEMPLATE))
+                .put("date", date)
+                .format().toString()
+    }
+
     private fun isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): Boolean {
         val previousCabinVal = seatClassAndBookingCodeList[0].seatClass
         for (seatClassAndBookingCode in seatClassAndBookingCodeList) {

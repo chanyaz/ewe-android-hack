@@ -355,11 +355,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
 			matches(not(isDisplayed())));
 
-		onView(allOf(withId(R.id.first_row),
+		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
 			matches(withText("Flight to (DTW) Detroit")));
 
-		onView(allOf(withId(R.id.first_row),
+		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
 			matches(withText("Flight to (SFO) San Francisco")));
 
@@ -388,11 +388,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
 			matches(isDisplayed()));
 
-		onView(allOf(withId(R.id.first_row),
+		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
 			matches(withText("Flight to (DTW) Detroit")));
 
-		onView(allOf(withId(R.id.first_row),
+		onView(allOf(withId(R.id.confirmation_title),
 			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
 			matches(withText("Flight to (SFO) San Francisco")));
 

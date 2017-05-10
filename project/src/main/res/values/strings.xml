@@ -2723,7 +2723,7 @@
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% booked</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
     <string name="urgency_destination_description_TEMPLATE">{destination} is a popular location on your dates</string>
-    
+
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Room Information</string>
     <!-- Accessibility label for the text we use to show room info for expanded room -->
@@ -3782,6 +3782,10 @@
     <string name="select_flight_to">Select flight to %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Flight to %1$s</string>
+    <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
+    <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">on {date}</string>
+    <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
+    <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} - {arrivaltime} · {stops}</string>
     <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
     <string name="flight_to_card_TEMPLATE">Flight to ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
