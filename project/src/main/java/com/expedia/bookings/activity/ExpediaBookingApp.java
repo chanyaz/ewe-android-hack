@@ -59,7 +59,6 @@ import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.MockModeShim;
-import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
@@ -160,11 +159,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (!isAutomation()) {
 			Fabric.with(this, new Crashlytics());
 			startupTimer.addSplit("Crashlytics started.");
-
-			StethoShim.install(this);
-			startupTimer.addSplit("Stetho init");
 		}
-
 
 		if (mAppComponent.endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
 			MockModeShim.initMockWebServer(this);

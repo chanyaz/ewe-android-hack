@@ -23,7 +23,7 @@ import cucumber.api.java.Before;
 
 public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivity> {
 
-	private Activity mActivity;
+	public static Activity mActivity;
 
 	public TestBootstrap() {
 		super(RouterActivity.class);

@@ -4,23 +4,19 @@ import android.content.Context
 import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.PersistentCookiesCookieJar
 import com.google.android.gms.security.ProviderInstaller
-import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
-import okhttp3.logging.HttpLoggingInterceptor
 import java.security.KeyStore
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
-
-abstract class SecureOKHttpClientFactory(protected val context: Context, private val cookieManager: PersistentCookiesCookieJar, private val cache: Cache,
-                                         private val logLevel: HttpLoggingInterceptor.Level, private val chuckInterceptor: ChuckInterceptor, protected val endpointProvider: EndpointProvider) {
+abstract class SecureOKHttpClientFactory(protected val context: Context, private val cookieManager: PersistentCookiesCookieJar,
+                                         private val cache: Cache, protected val endpointProvider: EndpointProvider) {
 
 
     fun getOkHttpClient(cookieJar: CookieJar? = null): OkHttpClient {
@@ -42,24 +38,22 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
         client.connectionSpecs(listOf(spec))
     }
 
-    protected open fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
-        client.cache(cache)
-        client.followRedirects(true)
-        client.cookieJar(cookieManager)
-        client.connectTimeout(10, TimeUnit.SECONDS)
-        client.readTimeout(60L, TimeUnit.SECONDS)
-    }
-
-    protected open fun addInterceptors(client: OkHttpClient.Builder, logLevel: HttpLoggingInterceptor.Level, chuckInterceptor: ChuckInterceptor?) {
-        val logger = HttpLoggingInterceptor()
-        logger.level = logLevel
-        client.addInterceptor(logger)
+    protected open fun addInterceptors(client: OkHttpClient.Builder) {
+        //No interceptors for secure OKHttpClient
     }
 
     protected open fun makeSslContext(): SSLContext {
         val sslContext = SSLContext.getInstance("TLS")
         sslContext.init(null, null, null)
         return sslContext
+    }
+
+    private fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
+        client.cache(cache)
+        client.followRedirects(true)
+        client.cookieJar(cookieManager)
+        client.connectTimeout(10, TimeUnit.SECONDS)
+        client.readTimeout(60L, TimeUnit.SECONDS)
     }
 
     private fun makeOkHttpClientBuilder(): OkHttpClient.Builder {
@@ -72,7 +66,7 @@ abstract class SecureOKHttpClientFactory(protected val context: Context, private
 
         val clientBuilder = OkHttpClient().newBuilder()
         setupClient(clientBuilder, cache, cookieManager)
-        addInterceptors(clientBuilder, logLevel, chuckInterceptor)
+        addInterceptors(clientBuilder)
         setupSSLSocketFactoryAndConnectionSpec(clientBuilder, makeSslContext())
 
         return clientBuilder

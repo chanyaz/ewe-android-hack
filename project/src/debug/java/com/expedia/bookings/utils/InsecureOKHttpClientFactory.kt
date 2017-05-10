@@ -1,12 +1,13 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.server.EndPoint
 import com.expedia.bookings.server.EndpointProvider
 import com.expedia.bookings.services.PersistentCookiesCookieJar
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.mobiata.android.Log
 import com.mobiata.android.util.SettingUtils
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -21,19 +22,26 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, logLevel: HttpLoggingInterceptor.Level, chuckInterceptor: ChuckInterceptor, endpointProvider: EndpointProvider) : SecureOKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor, endpointProvider) {
+open class InsecureOKHttpClientFactory(context: Context, cookieManager: PersistentCookiesCookieJar, cache: Cache, endpointProvider: EndpointProvider) : SecureOKHttpClientFactory(context, cookieManager, cache, endpointProvider) {
 
-    override fun setupClient(client: OkHttpClient.Builder, cache: Cache, cookieManager: PersistentCookiesCookieJar) {
-        super.setupClient(client, cache, cookieManager)
+    override fun addInterceptors(client: OkHttpClient.Builder) {
+        super.addInterceptors(client)
 
-        StethoShim.install(client)
-    }
-
-    override fun addInterceptors(client: OkHttpClient.Builder, logLevel: HttpLoggingInterceptor.Level, chuckInterceptor: ChuckInterceptor?) {
-        super.addInterceptors(client, logLevel, chuckInterceptor)
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        client.addInterceptor(logger)
 
         if (!ExpediaBookingApp.isAutomation()) {
+            val chuckInterceptor = ChuckInterceptor(context)
+            chuckInterceptor.showNotification(SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false))
             client.addInterceptor(chuckInterceptor)
+
+            setupStetho()
+            client.networkInterceptors().add(StethoInterceptor())
+        }
+
+        if (ExpediaBookingApp.isInstrumentation()) {
+            client.addNetworkInterceptor(RequestInterceptor())
         }
     }
 
@@ -56,6 +64,13 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
             socketContext.init(null, easyTrustManager, java.security.SecureRandom())
             return socketContext
         }
+    }
+
+    private fun setupStetho() {
+        Stetho.initialize(Stetho.newInitializerBuilder(context)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(context))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context))
+                .build())
     }
 
     private fun getInsecureX509TrustManager(): X509TrustManager {

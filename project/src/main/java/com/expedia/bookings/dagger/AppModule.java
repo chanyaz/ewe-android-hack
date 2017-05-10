@@ -9,8 +9,6 @@ import javax.inject.Singleton;
 
 import android.content.Context;
 
-import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -27,17 +25,13 @@ import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
-import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.OKHttpClientFactory;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.model.UserLoginStateChangedModel;
-import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.NetUtils;
-import com.mobiata.android.util.SettingUtils;
-import com.readystatesoftware.chuck.ChuckInterceptor;
 
 import dagger.Module;
 import dagger.Provides;
@@ -48,7 +42,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -79,17 +72,6 @@ public class AppModule {
 		return new Cache(directory, size);
 	}
 
-	@Provides
-	@Singleton
-	HttpLoggingInterceptor.Level provideLogLevel() {
-		if (BuildConfig.DEBUG
-			|| DebugUtils.isLogEnablerInstalled(context)
-			|| ExpediaDebugUtil.isEBToolApkInstalled(context)) {
-			return HttpLoggingInterceptor.Level.BODY;
-		}
-		return HttpLoggingInterceptor.Level.NONE;
-	}
-
 	private static final String COOKIE_FILE_V5 = "cookies-5.dat";
 	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
 	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
@@ -118,10 +100,8 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, ChuckInterceptor chuckInterceptor, final EndpointProvider endpointProvider) {
-
-		return new OKHttpClientFactory(context, cookieManager, cache, logLevel, chuckInterceptor, endpointProvider);
+	OKHttpClientFactory provideOkHttpClientFactory(Context context, PersistentCookiesCookieJar cookieManager, Cache cache, final EndpointProvider endpointProvider) {
+		return new OKHttpClientFactory(context, cookieManager, cache, endpointProvider);
 	}
 
 	@Provides
@@ -180,7 +160,8 @@ public class AppModule {
 			ClientLog.ResponseCLBuilder responseLogBuilder = new ClientLog.ResponseCLBuilder();
 
 			responseLogBuilder.pageName(getPageName(request.build()));
-			responseLogBuilder.eventName(NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
+			responseLogBuilder.eventName(
+				NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
 			responseLogBuilder.deviceName(android.os.Build.MODEL);
 			responseLogBuilder.responseTime(responseTime);
 
@@ -234,7 +215,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
-									   Interceptor interceptor) {
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -250,7 +231,7 @@ public class AppModule {
 	AppStartupTimeLogger appStartupTimeLogger() {
 		return new AppStartupTimeLogger();
 	}
-	
+
 	@Provides
 	@Named("GaiaInterceptor")
 	Interceptor provideGaiaRequestInterceptor(final Context context) {
@@ -267,17 +248,9 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	SmartOfferService provideSmartOfferService(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+	SmartOfferService provideSmartOfferService(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getSmartOfferServiceEndpoint();
 		return new SmartOfferService(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@Singleton
-	ChuckInterceptor provideChuckInterceptor(final Context context) {
-		ChuckInterceptor interceptor = new ChuckInterceptor(context);
-		interceptor.showNotification(
-			SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false));
-		return interceptor;
 	}
 }
