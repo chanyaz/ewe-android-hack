@@ -184,10 +184,16 @@ public class HotelScreen {
 	public static ViewInteraction viewRoom(String roomName) {
 		return onView(
 			allOf(
-				withId(R.id.view_room_button), withParent(allOf(withId(R.id.hotel_room_row_button), hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
-					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))))),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-		);
+				withId(R.id.view_room_button),
+				withParent(allOf(
+					withId(R.id.hotel_room_row_button),
+					withParent(allOf(
+						withId(R.id.earn_row_button_container),
+						hasSibling(allOf(
+							withId(R.id.parent_room_type_and_price_container),
+							withChild(allOf(
+								withId(R.id.room_type_text_view), withText(roomName))))))))),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	public static void clickAddRoom() {
