@@ -1047,6 +1047,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.reward_top_tier_name_short,
 		R.string.show_list,
 		R.drawable.ic_amenity_wifi,
-		R.layout.room_value_add_row
+		R.layout.room_value_add_row,
+		R.string.toolbar_nav_icon_close_gallery_cont_desc
 	};
 }
