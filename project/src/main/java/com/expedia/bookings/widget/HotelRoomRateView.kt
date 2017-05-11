@@ -13,6 +13,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.accessibility.AccessibilityNodeInfo
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -139,6 +140,21 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
                 collapseRoomInformation()
             }
         }
+
+        roomInfoContainer.setAccessibilityDelegate(object: AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfo?) {
+               super.onInitializeAccessibilityNodeInfo(host, info)
+                val description: String
+                if (roomInfoDescriptionText.visibility == View.VISIBLE) {
+                    description = context.resources.getString(R.string.collapse_room_info_cont_desc)
+                } else {
+                    description = context.resources.getString(R.string.expand_room_info_cont_desc)
+                }
+                val customClick = AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.ACTION_CLICK, description)
+                info?.addAction(customClick)
+            }
+        })
+
         depositTermsButton.subscribeOnClick(vm.depositInfoContainerClick)
 
         vm.roomRateInfoTextObservable.subscribeText(roomInfoDescriptionText)
@@ -208,10 +224,10 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
 
         val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                roomHeaderImageHeight = roomHeaderImage.height;
-                roomInfoHeaderTextHeight = roomInfoHeader.height;
-                roomInfoDividerHeight = roomInfoDivider.height;
-                roomInfoDescriptionTextHeight = roomInfoDescriptionText.height;
+                roomHeaderImageHeight = roomHeaderImage.height
+                roomInfoHeaderTextHeight = roomInfoHeader.height
+                roomInfoDividerHeight = roomInfoDivider.height
+                roomInfoDescriptionTextHeight = roomInfoDescriptionText.height
                 roomInfoChevronHeight = roomInfoChevron.height
 
                 roomInfoDescriptionText.visibility = View.GONE
@@ -384,7 +400,6 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams
 
             roomInfoDescriptionText.visibility = View.VISIBLE
-            roomInfoDescriptionText.requestFocus()
             lp.addRule(RelativeLayout.BELOW, R.id.room_info_description_text)
             roomInfoChevron.layoutParams = lp
             resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight, 0)
@@ -396,6 +411,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             } else {
                 HotelTracking.trackLinkHotelRoomInfoClick()
             }
+
+            roomInfoContainer.contentDescription = roomInfoDescriptionText.text
         }
     }
 
@@ -414,6 +431,8 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             })
             resizeAnimator.start()
             AnimUtils.reverseRotate(roomInfoChevron)
+
+            roomInfoContainer.contentDescription = roomInfoHeader.text
         }
     }
 

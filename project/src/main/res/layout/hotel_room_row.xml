@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/hotel_room_list_container_margin"
         android:layout_marginRight="@dimen/hotel_room_list_container_margin"
-        android:orientation="vertical"
-        android:importantForAccessibility="yes">
+        android:importantForAccessibility="yes"
+        android:orientation="vertical">
 
         <FrameLayout
             android:id="@+id/room_header_image_container"
@@ -270,6 +270,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/room_information_button_cont_desc"
+            android:focusable="true"
+            android:importantForAccessibility="yes"
             android:paddingBottom="12dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -280,6 +282,7 @@
                 android:id="@+id/room_info_header_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
                 android:paddingTop="2dp"
                 android:text="@string/room_information"
                 android:textColor="@color/hotels_room_info"
@@ -293,6 +296,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
+                android:importantForAccessibility="no"
                 android:src="@drawable/read_more" />
 
             <com.expedia.bookings.widget.TextView
@@ -300,8 +304,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/room_info_header_text"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:importantForAccessibility="no"
                 android:lineSpacingExtra="2dp"
                 android:paddingTop="8dp"
                 android:textColor="@color/hotelsv2_checkout_text_color"
