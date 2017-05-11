@@ -1,0 +1,49 @@
+{
+	"q": "del",
+	"rid": "27ade323-b866-4247-9c73-0cffe82270bf",
+	"rc": "OK",
+	"sr": [
+      {
+		"@type": "gaiaRegionResult",
+		"index": "0",
+		"gaiaId": "6000184",
+		"type": "AIRPORT",
+		"regionNames": {
+			"fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+			"shortName": "Delhi (DEL-Indira Gandhi Intl.)",
+			"displayName": "<B>Del</B>hi, India (<B>DEL</B>-Indira Gandhi Intl.)",
+			"lastSearchName": "Delhi, India (DEL-Indira Gandhi Intl.)"
+		},
+		"essId": {
+			"sourceName": "GAI",
+			"sourceId": "6000184"
+		},
+		"coordinates": {
+			"lat": "28.555741",
+			"long": "77.086145"
+		},
+		"hierarchyInfo": {
+			"airport": {
+				"airportCode": "DEL",
+				"multicity": "180000"
+			},
+			"country": {
+				"name": "India",
+				"isoCode2": "IN",
+				"isoCode3": "IND"
+			}
+		},
+		"regionMetadata": {
+			"hotelCount": "1070"
+		},
+		"regionGrades": {
+			"globalGrade": "99"
+		},
+		"isMinorAirport": "false",
+		"packageable": "false",
+		"score": "0.9860201311459266",
+		"hotelCountPerRegion": "1070",
+		"popularity": "740.0"
+	  }
+    ]
+}
