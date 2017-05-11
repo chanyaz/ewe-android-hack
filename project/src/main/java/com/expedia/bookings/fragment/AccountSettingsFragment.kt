@@ -348,6 +348,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         Events.register(this)
         adjustLoggedInViews()
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        legalFragment?.setRowVisibility(ROW_TERMS_AND_CONDITIONS,
+                (if (PointOfSale.getPointOfSale().termsAndConditionsUrl.isNullOrEmpty()) View.GONE else View.VISIBLE))
     }
 
     override fun onUserAccountRefreshed() {
@@ -382,6 +384,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         appSettingsFragment?.notifyOnRowDataChanged(ROW_COUNTRY)
         supportFragment?.notifyOnRowDataChanged(ROW_EXPEDIA_WEBSITE)
         legalFragment?.setRowVisibility(ROW_ATOL_INFO, if (PointOfSale.getPointOfSale().showAtolInfo()) View.VISIBLE else View.GONE)
+        legalFragment?.setRowVisibility(ROW_TERMS_AND_CONDITIONS,
+                (if (PointOfSale.getPointOfSale().termsAndConditionsUrl.isNullOrEmpty()) View.GONE else View.VISIBLE))
     }
 
     fun onNewCountrySelected(pointOfSaleId: Int) {
@@ -715,5 +719,4 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             showCountrySelector()
         }
     }
-
 }

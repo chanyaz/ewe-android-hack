@@ -98,15 +98,22 @@ public abstract class BaseRulesFragment extends Fragment {
 
 		// Terms and Conditions
 		TextView terms = Ui.findView(v, R.id.terms_and_conditions);
-		terms.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-				builder.setUrl(pos.getTermsAndConditionsUrl());
-				builder.setTitle(R.string.terms_and_conditions);
-				startActivity(builder.getIntent());
-			}
-		});
+		String termsUrl = pos.getTermsAndConditionsUrl();
+		if (termsUrl != null && !termsUrl.isEmpty()) {
+			terms.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(pos.getTermsAndConditionsUrl());
+					builder.setTitle(R.string.terms_and_conditions);
+					startActivity(builder.getIntent());
+				}
+			});
+		}
+		else {
+			terms.setVisibility(View.GONE);
+		}
+
 
 		// Terms of Booking
 		if (pos.getTermsOfBookingUrl() != null) {
