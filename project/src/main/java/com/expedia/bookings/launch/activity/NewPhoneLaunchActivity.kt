@@ -23,6 +23,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
@@ -47,7 +48,6 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -107,9 +107,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (FeatureToggleUtil
-                .isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppItinCrystalSkin,
-                        R.string.preference_itin_crystal_theme)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
             setTheme(R.style.NewLaunchTheme_Light)
         }
         Ui.getApplication(this).appComponent().inject(this)

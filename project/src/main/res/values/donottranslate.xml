@@ -110,7 +110,6 @@
     <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
-    <string name="preference_itin_crystal_theme">preference_itin_crystal_theme</string>
     <string name="preference_hotel_group_room_and_rate">preference_hotel_group_room_and_rate</string>
     <string name="preference_insurance_in_flight_summary">preference_insurance_in_flight_summary</string>
     <string name="preference_track_users_itin_data">preference_track_users_itin_data</string>

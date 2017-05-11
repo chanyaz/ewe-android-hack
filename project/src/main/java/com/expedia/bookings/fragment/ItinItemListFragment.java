@@ -30,19 +30,18 @@ import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
@@ -167,7 +166,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				 we have to make sure that the Background color is set appropriately. i.e. dark (older itin bg color) when list is empty.
 				 But make sure to update it to show the Crystal Trips background color if there happens to be a show (list is populated)
 				 */
-				if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 					if (mItinListView.getItinCardDataAdapter().getCount() == 0) {
 						mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg));
 					}
@@ -198,8 +197,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mItinListView.addFooterView(guestItinView);
 		View guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
 
-		if (FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 			View itinListDivider = Ui.findView(guestItinView, R.id.itin_list_divider);
 			itinListDivider.setVisibility(View.GONE);
 		}
@@ -792,8 +790,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void logCrystalThemeExposure() {
 		if (mItinListView != null && mItinListView.getItinCardDataAdapter().getCount() > 0 &&
-			ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled() &&
-			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_crystal_theme)) {
+			ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			OmnitureTracking.trackPageLoadItinCrystalTheme();
 		}
 	}

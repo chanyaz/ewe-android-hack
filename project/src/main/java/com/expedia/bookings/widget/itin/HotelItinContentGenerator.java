@@ -46,7 +46,6 @@ import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
@@ -217,8 +216,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			vh.mHotelRatingBar = Ui.findView(convertView,
 				shouldShowCircleForRatings ? R.id.hotel_rating_bar_circles : R.id.hotel_rating_bar);
 
-			if (FeatureToggleUtil
-				.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 				vh.mHotelRatingBar.setVisibility(View.GONE);
 			}
 			else {

@@ -57,7 +57,6 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -245,8 +244,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				flightDuration.setContentDescription(durationContDesc);
 
 				flightDuration.setVisibility(View.VISIBLE);
-				if (FeatureToggleUtil
-					.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 					flightDurationDivider.setVisibility(View.VISIBLE);
 				}
 			}
@@ -364,7 +362,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	@Override
 	public View getSummaryView(View convertView, ViewGroup container) {
 
-		boolean isCrystalTheme = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme);
+		boolean isCrystalTheme = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin);
 
 		final ItinCardDataFlight itinCardData = getItinCardData();
 
@@ -1032,7 +1030,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					}
 					else if (finalOptions[which].equals(terminalMaps)) {
 						Intent intent;
-						if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppItinCrystalSkin, R.string.preference_itin_crystal_theme)) {
+						if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
 							intent = TerminalMapActivityV2.createIntent(getActivity(), mAirport.mAirportCode);
 						}
 						else {
