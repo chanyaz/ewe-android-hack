@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomHeaderViewModel
 import android.view.ViewTreeObserver
+import com.expedia.util.setInverseVisibility
 import rx.subjects.PublishSubject
 
 class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel): RelativeLayout(context) {
@@ -49,6 +50,7 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
         roomTypeTextView.text = viewModel.roomTypeString
 
         roomInfoIcon.subscribeOnClick(roomInfoClickedSubject)
+        roomInfoIcon.setInverseVisibility(viewModel.roomDescriptionString.isNullOrEmpty())
 
         bedTypeTextView.text = viewModel.bedTypeString
     }
