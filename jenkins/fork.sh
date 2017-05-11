@@ -19,28 +19,37 @@ adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X install -r tools/test
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc data disable
 adb devices | tail -n +2 | cut -sf 1 | xargs -I X adb -s X shell svc wifi disable
 
+if [ -z "${ghprbPullId}" ] ; then
+	hasPullId=false
+	jobName="hourly"
+else
+	hasPullId=true
+	jobName="uitests"
+fi
 internal_artifact() {
 	# Cook up the frequencies of flaky UI tests so they are readily available for consumption by the Topmost-Flaky-UI-Tests-Daily-Report Job
-	python ./jenkins/prepare_frequencies_of_flaky_ui_tests.py project/build/fork ~/artifacts/uitests-$BUILD_NUMBER-$1.flaky.tests.frequency.txt
+	python ./jenkins/prepare_frequencies_of_flaky_ui_tests.py project/build/fork ~/artifacts/$jobName-$BUILD_NUMBER-$1.flaky.tests.frequency.txt
 	pushd project/build/fork
-	tar -czvf ~/artifacts/uitests-$BUILD_NUMBER-$1.tar.gz expedia
+	tar -czvf ~/artifacts/$jobName-$BUILD_NUMBER-$1.tar.gz expedia
 	popd
 }
 
-# exit if finds 'needs-human' label
-python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId
-prLabeledAsNeedsHumanStatus=$?
-if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
-   echo "PR is labeled needs-human, so exiting..."
-   exit 1
-fi
+if [ hasPullId == true ]; then
+	# exit if finds 'needs-human' label
+	python ./jenkins/prLabeledAsNeedsHuman.py $GITHUB_ACCESS_TOKEN $ghprbPullId
+	prLabeledAsNeedsHumanStatus=$?
+	if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
+		echo "PR is labeled needs-human, so exiting..."
+		exit 1
+	fi
 
-# exit if UI tests not required
-python ./jenkins/changes_require_ui_test.py $GITHUB_ACCESS_TOKEN $ghprbPullId
-requiresUITestRun=$?
-if [ $requiresUITestRun -ne 0 ]; then
-   echo "PR does not have any changes which require UI tests to run"
-   exit 0
+	# exit if UI tests not required
+	python ./jenkins/changes_require_ui_test.py $GITHUB_ACCESS_TOKEN $ghprbPullId
+	requiresUITestRun=$?
+	if [ $requiresUITestRun -ne 0 ]; then
+		echo "PR does not have any changes which require UI tests to run"
+		exit 0
+	fi
 fi
 
 ./gradlew --no-daemon clean
@@ -50,7 +59,7 @@ fi
 
 run() {
 	 # run tests
-	 ./gradlew --no-daemon forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
+	./gradlew --no-daemon forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
 }
 
 failed_test_classes=""
@@ -78,5 +87,7 @@ for runCount in `seq 3`
 		fi
 	done
 
-python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
+if [ hasPullId == true ]; then
+	python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
+fi
 exit $?
