@@ -17,7 +17,7 @@ import com.expedia.bookings.utils.bindView
 /**
  * A Viewholder for the case where our data are launch collections.
  */
-class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, HeaderBitmapDrawable.CallbackListener {
+class CollectionViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, HeaderBitmapDrawable.PicassoTargetListener {
 
     val cardView: CardView by bindView (R.id.card_view)
     val title: TextView by bindView(R.id.title)

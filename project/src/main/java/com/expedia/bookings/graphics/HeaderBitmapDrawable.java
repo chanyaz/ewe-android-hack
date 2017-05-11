@@ -77,8 +77,7 @@ public class HeaderBitmapDrawable extends Drawable {
 	private int mBitmapWidth;
 	private int mBitmapHeight;
 
-	// External callback for PicassoTarget
-	private CallbackListener callbackListener;
+	private PicassoTargetListener picassoTargetListener;
 
 	// Cached for draw speed
 	private final RectF mRect = new RectF();
@@ -363,18 +362,18 @@ public class HeaderBitmapDrawable extends Drawable {
 		return matrix;
 	}
 
-	public PicassoTarget getCallBack() {
-		return callback;
+	public PicassoTarget getPicassoTarget() {
+		return picassoTarget;
 	}
 
-	private PicassoTarget callback = new PicassoTarget() {
+	private PicassoTarget picassoTarget = new PicassoTarget() {
 
 		@Override
 		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 			super.onBitmapLoaded(bitmap, from);
 			setBitmap(bitmap);
-			if (callbackListener != null) {
-				callbackListener.onBitmapLoaded();
+			if (picassoTargetListener != null) {
+				picassoTargetListener.onBitmapLoaded();
 			}
 		}
 
@@ -382,8 +381,8 @@ public class HeaderBitmapDrawable extends Drawable {
 		public void onBitmapFailed(Drawable errorDrawable) {
 			super.onBitmapFailed(errorDrawable);
 			invalidateSelf();
-			if (callbackListener != null) {
-				callbackListener.onBitmapFailed();
+			if (picassoTargetListener != null) {
+				picassoTargetListener.onBitmapFailed();
 			}
 		}
 
@@ -391,17 +390,17 @@ public class HeaderBitmapDrawable extends Drawable {
 		public void onPrepareLoad(Drawable placeHolderDrawable) {
 			super.onPrepareLoad(placeHolderDrawable);
 			setPlaceholderDrawable(placeHolderDrawable);
-			if (callbackListener != null) {
-				callbackListener.onPrepareLoad();
+			if (picassoTargetListener != null) {
+				picassoTargetListener.onPrepareLoad();
 			}
 		}
 	};
 
-	public void setCallbackListener(CallbackListener listener) {
-		callbackListener = listener;
+	public void setPicassoTargetListener(PicassoTargetListener listener) {
+		picassoTargetListener = listener;
 	}
 
-	public interface CallbackListener {
+	public interface PicassoTargetListener {
 		void onBitmapLoaded();
 
 		void onBitmapFailed();

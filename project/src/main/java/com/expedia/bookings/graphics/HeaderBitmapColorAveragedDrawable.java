@@ -52,7 +52,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 		}
 	}
 
-	public PicassoTarget getCallBack() {
+	public PicassoTarget getPicassoTarget() {
 		return callback;
 	}
 

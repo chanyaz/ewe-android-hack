@@ -366,7 +366,7 @@ public class HotelMedia implements JSONable, IMedia {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
 				List<String> urls = getBestUrls(view.getWidth());
 				new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(
-					drawable.getCallBack()).build().load(urls);
+					drawable.getPicassoTarget()).build().load(urls);
 				return true;
 			}
 		});
