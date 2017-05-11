@@ -34,6 +34,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.Ui
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -221,6 +222,23 @@ class AccountSettingsFragmentTest {
         assertFalse(toolbarView.isOverflowMenuShowing)
     }
 
+    @Test
+    fun testTermsAndConditionsHiddenForAustria() {
+        givenPOS(PointOfSaleId.AUSTRIA)
+        givenSignedInAsUser(getTopTierRewardsMember())
+        givenFragmentSetup()
+        assertTermsLinkVisibility(View.GONE)
+    }
+
+    @Test
+    fun testTermsAndConditionsHiddenForGermany() {
+        givenPOS(PointOfSaleId.GERMANY)
+        givenSignedInAsUser(getTopTierRewardsMember())
+        givenFragmentSetup()
+
+        assertTermsLinkVisibility(View.GONE)
+    }
+
     private fun doCountryTest(pointOfSaleId: PointOfSaleId, expectedCountryCode: String, expectedFlagResId: Int) {
         givenPOS(pointOfSaleId)
         givenSignedInAsUser(getTopTierRewardsMember())
@@ -365,6 +383,13 @@ class AccountSettingsFragmentTest {
         val countryView = fragment.view?.findViewById(viewId)
         assertEquals(expectedCountryCode, (countryView?.findViewById(R.id.country) as TextView).text)
         assertEquals(expectedFlagResId, Shadows.shadowOf(countryView?.findViewById(R.id.flagView) as ImageView).imageResourceId)
+    }
+
+    private fun assertTermsLinkVisibility(visibility: Int) {
+        val ROW_TERMS_AND_CONDITIONS = 6
+        val termsFragment = Ui.findSupportFragment<AboutSectionFragment>(fragment, "TAG_LEGAL")
+        val termsAndConditionsView = termsFragment.view?.findViewWithTag(ROW_TERMS_AND_CONDITIONS)
+        assertEquals(visibility, termsAndConditionsView?.visibility)
     }
 
     private fun assertViewIsEffectivelyGone(@IdRes viewId: Int) {
