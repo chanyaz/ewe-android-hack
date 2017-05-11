@@ -77,8 +77,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         presenter.getViewModel().fireRetryCreateTrip.subscribe {
             flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
-            show(presenter)
-            presenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            show(flightOverviewPresenter, FLAG_CLEAR_TOP)
+            flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             flightOverviewPresenter.showCheckout()
