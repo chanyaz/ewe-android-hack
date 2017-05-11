@@ -21,6 +21,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.updateVisibility
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 
@@ -49,6 +50,12 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         if (isNewConfirmationScreenEnabled) {
             vm.formattedTravelersStringSubject.subscribeText(flightSummary?.numberOfTravelers)
             vm.tripTotalPriceSubject.subscribeText(flightSummary?.tripPrice)
+            val tripProtectionLabel = findViewById(R.id.trip_protection) as TextView
+            val tripProtectionDivider = findViewById(R.id.trip_protection_divider)
+            vm.showTripProtectionMessage.subscribe { isVisible ->
+                tripProtectionDivider.updateVisibility(isVisible)
+                tripProtectionLabel.updateVisibility(isVisible)
+            }
         }
         vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary?.pointsEarned ?: expediaPoints)
 
