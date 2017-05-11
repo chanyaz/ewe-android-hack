@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.trips
 
+import android.text.TextUtils
 import com.expedia.bookings.data.AirAttach
 import com.expedia.bookings.data.FlightLeg
 import com.expedia.bookings.data.FlightTrip
@@ -15,6 +16,7 @@ import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import java.util.HashSet
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -343,6 +345,26 @@ class TripUtilsTest {
         assertFalse(result)
     }
 
+    @Test
+    fun getTripTypesInUsersTrips() {
+        val usersTrips = getUsersTrips()
+        val usersTripTypeEventSet = TripUtils.createUsersTripTypeEventString(usersTrips)
+        val expectedValues = HashSet<String>()
+        expectedValues.add("event255")
+        expectedValues.add("event250")
+        expectedValues.add("event251")
+        val expectedString = TextUtils.join(",", expectedValues)
+        assertEquals(expectedString, usersTripTypeEventSet)
+    }
+
+    @Test
+    fun getTripsTypesUserWithNoTrips() {
+        val noTrips = emptyList<Trip>()
+        val noTripTypesEventSet = TripUtils.createUsersTripTypeEventString(noTrips)
+        val expectedValue = ""
+        assertEquals(expectedValue, noTripTypesEventSet)
+    }
+
     private fun setUpAirAttachObject(expirationEpochSeconds: Long): JSONObject {
         val jsonObj = JSONObject()
         val offerExpiresObj = JSONObject()
@@ -360,4 +382,22 @@ class TripUtilsTest {
     }
 
     private fun dateTimeTwoWeeksFromNow() = DateTime.now().plusDays(14)
+
+    private fun getUsersTrips(): Collection<Trip> {
+        val flightTrip = Trip()
+        flightTrip.addTripComponent(TripFlight())
+
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripPackage())
+
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(TripHotel())
+
+        val secondHotelTrip = Trip()
+        secondHotelTrip.addTripComponent(TripHotel())
+
+        val trips = mutableListOf(packageTrip, flightTrip, hotelTrip)
+        return trips
+    }
+
 }
