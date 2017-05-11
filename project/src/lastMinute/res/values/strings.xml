@@ -9,4 +9,6 @@
     <string name="acct_LastMinute_account_already_exists">An LM AU &amp; NZ account already exists with this email</string>
     <!-- Member Discount for a given property -->
     <string name="member_pricing">Sneaky Saver</string>
+    <!--New User Onboarding 3rd page Brand-Specific String-->
+    <string name="reward_page_subtitle_TEMPLATE">Sign up for a free LM AU &amp; NZ account</string>
 </resources>
