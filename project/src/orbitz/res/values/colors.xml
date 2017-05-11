@@ -40,6 +40,9 @@
     <color name="hotel_member_pricing_color">#00253c</color>
     <color name="loyalty_earn_color">#8E0099</color>
 
+    <!--Splash-->
+    <color name="splash_screen_bg">@color/white</color>
+
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#00253C</color>
     <color name="launch_discount">#00B1FF</color>

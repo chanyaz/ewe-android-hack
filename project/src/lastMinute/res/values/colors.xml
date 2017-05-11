@@ -12,6 +12,9 @@
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="preferences_text">#495863</color>
 
+    <!--Splash-->
+    <color name="splash_screen_bg">@color/white</color>
+
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
 

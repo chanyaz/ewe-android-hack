@@ -243,7 +243,7 @@ android {
             applicationId "com.ebookers"
 
             def major = 6
-            def minor = 8
+            def minor = 9
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -259,7 +259,7 @@ android {
             applicationId "com.expedia.bookings.vsc"
 
             def major = 4
-            def minor = 5
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -275,7 +275,7 @@ android {
             applicationId "com.travelocity.android"
 
             def major = 9
-            def minor = 8
+            def minor = 9
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -291,7 +291,7 @@ android {
             applicationId "com.airasiago.android"
 
             def major = 4
-            def minor = 7
+            def minor = 8
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -307,7 +307,7 @@ android {
             applicationId "com.wotif.android"
 
             def major = 4
-            def minor = 7
+            def minor = 8
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -323,7 +323,7 @@ android {
             applicationId "com.lastminute.android"
 
             def major = 4
-            def minor = 7
+            def minor = 8
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -355,7 +355,7 @@ android {
             applicationId "com.orbitz"
 
             def major = 8
-            def minor = 8
+            def minor = 9
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -371,7 +371,7 @@ android {
             applicationId "com.cheaptickets"
 
             def major = 6
-            def minor = 8
+            def minor = 9
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -387,7 +387,7 @@ android {
             applicationId "se.mrjet"
 
             def major = 6
-            def minor = 7
+            def minor = 8
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
