@@ -44,6 +44,9 @@
     <color name="actionbar_button_text_color">@color/action_bar_text_blue</color>
     <color name="hotel_member_pricing_color">#0f6093</color>
 
+    <!--Splash-->
+    <color name="splash_screen_bg">@color/white</color>
+
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
 

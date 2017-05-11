@@ -196,4 +196,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean forceShowHotelLoyaltyEarnMessage();
 
 	boolean shouldShowUserReview();
+
+	boolean shouldShowVIPLoyaltyMessage();
 }
