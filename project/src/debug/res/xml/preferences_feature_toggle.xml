@@ -95,6 +95,12 @@
             android:summary="Enable Itin Crystal Theme"
             android:title="Show Itin Crystal Theme" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_track_users_itin_data"
+            android:layout="@layout/preference"
+            android:summary="Enable User's Itin Data Tracking"
+            android:title="Track User's Itin Data" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
