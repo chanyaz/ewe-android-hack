@@ -103,7 +103,7 @@
                         android:layout_weight="4" />
 
                     <com.expedia.bookings.widget.TextView
-                        android:id="@+id/flight_earn_message_text_view_without_roundtrip"
+                        android:id="@+id/flight_earn_message_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -114,18 +114,6 @@
                         android:textSize="12sp"
                         android:visibility="gone"
                         app:textStyle="normal" />
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/trip_type_text_view"
-                        style="@style/Core.Text.Default.LightColor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/flight_trip_type_text_view_margin_left"
-                        android:layout_marginTop="2dp"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="@string/Roundtrip"
-                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -140,17 +128,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/flight_earn_message_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/earn_message_icon"
-                        android:drawablePadding="@dimen/earn_message_icon_dimen"
-                        android:textColor="@color/hotel_earn_message_text_color"
-                        android:textSize="12sp"
-                        android:visibility="gone"
-                        app:textStyle="normal" />
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.packages.FlightLayoverWidget

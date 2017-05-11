@@ -16,8 +16,8 @@ import com.expedia.bookings.widget.TextView
 
 class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    fun update(airlines: List<Airline>, isRoundTripMessageVisible: Boolean, isEarnMessageVisible: Boolean) {
-        if ((airlines.size > 2 && (isRoundTripMessageVisible || isEarnMessageVisible))
+    fun update(airlines: List<Airline>, isEarnMessageVisible: Boolean) {
+        if ((airlines.size > 2 && isEarnMessageVisible)
                 || airlines.size > 3) {
             addAirlineViewWithMultipleCarriersImage()
         } else {

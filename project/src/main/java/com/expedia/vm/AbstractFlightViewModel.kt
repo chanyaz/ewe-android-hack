@@ -24,7 +24,6 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     abstract fun getUrgencyMessageVisibility(seatsLeft: String): Boolean
     abstract fun getFlightCabinPreferenceVisibility(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
-    abstract fun getRoundTripMessageVisibilty(): Boolean
     abstract fun getFlightDetailCardContDescriptionStringID(): Int
 
     fun getFlightContentDesc(isBestFlightVisible: Boolean): CharSequence {

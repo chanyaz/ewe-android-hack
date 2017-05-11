@@ -96,8 +96,7 @@ class AbstractFlightListAdapterTest {
     }
 
     @Test
-    fun testSeatsLeftUrgencyMessageWhenBucketedForABTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
+    fun testSeatsLeftUrgencyMessage() {
         createTestFlightListAdapter()
 
         //When seatsLeftUrgencyMessage are less than 6
@@ -110,16 +109,6 @@ class AbstractFlightListAdapterTest {
         //When seatsLeftUrgencyMessage are more than 6
         createFlightLegWithUrgencyMessage(8)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.GONE)
-    }
-
-    @Test
-    fun testUrgencyMessageVisibilityWhenNotBucketedForABTest() {
-        createTestFlightListAdapter()
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
-        createFlightLegWithUrgencyMessage(4)
-        val flightViewHolder = bindFlightViewHolderAndModel()
-
         assertEquals(flightViewHolder.flightCell.urgencyMessageContainer.visibility, View.GONE)
     }
 
@@ -142,7 +131,7 @@ class AbstractFlightListAdapterTest {
     @Test
     fun testFlightCabinCodeVisibilityWhenNotBucketedForABTest() {
         createTestFlightListAdapter()
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
 
         // Has Flight Class
         createFlightClass(true)
@@ -152,38 +141,7 @@ class AbstractFlightListAdapterTest {
     }
 
     @Test
-    fun testRoundTripFlightIndicationWhenBucketedForABTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
-        isRoundTripSubject.onNext(false)
-        createTestFlightListAdapter()
-        createFlightLegWithThreeAirlines()
-        var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.GONE)
-
-        isRoundTripSubject.onNext(true)
-        createFlightLegWithThreeAirlines()
-        flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.VISIBLE)
-    }
-
-    @Test
-    fun testRoundTripFlightIndicationWhenNotBucketedForABTest() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
-
-        createTestFlightListAdapter()
-        createFlightLegWithThreeAirlines()
-        var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.GONE)
-
-        isRoundTripSubject.onNext(true)
-        createFlightLegWithThreeAirlines()
-        flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.roundTripTextView.visibility, View.GONE)
-    }
-
-    @Test
     fun testEarnMessagingForDifferentPos() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines()
 
@@ -192,31 +150,20 @@ class AbstractFlightListAdapterTest {
         assertFalse(pos.isEarnMessageEnabledForFlights)
         var flightViewHolder = bindFlightViewHolderAndModel()
         assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
 
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
         pos = PointOfSale.getPointOfSale()
         assertTrue(pos.isEarnMessageEnabledForFlights)
 
         //If it is a round trip with pos supporting earn messaging, then earn message is visible below round trip text view
-        isRoundTripSubject.onNext(true)
         flightViewHolder = bindFlightViewHolderAndModel()
         assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
         assertEquals(flightViewHolder.flightCell.flightEarnMessage.text, "Earn 100 points")
-
-        //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
-        isRoundTripSubject.onNext(false)
-        flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
-        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.text, "Earn 100 points")
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun testEarnMessageForMoney(){
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines(true, "50")
 
@@ -226,16 +173,14 @@ class AbstractFlightListAdapterTest {
 
         //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
         isRoundTripSubject.onNext(false)
-        var flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.GONE)
-        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
+        val flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.visibility, View.VISIBLE)
         // This will be tested for MB against different currency eg Orbucks
-        assertEquals(flightViewHolder.flightCell.flightEarnMessageWithoutRoundTrip.text, "Earn $50")
+        assertEquals(flightViewHolder.flightCell.flightEarnMessage.text, "Earn $50")
     }
 
     @Test
     fun testAirlineWidgetTextWithEarnMessagingAndRoundTripWithControlledTest(){
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
         createTestFlightListAdapter()
 
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
@@ -390,7 +335,7 @@ class AbstractFlightListAdapterTest {
         return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
     }
 
-    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
         override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
             return false
         }
@@ -404,7 +349,7 @@ class AbstractFlightListAdapterTest {
         }
 
         override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel {
-            return FlightViewModel(context, flightLeg, isRoundTripSearchSubject)
+            return FlightViewModel(context, flightLeg)
         }
     }
 }

@@ -7,22 +7,17 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import java.math.BigDecimal
-import java.util.Locale
 
-open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isRoundTripSearchSubject: BehaviorSubject<Boolean>? = null) : AbstractFlightViewModel(context, flightLeg) {
+open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
     override fun price(): String {
         val price = flightLeg.packageOfferModel.price.averageTotalPricePerTicket
         return Money.getFormattedMoneyFromAmountAndCurrencyCode(price.roundedAmount, price.currencyCode, Money.F_NO_DECIMAL)
     }
 
     override fun getUrgencyMessageVisibility(seatsLeft : String): Boolean {
-        return Strings.isNotEmpty(seatsLeft) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
+        return Strings.isNotEmpty(seatsLeft)
     }
 
     override fun getFlightCabinPreferenceVisibility(): Boolean {
@@ -32,10 +27,6 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg, val isRoundTr
 
     override fun isEarnMessageVisible(earnMessage: String): Boolean {
         return Strings.isNotEmpty(earnMessage) && PointOfSale.getPointOfSale().isEarnMessageEnabledForFlights
-    }
-
-    override fun getRoundTripMessageVisibilty(): Boolean {
-        return (isRoundTripSearchSubject?.value ?: false) && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
     }
 
     override fun getFlightDetailCardContDescriptionStringID(): Int {
