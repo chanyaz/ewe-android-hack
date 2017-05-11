@@ -2951,6 +2951,19 @@
     <string name="points_value_label">Points value</string>
     <!-- Label (positioned above) for customer points value currency -->
     <string name="currency_label">Currency</string>
+    <!-- Dialog for pending points -->
+    <string name="pending_points_info">Pending points become available after travel has occurred within the following time period:</string>
+    <string name="pending_points_dialog_title">Pending Points</string>
+    <string name="pending_points_button">Points Button</string>
+    <string name="trip_type">Trip Type</string>
+    <string name="up_to">Up to</string>
+    <string name="activities">Activities</string>
+    <string name="cruises">Cruises</string>
+    <string name="cars">Cars</string>
+    <!--example: 30 days-->
+    <string name="number_of_days_points_TEMPLATE">{number_of_days} days</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed-->
+    <string name="pending_points_accessibility_TEMPLATE">Points from {lob} become available up to {number_of_days} days after travel has been completed.</string>
 
     <!-- App support WebView -->
     <!-- menu -->

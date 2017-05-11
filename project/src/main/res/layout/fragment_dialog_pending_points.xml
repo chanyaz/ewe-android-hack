@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_pending_points"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="24dp"
+    android:shrinkColumns="0">
+
+    <TextView
+        android:id="@+id/pending_pts_info"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:paddingBottom="16dp"
+        android:text="@string/pending_points_info"
+        android:textColor="@color/gray8" />
+
+    <TableRow>
+        <TextView
+            android:id="@+id/lob_column_view"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:paddingBottom="2dp"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_type"
+            android:textColor="@color/gray8"
+            android:layout_gravity="left"/>
+
+        <TextView
+            android:id="@+id/days_column_view"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:paddingBottom="2dp"
+            android:layout_height="wrap_content"
+            android:text="@string/up_to"
+            android:textColor="@color/gray8"
+            android:layout_gravity="right"
+            android:gravity="right"/>
+
+    </TableRow>
+
+    <TableRow android:id="@+id/flight_points_row">
+        <TextView
+            android:id="@+id/flights_pp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/flights_title"
+            android:importantForAccessibility="no"
+            android:textColor="@color/gray8" />
+
+        <TextView
+            android:id="@+id/flights_days"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            tools:text="30 days"
+            android:importantForAccessibility="no"
+            android:textColor="@color/gray8" />
+    </TableRow>
+
+    <TableRow android:id="@+id/bundles_points_row">
+        <TextView
+            android:id="@+id/packages_pp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_packages"
+            android:importantForAccessibility="no"
+            android:textColor="@color/gray8" />
+
+        <TextView
+            android:id="@+id/packages_days"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            tools:text="30 days"
+            android:importantForAccessibility="no"
+            android:textColor="@color/gray8" />
+    </TableRow>
+
+    <TableRow android:id="@+id/activities_points_row">
+        <TextView
+        android:id="@+id/activities_pp"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/packages_pp"
+        android:text="@string/activities"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+
+        <TextView
+        android:id="@+id/activities_days"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/packages_days"
+        android:gravity="right"
+        tools:text="30 days"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+    </TableRow>
+
+    <TableRow android:id="@+id/hotels_points_row">
+        <TextView
+        android:id="@+id/hotels_pp"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activities_pp"
+        android:text="@string/nav_hotels"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+
+        <TextView
+        android:id="@+id/hotels_days"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activities_days"
+        android:gravity="right"
+        tools:text="35 days"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+    </TableRow>
+
+    <TableRow android:id="@+id/cruises_points_row">
+        <TextView
+        android:id="@+id/cruises_pp"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hotels_pp"
+        android:text="@string/cruises"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+
+        <TextView
+        android:id="@+id/cruises_days"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hotels_days"
+        android:gravity="right"
+        tools:text="45 days"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+    </TableRow>
+
+    <TableRow android:id="@+id/cars_points_row">
+        <TextView
+        android:id="@+id/cars_pp"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cruises_pp"
+        android:text="@string/cars"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+
+        <TextView
+        android:id="@+id/cars_days"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cruises_days"
+        android:gravity="right"
+        tools:text="90 days"
+        android:importantForAccessibility="no"
+        android:textColor="@color/gray8" />
+    </TableRow>
+</TableLayout>

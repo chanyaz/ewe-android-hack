@@ -335,6 +335,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         if (userStateManager.isUserAuthenticated()) {
             toolbarShadow.alpha = 0f
         }
+
+        pendingPointsTextView.setOnClickListener {
+            val pendingPointsDialog = PendingPointsDialogFragment.newInstance(resources.getString(R.string.pending_points_dialog_title))
+            pendingPointsDialog.show(fragmentManager, "fragment_dialog_pending_points")
+            OmnitureTracking.trackPendingPointsTooltipTapped()
+        }
     }
 
     override fun onResume() {
@@ -481,6 +487,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     pendingPointsTextView.visibility = View.VISIBLE
                     pendingPointsTextView.text = getString(R.string.loyalty_points_pending,
                             numberFormatter.format(member.loyaltyPointsPending))
+                    pendingPointsTextView.contentDescription = pendingPointsTextView.text.toString() + Phrase.from(activity, R.string.pending_points_button).format().toString()
                 } else {
                     pendingPointsTextView.visibility = View.GONE
                 }

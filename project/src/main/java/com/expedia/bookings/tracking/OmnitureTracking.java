@@ -2495,6 +2495,7 @@ public class OmnitureTracking {
 	private static final String NEW_USER_ONBOARDING_ITINERARY = "App.Onboarding.Itinerary";
 	private static final String NEW_USER_ONBOARDING_LOYALTY = "App.Onboarding.Loyalty";
 	private static final String NEW_USER_ONBOARDING_GO_SIGNIN = "App.Onboarding.SignIn";
+	private static final String PENDING_POINTS_TAP = "App.PointsToolTip.Tap";
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -2697,6 +2698,13 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(ACCOUNT_SCREEN);
 		s.setEvar(18, ACCOUNT_SCREEN);
+		s.track();
+	}
+
+	public static void trackPendingPointsTooltipTapped() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(PENDING_POINTS_TAP);
+		s.setEvar(28, PENDING_POINTS_TAP);
 		s.track();
 	}
 
