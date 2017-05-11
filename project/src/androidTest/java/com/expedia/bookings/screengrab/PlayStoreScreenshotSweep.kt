@@ -45,7 +45,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen
-import com.expedia.bookings.test.tablet.pagemodels.Settings
+import com.expedia.bookings.test.Settings
 import com.expedia.bookings.utils.Ui
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf

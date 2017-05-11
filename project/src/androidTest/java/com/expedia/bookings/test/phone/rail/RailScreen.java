@@ -10,7 +10,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.espresso.CalendarPickerActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
@@ -45,7 +45,7 @@ public class RailScreen {
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
-		calendar().perform(TabletViewActions.clickDates(start, end));
+		calendar().perform(CalendarPickerActions.clickDates(start, end));
 	}
 
 	public static void selectOneWay() {

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tablet.pagemodels;
+package com.expedia.bookings.test;
 
 import android.app.Instrumentation;
 import android.content.Context;

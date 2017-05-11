@@ -14,7 +14,6 @@ import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
-import com.expedia.bookings.test.tablet.pagemodels.Settings;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 
 import cucumber.api.Scenario;
