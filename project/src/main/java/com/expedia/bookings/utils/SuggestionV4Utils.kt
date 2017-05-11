@@ -37,7 +37,8 @@ object SuggestionV4Utils {
                 suggest.hierarchyInfo?.isChild = false
             }
             val suggestions = listOf(suggest) + loadSuggestionHistory(context, file)
-            val recentSuggestions = suggestions.distinctBy { it.coordinates.lat }
+            val allSuggestionsHaveAirportCode = suggestions.filter { it.hierarchyInfo?.airport?.airportCode == null }.isEmpty()
+            val recentSuggestions = suggestions.distinctBy { if (allSuggestionsHaveAirportCode) it.hierarchyInfo!!.airport!!.airportCode else it.coordinates.lat }
 
             val type = object : TypeToken<List<SuggestionV4>>() {}.type
             val suggestionJson = Gson().toJson(recentSuggestions.take(3), type)
