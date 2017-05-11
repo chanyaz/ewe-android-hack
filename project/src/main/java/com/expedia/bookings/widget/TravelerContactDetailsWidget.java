@@ -361,8 +361,21 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public void onMenuButtonPressed() {
-		if (sectionTravelerInfo.performValidation()) {
+		int numberOfInvalidFields = sectionTravelerInfo.getNumberOfInvalidFields();
+		if (sectionTravelerInfo.performValidation() && numberOfInvalidFields == 0) {
 			setExpanded(false);
+		}
+		else {
+			Ui.hideKeyboard(sectionTravelerInfo);
+			StringBuilder numberOfErrorsPleaseReviewString = new StringBuilder();
+			numberOfErrorsPleaseReviewString.append(Phrase.from(getContext().getResources().
+				getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
+				.put("number", numberOfInvalidFields)
+				.format()
+				.toString())
+				.append(" ")
+				.append(getContext().getString(R.string.accessibility_announcement_please_review_and_resubmit));
+			announceForAccessibility(numberOfErrorsPleaseReviewString);
 		}
 	}
 
