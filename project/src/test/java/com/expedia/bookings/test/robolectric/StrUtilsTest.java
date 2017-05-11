@@ -96,8 +96,8 @@ public class StrUtilsTest {
 		FlightTrip flightTrip = createFlightTrip();
 		SpannableStringBuilder spannableStringBuilder = StrUtils.generateBaggageFeesTextWithClickableLinks(getContext(), flightTrip.getLeg(0).getBaggageFeesUrl(), flightTrip.getLeg(1).getBaggageFeesUrl());
 		assertEquals("Departure and Return flights have their own baggage fees", spannableStringBuilder.toString());
-		assertEquals(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), LegalClickableSpan.class)[0].getUrl(), "www.expedia.com");
-		assertEquals(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), LegalClickableSpan.class)[1].getUrl(), "www.travelocity.com");
+		assertEquals(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), LegalClickableSpan.class)[0].getURL(), "www.expedia.com");
+		assertEquals(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), LegalClickableSpan.class)[1].getURL(), "www.travelocity.com");
 	}
 
 	private FlightTrip createFlightTrip() {
