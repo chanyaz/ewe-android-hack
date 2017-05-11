@@ -84,9 +84,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
 
-    var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
-    val sectionImageObservable = BehaviorSubject.create<Boolean>()
     val showBookByPhoneObservable = BehaviorSubject.create<Boolean>(false)
     val galleryObservable = PublishSubject.create<ArrayList<HotelMedia>>()
 
@@ -168,10 +166,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
         offerReturned(response)
-    }
-
-    val hotelDescriptionContainerObserver: Observer<Unit> = endlessObserver {
-        expandSection()
     }
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
@@ -613,15 +607,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     private fun hasFreeCancellation(response: HotelOffersResponse): Boolean {
         return CollectionUtils.isNotEmpty(response.hotelRoomResponse) && response.hotelRoomResponse.any { it.hasFreeCancellation == true }
-    }
-
-    private fun expandSection() {
-        if (!isSectionExpanded) {
-            isSectionExpanded = true
-        } else {
-            isSectionExpanded = false
-        }
-        sectionImageObservable.onNext(isSectionExpanded)
     }
 
     private fun getPromoText(roomOffer: HotelOffersResponse.HotelRoomResponse?): String {
