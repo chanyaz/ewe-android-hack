@@ -260,18 +260,19 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
     }
 
     override fun selectedCardContentDescription(): String {
+        val searchParams = viewModel.searchParams.value
+        val travelInfoText = viewModel.travelInfoTextObservable.value
         if (viewModel.showRowContainerWithMoreInfo.value) {
             return (rowContainer.getChildAt(0) as FlightCellWidget).cardView.contentDescription.toString()
-        } else {
+        } else if (searchParams != null && travelInfoText != null) {
             val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
-            val searchParams = viewModel.searchParams.value
             return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
                     .put("flight", StrUtils.formatAirportCodeCityName(if (isInboundFlight()) searchParams.origin else searchParams.destination))
-                    .put("datetraveler", viewModel.travelInfoTextObservable.value)
+                    .put("datetraveler", travelInfoText)
                     .put("expandstate", expandState)
                     .format()
                     .toString()
-        }
+        } else return ""
     }
 
     fun trackBundleOverviewFlightExpandClick(isExpanding: Boolean) {

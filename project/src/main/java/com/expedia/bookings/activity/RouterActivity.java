@@ -24,7 +24,6 @@ import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
@@ -91,10 +90,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
 			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
-
-			if (FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_itin_crystal_theme)) {
-				query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
-			}
+			query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

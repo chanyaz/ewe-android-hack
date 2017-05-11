@@ -89,12 +89,6 @@
             android:summary="Itinerary card detail view"
             android:title="Enable new itinerary detail view" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_itin_crystal_theme"
-            android:layout="@layout/preference"
-            android:summary="Enable Itin Crystal Theme"
-            android:title="Show Itin Crystal Theme" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
