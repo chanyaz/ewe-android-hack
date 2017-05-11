@@ -49,11 +49,6 @@ public class FlightsSearchResultsSingleCellSteps {
 		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.flight_duration_text_view, isDisplayed,outbound);
 	}
 
-	@And("^Validate that round trip header at cell (\\d+) is displayed: (true|false) and isOutBound : (true|false)$")
-	public void checkVisibilityOfRoundTripHeader(int cellNumber,boolean isDisplayed, boolean outbound) throws Throwable {
-		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.trip_type_text_view, isDisplayed,outbound);
-	}
-
 	private void validateFlightSRPListViewCellItemVisibility(int cellNumber, int resId, boolean isDisplayed,
 		boolean outBound) {
 		onView(allOf(withId(R.id.list_view), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound))

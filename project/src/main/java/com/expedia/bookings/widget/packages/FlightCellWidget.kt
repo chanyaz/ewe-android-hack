@@ -27,8 +27,6 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
     val flightCabinCodeTextView: TextView by bindView(R.id.flight_class_text_view)
     val urgencyMessageTextView: TextView by bindView(R.id.urgency_message)
     val urgencyMessageContainer: LinearLayout by bindView(R.id.urgency_message_layout)
-    val roundTripTextView: TextView by bindView(R.id.trip_type_text_view)
-    val flightEarnMessageWithoutRoundTrip: TextView by bindView(R.id.flight_earn_message_text_view_without_roundtrip)
     val flightToggleIcon: ImageView by bindView(R.id.flight_overview_expand_icon)
 
     init {
@@ -39,17 +37,12 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
     }
 
     fun bind(viewModel: AbstractFlightViewModel) {
-        if (viewModel.getRoundTripMessageVisibilty()) {
-            roundTripTextView.visibility = View.VISIBLE
-        } else {
-            roundTripTextView.visibility = View.GONE
-        }
         flightTimeTextView.text = viewModel.flightTime
         priceTextView.text = viewModel.price()
         flightDurationTextView.text = viewModel.duration
         val flight = viewModel.layover
         flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-        flightAirlineWidget.update(viewModel.airline, viewModel.getRoundTripMessageVisibilty(), viewModel.isEarnMessageVisible(viewModel.earnMessage))
+        flightAirlineWidget.update(viewModel.airline, viewModel.isEarnMessageVisible(viewModel.earnMessage))
         if (viewModel.getFlightCabinPreferenceVisibility() && Strings.isNotEmpty(viewModel.flightCabinPreferences)) {
             flightCabinCodeTextView.visibility = View.VISIBLE
             flightCabinCodeTextView.text = viewModel.flightCabinPreferences
@@ -63,15 +56,8 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
             urgencyMessageContainer.visibility = View.GONE
         }
         if (viewModel.isEarnMessageVisible(viewModel.earnMessage)) {
-            if (roundTripTextView.visibility == View.VISIBLE) {
-                flightEarnMessage.text = viewModel.earnMessage
-                flightEarnMessage.visibility = View.VISIBLE
-                flightEarnMessageWithoutRoundTrip.visibility = View.GONE
-            } else {
-                flightEarnMessageWithoutRoundTrip.text = viewModel.earnMessage
-                flightEarnMessageWithoutRoundTrip.visibility = View.VISIBLE
-                flightEarnMessage.visibility = View.GONE
-            }
+            flightEarnMessage.text = viewModel.earnMessage
+            flightEarnMessage.visibility = View.VISIBLE
         }
         cardView.contentDescription = viewModel.getFlightContentDesc(bestFlightView.visibility == View.VISIBLE)
         Log.e("content description  ", "content description" + cardView.contentDescription)

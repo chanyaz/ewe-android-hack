@@ -47,8 +47,6 @@ Feature: Flights Search Results
   @Flights @FlightSearchResults
   Scenario Outline: Verifying UI elements and data on each flight cell of FSR
     Given I launch the App
-    And I bucket the following tests
-      | RoundTripOnFlightsFSR |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -65,7 +63,6 @@ Feature: Flights Search Results
     And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : true
     And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : true
     And Validate that flight duration field at cell <cellNumber> is displayed: true and isOutBound : true
-    And Validate that round trip header at cell <cellNumber> is displayed: true and isOutBound : true
     And Name of airline at cell <cellNumber> is "<AirlineName>" and isOutBound : true
     And Price of the flight at cell <cellNumber> is <price> and isOutBound : true
     And Duration of the flight at cell <cellNumber> is "<duration>" and isOutBound : true
@@ -100,8 +97,6 @@ Feature: Flights Search Results
   @Flights @FlightSearchResults
   Scenario Outline: Data consistency between Outbound and Inbound FSR and cell UI validations
     Given I launch the App
-    And I bucket the following tests
-      | RoundTripOnFlightsFSR |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -119,7 +114,6 @@ Feature: Flights Search Results
     And Validate that price field at cell <cellNumber> is displayed: true and isOutBound : false
     And Validate that airline name field at cell <cellNumber> is displayed: true and isOutBound : false
     And Validate that flight duration field at cell <cellNumber> is displayed: true and isOutBound : false
-    And Validate that round trip header at cell <cellNumber> is displayed: true and isOutBound : false
     And Name of airline at cell <cellNumber> is "<AirlineName>" and isOutBound : false
     And Price of the flight at cell <cellNumber> is <price> and isOutBound : false
     And Duration of the flight at cell <cellNumber> is "<duration>" and isOutBound : false
@@ -153,8 +147,6 @@ Feature: Flights Search Results
   @Flights @FlightSearchResults
   Scenario: Validate urgency message is displayed when seats left is less than 6
     Given I launch the App
-    And I bucket the following tests
-      | UrgencyMessegingOnFSR |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -174,8 +166,6 @@ Feature: Flights Search Results
   @Flights @FlightSearchResults
   Scenario: Validate urgency message is not displayed when seats left is greater than 6
     Given I launch the App
-    And I bucket the following tests
-      | UrgencyMessegingOnFSR |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -194,8 +184,6 @@ Feature: Flights Search Results
   @Flights @FlightSearchResults
   Scenario: Verify roundtrip messaging not shown for one way trip
     Given I launch the App
-    And I bucket the following tests
-      | RoundTripOnFlightsFSR |
     And I launch "Flights" LOB
     And I select one way trip
     When I make a flight search with following parameters
@@ -209,8 +197,6 @@ Feature: Flights Search Results
       | child               | 2                                        |
     And I wait for results to load
     And Validate that flight search results are displayed
-    And Validate that round trip header at cell 1 is displayed: false and isOutBound : true
-
 
   @Flights @FlightSearchResults
   Scenario: Validate legal compliance messaging FSR for AU POS
@@ -253,22 +239,3 @@ Feature: Flights Search Results
       | child               | 0                                        |
     And I wait for results to load
     Then multi carrier text is shown instead of Airline Name on cell 5 isOutbound : true
-
-
-  @Flights @FlightSearchResults
-  Scenario: Multi-Carrier as airline name text for more than 2 airlines when bucketed for RoundTripOnFlightsFSR AB test
-    Given I launch the App
-    And I bucket the following tests
-      | RoundTripOnFlightsFSR |
-    And I launch "Flights" LOB
-    When I make a flight search with following parameters
-      | source              | SFO                                      |
-      | destination         | DEL                                      |
-      | source_suggest      | San Francisco, CA                        |
-      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 25                                       |
-      | adults              | 1                                        |
-      | child               | 0                                        |
-    And I wait for results to load
-    Then multi carrier text is shown instead of Airline Name on cell 4 isOutbound : true

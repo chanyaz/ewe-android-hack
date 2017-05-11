@@ -28,10 +28,6 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
         return Strings.isNotEmpty(earnMessage) && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages
     }
 
-    override fun getRoundTripMessageVisibilty(): Boolean {
-        return false
-    }
-
     override fun getFlightDetailCardContDescriptionStringID(): Int {
         return R.string.flight_detail_card_cont_desc_with_price_diff_TEMPLATE
     }

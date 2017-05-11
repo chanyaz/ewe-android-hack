@@ -26,7 +26,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12992;
 	public static final int EBAndroidAppOfferInsuranceInFlightSummary = 12268;
 	public static final int EBAndroidItinHotelGallery = 12465;
-	public static final int EBAndroidAppFlightUrgencyMessage = 12768;
 	public static final int EBAndroidAppFlightRateDetailExpansion = 12637;
 	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
 	public static final int EBAndroidAppLXFilterSearch = 12689;
@@ -35,7 +34,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightByotSearch = 13202;
-	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
 	public static final int EBAndroidAppFlightPremiumClass = 13035;
 	public static final int EBAndroidAppTripsNewSignInPage = 13890;
 	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
@@ -122,7 +120,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppOfferInsuranceInFlightSummary);
 		testIDs.add(EBAndroidItinHotelGallery);
 		testIDs.add(EBAndroidAppFlightRateDetailExpansion);
-		testIDs.add(EBAndroidAppFlightUrgencyMessage);
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX);
 		testIDs.add(EBAndroidAppLXFilterSearch);
 		testIDs.add(EBAndroidAppWebViewCheckout);
@@ -131,7 +128,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppTripsUserReviews);
 		testIDs.add(EBAndroidAppFlightsSeatClassAndBookingCode);
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
-		testIDs.add(EBAndroidAppMaterialFlightSearchRoundTripMessage);
 		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
 		testIDs.add(EBAndroidAppRemoveExpiredCreditCards);
 		testIDs.add(EBAndroidAppHotelImageLoadLatency);

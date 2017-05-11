@@ -23,6 +23,6 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
     }
 
     override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): FlightViewModel {
-        return FlightViewModel(context, flightLeg, isRoundTripSearchSubject)
+        return FlightViewModel(context, flightLeg)
     }
 }

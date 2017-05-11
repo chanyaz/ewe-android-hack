@@ -785,8 +785,6 @@
     <string name="prices_roundtrip_label">Prices roundtrip per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prices one-way per person</string>
-    <!-- Label clarifying the type of flight trip -->
-    <string name="Roundtrip">Roundtrip</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Prices roundtrip, per person, from</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
