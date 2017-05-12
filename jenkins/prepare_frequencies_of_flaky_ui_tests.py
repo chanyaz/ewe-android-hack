@@ -17,13 +17,10 @@ def main():
 			forkTestRunOutputJsonData = json.load(forkTestRunOutputFile)
 
 			forkTestRunOutputJsonTree = objectpath.Tree(forkTestRunOutputJsonData)
-			forkTestRunFailureMetadataList = forkTestRunOutputJsonTree.execute('$.poolSummaries[0].testResults[@.testClass and @.failureTrace]')
+			forkTestRunFailureMetadataList = forkTestRunOutputJsonTree.execute('$.poolSummaries[0].testResults[@.testClass and @.testMethod and @.testMetrics]')
 			for forkTestRunFailureMetadata in forkTestRunFailureMetadataList:
 				failedTest = forkTestRunFailureMetadata['testClass'] + "." + forkTestRunFailureMetadata['testMethod']
-				if failedTest in testToFailureCountMap:
-					testToFailureCountMap[failedTest] = testToFailureCountMap[failedTest] + 1
-				else:
-					testToFailureCountMap[failedTest] = 1
+				testToFailureCountMap[failedTest] = forkTestRunFailureMetadata['testMetrics']['totalFailureCount']
 
 	print "\n\n\nFinal List of Failed Tests:"
 	print testToFailureCountMap
