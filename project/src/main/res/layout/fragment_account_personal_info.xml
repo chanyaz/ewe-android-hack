@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/exp_launch_blue"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:navigationContentDescription="@string/toolbar_nav_icon_cont_desc"
+                app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+                app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
+                app:title="Personal Info"
+                app:subtitle="Read Only" />
+
+            <View
+                android:id="@+id/toolbar_dropshadow"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_dropshadow_height"
+                android:background="@drawable/tb_shadow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.traveler.NameEntryView
+                android:id="@+id/name_entry_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.expedia.bookings.widget.traveler.TSAEntryView
+                android:id="@+id/tsa_entry_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.expedia.bookings.widget.traveler.PhoneEntryView
+                android:id="@+id/phone_entry_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/section_title"
+                style="@style/AccountSectionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingLeft="4dp"
+                android:textSize="16dp"
+                android:text="Address" />
+            <include
+                android:id="@+id/section_location_address"
+                layout="@layout/material_section_location" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

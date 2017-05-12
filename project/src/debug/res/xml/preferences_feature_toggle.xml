@@ -106,4 +106,15 @@
             android:title="Payment Legal Message" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Account Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_account_traveler_info"
+            android:layout="@layout/preference"
+            android:summary="Traveler info in account screen"
+            android:title="Enabled Traveler Info" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -170,6 +170,20 @@
         <item name="android:topDark">@color/white</item>
     </style>
 
+    <style name="AccountInfoTheme" parent="AppTheme.Base">
+        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
+        <item name="actionBarStyle">@style/LaunchActionBar</item>
+        <item name="android:colorPrimaryDark">#3A464F</item>
+        <item name="android:colorPrimary">@color/launch_screen_primary</item>
+        <item name="android:actionOverflowButtonStyle">@style/LaunchOverflowStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+    </style>
+
     <style name="LaunchTheme" parent="Theme.AppCompat">
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="actionBarStyle">@style/LaunchActionBar</item>

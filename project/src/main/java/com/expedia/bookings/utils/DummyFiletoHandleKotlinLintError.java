@@ -1075,6 +1075,18 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.pending_points_hotels_accessibility_TEMPLATE,
 		R.string.AmenityFreeInternet,
 		R.string.expand_room_info_cont_desc,
-		R.string.a11y_button_TEMPLATE
+		R.string.a11y_button_TEMPLATE,
+		R.layout.fragment_account_personal_info,
+		R.layout.fragment_account_traveler_info,
+		R.style.AccountListCard,
+		R.string.about_section_my_account,
+		R.string.my_traveler_details,
+		R.string.personal_info,
+		R.string.frequent_flyer_membership,
+		R.string.tsa_information,
+		R.string.my_account_info,
+		R.string.email_and_password,
+		R.string.payment_methods,
+		R.string.other_travelers
 	};
 }

@@ -21,6 +21,7 @@ import android.widget.Toast
 import com.expedia.account.Config
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.AccountInfoActivity
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.activity.WebViewActivity
@@ -42,6 +43,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -66,6 +68,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val TAG_COPYRIGHT = "TAG_COPYRIGHT"
     private val TAG_COMMUNICATE = "TAG_COMMUNICATE"
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
+    private val TAG_MY_ACCOUNT = "TAG_MY_ACCOUNT"
     private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
     private val ROW_BOOKING_SUPPORT = 1
@@ -88,12 +91,14 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val ROW_TEST_SCREEN = 14
     private val INSTALL_SHORTCUTS = 15
     private val ROW_REWARDS_VISA_CARD = 16
+    private val ROW_MY_ACCOUNT = 17
 
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)
     }
 
     private var appSettingsFragment: AboutSectionFragment? = null
+    private var myAccountFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
     private var copyrightFragment: CopyrightFragment? = null
     private var legalFragment: AboutSectionFragment? = null
@@ -129,7 +134,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     val rowDivider2: View by bindView(R.id.row_divider2)
     val firstRowCountry: View by bindView(R.id.first_row_country)
     val secondRowCountry: View by bindView(R.id.second_row_country)
-
 
     val memberNameView: TextView by bindView(R.id.toolbar_name)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
@@ -191,6 +195,9 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
         setCountryChangeListeners()
 
+        val user = Db.getUser()
+        val member = user?.primaryTraveler
+
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)
         if (appSettingsFragment == null) {
@@ -206,6 +213,17 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             appSettingsFragment = builder.build()
             ft.add(R.id.section_app_settings, appSettingsFragment, TAG_APP_SETTINGS)
+        }
+
+        // My Account
+        myAccountFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_MY_ACCOUNT)
+        if (myAccountFragment == null) {
+            builder = AboutSectionFragment.Builder(context)
+            builder.setTitle(R.string.about_section_my_account)
+            builder.addRow(member?.fullName ?: " ", ROW_MY_ACCOUNT)
+
+            myAccountFragment = builder.build()
+            ft.add(R.id.section_my_account, myAccountFragment, TAG_MY_ACCOUNT)
         }
 
         // Support
@@ -443,7 +461,16 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             signInSection.visibility = View.GONE
             signOutButton.visibility = View.VISIBLE
             // commitAllowingStateLoss is okay because we call this function again in onResume anyway
-            childFragmentManager.beginTransaction().hide(appSettingsFragment).commitAllowingStateLoss()
+            val fm = childFragmentManager.beginTransaction()
+            fm.hide(appSettingsFragment)
+            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_account_traveler_info)) {
+                fm.show(myAccountFragment)
+            }
+            else {
+                fm.hide(myAccountFragment)
+            }
+            fm.commitAllowingStateLoss()
+            myAccountFragment?.notifyOnRowDataChanged(ROW_MY_ACCOUNT)
 
             val user = Db.getUser()
             val member = user.primaryTraveler
@@ -531,7 +558,10 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             loyaltySection.visibility = View.GONE
             signInSection.visibility = View.VISIBLE
             signOutButton.visibility = View.GONE
-            childFragmentManager.beginTransaction().show(appSettingsFragment).commitAllowingStateLoss()
+            val fm = childFragmentManager.beginTransaction()
+            fm.show(appSettingsFragment)
+            fm.hide(myAccountFragment)
+            fm.commitAllowingStateLoss()
 
             if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled) {
                 facebookSignInButton.visibility = View.VISIBLE
@@ -580,6 +610,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
             ROW_APP_SUPPORT -> {
                 aboutUtils.openAppSupport()
+                return true
+            }
+            ROW_MY_ACCOUNT -> {
+                val intent = Intent(context, AccountInfoActivity::class.java)
+                activity.startActivity(intent)
                 return true
             }
             ROW_RATE_APP -> {
@@ -660,6 +695,9 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         when (id) {
             ROW_COUNTRY -> {
                 descriptionTextView?.text = getCountryDescription()
+            }
+            ROW_MY_ACCOUNT -> {
+                titleTextView?.text = Db.getUser()?.primaryTraveler?.fullName
             }
             ROW_EXPEDIA_WEBSITE -> {
                 titleTextView?.text = getPOSSpecificWebsiteSupportString()

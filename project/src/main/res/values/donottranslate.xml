@@ -114,6 +114,7 @@
     <string name="preference_cross_sell_package_on_fsr">preference_cross_sell_package_on_fsr</string>
     <string name="preference_insurance_in_flight_summary">preference_insurance_in_flight_summary</string>
     <string name="preference_flight_hide_fsr_infographic">preference_flight_hide_fsr_infographic</string>
+    <string name="preference_enable_account_traveler_info">preference_enable_account_traveler_info</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

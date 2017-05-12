@@ -2926,6 +2926,8 @@
     <string name="app_support">App Support</string>
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">App Settings</string>
+    <!-- Section label for my account functionality -->
+    <string name="about_section_my_account">My Account</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Support</string>
     <!-- Section label for communication options that are not related to user support -->
@@ -2987,6 +2989,24 @@
     <!-- App Feedback Activity -->
     <!-- Hint to type in email address -->
     <string name="email_address">Email Address</string>
+
+    <!-- Account settings traveler details -->
+    <!-- Section label for menu items to view more traveler details -->
+    <string name="my_traveler_details">My Traveler Details</string>
+    <!-- Menu item to view more details on personal info -->
+    <string name="personal_info">Personal Info</string>
+    <!-- Menu item to view more details on frequent flyer programs !-->
+    <string name="frequent_flyer_membership">Frequent Flyer and Membership</string>
+    <!-- Menu item to view more details on user's tsa information !-->
+    <string name="tsa_information">TSA Information</string>
+    <!-- Section label for menu items to view account info -->
+    <string name="my_account_info">My Account Info</string>
+    <!-- Menu item to view email and password info -->
+    <string name="email_and_password">Email and Password</string>
+    <!-- Menu item to view more details on Payment methods !-->
+    <string name="payment_methods">Payment Methods</string>
+    <!-- Section label for menu items to view details for other travelers -->
+    <string name="other_travelers">Other Travelers</string>
 
     <!-- Preferences -->
     <!-- Title for point of sale setting -->

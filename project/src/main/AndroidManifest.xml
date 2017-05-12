@@ -307,6 +307,11 @@
             android:name="com.expedia.bookings.activity.AboutWebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
+        <activity
+            android:name="com.expedia.bookings.activity.AccountInfoActivity"
+            android:resizeableActivity="false"
+            android:theme="@style/AccountInfoTheme"
+            tools:ignore="UnusedAttribute" />
 
         <!-- Login/Facebook activities -->
         <meta-data
