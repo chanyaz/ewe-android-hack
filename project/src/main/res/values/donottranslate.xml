@@ -49,8 +49,8 @@
     <string name="lawyer_label_atol_long_message">Flight-Plus arrangements created on the UK Expedia mobile app are financially protected by the Civil Aviation Authority (under Expedia, Inc.\&apos;s ATOL number 5788). But ATOL protection does not apply to all flight and hotel services listed on this mobile app. Please ask us to confirm what protection may apply to your booking. If you do not receive an ATOL Certificate then your booking will not be ATOL protected. Please see our general terms and conditions for further details on ATOL or for more information about financial protection and the ATOL Certificate go to: &lt;a href="http://www.atol.org.uk/ATOLCertificate"&gt;www.atol.org.uk/ATOLCertificate&lt;/a&gt;</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">expedia-android@mobiata.com </string>
-    <string name="email_app_review_feedback">feedback-android@mobiata.com</string>
+    <string name="email_app_support">app-android@expedia.com</string>
+    <string name="email_app_review_feedback">feedback-android@expedia.com</string>
     <string name="email_app_support_headline">Feedback In-App Prompt</string>
 
     <!-- An alternative way to modify text, if you don't want to set the typeface of the TextView -->

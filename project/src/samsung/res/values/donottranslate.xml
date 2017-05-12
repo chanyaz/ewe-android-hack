@@ -12,6 +12,6 @@
     <string name="app_support_url">http://www.mobiata.com/support/expedia/samsung</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">Expedia-Samsung@mobiata.com</string>
+    <string name="email_app_support">app-samsung@expedia.com</string>
 
 </resources>
