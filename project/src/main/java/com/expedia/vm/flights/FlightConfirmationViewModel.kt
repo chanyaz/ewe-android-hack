@@ -6,8 +6,8 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.RewardsUtil
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.mobiata.android.util.SettingUtils
@@ -27,6 +27,7 @@ class FlightConfirmationViewModel(val context: Context) {
     val tripTotalPriceSubject = PublishSubject.create<String>()
     val numberOfTravelersSubject = PublishSubject.create<Int>()
     val formattedTravelersStringSubject = PublishSubject.create<String>()
+    val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
     val isNewConfirmationScreenEnabled = BehaviorSubject.create<Boolean>(false)
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
@@ -45,7 +46,13 @@ class FlightConfirmationViewModel(val context: Context) {
             if (!userStateManager.isUserAuthenticated()) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
-            if (isNewConfirmationScreenEnabled.value) tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoney)
+            if (isNewConfirmationScreenEnabled.value) {
+                tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoney)
+                val hasInsurance = response.flightAggregatedResponse?.flightsDetailResponse?.first()?.
+                        offer?.selectedInsuranceProduct != null
+
+                showTripProtectionMessage.onNext(hasInsurance)
+            }
             crossSellWidgetVisibility.onNext(isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }

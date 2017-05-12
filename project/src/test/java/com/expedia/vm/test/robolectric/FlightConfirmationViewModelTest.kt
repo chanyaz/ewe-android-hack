@@ -6,6 +6,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -25,6 +27,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -222,6 +225,34 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
+    fun testTripProtectionStringNotVisible() {
+        val showTripProtection = TestSubscriber<Boolean>()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
+        vm = FlightConfirmationViewModel(activity)
+        vm.isNewConfirmationScreenEnabled.onNext(true)
+
+        vm.showTripProtectionMessage.subscribe(showTripProtection)
+        vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
+
+        showTripProtection.assertValues(false, false)
+    }
+
+    @Test
+    fun testTripProtectionStringVisible() {
+        val showTripProtection = TestSubscriber<Boolean>()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
+        setUpInsuranceProductInResponse(checkoutResponse)
+
+        vm = FlightConfirmationViewModel(activity)
+        vm.isNewConfirmationScreenEnabled.onNext(true)
+
+        vm.showTripProtectionMessage.subscribe(showTripProtection)
+        vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
+
+        showTripProtection.assertValues(false, true)
+    }
+
+    @Test
     fun testTripTotalPriceEmptyWhenNotToggled() {
         val priceString = TestSubscriber<String>()
         val checkoutResponse = getCheckoutResponse(DateTime.now().toString())
@@ -230,6 +261,18 @@ class FlightConfirmationViewModelTest {
         vm.confirmationObservable.onNext(Pair(checkoutResponse, customerEmail))
 
         priceString.assertNoValues()
+    }
+
+    private fun setUpInsuranceProductInResponse(checkoutResponse: FlightCheckoutResponse) {
+        val flightAggregatedResponse = FlightCheckoutResponse.FlightAggregatedResponse()
+        var list = ArrayList<FlightTripDetails>()
+        val flightOffer = FlightTripDetails.FlightOffer()
+        flightOffer.selectedInsuranceProduct = InsuranceProduct()
+        val tripDetail = FlightTripDetails()
+        tripDetail.offer = flightOffer
+        list.add(tripDetail)
+        flightAggregatedResponse.flightsDetailResponse = list
+        checkoutResponse.flightAggregatedResponse = flightAggregatedResponse
     }
 
 }
