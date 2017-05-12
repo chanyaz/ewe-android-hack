@@ -688,6 +688,8 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRoomRateExpanded);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelDetailsGalleryPeak);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
+
 		if (isETPEligible) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelNoStickyETP);
 		}

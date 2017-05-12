@@ -71,6 +71,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelLPASEndpoint = 13929;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
+	public static final int EBAndroidAppHotelGroupRoomRate = 13906;
 
 	// Cars Web View Tests
 	public static final int EBAndroidAppCarsWebViewUK = 12913;
@@ -171,6 +172,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPackagesRemoveBundleOverview);
 		testIDs.add(EBAndroidAppFlightAATest);
 		testIDs.add(EBAndroidAppFlightSearchFormValidation);
+		testIDs.add(EBAndroidAppHotelGroupRoomRate);
 		return testIDs;
 	}
 
