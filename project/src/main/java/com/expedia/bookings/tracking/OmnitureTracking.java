@@ -2808,13 +2808,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
-	public static void trackClickDownloadAppLink(String appName) {
-		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_APP_DOWNLOAD);
-		s.setEvents("event210");
-		s.setEvar(32, appName);
-		s.trackLink(null, "o", "Accounts", null, null);
-	}
-
 	public static void trackClickSignOut() {
 		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SIGN_OUT);
 		s.setEvents("event29");
