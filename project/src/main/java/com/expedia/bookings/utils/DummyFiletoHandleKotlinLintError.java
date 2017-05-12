@@ -664,6 +664,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.package_suggestion_margin_bottom,
 		R.layout.package_dropdown_item,
 		R.layout.lx_dropdown_item,
+		R.string.trip_is_booked,
 		R.layout.widget_search_params,
 		R.integer.calendar_max_selection_date_range_lx,
 		R.string.select_lx_search_dates,

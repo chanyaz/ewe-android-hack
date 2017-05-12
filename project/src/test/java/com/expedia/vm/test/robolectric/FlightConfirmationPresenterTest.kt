@@ -79,6 +79,7 @@ class FlightConfirmationPresenterTest {
         assertEquals(activity.getDrawable(R.color.air_attach_crystal_background).colorFilter, presenter.hotelCrossSell.background.colorFilter)
 
         assertEquals(GONE, presenter.expediaPoints.visibility)
+        assertEquals("Your trip is booked!", presenter.tripBookedMessage.text as String)
         assertEquals(VISIBLE, presenter.flightSummary?.visibility)
         assertEquals("$rewardPoints points earned", presenter.flightSummary?.pointsEarned?.text)
         assertEquals("1 Traveler", presenter.flightSummary?.numberOfTravelers?.text)
@@ -98,6 +99,7 @@ class FlightConfirmationPresenterTest {
 
         assertEquals(VISIBLE, presenter.hotelCrossSell.visibility)
         assertEquals(activity.getDrawable(R.drawable.itin_button).colorFilter, presenter.hotelCrossSell.background.colorFilter)
+        assertEquals("You're going to", presenter.tripBookedMessage.text as String)
         assertNull(presenter.flightSummary)
     }
 
