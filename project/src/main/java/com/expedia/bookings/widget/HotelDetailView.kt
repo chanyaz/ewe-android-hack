@@ -14,6 +14,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -176,6 +178,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
+    private var isHotelDescriptionExpanded = false
+
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
         resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
@@ -267,8 +271,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     } else {
                         readMoreView.visibility = View.VISIBLE
                         hotelDescriptionContainer.isClickable = true
-                        hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
+                        hotelDescriptionContainer.setOnClickListener {
+                            toggleHotelDescriptionContainer()
+                        }
                     }
+                    setHotelDescriptionContainerA11y()
                 }
             })
         }
@@ -361,26 +368,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             infoList.forEach { propertyTextContainer.addView(HotelInfoView(context).setText(it.name, it.content)) }
         }
 
-        vm.sectionImageObservable.subscribe { isExpanded ->
-            val values = if (hotelDescription.maxLines == HOTEL_DESC_COLLAPSE_LINES) hotelDescription.lineCount else HOTEL_DESC_COLLAPSE_LINES
-            var animation = ObjectAnimator.ofInt(hotelDescription, "maxLines", values)
-
-            animation.setDuration(DESCRIPTION_ANIMATION).start()
-
-            if (isExpanded) {
-                AnimUtils.rotate(readMoreView)
-            } else {
-                AnimUtils.reverseRotate(readMoreView)
-            }
-
-        }
-
-        vm.sectionImageObservable.subscribe { isExpanded ->
-            if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
-        }
         vm.galleryClickedSubject.subscribe {
             detailContainer.animateScrollY(detailContainer.scrollY, -initialScrollTop, 500)
         }
+        
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
@@ -441,7 +432,24 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
 
-        AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button);
+        AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button)
+
+        hotelDescriptionContainer.setAccessibilityDelegate(object: AccessibilityDelegate() {
+            override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfo?) {
+                super.onInitializeAccessibilityNodeInfo(host, info)
+
+                if (readMoreView.visibility == View.VISIBLE) {
+                    val description: String
+                    if (isHotelDescriptionExpanded) {
+                        description = context.resources.getString(R.string.show_less)
+                    } else {
+                        description = context.resources.getString(R.string.show_more)
+                    }
+                    val customClick = AccessibilityAction(AccessibilityNodeInfo.ACTION_CLICK, description)
+                    info?.addAction(customClick)
+                }
+            }
+        })
     }
 
     private val payNowClickObserver: Observer<Unit> = endlessObserver {
@@ -517,6 +525,35 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             detailContainer.animateScrollY(fromY, initialScrollTop, ANIMATION_DURATION)
         } else if (fromY < threshold) {
             detailContainer.animateScrollY(fromY, 0, ANIMATION_DURATION)
+        }
+    }
+
+    private fun toggleHotelDescriptionContainer() {
+        isHotelDescriptionExpanded = !isHotelDescriptionExpanded
+
+        val values = if (hotelDescription.maxLines == HOTEL_DESC_COLLAPSE_LINES) hotelDescription.lineCount else HOTEL_DESC_COLLAPSE_LINES
+        var animation = ObjectAnimator.ofInt(hotelDescription, "maxLines", values)
+
+        animation.setDuration(DESCRIPTION_ANIMATION).start()
+
+        if (isHotelDescriptionExpanded) {
+            AnimUtils.rotate(readMoreView)
+        } else {
+            AnimUtils.reverseRotate(readMoreView)
+        }
+        setHotelDescriptionContainerA11y()
+    }
+
+    private fun setHotelDescriptionContainerA11y() {
+        if (readMoreView.visibility == View.VISIBLE && !isHotelDescriptionExpanded) {
+            val start = hotelDescription.layout.getLineStart(0)
+            val end = hotelDescription.layout.getLineEnd(HOTEL_DESC_COLLAPSE_LINES - 1)
+
+            var contentDescription = hotelDescription.text.toString().substring(start, end)
+
+            hotelDescriptionContainer.contentDescription = contentDescription
+        } else {
+            hotelDescriptionContainer.contentDescription = hotelDescription.text
         }
     }
 

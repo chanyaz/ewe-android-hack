@@ -472,6 +472,8 @@
                     android:paddingBottom="8dp"
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
+                    android:focusable="true"
+                    android:importantForAccessibility="yes"
                     android:paddingTop="15dp">
 
                     <com.expedia.bookings.widget.TextView
@@ -480,6 +482,8 @@
                         android:layout_height="wrap_content"
                         android:maxLines="2"
                         android:textColor="@color/hotelsv2_checkout_text_color"
+                        android:focusable="false"
+                        android:importantForAccessibility="no"
                         android:textSize="13sp" />
 
                     <ImageButton
@@ -489,8 +493,9 @@
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/body_text"
                         android:background="@android:color/transparent"
+                        android:focusable="false"
+                        android:importantForAccessibility="no"
                         android:clickable="false"
-                        android:contentDescription="@string/show_more"
                         android:paddingTop="5dp"
                         android:src="@drawable/read_more" />
 
