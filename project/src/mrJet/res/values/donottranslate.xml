@@ -3,8 +3,8 @@
     <string name="app_name">MrJet</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">mrjet-android@mobiata.com</string>
-    <string name="email_app_review_feedback">mrjet-android@mobiata.com</string>
+    <string name="email_app_support">mrjet-android@mrjet.com</string>
+    <string name="email_app_review_feedback">mrjet-android@mrjet.com</string>
 
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/mrjet/android</string>

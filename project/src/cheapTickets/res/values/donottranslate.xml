@@ -3,8 +3,8 @@
     <string name="app_name">CheapTickets</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">cheaptickets-android@mobiata.com</string>
-    <string name="email_app_review_feedback">cheaptickets-android@mobiata.com</string>
+    <string name="email_app_support">cheaptickets-android@cheaptickets.com</string>
+    <string name="email_app_review_feedback">cheaptickets-android@cheaptickets.com</string>
 
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/cheaptickets/android</string>

@@ -3,8 +3,8 @@
     <string name="app_name">ebookers</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">ebookers-android@mobiata.com</string>
-    <string name="email_app_review_feedback">ebookers-android@mobiata.com</string>
+    <string name="email_app_support">ebookers-android@ebookers.com</string>
+    <string name="email_app_review_feedback">ebookers-android@ebookers.com</string>
 
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/ebookers/android</string>
