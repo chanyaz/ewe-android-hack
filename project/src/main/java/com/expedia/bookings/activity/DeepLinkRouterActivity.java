@@ -51,7 +51,6 @@ import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.util.ForceBucketPref;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 
@@ -67,12 +66,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private static final String TAG = "ExpediaDeepLink";
 
-	private static final String DL_KEY_HOTEL_ID = "DeepLink.HotelId";
-	private static final String DL_KEY_LAT_LNG = "DeepLink.LatLng";
-	private static final String DL_KEY_LOCATION_SUGGEST = "DeepLink.LocationSuggest";
-	private static final String DL_KEY_FLIGHT_SUGGEST = "DeepLink.FlightSuggest";
-
-	private HotelSearchParams hotelSearchParams;
 	private UserStateManager userStateManager;
 	ClientLogServices clientLogServices;
 	private DeepLinkParser deepLinkParser = null;
@@ -262,7 +255,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private boolean handleHotelSearch(HotelDeepLink deepLink) {
 
 		// Fill HotelSearchParams with query data
-		hotelSearchParams = new HotelSearchParams();
+		HotelSearchParams hotelSearchParams = new HotelSearchParams();
 		if (deepLink.getCheckInDate() != null) {
 			hotelSearchParams.setCheckInDate(deepLink.getCheckInDate());
 		}
@@ -428,24 +421,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@VisibleForTesting
 	protected void handleSignIn() {
 		NavUtils.goToSignIn(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		BackgroundDownloader bgd = BackgroundDownloader.getInstance();
-		if (isFinishing()) {
-			bgd.cancelDownload(DL_KEY_LAT_LNG);
-			bgd.cancelDownload(DL_KEY_LOCATION_SUGGEST);
-			bgd.cancelDownload(DL_KEY_HOTEL_ID);
-			bgd.cancelDownload(DL_KEY_FLIGHT_SUGGEST);
-		}
-		else {
-			bgd.unregisterDownloadCallback(DL_KEY_HOTEL_ID);
-			bgd.unregisterDownloadCallback(DL_KEY_LOCATION_SUGGEST);
-			bgd.unregisterDownloadCallback(DL_KEY_LAT_LNG);
-			bgd.unregisterDownloadCallback(DL_KEY_FLIGHT_SUGGEST);
-		}
 	}
 
 	@Override

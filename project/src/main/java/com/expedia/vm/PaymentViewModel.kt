@@ -231,7 +231,7 @@ open class PaymentViewModel(val context: Context) {
         if (type == null) {
             return ContextCompat.getDrawable(context, R.drawable.cars_checkout_cc_default_icon)
         } else {
-            return ContextCompat.getDrawable(context, BookingInfoUtils.getTabletCardIcon(type))
+            return ContextCompat.getDrawable(context, BookingInfoUtils.getColorfulCardIcon(type))
         }
     }
 

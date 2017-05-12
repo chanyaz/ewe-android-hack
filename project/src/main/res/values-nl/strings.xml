@@ -259,8 +259,6 @@
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} opgeslagen</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} opgeslagen</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="saved_cards">Opgeslagen kaarten</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Knop prijsoverzicht</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
@@ -1802,9 +1800,6 @@
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Transactiekosten</string>
 
-    <!-- Flight payment overview Activity -->
-    <!-- Add new card -->
-    <string name="add_new_card">Nieuwe creditcard toevoegen</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nieuwe debit/creditcard</string>
     <!-- New Credit card toolbar title shown on payment form -->

@@ -48,7 +48,7 @@ public class BookingInfoUtils {
 		}
 	}
 
-	public static final int getGreyCardIcon(PaymentType type) {
+	public static int getGreyCardIcon(PaymentType type) {
 		type.assertIsCard();
 		if (CREDIT_CARD_GREY_ICONS.containsKey(type)) {
 			return CREDIT_CARD_GREY_ICONS.get(type);
@@ -56,7 +56,7 @@ public class BookingInfoUtils {
 		return R.drawable.ic_generic_card;
 	}
 
-	public static final int getWhiteCardIcon(PaymentType type) {
+	public static int getWhiteCardIcon(PaymentType type) {
 		type.assertIsCard();
 		if (CREDIT_CARD_WHITE_ICONS.containsKey(type)) {
 			return CREDIT_CARD_WHITE_ICONS.get(type);
@@ -64,12 +64,12 @@ public class BookingInfoUtils {
 		return R.drawable.ic_generic_card_white;
 	}
 
-	public static final int getTabletCardIcon(PaymentType type) {
+	public static int getColorfulCardIcon(PaymentType type) {
 		type.assertIsCardOrPoints();
-		if (CREDIT_CARD_TABLET_ICONS.containsKey(type)) {
-			return CREDIT_CARD_TABLET_ICONS.get(type);
+		if (CREDIT_CARD_COLORFUL_ICONS.containsKey(type)) {
+			return CREDIT_CARD_COLORFUL_ICONS.get(type);
 		}
-		return R.drawable.ic_tablet_checkout_generic_credit_card;
+		return R.drawable.ic_generic_card_colorful;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -94,23 +94,6 @@ public class BookingInfoUtils {
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	private static final HashMap<PaymentType, Integer> CREDIT_CARD_BLACK_ICONS = new HashMap<PaymentType, Integer>() {
-		{
-			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_black);
-			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_carte_blanche_black);
-			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_carte_bleue_black);
-			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_union_pay_black);
-			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_diners_club_black);
-			put(PaymentType.CARD_DISCOVER, R.drawable.ic_discover_black);
-			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_black);
-			put(PaymentType.CARD_MAESTRO, R.drawable.ic_maestro_black);
-			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_master_card_black);
-			put(PaymentType.CARD_VISA, R.drawable.ic_visa_black);
-		}
-	};
-
-	// Which icon to use with which credit card
-	@SuppressWarnings("serial")
 	private static final HashMap<PaymentType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<PaymentType, Integer>() {
 		{
 			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_white);
@@ -127,18 +110,18 @@ public class BookingInfoUtils {
 	};
 
 	@SuppressWarnings("serial")
-	private static final HashMap<PaymentType, Integer> CREDIT_CARD_TABLET_ICONS = new HashMap<PaymentType, Integer>() {
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_COLORFUL_ICONS = new HashMap<PaymentType, Integer>() {
 		{
-			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_tablet_checkout_amex);
-			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_tablet_checkout_carte_blanche);
-			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_tablet_checkout_carte_bleue);
-			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_tablet_checkout_union_pay);
-			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_tablet_checkout_diners_club);
-			put(PaymentType.CARD_DISCOVER, R.drawable.ic_tablet_checkout_discover);
-			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_tablet_checkout_jcb);
-			put(PaymentType.CARD_MAESTRO, R.drawable.ic_tablet_checkout_maestro);
-			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
-			put(PaymentType.CARD_VISA, R.drawable.ic_tablet_checkout_visa);
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_colorful);
+			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_carte_blanche_colorful);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_carte_bleue_colorful);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_union_pay_colorful);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_diners_club_colorful);
+			put(PaymentType.CARD_DISCOVER, R.drawable.ic_discover_colorful);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_colorful);
+			put(PaymentType.CARD_MAESTRO, R.drawable.ic_maestro_colorful);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_mastercard_colorful);
+			put(PaymentType.CARD_VISA, R.drawable.ic_visa_colorful);
 			put(PaymentType.POINTS_REWARDS, R.drawable.pwp_icon);
 		}
 	};
