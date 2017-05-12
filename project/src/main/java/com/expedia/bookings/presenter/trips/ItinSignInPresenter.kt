@@ -9,6 +9,7 @@ import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -19,6 +20,8 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
     val addGuestItinWidget: AddGuestItinWidget by bindView(R.id.add_guest_itin_widget)
     val itinFetchProgressWidget: ItinFetchProgressWidget by bindView(R.id.itin_fetch_progress_widget)
     val syncListenerAdapter = createSyncAdapter()
+    var itinPageUsableData: PageUsableData = PageUsableData()
+    var isItinPageUsableDataTracked: Boolean = false
 
     private var hasAddGuestItinErrors = false
     var syncFinishedWithoutErrorsSubject = PublishSubject.create<Unit>()
@@ -40,7 +43,14 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
     }
     private val addGuestToProgressTransition = object : VisibilityTransition(this, AddGuestItinWidget::class.java, ItinFetchProgressWidget::class.java) {}
-    private val signInToProgressTransition = object : VisibilityTransition(this, ItinSignInWidget::class.java, ItinFetchProgressWidget::class.java) {}
+    private val signInToProgressTransition = object : VisibilityTransition(this, ItinSignInWidget::class.java, ItinFetchProgressWidget::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                isItinPageUsableDataTracked = false
+            }
+        }
+    }
 
     init {
         Ui.getApplication(context).defaultTripComponents()
@@ -85,6 +95,10 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         show(itinFetchProgressWidget)
     }
 
+    fun setPageUsableData(pageUsableData: PageUsableData) {
+        itinPageUsableData = pageUsableData
+    }
+
     inner class createSyncAdapter : ItineraryManager.ItinerarySyncAdapter() {
 
         override fun onSyncFailure(error: ItineraryManager.SyncError?) {
@@ -93,6 +107,11 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
 
         override fun onSyncFinished(trips: MutableCollection<Trip>?) {
             signInWidget.viewModel.newTripsUpdateState(trips)
+            if (trips != null && trips.isNotEmpty() && !isItinPageUsableDataTracked) {
+                itinPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                OmnitureTracking.trackItin(context, itinPageUsableData)
+                isItinPageUsableDataTracked = true
+            }
             if (currentState != addGuestItinWidget.javaClass.name){
                 showSignInWidget()
             }

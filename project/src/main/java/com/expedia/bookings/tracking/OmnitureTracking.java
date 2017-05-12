@@ -2167,11 +2167,18 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin(Context context) {
+	public static void trackItin(Context context, PageUsableData itinPageUsableData) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
 
 		s.setEvents("event63");
+
+		StringBuilder eventStringBuilder = new StringBuilder(s.getEvents());
+		appendPageLoadTimeEvents(eventStringBuilder, itinPageUsableData.getLoadTimeInSeconds());
+
+		if (eventStringBuilder.length() > 0) {
+			s.setEvents(eventStringBuilder.toString());
+		}
 
 		s.track();
 	}

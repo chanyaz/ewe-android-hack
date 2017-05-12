@@ -14,6 +14,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -272,6 +273,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         }
 
         override fun onTabSelected(tab: TabLayout.Tab) {
+            println("Supreeth NewPhoneLaunchActivity onTabSelected -> $tab")
             if (tab.position != PAGER_SELECTED_POS) {
                 PAGER_SELECTED_POS = tab.position
             } else {
@@ -304,6 +306,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 }
                 OmnitureTracking.trackGlobalNavigation(viewPager.currentItem)
             }
+            Log.i("Supreeth", "mItinListView.isFocused() ---------------------> " + itinListFragment?.mItinListView?.isFocused())
+            Log.i("Supreeth", "mItinListView.isShown() -----------------------> " + itinListFragment?.mItinListView?.isShown())
+            Log.i("Supreeth", "mItinListView.isActivated() -------------------> " + itinListFragment?.mItinListView?.isActivated())
+            Log.i("Supreeth", "mItinListView.isLaidOut() ---------------------> " + itinListFragment?.mItinListView?.isLaidOut())
+            Log.i("Supreeth", "mItinListView.isSelected() --------------------> " + itinListFragment?.mItinListView?.isSelected())
         }
     }
 

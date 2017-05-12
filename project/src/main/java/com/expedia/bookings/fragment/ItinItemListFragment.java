@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +43,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
 import com.expedia.bookings.presenter.trips.ItinSignInPresenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.hotel.PageUsableData;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
@@ -72,7 +74,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private View mRoot;
 	private ImageView mShadowImageView;
-	private ItinListView mItinListView;
+	public ItinListView mItinListView;
 	private View mOrEnterNumberTv;
 	private UserReviewRatingDialog ratingDialog;
 	private ItineraryManager mItinManager;
@@ -111,6 +113,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public BehaviorSubject<Boolean> toolBarVisibilitySubject = BehaviorSubject.create();
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
+
+	private PageUsableData pageUsableData = new PageUsableData();
 
 	/**
 	 * Creates a new fragment that will open right away to the passed uniqueId.
@@ -156,6 +160,20 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mDeepRefreshLoadingView = Ui.findView(view, R.id.deep_refresh_loading_layout);
+
+		mItinListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+				int oldRight,
+				int oldBottom) {
+				/*Log.i("Supreeth", "addOnLayoutChangeListener ---------------------> event220 ");
+				Log.i("Supreeth", "mItinListView.isFocused() ---------------------> " + mItinListView.isFocused());
+				Log.i("Supreeth", "mItinListView.isShown() -----------------------> " + mItinListView.isShown());
+				Log.i("Supreeth", "mItinListView.isActivated() -------------------> " + mItinListView.isActivated());
+				Log.i("Supreeth", "mItinListView.isLaidOut() ---------------------> " + mItinListView.isLaidOut());
+				Log.i("Supreeth", "mItinListView.isSelected() --------------------> " + mItinListView.isSelected());*/
+			}
+		});
 
 		mItinListView.getItinCardDataAdapter().registerDataSetObserver(new DataSetObserver() {
 			@Override
@@ -275,6 +293,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			if (mSignInPresenter == null) {
 				ViewStub viewStub = Ui.findView(rootView, R.id.sign_in_presenter_stub);
 				mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
+				mSignInPresenter.setPageUsableData(pageUsableData);
 				mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
 				mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
 					new Action1<Boolean>() {
@@ -409,6 +428,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
+		if (isLoading) {
+			resetTrackingState();
+			pageUsableData.markPageLoadStarted(System.currentTimeMillis());
+		}
+		else {
+			pageUsableData.markAllViewsLoaded(System.currentTimeMillis());
+		}
 		if (isNewSignInScreen() && isLoading && mSignInPresenter != null) {
 			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
 		}
@@ -748,7 +774,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				//we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
-					OmnitureTracking.trackItin(getActivity());
+					OmnitureTracking.trackItin(getActivity(), pageUsableData);
 				}
 
 			}
