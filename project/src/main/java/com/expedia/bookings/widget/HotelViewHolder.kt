@@ -26,7 +26,7 @@ import rx.subjects.PublishSubject
 /**
  * A Viewholder for the case where our data are hotels.
  */
-class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, HeaderBitmapDrawable.CallbackListener {
+class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, HeaderBitmapDrawable.PicassoTargetListener {
     private val green: Int
     private val orange: Int
     private val purple: Int

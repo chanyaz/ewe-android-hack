@@ -8,13 +8,11 @@ import com.expedia.bookings.activity.WebViewActivity;
 
 public class LegalClickableSpan extends URLSpan {
 
-	private String url;
 	private String title;
 	private boolean hasUnderline;
 
 	public LegalClickableSpan(String url, String title, boolean hasUnderline) {
 		super(url);
-		this.url = url;
 		this.title = title;
 		this.hasUnderline = hasUnderline;
 	}
@@ -22,7 +20,7 @@ public class LegalClickableSpan extends URLSpan {
 	@Override
 	public void onClick(View widget) {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(widget.getContext());
-		builder.setUrl(url);
+		builder.setUrl(getURL());
 		builder.setTitle(title);
 		builder.setAllowMobileRedirects(true);
 		builder.setAttemptForceMobileSite(true);
@@ -39,9 +37,6 @@ public class LegalClickableSpan extends URLSpan {
 
 	public String getTitle() {
 		return title;
-	}
-	public String getUrl() {
-		return url;
 	}
 
 }

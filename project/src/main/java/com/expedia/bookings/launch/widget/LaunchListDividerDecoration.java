@@ -21,15 +21,15 @@ import com.expedia.bookings.widget.RecyclerDividerDecoration;
  * | etc etc etc |
  **/
 
-public class LaunchListDividerDecoration extends RecyclerDividerDecoration {
+class LaunchListDividerDecoration extends RecyclerDividerDecoration {
 
-	int mTop;
-	int mBottom;
-	int mLeft;
-	int mRight;
-	int mMiddle;
+	private int mTop;
+	private int mBottom;
+	private int mLeft;
+	private int mRight;
+	private int mMiddle;
 
-	public LaunchListDividerDecoration(Context context) {
+	LaunchListDividerDecoration(Context context) {
 		mTop = 0;
 		mLeft = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_side);
 		mMiddle = context.getResources().getDimensionPixelSize(R.dimen.launch_tile_margin_middle);

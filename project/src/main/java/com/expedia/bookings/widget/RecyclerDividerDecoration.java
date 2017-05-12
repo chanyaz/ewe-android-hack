@@ -16,18 +16,18 @@ import com.expedia.bookings.R;
 
 public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 
-	int mTop;
-	int mBottom;
-	int mLeft;
-	int mRight;
+	private int mTop;
+	private int mBottom;
+	private int mLeft;
+	private int mRight;
 
 	// Padding for transparent Toolbar
-	int mHeader;
-	int mFooter;
+	private int mHeader;
+	private int mFooter;
 
 	// Divider Separator
-	Paint mPaint = new Paint();
-	boolean shouldDrawDivider = false;
+	private Paint mPaint = new Paint();
+	private boolean shouldDrawDivider = false;
 
 	public RecyclerDividerDecoration() {
 		// Default constructor
