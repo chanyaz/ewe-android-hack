@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.hotels;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -23,6 +24,7 @@ import static org.hamcrest.Matchers.allOf;
 
 public class HotelConfirmationTest extends HotelTestCase {
 
+	@Test
 	public void testConfirmationView() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();

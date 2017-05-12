@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.newhotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
@@ -11,6 +13,7 @@ import static com.expedia.bookings.test.phone.hotels.HotelScreen.pickRoom;
 
 public class HotelPriceChangeTest extends HotelTestCase {
 
+	@Test
 	public void testPriceChangeGuestUser() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_price_change");

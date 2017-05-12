@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -79,6 +80,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testNewFlightHappyPath() throws Throwable {
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
@@ -153,6 +155,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertConfirmationView();
 	}
 
+	@Test
 	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		SearchScreen.origin().perform(click());
@@ -252,6 +255,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
 
+	@Test
 	public void testDisabledSTPState() throws Throwable {
 		Activity activity = getActivity();
 		SettingUtils.save(activity.getApplicationContext(), R.string.preference_disabled_stp_state, true);
@@ -271,6 +275,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertViewIsNotDisplayed(R.id.checkout_button);
 	}
 
+	@Test
 	public void testNewFlightHappyPathSignedIn() throws Throwable {
 		getToCheckoutScreen();
 		CheckoutViewModel.signInOnCheckout();
@@ -290,6 +295,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertSignedInConfirmationView();
 	}
 
+	@Test
 	public void getToCheckoutScreen() throws Throwable {
 		selectOriginDestinationAndDates();
 

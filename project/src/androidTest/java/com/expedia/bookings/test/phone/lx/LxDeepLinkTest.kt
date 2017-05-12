@@ -14,9 +14,11 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
+import org.junit.Test
 
 class LxDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {
 
+    @Test
     fun testDeeplinkForLXSearchControlState() {
         val intent = Intent()
         val deepLinkText = Uri.parse("expda://activitySearch?location=San%20Francisco&startDate=" + DateUtils.localDateToyyyyMMdd(LocalDate.now()))

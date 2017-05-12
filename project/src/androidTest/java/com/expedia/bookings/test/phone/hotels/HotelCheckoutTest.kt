@@ -13,9 +13,11 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import org.junit.Test
 
 class HotelCheckoutTest: HotelTestCase() {
 
+    @Test
     fun testCardNumberClearedAfterCreateTrip() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
@@ -36,6 +38,7 @@ class HotelCheckoutTest: HotelTestCase() {
         Espresso.pressBack()
     }
 
+    @Test
     fun testLoggedInCustomerCanEnterNewTraveler() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel()
@@ -63,6 +66,7 @@ class HotelCheckoutTest: HotelTestCase() {
         CheckoutViewModel.enterPaymentInfoHotels()
     }
 
+    @Test
     fun testResortFeeDisclaimerTextVisibility() {
         SearchScreen.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list
@@ -84,6 +88,8 @@ class HotelCheckoutTest: HotelTestCase() {
         //On paymentInfo page resortFeeDisclaimerText's Visibility is Gone
         CheckoutViewModel.resortFeeDisclaimerText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
+
+    @Test
     fun testFreeCancellationNotAvailableAndHiddenFromSummary() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
@@ -94,6 +100,7 @@ class HotelCheckoutTest: HotelTestCase() {
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
+    @Test
     fun testFreeCancellationAvailableAndShownInSummary() {
         SearchScreen.doGenericHotelSearch()
         // Check to make sure non merchant shows up in result list

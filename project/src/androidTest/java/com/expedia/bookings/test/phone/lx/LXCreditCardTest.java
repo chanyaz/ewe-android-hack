@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.lx;
 
+import org.junit.Test;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
@@ -13,6 +15,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.clickWhenEnabled;
 
 public class LXCreditCardTest extends LxTestCase {
 
+	@Test
 	public void testPaymentCleared() throws Throwable {
 		LXScreen.goToSearchResults(getLxIdlingResource());
 		final String ticketName = "2-Day";

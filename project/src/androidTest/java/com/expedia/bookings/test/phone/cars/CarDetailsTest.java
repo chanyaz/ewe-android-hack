@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.junit.Test;
+
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
@@ -20,6 +22,7 @@ public class CarDetailsTest extends CarTestCase {
 
 	private final static String CATEGORY = "Standard";
 
+	@Test
 	public void testCarDetails() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -40,6 +43,7 @@ public class CarDetailsTest extends CarTestCase {
 		assertViewWithIdAppearsInFirstOffer(R.id.map_text);
 	}
 
+	@Test
 	public void testCarDetailsNoPassengersDoorsBags() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -60,6 +64,7 @@ public class CarDetailsTest extends CarTestCase {
 		assertViewWithIdAppearsInFirstOffer(R.id.map_text);
 	}
 
+	@Test
 	public void testCarDetailsCountInRange() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 

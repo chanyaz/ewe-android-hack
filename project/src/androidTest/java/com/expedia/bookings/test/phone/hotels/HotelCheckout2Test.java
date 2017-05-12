@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
@@ -21,6 +23,7 @@ import junit.framework.Assert;
 import static android.support.test.espresso.action.ViewActions.click;
 
 public class HotelCheckout2Test extends HotelTestCase {
+	@Test
 	public void testCouponIsClearedEachCreateTrip() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
@@ -49,7 +52,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_with_tax_and_fees, "$2,394.88");
 	}
 
-
+	@Test
 	public void testTealeafIDClearedAfterSignIn() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("tealeaf_id");

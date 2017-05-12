@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.junit.Test;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
@@ -26,6 +28,7 @@ public class CarFilterTest extends CarTestCase {
 
 	private final static String CATEGORY = "Standard";
 
+	@Test
 	public void testCarsFilters() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 		Common.delay(1);
@@ -76,6 +79,7 @@ public class CarFilterTest extends CarTestCase {
 		onView(allOf(withId(R.id.category_check_box), hasSibling(withText(CATEGORY)))).check(matches(isChecked()));
 	}
 
+	@Test
 	public void testFilterByMultipleCategoriesOnSRP() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -98,6 +102,7 @@ public class CarFilterTest extends CarTestCase {
 
 	}
 
+	@Test
 	public void testFilterBySupplierOnSRP() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -112,6 +117,7 @@ public class CarFilterTest extends CarTestCase {
 		assertSupplierInsideFilteredCategories(filteredCategoryNumber, "NoCCRequired");
 	}
 
+	@Test
 	public void testFilterByAirConditioningOnSRP() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -132,6 +138,7 @@ public class CarFilterTest extends CarTestCase {
 
 	}
 
+	@Test
 	public void testFilterByUnlimitedMileageOnSRP() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -151,7 +158,7 @@ public class CarFilterTest extends CarTestCase {
 		assertNotSame(filteredOfferNumber, unfilteredOfferNumber);
 	}
 
-
+	@Test
 	public void testFilterByTransmissionTypeOnSRP() throws Throwable {
 		SearchScreen.doGenericCarSearch();
 
@@ -179,7 +186,7 @@ public class CarFilterTest extends CarTestCase {
 		assertNotSame(filteredOfferNumber, unfilteredOfferNumber);
 	}
 
-	public void assertCorrectOfferShownAfterApplyingFilters(int numberOfResults, String offerName) {
+	private void assertCorrectOfferShownAfterApplyingFilters(int numberOfResults, String offerName) {
 		for (int i = 0; i < numberOfResults; i++) {
 			CarScreen.carOfferList().check(
 				RecyclerViewAssertions.assertionOnItemAtPosition(i, hasDescendant(withText(offerName))));
@@ -187,7 +194,7 @@ public class CarFilterTest extends CarTestCase {
 
 	}
 
-	public void assertCorrectCategoryShownAfterApplyingFilters(int numberOfResults, String categoryName) {
+	private void assertCorrectCategoryShownAfterApplyingFilters(int numberOfResults, String categoryName) {
 		for (int i = 0; i < numberOfResults; i++) {
 			CarScreen.carCategoryList().check(
 				RecyclerViewAssertions
@@ -195,7 +202,7 @@ public class CarFilterTest extends CarTestCase {
 		}
 	}
 
-	public void assertCorrectCategoryShownAfterApplyingFilters(int numberOfResults, String firstCategoryName,
+	private void assertCorrectCategoryShownAfterApplyingFilters(int numberOfResults, String firstCategoryName,
 		String secondCategoryName) {
 		for (int i = 0; i < numberOfResults; i++) {
 			CarScreen.carCategoryList().check(
@@ -204,7 +211,7 @@ public class CarFilterTest extends CarTestCase {
 		}
 	}
 
-	public void assertSupplierInsideFilteredCategories(int numberOfCategories, String supplierName) {
+	private void assertSupplierInsideFilteredCategories(int numberOfCategories, String supplierName) {
 		for (int i = 0; i < numberOfCategories; i++) {
 			CarScreen.carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
 			Common.delay(1);
@@ -218,7 +225,7 @@ public class CarFilterTest extends CarTestCase {
 		}
 	}
 
-	public int countOffers(int numberOfCategories) {
+	private int countOffers(int numberOfCategories) {
 		int numberOfOffers = 0;
 		for (int i = 0; i < numberOfCategories; i++) {
 			Common.delay(1);

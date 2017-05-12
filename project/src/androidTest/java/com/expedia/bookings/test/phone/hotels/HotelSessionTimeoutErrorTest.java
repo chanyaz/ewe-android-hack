@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
@@ -13,6 +15,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDispl
 
 public class HotelSessionTimeoutErrorTest extends HotelTestCase {
 
+	@Test
 	public void testSessionTimeoutError() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_session_timeout");

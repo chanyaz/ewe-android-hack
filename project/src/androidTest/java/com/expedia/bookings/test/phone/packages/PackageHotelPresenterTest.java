@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Test;
 
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -16,6 +17,7 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class PackageHotelPresenterTest extends PackageTestCase {
 
+	@Test
 	public void testHotelBundleSlidingTransition() throws Throwable {
 		PackageScreen.searchPackage();
 

@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
@@ -22,6 +24,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDispla
 
 public class CarCreditCardTest extends CarTestCase {
 
+	@Test
 	public void testPaymentInfo() throws Throwable {
 		goToCheckout();
 		screenshot("Car Checkout");
