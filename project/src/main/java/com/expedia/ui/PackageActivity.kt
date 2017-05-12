@@ -81,10 +81,8 @@ class PackageActivity : AbstractAppCompatActivity() {
                 return
             }
             Constants.PACKAGE_API_ERROR_RESULT_CODE -> {
-                val errorCodeOrdinal = data?.extras?.getInt(Constants.PACKAGE_API_ERROR)
-                if (errorCodeOrdinal != null) {
-                    packagePresenter.bundlePresenter.bundleWidget.viewModel.errorObservable.onNext(PackageApiError.Code.values()[errorCodeOrdinal])
-                }
+                val errorCode = data?.extras?.getSerializable(Constants.PACKAGE_API_ERROR) as? PackageApiError.Code
+                packagePresenter.bundlePresenter.bundleWidget.viewModel.errorObservable.onNext(errorCode)
             }
         }
 

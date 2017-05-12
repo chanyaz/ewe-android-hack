@@ -199,9 +199,9 @@ class HotelResultsViewModel private constructor(private val context: Context, pr
         }
     }
 
-    private fun onResponseError(code: PackageApiError.Code) {
+    private fun onResponseError(code: PackageApiError.Code?) {
         val intent = Intent()
-        intent.putExtra(Constants.PACKAGE_API_ERROR, code.ordinal)
+        intent.putExtra(Constants.PACKAGE_API_ERROR, code)
         (context as android.app.Activity).setResult(Constants.PACKAGE_API_ERROR_RESULT_CODE, intent)
         context.finish()
     }
