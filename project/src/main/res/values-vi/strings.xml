@@ -259,8 +259,6 @@
     <string name="temporarily_saved_card_TEMPLATE">Đã lưu {cardtype} …{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} đã lưu</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="saved_cards">Thẻ đã lưu</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Nút tóm tắt chi phí</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
@@ -1802,9 +1800,6 @@
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Phụ phí quy trình thanh toán</string>
 
-    <!-- Flight payment overview Activity -->
-    <!-- Add new card -->
-    <string name="add_new_card">Thêm thẻ mới</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Thẻ tín dụng/ghi nợ mới</string>
     <!-- New Credit card toolbar title shown on payment form -->

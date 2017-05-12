@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import java.util.List;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,11 +27,9 @@ import com.squareup.phrase.Phrase;
 
 public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
 
-	private static final int ITEM_VIEW_TYPE_SELECT_CREDITCARD = 0;
-	private static final int ITEM_VIEW_TYPE_CREDITCARD = 1;
-	private static final int ITEM_VIEW_TYPE_TEMP_CREDITCARD = 2;
-	private static final int ITEM_VIEW_TYPE_ADD_CREDITCARD = 3;
-	private static final int ITEM_VIEW_TYPE_COUNT = 4;
+	private static final int ITEM_VIEW_TYPE_CREDITCARD = 0;
+	private static final int ITEM_VIEW_TYPE_TEMP_CREDITCARD = 1;
+	private static final int ITEM_VIEW_TYPE_COUNT = 2;
 
 	private TripBucketItem mTripBucketItem;
 	private UserStateManager userStateManager;
@@ -68,7 +67,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 	}
 
 	@Override
-	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+	public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
 		return getView(position, convertView, parent);
 	}
 
@@ -79,9 +78,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 
 	@Override
 	public int getItemViewType(int position) {
-		/* In phones Temporarily saved card is positioned at the bottom of the Stored Cards List.
-		Whereas in tablet last position is acquired by the card 'Add New card' tile
-		*/
+		// Temporarily saved card is positioned at the bottom of the Stored Cards List.
 		if (hasTemporarilySavedCard && position == getCount() - 1) {
 			return ITEM_VIEW_TYPE_TEMP_CREDITCARD;
 		}
@@ -90,21 +87,13 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		}
 	}
 
+	@NonNull
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 		final int itemType = getItemViewType(position);
 
 		View retView = convertView;
-		TextView tv;
 		switch(itemType) {
-		case ITEM_VIEW_TYPE_SELECT_CREDITCARD:
-			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
-			tv = Ui.findView(retView, R.id.text1);
-			tv.setText(R.string.saved_cards);
-			tv.setCompoundDrawablesWithIntrinsicBounds(
-				getContext().getResources().getDrawable(R.drawable.saved_payment), null, null, null);
-			retView.setEnabled(false);
-			break;
 		case ITEM_VIEW_TYPE_CREDITCARD:
 			StoredCreditCard card = getItem(position);
 			if (card.isGoogleWallet()) {
@@ -121,13 +110,6 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 					.put("cardtype", card.getDescription()).format().toString(),
 				(Db.getBillingInfo().getStoredCard() != null
 					&& Db.getBillingInfo().getStoredCard().compareTo(card) == 0));
-			break;
-		case ITEM_VIEW_TYPE_ADD_CREDITCARD:
-			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
-			tv = Ui.findView(retView, R.id.text1);
-			tv.setText(R.string.add_new_card);
-			tv.setCompoundDrawablesWithIntrinsicBounds(
-				getContext().getResources().getDrawable(R.drawable.add_plus), null, null, null);
 			break;
 		case ITEM_VIEW_TYPE_TEMP_CREDITCARD:
 			retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);

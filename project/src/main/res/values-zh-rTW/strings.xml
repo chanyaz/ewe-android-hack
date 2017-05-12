@@ -259,8 +259,6 @@
     <string name="temporarily_saved_card_TEMPLATE">已儲存的{cardtype}{cardno}</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">{cardtype} 已儲存</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="saved_cards">已儲存的信用卡</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">費用摘要資訊按鈕</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
@@ -1802,9 +1800,6 @@
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">款項處理費用</string>
 
-    <!-- Flight payment overview Activity -->
-    <!-- Add new card -->
-    <string name="add_new_card">新增信用卡</string>
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">新的金融卡/信用卡</string>
     <!-- New Credit card toolbar title shown on payment form -->
