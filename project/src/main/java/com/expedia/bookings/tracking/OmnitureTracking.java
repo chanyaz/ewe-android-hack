@@ -4654,6 +4654,9 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_search_form_validations)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
+		}
 
 		s.track();
 	}
