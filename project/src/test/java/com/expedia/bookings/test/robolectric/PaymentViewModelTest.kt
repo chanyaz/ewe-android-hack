@@ -239,7 +239,7 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
-        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa), ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa),
+        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
                 ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
         cardTitleTestSubscriber.assertValues("Visa …1111", "Visa 4111", "Payment Method")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "Enter credit card")
@@ -260,7 +260,7 @@ class PaymentViewModelTest {
         //User has not filled billing Info
         viewModel.billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
 
-        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_tablet_checkout_visa), ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa),
+        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(),R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful),
                 ContextCompat.getDrawable(getContext(), R.drawable.cars_checkout_cc_default_icon))
         cardTitleTestSubscriber.assertValues("Visa …1111", "Paying with Points & Visa …1111", "Payment Method")
         cardSubtitleTestSubscriber.assertValues("Tap to edit", "Tap to edit", "Credit card, pay with points")
@@ -304,8 +304,8 @@ class PaymentViewModelTest {
         //User logs out or chooses a hotel which does not has PWP
         viewModel.isRedeemable.onNext(false)
 
-        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa), ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon),
-                ContextCompat.getDrawable(getContext(), R.drawable.ic_tablet_checkout_visa))
+        paymentTypeTestSubscriber.assertValues(ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful), ContextCompat.getDrawable(getContext(), R.drawable.pwp_icon),
+                ContextCompat.getDrawable(getContext(), R.drawable.ic_visa_colorful))
         cardTitleTestSubscriber.assertValues("Payment Method", "Paying with Points", "Payment Method")
         cardSubtitleTestSubscriber.assertValues("Credit card, pay with points", "Tap to edit", "Enter credit card")
         pwpSmallIconTestSubscriber.assertValues(false, false, false)

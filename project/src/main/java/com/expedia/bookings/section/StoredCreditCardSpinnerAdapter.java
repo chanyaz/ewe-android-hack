@@ -139,7 +139,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 				if (rStatus.getVisibility() == View.GONE) {
 					rStatus.setVisibility(View.VISIBLE);
 				}
-				imgRes = BookingInfoUtils.getTabletCardIcon(cardType);
+				imgRes = BookingInfoUtils.getColorfulCardIcon(cardType);
 			}
 			else {
 				rStatus.setVisibility(View.GONE);
