@@ -1,4 +1,4 @@
-package com.expedia.bookings.section;
+package com.expedia.bookings.itin;
 
 import java.text.DecimalFormat;
 
@@ -14,15 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTripView;
@@ -33,15 +26,9 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 import com.squareup.phrase.Phrase;
 
-/**
- * Note: This is somewhat overloaded to be able to represent either an entire
- * leg or just one segment inside of a leg, depending on what data is bound
- * to it.
- */
-public class FlightLegSummarySection extends RelativeLayout {
+public class ItinFlightLegSummarySection extends RelativeLayout {
 
 	private static final DecimalFormat sDaySpanFormatter = new DecimalFormat("#");
-	private static final int NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD = 6;
 
 	static {
 		sDaySpanFormatter.setPositivePrefix("+");
@@ -50,14 +37,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private TextView mAirlineTextView;
 	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
-	private TextView mPriceTextView;
-	private boolean mShowNumberTicketsLeftView = true;
 	private TextView mDepartureTimeTextView;
 	private TextView mArrivalTimeTextView;
 	private TextView mMultiDayTextView;
 	private FlightTripView mFlightTripView;
 
-	public FlightLegSummarySection(Context context, AttributeSet attrs) {
+	public ItinFlightLegSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
@@ -69,7 +54,6 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
 		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
-		mPriceTextView = Ui.findView(this, R.id.price_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
 		mMultiDayTextView = Ui.findView(this, R.id.multi_day_text_view);
@@ -81,70 +65,17 @@ public class FlightLegSummarySection extends RelativeLayout {
 		FlightLeg pseudoLeg = new FlightLeg();
 		pseudoLeg.addSegment(flight);
 
-		bind(null, pseudoLeg, minTime, maxTime, true);
+		bind(pseudoLeg, minTime, maxTime);
 	}
 
-	// From ResultsFlightDetailsFragment and ResultsRecursiveFlightLegsFragment; tablet
-	public void bind(FlightSearch flightSearch, int legNumber) {
-		FlightTripQuery query = flightSearch.queryTrips(legNumber);
-		DateTime minTime = new DateTime(query.getMinTime());
-		DateTime maxTime = new DateTime(query.getMaxTime());
-
-		FlightTripLeg flightTripLeg = flightSearch.getSelectedLegs()[legNumber];
-
-		FlightTrip trip = flightTripLeg.getFlightTrip();
-		FlightLeg leg = flightTripLeg.getFlightLeg();
-
-		bind(trip, leg, minTime, maxTime);
-	}
-
-	// From FlightTripOverviewFragment.buildCards() via SectionFlightLeg.bind() (top of checkout screen)
-	// From FlightListFragment.onCreateView(), invisible, just takes up space
-	public void bind(FlightLeg leg) {
-		bind(null, leg, null, null, false);
-	}
-
-	// From FlightConfirmationFragment.onCreateView(), post-booking confirmation screen
-	public void bind(FlightTrip trip, FlightLeg leg, BillingInfo billingInfo,
-					 TripBucketItemFlight tripBucketItemFlight) {
-		bind(trip, leg, null, null, null, false, billingInfo, tripBucketItemFlight);
-	}
-
-	// From FlightListFragment.onCreateView(), when showing at top of return flight list; trip is null
-	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime) {
-		bind(trip, leg, minTime, maxTime, false);
-	}
-
-	public void setShowNumberTicketsLeftView(boolean showNumberTicketsLeftView) {
-		this.mShowNumberTicketsLeftView = showNumberTicketsLeftView;
-	}
-
-	private void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
-					  boolean isIndividualFlight) {
-		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null, null);
-	}
-
-	private void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, DateTime minTime,
-					  DateTime maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
-					  TripBucketItemFlight tripBucketItemFlight) {
+	private void bind(final FlightLeg leg, DateTime minTime, DateTime maxTime) {
 		Context context = getContext();
 		Resources res = getResources();
 
-		// Don't lie to me!
 		Flight firstFlight = leg.getSegment(0);
-		if (isIndividualFlight && leg.getSegmentCount() != 1) {
-			isIndividualFlight = false;
-		}
 
 		if (mAirlineTextView != null) {
-			mAirlineTextView.setText(getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight));
-
-			if (leg.hasBagFee()) {
-				mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, getBagWithXDrawableResId(), 0);
-			}
-			else {
-				mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-			}
+			mAirlineTextView.setText(getAirlinesStr(context, firstFlight));
 		}
 
 		if (mDepartureTimeTextView != null) {
@@ -167,32 +98,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 		}
 
-		if (mPriceTextView != null) {
-			if (trip != null && trip.hasPricing()) {
-				Money money;
-				if (tripBucketItemFlight != null && billingInfo != null) {
-					money = trip.getTotalFareWithCardFee(billingInfo, tripBucketItemFlight);
-				}
-				else {
-					money = trip.getAverageTotalFare();
-				}
-				mPriceTextView.setText(money.getFormattedMoney(Money.F_NO_DECIMAL));
-			}
-			else {
-				mPriceTextView.setVisibility(View.GONE);
-			}
-		}
+		mFlightTripView.setUp(leg, minTime, maxTime);
 
-		if (legTwo != null) {
-			mFlightTripView.setUpRoundTrip(leg, legTwo);
-		}
-		else {
-			mFlightTripView.setUp(leg, minTime, maxTime);
-		}
-
-		adjustLayout(leg, isIndividualFlight);
+		adjustLayout(leg);
 		this.setContentDescription(Phrase.from(context, R.string.flight_overview_TEMPLATE_cont_desc)
-			.put("airline", getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight))
+			.put("airline", getAirlinesStr(context, firstFlight))
 			.put("departuretime", formatTime(leg.getFirstWaypoint().getBestSearchDateTime()))
 			.put("arrivaltime", formatTime(leg.getLastWaypoint().getBestSearchDateTime()))
 			.put("departureairport", leg.getLastWaypoint().getAirport().mName)
@@ -200,39 +110,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 			.format().toString());
 	}
 
-	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,
-										 boolean isIndividualFlight) {
-		if (isIndividualFlight) {
-			return FormatUtils.formatFlightNumber(flight, context);
-		}
-		else {
-			return getCombinedAirlinesFormatted(leg, legTwo);
-		}
+	private static String getAirlinesStr(Context context, Flight flight) {
+		return FormatUtils.formatFlightNumber(flight, context);
 	}
 
-	private static String getCombinedAirlinesFormatted(FlightLeg leg, FlightLeg legTwo) {
-		if (legTwo != null) {
-			String firstAirlines = leg.getPrimaryAirlineNamesFormatted();
-			String secondAirlines = legTwo.getPrimaryAirlineNamesFormatted();
-			return firstAirlines + ", " + secondAirlines;
-		}
-		else {
-			return leg.getPrimaryAirlineNamesFormatted();
-		}
-	}
-
-	protected int getBagWithXDrawableResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.skin_icSuitCaseBaggage);
-	}
-
-	/**
-	 * Perform any layout adjustments on this section, based on the data in this FlightLeg,
-	 * whether this is a summary card or an itin card, etc.
-	 * <p/>
-	 * This is broken into its own method, so that descendent classes can make different
-	 * layout adjustments (looking at you, FlightLegSummarySectionTablet).
-	 */
-	protected void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
+	private void adjustLayout(final FlightLeg leg) {
 		Context context = getContext();
 		Flight firstFlight = leg.getSegment(0);
 
@@ -240,7 +122,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		FlightCode primaryFlightCode = firstFlight.getPrimaryFlightCode();
 		FlightCode opFlightCode = firstFlight.getOperatingFlightCode();
 		boolean hasDifferentOperatingCarrierCode = (primaryFlightCode != null) && !primaryFlightCode.equals(opFlightCode);
-		if (isIndividualFlight && hasDifferentOperatingCarrierCode) {
+		if (hasDifferentOperatingCarrierCode) {
 			String operatedBy;
 			if (!TextUtils.isEmpty(opFlightCode.mAirlineCode)) {
 				Airline airline = Db.getAirline(opFlightCode.mAirlineCode);

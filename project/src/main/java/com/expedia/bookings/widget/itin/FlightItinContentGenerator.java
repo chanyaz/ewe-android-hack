@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import com.expedia.bookings.activity.TerminalMapActivityV2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -35,6 +34,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivityV1;
+import com.expedia.bookings.activity.TerminalMapActivityV2;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.Db;
@@ -48,9 +48,9 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TicketingStatus;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.itin.ItinFlightLegSummarySection;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
-import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -852,7 +852,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	private View getFlightView(Flight flight, DateTime minTime, DateTime maxTime) {
-		FlightLegSummarySection v = (FlightLegSummarySection) getLayoutInflater().inflate(
+		ItinFlightLegSummarySection v = (ItinFlightLegSummarySection) getLayoutInflater().inflate(
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 
