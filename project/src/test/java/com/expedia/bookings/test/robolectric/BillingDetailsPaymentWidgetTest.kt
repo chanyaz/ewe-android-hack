@@ -458,6 +458,7 @@ class BillingDetailsPaymentWidgetTest {
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(expirationLayout, "Expiration Date")
+        assertNotNull(expirationLayout.editText!!.compoundDrawables[2])
 
         validateInvalidBillingInfo()
 
@@ -591,6 +592,7 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(countryLayout, "Country")
         assertEquals(countryName, countryLayout.editText?.text.toString())
+        assertNotNull(countryLayout.editText!!.compoundDrawables[2])
 
         billingDetailsPaymentWidget.editCountryEditText?.performClick()
         val testAlert = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())

@@ -44,6 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withTextColor;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsCompletelyDisplayed;
@@ -220,6 +221,9 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 
+		onView(withId(R.id.material_edit_phone_number_country_code)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
+		onView(withId(R.id.edit_gender_btn)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
+		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
 		PackageScreen.enterEmail("test@gmail.com");
@@ -234,6 +238,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.clickTravelerDone();
 
 		PackageScreen.clickPaymentInfo();
+		onView(withId(R.id.edit_creditcard_exp_text_btn)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
+		onView(withId(R.id.material_edit_country)).check(matches(withCompoundDrawable(R.drawable.material_dropdown)));
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
 		assertInsuranceIsNotVisible();
