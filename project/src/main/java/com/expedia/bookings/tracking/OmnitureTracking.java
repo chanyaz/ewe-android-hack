@@ -2655,8 +2655,9 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		}
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_track_users_itin_data) && userStateManager.isUserAuthenticated()) {
-			if (!TripUtils.createUsersTripTypeEventString(getUsersTrips()).isEmpty()) {
-				s.setEvents(TripUtils.createUsersTripTypeEventString(getUsersTrips()));
+			if (!TripUtils.createUsersTripComponentTypeEventString(getUsersTrips()).isEmpty()) {
+				s.setEvents(TripUtils.createUsersTripComponentTypeEventString(getUsersTrips()));
+				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 			}
 		}
 		s.setProp(2, "storefront");
