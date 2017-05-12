@@ -4,11 +4,9 @@ import android.app.Activity
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightCabinClassPickerView
 import com.expedia.vm.flights.FlightCabinClassViewModel
@@ -42,8 +40,6 @@ class FlightCabinClassViewModelTest {
 
     @Test
     fun testFlightCabinClass() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
-
         val flightCabinClassWidget = widget.flightCabinClassWidget
         flightCabinClassWidget.performClick()
         val view = flightCabinClassWidget.flightCabinClassDialogView

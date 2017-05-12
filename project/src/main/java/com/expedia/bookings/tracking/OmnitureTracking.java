@@ -4652,7 +4652,6 @@ public class OmnitureTracking {
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightPremiumClass);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_search_form_validations)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
@@ -4896,8 +4895,7 @@ public class OmnitureTracking {
 		str += "|L";
 		str += childrenInLap;
 
-		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)
-			&& searchTrackingData.getFlightCabinClass() != null) {
+		if (searchTrackingData.getFlightCabinClass() != null) {
 			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
 		return str;

@@ -50,7 +50,6 @@ import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.shared.SearchInputTextView
-import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -68,7 +67,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     private val STARTING_TRANSLATIONY = -2000f
 
     val travelerCardViewStub: ViewStub by bindView(R.id.traveler_stub)
-    val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
     val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
@@ -81,12 +79,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
     open val travelerCardView: CardView by bindView(R.id.traveler_card_view)
-    val flightCabinClassCardView: CardView by bindView(R.id.flight_cabin_class_card_view)
     open val travelerWidgetV2 by lazy {
         travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
-    }
-    val flightCabinClassWidget by lazy {
-        flightCabinClassStub.inflate().findViewById(R.id.flight_cabin_class_widget) as FlightCabinClassWidget
     }
 
     val searchButton: Button by bindView(R.id.search_btn)

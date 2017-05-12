@@ -30,7 +30,6 @@ import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
-import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
@@ -52,7 +51,6 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricRunner.class)
@@ -114,8 +112,6 @@ public class FlightSearchPresenterTest {
 			activity.getResources().getString(R.string.package_search_traveler_default_text));
 		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
 		assertEquals(searchBtn.getText().toString(), activity.getResources().getString(R.string.search));
-
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
@@ -243,27 +239,16 @@ public class FlightSearchPresenterTest {
 	}
 
 	private void testFlightCabinClassWidgetVisibility() {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
-
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
 
 		ViewStub flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
 		FlightCabinClassWidget flightCabinClassWidget = (FlightCabinClassWidget) flightCabinClassStub.inflate();
 		assertEquals(flightCabinClassWidget.getVisibility(), View.VISIBLE);
-
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.DefaultVariant.CONTROL.ordinal());
-		Ui.getApplication(activity).defaultFlightComponents();
-		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
-			null);
-
-		flightCabinClassStub = (ViewStub) widget.findViewById(R.id.flight_cabin_class_stub);
-		assertNotEquals(flightCabinClassStub.getVisibility(), View.VISIBLE);
 	}
 
 	@Test
 	public void testFlightCabinClassValue() {
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass);
 		String cabinClassCoachName =  activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
 		String cabinClassBusinessName = activity.getResources().getString(FlightServiceClassType.CabinCode.BUSINESS.getResId());
 

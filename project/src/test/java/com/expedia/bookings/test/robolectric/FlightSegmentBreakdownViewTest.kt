@@ -9,7 +9,6 @@ import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,18 +47,6 @@ class FlightSegmentBreakdownViewTest {
         seatClassAndBookingCodeTestCases()
     }
 
-    @Test
-    fun testSeatClassAndBookingCodeViewForFlightPremiumAbacusTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
-        seatClassAndBookingCodeTestCases()
-    }
-
-    @Test
-    fun testSeatClassAndBookingCodeViewForAllAbacusTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode, AbacusUtils.EBAndroidAppFlightPremiumClass)
-        seatClassAndBookingCodeTestCases();
-    }
-
     fun seatClassAndBookingCodeTestCases() {
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
@@ -92,29 +79,12 @@ class FlightSegmentBreakdownViewTest {
     }
 
     @Test
-    fun testSeatClassAndBookingCodeViewVisibilityForFlightPremiumAbacusTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
+    fun testSeatClassAndBookingCodeViewVisibility() {
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
 
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
-        //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
-        assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)
-    }
-
-    @Test
-    fun testSeatClassAndBookingCodeViewVisibilityForAllActiveAbacusTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
-        //Cabin Code is coach
-        seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
-        assertEquals(View.VISIBLE, seatClassAndBookingCodeTextView.visibility)
-    }
-
-    @Test
-    fun testSeatClassAndBookingCodeViewVisibilityForAllInActiveAbacusTest() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightPremiumClass, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode)
         //Cabin Code is coach
         seatClassAndBookingCodeTextView = getTextViewForSeatClassAndBookingCode("coach")
         assertEquals(View.GONE, seatClassAndBookingCodeTextView.visibility)

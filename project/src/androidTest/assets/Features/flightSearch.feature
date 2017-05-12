@@ -307,8 +307,6 @@ Feature: Flights Search
   @Flights @FlightSearch @Prod
   Scenario: Verify user is able to select preferred class while booking flight for round trip under AB test
     Given I launch the App
-    And I bucket the following tests
-      |FlightPremiumClass|
     And I launch "Flights" LOB
     When I enter source and destination for flights
       | source              | sfo                                      |
@@ -381,8 +379,6 @@ Feature: Flights Search
     Given I launch the App
     And I want to intercept these calls
       | FlightSearch |
-    And I bucket the following tests
-      |FlightPremiumClass|
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |

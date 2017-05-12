@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -114,7 +113,6 @@ class AbstractFlightListAdapterTest {
 
     @Test
     fun testFlightCabinCodeVisibilityWhenBucketedForABTest() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
         createTestFlightListAdapter()
         createFlightClass(true)
 
@@ -125,18 +123,6 @@ class AbstractFlightListAdapterTest {
         // Does not have Flight Class
         createFlightClass(false)
         flightViewHolder = bindFlightViewHolderAndModel()
-        assertEquals(flightViewHolder.flightCell.flightCabinCodeTextView.visibility, View.GONE)
-    }
-
-    @Test
-    fun testFlightCabinCodeVisibilityWhenNotBucketedForABTest() {
-        createTestFlightListAdapter()
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightPremiumClass)
-
-        // Has Flight Class
-        createFlightClass(true)
-
-        var flightViewHolder = bindFlightViewHolderAndModel()
         assertEquals(flightViewHolder.flightCell.flightCabinCodeTextView.visibility, View.GONE)
     }
 
