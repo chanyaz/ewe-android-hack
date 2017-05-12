@@ -9,7 +9,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
-apply plugin: 'fork'
+apply plugin: 'com.shazam.fork'
 apply from: '../jacoco.gradle'
 
 repositories {
@@ -467,6 +467,20 @@ android {
 
         classpath = files()
         ignoreFailures = false
+    }
+
+    fork {
+        totalAllowedRetryQuota = 99
+        retryPerTestCaseQuota = 2
+        // Workaround to run tests in parallel on all connected devices. It should run on all devices above api level 19.
+        poolingStrategy {
+            computed {
+                characteristic = "api"
+                groups {
+                    connected_devices = 19
+                }
+            }
+        }
     }
 }
 
