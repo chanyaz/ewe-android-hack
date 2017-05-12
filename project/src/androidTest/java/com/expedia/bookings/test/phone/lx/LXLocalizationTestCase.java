@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.lx;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -22,6 +23,7 @@ public class LXLocalizationTestCase extends PhoneTestCase {
 		super(LXBaseActivity.class);
 	}
 
+	@Test
 	public void testScreenShotThroughPortraitMode() throws Throwable {
 		screenshot("BEFORE_SEARCH");
 		LXScreen.location().perform(ViewActions.waitForViewToDisplay(), typeText("San"));

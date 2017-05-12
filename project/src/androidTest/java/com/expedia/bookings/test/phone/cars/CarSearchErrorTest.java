@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -15,6 +16,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 
 public class CarSearchErrorTest extends CarTestCase {
 
+	@Test
 	public void testSearchErrorProductNotAvailable() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
@@ -41,6 +43,7 @@ public class CarSearchErrorTest extends CarTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
 	}
 
+	@Test
 	public void testSearchErrorInvalidInput() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		CarScreen.pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText("DTW"));

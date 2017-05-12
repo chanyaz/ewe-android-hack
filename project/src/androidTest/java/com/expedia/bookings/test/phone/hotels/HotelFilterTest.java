@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -35,6 +37,7 @@ import static org.hamcrest.Matchers.not;
 public class HotelFilterTest extends HotelTestCase {
 
 	//clear filter, all select item deselected
+	@Test
 	public void testClearFilter() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		sortFilter();
@@ -54,6 +57,7 @@ public class HotelFilterTest extends HotelTestCase {
 			.check(matches(isNotChecked()));
 	}
 
+	@Test
 	public void testFilterSnackBar() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		sortFilter();
@@ -79,7 +83,7 @@ public class HotelFilterTest extends HotelTestCase {
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 	}
 
-
+	@Test
 	public void testFilterReturnToResult() throws Throwable {
 		//zero results, done button is disabled
 		SearchScreen.doGenericHotelSearch();
@@ -116,6 +120,7 @@ public class HotelFilterTest extends HotelTestCase {
 		HotelScreen.waitForMapDisplayed();
 	}
 
+	@Test
 	public void testNeighborhood() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		sortFilter();
@@ -145,7 +150,7 @@ public class HotelFilterTest extends HotelTestCase {
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 	}
 
-	public void assertResultsViewVisibility(boolean shown) {
+	private void assertResultsViewVisibility(boolean shown) {
 		ViewMatchers.Visibility visibility;
 		if (shown) {
 			visibility = ViewMatchers.Visibility.VISIBLE;

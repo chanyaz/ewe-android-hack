@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.launch;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
@@ -21,6 +23,7 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 
 	private static final String TAG = NewLaunchScreenTest.class.getName();
 
+	@Test
 	public void testGeneralUIElements() throws Throwable {
 		NewLaunchScreen.tripsButton().perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.status_refresh_button, R.string.sign_in_for_your_trips);
@@ -36,6 +39,7 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 
 	}
 
+	@Test
 	public void testSeeMore() throws Throwable {
 		CollectionLocation collectionLocation = new CollectionLocation();
 		CollectionLocation.Location suggestion = new CollectionLocation.Location();

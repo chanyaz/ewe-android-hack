@@ -9,9 +9,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
+import org.junit.Test
 
 class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {
 
+    @Test
     @Throws(Throwable::class)
     fun testHotelSearchWithMoreInfantsThanAdults() {
         val intent = Intent()
@@ -28,6 +30,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
     }
 
+    @Test
     @Throws(Throwable::class)
     fun testHotelDeepLinkWithLocation() {
         val intent = Intent()
@@ -46,6 +49,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
 
     // Google has decided to modify the deep links that we provide them, this test verifies that we properly handle
     // links that have been "Google-ified"
+    @Test
     @Throws(Throwable::class)
     fun testHotelDeepLinkWithLocationFromGoogle() {
         val intent = Intent()
@@ -62,6 +66,7 @@ class HotelDeepLinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivit
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_results)
     }
 
+    @Test
     @Throws(Throwable::class)
     fun testHotelDeepLinkWithHotelId() {
         val intent = Intent()

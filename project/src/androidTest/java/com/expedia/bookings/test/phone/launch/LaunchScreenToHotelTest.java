@@ -2,6 +2,8 @@ package com.expedia.bookings.test.phone.launch;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
@@ -50,6 +52,7 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 //		EspressoUtils.assertViewWithTextIsDisplayed(expected);
 //	}
 
+	@Test
 	public void testSeeMore() throws Throwable {
 		waitForLaunchScreenToDisplay();
 

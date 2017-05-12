@@ -2,6 +2,7 @@ package com.expedia.bookings.test.happy;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.RootMatchers;
@@ -36,6 +37,7 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
+	@Test
 	public void testPackagePhoneHappyPath() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -122,6 +124,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertConfirmation();
 	}
 
+	@Test
 	public void testPackagePhoneHappyPathSignedIn() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

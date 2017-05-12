@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -26,6 +27,7 @@ import static org.hamcrest.Matchers.not;
 
 public class HotelDepositsV2Test extends HotelTestCase {
 
+	@Test
 	public void testInfoWithDepositRequired() throws Throwable {
 		goToResults();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
@@ -90,6 +92,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 
 	}
 
+	@Test
 	public void testInfoWithoutDepositNotRequired() throws Throwable {
 		goToResults();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");
@@ -118,7 +121,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 
 	}
 
-	public void goToResults() throws Throwable {
+	private void goToResults() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		SearchScreen.searchEditText().perform(typeText("SFO"));
