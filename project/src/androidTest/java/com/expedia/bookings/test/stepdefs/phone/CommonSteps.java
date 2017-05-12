@@ -42,10 +42,6 @@ public class CommonSteps {
 	@And("^I bucket the following tests$")
 	public void bucketABTest(List<String> list) throws Throwable {
 		AbacusResponse abacusResponse = new AbacusResponse();
-		if (list.contains("FlightPremiumClass")) {
-			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightPremiumClass,
-				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
-		}
 		if (list.contains("FlightsSeatClassAndBookingCode")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode,
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());

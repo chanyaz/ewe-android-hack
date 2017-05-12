@@ -57,8 +57,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Linea
         segmentDuration.contentDescription = FlightV2Utils.getFlightSegmentDurationContentDescription(context, breakdown.segment)
 
         val seatClassAndBookingCodeText = FlightServiceClassType.getSeatClassAndBookingCodeText(context, breakdown.segment)
-        if ((Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode) ||
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) &&
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode) &&
                 breakdown.showSeatClassAndBookingCode && Strings.isNotEmpty(seatClassAndBookingCodeText)) {
             seatClassAndBookingCode.visibility = VISIBLE
             seatClassAndBookingCode.text = seatClassAndBookingCodeText

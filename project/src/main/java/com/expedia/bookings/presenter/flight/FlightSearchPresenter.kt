@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.Db
@@ -22,6 +23,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -37,6 +40,11 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).flightComponent().suggestionsService()
     }
+
+    val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
+    val flightCabinClassWidget by lazy {
+        flightCabinClassStub.inflate().findViewById(R.id.flight_cabin_class_widget) as FlightCabinClassWidget
+    }
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
 
@@ -47,9 +55,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
-            flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
-        }
+        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
             if (AccessibilityUtil.isTalkBackEnabled(context)) {
@@ -148,9 +154,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     override fun inflate() {
         View.inflate(context, R.layout.widget_base_flight_search, this)
         toolBarTitle.text = context.resources.getText(R.string.flights_title)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)) {
-            flightCabinClassCardView.visibility = View.VISIBLE
-        }
     }
 
     override fun onFinishInflate() {

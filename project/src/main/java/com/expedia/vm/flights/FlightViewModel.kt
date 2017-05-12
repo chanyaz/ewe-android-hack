@@ -21,8 +21,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFli
     }
 
     override fun getFlightCabinPreferenceVisibility(): Boolean {
-        return Strings.isNotEmpty(flightCabinPreferences) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightPremiumClass)
+        return Strings.isNotEmpty(flightCabinPreferences)
     }
 
     override fun isEarnMessageVisible(earnMessage: String): Boolean {
