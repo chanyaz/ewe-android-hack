@@ -196,6 +196,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		return mFields.hasValidInput();
 	}
 
+	public int getNumberOfInvalidFields() {
+		return mFields.getNumberOfInvalidFields();
+	}
+
 	@Override
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {

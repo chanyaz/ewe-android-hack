@@ -152,8 +152,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     }
                 }
                 else {
+                    announceErrorsOnForm()
                     if (vm.newCheckoutIsEnabled.value) {
-                        announceErrorsOnForm()
                         sectionBillingInfo.requestFocus()
                     } else {
                         goToFirstInvalidField()
