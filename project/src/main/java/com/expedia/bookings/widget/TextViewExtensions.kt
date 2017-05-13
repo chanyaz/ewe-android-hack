@@ -28,17 +28,19 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
 }
 
 fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, rightDrawableId: Int) {
-    val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
-    val compounds = this.compoundDrawables
-    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
-    (this.parent as TextInputLayout).isErrorEnabled = !isValid
 
+    (this.parent as TextInputLayout).isErrorEnabled = !isValid
     if (!isValid) {
         (this.parent as TextInputLayout).error = errorMessage
     } else {
         (this.parent as TextInputLayout).error = null
         if (this.text.isBlank()) this.text = ""
     }
+    
+    val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
+    val compounds = this.compoundDrawables
+    this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
+
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
         this.updatePaddingForOldApi()
     }
