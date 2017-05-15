@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.hotel.map
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -8,10 +8,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.priceFormatter
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.ui.IconGenerator
-import kotlin.properties.Delegates
 
 class HotelMarkerIconGenerator (context: Context) {
 

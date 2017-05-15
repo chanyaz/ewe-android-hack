@@ -46,13 +46,13 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.animation.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.hotel.map.HotelMapClusterAlgorithm
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.HotelMapClusterAlgorithm
-import com.expedia.bookings.utils.HotelMapClusterRenderer
-import com.expedia.bookings.utils.MapItem
+import com.expedia.bookings.hotel.map.HotelMapClusterRenderer
+import com.expedia.bookings.hotel.map.MapItem
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -62,7 +62,7 @@ import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.widget.HotelMarkerIconGenerator
+import com.expedia.bookings.hotel.map.HotelMarkerIconGenerator
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView

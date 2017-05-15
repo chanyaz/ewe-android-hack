@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils
+package com.expedia.bookings.hotel.map
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -33,7 +34,8 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
     override fun onBeforeClusterItemRendered(mapItem: MapItem, markerOptions: MarkerOptions?) {
         mapItem.isClustered = false
         val icon = mapItem.getHotelMarkerIcon()
-        markerOptions?.icon(icon)?.title(mapItem.hotel.hotelId)
+        val formattedPrice = mapItem.price?.getDisplayMoney(false, !mapItem.hotel.isPackage)
+        markerOptions?.icon(icon)?.title(formattedPrice?.getFormattedMoney() ?: "")
     }
 
     override fun onBeforeClusterRendered(cluster: Cluster<MapItem>, markerOptions: MarkerOptions) {
@@ -49,6 +51,8 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         }
         // Note: this method runs on the UI thread. Don't spend too much time in here.
         val icon = createClusterMarkerIcon(context, clusterIconGenerator, cluster)
+        markerOptions.icon(icon)?.title(clusterCountText.text.toString())
+        markerOptions.icon(icon)?.snippet(clusterRangeText.text.toString())
         markerOptions.icon(icon)
     }
 
