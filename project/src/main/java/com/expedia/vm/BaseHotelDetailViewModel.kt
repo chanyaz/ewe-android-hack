@@ -324,7 +324,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     fun shouldGroupAndSortRoom(): Boolean {
         return getLOB() == LineOfBusiness.HOTELS &&
-                FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_group_room_and_rate)
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGroupRoomRate)
     }
 
     fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>> {
