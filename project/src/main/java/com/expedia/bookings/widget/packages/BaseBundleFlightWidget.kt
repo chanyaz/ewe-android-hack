@@ -263,7 +263,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         val searchParams = viewModel.searchParams.value
         val travelInfoText = viewModel.travelInfoTextObservable.value
         if (viewModel.showRowContainerWithMoreInfo.value) {
-            return (rowContainer.getChildAt(0) as FlightCellWidget).cardView.contentDescription.toString()
+            return (rowContainer.getChildAt(0) as FlightCellWidget).cardView.contentDescription?.toString() ?: ""
         } else if (searchParams != null && travelInfoText != null) {
             val expandState = if (flightDetailsContainer.visibility == Presenter.VISIBLE) context.getString(R.string.accessibility_cont_desc_role_button_collapse) else context.getString(R.string.accessibility_cont_desc_role_button_expand)
             return Phrase.from(context, R.string.select_flight_selected_cont_desc_TEMPLATE)
