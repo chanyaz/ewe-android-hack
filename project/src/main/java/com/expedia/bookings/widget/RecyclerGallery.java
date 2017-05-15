@@ -256,7 +256,7 @@ public class RecyclerGallery extends RecyclerView {
 
 			protected void updateContDesc() {
 				if (useCollapsedGalleryContDesc()) {
-					itemView.setContentDescription(getContext().getString(R.string.collapsed_gallery_photo_cont_desc));
+					itemView.setContentDescription(getContext().getString(R.string.gallery_cont_desc));
 				}
 				else {
 					IMedia media = mMedia.get(getAdapterPosition());
