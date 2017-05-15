@@ -286,7 +286,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
         hideMapLoadingOverlay()
         adapter.resultsSubject.onNext(response)
-
+        filterMenuItem.isVisible = getLineOfBusiness() == LineOfBusiness.PACKAGES
         // show fab button always in case of AB test or shitty device
         if (ExpediaBookingApp.isDeviceShitty()) {
             fab.visibility = View.VISIBLE
@@ -519,7 +519,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
-        filterMenuItem.isVisible = getLineOfBusiness() == LineOfBusiness.PACKAGES
+        filterMenuItem.isVisible = false
 
         toolbar.setNavigationOnClickListener { view ->
             if (!transitionRunning) {
