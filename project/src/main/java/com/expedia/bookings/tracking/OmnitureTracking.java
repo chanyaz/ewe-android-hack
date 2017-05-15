@@ -2654,7 +2654,6 @@ public class OmnitureTracking {
 		}
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLOBAccentuating);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 
