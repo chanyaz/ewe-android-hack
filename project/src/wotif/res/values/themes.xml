@@ -163,4 +163,8 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
+    <style name="Theme.Phone.Rules">
+        <item name="android:logo">@drawable/ic_action_bar_wotif_logo_small</item>
+    </style>
+
 </resources>
