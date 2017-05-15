@@ -51,7 +51,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             }
 
             toggleMenuObservable.onNext(false)
-            viewModel.resetStepText()
+            viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
@@ -82,7 +82,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 inboundFlightWidget.showLoading()
             }
             toggleMenuObservable.onNext(false)
-            viewModel.resetStepText()
+            viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
