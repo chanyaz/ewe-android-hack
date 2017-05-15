@@ -472,6 +472,7 @@ android {
     fork {
         totalAllowedRetryQuota = 99
         retryPerTestCaseQuota = 2
+        testOutputTimeout = 80000
         // Workaround to run tests in parallel on all connected devices. It should run on all devices above api level 19.
         poolingStrategy {
             computed {
