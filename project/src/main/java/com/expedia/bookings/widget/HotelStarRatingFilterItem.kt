@@ -67,6 +67,7 @@ class HotelStarRatingFilterItem(context: Context, attrs: AttributeSet?) : FrameL
         filterStar.setColorFilter(ContextCompat.getColor(context, colorId))
         setBackgroundColor(ContextCompat.getColor(context, backgroundId))
         updateContentDescription(selected)
+        filterStar.contentDescription = valueContentDescription
         starSelected = selected
     }
 
