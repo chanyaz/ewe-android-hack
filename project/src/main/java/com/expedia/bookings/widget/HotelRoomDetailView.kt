@@ -120,7 +120,7 @@ class HotelRoomDetailView(context: Context, val viewModel: HotelRoomDetailViewMo
         val icon = ContextCompat.getDrawable(context, valueAdd.iconId)
         icon.colorFilter = filter
 
-        valueAddTextView.text = valueAdd.description
+        valueAddTextView.text = valueAdd.apiDescription
         valueAddIconView.setImageDrawable(icon)
 
         viewGroup.addView(valueAddLayout)

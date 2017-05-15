@@ -2,9 +2,9 @@ package com.expedia.bookings.data.hotel
 
 import com.expedia.bookings.R
 
-enum class ValueAddsEnum(val priority: Int, val iconId: Int) {
-    INTERNET(0, R.drawable.ic_amenity_wifi),
-    BREAKFAST(1, R.drawable.ic_amenity_breakfast),
-    PARKING(2, R.drawable.ic_amenity_parking),
-    FREE_AIRPORT_SHUTTLE(3, R.drawable.ic_amenity_airport_shuttle);
+enum class ValueAddsEnum(val iconId: Int, val descriptionId: Int) {
+    INTERNET(R.drawable.ic_amenity_internet, R.string.AmenityFreeInternet),
+    BREAKFAST(R.drawable.ic_amenity_breakfast, R.string.AmenityBreakfast),
+    PARKING(R.drawable.ic_amenity_parking, R.string.AmenityParking),
+    FREE_AIRPORT_SHUTTLE(R.drawable.ic_amenity_airport_shuttle, R.string.AmenityFreeAirportShuttle);
 }
