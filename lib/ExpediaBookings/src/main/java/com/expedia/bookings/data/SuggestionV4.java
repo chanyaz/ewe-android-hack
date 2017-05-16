@@ -111,7 +111,7 @@ public class SuggestionV4 {
 	}
 
 	public boolean isCurrentLocationSearch() {
-		return Strings.isEmpty(gaiaId) && !isSearchThisArea;
+		return Strings.isEmpty(gaiaId) && !isSearchThisArea && Strings.isEmpty(hotelId);
 	}
 
 	public boolean isMajorAirport() {
