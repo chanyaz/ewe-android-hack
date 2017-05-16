@@ -112,7 +112,6 @@
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_insurance_in_flight_summary">preference_insurance_in_flight_summary</string>
     <string name="preference_track_users_itin_data">preference_track_users_itin_data</string>
-    <string name="preference_packages_remove_bundle_overview">preference_packages_remove_bundle_overview</string>
     <string name="preference_flight_search_form_validations">preference_flight_search_form_validations</string>
 
     <!-- Default values for preference keys -->

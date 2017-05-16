@@ -231,7 +231,6 @@ class HotelResultsViewModelTest {
 
     private fun setRemoveBundleOverviewScreenTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
-        SettingUtils.save(context, R.string.preference_packages_remove_bundle_overview, true)
     }
 
     private fun <T> anyObject(): T {
