@@ -29,7 +29,7 @@ else:
 
 mingleAccessId = "rkochhar"
 mingleAccessSecret = "5ISptP8ZqZDO7YNh0ZbwADo2NYRNLRIDSIFDxT0qS+Q="
-githubToken = '7d400f5e78f24dbd24ee60814358aa0ab0cd8a76'
+githubToken = 'ef94e6d7f45669b220ebba346c1ce2595da47bf5'
 github = login(token=githubToken)
 repo = github.repository('ExpediaInc', 'ewe-android-eb')
 

@@ -5,7 +5,7 @@ from github3 import login
 
 def reapplyMergeLabels():
 	#Bender's Github Token
-	githubAccessToken = "7d400f5e78f24dbd24ee60814358aa0ab0cd8a76"
+	githubAccessToken = "ef94e6d7f45669b220ebba346c1ce2595da47bf5"
 	gh = login(token=githubAccessToken)
 	repo = gh.repository('ExpediaInc', 'ewe-android-eb')
 
@@ -30,7 +30,7 @@ def reapplyMergeLabels():
 
 def removeMergeLabels():
 	#Bender's Github Token
-	githubAccessToken = "7d400f5e78f24dbd24ee60814358aa0ab0cd8a76"
+	githubAccessToken = "ef94e6d7f45669b220ebba346c1ce2595da47bf5"
 	gh = login(token=githubAccessToken)
 	repo = gh.repository('ExpediaInc', 'ewe-android-eb')
 
