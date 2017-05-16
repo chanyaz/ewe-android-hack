@@ -89,6 +89,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
             if (builder.hasValidParams()) {
                 val params = builder.build()
                 if (!ExpediaBookingApp.isAutomation() && !builder.hasValidCheckoutParams()) {
+                    (context.applicationContext as ExpediaBookingApp).setCrashlyticsMetadata()
                     Crashlytics.logException(Exception("User entered CVV and booked, see params: ${params.toValidParamsMap()}, hasValidParams: ${builder.hasValidParams()}"))
                 }
                 checkoutParams.onNext(params)

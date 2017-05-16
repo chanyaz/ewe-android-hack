@@ -528,6 +528,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             if (checkoutViewModel.builder.hasValidCVV()) {
                 val params = checkoutViewModel.builder.build()
                 if (!ExpediaBookingApp.isAutomation() && !checkoutViewModel.builder.hasValidCheckoutParams()) {
+                    (context.applicationContext as ExpediaBookingApp).setCrashlyticsMetadata()
                     Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${checkoutViewModel.builder.hasValidParams()}")))
                 }
                 checkoutViewModel.checkoutParams.onNext(params)
