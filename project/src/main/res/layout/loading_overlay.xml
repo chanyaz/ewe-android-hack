@@ -10,7 +10,8 @@
         <FrameLayout
             android:id="@+id/overlay_title_container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/primary_color">
 
             <TextView
                 android:id="@+id/overlay_loading_text"
