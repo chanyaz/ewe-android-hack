@@ -2539,6 +2539,9 @@
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
+    <!-- The label for the hotel cell of the hotel you selected on results. -->
+    <string name="you_picked_this_hotel_label">You picked this hotel</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Business Center</string>

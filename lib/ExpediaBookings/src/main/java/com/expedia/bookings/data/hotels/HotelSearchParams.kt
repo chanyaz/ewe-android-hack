@@ -11,9 +11,18 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
     var serverSort: Boolean = false
+    var enableSponsoredListings = true
 
     fun isCurrentLocationSearch(): Boolean {
         return suggestion.isCurrentLocationSearch
+    }
+
+    fun clearPinnedHotelId() {
+        suggestion.hotelId = null
+    }
+
+    fun isPinnedSearch() : Boolean {
+        return suggestion.hotelId != null
     }
 
     /**

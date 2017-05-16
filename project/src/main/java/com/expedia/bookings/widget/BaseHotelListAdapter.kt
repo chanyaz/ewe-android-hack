@@ -60,9 +60,11 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     private var newResultsConsumed = false
+    private var pinnedSearch = false
 
     init {
         resultsSubject.subscribe { response ->
+            pinnedSearch = response.isPinnedSearch
             loading = false
             hotels = ArrayList(response.hotelList)
             hotelListItemsMetadata.clear()
@@ -119,6 +121,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                     newResultsConsumed = true
                     allViewsLoadedTimeObservable.onNext(Unit)
                 }
+                holder.markPinned(pinnedSearch && fixedPosition == 0)
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
         }

@@ -5,6 +5,11 @@
         android:layout="@layout/preference_category_title"
         android:title="Hotel Features">
 
+        <CheckBoxPreference
+            android:key="@string/preference_hotel_pinned_search"
+            android:layout="@layout/preference"
+            android:title="Hotel Pinned Search"
+            android:summary="Deeplink to Results Not InfoSite" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -29,9 +29,10 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?resultsPerPage=200&pageIndex=0&enableSponsoredListings=true&forceV2Search=true")
+	@GET("/m/api/hotel/search?resultsPerPage=200&pageIndex=0&forceV2Search=true")
 	Observable<HotelSearchResponse> search(
 		@Query("regionId") String regionId,
+		@Query("selected") String hotelId,
 		@Query("latitude") Double lat,
 		@Query("longitude") Double lng,
 		@Query("checkInDate") String checkIn,
@@ -41,11 +42,13 @@ public interface HotelApi {
 		@Query("filterUnavailable") String filterUnavailable,
 		@Query("sortOrder") String sortOrder,
 		@QueryMap(encoded = true) Map<String, Object> filterParams,
-		@Query("mctc") Integer mctc);
+		@Query("mctc") Integer mctc,
+		@Query("enableSponsoredListings") Boolean enableSponsoredListings);
 
-	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0&enableSponsoredListings=true")
+	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0")
 	Observable<HotelSearchResponse> searchLPAS(
 		@Query("regionId") String regionId,
+		@Query("selected") String hotelId,
 		@Query("latitude") Double lat,
 		@Query("longitude") Double lng,
 		@Query("checkInDate") String checkIn,
@@ -55,7 +58,8 @@ public interface HotelApi {
 		@Query("filterUnavailable") String filterUnavailable,
 		@Query("sortOrder") String sortOrder,
 		@QueryMap(encoded = true) Map<String, Object> filterParams,
-		@Query("mctc") Integer mctc);
+		@Query("mctc") Integer mctc,
+		@Query("enableSponsoredListings") Boolean enableSponsoredListings);
 
 	@GET("/m/api/hotel/info?forceV2Search=true")
 	Observable<HotelOffersResponse> info(

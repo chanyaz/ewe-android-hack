@@ -71,7 +71,6 @@ import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -91,9 +90,6 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
-
-    abstract var viewModel: HotelResultsViewModel
-
     //Views
     var filterButtonText: TextView by Delegates.notNull()
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
@@ -365,12 +361,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         recyclerView.adapter = adapter
         filterView.viewModel = createFilterViewModel()
         filterView.viewModel.filterObservable.subscribe(filterObserver)
-
-        if (!filterView.viewModel.isClientSideFiltering()) {
-            filterView.viewModel.filterByParamsObservable.subscribe { params ->
-                viewModel.filterParamsSubject.onNext(params)
-            }
-        }
 
         filterView.viewModel.showPreviousResultsObservable.subscribe {
             if (previousWasList) {
