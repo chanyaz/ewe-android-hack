@@ -115,6 +115,7 @@
     <string name="preference_track_users_itin_data">preference_track_users_itin_data</string>
     <string name="preference_packages_remove_bundle_overview">preference_packages_remove_bundle_overview</string>
     <string name="preference_flight_search_form_validations">preference_flight_search_form_validations</string>
+    <string name="preference_flight_hide_fsr_infographic">preference_flight_hide_fsr_infographic</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
