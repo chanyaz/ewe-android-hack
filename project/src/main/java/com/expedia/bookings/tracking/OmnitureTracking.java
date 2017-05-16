@@ -3972,8 +3972,15 @@ public class OmnitureTracking {
 		createTrackPackagePageLoadEventBase(pageName).track();
 	}
 
+	private static void trackPackagePageLoadEventStandard(String pageName, int testKey) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
+		trackAbacusTest(s, testKey);
+		s.track();
+	}
+
 	public static void trackPackagesDestinationSearchInit() {
-		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH);
+		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
 	}
 
 	public static void trackPackagesHSRMapInit() {
