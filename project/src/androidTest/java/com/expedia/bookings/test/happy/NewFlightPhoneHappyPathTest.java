@@ -257,8 +257,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Test
 	public void testDisabledSTPState() throws Throwable {
-		Activity activity = getActivity();
-		SettingUtils.save(activity.getApplicationContext(), R.string.preference_disabled_stp_state, true);
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		getToCheckoutScreen();
 		assertViewIsCompletelyDisplayed(R.id.checkout_button);

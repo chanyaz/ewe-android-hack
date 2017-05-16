@@ -59,7 +59,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
-    val disabledSTPStateEnabled = isDisabledSTPStateEnabled(context)
+    val disabledSTPStateEnabled = isDisabledSTPStateEnabled()
 
     val slideTotalText by lazy {
         bottomCheckoutContainer.slideTotalText
