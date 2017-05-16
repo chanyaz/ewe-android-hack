@@ -27,9 +27,10 @@ if isMultiBrand(brandName):
 else:
     mingleProjectId = 'eb_ad_app'
 
+
 mingleAccessId = "rkochhar"
 mingleAccessSecret = "5ISptP8ZqZDO7YNh0ZbwADo2NYRNLRIDSIFDxT0qS+Q="
-githubToken = 'ef94e6d7f45669b220ebba346c1ce2595da47bf5'
+githubToken = os.environ['GITHUB_ACCESS_TOKEN']
 github = login(token=githubToken)
 repo = github.repository('ExpediaInc', 'ewe-android-eb')
 

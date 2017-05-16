@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import sys
+import os
 from github3 import login
 
 def reapplyMergeLabels():
 	#Bender's Github Token
-	githubAccessToken = "ef94e6d7f45669b220ebba346c1ce2595da47bf5"
+	githubAccessToken = os.environ['GITHUB_ACCESS_TOKEN']
 	gh = login(token=githubAccessToken)
 	repo = gh.repository('ExpediaInc', 'ewe-android-eb')
 
@@ -30,7 +31,7 @@ def reapplyMergeLabels():
 
 def removeMergeLabels():
 	#Bender's Github Token
-	githubAccessToken = "ef94e6d7f45669b220ebba346c1ce2595da47bf5"
+	githubAccessToken = os.environ['GITHUB_ACCESS_TOKEN']
 	gh = login(token=githubAccessToken)
 	repo = gh.repository('ExpediaInc', 'ewe-android-eb')
 
