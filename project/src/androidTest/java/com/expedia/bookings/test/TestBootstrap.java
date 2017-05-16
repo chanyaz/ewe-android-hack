@@ -10,8 +10,10 @@ import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.activity.RouterActivity;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.utils.ExpediaNetUtils;
@@ -68,7 +70,14 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 
 		//set US locale and POS
 		Common.setLocale(new Locale("en", "US"));
-		Common.setPOS(PointOfSaleId.UNITED_STATES);
+
+		//In FeatureConfiguration for Expedia, Default POS is set as UNITED_KINGDOM
+		if (BuildConfig.brand.equals("Expedia")) {
+			Common.setPOS(PointOfSaleId.UNITED_STATES);
+		}
+		else {
+			Common.setPOS(ProductFlavorFeatureConfiguration.getInstance().getDefaultPOS());
+		}
 
 		Settings.setMockModeEndPoint();
 		super.tearDown();
