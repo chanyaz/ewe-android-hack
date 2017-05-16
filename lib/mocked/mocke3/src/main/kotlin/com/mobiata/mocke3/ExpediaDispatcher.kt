@@ -360,10 +360,15 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
             if ("FLIGHTS".equals(lob)) {
                 //Material Flights
-                if(request.path.startsWith("/api/v4/typeahead/lon?")) {
+                if (request.path.startsWith("/api/v4/typeahead/lon?")) {
                     return makeResponse("/api/v4/suggestion_flights_lon.json")
                 }
                 return makeResponse("/api/v4/suggestion_flights.json")
+            } else if ("PACKAGES".equals(lob)) {
+                if (request.path.startsWith("/api/v4/typeahead/del?")) {
+                    return makeResponse("/api/v4/suggestion_packages_del.json")
+                }
+                return makeResponse("/api/v4/suggestion.json")
             } else {
                 val requestPath = request.path
                 val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()

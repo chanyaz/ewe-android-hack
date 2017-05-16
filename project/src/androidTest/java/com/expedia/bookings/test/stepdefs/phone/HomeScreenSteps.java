@@ -4,6 +4,7 @@ package com.expedia.bookings.test.stepdefs.phone;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import cucumber.api.java.en.And;
 import static android.support.test.espresso.action.ViewActions.click;
+
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class HomeScreenSteps {
@@ -17,7 +18,11 @@ public class HomeScreenSteps {
 		case "Flights":
 			NewLaunchScreen.flightLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
+		case "Bundle Deals":
+			NewLaunchScreen.packagesLaunchButton().perform(waitForViewToDisplay(), click());
+			break;
 		}
 	}
 }
+
 

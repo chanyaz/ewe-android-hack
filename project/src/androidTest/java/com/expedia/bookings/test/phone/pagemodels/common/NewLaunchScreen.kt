@@ -28,6 +28,11 @@ object NewLaunchScreen {
         return onView(allOf<View>(withText("Flights"), isCompletelyDisplayed()))
     }
 
+    @JvmStatic fun packagesLaunchButton(): ViewInteraction {
+        waitForLOBHeaderToBeDisplayed()
+        return onView(allOf<View>(withText("Bundle Deals"), isCompletelyDisplayed()))
+    }
+
     @JvmStatic fun activitiesLaunchButton(): ViewInteraction {
         Common.delay(1)
         waitForLOBHeaderToBeDisplayed()
