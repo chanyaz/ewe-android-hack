@@ -24,16 +24,12 @@ public class AbacusUtils {
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppRemoveExpiredCreditCards = 13046;
 	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12992;
-	public static final int EBAndroidAppOfferInsuranceInFlightSummary = 12268;
 	public static final int EBAndroidItinHotelGallery = 12465;
-	public static final int EBAndroidAppFlightRateDetailExpansion = 12637;
 	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
 	public static final int EBAndroidAppLXFilterSearch = 12689;
 	public static final int EBAndroidAppLXDisablePOISearch = 13050;
 	public static final int EBAndroidAppTripsUserReviews = 13257;
-	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
-	public static final int EBAndroidAppFlightByotSearch = 13202;
 	public static final int EBAndroidAppTripsNewSignInPage = 13890;
 	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
 	public static final int EBAndroidAppDisabledSTPState = 13825;
@@ -48,15 +44,23 @@ public class AbacusUtils {
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppLaunchShowGuestItinCard = 13455;
 	public static final int EBAndroidAppLaunchShowActiveItinCard = 13357;
-	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
 	public static final int EBAndroidAppLOBAccentuating = 13718;
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
+	public static final int EBAndroidAppUserOnboarding = 13548;
+	public static final int ABTEST_IGNORE_DEBUG = -1;
+
+	// Flight tests
+	public static final int EBAndroidAppOfferInsuranceInFlightSummary = 12268;
+	public static final int EBAndroidAppFlightByotSearch = 13202;
+	public static final int EBAndroidAppFlightRateDetailExpansion = 12637;
+	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
+	public static final int EBAndroidAppSimplifyFlightShopping = 13514;
 	public static final int EBAndroidAppFlightStaticSortFilter = 13842;
 	public static final int EBAndroidAppFlightsMoreInfoOnOverview = 13505;
-	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int EBAndroidAppFlightAATest = 14241;
 	public static final int EBAndroidAppFlightSearchFormValidation = 13843;
-	public static final int ABTEST_IGNORE_DEBUG = -1;
+	public static final int EBAndroidAppFlightHideFSRInfographic = 13844;
+
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
@@ -173,6 +177,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightAATest);
 		testIDs.add(EBAndroidAppFlightSearchFormValidation);
 		testIDs.add(EBAndroidAppHotelGroupRoomRate);
+		testIDs.add(EBAndroidAppFlightHideFSRInfographic);
 		return testIDs;
 	}
 

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -41,7 +43,15 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
         priceTextView.text = viewModel.price()
         flightDurationTextView.text = viewModel.duration
         val flight = viewModel.layover
-        flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightHideFSRInfographic, R.string.preference_flight_hide_fsr_infographic)) {
+            flightLayoverWidget.visibility = View.GONE
+            val cabinCodeLayoutParams = flightCabinCodeTextView.layoutParams as MarginLayoutParams
+            cabinCodeLayoutParams.topMargin = resources.getDimension(R.dimen.layover_bar_padding).toInt()
+            flightCabinCodeTextView.layoutParams = cabinCodeLayoutParams
+        }
+        else {
+            flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
+        }
         flightAirlineWidget.update(viewModel.airline, viewModel.isEarnMessageVisible(viewModel.earnMessage))
         if (viewModel.getFlightCabinPreferenceVisibility() && Strings.isNotEmpty(viewModel.flightCabinPreferences)) {
             flightCabinCodeTextView.visibility = View.VISIBLE
@@ -60,7 +70,6 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
             flightEarnMessage.visibility = View.VISIBLE
         }
         cardView.contentDescription = viewModel.getFlightContentDesc(bestFlightView.visibility == View.VISIBLE)
-        Log.e("content description  ", "content description" + cardView.contentDescription)
     }
 
     fun setMargins() {
