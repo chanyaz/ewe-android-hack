@@ -843,7 +843,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
         errorPresenter.getViewModel().paramsSubject.onNext(params)
         if (params.suggestion.hotelId != null) {
-            if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_pinned_search)) {
+            HotelTracking.trackPinnedSearch()
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
                 show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
                 resultsPresenter.viewModel.paramsSubject.onNext(params)
             } else {
