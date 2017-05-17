@@ -4,42 +4,24 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.RelativeLayout
-import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
 import com.expedia.bookings.hotel.widget.ClientNeighborhoodFilterView
+import com.expedia.bookings.hotel.widget.HotelFilterVipView
+import com.expedia.bookings.hotel.widget.HotelNameFilterView
 import com.expedia.bookings.hotel.widget.HotelPriceFilterView
-import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
-import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.hotel.widget.HotelSortOptionsView
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -50,17 +32,17 @@ import rx.Observer
 
 open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
-    val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
-    val filterVipContainer: View by bindView(R.id.filter_vip_container)
+
+    val filterVipView: HotelFilterVipView by bindView(R.id.filter_vip_view)
     val optionLabel: TextView by bindView(R.id.option_label)
-    val priceHeader: View by bindView(R.id.price)
-    val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
-    val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
-    val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
-    val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
-    val filterHotelName: AccessibleEditText by bindView(R.id.filter_hotel_name_edit_text)
-    val clearNameButton: ImageView by bindView(R.id.clear_search_button)
-    val filterContainer: ViewGroup by bindView(R.id.filter_container)
+    val hotelSortOptionsView: HotelSortOptionsView by bindView(R.id.hotel_sort_options)
+
+    private val priceHeader: View by bindView(R.id.price)
+    private val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
+    private val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
+
+    private val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
+    private val filterContainer: ViewGroup by bindView(R.id.filter_container)
 
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
@@ -84,37 +66,23 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
     val ANIMATION_DURATION = 500L
 
-    val sortByAdapter = object : ArrayAdapter<Sort>(getContext(), R.layout.spinner_sort_dropdown_item) {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val textView: TextView = super.getView(position, convertView, parent) as TextView
-            textView.text = resources.getString(getItem(position).resId)
-            return textView
-        }
-
-        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            return getView(position, convertView, parent)
-        }
-    }
-
     var shopWithPointsViewModel: ShopWithPointsViewModel? = null
 
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
-        sortByAdapter.clear()
         val sortList = Sort.values().toMutableList()
+
         sortList.remove(viewModel.sortItemToRemove())
-        sortByAdapter.addAll(sortList)
 
         if (!isCurrentLocationSearch) {
-            sortByAdapter.remove(sortList.first { it == Sort.DISTANCE })
+            sortList.remove(Sort.DISTANCE)
         }
 
         // Remove Sort by Deals in case of SWP.
         if (shopWithPointsViewModel?.swpEffectiveAvailability?.value ?: false) {
-            sortByAdapter.remove(sortList.first { it == Sort.DEALS })
+            sortList.remove(Sort.DEALS)
         }
 
-        sortByAdapter.notifyDataSetChanged()
-        sortByButtonGroup.setSelection(0, false)
+        hotelSortOptionsView.updateSortItems(sortList)
     }
 
     var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
@@ -124,7 +92,7 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     init {
         inflate()
         if (PointOfSale.getPointOfSale().supportsVipAccess()) {
-            filterVipContainer.visibility = View.VISIBLE
+            filterVipView.visibility = View.VISIBLE
             optionLabel.visibility = View.VISIBLE
         }
 
@@ -148,12 +116,11 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             toolbarDropshadow.alpha = ratio
         }
 
-        sortByAdapter.setNotifyOnChange(false)
-        sortByButtonGroup.adapter = sortByAdapter
         resetStars()
     }
 
-    open fun shakeForError() {}
+    open fun shakeForError() {
+    }
 
     protected val clearFilterClickListener = View.OnClickListener { view ->
         view?.announceForAccessibility(context.getString(R.string.filters_cleared))
@@ -165,21 +132,24 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
         doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeView)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
-        filterVipContainer.setOnClickListener {
+
+        filterVipView.vipCheckedSubject.subscribe { vipChecked ->
             clearHotelNameFocus()
-            filterHotelVip.isChecked = !filterHotelVip.isChecked
-            vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
+            vm.vipFilteredObserver.onNext(vipChecked)
         }
 
         neighborhoodView.neighborhoodOnSubject.subscribe(vm.selectNeighborhood)
         neighborhoodView.neighborhoodOffSubject.subscribe(vm.deselectNeighborhood)
 
+        bindStarRating(vm)
+
+        hotelNameFilterView.filterNameChangedSubject.subscribe(vm.filterHotelNameObserver)
+
         vm.finishClear.subscribe {
-            //check if filterHotelName is empty to avoid calling handleFiltering
-            if (filterHotelName.text.length > 0) filterHotelName.text.clear()
+            hotelNameFilterView.reset()
             resetStars()
 
-            filterHotelVip.isChecked = false
+            filterVipView.reset()
             neighborhoodView.clear()
         }
 
@@ -188,48 +158,17 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             doneButton.isEnabled = enable
         }
 
-        filterHotelName.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                clearNameButton.visibility = if (Strings.isEmpty(s)) View.GONE else View.VISIBLE
-                vm.filterHotelNameObserver.onNext(s)
-            }
-        })
-
-        filterHotelName.setOnFocusChangeListener { view, isFocus ->
-            if (!isFocus) {
-                Ui.hideKeyboard(this)
-            }
-        }
-
-        clearNameButton.setOnClickListener { view ->
-            filterHotelName.text = null
-        }
-
         vm.sortSpinnerObservable.subscribe { sortType ->
-            val position = sortByAdapter.getPosition(sortType)
-            sortByButtonGroup.setSelection(position, false)
+            hotelSortOptionsView.setSort(sortType)
         }
 
-        sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                vm.userFilterChoices.userSort = sortByAdapter.getItem(position)
-            }
+        hotelSortOptionsView.sortSelectedSubject.subscribe { selectedSort ->
+            vm.userFilterChoices.userSort = selectedSort
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
         }
 
-        sortByButtonGroup.setOnTouchListener { view, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                clearHotelNameFocus()
-            }
-            false
+        hotelSortOptionsView.downEventSubject.subscribe {
+            clearHotelNameFocus()
         }
 
         vm.neighborhoodListObservable.subscribe { list ->
@@ -243,10 +182,17 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
             }
         }
 
-        vm.sortContainerVisibilityObservable.subscribeVisibility(sortContainer)
+        vm.sortContainerVisibilityObservable.subscribeVisibility(hotelSortOptionsView)
 
         priceRangeView.viewModel = viewModel
-        starRatingView.viewModel = viewModel
+    }
+
+    private fun bindStarRating(vm: BaseHotelFilterViewModel) {
+        starRatingView.oneStarSubject.subscribe(vm.oneStarFilterObserver)
+        starRatingView.twoStarSubject.subscribe(vm.twoStarFilterObserver)
+        starRatingView.threeStarSubject.subscribe(vm.threeStarFilterObserver)
+        starRatingView.fourStarSubject.subscribe(vm.fourStarFilterObserver)
+        starRatingView.fiveStarSubject.subscribe(vm.fiveStarFilterObserver)
     }
 
     fun resetStars() {
@@ -266,13 +212,13 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     open protected fun inflate() {
     }
 
-    open protected fun inflateNeighborhoodView(stub: ViewStub) : BaseNeighborhoodFilterView {
+    open protected fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
         stub.layoutResource = R.layout.client_neighborhood_filter_stub;
         return stub.inflate() as ClientNeighborhoodFilterView
     }
 
     private fun clearHotelNameFocus() {
-        filterHotelName.clearFocus()
+        hotelNameFilterView.resetFocus()
         com.mobiata.android.util.Ui.hideKeyboard(this)
     }
 }

@@ -99,7 +99,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return this
         }
 
-        fun priceRange(priceRange: PriceRange): Builder {
+        fun priceRange(priceRange: PriceRange?): Builder {
             this.priceRange = priceRange
             return this
         }

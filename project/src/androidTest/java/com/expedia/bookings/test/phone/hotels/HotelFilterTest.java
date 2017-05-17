@@ -24,7 +24,10 @@ import static com.expedia.bookings.test.phone.hotels.HotelScreen.doneButton;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterHotelName;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterResultsSnackBar;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterResultsSnackBarCounter;
+import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterStarRatingFour;
+import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterStarRatingOne;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterVip;
+import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterVipView;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.sortFilter;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -38,15 +41,17 @@ public class HotelFilterTest extends HotelTestCase {
 
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
-		onView(withId(R.id.filter_vip_container)).perform(click());
-		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
+		filterVipView().perform(click());
+		filterStarRatingOne().perform(click());
+
 		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
 		onView(withText("Civic Center")).perform(click());
 
 		HotelScreen.clearFilter().perform(click());
 		filterHotelName().check(matches(withText("")));
 		filterVip().check(matches(isNotChecked()));
-		onView(allOf(hasSibling(withText("Civic Center")), withId(R.id.neighborhood_check_box))).check(matches(isNotChecked()));
+		onView(allOf(hasSibling(withText("Civic Center")), withId(R.id.neighborhood_check_box)))
+			.check(matches(isNotChecked()));
 	}
 
 	public void testFilterSnackBar() throws Throwable {
@@ -55,21 +60,21 @@ public class HotelFilterTest extends HotelTestCase {
 		//initially, results snack bar hides
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 		//click filters, results snack bar shows
-		onView(withId(R.id.filter_vip_container)).perform(click());
+		filterVipView().perform(click());
 		filterResultsSnackBarCounter().check(matches(withText("1 Result")));
 
-		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
+		filterStarRatingOne().perform(click());
 		filterResultsSnackBar().check(matches(isDisplayed()));
 		filterResultsSnackBarCounter().check(matches(withText("0 Results")));
 
 		//deselect the filters, results snack bar hides
-		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
+		filterStarRatingOne().perform(click());
 		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
-		onView(withId(R.id.filter_vip_container)).perform(click());
+		filterVipView().perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 
 		//clear filter,results snack bar hides
-		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
+		filterStarRatingOne().perform(click());
 		HotelScreen.clearFilter().perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
 	}
@@ -80,20 +85,22 @@ public class HotelFilterTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		sortFilter();
 		assertResultsViewVisibility(false);
-		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withId(R.id.sort_filter_button))
+			.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
-		onView(withId(R.id.hotel_filter_rating_one)).perform(click());
+		filterStarRatingOne().perform(click());
 		doneButton().perform(click());
 		doneButton().check(matches(isDisplayed()));
 
 		//from list to filter, return to result list
 		HotelScreen.clearFilter().perform(click());
-		onView(withId(R.id.hotel_filter_rating_four)).perform(click());
+		filterStarRatingFour().perform(click());
 		doneButton().perform(click());
 		HotelScreen.waitForResultsLoaded();
 		assertResultsViewVisibility(true);
-		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withId(R.id.sort_filter_button))
+			.check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
 		Common.delay(2);
 		//from map to filter, return to result map
@@ -116,16 +123,19 @@ public class HotelFilterTest extends HotelTestCase {
 
 		//click show more. show less
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW MORE")));
-		onView(withId(R.id.neighborhood_more_less_view)).check(matches(withContentDescription("Show more neighborhoods. Button")));
+		onView(withId(R.id.neighborhood_more_less_view))
+			.check(matches(withContentDescription("Show more neighborhoods. Button")));
 		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
 		onView(withId(R.id.neighborhood_more_less_view)).perform(click());
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW LESS")));
-		onView(withId(R.id.neighborhood_more_less_view)).check(matches(withContentDescription("Show fewer neighborhoods. Button")));
+		onView(withId(R.id.neighborhood_more_less_view))
+			.check(matches(withContentDescription("Show fewer neighborhoods. Button")));
 		Common.delay(2);
 		onView(withId(R.id.neighborhood_more_less_view)).perform(scrollTo());
 		onView(withId(R.id.neighborhood_more_less_view)).perform(click());
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW MORE")));
-		onView(withId(R.id.neighborhood_more_less_view)).check(matches(withContentDescription("Show more neighborhoods. Button")));
+		onView(withId(R.id.neighborhood_more_less_view))
+			.check(matches(withContentDescription("Show more neighborhoods. Button")));
 
 		//select and deselect one row
 		onView(withText("Civic Center")).perform(click());

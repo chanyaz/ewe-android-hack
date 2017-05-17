@@ -47,8 +47,16 @@ public class HotelScreen {
 		return onView(withId(R.id.widget_hotel_reviews));
 	}
 
+	public static ViewInteraction filterStarRatingOne() {
+		return onView(allOf(withId(R.id.hotel_filter_rating_one), isDescendantOfA(withId(R.id.hotel_filter_view))));
+	}
+
+	public static ViewInteraction filterStarRatingFour() {
+		return onView(allOf(withId(R.id.hotel_filter_rating_four), isDescendantOfA(withId(R.id.hotel_filter_view))));
+	}
+
 	public static ViewInteraction filterHotelName() {
-		return onView(allOf(withId(R.id.filter_hotel_name_edit_text), hasSibling(withId(R.id.hotel_name))));
+		return onView(allOf(withId(R.id.filter_hotel_name_edit_text), isDescendantOfA(withId(R.id.hotel_filter_view))));
 	}
 
 	public static ViewInteraction doneButton() {
@@ -153,17 +161,23 @@ public class HotelScreen {
 	public static void clickSortFilter() {
 		onView(withId(R.id.sort_filter_button_container)).perform(click());
 	}
+
 	public static ViewInteraction propertyInfoContainer() {
 		return onView(withId(R.id.property_info_container));
 	}
+
 	public static ViewInteraction filterVip() {
-		return onView(withId(R.id.filter_hotel_vip));
+		return onView(allOf(withId(R.id.filter_hotel_vip), isDescendantOfA(withId(R.id.hotel_filter_view))));
+	}
+
+	public static ViewInteraction filterVipView() {
+		return onView(allOf(withId(R.id.filter_vip_view), isDescendantOfA(withId(R.id.hotel_filter_view))));
 	}
 
 	public static ViewInteraction clearFilter() {
 		return onView(
 			allOf(withId(R.id.dynamic_feedback_clear_button),
-					isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction filterResultsSnackBar() {
@@ -172,7 +186,7 @@ public class HotelScreen {
 
 	public static ViewInteraction filterResultsSnackBarCounter() {
 		return onView(allOf(withId(R.id.dynamic_feedback_counter),
-				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+			isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -228,7 +242,8 @@ public class HotelScreen {
 
 	public static void waitForResultsLoaded(int seconds) {
 		Matcher<View> resultListMatcher = hasDescendant(withId(R.id.list_view));
-		onView(anyOf(withId(R.id.hotel_presenter), withId(R.id.package_hotel_presenter))).perform(ViewActions.waitFor(resultListMatcher, 10, TimeUnit.SECONDS));
+		onView(anyOf(withId(R.id.hotel_presenter), withId(R.id.package_hotel_presenter)))
+			.perform(ViewActions.waitFor(resultListMatcher, 10, TimeUnit.SECONDS));
 
 		hotelResultsList().perform(waitForViewToDisplay());
 
@@ -389,7 +404,9 @@ public class HotelScreen {
 	public static void clickSignOut() {
 		onView(withId(R.id.account_logout_logout_button)).perform(waitForViewToDisplay());
 		onView(withId(R.id.account_logout_logout_button)).perform(click());
-		onView(allOf(withId(android.R.id.message), withText("Are you sure you want to sign out of your Expedia account?"))).check(matches(isDisplayed()));
+		onView(
+			allOf(withId(android.R.id.message), withText("Are you sure you want to sign out of your Expedia account?")))
+			.check(matches(isDisplayed()));
 		onView(withId(android.R.id.button1)).perform(click());
 	}
 
