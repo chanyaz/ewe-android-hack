@@ -2,13 +2,11 @@ package com.expedia.bookings.widget.traveler
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Build
 import android.telephony.PhoneNumberUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
-import android.widget.EditText
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
@@ -115,4 +113,11 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
     }
 
+    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
+        val isVisible = visibility == View.VISIBLE
+        if (changedView == this && materialFormTestEnabled) {
+            phoneEditBox?.isFocusableInTouchMode = isVisible
+            phoneEditBox?.isFocusable = isVisible
+        }
+    }
 }
