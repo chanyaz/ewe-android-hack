@@ -66,6 +66,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         val presenter = bundlePresenterViewStub.inflate() as PackageOverviewPresenter
         val checkoutPresenter = presenter.getCheckoutPresenter()
         presenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
+        presenter.bundleWidget.viewModel.searchParamsChangeObservable.subscribe {
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
+        }
         presenter.bundleWidget.viewModel.showSearchObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
             searchPresenter.showDefault()

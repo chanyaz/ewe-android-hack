@@ -29,6 +29,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val errorObservable = PublishSubject.create<PackageApiError.Code>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
     val showSearchObservable = PublishSubject.create<Unit>()
+    val searchParamsChangeObservable = PublishSubject.create<Unit>()
 
     // Outputs
     val autoAdvanceObservable = BehaviorSubject.create<PackageSearchType>()
@@ -78,7 +79,12 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             } else {
                 searchPackageSubscriber = packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(type))
             }
-    }
+        }
+
+        searchParamsChangeObservable.subscribe {
+            stepOneTextObservable.onNext(context.getString(R.string.step_one))
+            stepTwoTextObservable.onNext(context.getString(R.string.step_two))
+        }
 
         createTripObservable.subscribe { trip ->
             var hotel = trip.packageDetails.hotel
@@ -112,11 +118,6 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
-    }
-
-    fun resetStepText() {
-        stepOneTextObservable.onNext(context.getString(R.string.step_one))
-        stepTwoTextObservable.onNext(context.getString(R.string.step_two))
     }
 
     fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
