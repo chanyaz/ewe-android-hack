@@ -72,7 +72,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
         } else {
-            if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSearchFormValidation, R.string.preference_flight_search_form_validations)) {
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
                 stepByStepSearchFormValidation()
             }
             else {

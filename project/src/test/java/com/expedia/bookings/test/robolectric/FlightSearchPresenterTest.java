@@ -41,7 +41,6 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -387,7 +386,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testSearchValidationConcurrent() {
-		SettingUtils.save(activity, R.string.preference_flight_search_form_validations, true);
 		RoboTestHelper.INSTANCE.bucketTests(AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
