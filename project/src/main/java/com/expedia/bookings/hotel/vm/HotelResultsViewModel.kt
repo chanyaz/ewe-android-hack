@@ -50,10 +50,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
         })
 
         filterParamsSubject.subscribe(endlessObserver { filterParams ->
-            cachedParams?.clearPinnedHotelId()
             val paramBuilder = newParamBuilder(cachedParams?.suggestion, cachedParams)
             addFilterCriteria(paramBuilder, filterParams)
-            doSearch(paramBuilder.build(), true)
+            val newParams = paramBuilder.build()
+            newParams?.clearPinnedHotelId()
+            doSearch(newParams, true)
         })
 
         hotelSearchProvider.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)

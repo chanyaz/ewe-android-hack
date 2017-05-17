@@ -79,6 +79,11 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         private var vipOnly: Boolean = false
         private var userSort: SortType? = null
 
+        override fun destination(city: SuggestionV4?): Builder {
+            this.destinationLocation = city?.copy() ?: null
+            return this
+        }
+
         fun forPackage(pkg: Boolean): Builder {
             this.isPackage = pkg
             return this
