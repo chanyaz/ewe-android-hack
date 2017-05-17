@@ -2175,9 +2175,18 @@ public class OmnitureTracking {
 	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
-
-		s.setEvents("event63");
-
+		if (isItinTrackingFeatureEnabled() && userStateManager.isUserAuthenticated()) {
+			if (!getUsersTripComponentTypeEventString().isEmpty()) {
+				s.setEvents("event63" + "," + getUsersTripComponentTypeEventString());
+				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
+			}
+			else {
+				s.setEvents("event63"); //we still need to track event63 even if the users does not have any trips
+			}
+		}
+		else {
+			s.setEvents("event63");
+		}
 		s.track();
 	}
 
@@ -2654,19 +2663,15 @@ public class OmnitureTracking {
 		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		}
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_track_users_itin_data) && userStateManager.isUserAuthenticated()) {
-			if (!TripUtils.createUsersTripComponentTypeEventString(getUsersTrips()).isEmpty()) {
-				s.setEvents(TripUtils.createUsersTripComponentTypeEventString(getUsersTrips()));
+		if (isItinTrackingFeatureEnabled() && userStateManager.isUserAuthenticated()) {
+			if (!getUsersTripComponentTypeEventString().isEmpty()) {
+				s.setEvents(getUsersTripComponentTypeEventString());
 				s.setProp(75, TripUtils.createUsersProp75String(getUsersTrips()));
 			}
 		}
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
-	}
-
-	private static Collection<Trip> getUsersTrips() {
-		return ItineraryManager.getInstance().getTrips();
 	}
 
 	public static void trackPageLoadItinCrystalTheme() {
@@ -3370,6 +3375,19 @@ public class OmnitureTracking {
 		default:
 			return "MD";
 		}
+	}
+
+	private static Boolean isItinTrackingFeatureEnabled() {
+		return FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_track_users_itin_data);
+	}
+
+	private static Collection<Trip> getUsersTrips() {
+		return ItineraryManager.getInstance().getTrips();
+	}
+
+	private static String getUsersTripComponentTypeEventString() {
+		return TripUtils
+			.createUsersTripComponentTypeEventString(getUsersTrips());
 	}
 
 	private static String getPaymentType() {
