@@ -84,6 +84,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                             R.layout.material_item)
                     val countryName = adapter.getItem(adapter.getPositionByCountryThreeLetterCode(countryCode))
                     passportCountryEditBox.setText(countryName)
+                    vm.passportValidSubject.onNext(true)
                 }
             } else {
                 selectPassport(countryCode)
@@ -181,7 +182,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 (viewModel as FlightTravelerEntryWidgetViewModel).passportCountrySubject.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
             }
             (viewModel as FlightTravelerEntryWidgetViewModel).passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
-            (viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(true)
         }
 
         val alert = builder.create()

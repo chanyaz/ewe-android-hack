@@ -111,7 +111,8 @@ class FlightTravelerEntryWidgetTest {
 
         traveler.primaryPassportCountry = "USA"
         widget.onTravelerChosen(traveler)
-        assertFalse((widget.viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.value)
+        assertTrue((widget.viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.value)
+        assertEquals(1, (widget.viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.values.size)
         assertEquals(4, widget.getNumberOfInvalidFields())
     }
 
