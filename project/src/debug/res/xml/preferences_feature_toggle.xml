@@ -23,12 +23,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Material Flight Features">
 
-        <CheckBoxPreference
-            android:key="@string/preference_flight_search_form_validations"
-            android:layout="@layout/preference"
-            android:summary="Flight search form validations"
-            android:title="Flight search form validations" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
