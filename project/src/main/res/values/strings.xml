@@ -2961,8 +2961,18 @@
     <string name="cars">Cars</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} days</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">Points from {lob} become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Points from Flights become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Points from Bundle Deals become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Points from Activities become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Points from Hotels become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Points from Cruises become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Points from Cars become available up to {number_of_days} days after travel has been completed.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
