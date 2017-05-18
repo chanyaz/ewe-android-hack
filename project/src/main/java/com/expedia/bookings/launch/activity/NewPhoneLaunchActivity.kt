@@ -289,10 +289,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     }
                     PAGER_POS_ITIN -> {
                         gotoItineraries()
-                        val hasTrips = !ItineraryManager.getInstance().trips.isEmpty()
-                        if (!hasTrips) {
-                            OmnitureTracking.trackItinSignInExposure()
-                        }
                     }
                     PAGER_POS_ACCOUNT -> {
                         pagerPosition = PAGER_POS_ACCOUNT

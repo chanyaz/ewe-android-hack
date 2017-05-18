@@ -2188,6 +2188,9 @@ public class OmnitureTracking {
 		else {
 			s.setEvents("event63");
 		}
+		if (!userStateManager.isUserAuthenticated() && getUsersTrips().isEmpty()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsNewSignInPage);
+		}
 		s.track();
 	}
 
@@ -2198,12 +2201,6 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
-		s.track();
-	}
-
-	public static void trackItinSignInExposure() {
-		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsNewSignInPage);
 		s.track();
 	}
 
