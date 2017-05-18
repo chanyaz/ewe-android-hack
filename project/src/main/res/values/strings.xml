@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Call Support</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
+    <string name="share_action_content_description">Share Button</string>
     <string name="itin_action_view">View Itinerary</string>
 
     <!-- Itin webview titles -->

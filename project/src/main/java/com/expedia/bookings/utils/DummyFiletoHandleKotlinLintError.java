@@ -618,6 +618,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.packages_flight_search_filter_show_less_cont_desc,
 		R.string.flights_flight_overview_payment_fees,
 		R.string.bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE,
+		R.string.share_action_content_description,
+		R.menu.confirmation_menu,
 		R.menu.flights_toolbar_menu,
 		R.layout.cell_lob_button,
 		R.color.new_launch_cars_lob_color,

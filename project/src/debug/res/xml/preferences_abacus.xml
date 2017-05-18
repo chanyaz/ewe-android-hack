@@ -417,6 +417,15 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="14137"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flight Confirmation sharing button - 14137" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="12992"
             android:layout="@layout/preference"
             android:summary="%s"

@@ -17,6 +17,7 @@ import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.ConfirmationSummaryCardView
 import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.ConfirmationToolbar
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -37,9 +38,11 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val outboundFlightCard: ConfirmationRowCardView by bindView(R.id.outbound_flight_card)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
-//    TODO flight summary cannot be null on new confirmation screen, but must be null on old confirmation screen
-    var flightSummary: ConfirmationSummaryCardView ?= null
     val hotelCrossSell: HotelCrossSellView by bindView(R.id.hotel_cross_sell_widget)
+
+    //    TODO flight summary & toolbar cannot be null on new confirmation screen, but must be null on old confirmation screen
+    var flightSummary: ConfirmationSummaryCardView ?= null
+    var toolbar: ConfirmationToolbar ?= null
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
@@ -65,7 +68,6 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     init {
         View.inflate(context, if (isNewConfirmationScreenEnabled) R.layout.new_flight_confirmation_presenter
                                 else R.layout.flight_confirmation_presenter, this)
-        confirmationContainer.setPadding(0, Ui.toolbarSizeWithStatusBar(context), 0, 0)
         viewItinButton.setOnClickListener {
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
@@ -73,7 +75,10 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         if (isNewConfirmationScreenEnabled) {
             flightSummary = findViewById(R.id.trip_summary_card) as ConfirmationSummaryCardView
             tripBookedMessage.setText(R.string.trip_is_booked)
+            toolbar = findViewById(R.id.checkout_toolbar) as ConfirmationToolbar
         }
+        confirmationContainer.setPadding(0, if (isNewConfirmationScreenEnabled)
+            Ui.getStatusBarHeight(context) else Ui.toolbarSizeWithStatusBar(context), 0, 0)
     }
 
     override fun back(): Boolean {
