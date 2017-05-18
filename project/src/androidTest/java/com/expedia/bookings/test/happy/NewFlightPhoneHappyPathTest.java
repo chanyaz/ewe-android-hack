@@ -114,10 +114,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
 		assertInsuranceTerms();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		assertInsuranceIsNotAdded();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		PackageScreen.toggleInsuranceSwitch();
+		PackageScreen.swipeToAddInsurance();
 		assertInsuranceIsAdded();
 		assertInsuranceToggleIsEnabled();
 		PackageScreen.toggleInsuranceSwitch();
@@ -190,10 +187,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
 		assertInsuranceTerms();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		assertInsuranceIsNotAdded();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		PackageScreen.toggleInsuranceSwitch();
+		PackageScreen.swipeToAddInsurance();
 		assertInsuranceIsAdded();
 		assertInsuranceToggleIsEnabled();
 		PackageScreen.toggleInsuranceSwitch();

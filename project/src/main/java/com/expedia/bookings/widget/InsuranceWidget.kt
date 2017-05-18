@@ -14,9 +14,7 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
-import com.expedia.util.subscribeOnUserInitiatedCheckChanged
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
@@ -39,14 +37,20 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
     }
 
     var viewModel: InsuranceViewModel by notNullAndObservable { vm ->
-        vm.programmaticToggleObservable.subscribeChecked(toggleSwitch)
+        vm.programmaticToggleObservable.subscribe { isChecked ->
+            if (toggleSwitch.isChecked != isChecked) {
+                suppressNextToggleEvent = true
+                toggleSwitch.isChecked = isChecked
+            }
+        }
         vm.termsObservable.subscribeText(termsTextView)
         vm.titleColorObservable.subscribeTextColor(titleTextView)
         vm.titleObservable.subscribeText(titleTextView)
         vm.toggleSwitchEnabledObservable.subscribeEnabled(toggleSwitch)
         vm.widgetVisibilityObservable.subscribeVisibility(this)
-        toggleSwitch.subscribeOnUserInitiatedCheckChanged(vm.userInitiatedToggleObservable)
     }
+
+    private var suppressNextToggleEvent: Boolean = false
 
     init {
         View.inflate(context, R.layout.insurance_widget, this)
@@ -62,5 +66,12 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context,
         termsTextView.movementMethod = LinkMovementMethod.getInstance()
         termsTextView.setOnClickListener { FlightsV2Tracking.trackInsuranceTermsClick() }
         termsTextView.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
+
+        toggleSwitch.setOnCheckedChangeListener { switch, isChecked ->
+            if (!suppressNextToggleEvent) {
+                viewModel.userInitiatedToggleObservable.onNext(isChecked)
+            }
+            suppressNextToggleEvent = false
+        }
     }
 }

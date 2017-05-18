@@ -66,14 +66,6 @@ fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     }
 }
 
-fun CompoundButton.subscribeOnUserInitiatedCheckChanged(observer: Observer<Boolean>) {
-    this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
-        if (compoundButton.isPressed) {
-            observer.onNext(isChecked)
-        }
-    }
-}
-
 fun View.unsubscribeOnClick() {
     this.setOnClickListener(null)
 }
