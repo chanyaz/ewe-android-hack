@@ -321,7 +321,7 @@ public class TripUtils {
 		DateTime tripEndDate = trip.getEndDate().withTimeAtStartOfDay().plusDays(1); //plus 1 day to account for today
 
 		int startDateDaysBetweenNow = Days.daysBetween(now, tripStartDate).getDays();
-		if (startDateDaysBetweenNow > 0) {
+		if (startDateDaysBetweenNow >= 0) {
 			startDateDaysBetweenNow += 1; //this accounts for today
 		}
 		int endDateDaysBetweenNow = Days.daysBetween(now, tripEndDate).getDays();

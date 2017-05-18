@@ -392,7 +392,7 @@ class TripUtilsTest {
     fun getUsersProp75String() {
         val usersTrips = getUsersTrips();
         val prop75String = TripUtils.createUsersProp75String(usersTrips);
-        val expectedProp75String = "HOT:-1:3|AIR:-1:3|CAR:5:15|LX:-3:1|RAIL:20:30|PGK:3:10"
+        val expectedProp75String = "HOT:-1:3|AIR:-1:3|CAR:5:15|LX:2:2|RAIL:1:1|PGK:3:10"
         assertEquals(expectedProp75String, prop75String)
     }
 
@@ -437,8 +437,8 @@ class TripUtilsTest {
 
         val activityTrip = Trip()
         activityTrip.addTripComponent(TripActivity())
-        activityTrip.startDate = DateTime.now().minusDays(3)
-        activityTrip.endDate = DateTime.now().plusDays(1)
+        activityTrip.startDate = DateTime.now().plusDays(2)
+        activityTrip.endDate = DateTime.now().plusDays(2)
 
         val carTrip = Trip()
         carTrip.addTripComponent(TripCar())
@@ -447,8 +447,8 @@ class TripUtilsTest {
 
         val railTrip = Trip()
         railTrip.addTripComponent(TripRails())
-        railTrip.startDate = DateTime.now().plusDays(20)
-        railTrip.endDate = DateTime.now().plusDays(30)
+        railTrip.startDate = DateTime.now().plusDays(1)
+        railTrip.endDate = DateTime.now().plusDays(1)
 
         val trips = mutableListOf(packageTrip, flightTrip, hotelTrip, secondHotelTrip, activityTrip, carTrip, railTrip)
         return trips
