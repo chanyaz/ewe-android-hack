@@ -137,23 +137,6 @@ public class ApiError extends RuntimeException {
 		// ignore
 	}
 
-	/**
-	 * This is used for {@link ItinDetailsResponse} only.
-	 In case when the guest itin number is not authenticated the response is
-	 <p>
-	 "errors": [
-		 {
-			 "errorCode": 403,
-			 "message": "Not authenticated."
-		 }
-	 ]
-	 </p>
-	 Since API doesn't send a specific {@link Code} we have to manually check for the error
-	 */
-	public boolean isNotAuthenticatedError() {
-		return message.toLowerCase().equals("not authenticated.");
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ApiError) {
