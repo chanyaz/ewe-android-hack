@@ -103,6 +103,7 @@ class PackageCheckoutTest {
         createTripWithResortFee()
         enterValidTraveler()
         enterValidPayment()
+        checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
@@ -115,10 +116,16 @@ class PackageCheckoutTest {
     }
 
     @Test
-    fun testSlideTotalTextVisibilityDependsOnResortFees() {
+    fun testSlideTotalTextVisibilityDependsOnResortFeesAndOverviewState() {
         createTripWithResortFee()
         enterValidTraveler()
         enterValidPayment()
+
+        assertEquals(View.GONE, overview.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)
+        assertEquals(View.VISIBLE, overview.slideToPurchaseSpace.visibility)
+
+        checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
         assertEquals(View.VISIBLE, overview.slideTotalText.visibility)
         assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)

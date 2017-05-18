@@ -432,6 +432,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
         toggleCheckoutButtonOrSlider(showSlider, state)
+        toggleSlideToPurchaseText(showSlider)
         toggleAcceptTermsWidget(showSlider)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
@@ -471,9 +472,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
-            val hasText = !checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.value.isNullOrEmpty()
-            slideToPurchaseSpace.setInverseVisibility(hasText)
-            slideTotalText.updateVisibility(hasText)
             toggleBottomContainerViews(currentState)
         }
     }
@@ -574,6 +572,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 slideToPurchase.visibility = View.GONE
             }
         }
+    }
+
+    private fun toggleSlideToPurchaseText(sliderIsShown: Boolean) {
+        val hasText = !checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.value.isNullOrEmpty()
+        slideToPurchaseSpace.setInverseVisibility(hasText && sliderIsShown)
+        slideTotalText.updateVisibility(hasText && sliderIsShown)
     }
 
     private fun toggleAcceptTermsWidget(showSlider: Boolean) {
