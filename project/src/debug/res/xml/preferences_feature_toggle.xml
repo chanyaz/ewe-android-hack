@@ -35,12 +35,6 @@
         android:title="Material Flight Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_flight_search_form_validations"
-            android:layout="@layout/preference"
-            android:summary="Flight search form validations"
-            android:title="Flight search form validations" />
-
-        <CheckBoxPreference
             android:key="@string/preference_flight_hide_fsr_infographic"
             android:layout="@layout/preference"
             android:summary="Hide FSR Infographic"
@@ -117,17 +111,6 @@
             android:layout="@layout/preference"
             android:summary="Payment Legal Message"
             android:title="Payment Legal Message" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Packages features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_packages_remove_bundle_overview"
-            android:layout="@layout/preference"
-            android:summary="Packages Remove Bundle Overview"
-            android:title="Packages Remove Overview" />
     </PreferenceCategory>
 
 </PreferenceScreen>

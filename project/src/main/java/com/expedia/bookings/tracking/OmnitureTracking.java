@@ -3993,8 +3993,15 @@ public class OmnitureTracking {
 		createTrackPackagePageLoadEventBase(pageName).track();
 	}
 
+	private static void trackPackagePageLoadEventStandard(String pageName, int testKey) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
+		trackAbacusTest(s, testKey);
+		s.track();
+	}
+
 	public static void trackPackagesDestinationSearchInit() {
-		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH);
+		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
 	}
 
 	public static void trackPackagesHSRMapInit() {
@@ -4676,9 +4683,7 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_search_form_validations)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 
 		s.track();
 	}

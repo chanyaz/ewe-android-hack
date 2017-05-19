@@ -72,7 +72,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                     put("travelers", noOfTravelers).format().toString()
         }
 
-        val isUserBucketedInSearchFormValidation = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSearchFormValidation, R.string.preference_flight_search_form_validations)
+        val isUserBucketedInSearchFormValidation = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)
         vm.errorNoDestinationObservable.subscribe {
             AnimUtils.doTheHarlemShake(destinationCardView)
             if (isUserBucketedInSearchFormValidation) {
