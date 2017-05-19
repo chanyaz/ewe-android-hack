@@ -4626,10 +4626,6 @@ public class OmnitureTracking {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
 		}
 
-		if (!userStateManager.isUserAuthenticated()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppSignInButtonYellow);
-		}
-
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_disabled_stp_state)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPState);
 		}
