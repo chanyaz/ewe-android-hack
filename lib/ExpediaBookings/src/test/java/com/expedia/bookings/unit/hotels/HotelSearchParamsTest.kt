@@ -6,6 +6,7 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class HotelSearchParamsTest {
@@ -108,6 +109,20 @@ class HotelSearchParamsTest {
         assertEquals(HotelSearchParams.SortType.DISTANCE, searchParams.getSortOrder())
     }
 
+    @Test
+    fun testDestinationDeepCopy() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val originalSuggestion = getDummySuggestion("chicago", "CHI")
+        originalSuggestion.hotelId = "12345"
+        val params = builder.destination(originalSuggestion).startDate(tomorrow).endDate(checkoutDate).build() as HotelSearchParams
+        params?.clearPinnedHotelId()
+        val newBuilder = HotelSearchParams.Builder(maxStay, maxRange)
+                .destination(originalSuggestion)
+                .startDate(params?.checkIn)
+                .endDate(params?.checkOut) as HotelSearchParams.Builder
+
+        assertTrue(newBuilder.build().isPinnedSearch())
+    }
 
     private fun getDummySuggestion(city: String, airport: String): SuggestionV4 {
         val suggestion = SuggestionV4()

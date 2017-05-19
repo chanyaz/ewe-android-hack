@@ -24,7 +24,7 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
             return this
         }
 
-        fun destination(city: SuggestionV4?): Builder {
+        open fun destination(city: SuggestionV4?): Builder {
             this.destinationLocation = city
             return this
         }
