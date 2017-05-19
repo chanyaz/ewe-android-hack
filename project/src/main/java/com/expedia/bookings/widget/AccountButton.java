@@ -27,7 +27,6 @@ import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.expedia.bookings.data.user.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -163,8 +162,7 @@ public class AccountButton extends LinearLayout {
 			lpt.gravity = Gravity.CENTER;
 			int textColor;
 			int drawableSkinAttribute;
-			if (LobExtensionsKt.isUniversalCheckout(lob, getContext()) && Db.getAbacusResponse()
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInButtonYellow)) {
+			if (LobExtensionsKt.isUniversalCheckout(lob, getContext())) {
 				textColor = R.color.material_checkout_yellow_account_button_text_color;
 				((CardView) mLoginContainer).setCardBackgroundColor(
 					ContextCompat
