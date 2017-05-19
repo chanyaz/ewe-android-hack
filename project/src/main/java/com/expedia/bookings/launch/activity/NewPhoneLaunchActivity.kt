@@ -318,7 +318,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     @Synchronized private fun gotoItineraries() {
-        itinListFragment?.logCrystalThemeExposure()
 
         if (pagerPosition != PAGER_POS_ITIN) {
 

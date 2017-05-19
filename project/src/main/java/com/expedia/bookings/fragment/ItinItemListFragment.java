@@ -174,10 +174,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 						mRoot.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.exp_itin_bg_crystal_theme));
 					}
 				}
-
-				if (ItinItemListFragment.this.isVisible()) {
-					logCrystalThemeExposure();
-				}
 			}
 		});
 
@@ -788,10 +784,4 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mDeepRefreshLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
 	}
 
-	public void logCrystalThemeExposure() {
-		if (mItinListView != null && mItinListView.getItinCardDataAdapter().getCount() > 0 &&
-			ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			OmnitureTracking.trackPageLoadItinCrystalTheme();
-		}
-	}
 }
