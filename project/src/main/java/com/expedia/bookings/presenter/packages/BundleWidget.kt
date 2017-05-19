@@ -35,8 +35,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val toggleMenuObservable = BehaviorSubject.create<Boolean>()
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
@@ -52,7 +51,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             }
 
             toggleMenuObservable.onNext(false)
-            viewModel.resetStepText()
+            viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
@@ -83,7 +82,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 inboundFlightWidget.showLoading()
             }
             toggleMenuObservable.onNext(false)
-            viewModel.resetStepText()
+            viewModel.searchParamsChangeObservable.onNext(Unit)
         }
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
