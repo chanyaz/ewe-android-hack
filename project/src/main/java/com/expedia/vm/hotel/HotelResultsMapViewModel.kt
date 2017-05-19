@@ -5,7 +5,7 @@ import android.location.Location
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.utils.MapItem
+import com.expedia.bookings.hotel.map.MapItem
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds

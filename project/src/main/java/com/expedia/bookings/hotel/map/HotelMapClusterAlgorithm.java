@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils;
+package com.expedia.bookings.hotel.map;
 
 import java.util.Collection;
 import java.util.HashMap;

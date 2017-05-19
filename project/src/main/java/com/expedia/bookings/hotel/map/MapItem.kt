@@ -1,9 +1,8 @@
-package com.expedia.bookings.utils
+package com.expedia.bookings.hotel.map
 
 import android.content.Context
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.widget.HotelMarkerIconGenerator
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem

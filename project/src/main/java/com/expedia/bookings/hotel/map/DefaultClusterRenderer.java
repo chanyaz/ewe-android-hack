@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils;
+package com.expedia.bookings.hotel.map;
 /*
  * This class is a customized version of DefaultClusterRenderer.java provided by Google at:
  * https://github.com/googlemaps/android-maps-utils/blob/master/library/src/com/google/maps/android/clustering/view/DefaultClusterRenderer.java
