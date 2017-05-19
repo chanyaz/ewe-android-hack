@@ -6,12 +6,6 @@
         android:title="Hotel Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_hotel_pinned_search"
-            android:layout="@layout/preference"
-            android:title="Hotel Pinned Search"
-            android:summary="Deeplink to Results Not InfoSite" />
-
-        <CheckBoxPreference
             android:key="@string/preference_hotel_advanced_search_options"
             android:layout="@layout/preference"
             android:summary="Advanced search options"

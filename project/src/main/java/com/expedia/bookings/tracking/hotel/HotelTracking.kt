@@ -188,6 +188,10 @@ open class HotelTracking {
             TuneUtils.trackHotelV2SearchResults(trackingParams)
         }
 
+        fun trackPinnedSearch() {
+            OmnitureTracking.trackPinnedSearch()
+        }
+
         fun trackHotelsNoResult() {
             OmnitureTracking.trackHotelV2NoResult()
         }

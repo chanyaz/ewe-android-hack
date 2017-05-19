@@ -3775,6 +3775,13 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 
+	public static void trackPinnedSearch() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPinnedSearch);
+
+		s.trackLink(null, "o", "Pinned Search Hit", null, null);
+	}
+
 	public static void trackUrgencyScore(int score) {
 		String compressionVar = new StringBuilder(HOTEL_URGENCY_COMPRESSION_SCORE).append(score).toString();
 		Log.d(TAG, "Tracking \"" + compressionVar);
