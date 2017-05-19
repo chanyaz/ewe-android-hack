@@ -4724,6 +4724,9 @@ public class OmnitureTracking {
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);
 		}
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_hide_fsr_infographic)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
+		}
 		s.track();
 	}
 

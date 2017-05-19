@@ -43,7 +43,7 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
         priceTextView.text = viewModel.price()
         flightDurationTextView.text = viewModel.duration
         val flight = viewModel.layover
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightHideFSRInfographic, R.string.preference_flight_hide_fsr_infographic)) {
+        if (viewModel.isUserBucketedInHideFSRInfographicTest()) {
             flightLayoverWidget.visibility = View.GONE
             val cabinCodeLayoutParams = flightCabinCodeTextView.layoutParams as MarginLayoutParams
             cabinCodeLayoutParams.topMargin = resources.getDimension(R.dimen.layover_bar_padding).toInt()
