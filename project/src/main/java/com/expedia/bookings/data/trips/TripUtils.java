@@ -296,7 +296,7 @@ public class TripUtils {
 		List<Trip> usersTrips = new ArrayList<>();
 		String activeTripString = "";
 		for (Trip trip : trips) {
-			if (trip.getEndDate().isAfterNow() && !trip.getTripComponents().isEmpty()) {
+			if (trip.getEndDate().plusDays(1).isAfterNow() && !trip.getTripComponents().isEmpty()) {
 				TripComponent tripComponent = trip.getTripComponents().get(0);
 				if (tripComponent.getType().equals(tripType)) {
 					usersTrips.add(trip);
@@ -321,7 +321,7 @@ public class TripUtils {
 		DateTime tripEndDate = trip.getEndDate().withTimeAtStartOfDay().plusDays(1); //plus 1 day to account for today
 
 		int startDateDaysBetweenNow = Days.daysBetween(now, tripStartDate).getDays();
-		if (startDateDaysBetweenNow >= 0) {
+		if (startDateDaysBetweenNow >= 1) {
 			startDateDaysBetweenNow += 1; //this accounts for today
 		}
 		int endDateDaysBetweenNow = Days.daysBetween(now, tripEndDate).getDays();
