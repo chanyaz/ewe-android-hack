@@ -142,7 +142,7 @@ public class NavUtils {
 		context.startActivity(intent);
 		Bundle bundle = new Bundle();
 		if (useItinSyncExtender) {
-			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItinerarySyncLoginExtender());
+			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.LAUNCH, new ItinerarySyncLoginExtender());
 		}
 
 		if ((flags & MEMBER_ONLY_DEAL_SEARCH) != 0) {

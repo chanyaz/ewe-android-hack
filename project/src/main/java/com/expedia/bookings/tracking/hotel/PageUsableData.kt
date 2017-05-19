@@ -1,7 +1,7 @@
 package com.expedia.bookings.tracking.hotel
 
 open class PageUsableData {
-    protected val INVALID_TIME = -1L
+    val INVALID_TIME = -1L
     protected var pageLoadStartedMillis: Long = INVALID_TIME
     protected var viewsUsableTimeMillis: Long = INVALID_TIME
 

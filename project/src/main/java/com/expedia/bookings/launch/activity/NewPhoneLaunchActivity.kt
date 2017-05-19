@@ -22,6 +22,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
+import com.expedia.bookings.dagger.TripComponent
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -104,6 +105,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
     }
+
+//    val tripComponent: TripComponent by lazy {
+//        Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -279,6 +284,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     accountFragment?.smoothScrollToTop()
                 } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
                     newPhoneLaunchFragment?.smoothScrollToTop()
+                }
+            }
+
+            if (tab.position != PAGER_POS_ITIN) {
+                val tripComponent = Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
+                if (tripComponent != null) {
+                    val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
+                    itinPageUsablePerformanceModel.resetStartTime()
                 }
             }
 
