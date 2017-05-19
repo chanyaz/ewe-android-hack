@@ -23,6 +23,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripUtils {
@@ -210,38 +211,39 @@ public class TripUtils {
 		return usersEventNumberString;
 	}
 
+	//For prop 75 the order of the LOBs is important for tracking data
+
 	public static String createUsersProp75String(Collection<Trip> trips) {
 		String usersProp75String = " ";
 		ArrayList<String> usersProp75TripSet = new ArrayList<>();
 		HashSet<TripComponent.Type> usersTripComponentTypes = getTripComponentTypesInUsersTrips(trips);
-		if (usersTripComponentTypes.contains(TripComponent.Type.HOTEL)) {
-			String activeTrip = getUsersActiveTrip(trips, TripComponent.Type.HOTEL);
-			usersProp75TripSet.add(activeTrip);
+		List<TripComponent.Type> tripComponentOrder = tripComponentOrder();
+		for (TripComponent.Type type : tripComponentOrder) {
+			if (usersTripComponentTypes.contains(type)) {
+				String activeTrip = getUsersActiveTrip(trips, type);
+				addActiveTrip(usersProp75TripSet, activeTrip);
+			}
 		}
-		if (usersTripComponentTypes.contains(TripComponent.Type.FLIGHT)) {
-			String activeTrip = getUsersActiveTrip(trips, TripComponent.Type.FLIGHT);
-			usersProp75TripSet.add(activeTrip);
-		}
-		if (usersTripComponentTypes.contains(TripComponent.Type.CAR)) {
-			String activeTrip = getUsersActiveTrip(trips, TripComponent.Type.CAR);
-			usersProp75TripSet.add(activeTrip);
-		}
-		if (usersTripComponentTypes.contains(TripComponent.Type.ACTIVITY)) {
-			String activeTrip = getUsersActiveTrip(trips, TripComponent.Type.ACTIVITY);
-			usersProp75TripSet.add(activeTrip);
-		}
-		if (usersTripComponentTypes.contains(TripComponent.Type.RAILS)) {
-			String activeTrip = getUsersActiveTrip(trips, TripComponent.Type.RAILS);
-			usersProp75TripSet.add(activeTrip);
-		}
-		if (usersTripComponentTypes.contains(TripComponent.Type.PACKAGE)) {
-			String activeTrip = getUsersActiveTrip(trips, TripComponent.Type.PACKAGE);
-			usersProp75TripSet.add(activeTrip);
-		}
-
 		usersProp75String = TextUtils.join("|", usersProp75TripSet);
 
 		return usersProp75String;
+	}
+
+	private static List<TripComponent.Type> tripComponentOrder() {
+		List tripComponentOrder = new ArrayList<>();
+		tripComponentOrder.add(TripComponent.Type.HOTEL);
+		tripComponentOrder.add(TripComponent.Type.FLIGHT);
+		tripComponentOrder.add(TripComponent.Type.CAR);
+		tripComponentOrder.add(TripComponent.Type.ACTIVITY);
+		tripComponentOrder.add(TripComponent.Type.RAILS);
+		tripComponentOrder.add(TripComponent.Type.PACKAGE);
+		return tripComponentOrder;
+	}
+
+	private static void addActiveTrip(ArrayList<String> usersProp75TripSet, String activeTrip) {
+		if (!Strings.isEmpty(activeTrip)) {
+			usersProp75TripSet.add(activeTrip);
+		}
 	}
 
 	private static HashSet<TripComponent.Type> getTripComponentTypesInUsersTrips(Collection<Trip> trips) {
@@ -306,11 +308,9 @@ public class TripUtils {
 		if (!usersTrips.isEmpty()) {
 			List<Trip> sortedTrips = getTripsInStartTimeAscendingOrder(usersTrips);
 			activeTripString = calculateActiveTripDatesFromNow(sortedTrips.get(0));
-			return activeTripString;
 		}
-		else {
-			return null;
-		}
+
+		return activeTripString;
 	}
 
 	@VisibleForTesting
