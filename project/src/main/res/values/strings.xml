@@ -4078,8 +4078,6 @@
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
-    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
-    <string name="rail_button_cont_desc_TEMPLATE">{description}. Button</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Railcard Applied: {railcards}</string>
@@ -4558,5 +4556,8 @@
     <string name="collapse_room_info_cont_desc">Collapse</string>
     <!-- Content description for double tap action to expand HIS room info -->
     <string name="expand_room_info_cont_desc">Expand</string>
+
+    <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
+    <string name="a11y_button_TEMPLATE">{description}. Button</string>
 
 </resources>

@@ -291,7 +291,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.no_rail_cards_error_message,
 		R.string.rail_depart_time_cont_desc_TEMPLATE,
 		R.string.rail_return_time_cont_desc_TEMPLATE,
-		R.string.rail_button_cont_desc_TEMPLATE,
 		R.string.rail_cost_breakdown_button_cont_desc_TEMPLATE,
 		R.layout.accept_terms_layout,
 		R.layout.widget_rail_details_fare_option,
@@ -1064,6 +1063,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.toolbar_nav_icon_close_gallery_cont_desc,
 		R.string.collapse_room_info_cont_desc,
 		R.string.expand_room_info_cont_desc,
-		R.string.AmenityFreeInternet
+		R.string.AmenityFreeInternet,
+		R.string.expand_room_info_cont_desc,
+		R.string.a11y_button_TEMPLATE
 	};
 }

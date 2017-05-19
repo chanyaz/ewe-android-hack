@@ -52,7 +52,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         vm.fareDescriptionObservable.subscribe { text ->
             if(!text?.toString().isNullOrBlank()) {
                 fareDescription.text = text
-                fareDescription.contentDescription = Phrase.from(context, R.string.rail_button_cont_desc_TEMPLATE)
+                fareDescription.contentDescription = Phrase.from(context, R.string.a11y_button_TEMPLATE)
                         .put("description", text)
                         .format().toString()
             }
