@@ -86,6 +86,10 @@ public class DateUtils {
 		return date != null ? date.toString(LX_DATE_PATTERN) : null;
 	}
 
+	public static String localDateToMMyyyy(LocalDate date) {
+		return date.toString("MM / yyyy");
+	}
+
 	public static String localDateToMMMd(LocalDate date) {
 		return date.toString("MMM d");
 	}
