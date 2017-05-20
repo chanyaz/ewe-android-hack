@@ -4,7 +4,6 @@ def gitRev = GradleUtil.getGitRevision()
 def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
