@@ -11,6 +11,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'com.shazam.fork'
 apply from: '../jacoco.gradle'
+apply plugin: 'com.shazam.fork.reporter.jenkins'
 
 repositories {
     jcenter()
@@ -481,6 +482,18 @@ android {
                     connected_devices = 19
                 }
             }
+        }
+    }
+
+    forkJenkins {
+        reportTitle = "My project's awesome flakiness report"
+        jenkinsUrl = "https://jenkins-ewe-mobile-android-master.tools.expedia.com"
+        //jenkinsJobName = "EBad-PullRequests-UITests-Flaky-Test"
+        jenkinsUsername = "test"
+        jenkinsPassword = 'test'
+        jenkinsReportTitle = "Fork Report"
+        freestyleJob {
+            jobName = "EBad-PullRequests-UITests-Flaky-Test"
         }
     }
 }
