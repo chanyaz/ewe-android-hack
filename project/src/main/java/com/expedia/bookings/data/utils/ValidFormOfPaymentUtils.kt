@@ -3,25 +3,12 @@ package com.expedia.bookings.data.utils
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.server.ParserUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.NumberUtils
 import com.squareup.phrase.Phrase
-
-fun ValidFormOfPayment.getNewTotalPriceWithFee(originalTotalPrice: Money): Money {
-    val newTotalPrice = originalTotalPrice.copy()
-    newTotalPrice.add(this.getFee())
-    return newTotalPrice
-}
-
-fun ValidFormOfPayment.getFee(): Money {
-    return ParserUtils.createMoney(this.fee, this.feeCurrencyCode)
-}
 
 fun ValidFormOfPayment.getPaymentType(): PaymentType {
     return CurrencyUtils.parsePaymentType(this.name)
@@ -33,7 +20,6 @@ object ValidFormOfPaymentUtils {
         val oldPayment = ValidPayment()
         oldPayment.name = newPayment.name
         oldPayment.paymentType = CurrencyUtils.parsePaymentType(newPayment.name)
-        oldPayment.fee = ParserUtils.createMoney(getPaymentFee(newPayment.fee), newPayment.feeCurrencyCode)
         return oldPayment
     }
 
@@ -94,15 +80,4 @@ object ValidFormOfPaymentUtils {
         return invalidPaymentWarningMsg
     }
 
-    /**
-     * Since the API is returning some fees as word translations, ex. "Kostenlos", we'll return an empty string if the fee
-     * is not a parseable number. Otherwise, we'll just return the fee, ex. "1.50"
-     */
-    fun getPaymentFee(fee: String?) : String {
-        if (fee == null || NumberUtils.parseDoubleSafe(fee) == null) {
-            return ""
-        } else {
-            return fee
-        }
-    }
 }
