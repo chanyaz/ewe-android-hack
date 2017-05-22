@@ -59,6 +59,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightAATest = 14241;
 	public static final int EBAndroidAppFlightSearchFormValidation = 13843;
 	public static final int EBAndroidAppFlightHideFSRInfographic = 13844;
+	public static final int EBAndroidAppFlightRetainSearchParams = 14297;
 
 
 	// Hotel Tests
@@ -180,6 +181,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidLXVoucherRedemption);
 		testIDs.add(EBAndroidAppHotelHideSearch);
 		testIDs.add(EBAndroidAppTripsDetailRemoveCalendar);
+		testIDs.add(EBAndroidAppFlightRetainSearchParams);
 		return testIDs;
 	}
 

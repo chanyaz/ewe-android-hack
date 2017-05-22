@@ -58,7 +58,7 @@ object SuggestionV4Utils {
             val type = object : TypeToken<List<SuggestionV4>>() {}.type
             recentSuggestions = Gson().fromJson<List<SuggestionV4>>(str, type)
         } catch (e: IOException) {
-            e.printStackTrace()
+            Log.e("Error reading suggestion history", e)
         }
 
         recentSuggestions.forEach { it.iconType = SuggestionV4.IconType.HISTORY_ICON }

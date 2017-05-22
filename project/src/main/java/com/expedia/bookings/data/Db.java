@@ -28,7 +28,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -543,15 +542,6 @@ public class Db {
 
 	public static boolean deleteTripBucket(Context context) {
 		return deleteFromDisk(context, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Saving/loading flight data
-
-	private static final String FLIGHT_SEARCH_PARAMS_SETTING = "flightSearchParamsSetting";
-
-	public static void clearFlightSearchParamsFromDisk(Context context) {
-		SettingUtils.remove(context, FLIGHT_SEARCH_PARAMS_SETTING);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
