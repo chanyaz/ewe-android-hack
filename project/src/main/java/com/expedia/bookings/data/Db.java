@@ -271,6 +271,10 @@ public class Db {
 		sDb.temporarilySavedCard = null;
 	}
 
+	public static void clearTemporaryCard() {
+		sDb.temporarilySavedCard = null;
+	}
+
 	public static void setBillingInfo(BillingInfo billingInfo) {
 		sDb.mBillingInfo = billingInfo;
 	}

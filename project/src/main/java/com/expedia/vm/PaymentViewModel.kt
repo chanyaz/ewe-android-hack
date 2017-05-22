@@ -54,6 +54,7 @@ open class PaymentViewModel(val context: Context) {
     val expandObserver = PublishSubject.create<Boolean>()
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
     val selectCorrectCardObservable = PublishSubject.create<Boolean>()
+    val clearTemporaryCardObservable = PublishSubject.create<Unit>()
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()
@@ -172,6 +173,10 @@ open class PaymentViewModel(val context: Context) {
         onStoredCardChosen.map { !newCheckoutIsEnabled.value }.subscribe { isEnabled ->
             enableMenuItem.onNext(isEnabled)
             menuVisibility.onNext(isEnabled)
+        }
+
+        clearTemporaryCardObservable.subscribe {
+            Db.clearTemporaryCard()
         }
     }
 
