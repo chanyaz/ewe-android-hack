@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.accessibility.packages;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -20,6 +21,7 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationCo
 
 public class PackagesSearchScreenTest extends PackageTestCase {
 
+	@Test
 	public void testPackageSearchScreen() throws Throwable {
 		Common.delay(1);
 		checkToolbarNavContentDescription(true);

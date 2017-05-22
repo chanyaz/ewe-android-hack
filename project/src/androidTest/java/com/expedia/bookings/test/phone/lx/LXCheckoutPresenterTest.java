@@ -9,6 +9,8 @@ import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.utils.LXDataUtils;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Test;
+
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -34,6 +36,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 	}
 
+	@Test
 	public void testVisibilitiesAndOfferDetailsOnCheckout() throws Throwable {
 		goToCheckout();
 
@@ -52,6 +55,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		LXScreen.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 	}
 
+	@Test
 	public void testSliderVisibility() throws Throwable {
 		goToCheckout();
 
@@ -63,6 +67,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		LXScreen.checkoutSlideToPurchase().check(matches(isDisplayed()));
 	}
 
+	@Test
 	public void testRulesWidgetOnFreeCancellationInfoClick() throws Throwable {
 		goToCheckout();
 

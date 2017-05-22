@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.rail;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
@@ -20,6 +21,7 @@ import static org.hamcrest.Matchers.containsString;
 
 public class RailFareRulesTest extends RailTestCase {
 
+	@Test
 	public void testFareRules() throws Throwable {
 		navigateFromSearchToFareRules();
 		assertFareRules();

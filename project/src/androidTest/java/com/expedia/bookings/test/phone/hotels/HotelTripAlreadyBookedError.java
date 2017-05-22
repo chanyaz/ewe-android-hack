@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -12,6 +14,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTex
 
 public class HotelTripAlreadyBookedError extends HotelTestCase {
 
+	@Test
 	public void testTripAlreadyBookedError() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_trip_already_booked");

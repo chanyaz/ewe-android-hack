@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.happy;
 
+import org.junit.Test;
+
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
@@ -58,6 +60,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CVVEntryScreen.clickBookButton();
 	}
 
+	@Test
 	public void testCarPhoneHappyPath() throws Throwable {
 		goToCarDetails();
 		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
@@ -68,6 +71,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
 	}
 
+	@Test
 	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
@@ -89,6 +93,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 //		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
 //	}
 
+	@Test
 	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
@@ -123,6 +128,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 //		enterCVV("6286");
 //	}
 
+	@Test
 	public void testCarPhoneSignedInCustomerCanEnterNewTraveler() throws Throwable {
 		goToCarDetails();
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);

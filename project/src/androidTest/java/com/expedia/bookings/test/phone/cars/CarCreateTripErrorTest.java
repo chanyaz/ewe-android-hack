@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
 import org.joda.time.DateTime;
+import org.junit.Test;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -18,6 +19,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 
 	private static final String CATEGORY = "Economy";
 
+	@Test
 	public void testCarCreateTripWithPriceChange() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		SearchScreen.doGenericCarSearch();
@@ -30,6 +32,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Price changed from $32.50");
 	}
 
+	@Test
 	public void testCarCreateTripFailure() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		SearchScreen.doGenericCarSearch();
@@ -49,6 +52,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.toolbar_search_cars));
 	}
 
+	@Test
 	public void testCarCreateTripExpiredProduct() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		SearchScreen.doGenericCarSearch();

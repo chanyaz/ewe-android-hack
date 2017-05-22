@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -28,6 +29,7 @@ public class LxSearchResultsTest extends LxTestCase {
 	List<LXActivity> mActivities;
 	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
 
+	@Test
 	public void testSearchResultPageTestCases() throws Throwable {
 		searchListDisplayed(true);
 		//by this time we must have all the activities loaded.
@@ -62,6 +64,7 @@ public class LxSearchResultsTest extends LxTestCase {
 		//To-Do : Since Sort and Filter functionality are under discussion, will implement the test cases when we have a clarity around them.
 	}
 
+	@Test
 	public void testSearchResultsFromOverlayOnDetails() throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
@@ -69,6 +72,7 @@ public class LxSearchResultsTest extends LxTestCase {
 		searchListDisplayed(false);
 	}
 
+	@Test
 	public void testSearchResultsFromOverlayOnDetailsWithRecommendations()  throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.packages;
 import java.util.Locale;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.ViewInteraction;
@@ -39,6 +40,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 	private static final String TAG = "PackageFlightFilterTest";
 
+	@Test
 	public void testPackageFlightsFilters() throws Throwable {
 		navigateFromLaunchToFlightFilter();
 

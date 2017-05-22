@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.packages;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -24,6 +25,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageFlightsOverviewTest extends PackageTestCase {
 
+	@Test
 	public void testPackageFlightsOverview() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -54,7 +56,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		Common.delay(1);
 	}
 
-	public void assertSegmentData() {
+	private void assertSegmentData() {
 		// Segment #1
 		onView(allOf(withId(R.id.departure_arrival_time), withText("9:50 am - 2:27 pm"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 497 • Boeing 737-900"))).check(matches(isDisplayed()));

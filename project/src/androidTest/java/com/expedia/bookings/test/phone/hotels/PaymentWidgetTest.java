@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -21,6 +23,7 @@ import static org.hamcrest.Matchers.not;
 
 public class PaymentWidgetTest extends PhoneTestCase {
 
+	@Test
 	public void testHappyPaymentWidgetFlow() throws Throwable {
 		goToCheckout("happypath");
 		assertSavedCardSelected();
