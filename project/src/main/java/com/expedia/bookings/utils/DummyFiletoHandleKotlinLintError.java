@@ -215,6 +215,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_checkout_image_corner_radius,
 		R.string.price_dropped_from_TEMPLATE,
 		R.layout.widget_hotel_map,
+		R.string.hotel_map_pin_cluster_cont_desc_TEMPLATE,
+		R.string.hotel_map_pin_price_cont_desc_TEMPLATE,
 		R.drawable.ic_material_location_pin,
 		R.color.hotel_sold_out_color,
 		R.raw.air_attach_curve,

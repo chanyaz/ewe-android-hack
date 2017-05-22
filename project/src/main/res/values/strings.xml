@@ -47,6 +47,10 @@
     <string name="secure_checkout">Secure Checkout</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Map, Search hotel results using map view</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">Zoom in on {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Show information for hotel of price {price} below, Button</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Purchase</string>

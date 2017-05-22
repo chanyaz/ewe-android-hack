@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ui.IconGenerator
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clusterManager: ClusterManager<MapItem>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
@@ -35,7 +36,11 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         mapItem.isClustered = false
         val icon = mapItem.getHotelMarkerIcon()
         val formattedPrice = mapItem.price?.getDisplayMoney(false, !mapItem.hotel.isPackage)
-        markerOptions?.icon(icon)?.title(formattedPrice?.getFormattedMoney() ?: "")
+
+        val contDesc = Phrase.from(context, R.string.hotel_map_pin_price_cont_desc_TEMPLATE)
+                .put("price" , formattedPrice?.formattedMoney ?: "")
+                .format().toString()
+        markerOptions?.icon(icon)?.title(contDesc)
     }
 
     override fun onBeforeClusterRendered(cluster: Cluster<MapItem>, markerOptions: MarkerOptions) {
@@ -51,8 +56,12 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         }
         // Note: this method runs on the UI thread. Don't spend too much time in here.
         val icon = createClusterMarkerIcon(context, clusterIconGenerator, cluster)
-        markerOptions.icon(icon)?.title(clusterCountText.text.toString())
-        markerOptions.icon(icon)?.snippet(clusterRangeText.text.toString())
+
+        val clusterTitleContDesc = Phrase.from(context, R.string.hotel_map_pin_cluster_cont_desc_TEMPLATE)
+                .put("hotel_count", clusterCountText.text.toString())
+                .format().toString()
+        markerOptions.icon(icon)?.title(clusterTitleContDesc)
+        markerOptions.icon(icon)?.snippet(getButtonContDesc(clusterRangeText.text.toString()))
         markerOptions.icon(icon)
     }
 
@@ -87,5 +96,11 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         } else {
             return ContextCompat.getDrawable(context, Ui.obtainThemeResID(context, R.attr.hotel_map_tooltip_drawable))
         }
+    }
+
+    private fun getButtonContDesc(description: String) : String {
+        return Phrase.from(context, R.string.a11y_button_TEMPLATE)
+                .put("description", description)
+                .format().toString()
     }
 }
