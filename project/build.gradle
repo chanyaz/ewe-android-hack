@@ -407,6 +407,7 @@ android {
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
+            ext.alwaysUpdateBuildId = !GradleUtil.isLocalDevBuild(project)
 
             buildConfigField "boolean", "RELEASE", "Boolean.parseBoolean(\"false\")"
             buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
@@ -530,6 +531,12 @@ public class GradleUtil {
 
     static def getBuildIdentifier(Project project) {
         return getPropertyWithDefault(project, "id", "debug")
+    }
+
+    static def isLocalDevBuild(Project project) {
+        def buildId = getBuildIdentifier(project)
+
+        return (buildId == "debug")
     }
 
     static def getAppName(Project project, variant) {
