@@ -43,7 +43,6 @@ public class AbacusUtils {
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppLaunchShowGuestItinCard = 13455;
 	public static final int EBAndroidAppLaunchShowActiveItinCard = 13357;
-	public static final int EBAndroidAppLOBAccentuating = 13718;
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int EBAndroidLXVoucherRedemption = 14380;
@@ -160,7 +159,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
 		testIDs.add(EBAndroidAppHotelResultsCardReadability);
 		testIDs.add(EBAndroidAppHotelNoStickyETP);
-		testIDs.add(EBAndroidAppLOBAccentuating);
 		testIDs.add(EBAndroidAppItinCrystalSkin);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);
 		testIDs.add(EBAndroidAppCarsWebViewUK);
