@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightLeg;
@@ -24,6 +25,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.trips.BookingStatus;
@@ -41,10 +43,13 @@ import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripPackage;
 import com.expedia.bookings.data.trips.TripRails;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
+
+import static com.activeandroid.Cache.getContext;
 
 /**
  * Common class for parsing trips, since the trip summary and trip details
@@ -133,7 +138,7 @@ public class TripParser {
 
 				switch (type) {
 				case ACTIVITY:
-					component = parseTripActivity(componentJson);
+					component = parseTripActivity(componentJson, obj);
 					break;
 				case CAR:
 					component = parseTripCar(componentJson);
@@ -501,7 +506,7 @@ public class TripParser {
 		return tripCruise;
 	}
 
-	private TripActivity parseTripActivity(JSONObject obj) {
+	private TripActivity parseTripActivity(JSONObject obj, JSONObject tripJson) {
 		TripActivity tripActivity = new TripActivity();
 
 		parseTripCommon(obj, tripActivity);
@@ -536,7 +541,20 @@ public class TripParser {
 				}
 			}
 			activity.setGuestCount(guestCount);
-			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidLXVoucherRedemption)) {
+				String voucherPrintURL = "";
+				String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
+				if (obj.optInt("activityCategoryID") == 2) {
+					voucherPrintURL = e3EndpointUrl + "things-to-do/voucher/?tripid=" + tripJson.optString("tripId") + "&id=" + obj.optString("uniqueID");
+				}
+				else {
+					voucherPrintURL = e3EndpointUrl + "itinerary-print?tripid=" + tripJson.optString("tripId") + "&itineraryNumber=" + tripJson.optString("tripNumber") + "&id=" + obj.optString("uniqueID");
+				}
+				activity.setVoucherPrintUrl(voucherPrintURL);
+			}
+			else {
+				activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
+			}
 			activity.setImageUrl(imageUrl);
 
 			// Parse travelers

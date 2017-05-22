@@ -46,6 +46,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLOBAccentuating = 13718;
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppUserOnboarding = 13548;
+	public static final int EBAndroidLXVoucherRedemption = 14380;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Flight tests
@@ -178,6 +179,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelPinnedSearch);
 		testIDs.add(EBAndroidAppHotelGroupRoomRate);
 		testIDs.add(EBAndroidAppFlightHideFSRInfographic);
+		testIDs.add(EBAndroidLXVoucherRedemption);
 		return testIDs;
 	}
 
