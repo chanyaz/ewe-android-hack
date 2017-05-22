@@ -83,3 +83,65 @@ Feature: Package Search
     Then Validate that Current Month calender is displayed
     Then Validate that Previous month arrow is displayed: false
     Then Validate that Next month arrow is displayed: true
+
+  @Packages @PackageSearch
+  Scenario Outline: UI fields validation on travellers form adults
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I enter source and destination for packages
+      | source                | SFO                                                |
+      | destination           | DET                                                |
+      | source_suggest        | San Francisco, CA                                  |
+      | destination_suggest   | Detroit, MI (DTW-Detroit Metropolitan Wayne County)|
+    And I choose date from calendar widget
+      | start_date         | 5         |
+      | end_date           | 10        |
+      | number_of_nights   | (5 nights)|
+    And I click on Done button
+    And I click on guest button
+    And I increase the adult count to max
+    And Validate plus icon for Adults is disabled
+    And Validate plus icon for Children is disabled
+    And I press done
+    Then <initialNumber> traveler count is as selected by user
+    When I click on guest button
+    And reduce the travellers count
+    And I press done
+    Then <laterNumber> traveler count is as selected by user
+
+    Examples:
+      | initialNumber | laterNumber |
+      | 6             | 5           |
+
+  @Packages @PackageSearch
+  Scenario Outline: UI fields validation on travellers form children
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I enter source and destination for packages
+        | source                | SFO                                                |
+        | destination           | DET                                                |
+        | source_suggest        | San Francisco, CA                                  |
+        | destination_suggest   | Detroit, MI (DTW-Detroit Metropolitan Wayne County)|
+    And I choose date from calendar widget
+      | start_date         | 5         |
+      | end_date           | 10        |
+      | number_of_nights   | (5 nights)|
+    And I click on Done button
+    And I click on guest button
+    And I increase the child count to max
+    And Validate plus icon for Children is disabled
+    Then I increase the adult count
+    And Validate plus icon for Adults is disabled
+    And equal number of age pickers are shown
+    And the default age is 10 years
+    And I press done
+    Then <initialNumber> traveler count is as selected by user
+    When I click on guest button
+    And Reduce the child count
+    Then corresponding age picker is removed
+    When I press done
+    Then <laterNumber> traveler count is as selected by user
+
+      Examples:
+        | initialNumber | laterNumber |
+        | 6             | 5           |
