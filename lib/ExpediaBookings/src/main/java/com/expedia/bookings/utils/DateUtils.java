@@ -107,7 +107,7 @@ public class DateUtils {
 	}
 
 	public static String dateTimeToHHmmss(DateTime date) {
-		return date.toString("HH:mm:ss").toLowerCase();
+		return date.toString("HH:mm:ss");
 	}
 
 	public static String dateTimeToMMMdhmma(DateTime date) {

@@ -106,7 +106,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 			row[1] = displayName.first;
 			row[2] = displayName.second;
 			row[3] = suggestion.getAirportLocationCode();
-			row[4] = R.drawable.ic_location_search;
+			row[4] = R.drawable.ic_suggestion_place_pin;
 			row[5] = suggestion.getCountryCode();
 			return row;
 		}

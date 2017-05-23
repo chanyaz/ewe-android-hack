@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.lx;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
@@ -55,10 +56,11 @@ public class LxSearchResultsTest extends LxTestCase {
 			// Check strikethrough price
 			if (!activity.originalPrice.getAmount().equals(BigDecimal.ZERO)) {
 				LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
-						hasDescendant(withText(containsString(activity.fromOriginalPriceValue.toString().toLowerCase())))));
+						hasDescendant(withText(containsString(activity.fromOriginalPriceValue.toString().toLowerCase(
+							Locale.getDefault()))))));
 			}
 			LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
-				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
+				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase(Locale.getDefault()))))));
 			currentCounter++;
 		}
 		//To-Do : Since Sort and Filter functionality are under discussion, will implement the test cases when we have a clarity around them.
