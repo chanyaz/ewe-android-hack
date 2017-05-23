@@ -451,14 +451,14 @@ public class FlightSearchPresenterTest {
 		//When start date is selected
 		LocalDate dateNow = LocalDate.now();
 		vm.datesUpdated(dateNow, null);
-		assertEquals(DateUtils.localDateToMMMd(dateNow) + ". Select date to change",
+		assertEquals(DateUtils.localDateToMMMd(dateNow) + ". Select dates again to modify",
 			toolTipContDescTestSubscriber.getOnNextEvents().get(1));
 	}
 
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {
 		return (endDate == null) ? DateUtils.localDateToMMMd(startDate) + ". Next: Select return date" :
 			DateUtils.localDateToMMMd(startDate)
-				+ " to " + DateUtils.localDateToMMMd(startDate.plusDays(3)) + ". Select date to change";
+				+ " to " + DateUtils.localDateToMMMd(startDate.plusDays(3)) + ". Select dates again to modify";
 	}
 
 	private void initializeWidget() {
