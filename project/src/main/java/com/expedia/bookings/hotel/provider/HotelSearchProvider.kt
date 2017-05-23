@@ -23,9 +23,7 @@ open class HotelSearchProvider(private val hotelServices: HotelServices?) {
 
     fun doSearch(params: HotelSearchParams) {
         hotelServices?.let { services ->
-            subscriptions.add(services.search(params, apiCompleteSubject,
-                    hitLPAS = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelLPASEndpoint))
-                    .subscribe(searchResponseObserver))
+            subscriptions.add(services.search(params, apiCompleteSubject).subscribe(searchResponseObserver))
         }
     }
 
