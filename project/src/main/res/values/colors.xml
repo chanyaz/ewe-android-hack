@@ -251,6 +251,7 @@
     <color name="cars_color_primary_dark">#532C45</color>
 
     <!-- Checkout Colors -->
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="material_checkout_account_button_background_color">#384768</color>
     <color name="material_checkout_yellow_account_button_background_color">@color/exp_yellow</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>

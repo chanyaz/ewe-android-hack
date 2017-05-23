@@ -156,16 +156,23 @@ public class AccountButton extends LinearLayout {
 		LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 		lp.height = LayoutParams.WRAP_CONTENT;
 		FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
+
 		if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
 			lpt.width = LayoutParams.WRAP_CONTENT;
 			lpt.gravity = Gravity.CENTER;
 			int textColor;
 			int drawableSkinAttribute;
-			textColor = R.color.material_checkout_yellow_account_button_text_color;
-			((CardView) mLoginContainer).setCardBackgroundColor(
-				ContextCompat
-					.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
-			drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
+			if (LobExtensionsKt.isUniversalCheckout(lob, getContext())) {
+				textColor = R.color.material_checkout_yellow_account_button_text_color;
+				((CardView) mLoginContainer).setCardBackgroundColor(
+					ContextCompat
+						.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
+				drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
+			}
+			else {
+				textColor = R.color.material_checkout_account_button_text_color;
+				drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
+			}
 			mLoginTextView.setTextColor(
 				ContextCompat.getColor(getContext(), textColor));
 			int[] attrs = { drawableSkinAttribute };
