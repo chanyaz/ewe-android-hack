@@ -35,6 +35,8 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertNotNull
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -86,7 +88,6 @@ class FlightConfirmationPresenterTest {
         assertNotNull(presenter.toolbar)
         assertEquals(VISIBLE, presenter.toolbar?.visibility)
         assertEquals(true, presenter.toolbar?.navigationIcon?.isVisible)
-        assertEquals(true, presenter.toolbar?.menuItem?.isVisible)
 
         val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(activity, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         assertEquals(navIcon, presenter.toolbar?.navigationIcon)
@@ -119,21 +120,31 @@ class FlightConfirmationPresenterTest {
     }
 
     @Test
-    fun testNewConfirmationToolbarShowsIconWhenControl() {
+    fun testNewConfirmationToolbarShowsNoMenuWhenControl() {
         setupPresenter(isNewConfirmationEnabled = true)
         givenCheckoutResponse()
 
-        assertEquals(true, presenter.toolbar?.menuItem?.icon?.isVisible)
+        assertFalse(presenter.toolbar?.menuItem?.isVisible ?: false)
+        assertNull(presenter.toolbar?.menuItem)
     }
 
     @Test
-    fun testNewConfirmationToolbarShowsTextWhenBucketed() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
+    fun testNewConfirmationToolbarShowsIconWhenBucketedVariantOne() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
+        setupPresenter(isNewConfirmationEnabled = true)
+        givenCheckoutResponse()
+
+        assertTrue(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
+    }
+
+    @Test
+    fun testNewConfirmationToolbarShowsTextWhenBucketedVariantTwo() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 2)
         setupPresenter(isNewConfirmationEnabled = true)
         givenCheckoutResponse()
 
         assertEquals("Share", presenter.toolbar?.menuItem?.title)
-        assertNull(presenter.toolbar?.menuItem?.icon)
+        assertFalse(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
     }
 
 

@@ -12,24 +12,28 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.NavUtils
-import kotlin.properties.Delegates
 
 class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs) {
 
-    var menuItem: MenuItem by Delegates.notNull()
-
-    init {
-        inflateMenu(R.menu.confirmation_menu)
-        menuItem = menu.findItem(R.id.menu_share)
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
-            menuItem.icon = null
+    val menuItem: MenuItem by lazy {
+        val item = menu.findItem(R.id.menu_share)
+        val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
+        if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
+            item.icon = null
         }
         AccessibilityUtil.setMenuItemContentDescription(this, context.getString(R.string.share_action_content_description))
+        item
+    }
 
-        menuItem.setOnMenuItemClickListener {
+    init {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
+            inflateMenu(R.menu.confirmation_menu)
+            menuItem.setOnMenuItemClickListener {
 //            TODO: use same share method as Itins
-            false
+                false
+            }
         }
+
         setNavigationOnClickListener {
             NavUtils.goToLaunchScreen(context)
         }
