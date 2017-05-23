@@ -37,10 +37,13 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     init {
         View.inflate(getContext(), R.layout.hotel_details_toolbar, this)
 
-        if (shouldShowCircleForRatings()) {
-            toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar
-        } else {
-            toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
+        if (!isInEditMode) {
+            if (shouldShowCircleForRatings()) {
+                toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar
+            } else {
+                toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
+            }
+            toolBarRating.visibility = View.VISIBLE
         }
 
 
@@ -50,7 +53,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
-        toolBarRating.visibility = View.VISIBLE
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarBackground.layoutParams.height += statusBarHeight

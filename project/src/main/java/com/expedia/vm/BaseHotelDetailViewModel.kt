@@ -53,8 +53,7 @@ import java.util.Locale
 import kotlin.comparisons.compareBy
 import kotlin.properties.Delegates
 
-abstract class BaseHotelDetailViewModel(val context: Context) :
-        RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
+abstract class BaseHotelDetailViewModel(val context: Context) {
 
     abstract fun getLobPriceObservable(rate: HotelRate)
     abstract fun pricePerDescriptor(): String
@@ -77,7 +76,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
     val hotelPriceContentDesc = PublishSubject.create<String>()
 
-    val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
     val hotelSearchInfoText = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.gray3) else ContextCompat.getColor(context, R.color.gray6) }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
@@ -149,7 +147,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val strikeThroughPriceGreaterThanPriceToShowUsersObservable = PublishSubject.create<Boolean>()
-    val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
     val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
     val scrollToRoom = PublishSubject.create<Unit>()
     val changeDates = PublishSubject.create<Unit>()
@@ -186,8 +183,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val mapClickedSubject = PublishSubject.create<Unit>()
 
     val reviewsClickedSubject = PublishSubject.create<Unit>()
-
-    val galleryClickedSubject = PublishSubject.create<Unit>()
 
     val renovationContainerClickObserver: Observer<Unit> = endlessObserver {
         var renovationInfo = Pair<String, String>(context.resources.getString(R.string.renovation_notice),
@@ -307,18 +302,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         }
 
         hotelSelectedObservable.subscribe { loadTimeData.markPageLoadStarted(System.currentTimeMillis()) }
-    }
-
-    override fun onGalleryItemClicked(item: Any) {
-        galleryClickedSubject.onNext(Unit)
-    }
-
-    override fun onGalleryItemScrolled(position: Int) {
-        val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
-        if (havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
-            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
-        else
-            galleryItemChangeObservable.onNext(Pair(position, ""))
     }
 
     fun shouldGroupAndSortRoom(): Boolean {

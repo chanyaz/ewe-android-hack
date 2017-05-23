@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:layout="http://schemas.android.com/tools">
+
+    <com.expedia.bookings.widget.NewHotelDetailsScrollView
+        android:id="@+id/detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/content_constraint_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.expedia.bookings.hotel.widget.HotelDetailGalleryView
+                android:id="@+id/detail_hotel_gallery"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gallery_height"
+                android:background="@color/gray11"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+            <com.expedia.bookings.hotel.widget.HotelDetailContentView
+                android:id="@+id/hotel_detail_content_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/detail_hotel_gallery"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </com.expedia.bookings.widget.NewHotelDetailsScrollView>
+
+    <com.expedia.bookings.widget.ResortFeeWidget
+        android:id="@+id/resort_fee_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom" />
+
+    <com.expedia.bookings.widget.HotelBottomButtonWidget
+        android:id="@+id/bottom_button_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"/>
+
+    <com.expedia.bookings.widget.HotelDetailsToolbar
+        android:id="@+id/hotel_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</merge>

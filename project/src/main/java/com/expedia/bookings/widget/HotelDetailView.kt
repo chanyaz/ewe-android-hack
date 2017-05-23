@@ -4,25 +4,27 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.graphics.ColorMatrixColorFilter
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
+import android.transition.TransitionInflater
+import android.transition.TransitionManager
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.hotel.animation.AlphaCalculator
 import com.expedia.bookings.hotel.widget.HotelDetailContentView
+import com.expedia.bookings.hotel.widget.HotelDetailGalleryView
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeGalleryColorFilter
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -44,23 +46,19 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
     private var toolBarHeight = 0
 
-    private var galleryHeight = 0
-    val gallery: HotelDetailRecyclerGallery by bindView(R.id.images_gallery)
-    private val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
-    private val galleryRoot: LinearLayout by bindView(R.id.gallery)
+    val galleryView: HotelDetailGalleryView by bindView(R.id.detail_hotel_gallery)
 
     private val contentView: HotelDetailContentView by bindView(R.id.hotel_detail_content_view)
 
     val bottomButtonWidget: HotelBottomButtonWidget by bindView(R.id.bottom_button_widget)
     private val gradientHeight = context.resources.getDimension(R.dimen.hotel_detail_gradient_height)
 
-    private val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
-    private val hotelGalleryIndicator: View by bindView(R.id.hotel_gallery_indicator)
-    private val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
-
     private val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
 
     private val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
+    private val constraintView: ConstraintLayout by bindView(R.id.content_constraint_container)
+    private var galleryExpanded = false
+
     private var statusBarHeight = 0
     private var toolbarHeightOffset: Float by Delegates.notNull()
     private var resortInAnimator: ObjectAnimator by Delegates.notNull()
@@ -68,19 +66,21 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private var bottomButtonInAnimator: ObjectAnimator by Delegates.notNull()
     private var bottomButtonOutAnimator: ObjectAnimator by Delegates.notNull()
 
+    private var galleryCollapsedConstraintSet = ConstraintSet()
+    private var galleryFullScreenConstraintSet = ConstraintSet()
+
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
         resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
         resortFeeWidget.feeType.visibility = if (vm.showFeeType()) View.VISIBLE else View.GONE
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
-        detailContainer.setOnTouchListener(touchListener)
         vm.hotelOffersSubject.subscribe {
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
-        vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
 
         vm.hotelSoldOut.subscribe { soldOut ->
+            galleryView.updateSoldOut(soldOut)
             if (soldOut) {
                 bottomButtonWidget.showChangeDates()
             } else {
@@ -90,40 +90,16 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         bottomButtonWidget.changeDatesClickedSubject.subscribe(vm.changeDates)
 
         vm.galleryObservable.subscribe { galleryUrls ->
-            gallery.setOnItemClickListener(vm)
-            gallery.setOnItemChangeListener(vm)
-            gallery.setDataSource(galleryUrls)
-            gallery.setProgressBarOnImageViewsEnabled(true)
-            gallery.scrollToPosition(0)
-
-            val galleryItemCount = gallery.adapter.itemCount
-            if (galleryItemCount > 0) {
-                val indicatorWidth = screenSize.x / galleryItemCount
-                val lp = hotelGalleryIndicator.layoutParams
-                lp.width = indicatorWidth
-                hotelGalleryIndicator.layoutParams = lp
-            }
+            galleryView.setGalleryItems(galleryUrls)
         }
-
-        vm.hotelSoldOut.filter { it }.subscribe { resetGallery() }
 
         vm.scrollToRoom.subscribe { scrollToRoom(false) }
-
-        vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
-            hotelGalleryIndicator.animate().translationX((galleryDescriptionBar.first * hotelGalleryIndicator.width).toFloat()).
-                    setInterpolator(LinearInterpolator()).start()
-            hotelGalleryDescription.text = galleryDescriptionBar.second
-        }
 
         vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
         vm.hotelResortFeeIncludedTextObservable.subscribeText(resortFeeWidget.feesIncludedNotIncluded)
 
         vm.payByPhoneContainerVisibility.subscribe {
             contentView.updateSpacer(getStickyRoomSizeMinusShadow())
-        }
-
-        vm.galleryClickedSubject.subscribe {
-            detailContainer.animateScrollY(detailContainer.scrollY, -initialScrollTop, 500)
         }
         
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
@@ -135,17 +111,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         setViewVisibilities()
     }
 
-    private val touchListener = View.OnTouchListener { v, event ->
-        val action = event.action
-        if (action == MotionEvent.ACTION_UP) {
-            detailContainer.post { updateGallery(true) }
-        }
-        false
-    }
-
     init {
-        View.inflate(getContext(), R.layout.widget_hotel_detail, this)
-        gallery.addImageViewCreatedListener({ index -> updateGalleryChildrenHeights(index) })
+        View.inflate(getContext(), R.layout.hotel_detail_view_collapsed_gallery, this)
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         Ui.showTransparentStatusBar(getContext())
@@ -153,9 +120,18 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
             if (hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-                updateGallery(false)
+                collapseGallery()
             } else
                 (getContext() as Activity).onBackPressed()
+        }
+
+        galleryView.galleryClickedSubject.subscribe {
+            if (galleryExpanded) {
+                collapseGallery()
+            } else {
+                expandGallery()
+            }
+            galleryExpanded = !galleryExpanded
         }
 
         bottomButtonWidget.selectRoomClickedSubject.subscribe {
@@ -177,57 +153,61 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         hideResortAndSelectRoom()
     }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+
+        galleryCollapsedConstraintSet.clone(constraintView)
+        galleryFullScreenConstraintSet.clone(context, R.layout.hotel_detail_view_expanded_gallery)
+    }
+
     fun resetViews() {
         detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         hotelDetailsToolbar.toolBarBackground.alpha = 0f
         hotelDetailsToolbar.toolBarGradient.translationY = 0f
-        hotelGalleryDescriptionContainer.alpha = 0f
         resortFeeWidget.visibility = View.GONE
         contentView.resetViews()
         contentView.updateSpacer(getStickyRoomSizeMinusShadow())
         hideResortAndSelectRoom()
-        viewmodel.onGalleryItemScrolled(0)
-        gallery.setDataSource(emptyList())
+        galleryView.setGalleryItems(ArrayList())
     }
 
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
-        resetGallery()
         bottomButtonWidget.translationY = 0f
-    }
-
-    fun updateGallery(toFullScreen: Boolean) {
-        if (detailContainer.isFlinging) {
-            return
-        }
-
-        val fromY = detailContainer.scrollY
-        val threshold = initialScrollTop / 2
-        //In case of slow scrolling, if gallery view is expanding more than halfway then scrollTo full screen else scrollTo initialScroollTop
-        if ((toFullScreen && fromY > threshold && fromY < initialScrollTop) || (!toFullScreen)) {
-            detailContainer.animateScrollY(fromY, initialScrollTop, ANIMATION_DURATION)
-        } else if (fromY < threshold) {
-            detailContainer.animateScrollY(fromY, 0, ANIMATION_DURATION)
+        detailContainer.post {
+            detailContainer.scrollTo(0,0)
         }
     }
 
-    private fun resetGallery() {
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                viewTreeObserver.removeOnGlobalLayoutListener(this)
-                val lp = galleryContainer.layoutParams
-                lp.height = height
-                galleryContainer.layoutParams = lp
-                galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
-                initialScrollTop = height - galleryHeight
+    fun collapseGallery() {
+        galleryView.collapse()
+        if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f) {
+            bottomButtonInAnimator.startDelay = 100
+            bottomButtonInAnimator.start()
+        }
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
+            val collapseTransition = TransitionInflater.from(context).inflateTransition(R.transition.gallery_collapse_transition)
+            TransitionManager.beginDelayedTransition(constraintView, collapseTransition)
+        }
+        galleryCollapsedConstraintSet.applyTo(constraintView)
 
-                detailContainer.post {
-                    detailContainer.scrollTo(0, initialScrollTop)
-                    gallery.scrollToPosition(0)
-                    showToolbarGradient()
-                }
-            }
-        })
+        hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
+        hotelDetailsToolbar.navIcon.parameter = 0f
+    }
+
+    private fun expandGallery() {
+        galleryView.expand()
+        if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()) {
+            bottomButtonOutAnimator.start()
+        }
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelThrottleGalleryAnimation)) {
+            val expandTransition = TransitionInflater.from(context).inflateTransition(R.transition.gallery_expand_transition)
+            TransitionManager.beginDelayedTransition(constraintView, expandTransition)
+        }
+        galleryFullScreenConstraintSet.applyTo(constraintView);
+
+        hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_gallery_cont_desc)
+        hotelDetailsToolbar.navIcon.parameter = 1f
     }
 
     private fun showToolbarGradient() {
@@ -269,46 +249,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         contentView.focusRoomsForAlly()
     }
 
-    companion object {
-        val zeroSaturationColorMatrixColorFilter: ColorMatrixColorFilter by lazy {
-            val colorMatrix = android.graphics.ColorMatrix()
-            colorMatrix.setSaturation(0f)
-            ColorMatrixColorFilter(colorMatrix)
-        }
-    }
-
-    private var previousYOffset = 0
-
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
-
-        updateGalleryChildrenHeights(gallery.selectedItem)
-        if (yoffset - initialScrollTop >= 0) {
-            galleryRoot.translationY = (yoffset - initialScrollTop) * 0.5f
-        } else {
-            galleryRoot.translationY = 0f
-        }
-        var galleryExpanded = false
-        // Hotel gallery collapsed
-        if (yoffset == initialScrollTop) {
-            (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(false)
-
-            hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
-            gallery.prepareCollapseState(true)
-        }
-        // Hotel gallery expanded
-        if (yoffset == 0) {
-            galleryExpanded = true
-            (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(true)
-
-            hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_gallery_cont_desc)
-            gallery.prepareCollapseState(false)
-        }
-
-        if (previousYOffset == 0 && yoffset >= 10) {
-            detailContainer.stopNestedScroll()
-            detailContainer.smoothScrollTo(0, initialScrollTop)
-        }
 
         hotelDetailsToolbar.toolBarBackground.alpha = AlphaCalculator.fadeInAlpha(startPoint = toolbarHeightOffset,
                 endPoint = toolbarHeightOffset / 2, currentPoint = contentView.getPriceContainerYScreenLocation().toFloat())
@@ -329,35 +271,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         } else if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()
                 && (areRoomsVisible() && !viewmodel.hotelSoldOut.value || galleryExpanded)) {
             bottomButtonOutAnimator.start()
-        }
-
-        val arrowRatio = getArrowRotationRatio(yoffset)
-        if (arrowRatio >= 0 && arrowRatio <= 1) {
-            hotelDetailsToolbar.navIcon.parameter = 1 - arrowRatio
-            hotelGalleryDescriptionContainer.alpha = 1 - arrowRatio
-        }
-
-        previousYOffset = yoffset
-    }
-
-    private fun getArrowRotationRatio(scrollY: Int): Float {
-        return scrollY.toFloat() / (initialScrollTop)
-    }
-
-    private fun updateGalleryChildrenHeights(index: Int) {
-        resizeImageViews(index)
-        resizeImageViews(index - 1)
-        resizeImageViews(index + 1)
-    }
-
-    private fun resizeImageViews(index: Int) {
-        if (index >= 0 && index < gallery.adapter.itemCount) {
-            var holder = gallery.findViewHolderForAdapterPosition(index)
-            if (holder != null) {
-                holder = holder as RecyclerGallery.RecyclerAdapter.GalleryViewHolder
-                holder.mImageView?.setIntermediateValue(height - initialScrollTop, height,
-                        detailContainer.scrollY.toFloat() / initialScrollTop)
-            }
         }
     }
 

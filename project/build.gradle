@@ -46,6 +46,7 @@ dependencies {
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"

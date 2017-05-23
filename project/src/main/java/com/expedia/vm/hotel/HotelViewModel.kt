@@ -2,6 +2,7 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.ColorMatrixColorFilter
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.text.Spanned
@@ -89,7 +90,14 @@ open class HotelViewModel(private val context: Context) {
         }
     }
 
-    fun getImageColorFilter() = if (isHotelSoldOut) HotelDetailView.zeroSaturationColorMatrixColorFilter else null
+    fun getImageColorFilter() : ColorMatrixColorFilter? {
+        if (isHotelSoldOut) {
+            val colorMatrix = android.graphics.ColorMatrix()
+            colorMatrix.setSaturation(0f)
+            return ColorMatrixColorFilter(colorMatrix)
+        }
+        return null
+    }
 
     fun distanceFromCurrentLocation(): String {
         if (hotel.proximityDistanceInMiles > 0) {

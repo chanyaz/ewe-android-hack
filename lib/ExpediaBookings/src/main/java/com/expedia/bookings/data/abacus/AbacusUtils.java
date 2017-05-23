@@ -67,7 +67,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
 	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
-	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
+	public static final int EBAndroidAppHotelDetailsGalleryPeek = 13415;
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
@@ -75,6 +75,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelHideSearch = 14271;
 	public static final int EBAndroidAppHotelSortCallToAction = 14332;
 	public static final int EBAndroidAppHotelAutoSuggestSameAsWeb = 14483;
+	public static final int EBAndroidAppHotelThrottleGalleryAnimation = 14785;
 	public static final int EBAndroidAppHotelSuperSearch = 14336;
 
 	// Cars Web View Tests
@@ -157,7 +158,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelUpgrade);
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
-		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
+		testIDs.add(EBAndroidAppHotelDetailsGalleryPeek);
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
@@ -191,6 +192,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightDayPlusDateSearchForm);
 		testIDs.add(EBAndroidAppHotelAutoSuggestSameAsWeb);
 		testIDs.add(EBAndroidAppHotelSuperSearch);
+		testIDs.add(EBAndroidAppHotelThrottleGalleryAnimation);
 		testIDs.add(EBAndroidAppSignUpStringNonAPAC);
 		testIDs.add(EBAndroidAppSignUpStringAPAC);
 		testIDs.add(EBAndroidAppAPIMAuth);

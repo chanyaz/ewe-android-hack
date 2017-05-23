@@ -110,6 +110,15 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Super Search - 14336" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14785"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel Gallery Animation - 14785" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -73,6 +73,7 @@ class DebugColorPaletteActivity : AppCompatActivity() {
                 DebugColorPaletteItem(colorId = R.color.gray8),
                 DebugColorPaletteItem(colorId = R.color.gray9),
                 DebugColorPaletteItem(colorId = R.color.gray10),
+                DebugColorPaletteItem(colorId = R.color.gray11),
 
 
                 DebugColorPaletteItem(DebugColorPaletteItem.TITLE, "Random Hotel Colors"),

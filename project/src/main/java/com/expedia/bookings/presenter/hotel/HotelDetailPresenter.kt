@@ -146,14 +146,14 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = 0f
         hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = 0f
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelDetailsGalleryPeak)) {
-            hotelDetailView.gallery.peakSecondImage()
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelDetailsGalleryPeek)) {
+            hotelDetailView.galleryView.peek()
         }
     }
 
     override fun back(): Boolean {
         if (hotelDetailView.hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
-            hotelDetailView.updateGallery(false)
+            hotelDetailView.collapseGallery()
             return true
         }
         return super.back()
