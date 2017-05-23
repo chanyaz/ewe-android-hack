@@ -285,9 +285,7 @@ public class OmnitureTracking {
 			s.setEvents("event118");
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelLPASEndpoint);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelAutoSuggestSameAsWeb);
-
 		// Send the tracking data
 		s.track();
 

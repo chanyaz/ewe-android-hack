@@ -19,7 +19,7 @@ import rx.Observable;
 
 public interface HotelApi {
 
-	@GET("/m/api/hotel/search?forceV2Search=true")
+	@GET("/m/api/hotel/search/v3?")
 	Observable<HotelSearchResponse> nearbyHotelSearch(
 		@Query("latitude") String latitude,
 		@Query("longitude") String longitude,
@@ -29,24 +29,8 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?resultsPerPage=200&pageIndex=0&forceV2Search=true")
-	Observable<HotelSearchResponse> search(
-		@Query("regionId") String regionId,
-		@Query("selected") String hotelId,
-		@Query("latitude") Double lat,
-		@Query("longitude") Double lng,
-		@Query("checkInDate") String checkIn,
-		@Query("checkOutDate") String checkOut,
-		@Query("room1") String guestString,
-		@Query("shopWithPoints") Boolean shopWithPoints,
-		@Query("filterUnavailable") String filterUnavailable,
-		@Query("sortOrder") String sortOrder,
-		@QueryMap(encoded = true) Map<String, Object> filterParams,
-		@Query("mctc") Integer mctc,
-		@Query("enableSponsoredListings") Boolean enableSponsoredListings);
-
 	@GET("/m/api/hotel/search/v3?resultsPerPage=200&pageIndex=0")
-	Observable<HotelSearchResponse> searchLPAS(
+	Observable<HotelSearchResponse> search(
 		@Query("regionId") String regionId,
 		@Query("selected") String hotelId,
 		@Query("latitude") Double lat,
@@ -65,17 +49,8 @@ public interface HotelApi {
 	Observable<HotelOffersResponse> info(
 		@Query("hotelId") String propertyId);
 
-	@GET("/m/api/hotel/offers?forceV2Search=true")
-	Observable<HotelOffersResponse> offers(
-		@Query("checkInDate") String checkInDate,
-		@Query("checkOutDate") String checkOutDate,
-		@Query("room1") String travelers,
-		@Query("hotelId") String propertyId,
-		@Query("shopWithPoints") Boolean shopWithPoints,
-		@Query("mctc") Integer mctc);
-
 	@GET("m/api/hotel/offers/v3?")
-	Observable<HotelOffersResponse> offersLPAS(
+	Observable<HotelOffersResponse> offers(
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate,
 		@Query("room1") String travelers,
