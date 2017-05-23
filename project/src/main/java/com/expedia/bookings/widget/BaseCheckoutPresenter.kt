@@ -42,6 +42,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -601,10 +602,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun doHarlemShakes() {
         if (!travelersPresenter.viewModel.allTravelersValid()) {
-            AnimUtils.doTheHarlemShake(travelerSummaryCardView)
+            AnimUtils.doTheHarlemShake(travelerSummaryCard)
         }
         if (!paymentWidget.isComplete()) {
-            AnimUtils.doTheHarlemShake(paymentWidget)
+            AnimUtils.doTheHarlemShake((paymentWidget as BillingDetailsPaymentWidget).cardInfoSummary)
         }
     }
 }

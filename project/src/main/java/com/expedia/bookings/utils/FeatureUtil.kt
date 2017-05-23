@@ -9,6 +9,6 @@ fun isMaterialFormsEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
 }
 
-fun isDisabledSTPStateEnabled(context: Context): Boolean {
-    return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppDisabledSTPState, R.string.preference_disabled_stp_state)
+fun isDisabledSTPStateEnabled(): Boolean {
+    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppDisabledSTPState)
 }
