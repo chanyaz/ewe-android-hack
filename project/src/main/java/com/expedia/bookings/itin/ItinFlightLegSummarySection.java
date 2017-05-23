@@ -73,6 +73,8 @@ public class ItinFlightLegSummarySection extends RelativeLayout {
 		Resources res = getResources();
 
 		Flight firstFlight = leg.getSegment(0);
+		String departureAirport = (leg.getFirstWaypoint().getAirport().mName != null) ? leg.getFirstWaypoint().getAirport().mName : "" ;
+		String arrivalAirport = (leg.getLastWaypoint().getAirport().mName != null) ? leg.getLastWaypoint().getAirport().mName : "";
 
 		if (mAirlineTextView != null) {
 			mAirlineTextView.setText(getAirlinesStr(context, firstFlight));
@@ -105,8 +107,8 @@ public class ItinFlightLegSummarySection extends RelativeLayout {
 			.put("airline", getAirlinesStr(context, firstFlight))
 			.put("departuretime", formatTime(leg.getFirstWaypoint().getBestSearchDateTime()))
 			.put("arrivaltime", formatTime(leg.getLastWaypoint().getBestSearchDateTime()))
-			.put("departureairport", leg.getLastWaypoint().getAirport().mName)
-			.put("arrivalairport", leg.getLastWaypoint().getAirport().mName)
+			.put("departureairport", departureAirport)
+			.put("arrivalairport", arrivalAirport)
 			.format().toString());
 	}
 
