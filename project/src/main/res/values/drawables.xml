@@ -6,9 +6,7 @@
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/divider_blue_yellow_stripe</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_expedia_logo_small</item>
 
-    <item name="old_checkout_account_logo" type="drawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/brand_phone_checkout_login_logo_drawable</item>
-    <item name="old_checkout_account_button_background" type="drawable">@drawable/card_background</item>
     <item name="earn_message_icon" type="drawable">@color/transparent</item>
     <item name="ic_toolbar_filter_sort" type="drawable">@drawable/sort</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/divider_blue_yellow_stripe</item>

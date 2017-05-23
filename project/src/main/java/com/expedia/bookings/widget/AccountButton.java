@@ -8,7 +8,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +26,6 @@ import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.expedia.bookings.data.user.User;
-import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
@@ -156,33 +154,19 @@ public class AccountButton extends LinearLayout {
 		LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 		lp.height = LayoutParams.WRAP_CONTENT;
 		FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
-		if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
-			lpt.width = LayoutParams.WRAP_CONTENT;
-			lpt.gravity = Gravity.CENTER;
-			int textColor;
-			int drawableSkinAttribute;
-			textColor = R.color.material_checkout_yellow_account_button_text_color;
-			((CardView) mLoginContainer).setCardBackgroundColor(
-				ContextCompat
-					.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
-			drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
-			mLoginTextView.setTextColor(
-				ContextCompat.getColor(getContext(), textColor));
-			int[] attrs = { drawableSkinAttribute };
-			TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
-			mLoginTextView
-				.setCompoundDrawablesWithIntrinsicBounds(ta.getDrawable(0), null, null, null);
-		}
-		else {
-			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
-			lpt.width = LayoutParams.MATCH_PARENT;
-			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-			mLoginContainer.setBackgroundResource(R.drawable.old_checkout_account_button_background);
-			mLoginTextView
-				.setTextColor(ContextCompat.getColor(getContext(), R.color.old_checkout_account_button_text_color));
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.old_checkout_account_logo, 0, 0, 0);
-			mLoginTextView.setBackgroundResource(bgResourceId);
-		}
+		lpt.width = LayoutParams.WRAP_CONTENT;
+		lpt.gravity = Gravity.CENTER;
+		int textColor;
+		int drawableSkinAttribute;
+		textColor = R.color.checkout_account_button_text_color;
+		drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
+		mLoginTextView.setTextColor(
+			ContextCompat.getColor(getContext(), textColor));
+		int[] attrs = { drawableSkinAttribute };
+		TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+		mLoginTextView
+			.setCompoundDrawablesWithIntrinsicBounds(ta.getDrawable(0), null, null, null);
+
 		mLoginTextView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 		int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 		mLoginTextView.setPadding(padding, padding, padding, padding);
