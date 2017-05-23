@@ -87,7 +87,7 @@
     <color name="flight_seats_left_urgency_message_color">#FF5747</color>
 
     <!-- Hotels colors -->
-    <color name="hotels_primary_color">@color/exp_hotel_green</color>
+    <color name="hotels_primary_color">@color/app_primary</color>
     <color name="hotel_urgency_variant_color">@color/app_primary_light</color>
     <color name="search_anim_background">@color/gray1</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
