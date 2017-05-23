@@ -92,6 +92,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         vm as FlightCreateTripViewModel
 
         vm.tripParams.subscribe {
+            vm.showCreateTripDialogObservable.onNext(true)
             userAccountRefresher.ensureAccountIsRefreshed()
         }
     }
