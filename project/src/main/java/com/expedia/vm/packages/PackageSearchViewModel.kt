@@ -82,17 +82,15 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
-        //dates cant be the same, shift end by 1 day
-        if (start != null && (end == null || end.isEqual(start))) {
-            end = start.plusDays(1)
-        }
-
         dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
         dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
         calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
-
+        //dates cant be the same, shift end by 1 day
+        if (start != null && (end == null || end.isEqual(start))) {
+            end = start.plusDays(1)
+        }
         super.onDatesChanged(Pair(start, end))
     }
 
@@ -146,6 +144,9 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        if (end == null) {
+            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
+        }
         return context.getString(R.string.calendar_drag_to_modify)
     }
 
