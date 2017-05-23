@@ -40,9 +40,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:pathPrefix="/m/trips/shared"
-                    android:scheme="https"/>
+                <data android:scheme="https"/>
+                <data android:scheme="http"/>
+                <data android:pathPrefix="/activitySearch"/>
+                <data android:pathPrefix="/m/trips/shared"/>
+                <data android:pathPrefix="/mobile/deeplink"/>
                 <data android:host="agence.voyages-sncf.com" />
 
                 <!-- Integration Server -->
