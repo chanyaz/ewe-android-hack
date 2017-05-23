@@ -1,14 +1,13 @@
 package com.expedia.bookings.widget
 
-import android.widget.TextView
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
+import android.view.View
+import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 
@@ -28,12 +27,13 @@ fun TextView.removeErrorExclamation(newDrawableRight: Drawable?) {
 }
 
 fun TextView.setMaterialFormsError(isValid: Boolean, errorMessage: String, rightDrawableId: Int) {
+    val parentTextInputLayout = this.getParentTextInputLayout() ?: return
 
-    (this.parent as TextInputLayout).isErrorEnabled = !isValid
+    parentTextInputLayout.isErrorEnabled = !isValid
     if (!isValid) {
-        (this.parent as TextInputLayout).error = errorMessage
+        parentTextInputLayout.error = errorMessage
     } else {
-        (this.parent as TextInputLayout).error = null
+        parentTextInputLayout.error = null
         if (this.text.isBlank()) this.text = ""
     }
     
@@ -51,6 +51,22 @@ fun TextView.updatePaddingForOldApi() {
     this.setPadding(this.paddingLeft, this.paddingTop, this.paddingRight, bottomPadding)
 }
 
+fun TextView.getParentTextInputLayout(): TextInputLayout? {
+    return getTextInputLayoutParent(this)
+}
+
+private fun getTextInputLayoutParent(view: View): TextInputLayout? {
+
+    if (view.parent is View) {
+        if (view.parent is TextInputLayout) {
+            return view.parent as TextInputLayout
+        } else {
+            return getTextInputLayoutParent(view.parent as View)
+        }
+    } else {
+        return null
+    }
+}
 
 class TextViewExtensions {
     companion object {
