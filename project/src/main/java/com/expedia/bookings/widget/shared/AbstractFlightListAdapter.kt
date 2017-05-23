@@ -134,7 +134,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 return LoadingViewHolder(view)
             }
             ViewTypes.FLIGHT_CELL_VIEW.ordinal -> {
-                val view = FlightCellWidget(parent.context, maxFlightDuration)
+                val view = FlightCellWidget(parent.context)
                 return FlightViewHolder(view, parent.width)
             }
             else -> {
@@ -196,7 +196,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
 
         fun bind(viewModel: AbstractFlightViewModel) {
-            flightCell.bind(viewModel)
+            flightCell.bind(viewModel, maxFlightDuration)
         }
     }
 

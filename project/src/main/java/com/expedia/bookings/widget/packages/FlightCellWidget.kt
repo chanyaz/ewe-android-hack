@@ -17,7 +17,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.vm.AbstractFlightViewModel
 import com.mobiata.android.Log
 
-class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: Boolean = true) : FrameLayout(context) {
+class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayout(context) {
     val cardView: CardView by bindView(R.id.card_view)
     val flightTimeTextView: TextView by bindView(R.id.flight_time_detail_text_view)
     val priceTextView: TextView by bindView(R.id.price_text_view)
@@ -38,7 +38,7 @@ class FlightCellWidget(context: Context, val maxFlightDuration: Int, showPrice: 
         flightToggleIcon.visibility = if (showPrice) View.GONE else View.VISIBLE
     }
 
-    fun bind(viewModel: AbstractFlightViewModel) {
+    fun bind(viewModel: AbstractFlightViewModel, maxFlightDuration: Int) {
         flightTimeTextView.text = viewModel.flightTime
         priceTextView.text = viewModel.price()
         flightDurationTextView.text = viewModel.duration

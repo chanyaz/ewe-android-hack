@@ -66,7 +66,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 true -> {
                     rowContainer = this.findViewById(R.id.detailed_row_container) as ViewGroup
                     rowContainer.visibility = VISIBLE
-                    val flightCell = FlightCellWidget(context, 0, false)
+                    val flightCell = FlightCellWidget(context, false)
                     rowContainer.addView(flightCell)
                     flightDetailsContainer.setOnClickListener {
                         if (isFlightSegmentDetailsExpanded()) {
@@ -140,7 +140,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 }
             }
             if (vm.showRowContainerWithMoreInfo.value) {
-                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight))
+                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight), 0)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
             if (viewModel.isUserBucketedForRateDetailExpansionTest) {
