@@ -44,7 +44,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         when (viewType) {
             ViewTypes.BEST_FLIGHT_VIEW.ordinal -> {
-                val view = FlightCellWidget(parent.context, maxFlightDuration)
+                val view = FlightCellWidget(parent.context)
                 return BestFlightViewHolder(view, parent.width)
             }
             else -> {
