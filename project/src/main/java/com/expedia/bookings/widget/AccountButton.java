@@ -8,7 +8,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -160,20 +159,8 @@ public class AccountButton extends LinearLayout {
 		if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
 			lpt.width = LayoutParams.WRAP_CONTENT;
 			lpt.gravity = Gravity.CENTER;
-			int textColor;
-			int drawableSkinAttribute;
-			if (LobExtensionsKt.isUniversalCheckout(lob, getContext())) {
-				textColor = R.color.material_checkout_yellow_account_button_text_color;
-				((CardView) mLoginContainer).setCardBackgroundColor(
-					ContextCompat
-						.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
-				drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
-			}
-			else {
-				textColor = R.color.material_checkout_account_button_text_color;
-				drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
-			}
-
+			int textColor = R.color.material_checkout_account_button_text_color;
+			int drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
 			mLoginTextView.setTextColor(
 				ContextCompat.getColor(getContext(), textColor));
 			int[] attrs = { drawableSkinAttribute };
