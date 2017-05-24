@@ -157,6 +157,7 @@ android {
     }
 
     lintOptions {
+        disable 'NewerVersionAvailable'
         checkReleaseBuilds false
         showAll true
         lintConfig file("lint.xml")
