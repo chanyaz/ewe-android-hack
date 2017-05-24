@@ -55,6 +55,17 @@ class AccessibleEditTextTest {
         editText.setText("Test text")
         editText.valid = false
         editText.onInitializeAccessibilityNodeInfo(testNode)
-        assertEquals(" Last Name, Test text, Error", testNode.text.toString())
+        assertEquals(" Last Name, Test text, Error, ", testNode.text.toString())
+    }
+
+    @Test
+    fun testContentDescriptionWithTextAndErrorMessage()
+    {
+        val testNode = AccessibilityNodeInfo.obtain()
+        editText.setText("Test text")
+        editText.errorMessage = "Enter valid text"
+        editText.valid = false
+        editText.onInitializeAccessibilityNodeInfo(testNode)
+        assertEquals(" Last Name, Test text, Error, Enter valid text", testNode.text.toString())
     }
 }

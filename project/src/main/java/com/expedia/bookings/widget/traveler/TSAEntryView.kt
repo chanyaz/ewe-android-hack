@@ -89,6 +89,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             genderSpinner = this.findViewById(R.id.edit_gender_spinner) as TravelerSpinner
             val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
             genderSpinner?.adapter = genderAdapter
+            genderSpinner?.errorMessage = context.getString(R.string.gender_validation_error_message)
 
         }
         orientation = HORIZONTAL

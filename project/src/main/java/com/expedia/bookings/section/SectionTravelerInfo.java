@@ -155,6 +155,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	protected void postFinishInflate() {
+		addAccessibilityErrorStrings();
 		removeFieldsForPos();
 		removeFieldsForLoggedIn();
 	}
@@ -190,6 +191,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			mFields.setFieldEnabled(mEditEmailAddress, true);
 		}
 		onChange();
+	}
+
+	public void addAccessibilityErrorStrings() {
+		mValidLastName.setErrorString(getContext().getString(R.string.last_name_validation_error_message));
+		mValidDateOfBirth.setErrorString(getContext().getString(R.string.date_of_birth_validation_error_message));
+		mValidEmail.setErrorString(getContext().getString(R.string.email_validation_error_message));
+		mValidPhoneNumber.setErrorString(getContext().getString(R.string.phone_validation_error_message));
+		mValidMiddleName.setErrorString(getContext().getString(R.string.middle_name_validation_error_message));
 	}
 
 	public boolean performValidation() {
