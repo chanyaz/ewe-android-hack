@@ -21,7 +21,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
 	public static final int EBAndroidAppSmartLockTest = 11269;
-	public static final int EBAndroidAppRemoveExpiredCreditCards = 13046;
 	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12992;
 	public static final int EBAndroidItinHotelGallery = 12465;
 	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
@@ -133,7 +132,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing);
 		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
-		testIDs.add(EBAndroidAppRemoveExpiredCreditCards);
 		testIDs.add(EBAndroidAppHotelImageLoadLatency);
 		testIDs.add(EBAndroidAppTripsNewSignInPage);
 		testIDs.add(EBAndroidAppFlightByotSearch);

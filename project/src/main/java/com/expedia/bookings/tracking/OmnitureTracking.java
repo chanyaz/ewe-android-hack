@@ -4617,10 +4617,6 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 
-		if (userStateManager.isUserAuthenticated() && Db.getUser().hasAtLeastOneExpiredStoredCard()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
-		}
-
 		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_disabled_stp_state)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppDisabledSTPState);
 		}
