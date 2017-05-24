@@ -544,6 +544,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
         filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
         filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
+        filterPlaceholderImageView.setColorFilter(ContextCompat.getColor(context, R.color.toolbar_icon))
         filterBtn = toolbarFilterItemActionView.findViewById(R.id.filter_btn) as LinearLayout
         filterMenuItem.actionView = toolbarFilterItemActionView
         toolbarFilterItemActionView.setOnLongClickListener {
