@@ -2175,7 +2175,7 @@ public class OmnitureTracking {
 	public static void trackItin(Context context) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
-		if (isItinTrackingFeatureEnabled() && userStateManager.isUserAuthenticated()) {
+		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
 			if (!usersTripComponentTypeEventString.isEmpty()) {
 				s.setEvents("event63" + "," + usersTripComponentTypeEventString);
@@ -2663,7 +2663,7 @@ public class OmnitureTracking {
 		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 		}
-		if (isItinTrackingFeatureEnabled() && userStateManager.isUserAuthenticated()) {
+		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
 			if (!usersTripComponentTypeEventString.isEmpty()) {
 				s.setEvents(usersTripComponentTypeEventString);
@@ -3363,10 +3363,6 @@ public class OmnitureTracking {
 		default:
 			return "MD";
 		}
-	}
-
-	private static Boolean isItinTrackingFeatureEnabled() {
-		return FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_track_users_itin_data);
 	}
 
 	private static Collection<Trip> getUsersTrips() {
