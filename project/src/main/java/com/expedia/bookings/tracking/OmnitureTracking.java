@@ -313,7 +313,8 @@ public class OmnitureTracking {
 			linkSb.append(0);
 		}
 		linkSb.append("L").append(trackingData.getSelectedSuggestionPosition())
-			.append(".ESS#").append(trackingData.getSuggestionsShownCount() - trackingData.getPreviousSuggestionsShownCount())
+			.append(".ESS#")
+			.append(trackingData.getSuggestionsShownCount() - trackingData.getPreviousSuggestionsShownCount())
 			.append(".UH#").append(trackingData.getPreviousSuggestionsShownCount());
 		String link = linkSb.toString();
 
@@ -524,6 +525,12 @@ public class OmnitureTracking {
 
 	public static void trackLinkHotelV2SuperSearchClearFilter() {
 		createAndtrackLinkEvent(HOTELSV2_SUPER_SEARCH_CLEAR_FILTER, "Super Search Clear Filter");
+	}
+
+	public static void trackHotelNarrowSearchPrompt() {
+		ADMS_Measurement s = createTrackLinkEvent(HOTELS_FILTER_PROMPT_TRIGGER);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSortCallToAction);
+		s.trackLink(null, "o", "Filter Prompt Triggered", null, null);
 	}
 
 	public static void trackHotelV2Filter() {
@@ -1034,7 +1041,8 @@ public class OmnitureTracking {
 
 	public static void trackHotelV2CheckoutError(String errorType) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, HOTELSV2_CHECKOUT_ERROR);
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME,
+			HOTELSV2_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}
@@ -1351,6 +1359,7 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE = "App.Hotels.Search.Filter";
 
 	private static final String HOTELS_SPONSORED_LISTING_CLICK = "App.Hotels.Search.Sponsored.Click";
+	private static  final String HOTELS_FILTER_PROMPT_TRIGGER = "App.Hotels.Search.FilterPrompt.Trigger";
 
 	private static final String HOTELS_REVIEWS_ERROR = "App.Hotels.Reviews.Error";
 
@@ -2691,7 +2700,7 @@ public class OmnitureTracking {
 
 	public static void trackNewUserOnboardingPage(OnboardingPagerState pagerState) {
 		String pageName = "";
-		switch(pagerState) {
+		switch (pagerState) {
 		case BOOKING_PAGE:
 			pageName = NEW_USER_ONBOARDING_LOB;
 			break;
@@ -3632,18 +3641,23 @@ public class OmnitureTracking {
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
 	}
+
 	public static void trackAppCarWebViewRetry() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_RETRY, "Car Webview");
 	}
+
 	public static void trackAppCarWebViewBack() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_BACK, "Car Webview");
 	}
+
 	public static void trackAppCarWebViewSignIn() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_SIGNIN, "Car Webview");
 	}
+
 	public static void trackAppCarWebViewLogOut() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_LOGOUT, "Car Webview");
 	}
+
 	public static void trackAppCarWebViewClose() {
 		createAndtrackLinkEvent(CAR_WEBVIEW_CLOSE, "Car Webview");
 	}
@@ -4002,7 +4016,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPackagesDestinationSearchInit() {
-		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
+		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
+			AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
 	}
 
 	public static void trackPackagesHSRMapInit() {
@@ -4257,7 +4272,8 @@ public class OmnitureTracking {
 
 	public static void trackPackagesCheckoutError(String errorType) {
 		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_ERROR + "\" pageLoad...");
-		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, PACKAGES_CHECKOUT_ERROR);
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME,
+			PACKAGES_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.track();
 	}
@@ -4772,7 +4788,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackShowFlightOverView(
-		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams, PageUsableData overviewPageUsableData) {
+		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
+		PageUsableData overviewPageUsableData) {
 		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_RATE_DETAILS + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_RATE_DETAILS);
@@ -4888,7 +4905,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackFlightCheckoutError(String errorType) {
-		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME, FLIGHTS_V2_CHECKOUT_ERROR);
+		ADMS_Measurement s = createTrackCheckoutErrorPageLoadEventBase(CHECKOUT_ERROR_PAGE_NAME,
+			FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(16, FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.trackLink(null, "o", "Flight Checkout", null, null);

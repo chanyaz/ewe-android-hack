@@ -151,6 +151,10 @@ open class HotelTracking {
             FacebookEvents().trackHotelV2InfoSite(searchParams, hotelOffersResponse)
         }
 
+        fun trackHotelNarrowPrompt(){
+            OmnitureTracking.trackHotelNarrowSearchPrompt()
+        }
+
         fun trackLinkHotelDetailBookPhoneClick() {
             OmnitureTracking.trackLinkHotelV2DetailBookPhoneClick()
         }

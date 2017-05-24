@@ -3654,6 +3654,8 @@
     <string name="four_star">4 star</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5 star</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">Narrow your results</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">There may be an additional fee based on your payment method.</string>

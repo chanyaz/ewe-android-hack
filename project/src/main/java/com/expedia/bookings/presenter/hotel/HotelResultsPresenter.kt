@@ -22,9 +22,10 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.hotel.animation.AnimationRunner
 import com.expedia.bookings.hotel.animation.ScaleInRunnable
 import com.expedia.bookings.hotel.animation.ScaleOutRunnable
-import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.urgency.UrgencyServices
@@ -47,6 +48,7 @@ import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import com.expedia.vm.hotel.HotelFilterViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
 import rx.Observer
+import rx.Subscription
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -56,9 +58,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     val urgencyDescriptionView: TextView by bindView(R.id.urgency_destination_description_view)
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
+    private val narrowResultsPromptView: TextView by bindView(R.id.narrow_result_prompt)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
-    
+    private var narrowFilterPromptSubscription: Subscription? = null
+
     val searchMenu: MenuItem by lazy {
         val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
         searchMenu
@@ -98,6 +102,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 }
             }
         }
+
+        initSortCallToAction()
 
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
@@ -157,6 +163,25 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.errorObservable.subscribe { hideMapLoadingOverlay() }
     }
 
+    private fun initSortCallToAction() {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
+            viewModel.hotelResultsObservable.subscribe {
+                narrowResultsPromptView.visibility = View.GONE
+                narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
+                    val animationRunner = AnimationRunner(narrowResultsPromptView, context)
+                    narrowResultsPromptView.visibility = View.VISIBLE
+                    animationRunner.animIn(R.anim.filter_prompt_in)
+                            .animOut(R.anim.filter_prompt_out)
+                            .afterAction({ narrowResultsPromptView.visibility = View.GONE })
+                            .duration(500L).outDelay(3000L)
+                            .run()
+                    HotelTracking.trackHotelNarrowPrompt()
+                    narrowFilterPromptSubscription?.unsubscribe()
+                }
+            }
+        }
+    }
+    
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
@@ -233,6 +258,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         super.showLoading()
         filterBtnWithCountWidget?.visibility = View.GONE
         urgencyDropDownContainer.visibility = View.GONE
+        narrowResultsPromptView.visibility = View.GONE
+        narrowResultsPromptView.clearAnimation()
     }
 
     override fun doAreaSearch() {

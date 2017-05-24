@@ -167,6 +167,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotelsv2_detail_star_color,
 		R.layout.hotel_results_header_cell,
 		R.layout.hotel_price_range_seekbar,
+		R.anim.filter_prompt_in,
+		R.anim.filter_prompt_out,
 		R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE,
 		R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE,
 		R.layout.hotel_cost_summary_date_row,
