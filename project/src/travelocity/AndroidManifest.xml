@@ -54,7 +54,7 @@
 
                 <data android:host="shop.travelocity.com" />
                 <data android:host="www.travelocity.com" />
-
+                <data android:host="www.travelocity.ca" />
 
                 <!-- Public integration -->
                 <data android:host="70.42.224.37" />

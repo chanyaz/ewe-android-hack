@@ -52,6 +52,8 @@
                 <data android:host="thailand.airasiago.com" />
                 <data android:host="www.airasiago.com.my" />
                 <data android:host="www.airasiago.com.sg" />
+                <data android:host="www.airasiago.com.au" />
+                <data android:host="www.airasiago.jp" />
 
                 <!-- Dev Server -->
                 <data android:host="wwwairasiagocoid.chelwebestr37.bgb.karmalab.net" />
