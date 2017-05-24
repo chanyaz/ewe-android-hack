@@ -1,10 +1,5 @@
 package com.expedia.bookings.data.user;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
 import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -31,7 +25,6 @@ import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.StoredPointsCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
@@ -45,6 +38,10 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.TimingLogger;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class User implements JSONable {
 
@@ -93,23 +90,16 @@ public class User implements JSONable {
 	}
 
 	public List<StoredCreditCard> getStoredCreditCards() {
-		boolean removeExpiredCreditCards = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppRemoveExpiredCreditCards);
 		if (mStoredCreditCards != null) {
-			if (removeExpiredCreditCards) {
-				List<StoredCreditCard> creditCards = new ArrayList<>(mStoredCreditCards);
-				List<StoredCreditCard> expiredCreditCards = new ArrayList<>();
-				for (StoredCreditCard creditCard : creditCards) {
-					if (creditCard.isExpired()) {
-						expiredCreditCards.add(creditCard);
-					}
+			List<StoredCreditCard> creditCards = new ArrayList<>(mStoredCreditCards);
+			List<StoredCreditCard> expiredCreditCards = new ArrayList<>();
+			for (StoredCreditCard creditCard : creditCards) {
+				if (creditCard.isExpired()) {
+					expiredCreditCards.add(creditCard);
 				}
-				creditCards.removeAll(expiredCreditCards);
-				return creditCards;
 			}
-			else {
-				return mStoredCreditCards;
-			}
-
+			creditCards.removeAll(expiredCreditCards);
+			return creditCards;
 		}
 		return Collections.emptyList();
 	}
@@ -608,16 +598,4 @@ public class User implements JSONable {
 		userAccountRefresher.forceAccountRefresh();
 	}
 
-	public boolean hasAtLeastOneExpiredStoredCard() {
-		boolean hasAtLeastOneExpiredStoredCard = false;
-		if (mStoredCreditCards != null) {
-			for (StoredCreditCard creditCard : mStoredCreditCards) {
-				if (creditCard.isExpired()) {
-					hasAtLeastOneExpiredStoredCard = true;
-					break;
-				}
-			}
-		}
-		return hasAtLeastOneExpiredStoredCard;
-	}
 }

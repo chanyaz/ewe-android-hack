@@ -426,15 +426,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="13046"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Remove expired credit cards - 13046" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="13280"
             android:layout="@layout/preference"
             android:summary="%s"
