@@ -64,10 +64,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             updateDestinationText(locationText)
-            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch)) {
-                if (this.visibility == VISIBLE && vm.startDate() == null) {
-                    calendarWidgetV2.showCalendarDialog()
-                }
+            if (this.visibility == VISIBLE && vm.startDate() == null) {
+                calendarWidgetV2.showCalendarDialog()
             }
         }
         vm.errorNoDestinationObservable.subscribe {

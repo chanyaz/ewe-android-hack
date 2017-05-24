@@ -44,15 +44,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="13178"
-            android:layout="@layout/preference"
-            android:title="Hotel Remove Auto Focus On Search - 13178" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="13415"
             android:layout="@layout/preference"
             android:title="Hotel Details Gallery Peak - 13415" />
