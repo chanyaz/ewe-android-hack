@@ -6,7 +6,6 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class HotelSearchParamsTest {
@@ -47,29 +46,15 @@ class HotelSearchParamsTest {
     }
 
     @Test
-    fun testClientSideSortTypeIsAlwaysDefault() {
-        testParamBuilder.userSort(HotelSearchParams.SortType.REVIEWS)
+    fun testSortDefault() {
         val searchParams = testParamBuilder.build()
-        searchParams.serverSort = false
-
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
-
-        searchParams.sortType = "SortMeSortMe"
         assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
     }
 
     @Test
-    fun testServerSideSortDefault() {
-        val searchParams = testParamBuilder.build()
-        searchParams.serverSort = true
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
-    }
-
-    @Test
-    fun testServerSideSortWithUserPreference() {
+    fun testSortWithUserPreference() {
         testParamBuilder.userSort(HotelSearchParams.SortType.REVIEWS)
         val searchParams = testParamBuilder.build()
-        searchParams.serverSort = true
 
         assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
 
@@ -88,15 +73,14 @@ class HotelSearchParamsTest {
     }
 
     @Test
-    fun testServerSideSortWithSortType() {
+    fun testSortWithSortType() {
         val searchParams = testParamBuilder.build()
-        searchParams.serverSort = true
         searchParams.sortType = "Price"
         assertEquals(HotelSearchParams.SortType.PRICE, searchParams.getSortOrder())
     }
 
     @Test
-    fun testCurrentLocationServerSideSort() {
+    fun testCurrentLocationSortType() {
         val paramBuilder = HotelSearchParams.Builder(maxStay, maxRange)
         val currentLocation = getDummySuggestion("ChiTown", "CHI")
         currentLocation.gaiaId = ""
@@ -105,7 +89,6 @@ class HotelSearchParamsTest {
                 .startDate(tomorrow)
                 .endDate(checkoutDate)
         val searchParams = paramBuilder.build()
-        searchParams.serverSort = true
         assertEquals(HotelSearchParams.SortType.DISTANCE, searchParams.getSortOrder())
     }
 
@@ -136,6 +119,4 @@ class HotelSearchParamsTest {
         suggestion.hierarchyInfo!!.airport!!.airportCode = airport
         return suggestion
     }
-
-
 }

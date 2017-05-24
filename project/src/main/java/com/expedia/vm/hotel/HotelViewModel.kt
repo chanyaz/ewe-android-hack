@@ -77,7 +77,7 @@ open class HotelViewModel(private val context: Context) {
         this.isHotelSoldOut = hotel.isSoldOut
 
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
-            AdImpressionTracking.trackAdClickOrImpressionWithTest(context, hotel.impressionTrackingUrl, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
+            AdImpressionTracking.trackAdClickOrImpression(context, hotel.impressionTrackingUrl, null)
             hotel.hasShownImpression = true
         }
     }

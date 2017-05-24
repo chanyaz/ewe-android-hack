@@ -12,7 +12,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
-import com.expedia.vm.HotelClientFilterViewModel
+import com.expedia.vm.PackageFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,22 +25,13 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-class HotelClientFilterViewModelTest {
-    var vm: HotelClientFilterViewModel by Delegates.notNull()
+class PackageFilterViewModelTest {
+    var vm: PackageFilterViewModel by Delegates.notNull()
 
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelClientFilterViewModel(context)
-    }
-
-    @Test
-    fun filterVip() {
-        vm.vipFilteredObserver.onNext(true)
-        assertEquals(true, vm.userFilterChoices.isVipOnlyAccess)
-
-        vm.vipFilteredObserver.onNext(false)
-        assertEquals(false, vm.userFilterChoices.isVipOnlyAccess)
+        vm = PackageFilterViewModel(context)
     }
 
     @Test
@@ -60,13 +51,6 @@ class HotelClientFilterViewModelTest {
     }
 
     @Test
-    fun filterName() {
-        val str = "Hilton"
-        vm.filterHotelNameObserver.onNext(str)
-        assertEquals(str, vm.userFilterChoices.name)
-    }
-
-    @Test
     fun clearFilters() {
         val ogResponse = fakeFilteredResponse()
         vm.originalResponse = ogResponse
@@ -82,16 +66,11 @@ class HotelClientFilterViewModelTest {
         vm.userFilterChoices.minPrice = 20
         vm.userFilterChoices.maxPrice = 50
 
-        var neighborhood = HotelSearchResponse.Neighborhood()
-        neighborhood.name = "Civic Center"
-        vm.selectNeighborhood.onNext(neighborhood)
-
         vm.clearObservable.onNext(Unit)
 
         assertTrue(vm.userFilterChoices.name.isBlank())
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(false, vm.userFilterChoices.isVipOnlyAccess)
-        assertTrue(vm.userFilterChoices.neighborhoods.isEmpty())
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(0, vm.userFilterChoices.minPrice)
@@ -133,19 +112,6 @@ class HotelClientFilterViewModelTest {
         vm.originalResponse = fakeFilteredResponse()
         vm.selectAmenity.onNext(amenityId)
         assertEquals(1, vm.filteredResponse.hotelList.size)
-    }
-
-    @Test
-    fun filterNeighborhood() {
-        var neighborhood = HotelSearchResponse.Neighborhood()
-        neighborhood.name = "Civic Center"
-        vm.originalResponse = fakeFilteredResponse()
-        vm.selectNeighborhood.onNext(neighborhood)
-        assertEquals(neighborhood.name, vm.filteredResponse.hotelList.first().locationDescription)
-        assertTrue(vm.filteredResponse.hotelList.size == 1)
-
-        vm.deselectNeighborhood.onNext(neighborhood)
-        assertTrue(vm.filteredResponse.hotelList.size == vm.originalResponse!!.hotelList.size)
     }
 
     @Test
@@ -252,22 +218,6 @@ class HotelClientFilterViewModelTest {
         assertTrue(vm.filterCountObservable.value == 3)
 
         vm.vipFilteredObserver.onNext(true)
-        assertTrue(vm.filterCountObservable.value == 4)
-
-        var neighborhood1 = HotelSearchResponse.Neighborhood()
-        neighborhood1.name = "Civic Center"
-        var neighborhood2 = HotelSearchResponse.Neighborhood()
-        neighborhood2.name = "Fisherman's Wharf"
-        vm.selectNeighborhood.onNext(neighborhood1)
-        assertTrue(vm.filterCountObservable.value == 5)
-
-        vm.selectNeighborhood.onNext(neighborhood2)
-        assertTrue(vm.filterCountObservable.value == 6)
-
-        vm.deselectNeighborhood.onNext(neighborhood2)
-        assertTrue(vm.filterCountObservable.value == 5)
-
-        vm.deselectNeighborhood.onNext(neighborhood1)
         assertTrue(vm.filterCountObservable.value == 4)
     }
 
@@ -382,37 +332,6 @@ class HotelClientFilterViewModelTest {
         vm.sortByObservable.onNext(Sort.DEALS)
         vm.sortByObservable.onNext(Sort.RATING)
         assertEquals(expectedList, resultsList)
-    }
-
-    @Test
-    fun testNoNeighborhoods() {
-        assertFalse(vm.neighborhoodsExist)
-        vm.neighborhoodsExist = true
-
-        assertTrue(vm.neighborhoodsExist)
-        vm.setHotelList(generateNoNeighborhoodSearch())
-        assertFalse(vm.neighborhoodsExist)
-    }
-
-    @Test
-    fun testNotShowingSearchedNeighborhood() {
-        var neighborhoodList: List<HotelSearchResponse.Neighborhood> = ArrayList()
-        vm.neighborhoodListObservable.subscribe { neighborhood ->
-            neighborhoodList = neighborhood
-        }
-
-        vm.setHotelList(generateHotelSearchResponse())
-        assertEquals(8, neighborhoodList.size)
-
-        vm.setSearchLocationId("6139039")
-        vm.setHotelList(generateHotelSearchResponse())
-        assertEquals(7, neighborhoodList.size)
-    }
-
-    private fun generateNoNeighborhoodSearch(): HotelSearchResponse {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/hotel/no_neighborhood_search_response.json")
-        val searchResponse = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
-        return searchResponse
     }
 
     private fun generateHotelSearchResponse(): HotelSearchResponse {

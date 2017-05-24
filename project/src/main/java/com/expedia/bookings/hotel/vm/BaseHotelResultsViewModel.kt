@@ -2,16 +2,13 @@ package com.expedia.bookings.hotel.vm
 
 import android.content.Context
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-
 import com.expedia.bookings.tracking.AdImpressionTracking
-
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class BaseHotelResultsViewModel(protected  val context: Context) {
+open class BaseHotelResultsViewModel(protected val context: Context) {
 
     // Inputs
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
@@ -31,6 +28,6 @@ open class BaseHotelResultsViewModel(protected  val context: Context) {
     }
 
     protected fun trackAdImpression(url: String) {
-        AdImpressionTracking.trackAdClickOrImpressionWithTest(context, url, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
+        AdImpressionTracking.trackAdClickOrImpression(context, url, null)
     }
 }

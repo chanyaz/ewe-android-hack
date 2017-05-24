@@ -41,10 +41,9 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelListAdapter
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelClientFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
-import com.expedia.vm.hotel.HotelServerFilterViewModel
+import com.expedia.vm.hotel.HotelFilterViewModel
 import com.expedia.vm.hotel.UrgencyViewModel
 import rx.Observer
 import java.lang.ref.WeakReference
@@ -79,10 +78,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     init {
         showSearchMenu.subscribe { searchMenu.isVisible = it }
 
-        if (!filterView.viewModel.isClientSideFiltering()) {
-            filterView.viewModel.filterByParamsObservable.subscribe { params ->
-                viewModel.filterParamsSubject.onNext(params)
-            }
+        filterView.viewModel.filterByParamsObservable.subscribe { params ->
+            viewModel.filterParamsSubject.onNext(params)
         }
     }
 
@@ -220,12 +217,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter)) {
-            viewStub.layoutResource = R.layout.hotel_server_filter_view_stub;
-            return viewStub.inflate() as HotelServerFilterView
-        }
-
-        return inflateClientFilterView(viewStub)
+        viewStub.layoutResource = R.layout.hotel_server_filter_view_stub;
+        return viewStub.inflate() as HotelServerFilterView
     }
 
     override fun back(): Boolean {
@@ -322,10 +315,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun createFilterViewModel(): BaseHotelFilterViewModel {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter)) {
-            return HotelServerFilterViewModel(context)
-        }
-        return HotelClientFilterViewModel(context)
+        return HotelFilterViewModel(context)
     }
 
     fun showCachedResults() {
@@ -372,7 +362,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 shadowViewRef.get()?.visibility = GONE
             }
             scaleOutRunnable.endSubject.subscribe {
-               shadowViewRef.get()?.visibility = VISIBLE
+                shadowViewRef.get()?.visibility = VISIBLE
             }
         }
 

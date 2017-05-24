@@ -10,7 +10,6 @@ import java.util.HashMap
 open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, adults: Int, children: List<Int>, var shopWithPoints: Boolean, val filterUnavailable: Boolean, var sortType: String? = null, var mctc: Int? = null) : BaseSearchParams(suggestion, null, adults, children, checkIn, checkOut) {
     var forPackage = false
     var filterOptions: HotelFilterOptions? = null
-    var serverSort: Boolean = false
     var enableSponsoredListings = true
 
     fun isCurrentLocationSearch(): Boolean {
@@ -21,23 +20,17 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         suggestion.hotelId = null
     }
 
-    fun isPinnedSearch() : Boolean {
+    fun isPinnedSearch(): Boolean {
         return suggestion.hotelId != null
     }
 
     /**
-     * if server side is off, always default to ExpertPicks
-     * if server side is on:
      *  use user sort if set
      *  else use sort type if set
      *  else if current location search - set to distance
      *  otherwise default to expert picks
      */
     fun getSortOrder(): SortType {
-        if (!serverSort) {
-            return SortType.EXPERT_PICKS
-        }
-
         if (filterOptions?.userSort != null) {
             return filterOptions?.userSort!!
         }
@@ -114,7 +107,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return this
         }
 
-        fun neighborhood(neighborhoodRegionId : String) : Builder {
+        fun neighborhood(neighborhoodRegionId: String): Builder {
             this.neighborhoodRegionId = neighborhoodRegionId
             return this
         }
