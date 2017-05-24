@@ -24,7 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.RatingBar;
@@ -496,25 +495,6 @@ public final class ViewActions {
 				seekBar.getListener().onRangeSeekBarValuesChanged(seekBar, minValue, maxValue);
 				seekBar.setMinValue(minValue);
 				seekBar.setMaxValue(maxValue);
-			}
-		};
-	}
-
-	public static ViewAction toggleProgrammatically() {
-		return new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return isAssignableFrom(CompoundButton.class);
-			}
-
-			@Override
-			public String getDescription() {
-				return "toggle CompoundButton programmatically";
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				((CompoundButton) view).toggle();
 			}
 		};
 	}
