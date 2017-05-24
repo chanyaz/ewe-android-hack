@@ -2190,7 +2190,7 @@ public class OmnitureTracking {
 		if (!userStateManager.isUserAuthenticated() && getUsersTrips().isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsNewSignInPage);
 		}
-		if (userStateManager.isUserAuthenticated() && !getUsersTrips().isEmpty()) {
+		if (!getUsersTrips().isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
 		}
 		s.track();
