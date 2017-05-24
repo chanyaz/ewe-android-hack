@@ -77,10 +77,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bottomCheckoutContainer.slideToPurchaseLayout
     }
 
-    val priceChangeWidget by lazy {
-        bottomCheckoutContainer.priceChangeWidget
-    }
-
     val slideToPurchase by lazy {
         bottomCheckoutContainer.slideToPurchase
     }
@@ -137,38 +133,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         airlineFeeWebview.viewModel = WebViewViewModel()
         (checkoutPresenter.getCheckoutViewModel() as AbstractCardFeeEnabledCheckoutViewModel).obFeeDetailsUrlSubject.subscribe(airlineFeeWebview.viewModel.webViewURLObservable)
         airlineFeeWebview
-    }
-
-
-    protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
-        priceChangeWidget.viewmodel = vm
-        vm.priceChangeVisibility.subscribe { visible ->
-            if (priceChangeWidget.measuredHeight == 0) {
-                priceChangeWidget.measure(MeasureSpec.makeMeasureSpec(this.width, MeasureSpec.AT_MOST),
-                        MeasureSpec.makeMeasureSpec(this.height, MeasureSpec.UNSPECIFIED))
-            }
-            val height = priceChangeWidget.measuredHeight
-            if (visible) {
-                priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-                AnimUtils.slideInOut(priceChangeWidget, height, object : Animator.AnimatorListener {
-                    override fun onAnimationCancel(animation: Animator) {
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator) {
-                    }
-
-                    override fun onAnimationStart(animation: Animator) {
-                    }
-
-                    override fun onAnimationEnd(animation: Animator) {
-                        priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-                    }
-                })
-                AnimUtils.slideInOut(bottomContainerDropShadow, height)
-            } else {
-                priceChangeWidget.translationY = height.toFloat()
-            }
-        }
     }
 
     protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
@@ -392,9 +356,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (slideToPurchaseLayout.height > 0) {
             scrollspaceheight -= slideToPurchaseLayout.height
         }
-        if (priceChangeWidget.height > 0) {
-            scrollspaceheight -= priceChangeWidget.height
-        }
         if (scrollSpaceViewLp?.height != scrollspaceheight) {
             scrollSpaceViewLp?.height = scrollspaceheight
             scrollSpaceView?.layoutParams = scrollSpaceViewLp
@@ -409,7 +370,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     fun resetPriceChange() {
-        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
         checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(null)
     }
 
@@ -529,21 +489,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
-        priceChangeViewModel = PriceChangeViewModel(context, checkoutPresenter.getLineOfBusiness())
         totalPriceViewModel = getPriceViewModel(context)
         baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
     }
 
     private fun setupCreateTripViewModelSubscriptions() {
-        checkoutPresenter.getCreateTripViewModel().updatePriceChangeWidgetObservable.subscribe { response ->
-            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
-        }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
             resetCheckoutState()
         }
-        checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
-        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
     }
 
     private fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState) {

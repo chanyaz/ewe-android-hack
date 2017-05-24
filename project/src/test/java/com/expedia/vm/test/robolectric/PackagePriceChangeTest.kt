@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.hotels.Hotel
@@ -26,7 +28,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.vm.packages.BundleOverviewViewModel
-import junit.framework.Assert.assertNull
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -36,6 +37,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -52,7 +54,8 @@ class PackagePriceChangeTest {
     private var overview: PackageOverviewPresenter by Delegates.notNull()
 
     lateinit var travelerValidator: TravelerValidator
-    private val priceChangeSubscriber = TestSubscriber<Boolean>()
+    private val priceChangeAlertSubscriber = TestSubscriber<TripResponse>()
+    private val showPriceChangeAlertSubscriber = TestSubscriber<Boolean>()
 
     private val lowPackageTotal = Money(900, "USD")
     private val highPackageTotal = Money(1000, "USD")
@@ -77,7 +80,9 @@ class PackagePriceChangeTest {
         checkout = overview.getCheckoutPresenter()
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
-        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.resetAndShowTotalPriceWidget()
+        checkout.getCreateTripViewModel().priceChangeAlertPriceObservable.subscribe(priceChangeAlertSubscriber)
+        checkout.getCreateTripViewModel().showPriceChangeAlertObservable.subscribe(showPriceChangeAlertSubscriber)
     }
 
     @Test
@@ -86,31 +91,9 @@ class PackagePriceChangeTest {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
 
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertPriceChangeWidgetIsCorrect(lowBundleTotal, highBundleTotal, "Price dropped from $1,150")
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testCreateTripPriceChangeWithBundleTotalsPriceIncreased() {
-        checkout.getCreateTripViewModel().createTripResponseObservable
-                .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal, highBundleTotal, lowBundleTotal))
-
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertPriceChangeWidgetIsCorrect(highBundleTotal, lowBundleTotal, "Price changed from $950")
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testCreateTripPriceChangeWithoutBundleTotalsPriceDecreased() {
-        checkout.getCreateTripViewModel().createTripResponseObservable
-                .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal))
-
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertPriceChangeWidgetIsCorrect(lowPackageTotal, highPackageTotal, "Price dropped from $1,000")
+        priceChangeAlertSubscriber.assertValueCount(1)
+        showPriceChangeAlertSubscriber.assertValue(true)
+        assertPriceChangeWidgetIsCorrect(lowBundleTotal, highBundleTotal)
     }
 
     @Test
@@ -124,9 +107,9 @@ class PackagePriceChangeTest {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false))
 
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertPriceChangeWidgetIsCorrect(newBundleTotal, oldBundleTotal, "Price changed from $950")
+        priceChangeAlertSubscriber.assertValueCount(1)
+        showPriceChangeAlertSubscriber.assertValue(true)
+        assertPriceChangeWidgetIsCorrect(newBundleTotal, oldBundleTotal)
     }
 
     @Test
@@ -140,9 +123,9 @@ class PackagePriceChangeTest {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(newPackageTotal, oldPackageTotal, newBundleTotal, oldBundleTotal, false))
 
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertPriceChangeWidgetIsCorrect(newBundleTotal, oldBundleTotal, "Price dropped from $1,050")
+        priceChangeAlertSubscriber.assertValueCount(1)
+        showPriceChangeAlertSubscriber.assertValue(true)
+        assertPriceChangeWidgetIsCorrect(newBundleTotal, oldBundleTotal)
     }
 
     @Test
@@ -151,9 +134,9 @@ class PackagePriceChangeTest {
         checkout.getCreateTripViewModel().createTripResponseObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
 
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertPriceChangeWidgetIsCorrect(highPackageTotal, lowPackageTotal, "Price changed from $900")
+        priceChangeAlertSubscriber.assertValueCount(1)
+        showPriceChangeAlertSubscriber.assertValue(true)
+        assertPriceChangeWidgetIsCorrect(highPackageTotal, lowPackageTotal)
     }
 
     @Test
@@ -162,8 +145,8 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal, highBundleTotal, lowBundleTotal))
 
-        assertTrue(priceChangeSubscriber.onNextEvents.last())
-        assertPriceChangeWidgetIsCorrect(highBundleTotal, lowBundleTotal, "Price changed from $950")
+        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertPriceChangeWidgetIsCorrect(highBundleTotal, lowBundleTotal)
     }
 
     @Test
@@ -172,8 +155,8 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal, lowBundleTotal, highBundleTotal))
 
-        assertTrue(priceChangeSubscriber.onNextEvents.last())
-        assertPriceChangeWidgetIsCorrect(lowBundleTotal, highBundleTotal, "Price dropped from $1,150")
+        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertPriceChangeWidgetIsCorrect(lowBundleTotal, highBundleTotal)
     }
 
     @Test
@@ -182,8 +165,8 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(lowPackageTotal, highPackageTotal))
 
-        assertTrue(priceChangeSubscriber.onNextEvents.last())
-        assertPriceChangeWidgetIsCorrect(lowPackageTotal, highPackageTotal, "Price dropped from $1,000")
+        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertPriceChangeWidgetIsCorrect(lowPackageTotal, highPackageTotal)
     }
 
     @Test
@@ -192,53 +175,20 @@ class PackagePriceChangeTest {
         checkout.getCheckoutViewModel().checkoutPriceChangeObservable
                 .onNext(getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal))
 
-        assertTrue(priceChangeSubscriber.onNextEvents.last())
-        assertPriceChangeWidgetIsCorrect(highPackageTotal, lowPackageTotal, "Price changed from $900")
+        assertTrue(showPriceChangeAlertSubscriber.onNextEvents.last())
+        assertPriceChangeWidgetIsCorrect(highPackageTotal, lowPackageTotal)
     }
 
-    @Test
-    fun testCheckoutPriceChangeDoesNotCrashWithoutOldPackageOffer(){
-        val priceChangeSubscriber = TestSubscriber<Boolean>()
-        val oldMoneySubscriber = TestSubscriber<Money>()
-        val priceChangeTextSubscriber = TestSubscriber<String>()
-        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
-        overview.priceChangeWidget.viewmodel.originalPrice.subscribe(oldMoneySubscriber)
-        overview.priceChangeWidget.viewmodel.priceChangeText.subscribe(priceChangeTextSubscriber)
-
-        val responseWithoutOldPackageOffer = getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal)
-        responseWithoutOldPackageOffer?.oldPackageDetails = null
-        checkout.getCheckoutViewModel().checkoutPriceChangeObservable.onNext(responseWithoutOldPackageOffer)
-
-        priceChangeSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValue(true)
-        assertNull(oldMoneySubscriber.onNextEvents[0])
-        priceChangeTextSubscriber.assertNoValues()
+    private fun assertPriceChangeWidgetIsCorrect(newPrice: Money, oldPrice: Money) {
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        assertEquals(true, alertDialog.isShowing)
+        assertTrue(errorMessage.text.contains("The price of your trip has changed from " + oldPrice.formattedMoneyFromAmountAndCurrencyCode + " to " +
+                newPrice.formattedMoneyFromAmountAndCurrencyCode + ". Rates can change frequently. Book now to lock in this price."))
+        assertEquals("OK", okButton.text )
     }
 
-    @Test
-    fun testCreateTripPriceChangeDoesNotCrashWithoutOldPackageOffer(){
-        val priceChangeSubscriber = TestSubscriber<Boolean>()
-        val oldMoneySubscriber = TestSubscriber<Money>()
-        val priceChangeTextSubscriber = TestSubscriber<String>()
-        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
-        overview.priceChangeWidget.viewmodel.originalPrice.subscribe(oldMoneySubscriber)
-        overview.priceChangeWidget.viewmodel.priceChangeText.subscribe(priceChangeTextSubscriber)
-
-        val responseWithoutOldPackageOffer = getDummyPackageCreateTripPriceChangeResponse(highPackageTotal, lowPackageTotal)
-        responseWithoutOldPackageOffer?.oldPackageDetails = null
-        checkout.getCreateTripViewModel().createTripResponseObservable.onNext(responseWithoutOldPackageOffer)
-
-        priceChangeSubscriber.assertValueCount(0)
-        assertNull(oldMoneySubscriber.onNextEvents[0])
-        priceChangeTextSubscriber.assertNoValues()
-    }
-
-    private fun assertPriceChangeWidgetIsCorrect(newPrice: Money, oldPrice: Money, priceChangeText: String) {
-        assertEquals(oldPrice.amount, overview.priceChangeWidget.viewmodel.originalPrice.value.amount)
-        assertEquals(newPrice.amount, overview.priceChangeWidget.viewmodel.newPrice.value.amount)
-        assertEquals(priceChangeText, overview.priceChangeWidget.viewmodel.priceChangeText.value)
-        assertEquals(newPrice.formattedMoneyFromAmountAndCurrencyCode, overview.totalPriceWidget.viewModel.totalPriceObservable.value)
-    }
     private fun getDummyPackageCreateTripPriceChangeResponse(newTotal: Money, oldTotal: Money, newBundleTotal: Money ?= null, oldBundleTotal: Money ?= null, withCardFee: Boolean = true): PackageCreateTripResponse? {
         val trip = PackageCreateTripResponse()
         val packageDetails = PackageCreateTripResponse.PackageDetails()
