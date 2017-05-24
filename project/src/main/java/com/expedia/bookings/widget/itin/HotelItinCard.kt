@@ -59,10 +59,9 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
     }
 
     override fun finishExpand() {
-        mHeaderGallery.showPhotoCount = isBucketedForGallery()
-        mHeaderGallery.canScroll = isBucketedForGallery()
+        mHeaderGallery.showPhotoCount = true
+        mHeaderGallery.canScroll = true
         mRoomUpgradeAvailableBanner.visibility = View.GONE
-        OmnitureTracking.trackHotelItinGallery()
         super.finishExpand()
     }
 
@@ -72,9 +71,6 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
     }
 
     override fun onGalleryItemClicked(item: Any) {
-        if (!isBucketedForGallery()) {
-            return
-        }
         val i = Intent(context, GalleryActivity::class.java)
         val contentGenerator = mItinContentGenerator as HotelItinContentGenerator
         val gson = GsonBuilder().create()
@@ -120,9 +116,5 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
         val isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE || customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP
         val posSupportVipAccess = PointOfSale.getPointOfSale().supportsVipAccess()
         mVIPTextView.visibility = if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) View.VISIBLE else View.GONE
-    }
-
-    private fun isBucketedForGallery(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidItinHotelGallery)
     }
 }

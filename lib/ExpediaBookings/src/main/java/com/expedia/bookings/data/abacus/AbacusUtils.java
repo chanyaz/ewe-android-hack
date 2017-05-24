@@ -23,7 +23,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppRemoveExpiredCreditCards = 13046;
 	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12992;
-	public static final int EBAndroidItinHotelGallery = 12465;
 	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
 	public static final int EBAndroidAppLXFilterSearch = 12689;
 	public static final int EBAndroidAppLXDisablePOISearch = 13050;
@@ -120,7 +119,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSmartLockTest);
 		testIDs.add(EBAndroidAppFlightsCreateTripPriceChangeAlert);
 		testIDs.add(EBAndroidAppOfferInsuranceInFlightSummary);
-		testIDs.add(EBAndroidItinHotelGallery);
 		testIDs.add(EBAndroidAppFlightRateDetailExpansion);
 		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX);
 		testIDs.add(EBAndroidAppLXFilterSearch);
