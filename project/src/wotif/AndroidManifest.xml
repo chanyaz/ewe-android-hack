@@ -52,6 +52,7 @@
                 <data android:pathPrefix="/mobile/deeplink"/>
 
                 <data android:host="www.wotif.com" />
+                <data android:host="www.wotif.co.nz" />
 
                 <!-- Integration Server -->
                 <data android:host="wwwwotifcom.integration.sb.karmalab.net" />
