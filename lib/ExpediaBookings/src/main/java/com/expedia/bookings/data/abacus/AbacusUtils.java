@@ -31,7 +31,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightsConfirmationItinSharing = 14137;
 	public static final int EBAndroidAppTripsNewSignInPage = 13890;
-	public static final int EBAndroidAppTripsHotelSoftChangeWebView = 13026;
 	public static final int EBAndroidAppDisabledSTPState = 13825;
 	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
@@ -143,7 +142,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
 		testIDs.add(EBAndroidAppHotelUrgencyMessage);
 		testIDs.add(EBAndroidAppDisabledSTPState);
-		testIDs.add(EBAndroidAppTripsHotelSoftChangeWebView);
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch);
 		testIDs.add(EBAndroidAppHotelLPASEndpoint);
