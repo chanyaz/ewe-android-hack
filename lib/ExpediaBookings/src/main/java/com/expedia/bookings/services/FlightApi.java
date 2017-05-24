@@ -26,6 +26,7 @@ public interface FlightApi {
 	@FormUrlEncoded
 	@POST("/api/flight/trip/create?withInsurance=true")
 	Observable<FlightCreateTripResponse> createTrip(
+		@Query("mobileFlexEnabled") boolean flexEnabled,
 		@FieldMap Map<String, Object> queryParams);
 
 	@FormUrlEncoded

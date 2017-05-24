@@ -17,6 +17,7 @@ import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {
@@ -216,6 +217,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
             getCreateTripViewModel().reset()
+            params.flexEnabled = isFlexEnabled(this)
             getCreateTripViewModel().tripParams.onNext(params)
         }
     }
