@@ -1,0 +1,208 @@
+{
+  "details": {
+    "legs": [
+      {
+        "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+        "segments": [
+          {
+            "airlineCode": "AA",
+            "airlineName": "American Airlines",
+            "arrivalAirportCode": "${departureAirport}",
+            "arrivalAirportLocation": "${departureAirport}",
+            "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
+            "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+            "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
+            "arrivalTime": "March 22, 2016 8:15:00 PM",
+            "departureAirportCode": "${arrivalAirport}",
+            "departureAirportLocation": "${arrivalAirport}",
+            "departureTime": "March 22, 2016 5:40:00 PM",
+            "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
+            "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
+            "departureTimeRaw": "2016-03-22T17:40:00.000-07:00",
+            "duration": "PT2H35M",
+            "distance": 2572,
+            "distanceUnits": "miles",
+            "equipmentCode": "32B",
+            "equipmentDescription": "Boeing 757-200",
+            "flightNumber": "179",
+            "meal": "Food and beverage for purchase",
+            "onTimePercentage": "70",
+            "providerCode": "Amadeus",
+            "stops": 0
+          }
+        ]
+      }
+    ],
+    "flightRules": [
+      {
+        "changePenaltyAmount": "200.00",
+        "changePenaltyPrice": {
+          "amount": "200.00",
+          "formattedPrice": "$200.00",
+          "formattedWholePrice": "$200"
+        },
+        "isChangeAllowed": true,
+        "isEnrouteChangeAllowed": false,
+        "isEnrouteRefundAllowed": false,
+        "isRefundable": false,
+        "summaryText": "\nRU.RULE APPLICATION\nEXCURSION FARES\n APPLICATION\n   CLASS OF SERVICE\n     THESE FARES APPLY FOR COACH CLASS SERVICE.\n CAPACITY LIMITATIONS\n   SEATS ARE LIMITED\n\nMN.MIN STAY\n  NONE UNLESS OTHERWISE SPECIFIED\n\nMX.MAX STAY\n  NONE UNLESS OTHERWISE SPECIFIED\n\nSE.SEASONS\n  APPLIES ALL YEAR\n\nBO.BLACKOUTS\n  NONE\n\nDA.DAY/TIME\n  NO RESTRICTIONS\n\nSR.SALES RESTRICT\n \n  TICKETS MAY NOT BE SOLD IN VENEZUELA.\n  TICKETS MAY ONLY BE SOLD IN AREA 1/AREA 2/AREA 3.\n\nTR.TVL RESTRICTION\n  NO RESTRICTIONS\n\nAP.ADVANCE RES/TKT\nFOR KA03A0NP TYPE FARES\n \n  RESERVATIONS FOR ALL SECTORS ARE REQUIRED AT LEAST 3 DAYS\n  BEFORE DEPARTURE.\n  WAITLIST NOT PERMITTED.\n  TICKETING MUST BE COMPLETED BY MIDNIGHT 1 DAY AFTER\n  RESERVATIONS ARE MADE OR AT LEAST 3 DAYS BEFORE DEPARTURE\n  WHICHEVER IS EARLIER.\n \n\nFL.FLT APPLICATION\n \n  THE FARE COMPONENT MUST BE ON\n      ONE OR MORE OF THE FOLLOWING\n        DL FLIGHTS 1 THROUGH 2659\n        DL FLIGHTS 2700 THROUGH 5867\n        DL FLIGHTS 5970 THROUGH 6022\n        DL FLIGHTS 6026 THROUGH 9784\n        DL FLIGHTS 9791 THROUGH 9999\n  IN COMBINATION WITH\n      ONE OR MORE OF THE FOLLOWING\n        DL FLIGHTS 1 THROUGH 2659\n        DL FLIGHTS 2700 THROUGH 5867\n        DL FLIGHTS 5970 THROUGH 6022\n        DL FLIGHTS 6026 THROUGH 9784\n        DL FLIGHTS 9791 THROUGH 9999.\n         NOTE -\n          1. MAINLINE TO MAINLINE\n          2. NO DELTA SHUTTLE\n \n  THE FARE COMPONENT MUST BE ON\n      ONE OR MORE OF THE FOLLOWING\n        DL FLIGHTS 1 THROUGH 2659\n        DL FLIGHTS 2700 THROUGH 5867\n        DL FLIGHTS 5970 THROUGH 6022\n        DL FLIGHTS 6026 THROUGH 9784\n        DL FLIGHTS 9791 THROUGH 9999.\n         NOTE -\n          1. NO DELTA SHUTTLE.\n\nCD.CHILD DISCOUNTS\n \n  1ST INFANT UNDER 2 WITHOUT A SEAT - NO CHARGE\n        TICKET DESIGNATOR - IN00.\n    MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME COMPARTMENT\n      BY ADULT\n  OR - INFANT UNDER 2 WITH A SEAT - CHARGE 100 PERCENT OF\n         THE FARE.\n         MUST BE ACCOMPANIED ON ALL FLIGHTS IN SAME\n           COMPARTMENT BY ADULT.\n\nTC.TOUR CONDUCTOR\n  DISCOUNT DOES NOT APPLY\n\nAD.AGTS DISCOUNTS\n  DISCOUNT DOES NOT APPLY\n\nOD.OTHER DISCOUNTS\n  CONTACT CARRIER FOR FURTHER INFOS\n\nSO.STOPOVERS\n  NO STOPOVERS PERMITTED\n\nTF.TRANSFERS/RTGS\n \n  2 TRANSFERS PERMITTED IN EACH DIRECTION\n    ONLINE ON THE PRIMARY CARRIER\n    FARE BREAK AND EMBEDDED SURFACE SECTORS NOT PERMITTED ON\n     THE FARE COMPONENT.\n\nSU.SURCHARGES\n \n  IF INFANT 0-1 WITHOUT A SEAT.\n    THERE IS NO CHARGE FOR TRAVEL PER FARE COMPONENT.\n \n  A SURCHARGE OF USD 13.95 PER FARE COMPONENT WILL BE ADDED\n  TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/FRI/SAT/SUN\n  FROM 22MAY 14 THROUGH 20JUN 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 4.65 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON TUE/WED\n        FROM 27MAY 14 THROUGH 27AUG 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 23.26 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON 21JUN 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 13.95 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 22JUN 14 THROUGH 25JUN 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 18.60 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 26JUN 14 THROUGH 27JUN 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 27.91 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON 28JUN 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 18.60 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 29JUN 14 THROUGH 03JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 18.60 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 06JUL 14 THROUGH 11JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 27.91 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON 12JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 18.60 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 13JUL 14 THROUGH 18JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 27.91 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON 19JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 18.60 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 20JUL 14 THROUGH 25JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 27.91 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON 26JUL 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 18.60 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 27JUL 14 THROUGH 18AUG 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - A SURCHARGE OF USD 13.95 PER FARE COMPONENT WILL BE\n        ADDED TO THE APPLICABLE FARE FOR TRAVEL ON MON/THU/\n        FRI/SAT/SUN FROM 21AUG 14 THROUGH 01SEP 14.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n  AND - FOR TRAVEL ON/AFTER 06JAN 15\n    A SURCHARGE OF 15 PERCENT OF THE PER FARE COMPONENT WILL\n    BE ADDED TO THE APPLICABLE FARE FOR TRAVEL.\n         NOTE -\n          THIS PEAK TRAVEL SURCHARGE IS ASSESSED ON A FARE\n          COMPONENT BASIS.\n\nEL.ELIGIBILITY\n  NO RESTRICTIONS\n\nAC.ACCOMPANY TVL\n  NO RESTRICTIONS\n\nTE.TKT ENDORSEMENT\n \n  THE ORIGINAL AND THE REISSUED TICKET MUST BE ANNOTATED -\n  NONREF/PENALTY - AND - APPLIES - IN THE ENDORSEMENT BOX.\n\nPE.PENALTIES\n \n  CHANGES\n \n    CHARGE USD 200.00 FOR REISSUE/REVALIDATION/UNTICKETED\n      PTA.\n         NOTE -\n          THE USD200.00 IS AN ADMINISTRATIVE SERVICE CHARGE.\n          -SAME DAY CONFIRM/SDC-\n            A. REQUEST MUST BE MADE PRIOR TO THE\n               ORIGINAL TICKETED DEPARTURE TIME.  REQUEST\n               MAY BE MADE UP TO 24 HOURS PRIOR TO ORIGINAL\n               TICKETED DEPARTURE TIME.\n            B. NEW CONFIRMED DEPARTURE TIME MUST STILL BE\n               ON THE SAME DAY AS THE ORIGINAL TICKETED\n               DEPARTURE.\n            C. FEE USD 50.00 PLUS ANY DIFFERENCE IN\n               GOVERNMENT IMPOSED ITINERARY BASED FEES.\n            D. MUST BE SAME ORIGIN/DESTINATION\n               CHANGES FROM NONSTOP TO CONNECTION ARE\n               ALLOWED ONLY IF THE CONNECTING POINT IS\n               PERMITTED BASED ON FARE RULES.\n            E. SAME BOOKING CLASS  AS ORIGINAL FLIGHT\n               MUST BE AVAILABLE.\n            F. IF THE REQUESTED CHANGE IS NOT APPLICABLE\n               FOR THE FARE PURCHASED IE INVALID\n               ROUTING/AIRPORT/ETC THE CUSTOMER MAY\n               UPGRADE TO A FARE THAT DOES PERMIT THOSE\n               CHANGES USING NORMAL REISSUE PROCEDURES OF\n               PAYING ANY FARE DIFFERENCE PLUS ASC.\n          -SAME DAY PAID STANDBY/SDSB-\n            A. APPLIES TO FLIGHTS PRIOR TO TICKETED\n               DEPARTURE TIME ON THE SAME DAY OF\n               TICKETED DEPARTURE.\n            B. REQUEST MAY BE MADE UP TO 24 HOURS PRIOR TO\n               ORIGINAL TICKETED DEPARTURE TIME.\n            C. FEE USD 50.00\n            D. MUST BE SAME ORIGIN/DESTINATION/\n               SAME ORIGINAL TICKETED ROUTING/\n               NO ROUTING CHANGES PERMITTED.\n            E. THERE MUST BE AVAILABLITY WITHIN THE\n               SAME CABIN AS ORIGINALLY TICKETED.\n          -GDPR - GUARANTEED DAY OF PURCHASE RULE\n          DOMESTIC PSGR TRANSPORTATION IS SUBJECT TO RULES/\n          FARE/ROUTINGS/CHARGES/ IN EFFECT ON THE DAY/TIME\n          THE TICKET IS ISSUED/PTA PURCHASED UNLESS\n          SPECIFIED IN THE FARE RULES.\n          IF A DECREASE OCCURS AFTER A TICKET IS PURCHASED\n          AND PRIOR TO ANY TRAVEL ON THE TICKET OR A NEW\n          FARE FOR WHICH THE PASSENGER QUALIFIES BECOMES\n          EFFECTIVE THE DIFFERENCE MAY BE CREDITED\n          PROVIDED\n            1. THERE ARE NO CHANGES TO ORIGIN/DESTINATION\n               STOPOVER POINTS/FLIGHTS/DATES.\n            2. ALL CONDITIONS OF THE NEW/REDUCED FARE MUST\n               BE MET.  THE ORIGINAL TICKET DATE OF ISSUE\n               MAY NOT BE USED TO SATISFY ADVANCE/RES\n               TICKETING REQUIREMENTS.  THE BOOKING CODE OF\n               THE NEW/REDUCED FARE MAY DIFFER FROM THE\n               BOOKING CODE ON THE ORIGINAL TICKET.\n            3. ANY DIFFERENCE IN FARE LESS THE APPLICABLE\n               ASC MUST BE RETURNED IN A NONREFUNDABLE\n               DTV/MCO GOOD FOR ONE YEAR TO THE PASSENGER\n               NAMED ON THE TICKET.\n          -TICKET REISSUE PROCEDURES-\n          I. CHANGES TO OUTBOUND PORTION OF UNUSED TICKETS\n             A. ISSUE A NEW TICKET - CANCEL AND START OVER\n             B. MUST USE CURRENT FARES\n             C. VERIFY ALL RULES INCLUDING ADVANCE PURCHASE\n          II. CHANGES TO CONTINUING/RETURN OF UNUSED TICKETS\n            -MODIFIED ADVANCE PURCHASE\n             DETERMINE THE APPLICABLE ADVANCE PURCHASE BY\n             CALCULATING THE NUMBER OF DAYS BETWEEN THE\n             ORIGINAL TICKET ISSUE DATE AND DATE OF\n             DEPARTURE OF THE FIRST FLIGHT SEGMENT OF EACH\n             PRICEABLE UNIT. THE ADVANCE PURCHASE OF ANY\n             REPLACEMENT FARE MUST BE EQUAL TO OR LESS THAN\n             THIS NUMBER.\n             A. ATTEMPT TO KEEP THE FARES AS TICKETED\n                 -CANNOT CHANGE ORIGIN/DESTINATION OF ANY\n                  FARE COMPONENT\n                 -MUST BE ABLE TO KEEP THE ORIGINAL FARES AS\n                  TICKETED FOR ALL FARE COMPONENTS\n                 -USE HISTORICAL FARES IN EFFECT ON THE DATE\n                  OF THE ORIGINAL TICKET ISSUE\n                 -USE MODIFIED ADVANCE PURCHASE FOR EACH\n                  PRICEABLE UNIT\n                 -ALL OTHER RULE DATE MUST BE VERIFIED\n             B. REPRICE KEEPING OUTBOUND FARES AND REPLACING\n                CONTINUING/RETURN FARE COMPONENTS USING\n                HISTORICAL FARES\n                 -CANNOT CHANGE ORIGIN/DESTINATION OF THE\n                  FIRST FARE COMPONENT\n                 -USE HISTORICAL FARES IN EFFECT ON THE DATE\n                  OF THE ORIGINAL TICKET ISSUE\n                 -THE VALUE OF THE NEW TICKET MUST BE EQUAL\n                  OR HIGHER THAN THE ORIGINAL TICKET\n                 -USE MODIFIED ADVANCE PURCHASE OF EACH\n                  PRICEABLE UNIT.\n                -ALL OTHER RULE DATA MUST BE VERIFIED\n                 INCLUDING FARE COMBINABILITY.\n             C. ISSUE A NEW TICKET/CANCEL AND START OVER\n                -MUST USE CURRENT FARES/VERIFY ALL RULES\n                 INCLUDING ADVANCE PURCHASE\n                -VALUE OF ORIGINAL TICKET LESS ASC.\n                 WHEN APPLICABLE...MAY BE APPLIED TOWARD\n                 PURCHASE OF NEW TICKET\n                -ALL OTHER RULE DATA MUST BE VERIFIED\n                 INCLUDING FARE COMBINABILITY\n          III. CHANGES TO PARTIALLY USED TICKETS\n               MUST COMPLETE TRAVEL BY 1 YEAR FROM THE\n               ORIGINAL TICKET ISSUE DATE\n            -MODIFIED ADVANCE PURCHASE\n            DETERMINE THE APPLICABLE ADVANCE PURCHASE BY\n            CALCULATING THE NUMBER OF DAYS BETWEEN THE\n            ORIGINAL TKT ISSUE DATE AND DATE OF DEPARTURE OF\n            THE FIRST FLIGHT SEGMENT OF EACH PRICEABLE UNIT.\n            THE ADVANCE PURCHASE OF ANY REPLACEMENT FARE\n            MUST BE EQUAL TO OR LESS THAN THIS NUMBER.\n          A. ATTEMPT TO KEEP THE FARES AS TICKETED\n            -CANNOT CHANGE ORIGIN/DESTINATION OF ANY FARE\n             COMPONENT\n            -MUST BE ABLE TO KEEP THE ORIGINAL FARES AS\n             TICKETED FOR ALL FARE COMPONENTS\n            -USE HISTORICAL FARES IN EFFECT ON THE DATE OF\n             THE ORIGINAL TICKET ISSUE\n            -USE MODIFIED ADVANCE PURCHASE FOR EACH\n             PRICEABLE UNIT\n            -ALL OTHER RULE DATA MUST BE VERIFIED INCLUDING\n             FARE COMBINABILITY\n          B. REPRICE KEEPING FARES FOR FLOWN FARE COMPONENTS\n             AND REPLACE UNFLOWN FARE COMPONENTS USING\n             HISTORICAL FARES\n            -CANNOT CHANGE ORIGIN/DESTINATION OF THE FLOWN\n             FARE COMPONENT/S/\n            -USE HISTORICAL FARES IN EFFECT ON THE DATE OF\n             THE ORIGINAL TICKET ISSUE\n            -THE VALUE OF THE NEW TICKET MUST BE EQUAL TO\n             OR HIGHER THAN THE ORIGINAL TICKET\n            -USE MODIFIED ADVANCE PURCHASE FOR EACH\n             PRICEABLE UNIT\n            -ALL OTHER RULE DATA MUST BE VERIFIED INCLUDING\n             FARE COMBINABILITY\n          C. REPRICE REPLACING FARES FOR FLOWN FARE\n             COMPONENTS WITH HISTORICAL FARE/S/ IN AN EQUAL\n             OR HIGHER BOOKING CLASS AND REPLACE UNFLOWN\n             FARE COMPONENTS USING HISTORICAL FARES.\n            -REPLACEMENT FARES FOR FLOWN FARE COMPONENTS\n             MUST BE OF EQUAL OR HIGHER VALUE AND BOOKING\n             CLASS THAN THE ORIGINAL TICKETED FARE\n            -CANNOT CHANGE ORIGIN/DESTINATION OF THE FLOWN\n             FARE COMPONENT/S/\n            -USE HISTORICAL FARES IN EFFECT ON THE DATE OF\n             THE ORIGINAL TICKET ISSUE\n            -THE VALUE OF THE NEW TICKET MUST BE EQUAL OR\n             HIGHER THAN THE ORIGINAL TICKET\n             -USE BOOKING CLASS HIERARCHY WHEN REPLACING\n              FARES FOR FLOWN FARE COMPONENTS\n              THE HIERARCHY IS\n              ECONOMY CLASS - Y B M S H Q K L U T X V E\n              BUSINESS CLASS - J C D I Z\n              FIRST CLASS - F P A G\n            -USE MODIFIED ADVANCE PURCHASE OF EACH PRICEABLE\n             UNIT.\n            -ALL OTHER RULE DATA MUST BE VERIFIED INCLUDING\n             FARE COMBINABILITY.\n          D. ISSUE A NEW TICKET\n             -APPLY ANY RESIDUAL VALUE /IF ANY/ LESS THE\n              ASC TOWARDS THE PURCHASE OF A NEW TICKET\n             -CALCULATE NEW TICKET USING CURRENT FARES\n             -VALIDATE ALL RULES\n \n  CANCELLATIONS\n \n    TICKET IS NON-REFUNDABLE IN CASE OF CANCEL/NO-SHOW.\n         NOTE -\n          -THIS CANCELLATION FEE WILL ALSO BE ASSESSED TO\n           REFUNDS OF COUPONS INVOLVING FARES GOVERNED BY\n           THIS RULE.\n          -LOST TICKET PAPER CHARGE USD100.00\n          -NO SERVICE CHARGE WILL BE IMPOSED FOR MILITARY\n           PASSENGERS WHEN TRANSPORTATION IS PAID WITH A\n           U.S. GOVERNMENT TRANSPORTATION REQUEST FORM\n           NO. 1169.\n\nCO.COMBINABILITY\nFOR KA03A0NP TYPE FARES\n"
+      }
+    ],
+    "obFeePrice": {
+      "amount": "0.00",
+      "formattedPrice": "$0.00",
+      "formattedWholePrice": "$0"
+    },
+    "obFeeTotalAmount": "0.00",
+    "offer": {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg0"
+      ],
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "formattedPrice": "$620.46",
+            "currencyCode": "USD",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "formattedPrice": "$68.54",
+            "currencyCode": "USD",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "${productKey}",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    "productKey": "${productKey}"
+  },
+  "isCustomerTitleRequired": false,
+  "newTrip": {
+    "itineraryNumber": "itin_${productKey}",
+    "travelRecordLocator": "742449564",
+    "tripId": "${productKey}"
+  },
+  "passengerCategories": [
+    "ADULT"
+  ],
+  "rewardsPoints": "",
+  "rules": {
+    "RuleToTextMap": {
+      "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
+      "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
+      "BookingFeeLegalText": "An additional non-refundable administration fees is applied for flights booked on a standalone basis through the Call Centre. Customers are informed of the administration fee by their Call Centre Agent at the time of their call.",
+      "BookingFeeText": "This price includes a nonrefundable booking fee.",
+      "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+      "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+      "ChangePenaltyText": "A change fee of $200.00 per ticket is charged by the airline for all itinerary changes.",
+      "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+      "RefundabilityText": "Tickets are nonrefundable and nontransferable."
+    },
+    "RuleToUrlMap": {
+      "AdditionalAirlineFees": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014",
+      "AirlineLiabilityLimitations": "https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx&tlid=1033",
+      "CompletePenaltyRules": "https://www.expedia.com/pub/agent.dll?qscr=ffrs&itid=742449564&rtyp=1&tlid=1033"
+    }
+  },
+  "tealeafTransactionId": "tealeafFlight:${productKey}",
+  "totalPrice": {
+    "amount": "696.00",
+    "currencyCode": "USD",
+    "formattedPrice": "$696.00",
+    "formattedWholePrice": "$696"
+  },
+  "validFormsOfPayment": [
+    {
+      "name": "MasterCard CREDIT",
+      "fee": "Free"
+    },
+    {
+      "name": "MasterCard DEBIT",
+      "fee": "Free"
+    },
+    {
+      "name": "AmericanExpress",
+      "fee": "2.10",
+      "feeCurrencyCode": "GBP",
+      "totalFarePriceWithFee": "£146.60"
+    },
+    {
+      "name": "Visa CREDIT",
+      "fee": "Free"
+    },
+    {
+      "name": "DinersClub",
+      "fee": "2.10",
+      "feeCurrencyCode": "GBP",
+      "totalFarePriceWithFee": "£146.60"
+    },
+    {
+      "name": "Visa DEBIT",
+      "fee": "Free"
+    }
+  ]
+}
