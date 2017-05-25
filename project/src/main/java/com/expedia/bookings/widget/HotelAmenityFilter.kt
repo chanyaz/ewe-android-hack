@@ -11,7 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelClientFilterViewModel
+import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import rx.Observer
 import kotlin.properties.Delegates
 
@@ -23,9 +23,9 @@ class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(c
     var amenity: FilterAmenity ?= null
     var amenityId: Int ? = null
 
-    var hotelFilterViewModel: HotelClientFilterViewModel by Delegates.notNull()
+    var hotelFilterViewModel: BaseHotelFilterViewModel by Delegates.notNull()
 
-    fun bind(amenity: FilterAmenity, id:Int, vm: HotelClientFilterViewModel) {
+    fun bind(amenity: FilterAmenity, id:Int, vm: BaseHotelFilterViewModel) {
         this.hotelFilterViewModel = vm
         this.amenity = amenity
         this.amenityId = id

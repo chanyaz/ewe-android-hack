@@ -178,8 +178,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
 
         val showAdvancedOptions = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)
-                && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter)
-
         advancedOptionsView.updateVisibility(showAdvancedOptions)
     }
 

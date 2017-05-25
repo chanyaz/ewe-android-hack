@@ -1,9 +1,12 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
+import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.tracking.hotel.FilterTracker
+import com.expedia.bookings.tracking.hotel.HotelFilterTracker
 
-class HotelServerFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
+class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
     private var previousFilterChoices: UserFilterChoices? = null
 
     init {
@@ -23,6 +26,14 @@ class HotelServerFilterViewModel(context: Context) : BaseHotelFilterViewModel(co
         clearObservable.subscribe {
             previousFilterChoices = null
         }
+    }
+
+    override fun sortItemToRemove(): Sort {
+        return Sort.PACKAGE_DISCOUNT
+    }
+
+    override fun createFilterTracker(): FilterTracker {
+        return HotelFilterTracker()
     }
 
     override fun isClientSideFiltering(): Boolean {

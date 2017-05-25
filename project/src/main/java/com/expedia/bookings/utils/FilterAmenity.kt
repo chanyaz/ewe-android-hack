@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.widget.HotelAmenityFilter
 import com.expedia.util.subscribeOnClick
-import com.expedia.vm.HotelClientFilterViewModel
+import com.expedia.vm.hotel.BaseHotelFilterViewModel
 import java.util.Comparator
 import java.util.TreeMap
 
@@ -34,7 +34,7 @@ enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
             return amenityMap
         }
 
-        fun addAmenityFilters(viewGroup: ViewGroup, amenityMaps: Map<FilterAmenity, Int>, vm: HotelClientFilterViewModel) {
+        fun addAmenityFilters(viewGroup: ViewGroup, amenityMaps: Map<FilterAmenity, Int>, vm: BaseHotelFilterViewModel) {
             viewGroup.removeAllViews()
 
             for (amenityEntry in amenityMaps.entries) {
