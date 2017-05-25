@@ -7,18 +7,9 @@ import java.util.List;
 import org.joda.time.DateTimeZone;
 import org.joda.time.MutableDateTime;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,8 +27,6 @@ import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
@@ -201,7 +190,6 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 				final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
 
 				guestView.setText(traveler.getFullName());
-				guestView.setCompoundDrawables(createGuestIcon(traveler, resId), null, null, null);
 
 				guestsLayout.addView(guestView);
 			}
@@ -249,36 +237,6 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 					OmnitureTracking.trackItinActivitySupport();
 				}
 			});
-	}
-
-	@SuppressLint("DefaultLocale")
-	private Drawable createGuestIcon(Traveler travler, int iconResId) {
-		final String text = travler.getFirstName().substring(0, 1).toUpperCase();
-		final Resources res = getResources();
-
-		final Bitmap bitmap = BitmapFactory.decodeResource(res, iconResId).copy(Bitmap.Config.ARGB_8888, true);
-		final int width = bitmap.getWidth();
-		final int height = bitmap.getHeight();
-
-		final Paint paint = new Paint();
-		paint.setColor(ContextCompat.getColor(getContext(), R.color.itin_white_text));
-		paint.setTextSize(height * 0.8f);
-		paint.setTypeface(FontCache.getTypeface(Font.ROBOTO_BOLD));
-		paint.setAntiAlias(true);
-
-		final Rect bounds = new Rect();
-		paint.getTextBounds(text, 0, 1, bounds);
-
-		final int textX = (width - bounds.width()) / 2;
-		final int textY = height - ((height - bounds.height()) / 2);
-
-		final Canvas canvas = new Canvas(bitmap);
-		canvas.drawText(text, textX, textY, paint);
-
-		BitmapDrawable drawable = new BitmapDrawable(res, bitmap);
-		drawable.setBounds(0, 0, width, height);
-
-		return drawable;
 	}
 
 	@Override
