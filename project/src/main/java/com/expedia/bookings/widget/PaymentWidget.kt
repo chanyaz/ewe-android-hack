@@ -373,10 +373,14 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun clearCCAndCVV() {
         creditCardNumber.setText("")
         Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
-        Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
         Db.getBillingInfo().number = null
-        Db.getBillingInfo().securityCode = null
+        clearCVV()
         validateAndBind()
+    }
+
+    open fun clearCVV() {
+        Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
+        Db.getBillingInfo().securityCode = null
     }
 
     open fun isAtLeastPartiallyFilled(): Boolean {
