@@ -495,15 +495,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="12465"
-            android:layout="@layout/preference"
-            android:title="Hotel Gallery - 12465" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
             android:key="13257"
             android:layout="@layout/preference"
             android:title="User Reviews - 13257" />
