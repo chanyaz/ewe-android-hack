@@ -12,6 +12,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -58,6 +59,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
         outboundFlightSelectedSubject.subscribe { positionChildren() }
         setupFilterButton()
+        FlightsV2Tracking.trackCrossSellPackageOnFSR()
     }
 
     private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean, lineOfBusiness: LineOfBusiness) {

@@ -16,12 +16,13 @@ import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false
+
+    private var isCrossSellPackageOnFSREnabled = false
 
     val packagePresenter: PackagePresenter by lazy {
         findViewById(R.id.package_presenter) as PackagePresenter
@@ -45,7 +46,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
-        packagePresenter.bundleLoadingView.visibility = if(isRemoveBundleOverviewFeatureEnabled()) View.VISIBLE else View.GONE
+        packagePresenter.bundleLoadingView.visibility = if (isRemoveBundleOverviewFeatureEnabled()) View.VISIBLE else View.GONE
 
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
@@ -53,6 +54,11 @@ class PackageActivity : AbstractAppCompatActivity() {
                 if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
                     onBackPressed()
                 } else {
+                    if (isCrossSellPackageOnFSREnabled) {
+                        finish()
+                        return
+                    }
+
                     if (isRemoveBundleOverviewFeatureEnabled()) {
                         onBackPressed()
                     } else {
@@ -197,7 +203,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun packageFlightSearch() {
-        if(!isRemoveBundleOverviewFeatureEnabled()) {
+        if (!isRemoveBundleOverviewFeatureEnabled()) {
             PackagesTracking().trackViewBundlePageLoad()
         }
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
@@ -215,5 +221,4 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
-
 }

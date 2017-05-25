@@ -222,6 +222,14 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightConfirmationAirAttachClick()
     }
 
+    fun trackCrossSellPackageOnFSR() {
+        OmnitureTracking.trackCrossSellPackageOnFSR()
+    }
+
+    fun trackCrossSellPackageBannerClick() {
+        OmnitureTracking.trackCrossSellPackageBannerClick()
+    }
+
     fun createCheckoutError(error: ApiError): String {
         var errorType = "CKO:"
         val eSource = if (!error.errorInfo?.source.isNullOrEmpty()) "${error.errorInfo?.source}:" else ":"

@@ -284,6 +284,7 @@ class FlightInboundPresenterTest {
                 .destination(destination)
                 .startDate(startDate)
                 .adults(1) as FlightSearchParams.Builder
+        paramsBuilder.flightCabinClass("coach")
 
         if (roundTrip) {
             paramsBuilder.endDate(endDate)
@@ -307,7 +308,10 @@ class FlightInboundPresenterTest {
     private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestSubscriber<Int>) {
         val flightSelectedSubject = PublishSubject.create<FlightLeg>()
         val isRoundTripSubject = BehaviorSubject.create<Boolean>()
-        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
+        isRoundTripSubject.onNext(false)
+        val isOutboundSearch = false
+        val seatClass = "coach"
+        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, seatClass)
         flightInboundPresenter.resultsPresenter.setAdapter(flightListAdapter)
 
         Db.setFlightSearchParams(flightSearchParams)
@@ -318,6 +322,7 @@ class FlightInboundPresenterTest {
 
     private fun invokeSetupComplete() {
         flightInboundPresenter.flightOfferViewModel = FlightOffersViewModel(activity, service)
+        flightInboundPresenter.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(true).build())
         flightInboundPresenter.setupComplete()
     }
 

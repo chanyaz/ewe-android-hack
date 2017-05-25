@@ -1329,6 +1329,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEATING_CLASS_SELECT = "App.Flight.DS.SeatingClass.";
 	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
+	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT = "App.Flight.Search.Roundtrip.Out.HotelBanner.Select";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
 	private static final String FLIGHT_SEARCH_OUTBOUND_BAGGAGE_FEE = "App.Flight.Search.Roundtrip.Out.BaggageFee";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_IN = "App.Flight.Search.Roundtrip.In";
@@ -4348,6 +4349,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
 	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
 	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
+	private static final String FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME = "Package Xsell Banner";
 	private static final String FLIGHTS_V2_SORTBY_TEMPLATE = "App.Flight.Search.Sort.";
 	private static final String FLIGHTS_V2_FILTER_STOPS_TEMPLATE = "App.Flight.Search.Filter.";
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
@@ -4883,6 +4885,20 @@ public class OmnitureTracking {
 		s.setProp(16, FLIGHTS_V2_CHECKOUT_ERROR);
 		s.setProp(36, errorType);
 		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
+
+	public static void trackCrossSellPackageOnFSR() {
+		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_SEARCH_ROUNDTRIP_OUT);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
+		s.track();
+	}
+
+	public static void trackCrossSellPackageBannerClick() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
+		s.setProp(16, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME, null, null);
 	}
 
 	private static String getFlightV2Evar47String(

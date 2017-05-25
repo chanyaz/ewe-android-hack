@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/packages_result_background"
+    android:orientation="vertical">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/textView_all_flights"
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/all_flights_label" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/textView_flights_pricing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/prices_roundtrip_label"
+        android:textColor="@color/packages_results_header_text"
+        android:textSize="@dimen/packages_bundle_overview_footer_primary_text" />
+
+</LinearLayout>
