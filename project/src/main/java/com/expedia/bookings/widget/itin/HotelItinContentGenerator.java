@@ -476,10 +476,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			cancelHotelRoomButton(container);
 		}
 
-		boolean showEditRoomOption =
-			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView) && !isSharedItin();
-
-		if (showEditRoomOption) {
+		if (!isSharedItin()) {
 			//Setting hasEditRoomOption to true till API is ready
 			boolean hasEditRoomOption = getItinCardData().getProperty().isBookingChangeAvailable();
 			if (hasEditRoomOption) {

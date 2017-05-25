@@ -2202,7 +2202,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_HOTEL);
 		s.setEvents("event63");
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUpgrade);
 		s.track();
 	}

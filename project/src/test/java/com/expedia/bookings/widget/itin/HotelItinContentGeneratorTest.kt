@@ -38,7 +38,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonOpensWebView() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder()
                                 .withBookingChangeUrl(getBookingChangeUrl())
@@ -105,7 +104,6 @@ class HotelItinContentGeneratorTest {
 
     @Test
     fun hotelSoftChangeButtonAvailable() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().withBookingChangeUrl(getBookingChangeUrl()).build()
         itinCardDataHotel.tripComponent.parentTrip.setIsShared(false)
@@ -117,20 +115,7 @@ class HotelItinContentGeneratorTest {
     }
 
     @Test
-    fun hotelSoftChangeButtonGoneAbTestOff() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
-
-        val itinCardDataHotel = ItinCardDataHotelBuilder().build()
-        val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
-        val container = FrameLayout(activity)
-        val detailsView = hotelItinGenerator.getDetailsView(null, container)
-
-        assertEquals(View.GONE, detailsView.findViewById(R.id.edit_hotel_room_info).visibility)
-    }
-
-    @Test
     fun hotelSoftChangeButtonGoneForSharedItin() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsHotelSoftChangeWebView)
 
         val itinCardDataHotel = ItinCardDataHotelBuilder().isSharedItin(true).build()
         val hotelItinGenerator = makeHotelItinGenerator(itinCardDataHotel)
