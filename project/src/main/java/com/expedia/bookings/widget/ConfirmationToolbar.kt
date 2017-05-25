@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
@@ -25,6 +26,12 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
         item
     }
 
+    val navIcon: Drawable by lazy {
+        val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        navIcon
+    }
+
     init {
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)) {
             inflateMenu(R.menu.confirmation_menu)
@@ -38,9 +45,8 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
             NavUtils.goToLaunchScreen(context)
         }
 
-        val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         navigationIcon = navIcon
         setNavigationContentDescription(R.string.toolbar_nav_icon_close_cont_desc)
+        navigationIcon?.setVisible(true, true)
     }
 }
