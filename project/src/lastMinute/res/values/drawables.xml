@@ -3,6 +3,7 @@
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/brand_logo_white</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/lm</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
+    <item name="app_copyright_logo_au" type="drawable">@drawable/brand_logo_large_au</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
     <item name="old_checkout_account_logo" type="drawable">@drawable/ic_lm_logo_white</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/lm</item>
