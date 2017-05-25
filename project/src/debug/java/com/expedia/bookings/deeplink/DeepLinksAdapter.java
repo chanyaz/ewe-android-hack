@@ -38,7 +38,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	private static final int TYPE_LINK_WITH_AB_TESTS = 4;
 
 	private static final DeepLink[] DEEP_LINKS = new DeepLink[] {
-		new DeepLinkSection("Hotels", R.color.hotels_primary_color),
+		new DeepLinkSection("Hotels", R.color.app_primary),
 		new DeepLink("Ewa Beach, Hawaii", "expda://hotelSearch?location=Ewa+Beach%2C+Hawaii%2C+United+States+of+America&seocid=Google"),
 		new DeepLink("Las Vegas, NV", "expda://hotelSearch?location=Las%20Vegas,%20NV"),
 		new DeepLink("New York, NY", "expda://hotelSearch?location=New%20York%2C%20NY"),
@@ -80,11 +80,11 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&numAdults=3", "departureDate", 14, "returnDate", 18, "yyyy-MM-dd"),
 		new DeepLink("Flight Travel Guide", "expda://flightSearch?destination=ATH&seocid=Google"),
 
-		new DeepLinkSection("Activities", R.color.lx_primary_color),
+		new DeepLinkSection("Activities", R.color.app_primary),
 		new DeepLink("Activity Search", "expda://activitySearch"),
 		new DeepLink("San Francisco", "expda://activitySearch?location=San%20Francisco", "startDate", 3, "yyyy-MM-dd"),
 
-		new DeepLinkSection("Cars", R.color.cars_primary_color),
+		new DeepLinkSection("Cars", R.color.app_primary),
 		new DeepLink("Car Search", "expda://carSearch"),
 		new DeepLink("Car Search", "expda://carSearch?pickupLocation=DTW"),
 		new DeepLink("Car Search with expired dates (show pop-up msg)", "expda://carSearch?pickupDateTime=2017-03-12T22:30:00&dropoffDateTime=2017-03-15T09:30:00&pickupLocation=DTW"),
