@@ -22,32 +22,32 @@ class PendingPointsDialogFragment : DialogFragment() {
 
         val flightDaysText = view.findViewById(R.id.flights_days) as TextView
         val flightRow = view.findViewById(R.id.flight_points_row) as TableRow
-        flightRow.contentDescription = createAccessibilityText(R.string.flights_title, FLIGHT_DAYS)
+        flightRow.contentDescription = createAccessibilityText(R.string.pending_points_flights_accessibility_TEMPLATE, FLIGHT_DAYS)
         flightDaysText.text = createDaysText(FLIGHT_DAYS)
 
         val bundleDaysText = view.findViewById(R.id.packages_days) as TextView
         val bundleRow = view.findViewById(R.id.bundles_points_row) as TableRow
-        bundleRow.contentDescription = createAccessibilityText(R.string.nav_packages, BUNDLE_DAYS)
+        bundleRow.contentDescription = createAccessibilityText(R.string.pending_points_bundles_accessibility_TEMPLATE, BUNDLE_DAYS)
         bundleDaysText.text = createDaysText(BUNDLE_DAYS)
 
         val activitiesDaysText = view.findViewById(R.id.activities_days) as TextView
         val activityRow = view.findViewById(R.id.activities_points_row) as TableRow
-        activityRow.contentDescription = createAccessibilityText(R.string.activities, ACTIVITY_DAYS)
+        activityRow.contentDescription = createAccessibilityText(R.string.pending_points_activities_accessibility_TEMPLATE, ACTIVITY_DAYS)
         activitiesDaysText.text = createDaysText(ACTIVITY_DAYS)
 
         val hotelsDaysText = view.findViewById(R.id.hotels_days) as TextView
         val hotelRow = view.findViewById(R.id.hotels_points_row) as TableRow
-        hotelRow.contentDescription = createAccessibilityText(R.string.nav_hotels, HOTEL_DAYS)
+        hotelRow.contentDescription = createAccessibilityText(R.string.pending_points_hotels_accessibility_TEMPLATE, HOTEL_DAYS)
         hotelsDaysText.text = createDaysText(HOTEL_DAYS)
 
         val cruisesDaysText = view.findViewById(R.id.cruises_days) as TextView
         val cruisesRow = view.findViewById(R.id.cruises_points_row) as TableRow
-        cruisesRow.contentDescription = createAccessibilityText(R.string.cruises, CRUISE_DAYS)
+        cruisesRow.contentDescription = createAccessibilityText(R.string.pending_points_cruises_accessibility_TEMPLATE, CRUISE_DAYS)
         cruisesDaysText.text = createDaysText(CRUISE_DAYS)
 
         val carsDaysText = view.findViewById(R.id.cars_days) as TextView
         val carsRow = view.findViewById(R.id.cars_points_row) as TableRow
-        carsRow.contentDescription = createAccessibilityText(R.string.cars, CAR_DAYS)
+        carsRow.contentDescription = createAccessibilityText(R.string.pending_points_cars_accessibility_TEMPLATE, CAR_DAYS)
         carsDaysText.text = createDaysText(CAR_DAYS)
 
         alertDialogBuilder.setNegativeButton(resources.getString(R.string.ok), { dialog, which ->
@@ -58,8 +58,7 @@ class PendingPointsDialogFragment : DialogFragment() {
     }
 
     fun createAccessibilityText(lobStringId: Int, days: Int): String {
-        return Phrase.from(activity, R.string.pending_points_accessibility_TEMPLATE)
-                .put("lob", resources.getString(lobStringId))
+        return Phrase.from(activity, lobStringId)
                 .put("number_of_days", days.toString()).format().toString()
     }
 
