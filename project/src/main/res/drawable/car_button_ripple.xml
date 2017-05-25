@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/cars_button_ripple">
+    android:color="@color/app_primary_dark">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/cars_button_color" />
+            <solid android:color="@color/app_primary" />
         </shape>
     </item>
 </ripple>

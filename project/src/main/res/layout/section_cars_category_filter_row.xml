@@ -27,6 +27,6 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:clickable="false"
-        android:textColor="@color/cars_primary_color" />
+        android:textColor="@color/app_primary" />
 
 </com.expedia.bookings.widget.CarsCategoryFilterWidget>

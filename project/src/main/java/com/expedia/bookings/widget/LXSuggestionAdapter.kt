@@ -58,7 +58,7 @@ class LXSuggestionViewHolder(val root: ViewGroup, val vm : LXSuggestionViewModel
 
     init {
         itemView.setOnClickListener(this)
-        dropdownImage.setColorFilter(ContextCompat.getColor(root.context, R.color.lx_primary_color))
+        dropdownImage.setColorFilter(ContextCompat.getColor(root.context, R.color.app_primary))
 
         vm.titleObservable.subscribeText(displayName)
         vm.iconObservable.subscribe { imageSource ->

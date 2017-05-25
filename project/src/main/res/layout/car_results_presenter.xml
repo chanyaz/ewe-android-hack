@@ -64,7 +64,7 @@
         android:id="@+id/toolbar_background"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/cars_primary_color" />
+        android:background="@color/app_primary" />
 
     <LinearLayout
         android:layout_width="match_parent"
