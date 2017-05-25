@@ -52,6 +52,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_details_cont_desc_zero_starrating_TEMPLATE,
 		R.string.hotel_details_cont_desc_zero_guestrating_TEMPLATE,
 		R.string.hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE,
+		R.layout.free_cancellation_view,
 		R.drawable.hotel_tooltip,
 		R.string.sort_description_package_discount,
 		R.drawable.error_search,

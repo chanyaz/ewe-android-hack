@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCheckoutInfo
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -17,8 +18,12 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.RewardDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
+
+import com.expedia.bookings.widget.FreeCancellationWidget
+import com.expedia.vm.FreeCancellationViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
@@ -36,6 +41,12 @@ import java.util.Locale
 import kotlin.properties.Delegates
 
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
+
+    val isFreeCancellationTooltipEnabled by lazy {
+        Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+    }
+
+    val freeCancellationWidget: FreeCancellationWidget by bindView(R.id.free_cancellation_view)
     var hotelCheckoutViewModel: HotelCheckoutViewModel by notNullAndObservable { vm ->
         bookedWithCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits,{cvv, paymentSplits->
             object{
@@ -54,6 +65,11 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
             paymentSplitsAndLatestTripResponse.isCardRequired()
         }.subscribe(checkoutSliderSlidObserver)
 
+        if (isFreeCancellationTooltipEnabled) {
+            vm.paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
+                HtmlCompat.fromHtml(it.tripResponse.newHotelProductResponse.hotelRoomResponse.cancellationPolicy)
+            }.subscribe(freeCancellationWidget.viewModel.freeCancellationTextObservable)
+        }
     }
 
     val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
@@ -79,6 +95,18 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
         cvv.setCVVEntryListener(this)
+
+        if (isFreeCancellationTooltipEnabled) {
+            addTransition(checkoutToFreeCancellation)
+
+            freeCancellationWidget.viewModel.closeFreeCancellationObservable.subscribe {
+                back()
+            }
+            hotelCheckoutWidget.hotelCheckoutSummaryWidget.freeCancellationTooltipView.setOnClickListener({
+                show(freeCancellationWidget)
+            })
+        }
+
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
@@ -92,6 +120,8 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
             cvv.visibility = View.GONE
         }
     }
+
+    private val checkoutToFreeCancellation = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, FreeCancellationWidget::class.java){}
 
     private val checkoutToCvv = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {

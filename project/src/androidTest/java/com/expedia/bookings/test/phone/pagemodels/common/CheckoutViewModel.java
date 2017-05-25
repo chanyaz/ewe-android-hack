@@ -361,4 +361,16 @@ public class CheckoutViewModel {
 	public static ViewInteraction freeCancellationText() {
 		return onView(withId(R.id.free_cancellation_text));
 	}
+	public static ViewInteraction freeCancellationTooltipText() {
+		return onView(withId(R.id.free_cancellation_tooltip_text));
+	}
+
+	public static ViewInteraction freeCancellationWidget() {
+		return onView(withId(R.id.free_cancellation_view));
+	}
+
+	public static ViewInteraction freeCancellationDescription() {
+		return onView(withId(R.id.free_cancellation_description));
+	}
+
 }
