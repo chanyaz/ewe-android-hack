@@ -113,6 +113,7 @@
     <color name="hotel_filter_background_color">@color/gray1</color>
     <color name="pwp_total_available_points">#969696</color>
     <color name="hotel_points_applied_plus_color">@color/hotels_primary_color</color>
+    <color name="hotel_promo_background">@color/app_primary_dark</color>
 
     <color name="hotel_urgency_message_color">#E2934A</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
