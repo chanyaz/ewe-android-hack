@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.packages
 
 import android.animation.ArgbEvaluator
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -401,6 +402,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         show(bundlePresenter)
         bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         bundlePresenter.trackShowBundleOverview()
+    }
+
+    override fun handleBack(flags: Int, currentChild: Any): Boolean {
+        if (currentChild is Intent) {
+            bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
+        }
+        return super.handleBack(flags, currentChild)
     }
 
 }
