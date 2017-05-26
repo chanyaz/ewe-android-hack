@@ -100,10 +100,11 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
         val hotelNoGuestRating: TextView by bindView(R.id.no_guest_rating)
-        val loyaltyMessageContainer: LinearLayout by bindView(R.id.map_loyalty_message_container)
-        val loyaltyMessage: TextView by bindView(R.id.map_loyalty_applied_message)
+        val loyaltyAppliedMessageContainer: LinearLayout by bindView(R.id.map_loyalty_message_container)
+        val loyaltyAppliedMessage: TextView by bindView(R.id.map_loyalty_applied_message)
         val shadowOnLoyaltyMessageContainer: View by bindView(R.id.shadow_on_loyalty_message_container)
         val shadowOnHotelCell: View by bindView(R.id.shadow_on_hotel_preview_cell)
+		val loyaltyEarnMessage: TextView by bindView(R.id.hotel_loyalty_earn_message)
 
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 
@@ -130,14 +131,16 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             updateHotelRating(viewModel)
             updatePricing(viewModel)
 
-            loyaltyMessageContainer.visibility =
+            loyaltyAppliedMessageContainer.visibility =
                     if (viewModel.loyaltyAvailable) View.VISIBLE
                     else if (shopWithPoints) View.INVISIBLE
                     else View.GONE
 
             shadowOnLoyaltyMessageContainer.updateVisibility(viewModel.loyaltyAvailable)
             shadowOnHotelCell.updateVisibility(!viewModel.loyaltyAvailable && lineOfBusiness == LineOfBusiness.HOTELS)
-            loyaltyMessage.text = viewModel.getMapLoyaltyMessageText()
+            loyaltyAppliedMessage.text = viewModel.getMapLoyaltyMessageText()
+            loyaltyEarnMessage.text = viewModel.earnMessage
+            loyaltyEarnMessage.updateVisibility(viewModel.showEarnMessage)
 
             updateFonts()
         }
