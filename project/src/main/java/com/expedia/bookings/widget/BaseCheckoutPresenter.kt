@@ -303,6 +303,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         tripViewModel = makeCreateTripViewModel()
         getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
         getCheckoutViewModel().cardFeeTripResponse.safeSubscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCheckoutViewModel().clearCvvObservable.subscribe {
+            paymentWidget.clearCVV()
+        }
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {

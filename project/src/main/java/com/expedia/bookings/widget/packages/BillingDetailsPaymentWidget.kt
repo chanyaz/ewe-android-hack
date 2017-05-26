@@ -135,8 +135,8 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         activity.onBackPressed()
     }
 
-    override fun clearCCAndCVV() {
-        super.clearCCAndCVV()
+    override fun clearCVV() {
+        super.clearCVV()
         creditCardCvv.setText("")
     }
 

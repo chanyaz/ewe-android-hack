@@ -252,6 +252,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.mainContent.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             trackShowBundleOverview()
         }
     }
@@ -316,12 +317,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             } else {
                 trackShowBundleOverview()
             }
-            val checkoutButtonTextColor = ContextCompat.getColor(context, if (forward) {
-                R.color.white_disabled
-            } else {
-                R.color.search_dialog_background_v2
-            })
-            checkoutButton.setTextColor(checkoutButtonTextColor)
         }
 
         private fun translateCheckout(f: Float, forward: Boolean) {
@@ -565,8 +560,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE
             } else {
-                if (state == TwoScreenOverviewState.BUNDLE|| (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
+                if (state == TwoScreenOverviewState.BUNDLE || (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
                     checkoutButtonContainer.visibility = View.VISIBLE
+                    val checkoutButtonTextColor = ContextCompat.getColor(context, if (state == TwoScreenOverviewState.BUNDLE) {
+                        R.color.search_dialog_background_v2
+                    } else {
+                        R.color.white_disabled
+                    })
+                    checkoutButton.setTextColor(checkoutButtonTextColor)
                 } else {
                     checkoutButtonContainer.visibility = View.GONE
                 }
