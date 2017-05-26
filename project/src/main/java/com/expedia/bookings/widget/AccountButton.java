@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import android.content.Context;
@@ -25,7 +26,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -38,6 +38,7 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -46,7 +47,6 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.LoyaltyUtil;
 import com.squareup.phrase.Phrase;
-import java.text.DecimalFormat;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;

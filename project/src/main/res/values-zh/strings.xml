@@ -84,7 +84,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重复行程</string>
     <!-- Text for price change-->
-    <string name="price_change_text">价格有变动</string>
+    <string name="price_change_text">价格变动</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">您此次旅行的价格已由 {oldprice}更改为{newprice}。价格经常变化。马上预订，锁定这个价格。</string>
     <!-- Text for error toolbar-->
@@ -171,9 +171,9 @@
     <!-- Transmission options filter label for a car rental -->
     <string name="options">选项</string>
     <!-- Automatic transmission filter button-->
-    <string name="car_filter_automatic">自动档</string>
+    <string name="car_filter_automatic">自动</string>
     <!-- Manual transmission filter button-->
-    <string name="car_filter_manual">手动档</string>
+    <string name="car_filter_manual">手动</string>
     <!-- Any transmission type filter button -->
     <string name="car_filter_all">全部</string>
     <!-- Air conditioning option checkbox filter -->
@@ -346,7 +346,7 @@
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">预订须知</string>
     <!-- Template for ticket details -->
-    <string name="ticket_details_template">%2$s(%3$s) %1$s</string>
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
     <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
@@ -740,7 +740,7 @@
     <!-- LX Error Fetching activity details -->
     <string name="lx_error_details">无法取得详细信息。请再试一次。</string>
     <!-- Current location failed toolbar text -->
-    <string name="lx_error_current_location_toolbar_text">请再试一次。</string>
+    <string name="lx_error_current_location_toolbar_text">请再试一次</string>
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">我们找不到任何在您附近的活动。请选择其他条件，再搜索一次。</string>
     <!-- LX No Activities for Current location -->
@@ -791,12 +791,12 @@
     <string name="trip_bucket_sold_out">已订完</string>
 
     <!-- LX Sort & Filter "Sort By" section header -->
-    <string name="lx_sort_by">排序方式：</string>
+    <string name="lx_sort_by">排序：</string>
     <!-- LX Sort & Filter "Categories" header -->
     <string name="lx_categories">类别</string>
 
     <!-- "Sort By" section header -->
-    <string name="Sort_By">排序方式：</string>
+    <string name="Sort_By">排序：</string>
     <!-- "Filter By" section header -->
     <string name="Filter_By">筛选条件</string>
     <!-- Default label for unnamed areas/neighborhoods -->
@@ -1999,7 +1999,7 @@
     <!-- Address city hint -->
     <string name="address_city_hint">城市</string>
     <!-- Address state hint -->
-    <string name="address_state_hint">省</string>
+    <string name="address_state_hint">省/市/自治区</string>
     <!-- Address country content description -->
     <string name="address_state_country_cont_desc">国家/地区</string>
     <!-- Address mail delivery option hint -->
@@ -2011,9 +2011,9 @@
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">邮编</string>
     <!--Address Province hint-->
-    <string name="address_province_hint">省</string>
+    <string name="address_province_hint">省/市/自治区</string>
     <!--Address Country/State/Province hint-->
-    <string name="address_county_hint">省/市/自治区/县</string>
+    <string name="address_county_hint">县</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2032,7 +2032,7 @@
         <item quantity="one">+ 其他 {travelercount} 位旅客</item>
         <item quantity="other">+ 其他 {travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber} ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2539,6 +2539,9 @@
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
+    <!-- The label for the hotel cell of the hotel you selected on results. -->
+    <string name="you_picked_this_hotel_label">这是您选的酒店</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">商务中心</string>
@@ -2548,6 +2551,8 @@
     <string name="AmenityHotTub">热水浴缸</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">互联网</string>
+    <!-- Free Internet access amenity -->
+    <string name="AmenityFreeInternet">免费上网</string>
     <!-- Kids' activities amenity -->
     <string name="AmenityKidsActivities">孩童活动</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -3615,7 +3620,6 @@
     <string name="hotels_filter_show_more_cont_desc">显示附近其他地区。按钮</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">隐藏部分附近地区。按钮</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">使用优惠券：您节省了 %1$s！</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -3623,6 +3627,22 @@
     <string name="coupon_error_remove_dialog_title">撤销优惠券未成功</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的优惠券有问题。请再输一次。</string>
+    <!-- Hotel Advanced Search Options card title -->
+    <string name="advanced_options">高级选项</string>
+    <!-- VIP only search options on advanced options card title -->
+    <string name="vip_only">只搜 VIP</string>
+    <!-- Sort by search option on advanced options card title -->
+    <string name="hotel_sort_by_search_option_TEMPLATE">排序方式：{sortby}</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="one_star">1 星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="two_star">2 星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="three_star">3 星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="four_star">4 星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="five_star">5 星</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">根据您的付款方式，可能会有额外收费。</string>
@@ -4058,8 +4078,6 @@
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">票价 {price} 起</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">所选出发行程：</string>
-    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
-    <string name="rail_button_cont_desc_TEMPLATE">{description}。按钮</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">使用了铁路卡：{railcards}</string>
@@ -4521,7 +4539,7 @@
     <string name="itin_flight_booking_status_pending">预订已确认。正在出票。</string>
 
     <!-- Trip protection string in flight confirmation screen -->
-    <string name="trip_protection_message">您已购买旅行保险。</string>
+    <string name="trip_protection_message">您已购买旅行保障。</string>
 
     <!-- Reset filter title -->
     <string name="reset_filter">重置筛选条件</string>
@@ -4538,5 +4556,8 @@
     <string name="collapse_room_info_cont_desc">折叠</string>
     <!-- Content description for double tap action to expand HIS room info -->
     <string name="expand_room_info_cont_desc">展开</string>
+
+    <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
+    <string name="a11y_button_TEMPLATE">{description}。按钮</string>
 
 </resources>

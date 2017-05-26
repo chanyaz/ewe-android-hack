@@ -28,6 +28,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
+                    android:id="@+id/card_info_summary"
                     android:orientation="horizontal">
 
                     <FrameLayout

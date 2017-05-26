@@ -64,12 +64,6 @@
             android:title="Enable Universal Checkout on LX" />
 
         <CheckBoxPreference
-            android:key="@string/preference_disabled_stp_state"
-            android:layout="@layout/preference"
-            android:summary="Disabled STP state"
-            android:title="Enable Disabled STP state" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_additional_content_flight_confirmation"
             android:layout="@layout/preference"
             android:summary="Enable Additional Content on Fight Confirmation Screen"
@@ -92,12 +86,6 @@
             android:layout="@layout/preference"
             android:summary="Itinerary card detail view"
             android:title="Enable new itinerary detail view" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_track_users_itin_data"
-            android:layout="@layout/preference"
-            android:summary="Enable User's Itin Data Tracking"
-            android:title="Track User's Itin Data" />
 
     </PreferenceCategory>
 

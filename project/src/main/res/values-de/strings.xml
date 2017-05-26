@@ -2540,6 +2540,9 @@
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
+    <!-- The label for the hotel cell of the hotel you selected on results. -->
+    <string name="you_picked_this_hotel_label">Sie haben dieses Hotel gewählt</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Businesscenter</string>
@@ -2549,6 +2552,8 @@
     <string name="AmenityHotTub">Whirlpool</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">Internet</string>
+    <!-- Free Internet access amenity -->
+    <string name="AmenityFreeInternet">Kostenloses Internet</string>
     <!-- Kids' activities amenity -->
     <string name="AmenityKidsActivities">Aktivitäten für Kinder</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -3616,7 +3621,6 @@
     <string name="hotels_filter_show_more_cont_desc">Mehr Gegenden anzeigen. Schaltfläche</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Weniger Gegenden anzeigen. Schaltfläche</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Gutschein eingelöst: Sie sparen %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -3624,6 +3628,22 @@
     <string name="coupon_error_remove_dialog_title">Entfernen des Gutscheins fehlgeschlagen</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Leider gab es ein Problem mit Ihrem Gutschein. Bitte geben Sie den Code noch einmal ein.</string>
+    <!-- Hotel Advanced Search Options card title -->
+    <string name="advanced_options">Erweiterte Optionen</string>
+    <!-- VIP only search options on advanced options card title -->
+    <string name="vip_only">+VIP</string>
+    <!-- Sort by search option on advanced options card title -->
+    <string name="hotel_sort_by_search_option_TEMPLATE">Sortieren nach {sortby}</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="one_star">1 Stern</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="two_star">2 Sterne</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="three_star">3 Sterne</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="four_star">4 Sterne</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="five_star">5 Sterne</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Gegebenenfalls wird basierend auf der Zahlungsweise eine zusätzliche Gebühr berechnet.</string>
@@ -4059,8 +4079,6 @@
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Tickets ab {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Ausgewählte Hinfahrt:</string>
-    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
-    <string name="rail_button_cont_desc_TEMPLATE">{description}. Schaltfläche</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Mit Bahncard: {railcards}</string>
@@ -4539,5 +4557,8 @@
     <string name="collapse_room_info_cont_desc">Ausblenden</string>
     <!-- Content description for double tap action to expand HIS room info -->
     <string name="expand_room_info_cont_desc">Einblenden</string>
+
+    <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
+    <string name="a11y_button_TEMPLATE">{description}. Schaltfläche</string>
 
 </resources>
