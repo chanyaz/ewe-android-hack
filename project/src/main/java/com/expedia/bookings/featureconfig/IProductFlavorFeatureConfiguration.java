@@ -96,12 +96,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	int getCollectionCount();
 
-	/**
-	 * return the static image resID to show staic loading image on flight search loading screen
-	 * return 0 to enable Plane window view animation on flight search loading screen, currently its enabled only for Samsung and Expedia
-	 */
-	int getFlightSearchProgressImageResId();
-
 	boolean isLOBIconCenterAligned();
 
 	//return 0 if logo is not required on launch screen

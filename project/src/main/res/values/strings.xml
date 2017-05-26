@@ -1697,8 +1697,6 @@
     <string name="web_view_loading_error_TEMPLATE">Error loading page! Error message: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">No webpage url to load.</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Taking Off Soon…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

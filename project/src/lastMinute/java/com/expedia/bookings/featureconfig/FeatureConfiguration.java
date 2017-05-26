@@ -268,11 +268,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public int getFlightSearchProgressImageResId() {
-		return 0;
-	}
-
-	@Override
 	public Sort getDefaultSort() {
 		return Sort.RECOMMENDED;
 	}
