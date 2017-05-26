@@ -145,3 +145,88 @@ Feature: Package Search
       Examples:
         | initialNumber | laterNumber |
         | 6             | 5           |
+
+  @Packages @PackageSearch @Prod
+  Scenario: Verify data consistency while loading through package overview screen
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                            |
+      | destination         | LAS                            |
+      | source_suggest      | SFO - San Francisco Intl.      |
+      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 5                              |
+      | end_date            | 10                             |
+      | adults              | 2                              |
+      | child               | 2                              |
+    Then validate hotels loading on package overview screen
+    And I select hotel at position 1 on HSR screen
+    And I select first room
+    And validate outbound flights loading on package overview screen
+    And I select outbound flight to destination at position 1
+    And validate inbound flights loading on package overview screen
+    And I select inbound flight to source at position 1
+    And I click on checkout button
+    And I validate that checkout screen is displayed
+
+  @Packages @PackageSearch @Prod
+  Scenario: Verify consistency of traveler details on HSR and FSR toolbar of packages
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                            |
+      | destination         | LAS                            |
+      | source_suggest      | SFO - San Francisco Intl.      |
+      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 5                              |
+      | end_date            | 10                             |
+      | adults              | 2                              |
+      | child               | 2                              |
+    And validate HSR screen is displayed with following travel dates and travelers
+      | start_date      |  5 |
+      | end_date        | 10 |
+      | Total_Travelers |  4 |
+    And I select hotel at position 1 on HSR screen
+    And I select first room
+    And validate outbound FSR screen is displayed with following travel date and travelers
+      | travel_date     | 5 |
+      | Total_Travelers | 4 |
+    And I select outbound flight to destination at position 1
+    And validate inbound FSR screen is displayed with following travel date and travelers
+      | travel_date     | 10 |
+      | Total_Travelers |  4 |
+    And I select inbound flight to source at position 1
+    And I click on checkout button
+    And I validate that checkout screen is displayed
+
+  @Packages @PackageSearch @Prod
+  Scenario: Verify consistency of traveler details on package overview screen
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                            |
+      | destination         | LAS                            |
+      | source_suggest      | SFO - San Francisco Intl.      |
+      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 5                              |
+      | end_date            | 10                             |
+      | adults              | 2                              |
+      | child               | 2                              |
+    And I select hotel at position 1 on HSR screen
+    And I store the hotel name in "varHotelName"
+    And I select first room
+    And I select outbound flight to destination at position 1
+    And I select inbound flight to source at position 1
+    And validate "varHotelName" is same as user selected on package overview screen
+    And validate hotel widget of overview screen with following details
+      | start_date      |  5 |
+      | end_date        | 10 |
+      | Total_Travelers |  4 |
+    And validate flight outbound widget of overview screen with following details
+      | destination     | LAS |
+      | travel_date     |   5 |
+      | Total_Travelers |   4 |
+    And validate flight inbound widget of overview screen with following details
+      | source          | SFO |
+      | travel_date     |  10 |
+      | Total_Travelers |   4 |

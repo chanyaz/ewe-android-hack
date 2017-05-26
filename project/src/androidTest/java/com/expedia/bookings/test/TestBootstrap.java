@@ -16,6 +16,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
+import com.expedia.bookings.test.stepdefs.phone.CommonSteps;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 
 import cucumber.api.Scenario;
@@ -62,7 +63,8 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 		ActivityFinisher.finishOpenActivities();
 		getActivity().finish();
 		ExpediaNetUtils.setFake(true, true);
-
+		//clear map
+		CommonSteps.storeDataAtRuntime.clear();
 		//clear private data
 		Settings.clearPrivateData();
 
