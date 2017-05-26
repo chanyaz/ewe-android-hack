@@ -210,11 +210,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public int getFlightSearchProgressImageResId() {
-		return 0;
-	}
-
-	@Override
 	public boolean isLOBIconCenterAligned() {
 		return false;
 	}

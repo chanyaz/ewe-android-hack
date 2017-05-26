@@ -45,7 +45,6 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="skin_flightLoadingMessageTextColor">@color/flight_loading_message_text_color_vsc</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 

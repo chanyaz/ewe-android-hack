@@ -16,7 +16,6 @@ import com.expedia.account.Config;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -288,11 +287,7 @@ public class NavUtils {
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
 		FlightSearchParams flightSearchParams) {
 		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
-			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
-			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
-			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);
-			intent.addFlags(flags);
-			startActivity(context, intent, animOptions);
+			NavUtils.goToLaunchScreen(context, false, LineOfBusiness.FLIGHTS);
 		}
 		else {
 			sendKillActivityBroadcast(context);
