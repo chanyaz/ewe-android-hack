@@ -14,7 +14,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.vm.traveler.TravelerTSAViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -197,15 +196,16 @@ class TSAEntryViewTest {
     @Test
     fun birthDateErrorState() {
         tsaEntryView = activityTestRule.root as TSAEntryView
-        val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity)
-
-        uiThreadTestRule.runOnUiThread {
-            tsaEntryView.viewModel = tsaVM
-            tsaVM.dateOfBirthViewModel.errorSubject.onNext(true)
-        }
 
         //test for accessibility content description
-        assertEquals(tsaEntryView.dateOfBirth.errorContDesc, "Error")
+        assertEquals("Enter valid date of birth", tsaEntryView.dateOfBirth.errorContDesc)
+    }
 
+    @Test
+    fun genderErrorState() {
+        tsaEntryView = activityTestRule.root as TSAEntryView
+
+        //test for accessibility content description
+        assertEquals("Select a gender", tsaEntryView.genderSpinner?.errorMessage)
     }
 }

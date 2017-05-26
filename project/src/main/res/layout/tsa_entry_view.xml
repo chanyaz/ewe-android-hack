@@ -15,7 +15,7 @@
         android:hint="@string/date_of_birth"
         android:inputType="none"
         android:textSize="@dimen/traveler_input_text_size"
-        app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
+        app:error_cont_desc="@string/date_of_birth_validation_error_message"/>
 
     <com.expedia.bookings.widget.traveler.TravelerSpinner
         android:id="@+id/edit_gender_spinner"

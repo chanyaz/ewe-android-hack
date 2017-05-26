@@ -1,13 +1,11 @@
 package com.expedia.bookings.widget
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
 import org.junit.Before
 import org.junit.Test
@@ -56,6 +54,17 @@ class AccessiblePasswordEditTextTest {
         editText.setText("321")
         editText.valid = false
         editText.onInitializeAccessibilityNodeInfo(testNode)
-        assertEquals(" CVV, Error", testNode.text.toString())
+        assertEquals(" CVV, Error, ", testNode.text.toString())
+    }
+
+    @Test
+    fun testContentDescriptionWithTextAndErrorMessage()
+    {
+        val testNode = AccessibilityNodeInfo.obtain()
+        editText.setText("321")
+        editText.valid = false
+        editText.errorMessage = "Enter a valid CVV"
+        editText.onInitializeAccessibilityNodeInfo(testNode)
+        assertEquals(" CVV, Error, Enter a valid CVV", testNode.text.toString())
     }
 }

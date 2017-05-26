@@ -132,10 +132,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (lob == LineOfBusiness.HOTELS && !materialFormTestEnabled) {
                 creditCardNumber.setHint(R.string.credit_debit_card_hint)
             }
+            sectionBillingInfo.setErrorStrings()
+            sectionLocation.setErrorStrings()
             if (lob.isMaterialFormEnabled(context)) {
-                sectionBillingInfo.setMaterialErrorStrings()
                 sectionBillingInfo.setMaterialDropdownResources()
-                sectionLocation.setMaterialErrorStrings()
             }
         }
 

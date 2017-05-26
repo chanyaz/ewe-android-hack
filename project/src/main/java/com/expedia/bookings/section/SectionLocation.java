@@ -223,7 +223,7 @@ public class SectionLocation extends LinearLayout
 		mEditAddressState.onChange(null);
 	}
 
-	public void setMaterialErrorStrings() {
+	public void setErrorStrings() {
 		mValidAddrLineOne.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_billing_address));
 		mValidCity.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_city));
 		mValidState.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_state));

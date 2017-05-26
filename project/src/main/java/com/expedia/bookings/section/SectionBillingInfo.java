@@ -205,7 +205,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mValidExpiration.setMaterialDropdownResource(R.drawable.material_dropdown);
 	}
 
-	public void setMaterialErrorStrings() {
+	public void setErrorStrings() {
 		mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 		mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 		mValidNameOnCard.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_name));

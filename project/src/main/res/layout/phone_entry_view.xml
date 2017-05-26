@@ -28,5 +28,5 @@
         android:inputType="phone"
         android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size"
-        app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
+        app:error_cont_desc="@string/phone_validation_error_message"/>
 </merge>

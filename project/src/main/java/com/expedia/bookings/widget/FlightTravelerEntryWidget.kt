@@ -105,6 +105,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             if (!materialFormTestEnabled) {
                 val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
                 adapter.setErrorVisible(!isValid)
+                passportCountrySpinner.valid = isValid
             } else {
                 passportCountryEditBox.subscribeMaterialFormsError(vm.passportValidSubject.map { !it },
                         R.string.passport_validation_error_message, R.drawable.material_dropdown)
@@ -129,6 +130,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             passportCountrySpinner.adapter = adapter
             passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
             setOnFocusChangeListenerForView(passportCountrySpinner)
+            passportCountrySpinner.errorMessage = context.getString(R.string.passport_validation_error_message)
         }
         advancedOptionsWidget.redressNumber.addOnFocusChangeListener(this)
     }
@@ -211,6 +213,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             if (!materialFormTestEnabled) {
                 if (position == 0) {
                     adapter.setErrorVisible(true)
+                } else {
+                    passportCountrySpinner.valid = true
                 }
             }
         }
