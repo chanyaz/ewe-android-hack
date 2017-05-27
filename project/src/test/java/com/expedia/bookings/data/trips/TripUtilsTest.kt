@@ -470,7 +470,12 @@ class TripUtilsTest {
         hotelTripInFuture.startDate = DateTime.now().plusDays(2)
         hotelTripInFuture.endDate = DateTime.now().plusDays(10)
 
-        val userHotelTrips = mutableListOf(hotelTripInPast, hotelTripInProgress, hotelTripInFuture)
+        val hotelTripNullEndDate = Trip()
+        hotelTripNullEndDate.addTripComponent(TripHotel())
+        hotelTripNullEndDate.startDate = DateTime.now().plusDays(5)
+        hotelTripNullEndDate.endDate = null
+
+        val userHotelTrips = mutableListOf(hotelTripInPast, hotelTripInProgress, hotelTripInFuture, hotelTripNullEndDate)
 
         return userHotelTrips
     }

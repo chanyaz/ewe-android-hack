@@ -298,7 +298,7 @@ public class TripUtils {
 		List<Trip> usersTrips = new ArrayList<>();
 		String activeTripString = "";
 		for (Trip trip : trips) {
-			if (trip.getEndDate().plusDays(1).isAfterNow() && !trip.getTripComponents().isEmpty()) {
+			if (trip.getEndDate() != null && trip.getEndDate().plusDays(1).isAfterNow() && !trip.getTripComponents().isEmpty()) {
 				TripComponent tripComponent = trip.getTripComponents().get(0);
 				if (tripComponent.getType().equals(tripType)) {
 					usersTrips.add(trip);
