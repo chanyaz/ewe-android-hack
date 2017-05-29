@@ -7,8 +7,9 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.tracking.hotel.ControlPageUsableData
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -16,6 +17,7 @@ import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
+import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -24,6 +26,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     lateinit var travelerValidator: TravelerValidator
         @Inject set
+
+    val controlPageUsableData = ControlPageUsableData()
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
@@ -60,6 +64,37 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 }
             } else {
                 dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
+            }
+        }
+
+        Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
+            object {
+                val flyingFrom = flyFrom
+                val flyingTo = flyTo
+                val travelDate = date
+            }
+        }).subscribe {
+            if (!controlPageUsableData.isTimerAborted()) {
+                if (controlPageUsableData.hasTimerStarted()) {
+                    controlPageUsableData.abortTimer()
+                } else {
+                    controlPageUsableData.markPageLoadStarted(System.currentTimeMillis())
+                }
+            }
+        }
+
+        abortTimerObservable.subscribe{
+            if (!controlPageUsableData.isTimerAborted()) {
+                controlPageUsableData.abortTimer()
+            }
+        }
+
+        searchParamsObservable.subscribe {
+            if (controlPageUsableData.isTimerAborted()) {
+                FlightsV2Tracking.trackFlightsSearchFieldsChanged()
+            } else {
+                controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
             }
         }
     }

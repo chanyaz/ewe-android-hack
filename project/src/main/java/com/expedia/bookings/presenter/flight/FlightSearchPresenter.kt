@@ -22,7 +22,6 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -55,6 +54,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
+        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassSelectedObservable.subscribe(vm.abortTimerObservable)
         flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
@@ -66,6 +66,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             searchTrackingBuilder.markSearchClicked()
             vm.performSearchObserver.onNext(Unit)
         }
+        travelerWidgetV2.traveler.getViewModel().travelerSelectedObservable.subscribe(vm.abortTimerObservable)
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).

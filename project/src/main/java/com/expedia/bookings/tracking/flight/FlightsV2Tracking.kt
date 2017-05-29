@@ -236,4 +236,12 @@ object FlightsV2Tracking {
         val eSourceErrorId = error.errorInfo?.sourceErrorId ?: error.errorCode
         return "$errorType$eSource$eSourceErrorId"
     }
+
+    fun trackFlightsTimeToClick(timeTaken: String?) {
+        OmnitureTracking.trackFlightsTimeToClick(timeTaken)
+    }
+
+    fun trackFlightsSearchFieldsChanged() {
+        OmnitureTracking.trackFlightsSearchFieldsChanged()
+    }
 }
