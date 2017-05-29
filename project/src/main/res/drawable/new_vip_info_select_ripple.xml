@@ -3,7 +3,7 @@
     android:color="@color/white">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/app_primary_dark" />
+            <solid android:color="@color/hotel_promo_background" />
         </shape>
     </item>
 </ripple>
