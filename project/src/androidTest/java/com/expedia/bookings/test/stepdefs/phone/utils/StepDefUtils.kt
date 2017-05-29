@@ -12,10 +12,12 @@ import java.util.HashMap
 class StepDefUtils private constructor() {
 
     companion object {
-        private val apiCallAliases: HashMap<String, String> = hashMapOf(
-                "FlightSearch" to "/api/flight/search",
-                "FlightCreateTrip" to "/api/flight/trip/create"
-        )
+        private val apiCallAliases: HashMap<String, String> = {
+            val apiCallAliases = HashMap<String, String>()
+            apiCallAliases["FlightSearch"] = "/api/flight/search"
+            apiCallAliases["FlightCreateTrip"] = "/api/flight/trip/create"
+            apiCallAliases
+        }()
 
         private fun Request.convertToApiCallParams(): ApiRequestData {
             val queryParams: HashMap<String, List<String>> = HashMap()

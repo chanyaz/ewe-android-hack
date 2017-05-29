@@ -225,8 +225,8 @@ Feature: Flights Checkout
       | destination         | DEL                                      |
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
-      | start_date          | 5                                        |
-      | end_date            | 10                                       |
+      | start_date          | 15                                        |
+      | end_date            | 20                                       |
       | adults              | 1                                        |
       | child               | 0                                        |
     And I wait for results to load
