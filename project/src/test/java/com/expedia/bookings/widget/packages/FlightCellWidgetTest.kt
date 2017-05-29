@@ -31,7 +31,6 @@ class FlightCellWidgetTest {
         flightCellWidget.bind(FlightOverviewRowViewModel(context, selectedFlight), 5)
         assertEquals(View.VISIBLE, flightCellWidget.flightLayoverWidget.visibility)
 
-        SettingUtils.save(context, R.string.preference_flight_hide_fsr_infographic, true)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic, 1)
         flightCellWidget.bind(FlightOverviewRowViewModel(context, selectedFlight), 5)
         assertEquals(View.GONE, flightCellWidget.flightLayoverWidget.visibility)
