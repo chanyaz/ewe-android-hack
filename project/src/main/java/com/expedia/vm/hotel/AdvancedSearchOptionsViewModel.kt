@@ -2,7 +2,7 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.squareup.phrase.Phrase
@@ -37,7 +37,7 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
         }
     }
 
-    fun selectSortOption(selectedSort: Sort) {
+    fun selectSortOption(selectedSort: DisplaySort) {
         searchOptions.userSort = selectedSort
         filterCountChanged()
     }
@@ -106,11 +106,11 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
 
     private fun filterCountChanged() {
         showClearButtonSubject.onNext(searchOptions.filterCount() > 0
-                || searchOptions.userSort != Sort.RECOMMENDED)
+                || searchOptions.userSort != DisplaySort.RECOMMENDED)
     }
 
     private fun resetUserFilters() {
-        searchOptions.userSort = Sort.RECOMMENDED
+        searchOptions.userSort = DisplaySort.RECOMMENDED
         searchOptions.isVipOnlyAccess = false
         searchOptions.hotelStarRating = UserFilterChoices.StarRatings()
         searchOptions.name = ""

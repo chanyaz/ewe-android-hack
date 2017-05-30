@@ -31,6 +31,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.provider.HotelSearchProvider
+import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
@@ -66,8 +67,6 @@ import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.WebCheckoutViewViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
-import com.expedia.bookings.hotel.vm.HotelResultsViewModel
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import rx.Observable
@@ -122,7 +121,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val searchStub: ViewStub by bindView(R.id.search_stub)
     val searchPresenter: HotelSearchPresenter by lazy {
-        var presenter = searchStub.inflate() as HotelSearchPresenter
+        val presenter = searchStub.inflate() as HotelSearchPresenter
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
         presenter
@@ -130,7 +129,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val webCheckoutViewStub: ViewStub by bindView(R.id.web_checkout_view_stub)
     val webCheckoutView: WebCheckoutView by lazy {
-        var webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
+        val webCheckoutView = webCheckoutViewStub.inflate() as WebCheckoutView
         val webCheckoutViewViewModel = WebCheckoutViewViewModel(context)
         webCheckoutViewViewModel.createTripViewModel = HotelCreateTripViewModel(hotelServices, paymentModel)
         setUpCreateTripErrorHandling(webCheckoutViewViewModel.createTripViewModel)
@@ -150,8 +149,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
-        var presenter = resultsStub.inflate() as HotelResultsPresenter
-        var resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
+        val presenter = resultsStub.inflate() as HotelResultsPresenter
+        val resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
         resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView)
         resultsStub.addView(resultsMapView)
@@ -188,8 +187,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
     val detailsStub: ViewStub by bindView(R.id.details_stub)
     val detailPresenter: HotelDetailPresenter by lazy {
-        var presenter = detailsStub.inflate() as HotelDetailPresenter
-        var detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        val presenter = detailsStub.inflate() as HotelDetailPresenter
+        val detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
         detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
@@ -229,7 +228,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val checkoutStub: ViewStub by bindView(R.id.checkout_stub)
     val checkoutPresenter: HotelCheckoutPresenter by lazy {
-        var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
+        val presenter = checkoutStub.inflate() as HotelCheckoutPresenter
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(context)
@@ -450,31 +449,36 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             addTransition(checkoutToSearch)
         }
 
+        setUpErrorPresenter()
+        loadingOverlay.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+    }
+
+    private fun setUpErrorPresenter() {
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.getViewModel().searchErrorObservable.subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_TOP)
         }
         errorPresenter.viewmodel.defaultErrorObservable.subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_TOP)
         }
         errorPresenter.getViewModel().filterNoResultsObservable.subscribe {
             resultsPresenter.showCachedResults()
-            show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(resultsPresenter, FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
-            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(checkoutPresenter, FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe {
-            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(checkoutPresenter, FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutAlreadyBookedObservable.subscribe {
@@ -482,35 +486,33 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         errorPresenter.viewmodel.soldOutObservable.subscribe {
-            show(detailPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(detailPresenter, FLAG_CLEAR_TOP)
         }
 
 
         errorPresenter.viewmodel.sessionTimeOutObservable.subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
-            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(checkoutPresenter, FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(true, true)
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
-            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(checkoutPresenter, FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, FLAG_CLEAR_TOP)
         }
 
         errorPresenter.viewmodel.productKeyExpiryObservable.subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
         geoCodeSearchModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
-
-        loadingOverlay.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
     }
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
@@ -535,7 +537,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
+    private val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
     private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
@@ -558,7 +560,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    val searchArgbEvaluator = ArgbEvaluator()
+    private val searchArgbEvaluator = ArgbEvaluator()
     private val searchToResults = object : Presenter.Transition(HotelSearchPresenter::class.java, HotelResultsPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
@@ -802,7 +804,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.animationFinalize(forward)
         }
     }
-
 
     private val detailsToError = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java) {
         override fun endTransition(forward: Boolean) {

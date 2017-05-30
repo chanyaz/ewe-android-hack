@@ -20,6 +20,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.hotel.animation.ScaleInRunnable
 import com.expedia.bookings.hotel.animation.ScaleOutRunnable
@@ -131,10 +132,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.paramsSubject.subscribe { params -> resetForNewSearch(params) }
-
-        vm.sortByDeepLinkSubject.subscribe { sortType ->
-            filterView.viewModel.sortByObservable.onNext(sortType)
-        }
 
         vm.locationParamsSubject.subscribe { params ->
             showMapLoadingOverlay()
@@ -343,6 +340,10 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterView.viewModel.clearObservable.onNext(Unit)
         if (params.suggestion.gaiaId != null) {
             filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
+        }
+        filterView.viewModel.sortSpinnerObservable.onNext(DisplaySort.fromServerSort(params.getSortOrder()))
+        if (params.filterOptions != null) {
+            filterView.viewModel.newSearchOptionsObservable.onNext(params.filterOptions)
         }
     }
 

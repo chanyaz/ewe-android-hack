@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.JodaUtils
@@ -28,7 +29,7 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             getParamsBuilder().shopWithPoints(it)
         }
     }
-    @Inject set
+        @Inject set
 
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
@@ -148,10 +149,14 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         searchBuilder.hotelName(searchOptions.name)
         searchBuilder.starRatings(searchOptions.hotelStarRating.getStarRatingParamsAsList())
         searchBuilder.vipOnly(searchOptions.isVipOnlyAccess)
-        searchBuilder.userSort(searchOptions.userSort.toServerSort())
+        if (searchOptions.userSort != ProductFlavorFeatureConfiguration.getInstance().defaultSort) {
+            searchBuilder.userSort(searchOptions.userSort.toServerSort())
+        } else {
+            searchBuilder.clearUserSort()
+        }
     }
 
-    private fun getDateNightText(start: LocalDate, end: LocalDate, isContentDescription: Boolean) : CharSequence {
+    private fun getDateNightText(start: LocalDate, end: LocalDate, isContentDescription: Boolean): CharSequence {
         val dateNightBuilder = SpannableBuilder()
         val nightCount = JodaUtils.daysBetween(start, end)
 

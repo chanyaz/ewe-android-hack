@@ -1,7 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
@@ -11,6 +11,7 @@ import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
 import com.expedia.util.endlessObserver
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Collections
 import java.util.Comparator
@@ -18,21 +19,22 @@ import java.util.regex.Pattern
 
 class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
     var filteredResponse: HotelSearchResponse = HotelSearchResponse()
+    val sortByObservable = PublishSubject.create<DisplaySort>()
 
-    private var previousSortType = Sort.RECOMMENDED
+    private var previousSortType = getDefaultSort()
 
-    private val sortObserver = endlessObserver<Sort> { sort ->
+    private val sortObserver = endlessObserver<DisplaySort> { sort ->
         if (sort != previousSortType) {
             previousSortType = sort
             val hotels: List<Hotel> = filteredResponse.hotelList
 
             when (sort) {
-                Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
-                Sort.PRICE -> Collections.sort(hotels, price_comparator)
-                Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
-                Sort.DEALS -> Collections.sort(hotels, deals_comparator)
-                Sort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
-                Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
+                DisplaySort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
+                DisplaySort.PRICE -> Collections.sort(hotels, price_comparator)
+                DisplaySort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
+                DisplaySort.DEALS -> Collections.sort(hotels, deals_comparator)
+                DisplaySort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
+                DisplaySort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
             }
             setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
 
@@ -49,6 +51,7 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
     }
 
     init {
+        sortByObservable.subscribe(sortSpinnerObservable)
         sortByObservable.subscribe(sortObserver)
 
         doneObservable.subscribe {
@@ -57,14 +60,15 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
 
         clearObservable.subscribe {
             setFilteredHotelListAndRetainLoyaltyInformation(originalResponse?.hotelList.orEmpty())
-            previousSortType = Sort.RECOMMENDED   //the original response is always sorted by Recommended
+            previousSortType = DisplaySort.RECOMMENDED   //the original response is always sorted by Recommended
         }
     }
 
     override fun setHotelList(response: HotelSearchResponse) {
         setFilteredHotelListAndRetainLoyaltyInformation(ArrayList(response.hotelList))
         filteredResponse.userPriceType = response.userPriceType
-        previousSortType = Sort.RECOMMENDED
+        previousSortType = getDefaultSort()
+        sortByObservable.onNext(getDefaultSort())
         super.setHotelList(response)
     }
 
@@ -86,8 +90,8 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
         return PackagesFilterTracker()
     }
 
-    override fun sortItemToRemove(): Sort {
-        return Sort.DEALS
+    override fun sortItemToRemove(): DisplaySort {
+        return DisplaySort.DEALS
     }
 
     override fun isClientSideFiltering(): Boolean {
@@ -159,18 +163,14 @@ class PackageFilterViewModel(context: Context) : BaseHotelFilterViewModel(contex
     }
 
     private fun mapAmenitiesToFilterId(amenities: List<Hotel.HotelAmenity>): List<Int> {
-        var list = ArrayList<Int>()
-        for (amenity in amenities) {
-            list.add(FilterAmenity.amenityIdToFilterId(amenity.id.toInt()))
-        }
-        return list
+        return amenities.map {amenity -> FilterAmenity.amenityIdToFilterId(amenity.id.toInt()) }
     }
 
     private fun filterNeighborhood(hotel: Hotel): Boolean {
         if (userFilterChoices.neighborhoods.isEmpty()) return true
 
         for (neighborhood in userFilterChoices.neighborhoods) {
-            if (neighborhood.name.equals(hotel.locationDescription)) {
+            if (neighborhood.name == hotel.locationDescription) {
                 return true
             }
         }

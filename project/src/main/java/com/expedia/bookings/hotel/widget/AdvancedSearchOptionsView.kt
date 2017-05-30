@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.Ui
@@ -59,9 +59,9 @@ class AdvancedSearchOptionsView(context: Context, attrs: AttributeSet?) : Linear
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
 
-        val sortList = Sort.values().toMutableList()
-        sortList.remove(Sort.DISTANCE)
-        sortList.remove(Sort.PACKAGE_DISCOUNT)
+        val sortList = DisplaySort.values().toMutableList()
+        sortList.remove(DisplaySort.DISTANCE)
+        sortList.remove(DisplaySort.PACKAGE_DISCOUNT)
         hotelSortOptionsView.updateSortItems(sortList)
     }
 

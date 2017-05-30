@@ -4,7 +4,7 @@ import android.support.annotation.StringRes
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchParams
 
-enum class Sort(@StringRes val resId: Int) {
+enum class DisplaySort(@StringRes val resId: Int) {
     RECOMMENDED(R.string.recommended),
     PRICE(R.string.price),
     DEALS(R.string.sort_description_deals),
@@ -19,8 +19,20 @@ enum class Sort(@StringRes val resId: Int) {
             DEALS -> return HotelSearchParams.SortType.MOBILE_DEALS
             RATING -> return HotelSearchParams.SortType.REVIEWS
             DISTANCE -> return HotelSearchParams.SortType.DISTANCE
-            else -> {
-                return HotelSearchParams.SortType.EXPERT_PICKS
+            else -> return HotelSearchParams.SortType.EXPERT_PICKS
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun fromServerSort(sortType: HotelSearchParams.SortType): DisplaySort {
+            when (sortType) {
+                HotelSearchParams.SortType.EXPERT_PICKS -> return RECOMMENDED
+                HotelSearchParams.SortType.PRICE -> return PRICE
+                HotelSearchParams.SortType.MOBILE_DEALS -> return DEALS
+                HotelSearchParams.SortType.REVIEWS -> return RATING
+                HotelSearchParams.SortType.DISTANCE -> return DISTANCE
+                else -> return RECOMMENDED
             }
         }
     }

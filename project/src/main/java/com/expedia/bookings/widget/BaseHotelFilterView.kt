@@ -12,7 +12,7 @@ import android.view.ViewStub
 import android.widget.Button
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
 import com.expedia.bookings.hotel.widget.ClientNeighborhoodFilterView
@@ -36,12 +36,11 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     val filterVipView: HotelFilterVipView by bindView(R.id.filter_vip_view)
     val optionLabel: TextView by bindView(R.id.option_label)
     val hotelSortOptionsView: HotelSortOptionsView by bindView(R.id.hotel_sort_options)
+    val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
+    val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
 
     private val priceHeader: View by bindView(R.id.price)
     private val priceRangeView: HotelPriceFilterView by bindView(R.id.price_range_filter_view)
-    private val starRatingView: HotelStarRatingFilterView by bindView(R.id.star_rating_container)
-
-    private val hotelNameFilterView: HotelNameFilterView by bindView(R.id.hotel_filter_name_view)
     private val filterContainer: ViewGroup by bindView(R.id.filter_container)
 
     val doneButton: Button by lazy {
@@ -69,17 +68,17 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
     var shopWithPointsViewModel: ShopWithPointsViewModel? = null
 
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
-        val sortList = Sort.values().toMutableList()
+        val sortList = DisplaySort.values().toMutableList()
 
         sortList.remove(viewModel.sortItemToRemove())
 
         if (!isCurrentLocationSearch) {
-            sortList.remove(Sort.DISTANCE)
+            sortList.remove(DisplaySort.DISTANCE)
         }
 
         // Remove Sort by Deals in case of SWP.
         if (shopWithPointsViewModel?.swpEffectiveAvailability?.value ?: false) {
-            sortList.remove(Sort.DEALS)
+            sortList.remove(DisplaySort.DEALS)
         }
 
         hotelSortOptionsView.updateSortItems(sortList)
@@ -164,7 +163,6 @@ open class BaseHotelFilterView(context: Context, attrs: AttributeSet?) : FrameLa
 
         hotelSortOptionsView.sortSelectedSubject.subscribe { selectedSort ->
             vm.userFilterChoices.userSort = selectedSort
-
         }
 
         hotelSortOptionsView.downEventSubject.subscribe {

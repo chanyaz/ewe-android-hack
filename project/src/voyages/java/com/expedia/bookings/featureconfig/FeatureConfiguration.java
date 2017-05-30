@@ -14,7 +14,7 @@ import android.view.View;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.hotel.Sort;
+import com.expedia.bookings.data.hotel.DisplaySort;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -261,8 +261,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public Sort getDefaultSort() {
-		return Sort.RECOMMENDED;
+	public DisplaySort getDefaultSort() {
+		return DisplaySort.RECOMMENDED;
 	}
 
 	@Override

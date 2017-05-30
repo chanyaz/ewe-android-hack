@@ -3,7 +3,8 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -24,6 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -69,7 +71,7 @@ class HotelFilterViewTest {
     fun testSortByDistanceIsRemovedForNonCurrentLocationSearch() {
         initViewModel()
         hotelFilterView.sortByObserver.onNext(false)
-        val enumOfSortingList = listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
+        val enumOfSortingList = listOf(DisplaySort.RECOMMENDED, DisplaySort.PRICE, DisplaySort.DEALS, DisplaySort.RATING).toCollection(ArrayList<DisplaySort>())
         assertEquals(hotelFilterView.hotelSortOptionsView.getSortItems(), enumOfSortingList)
     }
 
@@ -78,7 +80,7 @@ class HotelFilterViewTest {
         initViewModel()
         hotelFilterView.shopWithPointsViewModel?.swpEffectiveAvailability?.onNext(true)
         hotelFilterView.sortByObserver.onNext(false)
-        val enumOfSortingList = listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.RATING).toCollection(ArrayList<Sort>())
+        val enumOfSortingList = listOf(DisplaySort.RECOMMENDED, DisplaySort.PRICE, DisplaySort.RATING).toCollection(ArrayList<DisplaySort>())
         assertEquals(hotelFilterView.hotelSortOptionsView.getSortItems(), enumOfSortingList)
     }
 
@@ -113,6 +115,50 @@ class HotelFilterViewTest {
 
         hotelFilterView.viewModel.neighborhoodListObservable.onNext(getNeighborhoodList())
         assertTrue(hotelFilterView.neighborhoodView.visibility == View.VISIBLE)
+    }
+
+    @Test
+    fun testUpdateNameWithSearchOptions() {
+        initViewModel()
+
+        val testSubscriber = TestSubscriber<CharSequence>()
+        hotelFilterView.hotelNameFilterView.filterNameChangedSubject.subscribe(testSubscriber)
+
+        val userFilters = UserFilterChoices()
+        val name = "Hyatt"
+        userFilters.name = name
+        (hotelFilterView.viewModel as HotelFilterViewModel).searchOptionsUpdatedObservable.onNext(userFilters)
+
+        assertEquals(name, testSubscriber.onNextEvents[0].toString())
+    }
+
+    @Test
+    fun testUpdateStarsWithSearchOptions() {
+        initViewModel()
+
+        val testSubscriber = TestSubscriber<UserFilterChoices.StarRatings>()
+        hotelFilterView.starRatingView.starRatingsSubject.subscribe(testSubscriber)
+
+        val userFilters = UserFilterChoices()
+        val stars = UserFilterChoices.StarRatings(true, true, true, true, true)
+        userFilters.hotelStarRating = stars
+        (hotelFilterView.viewModel as HotelFilterViewModel).searchOptionsUpdatedObservable.onNext(userFilters)
+
+        assertEquals(stars, testSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testUpdateVipWithSearchOptions() {
+        initViewModel()
+
+        val testSubscriber = TestSubscriber<Boolean>()
+        hotelFilterView.filterVipView.vipCheckedSubject.subscribe(testSubscriber)
+
+        val userFilters = UserFilterChoices()
+        userFilters.isVipOnlyAccess = true
+        (hotelFilterView.viewModel as HotelFilterViewModel).searchOptionsUpdatedObservable.onNext(userFilters)
+
+        assertTrue(testSubscriber.onNextEvents[0])
     }
 
     private fun setPOS(pos: PointOfSaleId) {

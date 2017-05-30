@@ -117,6 +117,10 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return this
         }
 
+        fun clearUserSort() {
+            this.userSort = null
+        }
+
         override fun build(): HotelSearchParams {
             val location = destinationLocation ?: throw IllegalArgumentException()
             if (destinationLocation?.gaiaId == null && destinationLocation?.coordinates == null) throw IllegalArgumentException()
@@ -181,7 +185,13 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return params
         }
 
-
+        fun isNotEmpty() :Boolean {
+            return !filterHotelName.isNullOrEmpty()
+                    || filterStarRatings.isNotEmpty()
+                    || (filterPrice != null && filterPrice!!.isValid())
+                    || filterVipOnly
+                    || userSort != null
+      }
     }
 
     enum class SortType(val sortName: String) {

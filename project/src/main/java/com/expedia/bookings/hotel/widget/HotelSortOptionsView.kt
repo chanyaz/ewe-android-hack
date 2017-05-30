@@ -11,18 +11,18 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.utils.bindView
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val sortSelectedSubject = PublishSubject.create<Sort>()
+    val sortSelectedSubject = PublishSubject.create<DisplaySort>()
     val downEventSubject = PublishSubject.create<Unit>()
 
     private val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
 
-    private val sortByAdapter = object : ArrayAdapter<Sort>(getContext(), R.layout.spinner_sort_dropdown_item) {
+    private val sortByAdapter = object : ArrayAdapter<DisplaySort>(getContext(), R.layout.spinner_sort_dropdown_item) {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val textView: TextView = super.getView(position, convertView, parent) as TextView
             textView.text = resources.getString(getItem(position).resId)
@@ -40,7 +40,7 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
         if (!isInEditMode) {
             sortByAdapter.setNotifyOnChange(false)
             sortByButtonGroup.adapter = sortByAdapter
-            val sortList = Sort.values().toMutableList()
+            val sortList = DisplaySort.values().toMutableList()
             updateSortItems(sortList)
         }
 
@@ -61,8 +61,7 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
         }
     }
 
-
-    fun updateSortItems(sortList: List<Sort>) {
+    fun updateSortItems(sortList: List<DisplaySort>) {
         sortByAdapter.clear()
         sortByAdapter.addAll(sortList)
         sortByAdapter.notifyDataSetChanged()
@@ -70,14 +69,14 @@ class HotelSortOptionsView(context: Context, attrs: AttributeSet?) : LinearLayou
     }
 
     //exposed for testing
-    fun getSortItems(): ArrayList<Sort> {
-        val array: ArrayList<Sort> = arrayListOf()
+    fun getSortItems(): ArrayList<DisplaySort> {
+        val array: ArrayList<DisplaySort> = arrayListOf()
         for (i in 1..sortByAdapter.count)
             array.add(sortByAdapter.getItem(i - 1))
         return array
     }
 
-    fun setSort(sort: Sort) {
+    fun setSort(sort: DisplaySort) {
         val position = sortByAdapter.getPosition(sort)
         sortByButtonGroup.setSelection(position, false)
     }

@@ -1,10 +1,12 @@
 package com.expedia.bookings.data.hotel
 
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -60,7 +62,7 @@ class UserFilterChoicesTest {
 
     @Test
     fun testCompareSort() {
-        filters1.userSort = Sort.DISTANCE
+        filters1.userSort = DisplaySort.DISTANCE
         assertFalse(filters1 == filters2)
     }
 
@@ -81,5 +83,38 @@ class UserFilterChoicesTest {
 
         filters1.neighborhoods.remove(neighborhood1)
         assertFalse(filters1 == filters)
+    }
+
+    @Test
+    fun testFromHotelFilterOptions() {
+        val hotelName = "Dingy Paradise"
+        val searchOptions = HotelSearchParams.HotelFilterOptions()
+        searchOptions.filterHotelName = hotelName
+        searchOptions.filterStarRatings = listOf(10, 40, 50)
+        searchOptions.userSort = HotelSearchParams.SortType.DISTANCE
+        searchOptions.filterVipOnly = true
+
+        val filterOptions = UserFilterChoices.fromHotelFilterOptions(searchOptions)
+        assertEquals(hotelName, filterOptions.name)
+        assertEquals(DisplaySort.DISTANCE, filterOptions.userSort)
+        assertTrue(filterOptions.isVipOnlyAccess)
+        assertTrue(filterOptions.hotelStarRating.one)
+        assertTrue(filterOptions.hotelStarRating.four)
+        assertTrue(filterOptions.hotelStarRating.five)
+
+        assertFalse(filterOptions.hotelStarRating.two)
+        assertFalse(filterOptions.hotelStarRating.three)
+    }
+
+    @Test
+    fun testFromEmptyHotelFilterOptions() {
+        val searchOptions = HotelSearchParams.HotelFilterOptions()
+
+        val filterOptions = UserFilterChoices.fromHotelFilterOptions(searchOptions)
+        assertEquals("", filterOptions.name)
+        assertEquals(DisplaySort.RECOMMENDED, filterOptions.userSort)
+        assertFalse(filterOptions.isVipOnlyAccess)
+        val starRating = UserFilterChoices.StarRatings()
+        assertEquals(starRating, filterOptions.hotelStarRating)
     }
 }

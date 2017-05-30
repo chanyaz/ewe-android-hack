@@ -1,11 +1,12 @@
 package com.expedia.bookings.data.hotel
 
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import java.util.ArrayList
 import java.util.HashSet
 
-data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfiguration.getInstance().defaultSort,
+data class UserFilterChoices(var userSort: DisplaySort = ProductFlavorFeatureConfiguration.getInstance().defaultSort,
                              var isVipOnlyAccess: Boolean = false,
                              var hotelStarRating: StarRatings = StarRatings(),
                              var name: String = "",
@@ -43,6 +44,26 @@ data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfigurat
         return filterChoices
     }
 
+    companion object {
+        @JvmStatic
+        fun fromHotelFilterOptions(searchOptions: HotelSearchParams.HotelFilterOptions) : UserFilterChoices {
+            //advanced search options support only hotel name, vip, star ratings and sort for now
+            val filterChoices = UserFilterChoices()
+            filterChoices.name = searchOptions.filterHotelName?: ""
+            filterChoices.isVipOnlyAccess = searchOptions.filterVipOnly
+
+            if (searchOptions.userSort != null) {
+                filterChoices.userSort = DisplaySort.fromServerSort(searchOptions.userSort!!)
+            }
+
+            if (searchOptions.filterStarRatings.isNotEmpty()) {
+                filterChoices.hotelStarRating = StarRatings.fromParamList(searchOptions.filterStarRatings)
+            }
+
+            return filterChoices
+        }
+    }
+
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false) {
         fun getStarRatingParamsAsList(): List<Int> {
             val ratings = ArrayList<Int>()
@@ -53,6 +74,19 @@ data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfigurat
             if (five) ratings.add(50)
 
             return ratings
+        }
+
+        companion object {
+            @JvmStatic
+            fun fromParamList(ratingList: List<Int>) : StarRatings {
+                val ratings = StarRatings()
+                if (ratingList.contains(10)) ratings.one = true
+                if (ratingList.contains(20)) ratings.two = true
+                if (ratingList.contains(30)) ratings.three = true
+                if (ratingList.contains(40)) ratings.four = true
+                if (ratingList.contains(50)) ratings.five = true
+                return ratings
+            }
         }
     }
 }

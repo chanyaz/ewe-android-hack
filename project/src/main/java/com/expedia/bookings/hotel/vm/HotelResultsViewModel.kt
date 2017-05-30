@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -29,7 +28,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
 
     val searchingForHotelsDateTime = PublishSubject.create<Unit>()
     val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
-    val sortByDeepLinkSubject = PublishSubject.create<Sort>()
 
     private var isFilteredSearch = false
     private var cachedParams: HotelSearchParams? = null
@@ -56,10 +54,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
 
         hotelSearchProvider.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
         hotelSearchProvider.successSubject.subscribe { response ->
-            cachedParams?.let { params ->
-                val sortType = getSortTypeFromString(params.sortType)
-                sortByDeepLinkSubject.onNext(sortType)
-            }
             onSearchResponseSuccess(response)
         }
 
@@ -154,18 +148,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
         } else {
             hotelSearchResponse.isPinnedSearch = cachedParams?.isPinnedSearch() ?: false
             hotelResultsObservable.onNext(hotelSearchResponse)
-        }
-    }
-
-    private fun getSortTypeFromString(sortType: String?): Sort {
-        when (sortType?.toLowerCase()) {
-            "discounts" -> return Sort.DEALS
-            "deals" -> return Sort.DEALS
-            "price" -> return Sort.PRICE
-            "rating" -> return Sort.RATING
-            else -> {
-                return Sort.RECOMMENDED
-            }
         }
     }
 
