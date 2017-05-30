@@ -180,6 +180,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private var isHotelDescriptionExpanded = false
 
+
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
         resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
@@ -190,7 +191,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.hotelOffersSubject.subscribe {
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
-
         vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
 
         vm.hotelSoldOut.subscribeVisibility(changeDatesButton)
@@ -450,6 +450,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }
             }
         })
+
+
     }
 
     private val payNowClickObserver: Observer<Unit> = endlessObserver {
@@ -506,6 +508,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         recycleRoomImageViews()
         roomContainer.removeAllViews()
+
+
     }
 
     fun refresh() {
@@ -639,9 +643,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (etpContainer.visibility == View.VISIBLE) {
             selectRoomButtonOffset = (offset + (etpContainer.height) / 2)
         }
-
-        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset ||
-                detailContainer.getChildAt(detailContainer.childCount - 1).bottom - detailContainer.height - detailContainer.scrollY <= stickySelectRoomContainer.height / 4
+        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset
 
         if (showStickySelectRoom && !selectRoomInAnimator.isRunning && stickySelectRoomContainer.translationY != 0f) {
             selectRoomInAnimator.start()
@@ -650,12 +652,14 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
     }
 
+
     private fun shouldShowETPContainer() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         etpContainer.isEnabled = roomContainerPosition[1] + roomContainer.height >= offset + etpContainer.height
     }
 
     private fun scrollToRoom(animate: Boolean) {
+
         roomContainer.getLocationOnScreen(roomContainerPosition)
         var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
         if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
@@ -861,6 +865,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     private fun getRoomDetailView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String, rowIndex: Int, roomCount: Int, hasETP: Boolean): HotelRoomDetailView {
+
+
         val detailViewModel = HotelRoomDetailViewModel(context, hotelRoomResponse, hotelId, rowIndex, roomCount, hasETP)
 
         val detail = HotelRoomDetailView(context, detailViewModel)

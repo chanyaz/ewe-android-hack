@@ -457,7 +457,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsSortFaq);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsCardReadability);
-
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideSearch);
 		// Send the tracking data
 		s.track();
 	}
