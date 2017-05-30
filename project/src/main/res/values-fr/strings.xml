@@ -19,8 +19,8 @@
     <string name="package_search_traveler_default_text">1 voyageur</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Faites glisser pour modifier</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Sélectionnez la date à changer.</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Sélectionnez de nouveau les dates à modifier.</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Assistance</string>
     <string name="itin_action_support">Assistance</string>
     <string name="itin_action_share">Partager</string>
+    <string name="share_action_content_description">Bouton pour partager.</string>
     <string name="itin_action_view">Afficher le voyage</string>
 
     <!-- Itin webview titles -->
@@ -2960,8 +2961,18 @@
     <string name="cars">Voitures</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} jours</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">Pour les {lob}, les points deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Les points obtenus à partir de réservations de vols deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Les points obtenus à partir d\&apos;offres formules deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Les points obtenus à partir de réservations d\&apos;activités deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Les points obtenus à partir de réservations d\&apos;hôtels deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Les points obtenus à partir de réservations de croisières deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Les points obtenus à partir de locations de voiture deviennent disponibles sous un maximum de {number_of_days} jours après la fin du voyage.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3065,9 +3076,9 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">kilomètres</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s %2$s</string>
+    <string name="distance_template">à %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">à %1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
     <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">Hôtel à {city} - 1 chambre, {number} nuit</item>
         <item quantity="other">Hôtel à {city} - 1 chambre, {number} nuits</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">Vol + hôtel</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">Économisez en réservant votre hôtel en même temps que vos vols</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
