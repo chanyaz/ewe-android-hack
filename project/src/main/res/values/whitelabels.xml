@@ -221,7 +221,6 @@
     <attr name="skin_tripsTabText" format="reference|string" />
     <attr name="skin_hotelPriceTextStyle" format="reference" />
 
-    <attr name="skin_flightLoadingMessageTextColor" format="reference|color" />
     <attr name="skin_ticketSelectorDisabledColor" format="reference" />
     <attr name="skin_lxResultsBottomPadding" format="reference" />
     <attr name="skin_lxErrorNoResultsText" format="reference" />

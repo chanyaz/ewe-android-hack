@@ -182,12 +182,6 @@
 
         <!-- Flights activities -->
         <activity
-            android:name="com.expedia.bookings.activity.FlightUnsupportedPOSActivity"
-            android:resizeableActivity="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/FlightTheme"
-            tools:ignore="UnusedAttribute" />
-        <activity
             android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
             android:label="@string/legal_information"
             android:theme="@style/Material.WebView.Theme"

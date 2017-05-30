@@ -139,12 +139,13 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
             gotoAccount()
         } else if (lineOfBusiness != null) {
-            var errorMessage: CharSequence = ""
-            if (lineOfBusiness == LineOfBusiness.CARS) {
-                errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", getString(R.string.Car)).format()
-            } else if (lineOfBusiness == LineOfBusiness.LX) {
-                errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", getString(R.string.Activity)).format()
+            val lobName = when (lineOfBusiness) {
+                LineOfBusiness.CARS -> getString(R.string.Car)
+                LineOfBusiness.LX -> getString(R.string.Activity)
+                LineOfBusiness.FLIGHTS -> getString(R.string.Flight)
+                else -> ""
             }
+            val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         }
         AbacusHelperUtils.downloadBucket(this)
