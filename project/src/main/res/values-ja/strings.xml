@@ -9,7 +9,7 @@
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">次に、チェックアウト日を選択</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
-    <string name="select_checkout_date_TEMPLATE">%1$s - チェックアウト日を選択</string>
+    <string name="select_checkout_date_TEMPLATE">%1$s- チェックアウト日を選択</string>
 
     <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
     <string name="nights_count_TEMPLATE">(%1$s)</string>
@@ -19,14 +19,14 @@
     <string name="package_search_traveler_default_text">旅行者 1 名</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">ドラッグして変更</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}。日付を選択して変更する</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}。日付を変更するには再度選択してください</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}。{instructiontext}</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
-    <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
+    <string name="hotel_rating_summary_Template">{rating}- {attribute}</string>
     <!-- Hotels rating room cleanliness string -->
     <string name="hotel_rating_room_cleanliness">客室の清潔度</string>
     <!-- Hotels rating room comfort string -->
@@ -86,7 +86,7 @@
     <!-- Text for price change-->
     <string name="price_change_text">料金の変更</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
-    <string name="price_change_alert_TEMPLATE">旅行の料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
+    <string name="price_change_alert_TEMPLATE">料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">料金変更</string>
     <!-- Text for error toolbar-->
@@ -122,7 +122,7 @@
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d- %2$d</string>
     <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <string name="car_details_TEMPLATE">%1$s%2$s</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -147,7 +147,7 @@
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">借出日および返却日を選択</string>
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
+    <string name="date_time_range_TEMPLATE">%1$s– %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – 現地出発日を選択</string>
     <!-- Car Calendar Strings -->
@@ -193,7 +193,7 @@
     </plurals>
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
-        <item quantity="one">結果 {number} 件を絞り込みました</item>
+        <item quantity="one">{number} 件に絞込みました</item>
         <item quantity="other">結果 {number} 件を絞り込みました</item>
     </plurals>
 
@@ -260,7 +260,7 @@
     <!--Text for selected card -->
     <string name="checkout_selected_card">{cardtype}…{cardno}</string>
     <!--Text for selecting user manually stored card -->
-    <string name="temporarily_saved_card_TEMPLATE">保存済み{cardtype} (カード番号 {cardno})</string>
+    <string name="temporarily_saved_card_TEMPLATE">保存済み {cardtype}(カード番号 {cardno})</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">保存済み{cardtype}</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
@@ -346,9 +346,9 @@
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">予約前の確認事項</string>
     <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s%2$s (%3$s)</string>
+    <string name="ticket_details_template">%1$s%2$s(%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s%2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">予約する %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -550,12 +550,12 @@
         <item quantity="other">馬車 %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_buggy_TEMPLATE">
-        <item quantity="one">バギー %1$s 台</item>
+        <item quantity="one">バギー %1$s台</item>
         <item quantity="other">バギー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_atv_TEMPLATE">
         <item quantity="one">ATV %1$s 台</item>
-        <item quantity="other">ATV %1$s 台</item>
+        <item quantity="other">ATV %1$s台</item>
     </plurals>
     <plurals name="ticket_type_jet_ski_TEMPLATE">
         <item quantity="one">ジェットスキー %1$s 台</item>
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">電話で問合せ</string>
     <string name="itin_action_support">サポート</string>
     <string name="itin_action_share">共有</string>
+    <string name="share_action_content_description">シェアボタン</string>
     <string name="itin_action_view">旅程を表示</string>
 
     <!-- Itin webview titles -->
@@ -1728,7 +1729,7 @@
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
-    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt;%2$s</string>
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
@@ -1744,7 +1745,7 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}- {enddate}、{guests}</string>
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -1897,7 +1898,7 @@
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
-    <string name="pay_later_disclaimer_TEMPLATE">ご旅行の合計金額は&lt;b&gt;%1$s&lt;/b&gt; です。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
+    <string name="pay_later_disclaimer_TEMPLATE">ご旅行の合計金額は&lt;b&gt;%1$s&lt;/b&gt;です。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
     <string name="brand_account_cont_desc_TEMPLATE">{brand} アカウント</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
@@ -2032,7 +2033,7 @@
         <item quantity="one">その他 {travelercount} 名の旅行者</item>
         <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者{travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2755,7 +2756,7 @@
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">予約</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">{room} の客室を表示する</string>
+    <string name="view_room_button_content_description_TEMPLATE">{room}の客室を表示する</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">{room} を予約する</string>
     <!-- Room description alert dialog title -->
@@ -2783,7 +2784,7 @@
     <!-- Title for dialog confirming the clearing of private data when user is logged in-->
     <string name="dialog_clear_private_data_title_logged_in_user">処理を続けますか ?</string>
     <!-- Message for dialog confirming the clearing of private data when user is logged in. Ex: Changing the country will sign you out of your Expedia account​ -->
-    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">国を変更すると、ご利用の {brand} アカウントからサインアウトします。</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">国を変更すると、ご利用の{brand}アカウントからサインアウトします。</string>
     <!-- Continue button for dialog confirming the clearing of private data -->
     <string name="continue_button">続ける</string>
     <!-- Title for dialog after private data has been cleared -->
@@ -2960,8 +2961,18 @@
     <string name="cars">レンタカー</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} 日</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">{lob}に対するポイントは旅行完了後、最大 {number_of_days} 日で有効ポイントとなります。</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">旅行完了後、航空券で貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">旅行完了後、航空券 + ホテルで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">旅行完了後、現地ツアーで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">旅行完了後、ホテルで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">旅行完了後、クルーズで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">旅行完了後、レンタカーで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3067,9 +3078,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">現在地から %1$s%2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount}{currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3701,7 +3712,7 @@
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
-        <item quantity="other">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
+        <item quantity="other">航空券との同時予約で、このホテルが {night}泊無料になります。</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s%2$s、%3$s</string>
@@ -3811,7 +3822,7 @@
     <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
     <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">、{date}</string>
     <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
-    <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} ～ {arrivaltime} · {stops}</string>
+    <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime}～ {arrivaltime} · {stops}</string>
     <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
     <string name="flight_to_card_TEMPLATE">{airportcity}({airportcode}) 行きのフライト</string>
     <!-- Select return flight -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">{city}のホテル - 1 室、{number} 泊</item>
         <item quantity="other">{city}のホテル - 1 室、{number} 泊</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">航空券 + ホテル</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">航空券とホテルを同時に予約するとお得 !</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
@@ -3902,7 +3919,7 @@
     <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
     <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} → ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">{city}({airportcode}) で乗り継ぎ</string>
-    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier}{flightnumber} \u2022 {airplanetype}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
     <!-- Toolbar Title for flight overview template. Example: Thurs May 12 - Fri May 14, 2 guests -->
     <string name="flight_overview_toolbar_TEMPLATE">{date}、{guests}</string>
@@ -4007,7 +4024,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} → {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass}{fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4184,13 +4201,13 @@
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">フライト時刻は {time} で料金は {price} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の {hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。\u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の {hotel}。ゲスト評価 5 段階中 {guestrating}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">ゲスト評価 5 段階中 {guestrating} の{hotel}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
-    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">5 段階中 {hotel} の評価の{starrating}。\u0020</string>
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">5 段階中 {hotel} の評価の {starrating}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
     <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
@@ -4204,9 +4221,9 @@
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超目玉セール {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地{arrivalairport}。所要時間 {durationhours}{durationmins}。\u0020</string>
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地{arrivalairport}。所要時間 {durationhours} {durationmins}。\u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間 {layoverhours}{layovermins}。\u0020</string>
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間 {layoverhours} {layovermins}。\u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
     <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
         <item quantity="one">この料金の座席は残り {seatsleft} 席です</item>
@@ -4259,7 +4276,7 @@
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。</string>
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1. 10 Years old selected."-->
-    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。{currentselection} が選択されています。</string>
+    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様{childnumber} の年齢を選択してください。{currentselection} が選択されています。</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">中人 {youthnumber} の年齢を選択してください。</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
@@ -4286,7 +4303,7 @@
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate} → {enddate}、出発日 : {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate}→ {enddate}、出発日 : {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

@@ -19,8 +19,8 @@
     <string name="package_search_traveler_default_text">여행객 1명</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">수정하려면 드래그하세요.</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. 변경할 날짜를 선택하세요.</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. 수정하려면 날짜를 다시 선택해 주세요.</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">전화 문의</string>
     <string name="itin_action_support">고객 지원</string>
     <string name="itin_action_share">공유하기</string>
+    <string name="share_action_content_description">공유 버튼</string>
     <string name="itin_action_view">일정 보기</string>
 
     <!-- Itin webview titles -->
@@ -2960,8 +2961,18 @@
     <string name="cars">렌터카</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days}일</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">{lob}의 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">항공 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">패키지 특가 상품 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">즐길거리 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">호텔 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">크루즈 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">렌터카 포인트는 여행이 완료되고 최대 {number_of_days}일 후 이용 가능하게 됩니다.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">{city} 호텔 - 객실 1개, {number}박</item>
         <item quantity="other">{city} 호텔 - 객실 1개, {number}박</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">항공 + 호텔</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">항공과 호텔을 함께 예약하고 할인받으세요!</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
