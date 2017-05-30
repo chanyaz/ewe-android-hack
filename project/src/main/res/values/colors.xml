@@ -225,9 +225,6 @@
 
     <!-- Cars colors -->
     <color name="cars_primary_color">@color/exp_car_maroon</color>
-    <color name="cars_secondary_color">@color/exp_car_dark_maroon</color>
-    <color name="cars_button_ripple">#ECC3DC</color>
-    <color name="cars_button_color">@color/cars_primary_color</color>
 
     <color name="cars_actionbar_text_color">@color/gray8</color>
     <color name="cars_tooltip_disabled_color">@color/gray4</color>
@@ -240,15 +237,11 @@
     <color name="cars_confirmation_action_text_color">@color/gray1</color>
     <color name="cars_confirmation_email_text_color">@color/gray3</color>
 
-    <color name="cars_status_bar_color">#7E4569</color>
-    <color name="cars_ripple_color">#A4638D</color>
-    <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_checkmark_color">#29a653</color>
     <color name="cars_confirmation_icon_color">#D1D3D6</color>
     <color name="cars_confirmation_gradient">#80000000</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
     <color name="cars_selected_tab_color">#5F717F</color>
-    <color name="cars_color_primary_dark">#532C45</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_text_color">@color/gray9</color>
@@ -276,10 +269,10 @@
     <color name="launch_screen_active_itin_bg">@color/blue5</color>
 
     <!-- LX colors -->
-    <color name="lx_primary_color">@color/exp_lx_orange</color>
-    <color name="lx_ripple_color">@color/exp_lx_secondary_orange</color>
-    <color name="lx_button_ripple">#F6DAC0</color>
-    <color name="lx_button_color">@color/lx_primary_color</color>
+    <color name="lx_primary_color">@color/app_primary</color>
+    <color name="lx_ripple_color">@color/app_primary_dark</color>
+    <color name="lx_button_ripple">@color/app_primary_light</color>
+    <color name="lx_button_color">@color/app_primary</color>
 
     <color name="lx_actionbar_text_color">@color/gray8</color>
 
@@ -318,9 +311,6 @@
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
-    <color name="lx_primary_disabled_color">#40E88534</color>
-    <color name="lx_color_primary_dark">#A8540D</color>
-    <color name="lx_offer_date_ripple_color">#a25d24</color>
 
     <color name="checkout_login_button_color">#836B11</color>
 
