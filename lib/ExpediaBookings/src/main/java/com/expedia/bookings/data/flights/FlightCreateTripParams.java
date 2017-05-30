@@ -1,14 +1,14 @@
 package com.expedia.bookings.data.flights;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 
 public class FlightCreateTripParams {
 
 	private String productKey;
-
+	public boolean flexEnabled;
 	public FlightCreateTripParams(String productKey) {
 		this.productKey = productKey;
 	}

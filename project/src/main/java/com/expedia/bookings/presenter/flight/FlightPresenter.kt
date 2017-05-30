@@ -26,11 +26,12 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
@@ -39,7 +40,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
-import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
@@ -326,6 +326,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel.flightProductId.subscribe { productKey ->
             flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
             val createTripParams = FlightCreateTripParams(productKey)
+            createTripParams.flexEnabled = isFlexEnabled(context)
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)

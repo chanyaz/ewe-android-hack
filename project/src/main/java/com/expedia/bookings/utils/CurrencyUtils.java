@@ -111,37 +111,37 @@ public class CurrencyUtils {
 	public static PaymentType parsePaymentType(String type) {
 		// Code lovingly stolen from iOS, where they note that these
 		// values are not yet verified from the API folks.
-		if (type.equals("AmericanExpress")) {
+		if (type.contains("AmericanExpress")) {
 			return PaymentType.CARD_AMERICAN_EXPRESS;
 		}
-		else if (type.equals("CarteBlanche")) {
+		else if (type.contains("CarteBlanche")) {
 			return PaymentType.CARD_CARTE_BLANCHE;
 		}
-		else if (type.equals("ChinaUnionPay")) {
+		else if (type.contains("ChinaUnionPay")) {
 			return PaymentType.CARD_CHINA_UNION_PAY;
 		}
-		else if (type.equals("DinersClub") || type.equals("Diner's Club International")) {
+		else if (type.contains("Diner")) {
 			return PaymentType.CARD_DINERS_CLUB;
 		}
-		else if (type.equals("Discover")) {
+		else if (type.contains("Discover")) {
 			return PaymentType.CARD_DISCOVER;
 		}
-		else if (type.equals("JCB")) {
+		else if (type.contains("JCB")) {
 			return PaymentType.CARD_JAPAN_CREDIT_BUREAU;
 		}
-		else if (type.equals("Maestro")) {
+		else if (type.contains("Maestro")) {
 			return PaymentType.CARD_MAESTRO;
 		}
-		else if (type.equals("MasterCard")) {
+		else if (type.contains("MasterCard")) {
 			return PaymentType.CARD_MASTERCARD;
 		}
-		else if (type.equals("Visa") || type.equals("Visa Electron")) {
+		else if (type.contains("Visa")) {
 			return PaymentType.CARD_VISA;
 		}
-		else if (type.equals("CarteBleue")) {
+		else if (type.contains("CarteBleue")) {
 			return PaymentType.CARD_CARTE_BLEUE;
 		}
-		else if (type.equals("CarteSi")) {
+		else if (type.contains("CarteSi")) {
 			return PaymentType.CARD_CARTA_SI;
 		}
 		else if (ProgramName.Companion.valueOf(type) != null) {

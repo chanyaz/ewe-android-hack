@@ -12,3 +12,6 @@ fun isMaterialFormsEnabled(): Boolean {
 fun isDisabledSTPStateEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppDisabledSTPState)
 }
+fun isFlexEnabled(context: Context): Boolean {
+    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_flex)
+}

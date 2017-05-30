@@ -164,6 +164,38 @@ class BillingDetailsPaymentWidgetTest {
     }
 
     @Test
+    fun testFlexPaymentValidator() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        val info = BillingInfo()
+        info.setNumberAndDetectType("4111111111111111")
+        info.nameOnCard = "Test CArd"
+        info.expirationDate = cardExpiry
+        info.securityCode = "123"
+
+        val location = givenLocation()
+        info.location = location
+
+        givenTripResponse("Visa Debit")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+
+        givenTripResponse("Visa Credit")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+
+        givenTripResponse("Visa Electron")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+
+        givenTripResponse("Vis")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
+
+    @Test
     fun testAddressLimit() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
