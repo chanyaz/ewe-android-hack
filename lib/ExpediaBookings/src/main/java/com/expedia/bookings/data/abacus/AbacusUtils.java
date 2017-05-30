@@ -44,6 +44,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
 	public static final int EBAndroidAppUserOnboarding = 13548;
 	public static final int EBAndroidLXVoucherRedemption = 14380;
+	public static final int EBAndroidAppTripsDetailRemoveCalendar = 14201;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Flight tests
@@ -103,6 +104,12 @@ public class AbacusUtils {
 		CONTROL,
 		UP_TO_XX_PERCENT_OFF,
 		BECAUSE_YOU_BOOKED_A_FLIGHT
+	}
+
+	public enum ItinShareButton {
+		CONTROL,
+		SHARE_ICON_BUTTON,
+		SHARE_TEXT_BUTTON
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -172,6 +179,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightHideFSRInfographic);
 		testIDs.add(EBAndroidLXVoucherRedemption);
 		testIDs.add(EBAndroidAppHotelHideSearch);
+		testIDs.add(EBAndroidAppTripsDetailRemoveCalendar);
 		return testIDs;
 	}
 

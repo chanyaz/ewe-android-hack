@@ -516,6 +516,15 @@
             android:layout="@layout/preference"
             android:title="Trips Crystal Skin - 13812" />
 
+        <ListPreference
+            android:entries="@array/abacus_itin_share_button_choices"
+            android:entryValues="@array/abacus_itin_share_button_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="14201"
+            android:layout="@layout/preference"
+            android:title="Itin share button icon or text - 14201"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
