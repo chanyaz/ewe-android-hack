@@ -58,7 +58,7 @@ fi
 ./tools/uninstall.sh com.expedia.bookings
 
 # run test
-./gradlew --no-daemon forkExpediaDebug
+./gradlew --no-daemon -PrunProguard=false forkExpediaDebug
 
 cat project/build/fork/expedia/debug/summary/fork-*.json |
 tr '}' '\n' |

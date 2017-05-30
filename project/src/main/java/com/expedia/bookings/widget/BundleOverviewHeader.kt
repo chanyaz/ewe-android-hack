@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
@@ -74,8 +75,11 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     fun translateDatesTitleForHeaderToolbar() {
-        checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -((checkoutOverviewFloatingToolbar.destinationText.height
-                / checkoutOverviewFloatingToolbar.destinationText.lineCount) * .25f)
+        val destinationTextView = checkoutOverviewFloatingToolbar.destinationText
+        if (Strings.isNotEmpty(destinationTextView.text)) {
+            checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -((destinationTextView.height
+                    / destinationTextView.lineCount) * .25f)
+        }
     }
 
     fun toggleOverviewHeader(show: Boolean) {

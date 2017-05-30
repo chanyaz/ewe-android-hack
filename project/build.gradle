@@ -157,6 +157,7 @@ android {
     }
 
     lintOptions {
+        disable 'NewerVersionAvailable'
         checkReleaseBuilds false
         showAll true
         lintConfig file("lint.xml")
@@ -195,7 +196,7 @@ android {
         versionName "undefined"
 
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 25
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
