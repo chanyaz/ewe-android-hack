@@ -12,6 +12,7 @@ import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.rail.widget.BasicEconomyInfoWebView
@@ -126,6 +127,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
             val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
                     .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(offerInsuranceInFlightSummary)
+            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         }
     }
 
