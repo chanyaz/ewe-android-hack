@@ -62,7 +62,7 @@
     <color name="old_checkout_account_button_text_color">#26344F</color>
 
     <!-- Cars and LX-->
-    <color name="cars_button_color">#D6682D</color>
+    <color name="cars_button_color">@color/cars_primary_color</color>
     <color name="cars_primary_color">#26344F</color>
     <color name="cars_unchecked_toggle_text_color">#70ffffff</color>
     <color name="lx_primary_color">#26344F</color>
