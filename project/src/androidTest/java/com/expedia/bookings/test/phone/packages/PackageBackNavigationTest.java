@@ -31,7 +31,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 	public void testPackageBackNavigation() throws Throwable {
 		PackageScreen.searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 		PackageScreen.selectFlight(0);

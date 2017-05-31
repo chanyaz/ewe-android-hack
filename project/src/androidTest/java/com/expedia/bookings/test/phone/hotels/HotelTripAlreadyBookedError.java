@@ -19,7 +19,7 @@ public class HotelTripAlreadyBookedError extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_trip_already_booked");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();

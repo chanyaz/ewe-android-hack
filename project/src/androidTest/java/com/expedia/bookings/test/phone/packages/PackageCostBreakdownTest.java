@@ -38,7 +38,7 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 		Common.delay(1);
 
 		Common.delay(1);

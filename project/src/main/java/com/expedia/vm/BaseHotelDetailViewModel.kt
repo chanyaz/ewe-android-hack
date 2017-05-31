@@ -78,7 +78,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val hotelPriceContentDesc = PublishSubject.create<String>()
 
     val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
-    val priceWidgetBackground = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.hotel_cell_gray_text) else ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)) }
+    val hotelSearchInfoText = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.gray3) else ContextCompat.getColor(context, R.color.gray6) }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
@@ -144,7 +144,6 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.create<String>("")
     val promoImageObservable = BehaviorSubject.create<Int>(0)
-    val promoMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val earnMessageObservable = BehaviorSubject.create<String>()
     val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
 
@@ -329,7 +328,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
 
     fun groupAndSortRoomList(roomList: List<HotelOffersResponse.HotelRoomResponse>): LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>> {
         val roomOrderedMap = LinkedHashMap<String, ArrayList<HotelOffersResponse.HotelRoomResponse>>()
-        val sortedRoomList = roomList.sortedWith(compareBy({ it.rateInfo.chargeableRateInfo.priceToShowUsers }, { it.hasFreeCancellation }, { if (it.valueAdds != null) -it.valueAdds.count() else 0 } ))
+        val sortedRoomList = roomList.sortedWith(compareBy({ it.rateInfo.chargeableRateInfo.priceToShowUsers }, { it.hasFreeCancellation }, { if (it.valueAdds != null) -it.valueAdds.count() else 0 }))
 
         sortedRoomList.forEach { room ->
             if (roomOrderedMap[room.roomTypeCode] == null) {

@@ -27,7 +27,7 @@ public class PackageFlightPresenterTest extends PackageTestCase {
 		PackageScreen.hotelDetailsToolbar().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 
 		//select outbound
 		assertSlidingBundleWidgetHotelSelected();

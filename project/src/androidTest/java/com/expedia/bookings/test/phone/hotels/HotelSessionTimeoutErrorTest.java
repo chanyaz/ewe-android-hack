@@ -20,7 +20,7 @@ public class HotelSessionTimeoutErrorTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_session_timeout");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();

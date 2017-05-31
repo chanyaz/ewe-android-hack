@@ -24,7 +24,7 @@ class HotelCheckoutTest: HotelTestCase() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
         Common.delay(1)
-        HotelScreen.selectRoom()
+        HotelScreen.selectFirstRoom()
         enterTravelerAndPaymentDetails()
 
         Espresso.pressBack() // nav back to details
@@ -44,7 +44,7 @@ class HotelCheckoutTest: HotelTestCase() {
     fun testLoggedInCustomerCanEnterNewTraveler() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel()
-        HotelScreen.selectRoom()
+        HotelScreen.selectFirstRoom()
         CheckoutViewModel.clickDone()
 
         HotelScreen.doLogin()
@@ -96,9 +96,7 @@ class HotelCheckoutTest: HotelTestCase() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
 
-        HotelScreen.clickSelectRoom()
-
-        HotelScreen.selectRoom()
+        HotelScreen.selectFirstRoom()
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
 
@@ -108,9 +106,7 @@ class HotelCheckoutTest: HotelTestCase() {
         // Check to make sure non merchant shows up in result list
         HotelScreen.selectHotel("Non Merchant Hotel")
 
-        HotelScreen.clickSelectRoom()
-
-        HotelScreen.selectRoom()
+        HotelScreen.selectFirstRoom()
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
@@ -123,9 +119,7 @@ class HotelCheckoutTest: HotelTestCase() {
         // Check to make sure non merchant shows up in result list
         HotelScreen.selectHotel("Non Merchant Hotel")
 
-        HotelScreen.clickSelectRoom()
-
-        HotelScreen.selectRoom()
+        HotelScreen.selectFirstRoom()
 
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
         CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
@@ -142,8 +136,7 @@ class HotelCheckoutTest: HotelTestCase() {
     fun testTravelerCardContentDescription() {
         SearchScreen.doGenericHotelSearch()
         HotelScreen.selectHotel("happypath")
-        HotelScreen.clickSelectRoom()
-        HotelScreen.selectRoom()
+        HotelScreen.selectFirstRoom()
         CheckoutViewModel.waitForCheckout()
         CheckoutViewModel.clickDone()
 

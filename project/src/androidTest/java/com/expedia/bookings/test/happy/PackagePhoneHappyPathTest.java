@@ -62,7 +62,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertHotelInfoSite();
 		reviews();
 
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 
 		Common.delay(1);
 		assertBundlePrice("$1,931.69", "View your bundle");
@@ -138,7 +138,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
 		PackageScreen.clickHotelBundle();
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());

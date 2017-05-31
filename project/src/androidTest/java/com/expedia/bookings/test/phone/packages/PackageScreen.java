@@ -274,6 +274,12 @@ public class PackageScreen {
 		return onView(CoreMatchers.allOf(withId(R.id.filter_categories_widget), hasDescendant(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
 	}
 
+	public static ViewInteraction stickySelectRoom() {
+		return onView(
+			allOf(withId(R.id.sticky_bottom_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+		);
+	}
+
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(
@@ -290,12 +296,18 @@ public class PackageScreen {
 
 	public static void clickAddRoom() {
 		waitForDetailsLoaded();
-		addRoom().perform(scrollTo(), click());
+		addRoom().perform(click());
 	}
 
 	public static void selectRoom() throws Throwable {
 		clickAddRoom();
 		Common.delay(2);
+	}
+
+	public static void selectFirstRoom() {
+		waitForDetailsLoaded();
+		stickySelectRoom().perform(click());
+		addRoom().perform(click());
 	}
 
 	public static void waitForDetailsLoaded() {
@@ -451,7 +463,7 @@ public class PackageScreen {
 	public static void doPackageSearch() throws Throwable {
 		searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());

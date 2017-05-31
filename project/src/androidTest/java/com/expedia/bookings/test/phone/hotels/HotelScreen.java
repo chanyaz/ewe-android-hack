@@ -189,6 +189,12 @@ public class HotelScreen {
 			isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
+	public static ViewInteraction stickySelectRoom() {
+		return onView(
+			allOf(withId(R.id.sticky_bottom_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+		);
+	}
+
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(withId(R.id.hotel_book_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
@@ -210,9 +216,20 @@ public class HotelScreen {
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
+	public static void clickSelectRoom() {
+		waitForDetailsLoaded();
+		stickySelectRoom().perform(click());
+	}
+
+	public static void selectFirstRoom() {
+		waitForDetailsLoaded();
+		stickySelectRoom().perform(click());
+		addRoom().perform(click());
+	}
+
 	public static void clickAddRoom() {
 		waitForDetailsLoaded();
-		addRoom().perform(scrollTo(), click());
+		addRoom().perform(click());
 	}
 
 	public static void clickViewRoom(String roomName) {
@@ -378,11 +395,7 @@ public class HotelScreen {
 
 
 	public static ViewInteraction selectRoomButton() throws Throwable {
-		return onView(withId(R.id.select_room_button));
-	}
-
-	public static void clickSelectRoom() throws Throwable {
-		selectRoomButton().perform(waitForViewToDisplay(), click());
+		return onView(withId(R.id.sticky_bottom_button));
 	}
 
 	public static void clickVIPAccess() {

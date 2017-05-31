@@ -570,10 +570,9 @@ class HotelDetailsTest {
         vm.hotelSoldOut.onNext(true)
         hotelDetailView.hotelDetailsToolbar.viewmodel.hotelSoldOut.onNext(true)
 
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.visibility)
+        Assert.assertEquals(activity.resources.getString(R.string.change_dates), hotelDetailView.bottomButtonWidget.buttonBottom.text)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.visibility)
         Assert.assertEquals(ContextCompat.getColor(activity.applicationContext, android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
-        Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.price.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.visibility)
@@ -581,20 +580,16 @@ class HotelDetailsTest {
         Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.visibility)
-        Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.visibility)
 
     }
 
     private fun testDefaultDetailView() {
         Assert.assertEquals("5 stars", vm.hotelRatingContentDescriptionObservable.value)
-        Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.visibility)
+        Assert.assertEquals(activity.resources.getString(R.string.select_a_room_instruction), hotelDetailView.bottomButtonWidget.buttonBottom.text)
         Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.visibility)
         Assert.assertEquals(ContextCompat.getColor(activity.applicationContext, R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.price.visibility)
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.stickySelectRoomContainer.visibility)
-
         Assert.assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.payByPhoneContainer.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)

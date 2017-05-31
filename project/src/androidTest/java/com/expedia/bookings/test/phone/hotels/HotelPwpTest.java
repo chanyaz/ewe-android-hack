@@ -23,6 +23,7 @@ public class HotelPwpTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
+		HotelScreen.clickSelectRoom();
 		pickRoom("happypath_pwp_points_only");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutViewModel.assertEarnPointsText("You are a valued member");
@@ -67,6 +68,7 @@ public class HotelPwpTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
+		HotelScreen.clickSelectRoom();
 		pickRoom("happypath_pwp_points_with_card");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutViewModel.assertEarnPointsText("earn 795 points");
@@ -97,6 +99,7 @@ public class HotelPwpTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
 		Common.delay(1);
+		HotelScreen.clickSelectRoom();
 		pickRoom("happypath_pwp_points_with_card");
 		CheckoutViewModel.signInOnCheckout("singlecard@mobiata.com", "password");
 		CheckoutViewModel.clickPaymentInfo();

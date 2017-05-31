@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:id="@+id/sticky_bottom_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_sticky_bottom_shadow_height"
+        android:layout_above="@+id/sticky_bottom_button"
+        android:background="@drawable/map_shadow" />
+
+    <Button
+        android:id="@+id/sticky_bottom_button"
+        style="@style/Core.Text.XLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_primary"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="19dp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</merge>

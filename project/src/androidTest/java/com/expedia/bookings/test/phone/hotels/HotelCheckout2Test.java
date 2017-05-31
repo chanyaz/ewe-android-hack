@@ -27,7 +27,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 	public void testCouponIsClearedEachCreateTrip() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 
 		//a11y test for cost summary
 		onView(withId(R.id.cost_summary)).check(matches(withContentDescription("Total with Tax $135.81 Due to Expedia today $0  Cost summary information Button")));
@@ -57,7 +57,7 @@ public class HotelCheckout2Test extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("tealeaf_id");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		Assert.assertEquals(Db.getTripBucket().getHotelV2().mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id");
 		HotelScreen.clickSignIn();
 		HotelScreen.signIn();

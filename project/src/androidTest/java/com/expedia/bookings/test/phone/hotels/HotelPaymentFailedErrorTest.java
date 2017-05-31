@@ -20,7 +20,7 @@ public class HotelPaymentFailedErrorTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();
@@ -36,7 +36,7 @@ public class HotelPaymentFailedErrorTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();
@@ -52,7 +52,7 @@ public class HotelPaymentFailedErrorTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();

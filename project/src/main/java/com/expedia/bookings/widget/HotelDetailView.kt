@@ -21,7 +21,6 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -51,7 +50,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.publishOnClick
 import com.expedia.util.subscribeBackground
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeBackgroundResource
@@ -60,6 +58,7 @@ import com.expedia.util.subscribeGalleryColorFilter
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -83,7 +82,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val ANIMATION_DURATION = 200L
     private val SELECT_ROOM_ANIMATION = 300L
     private var resortViewHeight = 0
-    private var selectRoomContainerHeight = 0
+    private var bottomButtonContainerHeight = 0
     private val screenSize by lazy { Ui.getScreenSize(context) }
 
     private var initialScrollTop = 0
@@ -101,16 +100,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val price: TextView by bindView(R.id.price)
     private val perDescriptor: TextView by bindView(R.id.per_night)
     val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
-    private val priceWidget: View by bindView(R.id.price_widget)
     private val searchDatesInfo: TextView by bindView(R.id.search_dates_info)
     private val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
 
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
-    val selectRoomButton: Button by bindView(R.id.select_room_button)
-    val changeDatesButton: Button by bindView(R.id.change_dates_button)
-    val stickySelectRoomContainer: ViewGroup by bindView(R.id.sticky_select_room_container)
-    private val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
     private val userRating: TextView by bindView(R.id.user_rating)
     private val noGuestRating: TextView by bindView(R.id.no_guest_rating)
     private val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
@@ -155,6 +149,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     private val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
 
+    val bottomButtonWidget: HotelBottomButtonWidget by bindView(R.id.bottom_button_widget)
+
     private val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val roomRateHeader: LinearLayout by bindView(R.id.room_rate_header)
     private val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
@@ -166,20 +162,19 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     private val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
     private var statusBarHeight = 0
-    private var offset: Float by Delegates.notNull()
+    private var toolbarHeightOffset: Float by Delegates.notNull()
     private var priceContainerLocation = IntArray(2)
     private var urgencyContainerLocation = IntArray(2)
     private var roomContainerPosition = IntArray(2)
 
     private var resortInAnimator: ObjectAnimator by Delegates.notNull()
     private var resortOutAnimator: ObjectAnimator by Delegates.notNull()
-    private var selectRoomInAnimator: ObjectAnimator by Delegates.notNull()
-    private var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
+    private var bottomButtonInAnimator: ObjectAnimator by Delegates.notNull()
+    private var bottomButtonOutAnimator: ObjectAnimator by Delegates.notNull()
 
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     private var isHotelDescriptionExpanded = false
-
 
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
@@ -192,15 +187,18 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
         }
         vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
-
-        vm.hotelSoldOut.subscribeVisibility(changeDatesButton)
-        vm.hotelSoldOut.subscribeInverseVisibility(selectRoomButton)
         vm.hotelSoldOut.subscribeVisibility(detailsSoldOut)
         vm.hotelSoldOut.subscribeInverseVisibility(price)
         vm.hotelSoldOut.subscribeInverseVisibility(roomContainer)
-        vm.hotelSoldOut.subscribeInverseVisibility(stickySelectRoomContainer)
+        vm.hotelSoldOut.subscribe { soldOut ->
+            if (soldOut) {
+                bottomButtonWidget.showChangeDates()
+            } else {
+                bottomButtonWidget.showSelectRoom()
+            }
+        }
 
-        changeDatesButton.publishOnClick(vm.changeDates)
+        bottomButtonWidget.changeDatesClickedSubject.subscribe(vm.changeDates)
 
         vm.galleryObservable.subscribe { galleryUrls ->
             gallery.setOnItemClickListener(vm)
@@ -219,7 +217,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         vm.hotelSoldOut.filter { it }.subscribe { resetGallery() }
-        vm.priceWidgetBackground.subscribeBackgroundColor(priceWidget)
+        vm.hotelSearchInfoText.subscribeTextColor(searchInfo)
 
         vm.scrollToRoom.subscribe { scrollToRoom(false) }
 
@@ -279,6 +277,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }
             })
         }
+
         vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
         vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
         vm.priceToShowCustomerObservable.subscribeText(price)
@@ -321,7 +320,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
 
         vm.earnMessageVisibilityObservable.subscribeVisibility(earnMessage)
-
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
@@ -333,8 +331,8 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
-
         vm.etpContainerVisibility.subscribeVisibility(etpContainer)
+
         vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
@@ -371,7 +369,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.galleryClickedSubject.subscribe {
             detailContainer.animateScrollY(detailContainer.scrollY, -initialScrollTop, 500)
         }
-        
+
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
@@ -395,46 +393,40 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         Ui.showTransparentStatusBar(getContext())
-
-        offset = statusBarHeight.toFloat() + toolBarHeight
+        toolbarHeightOffset = statusBarHeight.toFloat() + toolBarHeight
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
             if (hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
                 updateGallery(false)
             } else
                 (getContext() as Activity).onBackPressed()
         }
-
         //share hotel listing text view set up drawable
         val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
 
-        selectRoomButton.setOnClickListener {
-            scrollToRoom(true)
-            trackSelectRoomClick(false)
-        }
-        stickySelectRoomButton.setOnClickListener {
+        bottomButtonWidget.selectRoomClickedSubject.subscribe {
             scrollToRoom(true)
             trackSelectRoomClick(true)
         }
+
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         resortViewHeight = resortFeeWidget.measuredHeight
         resortInAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", resortViewHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
         resortOutAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", 0f, resortViewHeight.toFloat()).setDuration(ANIMATION_DURATION)
+        bottomButtonWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        bottomButtonContainerHeight = bottomButtonWidget.measuredHeight
 
-        stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        selectRoomContainerHeight = stickySelectRoomContainer.measuredHeight
-        selectRoomInAnimator = ObjectAnimator.ofFloat(stickySelectRoomContainer, "translationY", selectRoomContainerHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
-        selectRoomOutAnimator = ObjectAnimator.ofFloat(stickySelectRoomContainer, "translationY", 0f, selectRoomContainerHeight.toFloat()).setDuration(ANIMATION_DURATION)
+        bottomButtonInAnimator = ObjectAnimator.ofFloat(bottomButtonWidget, "translationY", bottomButtonContainerHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
+        bottomButtonOutAnimator = ObjectAnimator.ofFloat(bottomButtonWidget, "translationY", 0f, bottomButtonContainerHeight.toFloat()).setDuration(ANIMATION_DURATION)
 
         hideResortAndSelectRoom()
-
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
 
         AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button)
 
-        hotelDescriptionContainer.setAccessibilityDelegate(object: AccessibilityDelegate() {
+        hotelDescriptionContainer.setAccessibilityDelegate(object : AccessibilityDelegate() {
             override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfo?) {
                 super.onInitializeAccessibilityNodeInfo(host, info)
 
@@ -450,8 +442,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                 }
             }
         })
-
-
     }
 
     private val payNowClickObserver: Observer<Unit> = endlessObserver {
@@ -505,16 +495,14 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
-
         recycleRoomImageViews()
         roomContainer.removeAllViews()
-
-
     }
 
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
+        bottomButtonWidget.translationY = 0f
     }
 
     fun updateGallery(toFullScreen: Boolean) {
@@ -591,8 +579,12 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         price.alpha = ratio
         searchDatesInfo.alpha = ratio
         searchInfo.alpha = ratio
-        selectRoomButton.alpha = ratio
         strikeThroughPrice.alpha = ratio
+        searchInfo.alpha = ratio
+        earnMessage.alpha = ratio
+        roomRateRegularLoyaltyAppliedView.alpha = ratio
+        roomRateVIPLoyaltyAppliedContainer.alpha = ratio
+        hotelDetailsToolbar.toolBarBackground.alpha = -ratio
     }
 
     private fun urgencyViewAlpha(ratio: Float) {
@@ -613,55 +605,39 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             hotelDetailsToolbar.toolBarGradient.translationY = 0f
     }
 
-    private fun shouldShowResortView(): Boolean {
-        roomContainer.getLocationOnScreen(roomContainerPosition)
-        val isOutOfView = roomContainerPosition[1] + roomContainer.height < offset
-        val isInView = roomContainerPosition[1] < screenSize.y / 2
-        if (viewmodel.hotelResortFeeObservable.value != null && isInView && !isOutOfView) {
+    private fun roomsVisible(): Boolean {
+        roomContainer.getLocationOnScreen((roomContainerPosition))
+        val roomsOffScreenAboveToolbar = roomContainerPosition[1] + roomContainer.height < toolbarHeightOffset
+        val roomsOnScreenAboveCenter = roomContainerPosition[1] < screenSize.y / 2
+        return roomsOnScreenAboveCenter && !roomsOffScreenAboveToolbar
+    }
+
+    private fun shouldShowResortFee(): Boolean {
+
+        if (viewmodel.hotelResortFeeObservable.value != null && roomsVisible()) {
             return true
         }
         return false
     }
 
     private fun hideResortAndSelectRoom() {
-        bottomMargin = (stickySelectRoomContainer.measuredHeight - resources.getDimension(R.dimen.breakdown_text_margin)).toInt()
         val activity = context as Activity
+        bottomMargin = (bottomButtonWidget.measuredHeight - resources.getDimension(R.dimen.hotel_sticky_bottom_shadow_height)).toInt()
         if (!activity.intent.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
-            stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
-            stickySelectRoomContainer.animate().translationY(selectRoomContainerHeight.toFloat()).setInterpolator(DecelerateInterpolator()).start()
         } else {
             resortFeeWidget.translationY = resortViewHeight.toFloat()
-            stickySelectRoomContainer.translationY = selectRoomContainerHeight.toFloat()
         }
     }
-
-    private fun shouldShowStickySelectRoomView() {
-        roomContainer.getLocationOnScreen(roomContainerPosition)
-        var selectRoomButtonOffset = offset
-
-        if (etpContainer.visibility == View.VISIBLE) {
-            selectRoomButtonOffset = (offset + (etpContainer.height) / 2)
-        }
-        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset
-
-        if (showStickySelectRoom && !selectRoomInAnimator.isRunning && stickySelectRoomContainer.translationY != 0f) {
-            selectRoomInAnimator.start()
-        } else if (!showStickySelectRoom && !selectRoomOutAnimator.isRunning && stickySelectRoomContainer.translationY != selectRoomContainerHeight.toFloat()) {
-            selectRoomOutAnimator.start()
-        }
-    }
-
 
     private fun shouldShowETPContainer() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        etpContainer.isEnabled = roomContainerPosition[1] + roomContainer.height >= offset + etpContainer.height
+        etpContainer.isEnabled = roomContainerPosition[1] + roomContainer.height >= toolbarHeightOffset + etpContainer.height
     }
 
     private fun scrollToRoom(animate: Boolean) {
-
         roomContainer.getLocationOnScreen(roomContainerPosition)
-        var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
+        var scrollToAmount = roomContainerPosition[1] - toolbarHeightOffset + detailContainer.scrollY
         if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
         if (roomRateHeader.visibility == View.VISIBLE) scrollToAmount -= roomRateHeader.height
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
@@ -706,20 +682,26 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         } else {
             galleryRoot.translationY = 0f
         }
-
         // Hotel gallery collapsed
         if (yoffset == initialScrollTop) {
             (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(false)
-
             hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
             gallery.prepareCollapseState(true)
+            bottomButtonWidget.visibility = View.VISIBLE
+            if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f) {
+                bottomButtonInAnimator.start()
+            }
         }
         // Hotel gallery expanded
         if (yoffset == 0) {
             (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(true)
-
             hotelDetailsToolbar.toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_close_gallery_cont_desc)
             gallery.prepareCollapseState(false)
+            if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat()) {
+                bottomButtonOutAnimator.start()
+            } else {
+                bottomButtonWidget.visibility = View.GONE
+            }
         }
 
         if (previousYOffset == 0 && yoffset >= 10) {
@@ -731,24 +713,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         transparentViewOverMiniMap.translationY = miniMapView.translationY
 
         priceContainer.getLocationOnScreen(priceContainerLocation)
-        var ratio = (priceContainerLocation[1] - (offset / 2)) / offset
+        var ratio = (priceContainerLocation[1] - (toolbarHeightOffset / 2)) / toolbarHeightOffset
         priceViewAlpha(ratio * 1.5f)
 
         hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
-        var urgencyRatio = (urgencyContainerLocation[1] - (offset / 2)) / offset
+        var urgencyRatio = (urgencyContainerLocation[1] - (toolbarHeightOffset / 2)) / toolbarHeightOffset
         urgencyViewAlpha(urgencyRatio * 1.5f)
 
-        if (priceContainerLocation[1] + priceContainer.height <= offset) {
-            hotelDetailsToolbar.toolBarBackground.alpha = 1.0f
-            hotelDetailsToolbar.toolbarShadow.visibility = View.VISIBLE
-        } else {
-            hotelDetailsToolbar.toolBarBackground.alpha = 0f
-            hotelDetailsToolbar.toolbarShadow.visibility = View.GONE
-        }
-
         showToolbarGradient()
-
-        val shouldShowResortFee = shouldShowResortView()
+        val shouldShowResortFee = shouldShowResortFee()
         if (shouldShowResortFee && !resortInAnimator.isRunning && resortFeeWidget.translationY != 0f) {
             resortFeeWidget.visibility = View.VISIBLE
             resortInAnimator.start()
@@ -756,7 +729,12 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             resortOutAnimator.start()
         }
 
-        shouldShowStickySelectRoomView()
+        if (!bottomButtonInAnimator.isRunning && bottomButtonWidget.translationY != 0f && !roomsVisible() && !viewmodel.hotelSoldOut.value) {
+            bottomButtonInAnimator.start()
+        } else if (!bottomButtonOutAnimator.isRunning && bottomButtonWidget.translationY != bottomButtonContainerHeight.toFloat() && roomsVisible() && !viewmodel.hotelSoldOut.value) {
+            bottomButtonOutAnimator.start()
+        }
+
         if (etpContainer.visibility == View.VISIBLE) {
             shouldShowETPContainer()
         }
@@ -833,7 +811,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         roomContainer.startAnimation(fadeRoomsOutAnimation)
     }
 
-    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, roomCount: Int) : HotelRoomHeaderView {
+    private fun getRoomHeaderView(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, roomCount: Int): HotelRoomHeaderView {
         val headerViewModel = HotelRoomHeaderViewModel(context, hotelRoomResponse, roomCount)
 
         val header = HotelRoomHeaderView(context, headerViewModel)

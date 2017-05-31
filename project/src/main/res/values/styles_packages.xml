@@ -34,7 +34,6 @@
         <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
         <item name="traveler_presenter">@layout/flight_travelers_presenter_view_stub</item>
         <item name="sliderText">@string/slide_to_book_text</item>
-        <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
         <item name="vip_info_select_ripple_drawable">@drawable/vip_info_package_select_ripple</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/exp_blue_button_ripple</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>

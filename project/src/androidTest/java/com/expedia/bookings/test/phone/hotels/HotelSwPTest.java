@@ -49,7 +49,7 @@ public class HotelSwPTest extends PhoneTestCase {
 			SearchScreen.doGenericHotelSearch();
 		}
 		HotelScreen.selectHotel("happypath");
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 	}
 
 }

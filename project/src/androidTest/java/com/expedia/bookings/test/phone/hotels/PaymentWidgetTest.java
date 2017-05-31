@@ -64,7 +64,7 @@ public class PaymentWidgetTest extends PhoneTestCase {
 		NewLaunchScreen.hotelsLaunchButton().perform(click());
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel(hotel);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 	}
 
 	private void enterPaymentDetails() {

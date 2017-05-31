@@ -20,7 +20,7 @@ class PackageAirlineFeeTest: PackageTestCase() {
     fun testAirlineFees() {
         PackageScreen.searchPackage()
         HotelScreen.selectHotel("Package Happy Path")
-        PackageScreen.selectRoom()
+        PackageScreen.selectFirstRoom()
 
         PackageScreen.selectFlight(0)
         PackageScreen.selectThisFlight().perform(click())

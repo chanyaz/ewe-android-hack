@@ -246,7 +246,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		openFlightFilter();

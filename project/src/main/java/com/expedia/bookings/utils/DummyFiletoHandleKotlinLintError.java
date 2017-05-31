@@ -941,7 +941,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.country_pos_cont_desc_TEMPLATE,
 		R.array.sort_options_flights,
 		R.layout.spinner_sort_item,
-		R.dimen.breakdown_text_margin,
 		R.integer.max_calendar_selectable_date_range_hotels_only,
 		R.layout.spinner_sort_dropdown_item,
 		R.string.select_dates_proper_case,
@@ -1081,6 +1080,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.expand_room_info_cont_desc,
 		R.string.a11y_button_TEMPLATE,
 		R.string.invalid_flights_pos,
-		R.string.preference_flight_retain_search_params
+		R.dimen.hotel_sticky_bottom_shadow_height,
+		R.layout.hotel_bottom_button_widget,
+		R.string.preference_flight_retain_search_params,
+		R.string.change_dates
 	};
 }

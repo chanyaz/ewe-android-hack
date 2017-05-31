@@ -78,9 +78,6 @@
     <dimen name="single_amenity_margin">3dp</dimen>
     <dimen name="amenity_icon_size">30dp</dimen>
 
-    <!-- Text sizes for promo messaging on details screen -->
-    <dimen name="hotel_details_promo_messaging_text_size">11sp</dimen>
-
     <!-- Dimensions for book now button or any other button in the header -->
     <dimen name="min_height_rating_bar_small">16dp</dimen>
     <dimen name="max_height_rating_bar_small">16dp</dimen>
@@ -191,6 +188,7 @@
     <dimen name="hotel_room_padding">14dp</dimen>
     <dimen name="hotel_room_card_padding">11dp</dimen>
     <dimen name="hotel_room_amenity_margin">4dp</dimen>
+    <dimen name="hotel_sticky_bottom_shadow_height">8dp</dimen>
 
     <!--Dimensions for hotel review row-->
     <dimen name="hotel_review_title_text_size">13dp</dimen>
@@ -272,9 +270,6 @@
 
     <!-- px equivalents -->
     <dimen name="two_px_allthethings">2dp</dimen>
-
-    <!-- Breakdown dialog -->
-    <dimen name="breakdown_text_margin">8dp</dimen>
 
     <!-- From ABS, Dialog title height -->
     <dimen name="alert_dialog_window_title_height">64dip</dimen>

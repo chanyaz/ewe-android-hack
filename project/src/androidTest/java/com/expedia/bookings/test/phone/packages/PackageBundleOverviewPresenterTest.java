@@ -49,7 +49,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		HotelScreen.selectHotel("Package Happy Path");
 
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 
 		Common.pressBack();
 

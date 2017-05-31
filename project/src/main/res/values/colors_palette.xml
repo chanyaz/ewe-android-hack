@@ -24,6 +24,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="egg_white">#FAFAFA</color>
 
     <color name="gray1">#EEEEEE</color> <!-- Lightest gray, used for backgrounds (behind cardviews etc) -->
     <color name="gray2">#D6D6D6</color>

@@ -28,7 +28,7 @@ public class HotelConfirmationTest extends HotelTestCase {
 	public void testConfirmationView() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();

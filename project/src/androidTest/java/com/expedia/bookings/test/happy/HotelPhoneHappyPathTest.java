@@ -49,7 +49,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		CheckoutViewModel.clickDone();
 
 		HotelScreen.doLogin();

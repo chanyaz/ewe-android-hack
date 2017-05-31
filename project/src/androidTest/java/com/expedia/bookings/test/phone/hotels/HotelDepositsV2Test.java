@@ -11,7 +11,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -51,7 +50,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 
 		//assert Deposit terms info screen
 		waitForDetailsLoaded();
-		addRoom().perform(scrollTo());
+		HotelScreen.clickSelectRoom();
 		clickPayLater();
 		Common.delay(1);
 
@@ -75,11 +74,11 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		Common.pressBack();
 
 		waitForDetailsLoaded();
-		addRoom().perform(scrollTo());
+		addRoom();
 		clickPayLater();
 		Common.delay(1);
 
-		HotelScreen.addRoom().perform(click());
+		HotelScreen.selectRoom();
 		Common.delay(2);
 
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.amount_due_today_label, "Due to Expedia today");
@@ -112,7 +111,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		Common.pressBack();
 
 		waitForDetailsLoaded();
-		addRoom().perform(scrollTo());
+		HotelScreen.clickSelectRoom();
 		Common.delay(2);
 		clickPayLater();
 

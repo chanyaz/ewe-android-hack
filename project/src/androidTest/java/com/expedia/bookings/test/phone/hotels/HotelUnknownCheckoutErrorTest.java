@@ -20,7 +20,7 @@ public class HotelUnknownCheckoutErrorTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_unknown");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 
 		CheckoutViewModel.performSlideToPurchase(false);

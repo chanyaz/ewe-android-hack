@@ -32,7 +32,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		SearchScreen.selectDates(startDate, endDate);
 		SearchScreen.searchButton().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));

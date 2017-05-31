@@ -17,6 +17,7 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_email_opt_in");
 		Common.delay(1);
+		HotelScreen.clickSelectRoom();
 		pickRoom(room);
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
@@ -29,7 +30,7 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_email_opt_in");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.clickTravelerInfo();

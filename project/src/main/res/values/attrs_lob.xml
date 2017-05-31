@@ -20,7 +20,6 @@
     <attr name="traveler_checkout_circle_drawable" format="reference" />
     <attr name="hotel_book_button_background_selector_drawable" format="reference" />
     <attr name="vip_info_select_ripple_drawable" format="reference" />
-    <attr name="hotel_promo_background_colors" format="reference" />
     <attr name="hotel_select_room_ripple_drawable" format="reference" />
     <attr name="hotel_map_tooltip_pressed_drawable" format="reference" />
     <attr name="hotel_map_tooltip_drawable" format="reference" />

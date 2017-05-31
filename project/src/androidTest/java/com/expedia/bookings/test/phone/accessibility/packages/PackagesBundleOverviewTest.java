@@ -58,7 +58,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		onView(withId(R.id.hotel_star_rating_bar)).check(matches(hasContentDescription()));
 
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");

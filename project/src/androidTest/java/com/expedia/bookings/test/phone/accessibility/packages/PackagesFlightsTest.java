@@ -38,7 +38,7 @@ public class PackagesFlightsTest extends PackageTestCase {
 		Common.delay(1);
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 		Common.delay(1);
 		PackageScreen.flightList().check(matches(atFlightListPosition(1, withContentDescription(
 			"Best Flight. cheap • short • popular departure.  Flight time is 9:00 am to 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops SFO to HNL. 5 hours 12 minutes.  Button"))));

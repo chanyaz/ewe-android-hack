@@ -208,10 +208,9 @@ class PlayStoreScreenshotSweep {
         HotelScreen.hotelResultsList().perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(3, click()))
         HotelScreen.waitForDetailsLoaded()
 
-        onView(withId(R.id.select_room_button)).perform(click())
+        onView(withId(R.id.sticky_bottom_button)).perform(click())
         Common.delay(2)
         HotelScreen.addRoom().perform(click())
-
         Common.delay(3)
         Screengrab.screenshot("hotel_checkout")
         Common.delay(1)

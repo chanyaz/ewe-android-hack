@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:layout="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.expedia.bookings.widget.NewHotelDetailsScrollView
         android:id="@+id/detail_container"
@@ -83,11 +82,11 @@
                     android:id="@+id/promo_messaging_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/hotel_promo_background_colors">
+                    android:background="@color/egg_white">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/promo_text"
-                        style="@style/HotelPromoMessaging"
+                        style="@style/Core.Text.Default.LightColor"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
@@ -95,7 +94,7 @@
                         android:paddingBottom="10dp"
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
-                        android:paddingTop="10dp" />
+                        android:paddingTop="10dp"/>
 
                     <LinearLayout
                         android:id="@+id/discount_loyalty_messaging_container"
@@ -109,7 +108,7 @@
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/discount_percentage"
-                            style="@style/HotelPromoMessaging"
+                            style="@style/Core.Text.Default"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -119,7 +118,8 @@
                             android:paddingBottom="3dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:paddingTop="3dp" />
+                            android:paddingTop="3dp"
+                            android:textColor="@color/white"/>
 
                         <ImageView
                             android:id="@+id/air_attach_swp_image_details"
@@ -136,20 +136,19 @@
                             android:id="@+id/vip_access_message_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="?attr/vip_info_select_ripple_drawable"
                             android:gravity="center"
                             android:padding="10dp">
 
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/vip_access_message"
-                                style="@style/HotelPromoMessaging"
+                                style="@style/Core.Text.Default.LightColor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="@string/vip" />
 
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/vip_loyalty_message_details"
-                                style="@style/HotelPromoMessaging"
+                                style="@style/Core.Text.Default.LightColor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@id/vip_access_message"
@@ -160,7 +159,7 @@
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/regular_loyalty_applied"
-                            style="@style/HotelPromoMessaging"
+                            style="@style/Core.Text.Default.LightColor"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentLeft="true"
@@ -176,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/promo_messaging_container"
-                    android:background="?attr/primary_color"
+                    android:background="@color/white"
                     android:clipToPadding="false"
                     android:paddingBottom="16dp"
                     android:paddingLeft="18dp"
@@ -185,37 +184,31 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/details_sold_out"
+                        style="@style/Core.Text.XXLarge.Medium.LightColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:text="@string/trip_bucket_sold_out"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:visibility="gone"
-                        app:textStyle="medium" />
+                        android:visibility="gone"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/price_per_night_strikethrough_anchor"
+                        style="@style/Core.Text.XXLarge.Medium.Gray3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        app:textStyle="medium" />
+                        android:gravity="center_vertical" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/search_dates_info"
+                        style="@style/Core.Text.XXLarge.Medium.LightColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_toRightOf="@+id/price_per_night_strikethrough_anchor"
                         android:gravity="center_vertical"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:visibility="gone"
-                        app:textStyle="medium" />
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:id="@+id/hotel_price_container"
@@ -224,89 +217,55 @@
                         android:layout_alignParentLeft="true"
                         android:layout_toRightOf="@+id/price_per_night_strikethrough_anchor"
                         android:focusable="true"
-                        android:focusableInTouchMode="true">
+                        android:focusableInTouchMode="true" >
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/price"
+                            style="@style/Core.Text.XXLarge.Medium.LightColor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:focusable="false"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            app:textStyle="medium" />
+                            android:gravity="center_vertical" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/per_night"
+                            style="@style/Core.Text.XLarge.LightColor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/price"
                             android:focusable="false"
                             android:paddingRight="10dp"
-                            android:text="@string/per_night"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            app:textStyle="normal" />
+                            android:text="@string/per_night"/>
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/strike_through_price"
+                            style="@style/Core.Text.Large.Gray3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@id/per_night"
                             android:focusable="false"
                             android:gravity="center_vertical"
-                            android:textColor="@color/white_70"
-                            android:textSize="11sp"
                             android:visibility="gone" />
                     </LinearLayout>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/hotel_search_info"
+                        style="@style/Core.Text.Large.Medium.LightColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/price_per_night_strikethrough_anchor"
-                        android:textColor="@color/white_70"
-                        android:textSize="11sp"
-                        app:textStyle="normal" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/earn_message"
-                        style="@style/HotelPromoMessaging"
+                        style="@style/Core.Text.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_below="@+id/hotel_search_info"
+                        android:layout_below="@+id/price_per_night_strikethrough_anchor"
                         android:drawableLeft="@drawable/earn_message_icon"
-                        android:drawablePadding="@dimen/earn_message_icon_dimen" />
-
-                    <Button
-                        android:id="@+id/select_room_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="?attr/secondary_ripple_button_drawable"
-                        android:minHeight="0dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/select_a_room_instruction"
-                        android:textAllCaps="false"
-                        android:textAppearance="@style/HotelButtonTextAppearance" />
-
-                    <Button
-                        android:id="@+id/change_dates_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="?attr/secondary_ripple_button_drawable"
-                        android:minHeight="0dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/change_dates"
-                        android:textAllCaps="false"
-                        android:textAppearance="@style/HotelButtonTextAppearance"
-                        android:visibility="gone" />
+                        android:drawablePadding="@dimen/earn_message_icon_dimen"
+                        android:textColor="@color/gray5"/>
 
                 </RelativeLayout>
 
@@ -840,35 +799,12 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom" />
 
-    <LinearLayout
-        android:id="@+id/sticky_select_room_container"
+    <com.expedia.bookings.widget.HotelBottomButtonWidget
+        android:id="@+id/bottom_button_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
-
-        <View
-            android:id="@+id/sticky_select_room_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:layout_above="@+id/sticky_select_room"
-            android:background="@drawable/map_shadow" />
-
-        <Button
-            android:id="@+id/sticky_select_room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/hotel_select_room_ripple_drawable"
-            android:gravity="center"
-            android:paddingBottom="20dp"
-            android:paddingTop="19dp"
-            android:text="@string/select_a_room_instruction"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+        android:orientation="vertical"/>
 
     <com.expedia.bookings.widget.HotelDetailsToolbar
         android:id="@+id/hotel_details_toolbar"

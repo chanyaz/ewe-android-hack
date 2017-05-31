@@ -59,6 +59,6 @@ public class PackageSearchErrorTest extends PackageTestCase {
 		//Error action button takes back to search screen
 		SearchScreen.searchButton().perform(click());
 		HotelScreen.selectHotel("Package Happy Path");
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 	}
 }

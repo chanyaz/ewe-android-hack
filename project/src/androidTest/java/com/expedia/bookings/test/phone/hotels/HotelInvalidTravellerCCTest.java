@@ -20,7 +20,7 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card");
 		Common.delay(1);
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();
@@ -37,8 +37,7 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_traveller_info");
 		Common.delay(1);
-
-		HotelScreen.selectRoom();
+		HotelScreen.selectFirstRoom();
 		HotelScreen.checkout(true);
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();
@@ -49,31 +48,4 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 		onView(withId(R.id.edit_first_name)).perform(ViewActions.waitForViewToDisplay());
 		assertViewIsDisplayed(R.id.edit_first_name);
 	}
-/*
-	public void testPriceChange() throws Throwable {
-		doGenericSearch();
-		selectHotel("hotel_price_change");
-		selectRoom();
-		//Create Trip Price Change
-		verifyPriceChange("Price dropped from $2,394.88");
-		Espresso.pressBack();
-		pickRoom("hotel_price_change_checkout");
-		checkout(false);
-		slideToPurchase();
-		enterCVVAndBook();
-		//Checkout Price Change
-		verifyPriceChange("Price changed from $740.77");
-	}
-
-	public void testProductKeyExpiry() throws Throwable {
-		doGenericSearch();
-		selectHotel("error_create_trip");
-		pickRoom("error_expired_product_key_createtrip");
-		Common.delay(5);
-		screenshot("Hotel_Product_Key_Expiry_Error");
-		ErrorScreen.clickOnSearchAgain();
-		// Search Screen
-		HotelScreen.searchButton().check(matches(isDisplayed()));
-	}
-	*/
 }

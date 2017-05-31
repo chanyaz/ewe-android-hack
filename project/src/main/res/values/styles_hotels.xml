@@ -51,7 +51,6 @@
         <item name="pay_now_later_selector">@drawable/new_pay_now_later_selector</item>
         <item name="hotel_pay_now_later_text">@color/hotel_pay_now_later_text_color</item>
         <item name="vip_info_select_ripple_drawable">@drawable/new_vip_info_select_ripple</item>
-        <item name="hotel_promo_background_colors">@color/app_primary_dark</item>
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
         <item name="secondary_ripple_button_drawable">@drawable/hotel_secondary_ripple_button</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_primary_ripple_button</item>
@@ -143,12 +142,6 @@
     <style name="HotelButtonStyle">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="HotelButtonTextAppearance">
-        <item name="android:textSize">17sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">?attr/primary_color</item>
     </style>
 
     <style name="HotelButton" parent="Core.Button.Footer">
