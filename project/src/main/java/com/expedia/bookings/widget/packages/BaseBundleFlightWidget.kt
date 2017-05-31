@@ -87,7 +87,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
         vm.travelInfoTextObservable.subscribeTextAndVisibility(travelInfoText)
-        vm.flightDetailsIconObservable.subscribeVisibility(flightDetailsIcon)
+        vm.flightDetailsIconObservable.subscribe {
+            flightDetailsIcon.clearAnimation()
+            flightDetailsIcon.visibility = if(it) View.VISIBLE else View.GONE
+        }
         vm.showLoadingStateObservable.subscribeVisibility(flightLoadingBar)
         vm.showLoadingStateObservable.subscribeInverseVisibility(travelInfoText)
         vm.flightInfoContainerObservable.subscribeEnabled(flightInfoContainer)
@@ -170,7 +173,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightDetailsContainer.setAccessibilityHoverFocus(100)
         }
         flightDetailsContainer.visibility = Presenter.VISIBLE
-        AnimUtils.rotate(flightDetailsIcon)
+        if(flightDetailsIcon.visibility == View.VISIBLE) {
+            AnimUtils.rotate(flightDetailsIcon)
+        }
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(true)
         }
@@ -184,7 +189,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             AnimUtils.reverseRotate(flightCollapseIcon)
             rowContainer.setAccessibilityHoverFocus(100)
         }
-        AnimUtils.reverseRotate(flightDetailsIcon)
+        if(flightDetailsIcon.visibility == View.VISIBLE) {
+            AnimUtils.reverseRotate(flightDetailsIcon)
+        }
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(false)
         }
