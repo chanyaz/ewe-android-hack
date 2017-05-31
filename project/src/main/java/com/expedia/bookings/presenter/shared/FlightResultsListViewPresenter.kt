@@ -59,7 +59,6 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
         dockedOutboundFlightSelection.viewModel = selectedOutboundFlightViewModel
         outboundFlightSelectedSubject.subscribe { positionChildren() }
         setupFilterButton()
-        FlightsV2Tracking.trackCrossSellPackageOnFSR()
     }
 
     private fun setPaymentLegalMessage(showLegalPaymentMessage: Boolean, lineOfBusiness: LineOfBusiness) {
