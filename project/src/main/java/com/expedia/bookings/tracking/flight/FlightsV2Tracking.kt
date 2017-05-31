@@ -222,10 +222,6 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightConfirmationAirAttachClick()
     }
 
-    fun trackCrossSellPackageOnFSR() {
-        OmnitureTracking.trackCrossSellPackageOnFSR()
-    }
-
     fun trackCrossSellPackageBannerClick() {
         OmnitureTracking.trackCrossSellPackageBannerClick()
     }

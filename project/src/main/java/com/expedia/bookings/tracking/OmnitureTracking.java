@@ -4661,6 +4661,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightStaticSortFilter);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
 		}
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
 		s.track();
@@ -4833,17 +4834,11 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Flight Checkout", null, null);
 	}
 
-	public static void trackCrossSellPackageOnFSR() {
-		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_SEARCH_ROUNDTRIP_OUT);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
-		s.track();
-	}
-
 	public static void trackCrossSellPackageBannerClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
 		s.setProp(16, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
-		s.setEvar(61, "1");
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME, null, null);
 	}
 
