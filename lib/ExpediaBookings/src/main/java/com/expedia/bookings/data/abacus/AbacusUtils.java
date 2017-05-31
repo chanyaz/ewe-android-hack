@@ -73,16 +73,17 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
 	public static final int EBAndroidAppHotelGroupRoomRate = 13906;
+	public static final int EBAndroidAppHotelHideSearch = 14271;
 
 	// Cars Web View Tests
 	public static final int EBAndroidAppCarsWebViewUK = 12913;
 	public static final int EBAndroidAppCarsWebViewTVLY = 13658;
 	public static final int EBAndroidAppCarsWebViewUS = 13648;
 	public static final int EBAndroidAppCarsWebViewCT = 13830;
- 	public static final int EBAndroidAppCarsWebViewEB = 13826;
- 	public static final int EBAndroidAppCarsWebViewAUNZ = 13828;
- 	public static final int EBAndroidAppCarsWebViewCA = 13829;
- 	public static final int EBAndroidAppCarsWebViewOB = 13660;
+	public static final int EBAndroidAppCarsWebViewEB = 13826;
+	public static final int EBAndroidAppCarsWebViewAUNZ = 13828;
+	public static final int EBAndroidAppCarsWebViewCA = 13829;
+	public static final int EBAndroidAppCarsWebViewOB = 13660;
 	public static final int EBAndroidAppCarsWebViewEMEA = 13827;
 
 	// Packages Tests
@@ -172,6 +173,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelGroupRoomRate);
 		testIDs.add(EBAndroidAppFlightHideFSRInfographic);
 		testIDs.add(EBAndroidLXVoucherRedemption);
+		testIDs.add(EBAndroidAppHotelHideSearch);
 		return testIDs;
 	}
 

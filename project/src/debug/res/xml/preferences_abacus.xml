@@ -102,6 +102,14 @@
             android:layout="@layout/preference"
             android:title="Hotel Grouped Room Rate Offer - 13906" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14271"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel hide search icon - 14271" />
     </PreferenceCategory>
 
     <PreferenceCategory

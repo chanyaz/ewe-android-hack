@@ -57,7 +57,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
-
+    
     val searchMenu: MenuItem by lazy {
         val searchMenu = toolbar.menu.findItem(R.id.menu_open_search)
         searchMenu
@@ -76,8 +76,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     lateinit var urgencyViewModel: UrgencyViewModel
 
     init {
-        showSearchMenu.subscribe { searchMenu.isVisible = it }
-
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+            showSearchMenu.subscribe { searchMenu.isVisible = it }
+        }
         filterView.viewModel.filterByParamsObservable.subscribe { params ->
             viewModel.filterParamsSubject.onNext(params)
         }
@@ -172,15 +173,16 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 UrgencyAnimation(urgencyDropDownContainer, toolbarShadow).animate()
             }
         }
-
-        searchMenu.setOnMenuItemClickListener({
-            if (!transitionRunning) {
-                searchOverlaySubject.onNext(Unit)
-                true
-            } else {
-                false
-            }
-        })
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+            searchMenu.setOnMenuItemClickListener({
+                if (!transitionRunning) {
+                    searchOverlaySubject.onNext(Unit)
+                    true
+                } else {
+                    false
+                }
+            })
+        }
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
@@ -199,7 +201,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             trackMapSearchAreaClick()
         })
 
-        searchMenu.isVisible = true
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+            searchMenu.isVisible = true
+        }
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
 
         sortFilterButtonTransition = VerticalTranslateTransition(filterBtnWithCountWidget, 0, filterHeight.toInt())

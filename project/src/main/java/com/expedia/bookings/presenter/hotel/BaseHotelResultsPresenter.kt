@@ -39,8 +39,10 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.animation.HorizontalTranslateTransition
@@ -496,11 +498,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 trackCarouselScroll()
             }
         }
-
-        if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
-            toolbar.inflateMenu(R.menu.menu_search_item)
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
+                toolbar.inflateMenu(R.menu.menu_search_item)
+            }
         }
-
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
         filterMenuItem.isVisible = false
