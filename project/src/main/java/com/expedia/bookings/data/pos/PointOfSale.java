@@ -162,8 +162,8 @@ public class PointOfSale {
 	// Does this pos not allow debit cards for flights?
 	private boolean mDoesNotAcceptDebitCardsFlights;
 
-	// Does this POS have the VIP Access program? V2 when we added more locales and needed to ensure not breaking iOS
-	private boolean mSupportsVipAccessV2;
+	// Does this POS have the VIP Access program?
+	private boolean mSupportsVipAccess;
 
 	// Does this POS support loyalty rewards?
 	private boolean mShouldShowRewards;
@@ -810,7 +810,7 @@ public class PointOfSale {
 	}
 
 	public boolean supportsVipAccess() {
-		return mSupportsVipAccessV2;
+		return mSupportsVipAccess;
 	}
 
 	public boolean shouldShowWebCheckout() {
@@ -1328,7 +1328,7 @@ public class PointOfSale {
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
-		pos.mSupportsVipAccessV2 = data.optBoolean("supportsVipAccessV2", false);
+		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);
 		pos.mShouldShowRewards = data.optBoolean("shouldShowRewards", false);
 		pos.mShouldShowFTCResortRegulations = data.optBoolean("shouldShowFTCResortRegulations", false);
 		pos.mDisableForRelease = data.optBoolean("disableForRelease", false);
