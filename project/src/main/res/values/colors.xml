@@ -219,7 +219,7 @@
     <color name="placeholder_background_color">#21394E</color>
 
     <!-- Cars colors -->
-    <color name="cars_primary_color">@color/exp_car_maroon</color>
+    <color name="cars_primary_color">@color/app_primary</color>
 
     <color name="cars_actionbar_text_color">@color/gray8</color>
     <color name="cars_tooltip_disabled_color">@color/gray4</color>
