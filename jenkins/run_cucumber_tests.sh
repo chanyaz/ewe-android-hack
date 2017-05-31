@@ -52,7 +52,7 @@ function removeDummyFilesOnDevice() {
 function build() {
     echo "Building assemble${flavor}Debug....."
     ./gradlew --no-daemon clean
-    ./gradlew --no-daemon -PcucumberInstrumentation=true assemble${flavor}Debug assemble${flavor}DebugAndroidTest
+    ./gradlew --no-daemon -PrunProguard=false -PcucumberInstrumentation=true assemble${flavor}Debug assemble${flavor}DebugAndroidTest
     buildDebug=$?
 }
 
