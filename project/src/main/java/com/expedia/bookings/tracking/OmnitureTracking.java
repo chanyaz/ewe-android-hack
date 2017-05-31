@@ -4778,9 +4778,7 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCheckoutButtonText);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_insurance_in_flight_summary)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary);
 
 		s.setProducts(getFlightProductString(false));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);

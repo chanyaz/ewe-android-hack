@@ -445,8 +445,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertInsuranceVisibilityTests() {
-		SettingUtils.save(getActivity().getApplicationContext(), R.string.preference_insurance_in_flight_summary, true);
-
 		// insurance visibility in flight summary screen (Abacus 12268)
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());

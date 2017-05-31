@@ -69,12 +69,6 @@
             android:summary="Enable Additional Content on Fight Confirmation Screen"
             android:title="Enable Additional Content on Fight Confirmation Screen" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_insurance_in_flight_summary"
-            android:layout="@layout/preference"
-            android:summary="Insurance in flight summary"
-            android:title="Insurance in flight summary" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
