@@ -194,6 +194,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	public void addAccessibilityErrorStrings() {
+		mValidFirstName.setErrorString(getContext().getString(R.string.first_name_validation_error_message));
 		mValidLastName.setErrorString(getContext().getString(R.string.last_name_validation_error_message));
 		mValidDateOfBirth.setErrorString(getContext().getString(R.string.date_of_birth_validation_error_message));
 		mValidEmail.setErrorString(getContext().getString(R.string.email_validation_error_message));
