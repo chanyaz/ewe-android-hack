@@ -68,22 +68,6 @@
                     android:layout_height="wrap_content"
                     android:padding="0dp">
 
-                    <!--
-                        Hacky. Approximate a submenu by having an invisible ShareView
-                        widget in the same place as the overflow button. We'll activate
-                        the "submenu" manually when the user clicks Share in the
-                        overflow menu.
-                    -->
-
-                    <com.dgmltn.shareeverywhere.ShareView
-                        android:id="@+id/itin_share_view"
-                        style="@style/Widget.ShareView.Invisible"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="top"
-                        android:layout_marginTop="-3dp"
-                        android:visibility="invisible" />
-
                     <ImageButton
                         android:id="@+id/itin_overflow_image_button"
                         android:layout_width="48dp"

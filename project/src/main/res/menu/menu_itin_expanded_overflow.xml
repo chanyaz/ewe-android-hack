@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/itin_card_share"
-        android:title="@string/itin_action_share"/>
+        android:title="@string/itin_action_share" />
 
     <item
         android:id="@+id/itin_card_add_to_calendar"

@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -29,7 +26,6 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
@@ -42,7 +38,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
-import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.ItinActionsSection;
@@ -52,8 +47,11 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.CalendarAPIUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
-	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener,
+	implements PopupMenu.OnMenuItemClickListener,
 	ItinContentGenerator.MediaCallback {
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -128,8 +126,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
 
-	private ShareView mShareView;
-
 	// Views generated an ItinContentGenerator (that get reused)
 	private View mHeaderView;
 	private View mSummaryView;
@@ -182,7 +178,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mSelectedView = Ui.findView(this, R.id.selected_view);
 		mHeaderShadeView = Ui.findView(this, R.id.header_mask);
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
-		mShareView = Ui.findView(this, R.id.itin_share_view);
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
 
@@ -211,7 +206,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		}
 		else {
 			Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
-			mShareView.setVisibility(View.GONE);
 		}
 
 		updateHeaderImageHeight();
@@ -1032,12 +1026,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 				break;
 			}
 			case R.id.itin_overflow_image_button: {
-				mShareView.setVisibility(View.VISIBLE);
 				onOverflowButtonClicked(v);
 				break;
 			}
 			case R.id.itin_share_button: {
-				showShareDialog();
+				showNativeShareDialog();
 				OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
 				break;
 			}
@@ -1055,7 +1048,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	public boolean onMenuItemClick(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.itin_card_share:
-			showShareDialog();
+			showNativeShareDialog();
 			OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
 			return true;
 		case R.id.itin_card_add_to_calendar:
@@ -1072,7 +1065,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
 			@Override
 			public void onDismiss(PopupMenu popupMenu) {
-				mShareView.setVisibility(View.INVISIBLE);
+
 			}
 		});
 		MenuInflater inflater = popup.getMenuInflater();
@@ -1092,12 +1085,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		popup.show();
 	}
 
-	private void showShareDialog() {
-		ShareUtils shareUtils = new ShareUtils(getContext());
-		mShareView.setShareIntent(shareUtils.getShareIntents(mItinContentGenerator));
-		mShareView.setOnShareTargetSelectedListener(this);
-		mShareView.showPopup();
-	}
+	private void showNativeShareDialog() {
+			Intent shareIntent = new Intent();
+			shareIntent.setAction(Intent.ACTION_SEND);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, mItinContentGenerator.getShareTextShort());
+			shareIntent.setType("text/plain");
+			Intent chooserIntent = Intent.createChooser(shareIntent, "");
+
+			chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent);
+		    getContext().startActivity(chooserIntent);
+		}
 
 	private void addToCalendar() {
 		List<Intent> intents = mItinContentGenerator.getAddToCalendarIntents();
@@ -1107,12 +1104,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	@Override
-	public void onShareTargetSelected(ShareView view, Intent intent) {
-		OmnitureTracking.trackItinShareNew(mItinContentGenerator.getType(), intent);
-	}
-
-	@Override
 	public void onMediaReady(List<? extends IMedia> media) {
 		mHeaderGallery.setDataSource(mItinContentGenerator.getHeaderBitmapDrawable());
 	}
+
 }
