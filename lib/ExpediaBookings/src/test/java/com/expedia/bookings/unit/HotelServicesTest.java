@@ -24,6 +24,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.payment.PointsAndCurrency;
 import com.expedia.bookings.data.payment.PointsType;
@@ -95,7 +96,7 @@ public class HotelServicesTest {
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
 		TestSubscriber testSubscriber = new TestSubscriber();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
+		service.search(hotelSearchParams, null, false).subscribe(testSubscriber);
 		testSubscriber.awaitTerminalEvent();
 
 		assertFalse("I don't expect to see longitude or latitude in a request where both are 0", testResult[0]);
@@ -125,10 +126,64 @@ public class HotelServicesTest {
 			.startDate(LocalDate.now().plusDays(5)).endDate(LocalDate.now().plusDays(15)).adults(2).build();
 
 		TestSubscriber testSubscriber = new TestSubscriber();
-		service.search(hotelSearchParams, null).subscribe(testSubscriber);
+		service.search(hotelSearchParams, null, false).subscribe(testSubscriber);
 		testSubscriber.awaitTerminalEvent();
 
 		assertTrue("Failure: Region Id expected to match neighborhood id if set", testResult[0]);
+	}
+
+	@Test
+	public void testHotelSearchForceV2FlagPassedInRequest() throws IOException {
+		// final array to make the test result flag/boolean accessible in the anonymous dispatch
+		final boolean[] testResult = { false };
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsForceV2Param = request.getPath().contains("forceV2Search=true");
+				testResult[0] = containsForceV2Param;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+
+		String expectedMsg = "I expected to see forceV2Search=true passed in hotel search request (/m/api/hotel/search)";
+		TestSubscriber<List<Hotel>> nearbyHotelsSubscriber = new TestSubscriber<>();
+		service.nearbyHotels(givenNearbyHotelParams(), nearbyHotelsSubscriber);
+		nearbyHotelsSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		assertTrue(expectedMsg, testResult[0]);
+
+		TestSubscriber<HotelSearchResponse> regionSearchSubscriber = new TestSubscriber<>();
+		service.search(givenHappyHotelSearchParams(), null, false).subscribe(regionSearchSubscriber);
+		regionSearchSubscriber.awaitTerminalEvent();
+		assertTrue(expectedMsg, testResult[0]);
+	}
+
+	@Test
+	public void testHotelOffersForceV2FlagPassedInRequest() throws IOException {
+		// final array to make the test result flag/boolean accessible in the anonymous dispatch
+		final boolean[] testResult = { false };
+		Dispatcher dispatcher = new Dispatcher() {
+			@Override
+			public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
+				boolean containsForceV2Param = request.getPath().contains("forceV2Search=true");
+				testResult[0] = containsForceV2Param;
+				return new MockResponse();
+			}
+		};
+		server.setDispatcher(dispatcher);
+
+		String expectedMsg = "I expected to see forceV2Search=true passed in hotel offer request (/m/api/hotel/info)";
+		TestSubscriber<HotelOffersResponse> infoObserver = new TestSubscriber<>();
+		HotelSearchParams params = givenHappyHotelSearchParams();
+		service.info(params, "happy", infoObserver);
+		infoObserver.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		assertTrue(expectedMsg, testResult[0]);
+
+
+		TestSubscriber<HotelOffersResponse> offersObserver = new TestSubscriber<>();
+		service.offers(params, "happypath", offersObserver, false);
+		offersObserver.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		assertTrue(expectedMsg, testResult[0]);
 	}
 
 	@Test
@@ -187,7 +242,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
 
 		HotelSearchParams params = givenHappyHotelSearchParams();
-		service.offers(params, "happypath", observer);
+		service.offers(params, "happypath", observer, false);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
