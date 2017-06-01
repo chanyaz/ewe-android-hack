@@ -29,6 +29,7 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TwoScreenOverviewState
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
@@ -53,6 +54,7 @@ import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
@@ -530,6 +532,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             lp.height = distance
             scrollViewSpace.layoutParams = lp
         }, ANIMATION_DELAY)
+    }
+
+    //  for when we get signed out by a account refresh, not when the user manually signs out
+    @Subscribe fun onUserLoggedOut(@Suppress("UNUSED_PARAMETER") event: Events.SignOut) {
+        updateDbTravelers()
+        updateTravelerPresenter()
     }
 
     override fun addWindowSubscriptions() {

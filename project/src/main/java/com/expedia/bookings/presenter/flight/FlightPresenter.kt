@@ -421,7 +421,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.resetAndShowTotalPriceWidget()
         flightOverviewPresenter.totalPriceWidget.bundleTotalPrice.visibility = View.GONE
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
-        flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
         flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
                 .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)) {
