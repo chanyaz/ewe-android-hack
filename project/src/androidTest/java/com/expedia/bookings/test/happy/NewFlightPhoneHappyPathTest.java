@@ -27,7 +27,6 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
