@@ -14,7 +14,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, val isRoundTripSearchSubject: BehaviorSubject<Boolean>,
-                             val isOutboundSearch: Boolean, val flightCabinClass: String?) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+                             val isOutboundSearch: Boolean, val flightCabinClassSubject: BehaviorSubject<String>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
 
     override fun adjustPosition(): Int {
         isCrossSellPackageOnFSR = showCrossSellPackageBannerCell()
@@ -40,6 +40,6 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     private fun showCrossSellPackageBannerCell(): Boolean {
         return (shouldShowCrossSellPackageBanner() && isRoundTripSearchSubject.value && isOutboundSearch &&
-                (flightCabinClass == null || flightCabinClass == FlightServiceClassType.CabinCode.COACH.name))
+                (flightCabinClassSubject.value == null || flightCabinClassSubject.value == FlightServiceClassType.CabinCode.COACH.name))
     }
 }

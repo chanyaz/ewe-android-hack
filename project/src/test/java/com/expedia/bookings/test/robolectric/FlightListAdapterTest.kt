@@ -32,8 +32,8 @@ class FlightListAdapterTest {
     lateinit var sut: FlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    lateinit var flightCabinClassSubject: BehaviorSubject<String>
     var isOutboundSearch: Boolean by Delegates.notNull<Boolean>()
-    lateinit var flightCabinClass: String
     lateinit var flightLeg: FlightLeg
 
     @Before
@@ -41,17 +41,18 @@ class FlightListAdapterTest {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create<Boolean>()
         isRoundTripSubject.onNext(false)
+        flightCabinClassSubject = BehaviorSubject.create()
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         isOutboundSearch = false
-        flightCabinClass = FlightServiceClassType.CabinCode.COACH.name
     }
 
     fun createSystemUnderTest() {
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClass)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
     }
 
     @Test
     fun allFlightsHeaderNotShownForFlightsLOB() {
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClass)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
         sut.setNewFlights(emptyList())
 
         val itemViewType = sut.getItemViewType(1)
@@ -134,7 +135,6 @@ class FlightListAdapterTest {
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
         isOutboundSearch = true
-        flightCabinClass = FlightServiceClassType.CabinCode.COACH.name
         createSystemUnderTest()
         assertEquals(2, sut.adjustPosition())
     }

@@ -47,17 +47,20 @@ class AbstractFlightListAdapterTest {
     lateinit var sut: AbstractFlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    lateinit var flightCabinClassSubject: BehaviorSubject<String>
     lateinit var flightLeg: FlightLeg
 
     @Before
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create()
+        flightCabinClassSubject = BehaviorSubject.create()
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_disabled.json", false)
     }
 
     fun createTestFlightListAdapter() {
         isRoundTripSubject.onNext(false)
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         sut = TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
     }
 
@@ -65,7 +68,7 @@ class AbstractFlightListAdapterTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
         sut.adjustPosition()
         createFlightLegWithThreeAirlines()
         sut.setNewFlights(listOf(flightLeg))
@@ -87,7 +90,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityForOneway() {
         preProcessForPackageBannerWidget()
         isRoundTripSubject.onNext(false)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -96,7 +99,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityWithoutFlagInPOS() {
         preProcessForPackageBannerWidget()
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_locale_test_config.json")
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -104,7 +107,8 @@ class AbstractFlightListAdapterTest {
     @Test
     fun testPackageBannerWidgetVisibilityForFirstClassCabinPreference() {
         preProcessForPackageBannerWidget()
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.FIRST.name)
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.FIRST.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
