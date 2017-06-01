@@ -931,7 +931,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         })
         if (fetchOffers) {
-            hotelServices.offers(hotelSearchParams, hotelId, subject)
+            hotelServices.offers(hotelSearchParams, hotelId, subject,
+                    hitLPAS = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelLPASEndpoint))
         } else {
             hotelServices.info(hotelSearchParams, hotelId, subject)
         }
