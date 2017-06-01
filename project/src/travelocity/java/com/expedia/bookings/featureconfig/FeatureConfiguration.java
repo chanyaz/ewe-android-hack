@@ -410,4 +410,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public int getPOSSpecificBrandLogo() {
+		return R.drawable.app_copyright_logo;
+	}
+
 }

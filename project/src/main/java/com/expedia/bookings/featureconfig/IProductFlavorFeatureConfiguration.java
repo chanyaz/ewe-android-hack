@@ -198,4 +198,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean shouldShowUserReview();
 
 	boolean shouldShowVIPLoyaltyMessage();
+
+	int getPOSSpecificBrandLogo();
 }
