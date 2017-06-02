@@ -72,6 +72,7 @@
                     android:id="@+id/duration_seek_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@null"
                     android:maxHeight="6dp"
                     android:minHeight="6dp"
                     app:rsb__activeColor="@color/packages_primary_color" />
@@ -107,17 +108,10 @@
                 android:paddingLeft="@dimen/sort_filter_padding_normal"
                 android:paddingRight="@dimen/sort_filter_padding_normal">
 
-                <ViewStub
-                    android:id="@+id/a11y_departure_stub"
+                <include
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout="@layout/a11y_flight_departure_seekbar" />
-
-                <ViewStub
-                    android:id="@+id/departure_stub"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout="@layout/flight_departure_seekbar" />
+                    layout="@layout/flight_departure_seekbar" />
 
             </LinearLayout>
 
@@ -136,17 +130,10 @@
                 android:paddingLeft="@dimen/sort_filter_padding_normal"
                 android:paddingRight="@dimen/sort_filter_padding_normal">
 
-                <ViewStub
-                    android:id="@+id/a11y_arrival_stub"
+                <include
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout="@layout/a11y_flight_arrival_seekbar" />
-
-                <ViewStub
-                    android:id="@+id/arrival_stub"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout="@layout/flight_arrival_seekbar" />
+                    layout="@layout/flight_arrival_seekbar" />
 
             </LinearLayout>
 

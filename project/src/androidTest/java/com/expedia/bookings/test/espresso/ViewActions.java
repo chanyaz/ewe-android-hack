@@ -492,7 +492,7 @@ public final class ViewActions {
 			@Override
 			public void perform(UiController uiController, View view) {
 				FilterRangeSeekBar seekBar = (FilterRangeSeekBar) view;
-				seekBar.getListener().onRangeSeekBarValuesChanged(seekBar, minValue, maxValue);
+				seekBar.getListener().onRangeSeekBarValuesChanged(seekBar, minValue, maxValue, FilterRangeSeekBar.Thumb.MIN);
 				seekBar.setMinValue(minValue);
 				seekBar.setMaxValue(maxValue);
 			}
