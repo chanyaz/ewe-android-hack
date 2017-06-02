@@ -3,9 +3,10 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.dagger.tags.TripScope;
 import com.expedia.bookings.fragment.ItinCardDetailsPresenter;
 import com.expedia.bookings.itin.activity.NewAddGuestItinActivity;
+import com.expedia.bookings.tracking.ItinPageUsableTrackingData;
 import com.expedia.bookings.widget.itin.HotelItinCard;
 import com.expedia.bookings.widget.itin.ItinPOSHeader;
-
+import com.expedia.vm.itin.ItinSignInViewModel;
 import dagger.Component;
 
 @TripScope
@@ -15,4 +16,7 @@ public interface TripComponent {
 	void inject(HotelItinCard hotelItinCard);
 	void inject(ItinPOSHeader itinPOSHeader);
 	void inject(NewAddGuestItinActivity activity);
+	void inject(ItinSignInViewModel itinSignInViewModel);
+
+	ItinPageUsableTrackingData itinPageUsablePerformanceModel();
 }

@@ -1198,7 +1198,14 @@ public class OmnitureTracking {
 			return;
 		}
 
-		StringBuilder sb = new StringBuilder(s.getEvents());
+		StringBuilder sb = new StringBuilder();
+		if (s.getEvents() != null) {
+			sb.append(s.getEvents());
+		}
+		pageLoadTimeEvents(s, pageLoadTimeData, sb);
+	}
+
+	private static void pageLoadTimeEvents(ADMS_Measurement s, PageUsableData pageLoadTimeData, StringBuilder sb) {
 		appendPageLoadTimeEvents(sb, pageLoadTimeData.getLoadTimeInSeconds());
 		if (sb.length() > 0) {
 			s.setEvents(sb.toString());
@@ -2131,7 +2138,7 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin(Context context) {
+	public static void trackItin() {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
 		if (userStateManager.isUserAuthenticated()) {
@@ -2153,6 +2160,13 @@ public class OmnitureTracking {
 		if (!getUsersTrips().isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
 		}
+		s.track();
+	}
+
+	public static void trackItinPageUsablePerformance(PageUsableData pageLoadTimeData) {
+		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
+		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 		s.track();
 	}
 

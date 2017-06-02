@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Collection;
-
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -9,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -24,7 +23,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
@@ -50,7 +48,7 @@ import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
-
+import java.util.Collection;
 import kotlin.Unit;
 import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
@@ -130,10 +128,14 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		return new ItinItemListFragment();
 	}
 
+	@VisibleForTesting
+	protected ItinListView getItinListView() {
+		return mItinListView;
+	}
+
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
-
 		userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 
 		mItinManager = ItineraryManager.getInstance();
@@ -742,7 +744,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				//we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
-					OmnitureTracking.trackItin(getActivity());
+					OmnitureTracking.trackItin();
 				}
 
 			}
