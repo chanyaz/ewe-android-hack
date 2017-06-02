@@ -19,8 +19,8 @@
     <string name="package_search_traveler_default_text">1 Traveller</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Drag to modify</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Select date to change</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Select dates again to modify</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Call Support</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
+    <string name="share_action_content_description">Share Button</string>
     <string name="itin_action_view">View Itinerary</string>
 
     <!-- Itin webview titles -->
@@ -2960,8 +2961,18 @@
     <string name="cars">Cars</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} days</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">Points from {lob} become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Points from Flights become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Points from Bundle Deals become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Points from Activities become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Points from Hotels become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Points from Cruises become available up to {number_of_days} days after travel has been completed.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Points from Cars become available up to {number_of_days} days after travel has been completed.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">Hotel in {city} - 1 room, {number} night</item>
         <item quantity="other">Hotel in {city} - 1 room, {number} nights</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">Flight + Hotel</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">Save when you book your flights and hotels together</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">

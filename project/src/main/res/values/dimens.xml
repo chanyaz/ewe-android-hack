@@ -106,10 +106,6 @@
     <!-- Flight search -->
     <dimen name="flight_search_airport_padding_left">12dp</dimen>
 
-    <!-- Plane window view dimens, these must always be linked -->
-    <dimen name="plane_window_height">350dp</dimen>
-    <dimen name="plane_window_text_offset">-35dp</dimen>
-
     <!-- Flights dimens -->
     <dimen name="data_form_section_header_text">14sp</dimen>
     <dimen name="cvv_keypad_text_size">24dp</dimen>

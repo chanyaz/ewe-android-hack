@@ -66,7 +66,6 @@
     <color name="itin_yes_ok_button">#4CA0FF</color>
 
     <!-- Old Flights colors -->
-    <color name="plane_window_background">#CACACA</color>
     <color name="flight_trip">#0D6599</color>
     <color name="flight_trip_price">#22599C</color>
     <color name="airport_text">#607480</color>
@@ -358,7 +357,6 @@
     <color name="sign_in_user_middle_tier">#808080</color>
     <color name="sign_in_user_top_tier">#e7b40d</color>
 
-    <color name="flight_loading_message_text_color">#575757</color>
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
     <color name="error_button_color">@color/cars_primary_color</color>

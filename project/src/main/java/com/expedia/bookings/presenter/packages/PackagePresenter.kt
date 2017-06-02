@@ -76,8 +76,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.OTHER)
         }
         presenter.bundleWidget.viewModel.showSearchObservable.subscribe {
-            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
-            searchPresenter.showDefault()
+            if (isCrossSellPackageOnFSREnabled) {
+                (context as AppCompatActivity).finish()
+            } else {
+                show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+                searchPresenter.showDefault()
+            }
         }
         checkoutPresenter.getCheckoutViewModel().checkoutRequestStartTimeObservable.subscribe { startTime ->
             pageUsableData.markPageLoadStarted(startTime)
@@ -146,8 +150,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         presenter.viewmodel.createTripUnknownErrorObservable.subscribe {
-            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
-            searchPresenter.showDefault()
+            if (isCrossSellPackageOnFSREnabled) {
+                (context as AppCompatActivity).finish()
+            } else {
+                show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+                searchPresenter.showDefault()
+            }
         }
 
         presenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
@@ -195,7 +203,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        addTransition(searchToBundle)
         addTransition(bundleToConfirmation)
         addTransition(bundleOverviewToError)
         addTransition(errorToSearch)
@@ -206,6 +213,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         } else {
             addDefaultTransition(defaultSearchTransition)
             show(searchPresenter)
+            addTransition(searchToBundle)
         }
     }
 

@@ -19,8 +19,8 @@
     <string name="package_search_traveler_default_text">1 matkustaja</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Muuta vetämällä</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Valitse muutettava päivä</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Valitse päivät uudelleen voidaksesi muokata niitä</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Soita tukeen</string>
     <string name="itin_action_support">Tuki</string>
     <string name="itin_action_share">Jaa</string>
+    <string name="share_action_content_description">Jakamispainike</string>
     <string name="itin_action_view">Tarkastele matkasuunnitelmaa</string>
 
     <!-- Itin webview titles -->
@@ -2960,8 +2961,18 @@
     <string name="cars">Vuokra-autot</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} päivää</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">{lob}: pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Lennoista saadut pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Pakettimatkoista saadut pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Aktiviteeteista saadut pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Hotelleista saadut pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Risteilyistä saadut pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Vuokra-autoista saadut pisteet tulevat käytettäviksi korkeintaan {number_of_days} päivän kuluessa matkan päättymisestä.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">Hotelli kohteessa {city} – 1 huone, {number} yö</item>
         <item quantity="other">Hotelli kohteessa {city} – 1 huone, {number} yötä</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">Lento + hotelli</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">Säästä, kun varaat lennot ja hotellin yhdessä</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">

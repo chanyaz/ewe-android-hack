@@ -26,23 +26,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Material Flight Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_flight_hide_fsr_infographic"
-            android:layout="@layout/preference"
-            android:summary="Hide FSR Infographic"
-            android:title="Hide FSR Infographic" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_cross_sell_package_on_fsr"
-            android:layout="@layout/preference"
-            android:summary="Cross Sell Package on FSR"
-            android:title="Cross Sell Package on FSR" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Activity Features">
 
         <CheckBoxPreference

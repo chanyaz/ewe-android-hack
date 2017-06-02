@@ -34,7 +34,7 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFli
     }
 
     override fun isUserBucketedInHideFSRInfographicTest(): Boolean {
-        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightHideFSRInfographic, R.string.preference_flight_hide_fsr_infographic)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic)
     }
 }
 

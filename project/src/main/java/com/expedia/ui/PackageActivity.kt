@@ -35,6 +35,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.package_activity)
         Ui.showTransparentStatusBar(this)
+        isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
@@ -65,6 +66,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     } else {
                         PackagesTracking().trackViewBundlePageLoad()
                     }
+
                     if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                         Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 

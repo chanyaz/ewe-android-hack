@@ -19,8 +19,8 @@
     <string name="package_search_traveler_default_text">1 rejsende</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Træk for at ændre</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Vælg dato for at ændre</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Vælg nye datoer</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Ring til kundeservice</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Del</string>
+    <string name="share_action_content_description">Knappen Del</string>
     <string name="itin_action_view">Se rejseplan</string>
 
     <!-- Itin webview titles -->
@@ -2960,8 +2961,18 @@
     <string name="cars">Biler</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} dage</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">Point fra {lob} bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Point fra flyrejser bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Point fra pakkerejser bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Point fra aktiviteter bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Point fra hotelophold bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Point fra krydstogter bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Point fra udlejningsbiler bliver tilgængelige op til {number_of_days} dage efter, rejsen har fundet sted.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">Hotel i {city} - 1 værelse, {number} nat</item>
         <item quantity="other">Hotel i {city} - 1 værelse, {number} nætter</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">Fly + hotel</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">Spar penge, når du booker flyrejser og hoteller samtidigt</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">

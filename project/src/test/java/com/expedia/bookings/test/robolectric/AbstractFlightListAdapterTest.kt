@@ -24,12 +24,13 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
+import com.expedia.ui.FlightActivity
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.flights.FlightViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -42,7 +43,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class AbstractFlightListAdapterTest {
 
-    val context = RuntimeEnvironment.application
+    val activity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
     lateinit var sut: AbstractFlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
@@ -57,24 +58,22 @@ class AbstractFlightListAdapterTest {
 
     fun createTestFlightListAdapter() {
         isRoundTripSubject.onNext(false)
-        sut = TestFlightListAdapter(context, flightSelectedSubject, isRoundTripSubject)
+        sut = TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
     }
 
     private fun activatePackageBannerWidget() {
-        SettingUtils.save(context, R.string.preference_cross_sell_package_on_fsr, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json")
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
-        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
         sut.adjustPosition()
         createFlightLegWithThreeAirlines()
         sut.setNewFlights(listOf(flightLeg))
     }
 
     private fun preProcessForPackageBannerWidget() {
-        SettingUtils.save(context, R.string.preference_cross_sell_package_on_fsr, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json")
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
     }
 
@@ -88,7 +87,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityForOneway() {
         preProcessForPackageBannerWidget()
         isRoundTripSubject.onNext(false)
-        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -96,8 +95,8 @@ class AbstractFlightListAdapterTest {
     @Test
     fun testPackageBannerWidgetVisibilityWithoutFlagInPOS() {
         preProcessForPackageBannerWidget()
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_locale_test_config.json")
-        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_locale_test_config.json")
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.COACH.name)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -105,7 +104,7 @@ class AbstractFlightListAdapterTest {
     @Test
     fun testPackageBannerWidgetVisibilityForFirstClassCabinPreference() {
         preProcessForPackageBannerWidget()
-        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.FIRST.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, FlightServiceClassType.CabinCode.FIRST.name)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -116,7 +115,7 @@ class AbstractFlightListAdapterTest {
 
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
 
-        val packageBannerHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
+        val packageBannerHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
                 as AbstractFlightListAdapter.PackageBannerHeaderViewHolder
 
         assertTrue(packageBannerHeaderViewHolder is AbstractFlightListAdapter.PackageBannerHeaderViewHolder)
@@ -135,7 +134,7 @@ class AbstractFlightListAdapterTest {
 
         assertEquals(sut.getItemViewType(1), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
 
-        val allFlightsPricingHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
+        val allFlightsPricingHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
                 as AbstractFlightListAdapter.AllFlightsPricingHeaderViewHolder
 
         assertTrue(allFlightsPricingHeaderViewHolder is AbstractFlightListAdapter.AllFlightsPricingHeaderViewHolder)
@@ -153,7 +152,7 @@ class AbstractFlightListAdapterTest {
         createTestFlightListAdapter()
         createFlightLegWithFourAirlines()
 
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
@@ -175,7 +174,7 @@ class AbstractFlightListAdapterTest {
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines()
 
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
@@ -276,7 +275,7 @@ class AbstractFlightListAdapterTest {
     }
 
     private fun bindFlightViewHolderAndModel(): AbstractFlightListAdapter.FlightViewHolder {
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
         return flightViewHolder
@@ -414,7 +413,7 @@ class AbstractFlightListAdapterTest {
     }
 
     private fun createFlightViewHolder(): AbstractFlightListAdapter.FlightViewHolder {
-        return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
+        return sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
     }
 
     private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :

@@ -1325,7 +1325,6 @@ public class OmnitureTracking {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String FLIGHT_SEATING_CLASS_SELECT = "App.Flight.DS.SeatingClass.";
-	private static final String FLIGHT_SEARCH_INTERSTITIAL = "App.Flight.Search.Interstitial";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT = "App.Flight.Search.Roundtrip.Out";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT = "App.Flight.Search.Roundtrip.Out.HotelBanner.Select";
 	private static final String FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS = "App.Flight.Search.Roundtrip.Out.Details";
@@ -1344,14 +1343,6 @@ public class OmnitureTracking {
 
 	private static final String FLIGHT_SEARCH_ONE_WAY_DETAILS = "App.Flight.Search.OneWay.Details";
 	private static final String FLIGHT_SEARCH_ONE_WAY_BAGGAGE_FEE = "App.Flight.Search.OneWay.BaggageFee";
-
-	private static final String FLIGHT_ERROR_NOT_YET_AVAILABLE = "App.Flight.Error.NotYetAvailable";
-	private static final String FLIGHT_ERROR_CHECKOUT = "App.Flight.Error.Checkout";
-	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_TICKET = "App.Flight.Error.Checkout.Payment.PriceChange.Ticket";
-	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED = "App.Flight.Error.Checkout.Payment.Failed";
-	private static final String FLIGHT_ERROR_CHECKOUT_PAYMENT_CVV = "App.Flight.Error.Checkout.Payment.CVV";
-	private static final String FLIGHT_ERROR_SOLD_OUT = "App.Flight.Error.SoldOut";
-	private static final String FLIGHT_ERROR_SEARCH_EXPIRED = "App.Flight.Error.Search.Expired";
 
 	private static final String PREFIX_FLIGHT_SEARCH_FILTER = "App.Flight.Search.Filter";
 
@@ -1382,38 +1373,6 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadFlightBaggageFeeInbound() {
 		internalTrackPageLoadEventStandard(FLIGHT_SEARCH_INBOUND_BAGGAGE_FEE);
-	}
-
-	public static void trackPageLoadFlightSearchResultsPlaneLoadingFragment() {
-		internalTrackPageLoadEventStandard(FLIGHT_SEARCH_INTERSTITIAL);
-	}
-
-	public static void trackErrorPageLoadFlightUnsupportedPOS() {
-		internalTrackPageLoadEventStandard(FLIGHT_ERROR_NOT_YET_AVAILABLE);
-	}
-
-	public static void trackErrorPageLoadFlightCheckout() {
-		internalTrackPageLoadEventPriceChange(FLIGHT_ERROR_CHECKOUT);
-	}
-
-	public static void trackErrorPageLoadFlightPriceChangeTicket() {
-		internalTrackPageLoadEventPriceChange(FLIGHT_ERROR_CHECKOUT_PAYMENT_PRICE_CHANGE_TICKET);
-	}
-
-	public static void trackErrorPageLoadFlightPaymentFailed() {
-		internalTrackPageLoadEventStandard(FLIGHT_ERROR_CHECKOUT_PAYMENT_FAILED);
-	}
-
-	public static void trackErrorPageLoadFlightIncorrectCVV() {
-		internalTrackPageLoadEventStandard(FLIGHT_ERROR_CHECKOUT_PAYMENT_CVV);
-	}
-
-	public static void trackErrorPageLoadFlightSoldOut() {
-		internalTrackPageLoadEventStandard(FLIGHT_ERROR_SOLD_OUT);
-	}
-
-	public static void trackErrorPageLoadFlightSearchExpired() {
-		internalTrackPageLoadEventStandard(FLIGHT_ERROR_SEARCH_EXPIRED);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4700,10 +4659,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightStaticSortFilter);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightByotSearch);
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
 		}
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_hide_fsr_infographic)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightHideFSRInfographic);
 		s.track();
 	}
 
@@ -4874,17 +4832,11 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Flight Checkout", null, null);
 	}
 
-	public static void trackCrossSellPackageOnFSR() {
-		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_SEARCH_ROUNDTRIP_OUT);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR);
-		s.track();
-	}
-
 	public static void trackCrossSellPackageBannerClick() {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
 		s.setProp(16, FLIGHT_SEARCH_ROUNDTRIP_OUT_HOTELBANNER_SELECT);
-		s.setEvar(61, "1");
+		s.setEvar(61, Integer.toString(PointOfSale.getPointOfSale().getTpid()));
 		s.trackLink(null, "o", FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME, null, null);
 	}
 

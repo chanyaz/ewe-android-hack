@@ -19,7 +19,7 @@
     <string name="package_search_traveler_default_text">1 Traveler</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Tarik untuk mengubah</string>
-    <!-- Calendar tooltip bottom line content description after two dates are selected E.g. Jun 1 to Jun 2. Select date to change -->
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
     <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Pilih tanggal untuk diubah</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
@@ -1493,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Hubungi Bantuan</string>
     <string name="itin_action_support">Dukungan</string>
     <string name="itin_action_share">Bagikan</string>
+    <string name="share_action_content_description">Tombol Bagikan</string>
     <string name="itin_action_view">Lihat Itinerary</string>
 
     <!-- Itin webview titles -->
@@ -2960,8 +2961,18 @@
     <string name="cars">Mobil</string>
     <!--example: 30 days-->
     <string name="number_of_days_points_TEMPLATE">{number_of_days} hari</string>
-    <!--example: Points from flights become available up to 30 days after travel has been completed-->
-    <string name="pending_points_accessibility_TEMPLATE">Point dari {lob} menjadi tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Poin dari Penerbangan akan tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Poin dari Promo Paket akan tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Poin dari Aktivitas akan tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Poin dari Hotel akan tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Poin dari Kapal Pesiar akan tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Poin dari Sewa Mobil akan tersedia hingga {number_of_days} hari setelah perjalanan selesai.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3833,6 +3844,12 @@
         <item quantity="one">Hotel di {city} - 1 kamar, {number} malam</item>
         <item quantity="other">Hotel di {city} - 1 kamar, {number} malam</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">Penerbangan + Hotel</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">Berhemat saat Anda memesan penerbangan dan hotel bersamaan</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">

@@ -3,7 +3,6 @@ package com.expedia.ui
 import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Activity
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.flight.FlightPresenter
