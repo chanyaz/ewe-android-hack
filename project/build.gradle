@@ -192,8 +192,13 @@ android {
     }
 
     defaultConfig {
-        versionCode 1
-        versionName "undefined"
+
+        def major = 17
+        def minor = 24
+        def patch = 0
+        def build = 0
+        versionCode GradleUtil.versionCode(major, minor, patch, build)
+        versionName GradleUtil.versionName(major, minor, patch, build)
 
         minSdkVersion 21
         targetSdkVersion 25
@@ -225,12 +230,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.expedia.bookings"
 
-            def major = 17
-            def minor = 24
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
             resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
         }
@@ -242,12 +241,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Ebookers\""
             applicationId "com.ebookers"
 
-            def major = 6
-            def minor = 9
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "de", "en_GB", "fi", "fr"
         }
 
@@ -258,12 +251,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"VSC\""
             applicationId "com.expedia.bookings.vsc"
 
-            def major = 4
-            def minor = 6
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "fr"
         }
 
@@ -274,12 +261,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"TVLY\""
             applicationId "com.travelocity.android"
 
-            def major = 9
-            def minor = 9
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "en_CA", "fr_CA"
         }
 
@@ -290,12 +271,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
             applicationId "com.airasiago.android"
 
-            def major = 4
-            def minor = 8
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "th", "zh", "zh_HK", "in", "ja"
         }
 
@@ -306,12 +281,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Wotif\""
             applicationId "com.wotif.android"
 
-            def major = 4
-            def minor = 8
-            def patch = 1
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "en"
         }
 
@@ -322,12 +291,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"LM\""
             applicationId "com.lastminute.android"
 
-            def major = 4
-            def minor = 8
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "en"
         }
 
@@ -338,12 +301,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
             applicationId "com.samsung.travel.android"
 
-            def major = 2
-            def minor = 0
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "ko", "fr", "fr_CA", "en_CA"
         }
 
@@ -354,12 +311,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Orbitz\""
             applicationId "com.orbitz"
 
-            def major = 8
-            def minor = 9
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "en"
         }
 
@@ -370,12 +321,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
             applicationId "com.cheaptickets"
 
-            def major = 6
-            def minor = 9
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "en"
         }
 
@@ -386,12 +331,6 @@ android {
             buildConfigField "String", "USER_AGENT", "\"MrJet\""
             applicationId "se.mrjet"
 
-            def major = 6
-            def minor = 8
-            def patch = 0
-            def build = 0
-            versionCode GradleUtil.versionCode(major, minor, patch, build)
-            versionName GradleUtil.versionName(major, minor, patch, build)
             resConfigs "sv"
         }
     }

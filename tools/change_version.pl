@@ -2,14 +2,13 @@
 #
 #
 
-if ($#ARGV < 2) {
-  print "Usage: change_version.pl <path/to/build.gradle> <flavor> <version>\n";
+if ($#ARGV < 1) {
+  print "Usage: change_version.pl <path/to/build.gradle> <version>\n";
   exit;
 }
 
 my $fullContent = "";
-my $flavor = $ARGV[1];
-my ($major, $minor, $patch, $build) = split(/\./, $ARGV[2]);
+my ($major, $minor, $patch, $build) = split(/\./, $ARGV[1]);
 
 $patch //= 0;
 $build //= 0;
@@ -19,8 +18,7 @@ while (<BUILDFILE>) {
   $fullContent = $fullContent . $_;
 }
 close BUILDFILE;
-
-if ($fullContent =~ /(\A.*?$flavor \{)([^\}]*)(\}.*?\z)/s) {
+if ($fullContent =~ /(\A.*?)(def major = \d+\s*def minor = \d+\s*def patch = \d+\s*def build = \d+)(.*?\z)/s) {
   my $prefix = $1;
   my $flavorContent = $2;
   my $postfix = $3;
@@ -34,4 +32,3 @@ if ($fullContent =~ /(\A.*?$flavor \{)([^\}]*)(\}.*?\z)/s) {
   print BUILDFILE $prefix . $flavorContent . $postfix;
   close BUILDFILE;
 }
-
