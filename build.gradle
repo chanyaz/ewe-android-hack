@@ -84,25 +84,29 @@ subprojects {
         // need more memory for unittests due to issue with Robolectric 1.3: https://github.com/robolectric/robolectric/issues/1700
         jvmArgs '-XX:MaxPermSize=512m'
         testLogging {
+            def buildNumber = "${System.env.BUILD_NUMBER}"
+            def verboseLogging = buildNumber != null && !buildNumber.isEmpty() && buildNumber != "null"
             // set options for log level LIFECYCLE
-            events "passed", "skipped", "failed", "standardOut"
-            showExceptions true
-            exceptionFormat "full"
-            showCauses true
-            showStackTraces true
-
-            // set options for log level DEBUG and INFO
-            debug {
-                events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+            if (verboseLogging) {
+                events "passed", "skipped", "failed", "standardOut"
+                showExceptions true
                 exceptionFormat "full"
-            }
-            info.events = debug.events
-            info.exceptionFormat = debug.exceptionFormat
+                showCauses true
+                showStackTraces true
 
-            afterTest { desc, result ->
-                def runtime = (result.endTime - result.startTime)
-                if (runtime > 1000) {
-                    println(" >>> SLOW TEST (${runtime} ms) <<< ${desc.className}.${desc.name}")
+                // set options for log level DEBUG and INFO
+                debug {
+                    events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+                    exceptionFormat "full"
+                }
+                info.events = debug.events
+                info.exceptionFormat = debug.exceptionFormat
+
+                afterTest { desc, result ->
+                    def runtime = (result.endTime - result.startTime)
+                    if (runtime > 1000) {
+                        println(" >>> SLOW TEST (${runtime} ms) <<< ${desc.className}.${desc.name}")
+                    }
                 }
             }
 
