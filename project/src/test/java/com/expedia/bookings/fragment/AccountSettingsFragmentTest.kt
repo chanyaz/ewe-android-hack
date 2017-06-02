@@ -288,7 +288,6 @@ class AccountSettingsFragmentTest {
         traveler.middleName = "Tier"
         traveler.lastName = "Rewards"
         traveler.email = "basetier@mobiata.com"
-        traveler.loyaltyPointsAvailable = 1802
         user.primaryTraveler = traveler
 
         loyaltyInfo.isLoyaltyMembershipActive = true
@@ -308,13 +307,12 @@ class AccountSettingsFragmentTest {
         traveler.middleName = "Tier"
         traveler.lastName = "Rewards"
         traveler.email = "middletier@mobiata.com"
-        traveler.loyaltyPointsAvailable = 22996
-        traveler.loyaltyPointsPending = 965
         user.primaryTraveler = traveler
 
         loyaltyInfo.isLoyaltyMembershipActive = true
         loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.MIDDLE
         loyaltyInfo.loyaltyPointsAvailable = 22996.0
+        loyaltyInfo.loyaltyPointsPending = 965.0
         loyaltyInfo.isAllowedToShopWithPoints = true
         loyaltyInfo.loyaltyMonetaryValue = UserLoyaltyMembershipInformation.LoyaltyMonetaryValue(Money("3285.14", "USD"))
         loyaltyInfo.loyaltyMonetaryValue.setApiFormattedPrice("$3,285.14")
@@ -332,13 +330,12 @@ class AccountSettingsFragmentTest {
         traveler.middleName = "Tier"
         traveler.lastName = "Rewards"
         traveler.email = "toptier@mobiata.com"
-        traveler.loyaltyPointsAvailable = 54206
-        traveler.loyaltyPointsPending = 5601
         user.primaryTraveler = traveler
 
         loyaltyInfo.isLoyaltyMembershipActive = true
         loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         loyaltyInfo.loyaltyPointsAvailable = 54206.0
+        loyaltyInfo.loyaltyPointsPending = 5601.0
         loyaltyInfo.isAllowedToShopWithPoints = true
         loyaltyInfo.loyaltyMonetaryValue = UserLoyaltyMembershipInformation.LoyaltyMonetaryValue(Money("7743.41", "USD"))
         loyaltyInfo.loyaltyMonetaryValue.setApiFormattedPrice("$7,743.41")

@@ -5,11 +5,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.user.User
-import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -153,12 +153,11 @@ class HotelSearchTest {
     private fun getUserWithSWPEnabled(): User {
         val user = User()
         val traveler = Traveler()
-        traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.primaryTraveler = traveler
-        var pointsAvailable = 4444.0
         val loyaltyInfo = UserLoyaltyMembershipInformation()
-        loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
+        loyaltyInfo.loyaltyPointsAvailable = 4444.0
         loyaltyInfo.isAllowedToShopWithPoints = true
+        loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.loyaltyMembershipInformation = loyaltyInfo
         return user
     }

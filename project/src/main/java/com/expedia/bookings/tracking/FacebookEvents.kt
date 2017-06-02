@@ -588,8 +588,8 @@ class FacebookEvents {
 
     private fun getLoyaltyTier(user: User?): String {
         val loyaltyTierNotAvailable = "N/A"
-        if (user?.primaryTraveler?.loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
-            return user?.primaryTraveler?.loyaltyMembershipTier?.toApiValue() ?: loyaltyTierNotAvailable
+        if (user?.loyaltyMembershipInformation?.loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
+            return user?.loyaltyMembershipInformation?.loyaltyMembershipTier?.toApiValue() ?: loyaltyTierNotAvailable
         }
         return loyaltyTierNotAvailable
     }

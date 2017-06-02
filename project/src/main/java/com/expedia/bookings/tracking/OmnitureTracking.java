@@ -81,6 +81,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripUtils;
 import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.OnboardingPagerState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -3242,13 +3243,19 @@ public class OmnitureTracking {
 	}
 
 	private static String getRewardsStatusString(User user) {
-		LoyaltyMembershipTier userTier = user.getPrimaryTraveler().getLoyaltyMembershipTier();
-		if (userTier == null || userTier == LoyaltyMembershipTier.NONE) {
-			return null;
+		UserLoyaltyMembershipInformation loyaltyInfo = user.getLoyaltyMembershipInformation();
+		LoyaltyMembershipTier userTier = null;
+		if (loyaltyInfo != null) {
+			userTier = loyaltyInfo.getLoyaltyMembershipTier();
 		}
-		else {
-			return userTier.toApiValue().toLowerCase(Locale.US);
+
+		if (userTier != null) {
+			String apiValue = userTier.toApiValue();
+			if (apiValue != null) {
+				return apiValue.toLowerCase(Locale.US);
+			}
 		}
+		return null;
 	}
 
 	private static void addDeepLinkData(ADMS_Measurement s) {

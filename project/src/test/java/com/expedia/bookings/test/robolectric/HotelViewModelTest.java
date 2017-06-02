@@ -30,6 +30,7 @@ import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.payment.PriceEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.test.MultiBrand;
@@ -537,7 +538,9 @@ public class HotelViewModelTest {
 		User user = new User();
 		Traveler traveler = new Traveler();
 		user.setPrimaryTraveler(traveler);
-		user.getPrimaryTraveler().setLoyaltyMembershipTier(LoyaltyMembershipTier.TOP);
+		UserLoyaltyMembershipInformation loyaltyInfo = new UserLoyaltyMembershipInformation();
+		loyaltyInfo.setLoyaltyMembershipTier(LoyaltyMembershipTier.TOP);
+		user.setLoyaltyMembershipInformation(loyaltyInfo);
 		return user;
 	}
 

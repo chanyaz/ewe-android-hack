@@ -60,7 +60,7 @@ class ShopWithPointsViewModelTest {
 
     @Test
     fun loggedInUserWithoutLoyaltyPoints() {
-        UserLoginTestUtil.setupUserAndMockLogin(mockUser())
+        UserLoginTestUtil.setupUserAndMockLogin(getUserEnrolledInRewardsWithNoPoints())
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
         val testObserver: TestSubscriber<Boolean> = TestSubscriber.create()
@@ -72,13 +72,7 @@ class ShopWithPointsViewModelTest {
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun loggedInUserWithLoyaltyPoints() {
-        val user = mockUser()
-        val loyaltyInfo = UserLoyaltyMembershipInformation()
-        val pointsAvailable = 4444.toDouble()
-        loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
-        loyaltyInfo.isAllowedToShopWithPoints = true
-        user.loyaltyMembershipInformation = loyaltyInfo
-        UserLoginTestUtil.setupUserAndMockLogin(user)
+        UserLoginTestUtil.setupUserAndMockLogin(getUserWithPointsToSpend())
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(context, paymentModel, userLoginStateChangedModel)
 
@@ -95,12 +89,7 @@ class ShopWithPointsViewModelTest {
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun loggedInUserWithChangingLoyaltyPoints() {
-        val user = mockUser()
-        val loyaltyInfo = UserLoyaltyMembershipInformation()
-        var pointsAvailable = 4444.0
-        loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
-        loyaltyInfo.isAllowedToShopWithPoints = true
-        user.loyaltyMembershipInformation = loyaltyInfo
+        val user = getUserWithPointsToSpend()
         UserLoginTestUtil.setupUserAndMockLogin(user)
 
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
@@ -116,14 +105,13 @@ class ShopWithPointsViewModelTest {
         assertTrue(testObserver.onNextEvents[0])
         assertEquals("You have 4,444 points", testPointsDetailStringObserver.onNextEvents[0])
 
-        pointsAvailable = 3600.0
-        loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
+        user.loyaltyMembershipInformation?.loyaltyPointsAvailable = 3600.0
         Db.setUser(user)
         userLoginStateChangedModel.userLoginStateChanged.onNext(true)
         assertTrue(testObserver.onNextEvents[1])
         assertEquals("You have 3,600 points", testPointsDetailStringObserver.onNextEvents[1])
 
-        loyaltyInfo.isAllowedToShopWithPoints = false
+        user.loyaltyMembershipInformation?.isAllowedToShopWithPoints = false
         Db.setUser(user)
         userLoginStateChangedModel.userLoginStateChanged.onNext(true)
         assertFalse(testObserver.onNextEvents[2])
@@ -145,11 +133,23 @@ class ShopWithPointsViewModelTest {
         assertEquals(context.getString(R.string.swp_on_widget_header), headerTestObservable.onNextEvents[2])
     }
 
-    private fun mockUser(): User {
+    private fun getUserEnrolledInRewardsWithNoPoints(): User {
         val user = User()
         val traveler = Traveler()
-        traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.primaryTraveler = traveler
+        val loyaltyInfo = UserLoyaltyMembershipInformation()
+        loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
+        loyaltyInfo.loyaltyPointsAvailable = 0.0
+        loyaltyInfo.loyaltyPointsPending = 0.0
+        loyaltyInfo.isLoyaltyMembershipActive = true
+        user.loyaltyMembershipInformation = loyaltyInfo
+        return user
+    }
+
+    private fun getUserWithPointsToSpend(): User {
+        val user = getUserEnrolledInRewardsWithNoPoints()
+        user.loyaltyMembershipInformation?.loyaltyPointsAvailable = 4444.0
+        user.loyaltyMembershipInformation?.isAllowedToShopWithPoints = true
         return user
     }
 }

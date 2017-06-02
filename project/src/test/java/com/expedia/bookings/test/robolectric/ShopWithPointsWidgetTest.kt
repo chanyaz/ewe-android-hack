@@ -39,11 +39,10 @@ class ShopWithPointsWidgetTest {
     fun pointsAvailableMessage() {
         val user = User()
         val traveler = Traveler()
-        traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
         user.primaryTraveler = traveler
         val loyaltyInfo = UserLoyaltyMembershipInformation()
-        val pointsAvailable = 1500.toDouble()
-        loyaltyInfo.loyaltyPointsAvailable = pointsAvailable
+        loyaltyInfo.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
+        loyaltyInfo.loyaltyPointsAvailable = 1500.0
         loyaltyInfo.isAllowedToShopWithPoints = true
         user.loyaltyMembershipInformation = loyaltyInfo
         UserLoginTestUtil.setupUserAndMockLogin(user)

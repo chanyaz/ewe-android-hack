@@ -484,14 +484,16 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
                 val numberFormatter = NumberFormat.getInstance()
                 if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
-                    availablePointsTextView.text = numberFormatter.format(member.loyaltyPointsAvailable)
+                    availablePointsTextView.text = numberFormatter.format(userLoyaltyInfo?.loyaltyPointsAvailable ?: 0)
                 } else {
                     availablePointsTextView.text = userLoyaltyInfo?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode
                 }
-                if (member.loyaltyPointsPending > 0) {
+
+                val pendingPoints = userLoyaltyInfo?.loyaltyPointsPending ?: 0.0
+                if (pendingPoints > 0) {
                     pendingPointsTextView.visibility = View.VISIBLE
                     pendingPointsTextView.text = getString(R.string.loyalty_points_pending,
-                            numberFormatter.format(member.loyaltyPointsPending))
+                            numberFormatter.format(pendingPoints))
                     pendingPointsTextView.contentDescription = pendingPointsTextView.text.toString() + Phrase.from(activity, R.string.pending_points_button).format().toString()
                 } else {
                     pendingPointsTextView.visibility = View.GONE
