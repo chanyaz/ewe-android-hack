@@ -175,8 +175,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultTransition = object : DefaultCheckoutTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
-                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
+                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!offerInsuranceInFlightSummary)
         }
     }
@@ -184,8 +184,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultToPayment = object : DefaultToPayment(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
-                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
+                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward && !offerInsuranceInFlightSummary)
         }
     }

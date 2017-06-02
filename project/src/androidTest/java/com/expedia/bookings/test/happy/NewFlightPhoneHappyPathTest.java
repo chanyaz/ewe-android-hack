@@ -27,7 +27,6 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -445,8 +444,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertInsuranceVisibilityTests() {
-		SettingUtils.save(getActivity().getApplicationContext(), R.string.preference_insurance_in_flight_summary, true);
-
 		// insurance visibility in flight summary screen (Abacus 12268)
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());
