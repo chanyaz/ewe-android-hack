@@ -87,6 +87,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
 			query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

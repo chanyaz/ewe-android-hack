@@ -81,6 +81,42 @@ class FlightSearchViewModelTest {
     }
 
     @Test
+    fun testFlightSearchDayWithDateAbacusTest() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        val expectedStartDate = DateUtils.localDateToEEEMMMd(startDate)
+        val expectedEndDate = DateUtils.localDateToEEEMMMd(endDate)
+
+        sut.datesUpdated(startDate, endDate)
+        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate - $expectedEndDate", sut.dateTextObservable.value)
+
+        sut.isRoundTripSearchObservable.onNext(false)
+        assertEquals(endDate, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
+
+        val newStartDate = LocalDate.now().plusDays(20)
+        val expectedNewStartDate = DateUtils.localDateToEEEMMMd(newStartDate)
+
+        sut.datesUpdated(newStartDate, null)
+        sut.isRoundTripSearchObservable.onNext(true)
+        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
+
+        sut.datesUpdated(null, null)
+        assertEquals("Select Dates", sut.dateTextObservable.value)
+
+        sut.isRoundTripSearchObservable.onNext(false)
+        assertEquals("Select departure date", sut.dateTextObservable.value)
+
+    }
+
+    @Test
     fun testParamsMissingDestination() {
         givenMockServer()
         givenDefaultTravelerComponent()

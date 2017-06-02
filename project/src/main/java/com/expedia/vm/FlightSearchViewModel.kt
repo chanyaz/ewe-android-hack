@@ -39,6 +39,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false
+    val showDaywithDate = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -276,7 +277,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
         if (isRoundTripSearchObservable.value) {
             val dateString = Phrase.from(context.resources, R.string.select_return_date_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(start))
+                    .put("startdate", getFormattedDate(start))
                     .format().toString()
             if (forContentDescription) {
                 return getDateAccessibilityText(context.getString(R.string.select_dates), dateString)
@@ -284,7 +285,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return dateString
         } else {
             val dateString = Phrase.from(context.resources, R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(start))
+                    .put("startdate", getFormattedDate(start))
                     .format().toString()
             if (forContentDescription) {
                 return getDateAccessibilityText(context.getString(R.string.select_dates), dateString)
@@ -295,8 +296,37 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
         if (forContentDescription) {
-            return getDateAccessibilityText(context.getString(R.string.select_dates), getStartToEndDateString(start, end))
+            val formattedDate = if (showDaywithDate) getStartToEndDateString(start, end) else getStartToEndDateWithDayString(start, end)
+            return getDateAccessibilityText(context.getString(R.string.select_dates), formattedDate)
         }
-        return getStartDashEndDateString(start, end)
+        if (showDaywithDate) {
+            return getStartDashEndDateWithDayString(start, end)
+        }
+        else {
+            return getStartDashEndDateString(start, end)
+        }
     }
+
+    fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+        return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+                .put("startdate", DateUtils.localDateToEEEMMMd(start))
+                .put("enddate", DateUtils.localDateToEEEMMMd(end))
+                .format().toString()
+    }
+
+    fun getFormattedDate(date: LocalDate?): String {
+        if (showDaywithDate) {
+            return DateUtils.localDateToEEEMMMd(date)
+        }
+        return DateUtils.localDateToMMMd(date)
+    }
+
+    protected fun getStartToEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
+        // need to explicitly use "to" for screen readers
+        return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
+                .put("startdate", DateUtils.localDateToEEEMMMd(start))
+                .put("enddate", DateUtils.localDateToEEEMMMd(end))
+                .format().toString()
+    }
+
 }

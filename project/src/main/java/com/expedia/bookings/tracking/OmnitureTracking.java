@@ -4681,6 +4681,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRetainSearchParams);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
 		s.track();
 	}
 
