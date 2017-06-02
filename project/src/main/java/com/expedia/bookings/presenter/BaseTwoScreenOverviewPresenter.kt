@@ -252,7 +252,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.mainContent.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
-            checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             trackShowBundleOverview()
         }
     }

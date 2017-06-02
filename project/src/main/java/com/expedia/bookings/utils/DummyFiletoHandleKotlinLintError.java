@@ -1075,6 +1075,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.pending_points_hotels_accessibility_TEMPLATE,
 		R.string.AmenityFreeInternet,
 		R.string.expand_room_info_cont_desc,
-		R.string.a11y_button_TEMPLATE
+		R.string.a11y_button_TEMPLATE,
+		R.string.invalid_flights_pos
 	};
 }

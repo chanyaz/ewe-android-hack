@@ -1,8 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
-
 import android.widget.FrameLayout
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
@@ -15,11 +13,11 @@ import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.mobiata.android.util.SettingUtils
+import com.expedia.ui.FlightActivity
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
+import org.robolectric.Robolectric
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
@@ -30,7 +28,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class FlightListAdapterTest {
 
-    val context = RuntimeEnvironment.application
+    val activity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
     lateinit var sut: FlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
@@ -48,12 +46,12 @@ class FlightListAdapterTest {
     }
 
     fun createSystemUnderTest() {
-        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClass)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClass)
     }
 
     @Test
     fun allFlightsHeaderNotShownForFlightsLOB() {
-        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClass)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClass)
         sut.setNewFlights(emptyList())
 
         val itemViewType = sut.getItemViewType(1)
@@ -104,7 +102,7 @@ class FlightListAdapterTest {
     fun getFlightViewModel() {
         createSystemUnderTest()
         createExpectedFlightLeg()
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         assertEquals(flightLeg, flightViewModel.layover)
     }
 
@@ -123,18 +121,17 @@ class FlightListAdapterTest {
     }
 
     private fun configurePointOfSale() {
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_airline_payment_fees.json")
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_airline_payment_fees.json")
     }
 
     private fun createHeaderViewHolder(): AbstractFlightListAdapter.HeaderViewHolder {
-        return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal) as AbstractFlightListAdapter.HeaderViewHolder
+        return sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal) as AbstractFlightListAdapter.HeaderViewHolder
     }
 
     @Test
     fun testAdjustPositionShowingPackageBanner() {
-        SettingUtils.save(context, R.string.preference_cross_sell_package_on_fsr, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
-        PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json")
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
         isOutboundSearch = true
         flightCabinClass = FlightServiceClassType.CabinCode.COACH.name

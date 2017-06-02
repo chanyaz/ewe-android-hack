@@ -111,9 +111,7 @@ class PackageConfirmationViewModel(private val context: Context) {
 
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
-                if (context is PackageActivity) {
-                    activity.setResult(Activity.RESULT_OK)
-                }
+                activity.setResult(Activity.RESULT_OK)
                 activity.finish()
             }
 
