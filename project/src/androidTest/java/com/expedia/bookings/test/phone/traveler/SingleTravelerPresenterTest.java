@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -8,6 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUser;
@@ -115,8 +117,37 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
 		PackageScreen.clickTravelerDone();
-		assertEquals(testTravelerDefault.getContentDescription(), "Traveler Information Complete");
+		String today = new LocalDate().withYear(1999).toString("MM/dd/yyyy");
+		assertEquals("Oscar Grouch, " + today + ", traveler details complete. Button.", testTravelerDefault.getContentDescription());
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
+	}
+
+	@Test
+	public void testTravelerCardContentDescription () throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(1);
+				testTravelersPresenter.setViewModel(mockViewModel);
+				mockViewModel.getTravelersCompletenessStatus().onNext(TravelerCheckoutStatus.CLEAN);
+				Common.delay(1);
+
+				assertEquals("Traveler Details Button", testTravelerDefault.getContentDescription().toString());
+
+				mockViewModel = getMockViewModelIncompleteTravelers(1);
+				mockViewModel.getTravelersCompletenessStatus().onNext(TravelerCheckoutStatus.DIRTY);
+				Common.delay(1);
+
+				assertEquals("Oscar Error: Enter missing traveler details. Button.", testTravelerDefault.getContentDescription());
+
+				mockViewModel = getMockViewModelValidTravelers(1);
+				mockViewModel.getTravelersCompletenessStatus().onNext(TravelerCheckoutStatus.COMPLETE);
+				Common.delay(1);
+				String today = new LocalDate().withYear(1999).toString("MM/dd/yyyy");
+
+				assertEquals("Oscar Grouch, " + today + ", traveler details complete. Button.", testTravelerDefault.getContentDescription());
+			}
+		});
 	}
 
 	@Test

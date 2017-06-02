@@ -137,4 +137,19 @@ class HotelCheckoutTest: HotelTestCase() {
         
         CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
+
+    @Test
+    fun testTravelerCardContentDescription() {
+        SearchScreen.doGenericHotelSearch()
+        HotelScreen.selectHotel("happypath")
+        HotelScreen.clickSelectRoom()
+        HotelScreen.selectRoom()
+        CheckoutViewModel.waitForCheckout()
+        CheckoutViewModel.clickDone()
+
+        CheckoutViewModel.travelerInfo().check(matches(ViewMatchers.withContentDescription(" Error: Enter missing traveler details. Button.")))
+
+        CheckoutViewModel.enterTravelerInfo()
+        CheckoutViewModel.travelerInfo().check(matches(ViewMatchers.withContentDescription("FiveStar Bear, 4158675309, traveler details complete. Button.")))
+    }
 }

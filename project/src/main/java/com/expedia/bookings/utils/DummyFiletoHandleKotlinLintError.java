@@ -505,6 +505,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.bundle_slide_widget,
 		R.drawable.scratchpad_intro_placeholder,
 		R.layout.widget_base_flight_search,
+		R.string.traveler_details_complete_cont_desc_TEMPLATE,
 		R.string.hotel_free_cancellation_TEMPLATE,
 		R.string.passport_country_colon,
 		R.array.hoursList,
