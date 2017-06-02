@@ -10,6 +10,7 @@ import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
 abstract class BaseTravelerPickerViewModel(var context: Context) {
     val adultTextObservable = BehaviorSubject.create<String>()
@@ -30,6 +31,7 @@ abstract class BaseTravelerPickerViewModel(var context: Context) {
     val childMinusObservable = BehaviorSubject.create<Boolean>()
     val adultTravelerCountChangeObservable = BehaviorSubject.create<Unit>()
     val childTravelerCountChangeObservable = BehaviorSubject.create<Unit>()
+    val travelerSelectedObservable = PublishSubject.create<Unit>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->
