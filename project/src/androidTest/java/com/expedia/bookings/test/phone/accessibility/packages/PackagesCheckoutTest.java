@@ -26,8 +26,8 @@ public class PackagesCheckoutTest extends PackageTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, , Traveler names must match government-issued photo ID exactly.")));
-		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, , Traveler names must match government-issued photo ID exactly.")));
+		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, , ")));
+		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, , ")));
 		onView(withId(R.id.edit_email_address)).check(matches(withInfoText(" Email Address (for confirmation), , ")));
 		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, , ")));
 		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth, , ")));
@@ -37,8 +37,8 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		Common.pressBack();
 
 		PackageScreen.enterTravelerInfo();
-		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, FiveStar, Traveler names must match government-issued photo ID exactly.")));
-		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, Bear, Traveler names must match government-issued photo ID exactly.")));
+		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, FiveStar, ")));
+		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, Bear, ")));
 		onView(withId(R.id.edit_email_address))
 			.check(matches(withInfoText(" Email Address (for confirmation), noah@mobiata.com, ")));
 		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, 7732025862, ")));
