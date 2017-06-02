@@ -32,6 +32,9 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
 		initializeFeatureCheck(R.string.preference_insurance_in_flight_summary);
 		//hotel features
+
+		//trips features
+		initializeFeatureCheck(R.string.preference_share_button_remove_calendar);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {
