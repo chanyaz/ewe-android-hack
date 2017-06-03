@@ -2181,7 +2181,7 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackItin() {
+	public static void trackItin(PageUsableData pageLoadTimeData) {
 		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
 		if (userStateManager.isUserAuthenticated()) {
@@ -2203,13 +2203,9 @@ public class OmnitureTracking {
 		if (!getUsersTrips().isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
 		}
-		s.track();
-	}
-
-	public static void trackItinPageUsablePerformance(PageUsableData pageLoadTimeData) {
-		Log.d(TAG, "Tracking \"" + ITIN + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN);
-		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
+		if (pageLoadTimeData != null) {
+			addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
+		}
 		s.track();
 	}
 

@@ -291,8 +291,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				&& getItineraryManagerInstance().getItinCardData().size() > 0)) {
 				if (itinPageUsablePerformanceModel.hasStartTime()) {
 					itinPageUsablePerformanceModel.markTripResultsUsable(System.currentTimeMillis());
-					OmnitureTracking
-						.trackItinPageUsablePerformance(itinPageUsablePerformanceModel.getTripLoadPageUsableData());
+					OmnitureTracking.trackItin(itinPageUsablePerformanceModel.getTripLoadPageUsableData());
 				}
 			}
 		}

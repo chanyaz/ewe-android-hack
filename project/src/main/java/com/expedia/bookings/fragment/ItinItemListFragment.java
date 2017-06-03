@@ -744,7 +744,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				//we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
-					OmnitureTracking.trackItin();
+					OmnitureTracking.trackItin(null);
 				}
 
 			}
