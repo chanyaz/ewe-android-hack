@@ -29,6 +29,7 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.RailServices;
+import com.expedia.bookings.unit.rail.RailCheckoutParamsMock;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -36,7 +37,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockWebServer;
-import com.expedia.bookings.unit.rail.RailCheckoutParamsMock;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -45,7 +45,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class RailServicesTest {
+public class RailServicesHmacTest {
 
 	@Rule
 	public MockWebServer server = new MockWebServer();
@@ -62,7 +62,7 @@ public class RailServicesTest {
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
 		service = new RailServices("http://localhost:" + server.getPort(), new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, interceptor, interceptor, false, Schedulers.immediate(), Schedulers.immediate());
+			interceptor, interceptor, interceptor, true, Schedulers.immediate(), Schedulers.immediate());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);

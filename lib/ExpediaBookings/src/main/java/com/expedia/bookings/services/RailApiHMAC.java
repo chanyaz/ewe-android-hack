@@ -17,22 +17,22 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
-public interface RailApi {
+public interface RailApiHMAC {
 
-	@POST("rails/shop/search")
+	@POST("/m/api/rail/search")
 	Observable<RailSearchResponse> railSearch(@Body RailApiSearchModel railSearchRequest);
 
-	@POST("rails/domain/trip/createTrip")
+	@POST("/m/api/rail/trip")
 	Observable<RailCreateTripResponse> railCreateTrip(@Body RailCreateTripRequest createTripRequest);
 
-	@POST("rails/trip/checkout")
+	@POST("/m/api/rail/checkout")
 	Observable<RailCheckoutResponseWrapper> railCheckout(@Body RailCheckoutParams params);
 
-	@GET("rails/domain/static/RailCards")
+	@GET("m/api/rail/railcards")
 	Observable<RailCardsResponse> railCards(@Query("locale") String locale);
 
 	@FormUrlEncoded
-	@POST("rails/trip/cardFee")
+	@POST("/m/api/rail/cardfee")
 	Observable<CardFeeResponse> cardFees(@Field("tripId") String tripId,
 		@Field("creditCardId") String creditCardId,
 		@Field("tdoToken") String tdoToken);

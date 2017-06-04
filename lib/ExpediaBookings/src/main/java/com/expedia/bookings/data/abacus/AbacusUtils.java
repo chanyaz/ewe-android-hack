@@ -43,6 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFreeCancellationTooltip = 14513;
 	public static final int EBAndroidAppSignUpStringNonAPAC = 14215;
 	public static final int EBAndroidAppSignUpStringAPAC = 14218;
+	public static final int EBAndroidAppAPIMAuth = 14654;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -190,6 +191,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelSuperSearch);
 		testIDs.add(EBAndroidAppSignUpStringNonAPAC);
 		testIDs.add(EBAndroidAppSignUpStringAPAC);
+		testIDs.add(EBAndroidAppAPIMAuth);
 		return testIDs;
 	}
 

@@ -24,7 +24,7 @@ import rx.Subscription
 import java.util.UUID
 import java.util.Collections
 
-open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, hmacInterceptor: Interceptor? = null, val isUserBucketedInAPIMAuth: Boolean, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     // "Session" Good enough for MVP.
     val userSession = UUID.randomUUID().toString().replace("-".toRegex(), "")
@@ -32,6 +32,7 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
     var subscription: Subscription? = null
 
     val railApi by lazy {
+
         val adapter = Retrofit.Builder()
                 .baseUrl(endpoint)
                 .addConverterFactory(buildRailGsonConverter())
@@ -42,11 +43,23 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
         adapter.create(RailApi::class.java)
     }
 
+    val railApiHmac by lazy {
+
+        val adapter = Retrofit.Builder()
+                .baseUrl(endpoint)
+                .addConverterFactory(buildRailGsonConverter())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(hmacInterceptor).build())
+                .build()
+
+        adapter.create(RailApiHMAC::class.java)
+    }
+
     fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
         cancel()
         params.messageInfo = generateMessageInfo()
-        val subscription = railApi.railSearch(params)
-                .doOnNext(BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE)
+        val observable = if (isUserBucketedInAPIMAuth) railApiHmac.railSearch(params) else railApi.railSearch(params)
+        val subscription = observable.doOnNext(BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
@@ -88,8 +101,8 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
         cancel()
         val request = RailCreateTripRequest(railOfferTokens)
         request.messageInfo = generateMessageInfo()
-        val subscription = railApi.railCreateTrip(request)
-                .subscribeOn(subscribeOn)
+        val observable = if (isUserBucketedInAPIMAuth) railApiHmac.railCreateTrip(request) else railApi.railCreateTrip(request)
+        val subscription = observable.subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
         this.subscription = subscription
@@ -99,8 +112,8 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
     fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponseWrapper>): Subscription {
         cancel()
         params.messageInfo = generateMessageInfo()
-        val subscription = railApi.railCheckout(params)
-                .subscribeOn(subscribeOn)
+        val observable = if (isUserBucketedInAPIMAuth) railApiHmac.railCheckout(params) else railApi.railCheckout(params)
+        val subscription = observable.subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
         this.subscription = subscription
@@ -109,8 +122,8 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
     open fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
         cancel()
-        val subscription = railApi.railCards(locale)
-                .subscribeOn(subscribeOn)
+        val observable = if (isUserBucketedInAPIMAuth) railApiHmac.railCards(locale) else railApi.railCards(locale)
+        val subscription = observable.subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
         this.subscription = subscription
@@ -119,8 +132,8 @@ open class RailServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 
     fun railGetCardFees(tripId: String, creditCardId: String, ticketDeliveryOption: String, observer: Observer<CardFeeResponse>): Subscription {
         cancel()
-        val subscription = railApi.cardFees(tripId, creditCardId, ticketDeliveryOption)
-                .observeOn(observeOn)
+        val observable = if (isUserBucketedInAPIMAuth) railApiHmac.cardFees(tripId, creditCardId, ticketDeliveryOption) else railApi.cardFees(tripId, creditCardId, ticketDeliveryOption)
+        val subscription = observable.observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
         this.subscription = subscription

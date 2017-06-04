@@ -91,28 +91,27 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 class RailApiRequestMatcher {
     companion object {
         fun isRailApiRequest(urlPath: String): Boolean {
-            return urlPath.startsWith("/rails") || urlPath.startsWith("/shop") || urlPath.startsWith("/trip") ||
-                    urlPath.startsWith("/domain/trip") || urlPath.startsWith("/domain/static")
+            return urlPath.startsWith("/rails") || urlPath.startsWith("/m/api/rail")
         }
 
         fun isRailApiSearchRequest(urlPath: String): Boolean {
-            return doesItMatch("^/shop/search.*$", urlPath)
+            return doesItMatch("^/rails/shop/search.*$", urlPath) || doesItMatch("^/m/api/rail/search.*$", urlPath)
         }
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/domain/trip/createTrip.*$", urlPath)
+            return doesItMatch("^/rails/domain/trip/createTrip.*$", urlPath) || doesItMatch("^/m/api/rail/trip.*$", urlPath)
         }
 
         fun isRailApiCheckoutRequest(urlPath: String): Boolean {
-            return doesItMatch("^/trip/checkout.*$", urlPath)
+            return doesItMatch("^/rails/trip/checkout.*$", urlPath) || doesItMatch("^/m/api/rail/checkout.*$", urlPath)
         }
 
         fun isRailApiCardsRequest(urlPath: String): Boolean {
-            return doesItMatch("^/domain/static/RailCards.*$", urlPath)
+            return doesItMatch("^/rails/domain/static/RailCards.*$", urlPath) || doesItMatch("^/m/api/rail/railcards.*$", urlPath)
         }
 
         fun isRailApiCardFeeRequest(urlPath: String): Boolean {
-            return doesItMatch("^/trip/cardFee.*$", urlPath)
+            return doesItMatch("^/rails/trip/cardFee.*$", urlPath) || doesItMatch("^/m/api/rail/cardfee.*$", urlPath)
         }
     }
 }

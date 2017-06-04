@@ -41,6 +41,8 @@
     <!-- Rails api key -->
     <string name="rails_prod_api_key">5b4e726f-abe4-4f3f-aad3-0dc9e48e7ea6</string>
 
+    <string name="rails_k">R(Y_O/y]tn)z/m-O</string>
+
     <!-- Gaia api key -->
     <string name="gaia_prod_api_key">8c6e14d4-7e69-41b3-aa60-601a7f6dc971</string>
 
@@ -410,4 +412,5 @@
     <string name="alpha_numeric_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
 
     <string name="server_change_message">Changing the server requires a restart. By clicking OK, the app will close and relaunch</string>
+    <string name="rails_u">fe627e29-3afb-4384-9fc0-a1d2a4dcd30c</string>
 </resources>
