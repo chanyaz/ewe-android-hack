@@ -7,10 +7,13 @@ import javax.inject.Named;
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.RailScope;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.RailCardFeeServiceProvider;
 import com.expedia.bookings.services.RailServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.utils.HMACUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.vm.PaymentViewModel;
 
@@ -29,9 +32,10 @@ public final class RailModule {
 	@Provides
 	@RailScope
 	RailServices provideRailServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor,
-		@Named("RailInterceptor") Interceptor railRequestInterceptor) {
-		return new RailServices(endpointProvider.getRailEndpointUrl(), client, interceptor, railRequestInterceptor,
-			AndroidSchedulers.mainThread(), Schedulers.io());
+		@Named("RailInterceptor") Interceptor railRequestInterceptor, @Named("HmacInterceptor") Interceptor hmacInterceptor) {
+		boolean isUserBucketedInAPIMAuth = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppAPIMAuth);
+		return new RailServices(endpointProvider.getRailEndpointUrl(), client, interceptor, railRequestInterceptor, hmacInterceptor, isUserBucketedInAPIMAuth,
+				AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides
@@ -66,6 +70,25 @@ public final class RailModule {
 			public Response intercept(Interceptor.Chain chain) throws IOException {
 				Request.Builder request = chain.request().newBuilder();
 				request.addHeader("key", ServicesUtil.getRailApiKey(context));
+				Response response = chain.proceed(request.build());
+				return response;
+			}
+		};
+	}
+
+	@Provides
+	@RailScope
+	@Named("HmacInterceptor")
+	Interceptor provideHmacInterceptor(final Context context, final EndpointProvider endpointProvider) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				Request.Builder request = chain.request().newBuilder();
+				String xDate = HMACUtil.Companion.getXDate();
+				String salt = HMACUtil.Companion.generateSalt(15);
+				request.addHeader("Authorization", HMACUtil.Companion.getAuthorization(context, chain.request().url(), chain.request().method(), xDate, salt));
+				request.addHeader("x-date", xDate);
+				request.addHeader("salt", salt);
 				Response response = chain.proceed(request.build());
 				return response;
 			}

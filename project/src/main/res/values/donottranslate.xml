@@ -41,6 +41,9 @@
     <!-- Rails api key -->
     <string name="rails_prod_api_key">5b4e726f-abe4-4f3f-aad3-0dc9e48e7ea6</string>
 
+    <string name="hmac_secret_key">R(Y_O/y]tn)z/m-O</string>
+    <string name="hmac_user_name">fe627e29-3afb-4384-9fc0-a1d2a4dcd30c</string>
+
     <!-- Gaia api key -->
     <string name="gaia_prod_api_key">8c6e14d4-7e69-41b3-aa60-601a7f6dc971</string>
 

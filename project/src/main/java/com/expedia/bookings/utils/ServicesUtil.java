@@ -152,6 +152,14 @@ public class ServicesUtil {
 			return context.getResources().getString(R.string.rails_prod_api_key);
 	}
 
+	public static String getHmacSecretKey(Context context) {
+		return context.getResources().getString(R.string.hmac_secret_key);
+	}
+
+	public static String getHmacUserName(Context context) {
+		return context.getResources().getString(R.string.hmac_user_name);
+	}
+
 	public static String getGaiaApiKey(Context context) {
 		return context.getResources().getString(R.string.gaia_prod_api_key);
 	}

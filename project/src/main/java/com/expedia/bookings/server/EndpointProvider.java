@@ -138,14 +138,11 @@ public class EndpointProvider {
 		case MOCK_MODE:
 			endpoint = getCustomServerAddress();
 			break;
-		case INTEGRATION:
-			endpoint = "https://apim.int.expedia.com/rails/";
-			break;
 		case PRODUCTION:
-			endpoint = "https://apim.expedia.com/rails/";
+			endpoint = "https://apim.expedia.com/";
 			break;
 		default:
-			endpoint = "https://apim.int.expedia.com/rails/test/";
+			endpoint = "https://apim.int.expedia.com/";
 
 		}
 		return endpoint;
