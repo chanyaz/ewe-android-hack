@@ -35,7 +35,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
 
     val userFilterChoices = UserFilterChoices()
-    val stopsObservable = PublishSubject.create<TreeMap<Stops, Int>>()
+    val stopsObservable = BehaviorSubject.create<TreeMap<Stops, Int>>()
     val airlinesObservable = PublishSubject.create<TreeMap<String, Int>>()
     val airlinesExpandObservable = BehaviorSubject.create<Boolean>()
     val newDurationRangeObservable = PublishSubject.create<DurationRange>()

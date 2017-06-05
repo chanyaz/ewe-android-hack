@@ -205,11 +205,18 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             stopsContainer.removeAllViews()
             if (sortedMap != null && !sortedMap.isEmpty()) {
                 stopsLabel.visibility = VISIBLE
-                for (key in sortedMap.keys) {
+                if (sortedMap.size == 1) {
+                    val key = sortedMap.firstKey()
                     val view = Ui.inflate<LabeledCheckableFilter<Int>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
-                    view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap[key], vm.selectStop)
-                    view.subscribeOnClick(view.checkObserver)
+                    view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap[key])
                     stopsContainer.addView(view)
+                } else {
+                    for (key in sortedMap.keys) {
+                        val view = Ui.inflate<LabeledCheckableFilter<Int>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
+                        view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap[key], vm.selectStop)
+                        view.subscribeOnClick(view.checkObserver)
+                        stopsContainer.addView(view)
+                    }
                 }
             } else {
                 stopsLabel.visibility = GONE
@@ -322,13 +329,19 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun LinearLayout.clearChecks() {
-        for (i in 0..childCount - 1) {
-            val v = getChildAt(i)
-            if (v is LabeledCheckableFilter<*> && v.checkBox.isChecked) {
-                v.checkBox.isChecked = false
+        if (id == R.id.stops_container && hasOnlyOneStopOption()) {
+            return
+        } else {
+            for (i in 0..childCount - 1) {
+                val v = getChildAt(i)
+                if (v is LabeledCheckableFilter<*> && v.checkBox.isChecked) {
+                    v.checkBox.isChecked = false
+                }
             }
         }
     }
+
+    private fun hasOnlyOneStopOption() = (viewModelBase.stopsObservable.value.size == 1)
 
     fun trackFlightSortBy(sort: FlightFilter.Sort) {
         if (viewModelBase.lob == LineOfBusiness.PACKAGES) {

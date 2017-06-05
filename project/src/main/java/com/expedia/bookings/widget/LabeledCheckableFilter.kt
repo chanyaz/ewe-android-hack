@@ -3,7 +3,6 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.CheckBox
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.expedia.bookings.R
@@ -35,8 +34,32 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
         refreshContentDescription()
     }
 
+    fun bind(filterName: String, filterValue: T, filterResults: Int?) {
+        stopsLabel.text = filterName
+        value = filterValue
+        resultsLabel.text = filterResults.toString()
+        checkBox.isChecked = true
+        checkBox.isEnabled = false
+        setDisabledContentDescription()
+        this.isClickable = false
+    }
+
     fun refreshContentDescription() {
         var contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_cont_desc_TEMPLATE)
+                .put("filter_name", stopsLabel.text)
+                .put("filter_results", resultsLabel.text)
+                .format().toString())
+        if (checkBox.isChecked) {
+            contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_checked))
+        }
+        else {
+            contentDesc.append(context.getString(R.string.accessibility_cont_desc_role_checkbox_unchecked))
+        }
+        this.contentDescription = contentDesc
+    }
+
+    fun setDisabledContentDescription() {
+        val contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_diabled_cont_desc_TEMPLATE)
                 .put("filter_name", stopsLabel.text)
                 .put("filter_results", resultsLabel.text)
                 .format().toString())

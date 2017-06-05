@@ -1,12 +1,16 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
+import android.view.LayoutInflater
+import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.widget.BaseFlightFilterWidget
+import com.expedia.bookings.widget.LabeledCheckableFilter
 import com.expedia.vm.BaseFlightFilterViewModel
 import org.joda.time.DateTime
 import org.junit.Before
@@ -15,21 +19,25 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightFilterViewModelTest {
     var vm: BaseFlightFilterViewModel by Delegates.notNull()
+    private var widget: BaseFlightFilterWidget by Delegates.notNull()
 
     @Before
     fun before() {
-        vm = BaseFlightFilterViewModel(getContext(), LineOfBusiness.FLIGHTS_V2)
+        widget = LayoutInflater.from(getContext()).inflate(R.layout.flight_filter_widget_test, null) as BaseFlightFilterWidget
+        widget.viewModelBase = BaseFlightFilterViewModel(getContext(), LineOfBusiness.FLIGHTS_V2)
+        vm = widget.viewModelBase
     }
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
-
 
     @Test
     fun sortByPrice() {
@@ -67,9 +75,27 @@ class FlightFilterViewModelTest {
         }
     }
 
+    @Test
+    fun testDisabledStopsOption() {
+        vm.filteredList = getFlightList()
+        vm.flightResultsObservable.onNext(vm.filteredList)
+
+        assertEquals(widget.stopsContainer.childCount, 1)
+
+        val filterOption = widget.stopsContainer.getChildAt(0) as LabeledCheckableFilter<Int>
+
+        assertFalse(filterOption.isClickable)
+
+        val checkbox = filterOption.checkBox
+
+        assertFalse(checkbox.isEnabled)
+        assertTrue(checkbox.isChecked)
+    }
+
     private fun getFlightList(): List<FlightLeg> {
         val list = ArrayList<FlightLeg>()
         val flightLeg1 = FlightLeg()
+        flightLeg1.carrierName = "American Airlines"
         flightLeg1.elapsedDays = 1
         flightLeg1.durationHour = 19
         flightLeg1.durationMinute = 10
@@ -82,6 +108,7 @@ class FlightFilterViewModelTest {
         flightLeg1.packageOfferModel.price.packageTotalPrice = Money("200", "USD")
 
         val flightLeg2 = FlightLeg()
+        flightLeg2.carrierName = "American Airlines"
         flightLeg2.durationHour = 19
         flightLeg2.durationMinute = 0
         flightLeg2.departureDateTimeISO = "2016-09-07T01:20:00.000-05:00"
@@ -92,6 +119,7 @@ class FlightFilterViewModelTest {
         flightLeg2.packageOfferModel.price.packageTotalPrice = Money("300", "USD")
 
         val flightLeg3 = FlightLeg()
+        flightLeg3.carrierName = "American Airlines"
         flightLeg3.durationHour = 18
         flightLeg3.durationMinute = 0
         flightLeg3.departureDateTimeISO = "2016-09-07T21:20:00.000-05:00"
