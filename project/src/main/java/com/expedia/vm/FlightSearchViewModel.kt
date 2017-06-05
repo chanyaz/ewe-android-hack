@@ -48,6 +48,15 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
 
+    val searchSubscription = searchParamsObservable.subscribe {
+        if (controlPageUsableData.isTimerAborted()) {
+            FlightsV2Tracking.trackFlightsSearchFieldsChanged()
+        } else {
+            controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+            FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
+        }
+    }
+
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
 
@@ -92,15 +101,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             }
         }
 
-        searchParamsObservable.subscribe {
-            if (controlPageUsableData.isTimerAborted()) {
-                FlightsV2Tracking.trackFlightsSearchFieldsChanged()
-            } else {
-                controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-                FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
-            }
-        }
-
         previousSearchParamsObservable.subscribe { params ->
             setupViewModelFromPastSearch(params)
         }
@@ -116,6 +116,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
                 FlightSearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
+            searchSubscription.unsubscribe()
         } else {
             if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
                 stepByStepSearchFormValidation()
