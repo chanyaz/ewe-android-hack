@@ -230,3 +230,77 @@ Feature: Package Search
       | source          | SFO |
       | travel_date     |  10 |
       | Total_Travelers |   4 |
+
+  @Packages @PackageSearch @Prod
+  Scenario: Intercept getPackages API call after hitting search button and validate request paramaters
+    Given I launch the App
+    And I want to intercept these calls for packages
+      | GetPackagesV1 |
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                            |
+      | destination         | LAS                            |
+      | source_suggest      | SFO - San Francisco Intl.      |
+      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 20                             |
+      | end_date            | 30                             |
+      | adults              | 2                              |
+      | child               | 2                              |
+    Then Validate the getPackages API request query data for following parameters for packages
+      | forceNoRedir                | 1                          |
+      | packageType                 | fh                         |
+    Then Validate the getPackages API request form data for following parameters
+      | fromDate                | 20                          |
+      | destinationId           | 800045                      |
+      | ttla                    | LAS                         |
+      | ftla                    | SFO                         |
+      | packageTripType         | 2                           |
+      | adultsPerRoom[1]        | 2                           |
+      | numberOfRooms           | 1                           |
+      | toDate                  | 30                          |
+      | originId                | 178305                      |
+      | childrenPerRoom[1]      | 2                           |
+      | childAges[1][1]         | 10                          |
+      | childAges[1][2]         | 10                          |
+
+
+  @Packages @PackageSearch @Prod
+  Scenario: Verify search form selection are retained for packages
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    When I make a packages search with following parameters
+      | source              | SFO                            |
+      | destination         | LAS                            |
+      | source_suggest      | SFO - San Francisco Intl.      |
+      | destination_suggest | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 15                             |
+      | end_date            | 20                             |
+      | adults              | 2                              |
+      | child               | 2                              |
+    And validate HSR screen is displayed with following travel dates and travelers
+      | start_date      | 15 |
+      | end_date        | 20 |
+      | Total_Travelers |  4 |
+    And I press back
+    Then Validate that Package Overview screen is displayed
+    And I press back
+    Then Validate search form retains details of search for packages
+      | source              | SFO - San Francisco Intl.      |
+      | destination         | Las Vegas Strip, Las Vegas, NV |
+      | start_date          | 15                             |
+      | end_date            | 20                             |
+      | numberOfNights      | (5 nights)                     |
+      | totalTravelers      | 4 Travelers                    |
+
+  @Packages @PackageSearch @Prod
+  Scenario: Validate Search form Default state for packages
+    Given I launch the App
+    And I launch "Bundle Deals" LOB
+    And I press back
+    And I press back
+    Then Validate toolbar title is "Hotel + Flight" for packages
+    Then Validate search form default state for packages
+      | source              | Flying from      |
+      | destination         | Flying to        |
+      | calendar            | Select Dates     |
+      | totalTravelers      | 1 Traveler       |

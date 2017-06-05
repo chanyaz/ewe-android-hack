@@ -2,6 +2,8 @@ package com.expedia.bookings.test.stepdefs.phone.bundleDeals;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -13,15 +15,22 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.CommonSteps;
 import com.expedia.bookings.test.stepdefs.phone.flights.TestUtilFlights;
+import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
+import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
+
+import junit.framework.Assert;
 
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -34,6 +43,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
+import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -45,6 +55,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.getString;
 
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
+import static com.expedia.bookings.test.stepdefs.phone.CommonSteps.validateRequestParams;
 import static org.hamcrest.CoreMatchers.not;
 
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
@@ -53,8 +64,21 @@ import static org.hamcrest.core.AllOf.allOf;
 
 
 public class SearchScreenSteps {
-	@When("^I enter source and destination for packages$")
 
+	private ApiRequestData apiRequestData;
+
+	@And("^I want to intercept these calls for packages$")
+	public void interceptApiCalls1(List<String> apiCallsAliases) throws Throwable {
+		StepDefUtils.interceptApiCalls(apiCallsAliases, new Function1<ApiRequestData, Unit>() {
+			@Override
+			public Unit invoke(ApiRequestData apiRequestData) {
+				SearchScreenSteps.this.apiRequestData = apiRequestData;
+				return null;
+			}
+		}, null);
+	}
+
+	@When("^I enter source and destination for packages$")
 	public void enterSourceAndDestinationForPackages(Map<String, String> parameters)
 		throws Throwable {
 
@@ -157,7 +181,7 @@ public class SearchScreenSteps {
 	}
 	@Then("^I select first room$")
 	public void selectRoom() throws Throwable {
-		PackageScreen.selectRoom();
+		PackageScreen.selectFirstRoom();
 	}
 	//String ignore1=(outbound?|inbound), ignore2=(destination|source)
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
@@ -191,6 +215,30 @@ public class SearchScreenSteps {
 	public void validateCheckoutScreenVisible() throws Throwable {
 		onView(withId(R.id.login_widget)).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
+
+	@Then("^I type \"(.*?)\" and select the location \"(.*?)\"$")
+	public void validateTypeAheadCallTrigerred(String query, String location) throws Throwable {
+		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+		SearchScreen.selectLocation(location);
+		//Assert.assertNotNull(apiRequestData);
+	}
+
+	@Then("^Validate that no typeahead call is trigerred for packages$")
+	public void validateNoTypeAheadCallTrigerred() throws Throwable {
+		Common.delay(5);
+		Assert.assertEquals(null, apiRequestData);
+	}
+
+	@Then("^Validate the \"(.*?)\" API request query params for following parameters for packages")
+	public void validateRequestQueryData(String type, Map<String, String> expParameters) throws Throwable {
+		validateRequestParams(expParameters, apiRequestData);
+	}
+
+	@Then("^Validate the getPackages API request query data for following parameters for packages")
+	public void validateGetPackageRequest(Map<String, String> expParameters) throws Throwable {
+		validateRequestParams(expParameters, apiRequestData);
+	}
+
 	private void selectTravelers(Map<String, String> parameters) {
 		int adult = Integer.parseInt(parameters.get("adults"));
 		int child = Integer.parseInt(parameters.get("child"));
@@ -279,4 +327,66 @@ public class SearchScreenSteps {
 			withId(R.id.hotels_card_view_text)))
 			.check(matches(allOf(withText(containsString(name)))));
 	}
+
+	@Then("^Validate the getPackages API request form data for following parameters")
+	public void validateGetPackagesRequestFormData(Map<String, String> expParameters) throws Throwable {
+
+		HashMap<String, String> modifiableExpParameters = new HashMap<>();
+		modifiableExpParameters.putAll(expParameters);
+		Format dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		if (modifiableExpParameters.get("fromDate") != null ) {
+			LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("fromDate")));
+			modifiableExpParameters.put("fromDate", dateFormatter.format(stDate.toDate()).toString());
+		}
+		if (modifiableExpParameters.get("toDate") != null ) {
+			LocalDate returnDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("toDate")));
+			modifiableExpParameters.put("toDate", dateFormatter.format(returnDate.toDate()).toString());
+		}
+		for (Map.Entry<String, String> entry : modifiableExpParameters.entrySet()) {
+			Assert.assertEquals(entry.getValue() , apiRequestData.getFormData().get(entry.getKey()));
+		}
+	}
+
+	@Then("^Validate that Package Overview screen is displayed")
+	public void isDisplayedPackageOverviewScreen() throws Throwable {
+		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget)))).perform(waitForViewToDisplay()).check(matches(withText("Step 1: Select Hotel")));
+	}
+
+	private String getDateInMMMdd(String days) {
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
+		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
+		String monthDate = dateFormatter.format(startDate.toDate()).toString();
+		return monthDate;
+	}
+	@Then("^Validate search form retains details of search for packages")
+	public void validateSearchFormDetails(Map<String, String> expParameters) throws Throwable {
+
+		String startDate = getDateInMMMdd(expParameters.get("start_date"));
+		String endDate = getDateInMMMdd(expParameters.get("end_date"));
+		String expectedCalendarDate = startDate + " - " + endDate + " " + expParameters.get("numberOfNights");
+
+		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
+		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
+		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));
+		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+	}
+
+	@Then("^Validate search form default state for packages")
+	public void validateSearchFormDefaultState(Map<String, String> expParameters) throws Throwable {
+		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
+		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
+		SearchScreen.calendarCard().check(matches(withText(expParameters.get("calendar"))));
+		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+	}
+
+	@Then("^Validate Search button is disabled")
+	public void searchButtonDisabled() throws Throwable {
+		SearchScreen.searchButton().check(matches(not(isFocusable())));
+	}
+
+	@Then("^Validate toolbar title is \"(.*?)\" for packages")
+	public void validate(String title) throws Throwable {
+		onView(withId(R.id.title)).check(matches(withText(title)));
+	}
+
 }

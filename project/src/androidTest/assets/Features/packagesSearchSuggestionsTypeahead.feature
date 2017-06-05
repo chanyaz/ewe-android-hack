@@ -36,3 +36,58 @@ Feature: Search Suggestions for packages
     And I select "DEL - Indira Gandhi Intl." from suggestions
     And I type "de" in the packages destination search box
     Then "Delhi, India (DEL-Indira Gandhi Intl.)" is listed at the top of suggestion list as recent search
+
+
+  @Packages @PackagesTypeahead @Prod
+  Scenario: Flying From field - Typeahead call is made when 3 letters are entered for
+    Given I launch the App
+    And I want to intercept these calls for packages
+      | TypeAheadSFO |
+    And I launch "Bundle Deals" LOB
+    And I type "sfo" and select the location "SFO - San Francisco Intl."
+    Then Validate the "TypeAhead" API request query params for following parameters for packages
+      | locale                      | en_US                          |
+      | regiontype                  | 95                             |
+      | dest                        | false                          |
+      | features                    | ta_hierarchy                   |
+      | client                      | expedia.app.android.phone      |
+      | lob                         | PACKAGES                       |
+      | sourceType                  | mobileapp                      |
+
+  @Packages @PackagesTypeahead @Prod
+  Scenario: Flying to field - No typeahead call is made when 2 letters are entered
+    Given I launch the App
+    And I want to intercept these calls for packages
+      | TypeAheadSFO |
+    And I launch "Bundle Deals" LOB
+    When I type "sf" in the packages source search box
+    Then Validate that no typeahead call is trigerred for packages
+
+  @Packages @PackagesTypeahead @Prod
+  Scenario: Flying to field - Typeahead call is made when 3 letters are entered for
+    Given I launch the App
+    And I want to intercept these calls for packages
+      | TypeAheadLAS |
+    And I launch "Bundle Deals" LOB
+    When I type "SFO" in the packages source search box
+    And I select "SFO - San Francisco Intl." from suggestions
+    And I type "LAS" and select the location "Las Vegas Strip, Las Vegas, NV"
+    Then Validate the "TypeAhead" API request query params for following parameters for packages
+      | locale                      | en_US                          |
+      | regiontype                  | 95                             |
+      | dest                        | true                           |
+      | features                    | ta_hierarchy                   |
+      | client                      | expedia.app.android.phone      |
+      | lob                         | PACKAGES                       |
+      | sourceType                  | mobileapp                      |
+
+  @Packages @PackagesTypeahead @Prod
+  Scenario: Flying From field - No typeahead call is made when 2 letters are entered
+    Given I launch the App
+    And I want to intercept these calls for packages
+      | TypeAheadLAS |
+    And I launch "Bundle Deals" LOB
+    When I type "sfo" in the packages source search box
+    And I select "San Francisco, CA" from suggestions
+    And I type "la" in the packages destination search box
+    Then Validate that no typeahead call is trigerred for packages

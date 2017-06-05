@@ -346,6 +346,11 @@ public class SearchScreenSteps {
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
 
+	@And("^I click on Ok button of Alert dialog$")
+	public void clickOkButtonAlertDialog() throws Throwable {
+		SearchScreen.searchAlertDialogDone().perform(click());
+	}
+
 	@When("^I click on class widget$")
 	public void clickPreferredClassWidget() throws Throwable {
 		onView(withId(R.id.flight_cabin_class_widget)).perform(waitForViewToDisplay(), click());

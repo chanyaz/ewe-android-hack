@@ -11,8 +11,13 @@ import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
+import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
+
+import junit.framework.Assert;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+
 import static android.support.test.espresso.action.ViewActions.click;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
@@ -64,5 +69,11 @@ public class CommonSteps {
 	@And("^I press back$")
 	public void hitBack() {
 		Common.pressBack();
+	}
+
+	public static void validateRequestParams(Map<String, String> expParameters, ApiRequestData apiRequestData) {
+		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
+			Assert.assertEquals(entry.getValue(), apiRequestData.getQueryParams().get(entry.getKey()).get(0));
+		}
 	}
 }

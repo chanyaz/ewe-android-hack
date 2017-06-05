@@ -57,8 +57,9 @@ Feature: Flights Overview
     And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And I click on Ok button of Alert dialog
     Then validate following flight details for multi-leg flights
-      | first-segment-flight time      | 5:40 pm - 8:15 pm                                 |
+      | first-segment-flight time      | 5:40 pm - 8:15 pm                          |
       | first-segment-airport name     | (SEA) Seattle, USA - (LAX) Los Angeles, USA       |
       | first-segment-airline name     | Virgin America 798                                |
       | first-segment-flight duration  | 2h 35m                                            |
@@ -88,6 +89,7 @@ Feature: Flights Overview
     And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And I click on Ok button of Alert dialog
     Then collapse the outbound widget
     And collapse the inbound widget
     Then validate free cancellation message is displayed
@@ -112,6 +114,7 @@ Feature: Flights Overview
     And I select outbound flight at position 2 and reach inbound FSR
     And I wait for inbound flights results to load
     And I select inbound flight at position 1 and reach overview
+    And I click on Ok button of Alert dialog
     Then collapse the outbound widget
     And collapse the inbound widget
     Then validate total price of the trip is "$64"

@@ -7,6 +7,7 @@ import com.expedia.bookings.utils.Ui
 import okhttp3.FormBody
 import okhttp3.Request
 import okhttp3.Response
+import java.net.URLDecoder
 import java.util.HashMap
 
 class StepDefUtils private constructor() {
@@ -16,6 +17,9 @@ class StepDefUtils private constructor() {
             val apiCallAliases = HashMap<String, String>()
             apiCallAliases["FlightSearch"] = "/api/flight/search"
             apiCallAliases["FlightCreateTrip"] = "/api/flight/trip/create"
+            apiCallAliases["GetPackagesV1"] = "/getpackages/v1"
+            apiCallAliases["TypeAheadSFO"] = "/api/v4/typeahead/sfo"
+            apiCallAliases["TypeAheadLAS"] = "/api/v4/typeahead/LAS"
             apiCallAliases
         }()
 
@@ -27,10 +31,12 @@ class StepDefUtils private constructor() {
             }
 
             val formData: HashMap<String, String> = HashMap()
-            val searchRequestBody = body() as FormBody
+            val searchRequestBody = body() as FormBody?
 
-            for (index in 0..searchRequestBody.size() - 1) {
-                formData.put(searchRequestBody.encodedName(index), searchRequestBody.encodedValue(index))
+            if (searchRequestBody != null) {
+                for (index in 0..searchRequestBody.size() - 1) {
+                    formData.put(URLDecoder.decode(searchRequestBody.encodedName(index), "UTF-8"), searchRequestBody.encodedValue(index))
+                }
             }
 
             return ApiRequestData(queryParams, formData)
