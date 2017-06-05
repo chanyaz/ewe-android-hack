@@ -12,7 +12,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
@@ -32,6 +34,7 @@ import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -126,6 +129,17 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         vm.dateAccessibilityObservable.subscribe { text ->
             calendarWidgetV2.contentDescription = text
+        }
+
+        vm.previousSearchParamsObservable.subscribe { params ->
+            val cabinClass = params.flightCabinClass
+            if (cabinClass != null) {
+                flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(cabinClass))
+            }
+            if (!params.isRoundTrip()) {
+                viewpager.currentItem = 1
+            }
+            travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
         }
 
         if (isUserBucketedInSearchFormValidation) {

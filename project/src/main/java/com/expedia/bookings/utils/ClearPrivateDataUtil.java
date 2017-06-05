@@ -47,11 +47,13 @@ public class ClearPrivateDataUtil {
 
 		// Clear anything else out that might remain
 		Db.clear();
-		Db.clearFlightSearchParamsFromDisk(context);
 
 		// Clear LX and cars suggestions history
 		SuggestionUtils.deleteCachedSuggestions(context);
 		// Clear new hotels suggestions history
 		SuggestionV4Utils.deleteCachedSuggestions(context);
+
+		// Clear flight search params history
+		FlightSearchParamsHistoryUtil.deleteCachedFlightSearchParams(context);
 	}
 }

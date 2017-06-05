@@ -284,6 +284,15 @@
             android:summary="%s"
             android:title="Cross Sell Package on FSR - 14183" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14297"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Retain previous Flight search params - 14297" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

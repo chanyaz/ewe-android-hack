@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.flight
 
 import android.animation.ArgbEvaluator
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
@@ -29,6 +30,7 @@ import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -405,6 +407,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+            FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, { params ->
+                (context as Activity).runOnUiThread {
+                    searchViewModel.previousSearchParamsObservable.onNext(params)
+                }
+            })
+        }
     }
 
     private fun flightListToOverviewTransition() {
