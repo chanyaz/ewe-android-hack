@@ -86,7 +86,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun trackCheckoutPriceChange(priceDiff: Int)
     abstract fun handleCheckoutPriceChange(response: TripResponse)
     abstract fun createTravelersViewModel(): TravelersViewModel
-    abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
     abstract fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int)
     abstract fun onCreateTripResponse(response: TripResponse?)
 
@@ -198,8 +197,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.checkoutPriceChangeObservable.subscribe { response ->
             vm.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
-            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
-            getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
             val oldPrice = response.getOldPrice()
             if (oldPrice != null) {
                 trackCheckoutPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
@@ -223,7 +220,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
-        vm.performCreateTrip.map { false }.subscribe(vm.showPriceChangeWidgetObservable)
         vm.performCreateTrip.subscribe {
             paymentViewModel.clearTemporaryCardObservable.onNext(Unit)
             paymentWidget.clearPaymentInfo()
@@ -234,7 +230,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 .distinctUntilChanged().map { it.first != null && it.second != null }
                 .subscribe(vm.showPriceChangeAlertObservable)
         vm.showPriceChangeAlertObservable.subscribe { show ->
-            if (show) {
+            if (show && currentState != BillingDetailsPaymentWidget::class.java.name) {
                 showAlertDialogForPriceChange(vm.createTripResponseObservable.value!!)
             }
         }
@@ -252,17 +248,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         }
         vm.createTripResponseObservable.safeSubscribe { response ->
-            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             val oldPrice = response!!.getOldPrice()
             if (oldPrice != null) {
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
                 if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
-                    if (shouldShowAlertForCreateTripPriceChange(response)) {
-                        vm.priceChangeAlertPriceObservable.onNext(response)
-                        return@safeSubscribe
-                    } else {
-                        vm.showPriceChangeWidgetObservable.onNext(true)
-                    }
+                    vm.priceChangeAlertPriceObservable.onNext(response)
+                    return@safeSubscribe
                 }
             }
             onCreateTripResponse(response)

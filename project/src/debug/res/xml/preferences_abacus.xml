@@ -424,15 +424,6 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="12992"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Flight price change alert - 12992" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_checkout_text_choices"
             android:entryValues="@array/abacus_checkout_text_values"
             android:key="13480"

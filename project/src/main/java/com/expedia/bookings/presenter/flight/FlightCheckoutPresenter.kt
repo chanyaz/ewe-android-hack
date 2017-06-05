@@ -110,10 +110,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
         tripResponse as FlightCheckoutResponse
-        val oldPrice = tripResponse.getOldPrice()
-        if (oldPrice != null) {
-            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(tripResponse)
-        }
         onTripResponse(tripResponse)
     }
 
@@ -196,10 +192,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
         return DefaultToTraveler(FlightTravelersPresenter::class.java)
-    }
-
-    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert)
     }
 
     override fun trackCheckoutPriceChange(diffPercentage: Int) {

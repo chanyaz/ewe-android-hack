@@ -31,11 +31,6 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
         //TODO
     }
 
-    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
-        //TODO
-        return false
-    }
-
     override fun onCreateTripResponse(response: TripResponse?) {
 
     }

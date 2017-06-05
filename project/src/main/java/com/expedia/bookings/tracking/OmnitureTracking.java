@@ -4778,7 +4778,6 @@ public class OmnitureTracking {
 
 	public static void trackFlightCreateTripPriceChange(int priceChangePercentage) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert);
 		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_RATE_DETAILS_PRICE_CHANGE, "FLT|", "Rate Details View");
 	}
 
