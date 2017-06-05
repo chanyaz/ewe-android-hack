@@ -18,7 +18,6 @@ import com.expedia.util.LoyaltyUtil
 import com.expedia.util.endlessObserver
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
@@ -38,7 +37,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     var roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
     var currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
     val hotelRate = hotelRoomResponse.rateInfo.chargeableRateInfo
-    var priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()
+    var priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.displayPrice.toDouble()
     var dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
     var roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     var roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
@@ -123,7 +122,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
 
         roomTypeObservable.onNext(hotelRoomResponse.roomTypeDescription)
         currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
-        priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.priceToShowUsersFallbackToZeroIfNegative.toDouble()
+        priceToShowUsers = if (hotelRoomResponse.isPackage) hotelRate.priceToShowUsers.toDouble() else hotelRate.displayPrice.toDouble()
         dailyPrice = Money(BigDecimal(priceToShowUsers), currencyCode)
         roomHeaderImageObservable.onNext(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
         roomRateInfoTextObservable.onNext(hotelRoomResponse.roomLongDescription)
@@ -154,7 +153,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
             }
         }
         discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
-        if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
+        if (!isPayLater && chargeableRateInfo.isStrikeThroughPriceValid) {
             val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
             strikeThroughPriceObservable.onNext(HtmlCompat.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
         }

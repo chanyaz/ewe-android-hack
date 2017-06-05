@@ -130,16 +130,29 @@ public class HotelRate {
 		}
 	}
 
+	public boolean isStrikeThroughPriceValid() {
+		return strikethroughPriceToShowUsers > 0 && getDisplayPrice() < strikethroughPriceToShowUsers;
+	}
+
 	public Money getDisplayMoney(boolean strikeThrough, boolean shouldFallbackToZeroIfNegative) {
 		// In case of shop with points, price to show users can be negative. We need to show 0 in such cases.
-		float price = shouldFallbackToZeroIfNegative ? getPriceToShowUsersFallbackToZeroIfNegative() : priceToShowUsers;
-		Money money = strikeThrough ? new Money(Float.toString(strikethroughPriceToShowUsers), currencyCode)
-			: new Money(Float.toString(price), currencyCode);
+		float price;
+		if (strikeThrough) {
+			price = shouldFallbackToZeroIfNegative ? getDisplayStrikeThroughPrice() : strikethroughPriceToShowUsers;
+		}
+		else {
+			price = shouldFallbackToZeroIfNegative ? getDisplayPrice() : priceToShowUsers;
+		}
+		Money money = new Money(Float.toString(price), currencyCode);
 		return money;
 	}
 
-	public float getPriceToShowUsersFallbackToZeroIfNegative() {
-		return (priceToShowUsers < 0) ? 0 : priceToShowUsers;
+	public float getDisplayPrice() {
+		return (priceToShowUsers < 0) ? 0f : priceToShowUsers;
+	}
+
+	public float getDisplayStrikeThroughPrice() {
+		return (strikethroughPriceToShowUsers < 0) ? 0f : strikethroughPriceToShowUsers;
 	}
 
 	public boolean isDiscountPercentNotZero() {

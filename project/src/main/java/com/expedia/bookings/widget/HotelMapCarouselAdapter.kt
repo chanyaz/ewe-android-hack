@@ -179,7 +179,7 @@ fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolea
 
     if (rate == null) {
         return ""
-    } else if (strikeThrough && rate.priceToShowUsers >= rate.strikethroughPriceToShowUsers) { // #6801 - strikethrough price now optional from API
+    } else if (strikeThrough && !rate.isStrikeThroughPriceValid) { // #6801 - strikethrough price now optional from API
         return ""
     } else {
         val hotelPrice = rate.getDisplayMoney(strikeThrough, shouldFallbackToZeroIfNegative).getFormattedMoney(Money.F_NO_DECIMAL)

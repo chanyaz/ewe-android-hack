@@ -58,8 +58,8 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     val showDepositTerm: Boolean get() = isPayLater && haveDepositTerm
 
     val strikeThroughString: String?
-        get() = if (!isPayLater && chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers) {
-            Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
+        get() = if (!isPayLater && chargeableRateInfo.isStrikeThroughPriceValid) {
+            chargeableRateInfo.getDisplayMoney(true, true).formattedMoney
         } else {
             null
         }
@@ -76,7 +76,7 @@ class HotelRoomDetailViewModel(val context: Context, val hotelRoomResponse: Hote
     private val hotelLoyaltyInfo: LoyaltyInformation? = chargeableRateInfo.loyaltyInfo
     private val currencyCode = chargeableRateInfo.currencyCode
     private val isPayLater = hotelRoomResponse.isPayLater
-    private val priceToShowUser = Money(BigDecimal(chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode).formattedMoney
+    private val priceToShowUser = chargeableRateInfo.getDisplayMoney(false, true).formattedMoney
     private val isTotalPrice = chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES
     private val haveDepositTerm = hotelRoomResponse.depositPolicy != null && !hotelRoomResponse.depositPolicy.isEmpty()
 
