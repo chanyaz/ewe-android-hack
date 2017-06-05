@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -34,12 +35,14 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
             resetUserFilters()
             filterCountChanged()
             resetViewsSubject.onNext(searchOptions)
+            HotelTracking.trackLinkHotelSuperSearchClearFilter()
         }
     }
 
     fun selectSortOption(selectedSort: Sort) {
         searchOptions.userSort = selectedSort
         filterCountChanged()
+        HotelTracking.trackHotelSuperSearchSortBy(selectedSort.toString())
     }
 
     fun selectHotelName(hotelName: String) {
@@ -50,11 +53,13 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
     fun updateStarRating(starRating: UserFilterChoices.StarRatings) {
         searchOptions.hotelStarRating = starRating
         filterCountChanged()
+        HotelTracking.trackLinkHotelSuperSearchStarRating(starRating.toString())
     }
 
     fun isVipAccess(vipChecked: Boolean) {
         searchOptions.isVipOnlyAccess = vipChecked
         filterCountChanged()
+        HotelTracking.trackLinkHotelSuperSearchVip(vipChecked)
     }
 
     fun getSummaryString(): String {
