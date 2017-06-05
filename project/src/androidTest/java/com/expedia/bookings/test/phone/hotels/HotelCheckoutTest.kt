@@ -8,6 +8,8 @@ import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
@@ -110,5 +112,29 @@ class HotelCheckoutTest: HotelTestCase() {
 
         HotelScreen.selectRoom()
         CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+    }
+
+    @Test
+    fun testFreeCancellationTooltipAvailableAndShownInSummary() {
+        SearchScreen.doGenericHotelSearch()
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip,
+                AbacusUtils.DefaultVariant.BUCKETED.ordinal)
+
+        // Check to make sure non merchant shows up in result list
+        HotelScreen.selectHotel("Non Merchant Hotel")
+
+        HotelScreen.clickSelectRoom()
+
+        HotelScreen.selectRoom()
+
+        CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+        CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+
+        CheckoutViewModel.freeCancellationTooltipText().perform(click())
+
+        CheckoutViewModel.freeCancellationWidget().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        Common.pressBack()
+        
+        CheckoutViewModel.freeCancellationTooltipText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 }

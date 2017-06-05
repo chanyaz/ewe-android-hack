@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="?attr/primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:title="@string/cancellation_policy"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/free_cancellation_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/hotelsv2_checkout_divider_color"
+            android:padding="15dp"/>
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </FrameLayout>
+</merge>

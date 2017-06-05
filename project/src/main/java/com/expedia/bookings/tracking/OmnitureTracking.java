@@ -910,6 +910,9 @@ public class OmnitureTracking {
 		else {
 			properCaseSupplierType = supplierType;
 		}
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFreeCancellationTooltip);
+
 		s.setProducts(
 			"Hotel;" + properCaseSupplierType + " Hotel:" + hotelProductResponse.hotelId + ";" + numOfNights + ";"
 				+ price);
