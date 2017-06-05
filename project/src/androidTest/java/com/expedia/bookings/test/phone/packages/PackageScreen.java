@@ -11,8 +11,8 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -92,7 +92,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction toolbarNavigationUp(int id) {
-		return onView(allOf(withParent(withId(id)), withClassName(is(ImageButton.class.getName()))));
+		return onView(allOf(withParent(withId(id)), withClassName(is(AppCompatImageButton.class.getName()))));
 	}
 
 	public static ViewInteraction hotelBundleWidget() {

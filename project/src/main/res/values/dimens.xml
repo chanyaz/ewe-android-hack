@@ -40,7 +40,6 @@
     <dimen name="itin_summary_section_height">48dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
-    <dimen name="itin_map_bounds_padding">24dp</dimen>
     <dimen name="itin_hotel_vip_label_left_padding">20dp</dimen>
     <dimen name="itin_hotel_vip_label_top_padding">15dp</dimen>
 
