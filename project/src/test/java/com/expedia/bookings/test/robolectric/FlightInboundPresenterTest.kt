@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightInboundPresenter
@@ -309,9 +310,10 @@ class FlightInboundPresenterTest {
         val flightSelectedSubject = PublishSubject.create<FlightLeg>()
         val isRoundTripSubject = BehaviorSubject.create<Boolean>()
         isRoundTripSubject.onNext(false)
+        val flightCabinClassSubject = BehaviorSubject.create<String>()
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         val isOutboundSearch = false
-        val seatClass = "coach"
-        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, seatClass)
+        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
         flightInboundPresenter.resultsPresenter.setAdapter(flightListAdapter)
 
         Db.setFlightSearchParams(flightSearchParams)
