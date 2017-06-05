@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.NavUtils
@@ -37,6 +38,7 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
             inflateMenu(R.menu.confirmation_menu)
             menuItem.setOnMenuItemClickListener {
 //            TODO: use same share method as Itins
+                FlightsV2Tracking.trackConfirmationShareItinClicked()
                 false
             }
         }

@@ -122,6 +122,10 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightInsuranceTermsClick()
     }
 
+    fun trackConfirmationShareItinClicked() {
+        OmnitureTracking.trackFlightConfirmationShareItinClicked()
+    }
+
     @JvmStatic fun trackCheckoutSelectTraveler() {
         OmnitureTracking.trackFlightCheckoutSelectTraveler()
     }
