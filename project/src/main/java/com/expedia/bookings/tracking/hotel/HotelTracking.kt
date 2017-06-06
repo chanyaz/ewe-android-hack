@@ -69,6 +69,27 @@ open class HotelTracking {
             OmnitureTracking.trackLinkHotelV2FilterVip(state)
         }
 
+        fun trackHotelSuperSearchFilter() {
+            OmnitureTracking.trackHotelV2SuperSearchFilter()
+        }
+
+        fun trackHotelSuperSearchSortBy(type: String) {
+            OmnitureTracking.trackHotelV2SuperSearchSortBy(type)
+        }
+
+        fun trackLinkHotelSuperSearchStarRating(rating: String) {
+            OmnitureTracking.trackLinkHotelV2SuperSearchStarRating(rating + "Star")
+        }
+
+        fun trackLinkHotelSuperSearchVip(isChecked: Boolean) {
+            val state = if (isChecked) "On" else "Off"
+            OmnitureTracking.trackLinkHotelV2SuperSearchVip(state)
+        }
+
+        fun trackLinkHotelSuperSearchClearFilter() {
+            OmnitureTracking.trackLinkHotelV2SuperSearchClearFilter()
+        }
+
         fun trackLinkHotelFilterNeighbourhood() {
             OmnitureTracking.trackLinkHotelV2FilterNeighbourhood()
         }

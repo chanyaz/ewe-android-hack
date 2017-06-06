@@ -18,6 +18,7 @@ import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -169,6 +170,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         advancedOptionsView.setOnClickListener {
             show(advancedOptionsDetails)
+            HotelTracking.trackHotelSuperSearchFilter()
         }
 
         advancedOptionsViewModel.doneClickedSubject.subscribe {
