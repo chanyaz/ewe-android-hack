@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import com.expedia.bookings.ADMS_Measurement;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;

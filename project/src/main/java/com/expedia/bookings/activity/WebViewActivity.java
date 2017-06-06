@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.adobe.adms.measurement.ADMS_Measurement;
+import com.expedia.bookings.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;

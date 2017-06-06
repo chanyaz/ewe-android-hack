@@ -3,7 +3,7 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import com.adobe.adms.measurement.ADMS_Measurement
+import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
