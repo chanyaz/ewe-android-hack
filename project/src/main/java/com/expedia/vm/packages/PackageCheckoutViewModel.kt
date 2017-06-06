@@ -42,7 +42,6 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
             builder.bedType(it.packageDetails.hotel.hotelRoomResponse.bedTypes?.firstOrNull()?.id)
 
             var depositText = ""
-            var totalPrice = ""
             if (it.packageDetails.pricing.hasResortFee()) {
                 val messageResId =
                         if (PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
@@ -55,14 +54,8 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                         .putOptional("trip_total", it.bundleTotal.formattedPrice)
                         .format().toString()
 
-                totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
-                        .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
-                        .format().toString()
             }
             depositPolicyText.onNext(HtmlCompat.fromHtml(depositText))
-            sliderPurchaseTotalText.onNext(totalPrice)
-            val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
-            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
         }
         legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 

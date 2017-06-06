@@ -32,21 +32,21 @@ class FlightOverviewPresenterTest{
     @Test
     fun testCheckoutButtonTextInControl() {
         val flightOverviewPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        assertEquals("Checkout", flightOverviewPresenter.checkoutButton.text)
+        assertEquals("Checkout", flightOverviewPresenter.bottomCheckoutContainer.checkoutButton.text)
     }
 
     @Test
     fun testCheckoutButtonTextVariate1() {
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppCheckoutButtonText, AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal)
         val flightOverviewPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        assertEquals("Continue Booking", flightOverviewPresenter.checkoutButton.text)
+        assertEquals("Continue Booking", flightOverviewPresenter.bottomCheckoutContainer.checkoutButton.text)
     }
 
     @Test
     fun testCheckoutButtonTextVariate2() {
         RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppCheckoutButtonText, AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal)
         val flightOverviewPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_overview_stub, null) as FlightOverviewPresenter
-        assertEquals("Next", flightOverviewPresenter.checkoutButton.text)
+        assertEquals("Next", flightOverviewPresenter.bottomCheckoutContainer.checkoutButton.text)
     }
 
 }

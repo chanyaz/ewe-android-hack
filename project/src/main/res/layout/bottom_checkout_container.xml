@@ -67,8 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:contentDescription="@string/accessibility_cont_desc_role_purchase_button"
                 android:gravity="center"
                 android:padding="8dp"
+                android:text="@string/accessibility_purchase_button"
                 android:textColor="?attr/primary_color"
                 android:textSize="@dimen/car_slide_to_purchase_price_text_size"
                 android:visibility="gone" />

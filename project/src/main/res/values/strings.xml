@@ -4376,6 +4376,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, traveler details complete. Button.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Button</string>
+    <!--Packages accessibility content description for purchase Button-->
+    <string name="accessibility_cont_desc_role_purchase_button">Purchase Button</string>
     <!--Packages accessibility content description for role - Button to expand -->
     <string name="accessibility_cont_desc_role_button_expand">Button to expand</string>
     <!--Packages accessibility content description for role - Button to collapse -->

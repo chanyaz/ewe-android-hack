@@ -100,11 +100,11 @@ class PackageCheckoutTest {
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
-        assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
-        assertEquals(View.GONE, overview.slideTotalText.visibility)
-        assertEquals(View.VISIBLE, overview.slideToPurchaseSpace.visibility)
+        assertEquals(0f, overview.bottomCheckoutContainer.slideToPurchaseLayout.translationY)
+        assertEquals(View.GONE, overview.bottomCheckoutContainer.slideTotalText.visibility)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.slideToPurchaseSpace.visibility)
     }
 
         @Test
@@ -116,12 +116,12 @@ class PackageCheckoutTest {
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
-        assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
-        assertEquals(View.VISIBLE, overview.slideTotalText.visibility)
-        assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)
-        assertEquals(View.GONE, overview.slideToPurchaseSpace.visibility)
+        assertEquals(0f, overview.bottomCheckoutContainer.slideToPurchaseLayout.translationY)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", overview.bottomCheckoutContainer.slideTotalText.text)
+        assertEquals(View.GONE, overview.bottomCheckoutContainer.slideToPurchaseSpace.visibility)
     }
 
     @Test
@@ -130,23 +130,23 @@ class PackageCheckoutTest {
         enterValidTraveler()
         enterValidPayment()
 
-        assertEquals(View.GONE, overview.slideTotalText.visibility)
-        assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)
-        assertEquals(View.VISIBLE, overview.slideToPurchaseSpace.visibility)
+        assertEquals(View.GONE, overview.bottomCheckoutContainer.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", overview.bottomCheckoutContainer.slideTotalText.text)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.slideToPurchaseSpace.visibility)
 
         checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
-        assertEquals(View.VISIBLE, overview.slideTotalText.visibility)
-        assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)
-        assertEquals(View.GONE, overview.slideToPurchaseSpace.visibility)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", overview.bottomCheckoutContainer.slideTotalText.text)
+        assertEquals(View.GONE, overview.bottomCheckoutContainer.slideToPurchaseSpace.visibility)
 
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
         checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
-        assertEquals(View.GONE, overview.slideTotalText.visibility)
-        assertEquals("", overview.slideTotalText.text)
-        assertEquals(View.VISIBLE, overview.slideToPurchaseSpace.visibility)
+        assertEquals(View.GONE, overview.bottomCheckoutContainer.slideTotalText.visibility)
+        assertEquals("", overview.bottomCheckoutContainer.slideTotalText.text)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.slideToPurchaseSpace.visibility)
     }
 
     @Test
@@ -261,9 +261,9 @@ class PackageCheckoutTest {
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
-        assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
+        assertEquals(View.VISIBLE, overview.bottomCheckoutContainer.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
+        assertEquals(0f, overview.bottomCheckoutContainer.slideToPurchaseLayout.translationY)
 
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
@@ -414,8 +414,8 @@ class PackageCheckoutTest {
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
         overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
         overview.bundleWidget.viewModel.hotelParamsObservable.onNext(getPackageSearchParams(1, emptyList(), false))
-        overview.slideToPurchaseLayout.visibility = View.VISIBLE
-        overview.totalPriceWidget.visibility = View.VISIBLE
+        overview.bottomCheckoutContainer.slideToPurchaseLayout.visibility = View.VISIBLE
+        overview.bottomCheckoutContainer.totalPriceWidget.visibility = View.VISIBLE
     }
 
     private fun setUpPackageDb() {

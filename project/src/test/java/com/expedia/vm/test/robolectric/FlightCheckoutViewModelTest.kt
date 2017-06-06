@@ -104,32 +104,6 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun slideToPurchaseTotalLabel() {
-        givenGoodCheckoutParams()
-        setupCardFeeService()
-        givenGoodTripResponse()
-        setupSystemUnderTest()
-
-        val sliderPurchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
-        val sliderPurchaseContentDescTestSubscriber = TestSubscriber<CharSequence>()
-        sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
-        sut.accessiblePurchaseButtonContentDescription.subscribe(sliderPurchaseContentDescTestSubscriber)
-
-        sut.createTripResponseObservable.onNext(newTripResponse)
-        assertEquals(BigDecimal("42.00"), sut.createTripResponseObservable.value!!.newPrice().amount)
-        sut.paymentViewModel.cardBIN.onNext("654321")
-
-        assertEquals(BigDecimal("44.50"), sut.createTripResponseObservable.value!!.newPrice().amount)
-        sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
-        
-        givenAirlineChargesFees()
-        assertEquals("Purchase Button", sliderPurchaseContentDescTestSubscriber.onNextEvents[0].toString())
-        sut.createTripResponseObservable.onNext(newTripResponse)
-        sliderPurchaseTotalTextTestSubscriber.assertValueCount(0)
-    }
-
-    @Test
     fun guestCardPaymentFees() {
         givenGoodCheckoutParams()
         givenGoodTripResponse()
@@ -153,10 +127,10 @@ class FlightCheckoutViewModelTest {
         setupSystemUnderTest()
 
         val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
-        val sliderPurchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
+        //val purchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
 
         sut.legalText.subscribe(legalTextTestSubscriber)
-        sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
+        //sut.purchaseTotalText.subscribe(purchaseTotalTextTestSubscriber)
 
         sut.createTripResponseObservable.onNext(newTripResponse)
 

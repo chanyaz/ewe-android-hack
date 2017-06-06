@@ -26,13 +26,11 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.FlightOverviewSummaryViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.Before
@@ -138,7 +136,7 @@ class FlightOverviewPresenterTest {
     @Test
     fun testTotalPriceWidget() {
         val flightCheckoutPresenter = widget.getCheckoutPresenter()
-        val totalPriceWidget = widget.totalPriceWidget
+        val totalPriceWidget = widget.bottomCheckoutContainer.totalPriceWidget
         val bundleTotalPrice = totalPriceWidget.bundleTotalPrice
         val bundleTotalText = totalPriceWidget.bundleTotalText
         val bundleTotalIncludes = totalPriceWidget.bundleTotalIncludes
@@ -164,7 +162,7 @@ class FlightOverviewPresenterTest {
         val createTripResponse = getFlightCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
         flightCheckoutPresenter.getCreateTripViewModel().createTripResponseObservable.onNext(createTripResponse)
-        val checkoutBtn = widget.checkoutButton
+        val checkoutBtn = widget.bottomCheckoutContainer.checkoutButton
         assertEquals(true, checkoutBtn.isEnabled)
         assertEquals(View.VISIBLE, checkoutBtn.visibility)
         assertEquals(checkoutBtn.text.toString(), context.resources.getString(R.string.Checkout))

@@ -51,8 +51,6 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val noNetworkObservable = PublishSubject.create<Unit>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
-    val sliderPurchaseTotalText = BehaviorSubject.create<CharSequence>()
-    val accessiblePurchaseButtonContentDescription = PublishSubject.create<CharSequence>()
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()
     val slideToBookA11yActivateObservable = PublishSubject.create<Unit>()

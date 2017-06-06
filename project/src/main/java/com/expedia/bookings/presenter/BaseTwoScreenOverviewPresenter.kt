@@ -1,6 +1,5 @@
 package com.expedia.bookings.presenter
 
-import android.animation.Animator
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -14,34 +13,25 @@ import android.view.animation.DecelerateInterpolator
 import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.isDisabledSTPStateEnabled
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
-import com.expedia.bookings.widget.AcceptTermsWidget
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
 import com.expedia.util.setInverseVisibility
-import com.expedia.util.unsubscribeOnClick
-import com.expedia.util.updateVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
-import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
+import com.squareup.phrase.Phrase
 import rx.Subscription
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
@@ -60,58 +50,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
     val disabledSTPStateEnabled = isDisabledSTPStateEnabled()
-
-    val slideTotalText by lazy {
-        bottomCheckoutContainer.slideTotalText
-    }
-
-    val slideToPurchaseSpace by lazy {
-        bottomCheckoutContainer.slideToPurchaseSpace
-    }
-
-    val totalPriceWidget by lazy {
-        bottomCheckoutContainer.totalPriceWidget
-    }
-
-    val slideToPurchaseLayout by lazy {
-        bottomCheckoutContainer.slideToPurchaseLayout
-    }
-
-    val slideToPurchase by lazy {
-        bottomCheckoutContainer.slideToPurchase
-    }
-
-    val accessiblePurchaseButton by lazy {
-        bottomCheckoutContainer.accessiblePurchaseButton
-    }
-
-    val bottomContainerDropShadow by lazy {
-        bottomCheckoutContainer.bottomContainerDropShadow
-    }
-
-    val bottomContainer by lazy {
-        bottomCheckoutContainer.bottomContainer
-    }
-
-    val checkoutButton by lazy {
-        bottomCheckoutContainer.checkoutButton
-    }
-
-    val checkoutButtonContainer by lazy {
-        bottomCheckoutContainer.checkoutButtonContainer
-    }
-
-    val acceptTermsWidget: AcceptTermsWidget by lazy {
-        val viewStub = bottomCheckoutContainer.acceptTermsWidget
-        val presenter = viewStub.inflate() as AcceptTermsWidget
-        presenter.acceptButton.setOnClickListener {
-            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
-            AnimUtils.slideDown(acceptTermsWidget)
-            acceptTermsWidget.visibility = View.GONE
-            acceptTermsWidget.acceptButton.unsubscribeOnClick()
-        }
-        presenter
-    }
 
     val ANIMATION_DURATION = 400
 
@@ -135,18 +73,24 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         airlineFeeWebview
     }
 
-    protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.viewModel = vm
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+    val bottomContainer by lazy {
+        bottomCheckoutContainer.bottomContainer
     }
 
-    protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.breakdown.viewmodel = vm
-        vm.iconVisibilityObservable.safeSubscribe { show ->
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
-            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
-        }
+    val checkoutButtonContainer by lazy {
+        bottomCheckoutContainer.checkoutButtonContainer
+    }
+
+    val slideToPurchaseLayout by lazy {
+        bottomCheckoutContainer.slideToPurchaseLayout
+    }
+
+    val checkoutButton by lazy {
+        bottomCheckoutContainer.checkoutButton
+    }
+
+    val totalPriceWidget by lazy {
+        bottomCheckoutContainer.totalPriceWidget
     }
 
     init {
@@ -179,12 +123,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppCheckoutButtonText)
-        if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
-            checkoutButton.text = context.getString(R.string.continue_booking)
-        } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
-            checkoutButton.text = context.getString(R.string.next)
-        }
         addDefaultTransition(defaultTransition)
         addTransition(checkoutTransition)
         addTransition(checkoutToCvv)
@@ -193,8 +131,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
-        checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.subscribe(bottomCheckoutContainer.viewModel.sliderPurchaseTotalText)
-        checkoutPresenter.getCheckoutViewModel().accessiblePurchaseButtonContentDescription.subscribe(bottomCheckoutContainer.viewModel.accessiblePurchaseButtonContentDescription)
+        checkoutPresenter.getCheckoutViewModel().noNetworkObservable.subscribe(bottomCheckoutContainer.viewModel.noNetworkObservable)
+        checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe(bottomCheckoutContainer.viewModel.checkoutPriceChangeObservable)
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
@@ -299,7 +237,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     open protected fun resetCheckoutState() {
-        slideToPurchase.resetSlider()
+        bottomCheckoutContainer.viewModel.resetSliderObservable.onNext(Unit)
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
             checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
@@ -311,8 +249,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             super.endTransition(forward)
             bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
-                slideToPurchase.resetSlider()
-                slideToPurchaseLayout.setAccessibilityHoverFocus()
+                bottomCheckoutContainer.viewModel.cvvToCheckoutObservable.onNext(Unit)
             } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()
@@ -337,7 +274,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val didHandleBack = super.back()
         if (!didHandleBack) {
             resetPriceChange()
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            bottomCheckoutContainer.viewModel.toggleBundleTotalDrawableObservable.onNext(false)
         }
         return didHandleBack
     }
@@ -375,7 +312,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     fun resetAndShowTotalPriceWidget() {
         resetPriceChange()
-        totalPriceWidget.resetPriceWidget()
+        bottomCheckoutContainer.viewModel.resetPriceWidgetObservable.onNext(Unit)
     }
 
     fun hasPriceChange(response: TripResponse?): Boolean {
@@ -385,13 +322,12 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     private fun toggleBottomContainerViews(state: TwoScreenOverviewState) {
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
-        toggleCheckoutButtonOrSlider(showSlider, state)
-        toggleSlideToPurchaseText(showSlider)
-        toggleAcceptTermsWidget(showSlider)
+        bottomCheckoutContainer.toggleBottomContainerViews(state, showSlider, disabledSTPStateEnabled)
+        toggleAcceptTermsWidget(showSlider, checkoutPresenter)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
         }
-        slideToPurchaseLayout.isFocusable = showSlider
+        bottomCheckoutContainer.viewModel.setSTPLayoutFocusObservable.onNext(showSlider)
         checkoutPresenter.adjustScrollingSpace(bottomContainer)
     }
 
@@ -474,8 +410,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupViewModels() {
-        val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel()
-        bottomCheckoutContainerViewModel.slideAllTheWayObservable.subscribe{
+        val bottomCheckoutContainerViewModel = BottomCheckoutContainerViewModel(context)
+        bottomCheckoutContainerViewModel.slideAllTheWayObservable.subscribe {
             val checkoutViewModel = checkoutPresenter.getCheckoutViewModel()
             if (checkoutViewModel.builder.hasValidCVV()) {
                 val params = checkoutViewModel.builder.build()
@@ -489,8 +425,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
-        totalPriceViewModel = getPriceViewModel(context)
-        baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
+        bottomCheckoutContainer.totalPriceViewModel = getPriceViewModel(context)
+        bottomCheckoutContainer.baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
     }
 
     private fun setupCreateTripViewModelSubscriptions() {
@@ -499,47 +435,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
     }
 
-    private fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState) {
-        if (AccessibilityUtil.isTalkBackEnabled(context) && showSlider) {
-            //hide the slider for talkback users and show a purchase button
-            accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
-            accessiblePurchaseButton.visibility = View.VISIBLE
-            accessiblePurchaseButton.hideTouchTarget()
-            slideToPurchase.visibility = View.GONE
-        } else {
-            accessiblePurchaseButton.visibility = View.GONE
-            if (showSlider) {
-                slideToPurchase.visibility = View.VISIBLE
-                checkoutButtonContainer.visibility = View.GONE
-            } else {
-                if (state == TwoScreenOverviewState.BUNDLE || (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
-                    checkoutButtonContainer.visibility = View.VISIBLE
-                    val checkoutButtonTextColor = ContextCompat.getColor(context, if (state == TwoScreenOverviewState.BUNDLE) {
-                        R.color.search_dialog_background_v2
-                    } else {
-                        R.color.white_disabled
-                    })
-                    checkoutButton.setTextColor(checkoutButtonTextColor)
-                } else {
-                    checkoutButtonContainer.visibility = View.GONE
-                }
-                slideToPurchase.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun toggleSlideToPurchaseText(sliderIsShown: Boolean) {
-        val hasText = !checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.value.isNullOrEmpty()
-        slideToPurchaseSpace.setInverseVisibility(hasText && sliderIsShown)
-        slideTotalText.updateVisibility(hasText && sliderIsShown)
-    }
-
-    private fun toggleAcceptTermsWidget(showSlider: Boolean) {
+    private fun toggleAcceptTermsWidget(showSlider: Boolean, checkoutPresenter: BaseCheckoutPresenter) {
         if (checkoutPresenter.acceptTermsRequired) {
-            val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
-            if (!termsAccepted && showSlider) {
-                acceptTermsWidget.visibility = View.VISIBLE
-            }
+            bottomCheckoutContainer.toggleAcceptTermsWidget(showSlider)
         }
     }
 }

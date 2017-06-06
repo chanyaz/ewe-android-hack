@@ -26,6 +26,7 @@ import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
 import com.expedia.vm.packages.PackageTotalPriceViewModel
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
 
@@ -76,6 +77,14 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             bundleWidget.outboundFlightWidget.collapseFlightDetails()
             bundleWidget.inboundFlightWidget.collapseFlightDetails()
 
+            var totalPrice = ""
+            if (trip.packageDetails.pricing.hasResortFee()) {
+                totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
+                        .put("dueamount", trip.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
+                        .format().toString()
+            }
+            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(totalPrice)
+
             setCheckoutHeaderOverviewDates()
         }
 
@@ -99,7 +108,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             params.searchProduct = null
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
-            checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.onNext(null)
+            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(null)
             PackagesTracking().trackBundleEditItemClick("Hotel")
             true
         })
@@ -169,7 +178,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         builder.setPositiveButton(context.getString(R.string.start_over)) { dialog, which ->
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.resetTravelers()
-            checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.onNext(null)
+            bottomCheckoutContainer.viewModel.sliderPurchaseTotalText.onNext(null)
             bundleWidget.viewModel.showSearchObservable.onNext(Unit)
         }
         val dialog = builder.create()
