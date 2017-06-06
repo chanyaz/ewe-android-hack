@@ -63,7 +63,7 @@ class AccessibilityUtilTest {
 
         assertNull(toolbar.findFocus())
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
-        assertTrue(toolbar.findFocus().javaClass.equals(ImageButton::class.java))
+        assertTrue(toolbar.findFocus() is ImageButton)
     }
 
     @Test
@@ -79,7 +79,7 @@ class AccessibilityUtilTest {
 
         assertNull(textView.findFocus())
         AccessibilityUtil.delayedFocusToView(textView, 0)
-        assertTrue(textView.findFocus().javaClass.equals(TextView::class.java))
+        assertTrue(textView.findFocus() is TextView)
     }
 
     @Test
@@ -96,7 +96,7 @@ class AccessibilityUtilTest {
 
         assertNull(toolbar.findFocus())
         AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 0)
-        assertTrue(toolbar.findFocus().javaClass.equals(ImageButton::class.java))
+        assertTrue(toolbar.findFocus() is ImageButton)
     }
 
     @Test

@@ -76,7 +76,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
 
     fun translateDatesTitleForHeaderToolbar() {
         val destinationTextView = checkoutOverviewFloatingToolbar.destinationText
-        if (Strings.isNotEmpty(destinationTextView.text)) {
+        if (Strings.isNotEmpty(destinationTextView.text) && destinationTextView.lineCount > 0) {
             checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -((destinationTextView.height
                     / destinationTextView.lineCount) * .25f)
         }

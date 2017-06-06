@@ -12,4 +12,6 @@
 
     <item name="price_range_increase_max_price" type="id"/>
     <item name="price_range_decrease_max_price" type="id"/>
+
+    <item name="seekbar_breakout_set_level" type="id"/>
 </resources>

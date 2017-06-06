@@ -7,8 +7,8 @@ import org.hamcrest.Matchers;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -132,7 +132,7 @@ public class CheckoutViewModel {
 	public static Matcher<View> toolBarMatcher() {
 		return allOf(
 			withParent(withClassName(is(CheckoutToolbar.class.getName()))),
-			withClassName(is(ImageButton.class.getName()))
+			withClassName(is(AppCompatImageButton.class.getName()))
 		);
 	}
 

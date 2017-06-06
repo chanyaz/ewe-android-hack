@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.SeekBar;
 
 import com.expedia.bookings.R;
 import com.squareup.phrase.Phrase;
@@ -19,8 +20,26 @@ public class FilterSeekBar extends CustomSeekBarView {
 	private String currentA11yValue;
 
 	public FilterSeekBar(Context context, AttributeSet attrs) {
-
 		super(context, attrs);
+		setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				setMaxValue(progress);
+				if (listener != null) {
+					listener.onProgressChanged(FilterSeekBar.this, getMaxValue(), true);
+				}
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+		});
 	}
 
 	public int getMaxValue() {

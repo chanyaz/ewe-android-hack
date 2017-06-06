@@ -53,9 +53,13 @@ dependencies {
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
 
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-ads:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
