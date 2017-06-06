@@ -75,9 +75,6 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
 
     init {
         inflateWidget()
-        nameEntryView.firstName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
-        nameEntryView.middleName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
-        nameEntryView.lastName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
         travelerButton.setTravelButtonListener(this)
         nameEntryView.firstName.addOnFocusChangeListener(this)
         nameEntryView.middleName.addOnFocusChangeListener(this)
