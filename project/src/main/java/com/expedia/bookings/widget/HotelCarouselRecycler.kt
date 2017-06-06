@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewConfiguration
 import com.expedia.bookings.data.hotels.Hotel
 import com.mobiata.android.util.AndroidUtils
 import rx.subjects.PublishSubject
@@ -25,9 +26,13 @@ class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerVie
     }
 
     override fun fling(velocityX: Int, velocityY: Int): Boolean {
-        var position = if (velocityX < 0) layoutManager.findFirstVisibleItemPosition() else layoutManager.findLastVisibleItemPosition()
+        if ((Math.abs(velocityX) < ViewConfiguration.get(context).scaledMinimumFlingVelocity) && velocityY == 0) {
+            return false
+        }
 
+        var position = if (velocityX < 0) layoutManager.findFirstVisibleItemPosition() else layoutManager.findLastVisibleItemPosition()
         val nextView: View? = layoutManager.findViewByPosition(position)
+
         if (nextView != null) {
             smoothScrollBy(nextView.left, 0)
         }
