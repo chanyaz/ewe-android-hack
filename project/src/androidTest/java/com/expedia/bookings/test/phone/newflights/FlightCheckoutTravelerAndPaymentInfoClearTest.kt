@@ -40,8 +40,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.checkout().perform(ViewActions.click())
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.first_name_input))
-                .check(ViewAssertions.matches(ViewMatchers.withText("Eidur")))
+        assertTravelerInfoCleared()
 
         PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
 
