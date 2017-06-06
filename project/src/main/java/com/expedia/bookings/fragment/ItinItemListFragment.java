@@ -147,7 +147,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 			mListener.onItinItemListFragmentAttached(this);
 		}
-		showUserReview();
 	}
 
 	@Override
@@ -765,8 +764,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		void onItinCardClicked(ItinCardData data);
 	}
 
+	@Override
+	public void setUserVisibleHint(boolean visible) {
+		super.setUserVisibleHint(visible);
+		if (visible) {
+			showUserReview();
+		}
+	}
+
 	public void showUserReview() {
-		if (UserReviewDialogViewModel.shouldShowReviewDialog(getActivity())) {
+		if (getActivity() != null && UserReviewDialogViewModel.shouldShowReviewDialog(getActivity())) {
 			if (ratingDialog == null) {
 				ratingDialog = new UserReviewRatingDialog(getActivity());
 				ratingDialog.setViewModel(new UserReviewDialogViewModel(getActivity()));
