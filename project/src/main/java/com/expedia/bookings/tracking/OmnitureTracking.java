@@ -1,5 +1,7 @@
 package com.expedia.bookings.tracking;
 
+import com.expedia.bookings.ADMS_Measurement;
+import com.adobe.mobile.Config;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -32,7 +34,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
 
-import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -133,6 +134,9 @@ public class OmnitureTracking {
 
 	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
+		Config.setContext(app.getApplicationContext());
+
+		//TODO clean up the following code
 		sContext = app.getApplicationContext();
 		userStateManager = app.appComponent().userStateManager();
 		ADMS_Measurement.sharedInstance(sContext);
