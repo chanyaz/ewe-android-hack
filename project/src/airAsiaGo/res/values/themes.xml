@@ -142,8 +142,6 @@
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
-        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
-        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>

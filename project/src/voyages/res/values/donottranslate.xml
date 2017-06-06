@@ -22,7 +22,4 @@
 
     <!-- Email addresses -->
     <string name="email_app_support">vsc-android@mobiata.com</string>
-
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Agence Voyages-SNCF.com</string>
 </resources>

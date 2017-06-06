@@ -12,10 +12,6 @@
     <!-- Orbitz Rewards Card URL -->
     <string name="rewards_card_url">http://www.orbitz.com/rewards/visacard</string>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Orbitz</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">189060</string>
     <string name="tune_sdk_app_conversion_key">8f7dc538871c8297bf3e2d9485856044</string>

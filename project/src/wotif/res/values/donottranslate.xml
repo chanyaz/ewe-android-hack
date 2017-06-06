@@ -9,10 +9,6 @@
     <!-- App Support URL -->
     <string name="app_support_url_wotif">http://www.mobiata.com/support/wotif/android</string>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Wotif</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">188640</string>
     <string name="tune_sdk_app_conversion_key">5906feacf85426428e9b508640b6bb69</string>
