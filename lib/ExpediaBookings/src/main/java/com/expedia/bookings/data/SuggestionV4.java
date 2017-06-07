@@ -89,9 +89,11 @@ public class SuggestionV4 {
 			}
 		}
 		v4.regionNames = new RegionNames();
-		v4.regionNames.fullName = regionNames.fullName;
-		v4.regionNames.displayName = regionNames.displayName;
-		v4.regionNames.shortName = regionNames.shortName;
+		if (regionNames != null) {
+			v4.regionNames.fullName = regionNames.fullName;
+			v4.regionNames.displayName = regionNames.displayName;
+			v4.regionNames.shortName = regionNames.shortName;
+		}
 		v4.hotelId = hotelId;
 		v4.coordinates = new LatLng();
 		if (coordinates != null) { //Rail sends null coordinates for parent stations
@@ -111,7 +113,7 @@ public class SuggestionV4 {
 	}
 
 	public boolean isCurrentLocationSearch() {
-		return Strings.isEmpty(gaiaId) && !isSearchThisArea;
+		return Strings.isEmpty(gaiaId) && !isSearchThisArea && Strings.isEmpty(hotelId);
 	}
 
 	public boolean isMajorAirport() {

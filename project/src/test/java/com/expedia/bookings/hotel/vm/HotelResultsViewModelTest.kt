@@ -18,6 +18,8 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelResultsViewModelTest {
@@ -82,6 +84,18 @@ class HotelResultsViewModelTest {
         filteredResultsSubscriber.awaitValueCount(1, 1, TimeUnit.SECONDS)
         filteredResultsSubscriber.assertValueCount(1)
         filteredResultsSubscriber.assertNoTerminalEvent()
+    }
+
+    @Test
+    fun testFilterAfterPinned() {
+        happyParams.suggestion.hotelId = "12345"
+        assertTrue(happyParams.isPinnedSearch())
+
+        sut.paramsSubject.onNext(happyParams)
+        sut.filterParamsSubject.onNext(filterParams)
+
+        assertFalse(sut.getSearchParams()!!.isPinnedSearch(), "FAILURE: Filter search params should never be pinned.")
+        assertTrue(happyParams.isPinnedSearch(), "FAILURE : The original params should not be mutated")
     }
 
     @Test

@@ -26,14 +26,13 @@ class FlightCellWidgetTest {
 
     @Test
     fun testFSRInfographicVisibility() {
-        val flightCellWidget = FlightCellWidget(RuntimeEnvironment.application, 5, false)
+        val flightCellWidget = FlightCellWidget(RuntimeEnvironment.application, false)
         val selectedFlight = getMockSelectedFlight()
-        flightCellWidget.bind(FlightOverviewRowViewModel(context, selectedFlight))
+        flightCellWidget.bind(FlightOverviewRowViewModel(context, selectedFlight), 5)
         assertEquals(View.VISIBLE, flightCellWidget.flightLayoverWidget.visibility)
 
-        SettingUtils.save(context, R.string.preference_flight_hide_fsr_infographic, true)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic, 1)
-        flightCellWidget.bind(FlightOverviewRowViewModel(context, selectedFlight))
+        flightCellWidget.bind(FlightOverviewRowViewModel(context, selectedFlight), 5)
         assertEquals(View.GONE, flightCellWidget.flightLayoverWidget.visibility)
     }
 

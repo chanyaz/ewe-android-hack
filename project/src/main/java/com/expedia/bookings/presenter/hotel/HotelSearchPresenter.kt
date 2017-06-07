@@ -5,27 +5,37 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
+import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
+import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
-import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.ShopWithPointsWidget
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.updateVisibility
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.hotel.AdvancedSearchOptionsViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
 
@@ -34,6 +44,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         @Inject set
 
     var memberDealsSearch: Boolean = false
+
+    val params = HotelSearchParams()
+
+    private val mainContainer: LinearLayout by bindView(R.id.main_container)
+    private val advancedOptionsView: SearchInputTextView by bindView(R.id.advanced_options_view)
+    private val advancedOptionsDetails: AdvancedSearchOptionsView by bindView(R.id.search_options_details_view)
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -48,10 +64,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             updateDestinationText(locationText)
-            if(!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelRemoveAutoFocusAndAdvanceOnSearch)) {
-                if (this.visibility == VISIBLE && vm.startDate() == null) {
-                    calendarWidgetV2.showCalendarDialog()
-                }
+            if (this.visibility == VISIBLE && vm.startDate() == null) {
+                calendarWidgetV2.showCalendarDialog()
             }
         }
         vm.errorNoDestinationObservable.subscribe {
@@ -77,6 +91,8 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         vm.a11yFocusSelectDatesObservable.subscribe {
             calendarWidgetV2.setAccessibilityHoverFocus()
         }
+
+        advancedOptionsDetails.viewModel.searchOptionsSubject.subscribe(searchViewModel.advancedOptionsObserver)
 
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()
@@ -128,7 +144,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_search_params, this)
+        View.inflate(context, R.layout.widget_hotel_search, this)
         travelerCardView.visibility = View.VISIBLE
         shopWithPointsWidget = swpWidgetStub.inflate().findViewById(R.id.widget_points_details) as ShopWithPointsWidget
     }
@@ -146,6 +162,30 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         val service = Ui.getApplication(context).hotelComponent().suggestionsService()
         suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
+
+        val advancedOptionsViewModel = AdvancedSearchOptionsViewModel(context)
+        advancedOptionsDetails.viewModel = advancedOptionsViewModel
+        addTransition(searchToAdvancedOptions)
+
+        advancedOptionsView.setOnClickListener {
+            show(advancedOptionsDetails)
+        }
+
+        advancedOptionsViewModel.doneClickedSubject.subscribe {
+            showDefault()
+        }
+
+        advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
+
+        val showAdvancedOptions = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)
+        advancedOptionsView.updateVisibility(showAdvancedOptions)
+    }
+
+    override fun back(): Boolean {
+        if (AdvancedSearchOptionsView::class.java.name == currentState) {
+            return back(0)
+        }
+        return super.back()
     }
 
     fun resetSuggestionTracking() {
@@ -158,15 +198,15 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {
-       return searchViewModel
+        return searchViewModel
     }
 
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
-       return suggestionViewModel
+        return suggestionViewModel
     }
 
     override fun getSuggestionAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder> {
-       return hotelSuggestionAdapter
+        return hotelSuggestionAdapter
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {
@@ -175,5 +215,12 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.enter_destination_hint)
+    }
+
+    private val searchToAdvancedOptions = object : Transition(InputSelectionState::class.java, AdvancedSearchOptionsView::class.java) {
+        override fun endTransition(forward: Boolean) {
+            advancedOptionsDetails.updateVisibility(forward)
+            mainContainer.setInverseVisibility(forward)
+        }
     }
 }

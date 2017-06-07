@@ -28,7 +28,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -149,18 +148,6 @@ public class Db {
 		return sDb.mFlightSearchParams;
 	}
 
-	// Search params getter required for TravelerValidator
-	public static AbstractFlightSearchParams getSearchParams() {
-		if (sDb.mPackageParams != null) {
-			return sDb.mPackageParams;
-		}
-		else if (sDb.mFlightSearchParams != null) {
-			return sDb.mFlightSearchParams;
-		}
-
-		return null;
-	}
-
 	public static void setPackageSelectedHotel(Hotel packageSelectedHotel, HotelOffersResponse.HotelRoomResponse packageSelectedRoom) {
 		sDb.mPackageSelectedHotel = packageSelectedHotel;
 		sDb.mPackageSelectedRoom = packageSelectedRoom;
@@ -213,7 +200,6 @@ public class Db {
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
-		sDb.mFlightSearchParams = null;
 		sDb.mPackageParams = params;
 	}
 
@@ -268,6 +254,10 @@ public class Db {
 
 	public static void resetBillingInfo() {
 		sDb.mBillingInfo = new BillingInfo();
+		sDb.temporarilySavedCard = null;
+	}
+
+	public static void clearTemporaryCard() {
 		sDb.temporarilySavedCard = null;
 	}
 
@@ -552,15 +542,6 @@ public class Db {
 
 	public static boolean deleteTripBucket(Context context) {
 		return deleteFromDisk(context, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Saving/loading flight data
-
-	private static final String FLIGHT_SEARCH_PARAMS_SETTING = "flightSearchParamsSetting";
-
-	public static void clearFlightSearchParamsFromDisk(Context context) {
-		SettingUtils.remove(context, FLIGHT_SEARCH_PARAMS_SETTING);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

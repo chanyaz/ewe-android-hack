@@ -16,6 +16,7 @@ import android.widget.ToggleButton
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
+import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.updatePaddingForOldApi
 import com.google.android.gms.maps.GoogleMap
 import com.jakewharton.rxbinding.widget.RxTextView
@@ -62,14 +63,6 @@ fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
 fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
         observer.onNext(isChecked)
-    }
-}
-
-fun CompoundButton.subscribeOnUserInitiatedCheckChanged(observer: Observer<Boolean>) {
-    this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
-        if (compoundButton.isPressed) {
-            observer.onNext(isChecked)
-        }
     }
 }
 
@@ -252,12 +245,13 @@ fun EditText.subscribeMaterialFormsError(observer: Observable<Boolean>, errorMes
         val rightDrawable = if (rightDrawableId != 0) ContextCompat.getDrawable(this.context, rightDrawableId) else null
         val compounds = this.compoundDrawables
         this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], rightDrawable, compounds[3])
-        (this.parent as TextInputLayout).isErrorEnabled = hasError
 
+        val parentTextInputLayout = this.getParentTextInputLayout() ?: return@subscribe
+        parentTextInputLayout.isErrorEnabled = hasError
         if (hasError) {
-            (this.parent as TextInputLayout).error = errorMessage
+            parentTextInputLayout.error = errorMessage
         } else {
-            (this.parent as TextInputLayout).error = null
+            parentTextInputLayout.error = null
         }
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP && this.paddingBottom != 8) {
             this.updatePaddingForOldApi()

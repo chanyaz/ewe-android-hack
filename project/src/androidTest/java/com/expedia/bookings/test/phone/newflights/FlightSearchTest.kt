@@ -10,9 +10,11 @@ import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
+import org.junit.Test
 
 class FlightSearchTest: NewFlightTestCase() {
 
+    @Test
     fun testAirportDoesNotAutoAdvanceSecondTime() {
         SearchScreen.origin().perform(click())
         SearchScreen.selectFlightOriginAndDestination()
@@ -29,6 +31,7 @@ class FlightSearchTest: NewFlightTestCase() {
         SearchScreen.origin().check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
+    @Test
     fun testReturnSearch() {
         SearchScreen.origin().perform(click())
         SearchScreen.selectFlightOriginAndDestination()
@@ -46,6 +49,7 @@ class FlightSearchTest: NewFlightTestCase() {
         assertHeaderHasText("Prices roundtrip per person")
     }
 
+    @Test
     fun testOriginSameAsDestination() {
         SearchScreen.origin().perform(click())
         SearchScreen.selectSameFlightOriginAndDestination()
@@ -61,6 +65,7 @@ class FlightSearchTest: NewFlightTestCase() {
         SearchScreen.errorDialog("Departure and arrival airports must be different.").check(matches(isDisplayed()));
     }
 
+    @Test
     fun testSameDayReturnSearch() {
         SearchScreen.origin().perform(click())
         SearchScreen.selectFlightOriginAndDestination()
@@ -73,6 +78,7 @@ class FlightSearchTest: NewFlightTestCase() {
         SearchScreen.selectDateButton().check(matches(withText("$expectedStartDate - $expectedEndDate")))
     }
 
+    @Test
     fun testOneWaySearch() {
         FlightsScreen.selectOneWay()
         SearchScreen.origin().perform(click())

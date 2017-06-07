@@ -14,7 +14,6 @@ import android.view.ViewTreeObserver
 import android.view.Window
 import android.widget.LinearLayout
 import android.widget.Space
-import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -30,18 +29,19 @@ import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TwoScreenOverviewState
-import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -49,14 +49,13 @@ import com.expedia.util.safeSubscribe
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
-import io.fabric.sdk.android.Fabric
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
@@ -89,7 +88,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun trackCheckoutPriceChange(priceDiff: Int)
     abstract fun handleCheckoutPriceChange(response: TripResponse)
     abstract fun createTravelersViewModel(): TravelersViewModel
-    abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
     abstract fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int)
     abstract fun onCreateTripResponse(response: TripResponse?)
 
@@ -201,8 +199,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.checkoutPriceChangeObservable.subscribe { response ->
             vm.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
-            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
-            getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
             val oldPrice = response.getOldPrice()
             if (oldPrice != null) {
                 trackCheckoutPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
@@ -226,39 +222,40 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
-        vm.performCreateTrip.map { false }.subscribe(vm.showPriceChangeWidgetObservable)
+        vm.performCreateTrip.subscribe {
+            paymentViewModel.clearTemporaryCardObservable.onNext(Unit)
+            paymentWidget.clearPaymentInfo()
+            paymentWidget.removeStoredCard()
+        }
         vm.priceChangeAlertPriceObservable.map { response ->
             Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode) }
                 .distinctUntilChanged().map { it.first != null && it.second != null }
                 .subscribe(vm.showPriceChangeAlertObservable)
         vm.showPriceChangeAlertObservable.subscribe { show ->
-            if (show) {
+            if (show && currentState != BillingDetailsPaymentWidget::class.java.name) {
                 showAlertDialogForPriceChange(vm.createTripResponseObservable.value!!)
             }
         }
         vm.showCreateTripDialogObservable.subscribe { show ->
             if (show) {
-                createTripDialog.show()
-                createTripDialog.setContentView(R.layout.process_dialog_layout)
-                AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
-                createTripDialog.findViewById(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
-                announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
+                if (!createTripDialog.isShowing) {
+                    createTripDialog.show()
+                    createTripDialog.setContentView(R.layout.process_dialog_layout)
+                    AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
+                    createTripDialog.findViewById(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
+                    announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
+                }
             } else {
                 createTripDialog.dismiss()
             }
         }
         vm.createTripResponseObservable.safeSubscribe { response ->
-            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
             val oldPrice = response!!.getOldPrice()
             if (oldPrice != null) {
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(oldPrice, response.newPrice()))
                 if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, oldPrice.amount)) {
-                    if (shouldShowAlertForCreateTripPriceChange(response)) {
-                        vm.priceChangeAlertPriceObservable.onNext(response)
-                        return@safeSubscribe
-                    } else {
-                        vm.showPriceChangeWidgetObservable.onNext(true)
-                    }
+                    vm.priceChangeAlertPriceObservable.onNext(response)
+                    return@safeSubscribe
                 }
             }
             onCreateTripResponse(response)
@@ -299,6 +296,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         tripViewModel = makeCreateTripViewModel()
         getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
         getCheckoutViewModel().cardFeeTripResponse.safeSubscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCheckoutViewModel().clearCvvObservable.subscribe {
+            paymentWidget.clearCVV()
+        }
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {
@@ -474,8 +474,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun onLoginSuccess() {
         updateDbTravelers()
-        initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
+        initLoggedInState(true)
         ckoViewModel.bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
     }
 
@@ -532,6 +532,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             lp.height = distance
             scrollViewSpace.layoutParams = lp
         }, ANIMATION_DELAY)
+    }
+
+    //  for when we get signed out by a account refresh, not when the user manually signs out
+    @Subscribe fun onUserLoggedOut(@Suppress("UNUSED_PARAMETER") event: Events.SignOut) {
+        updateDbTravelers()
+        updateTravelerPresenter()
     }
 
     override fun addWindowSubscriptions() {
@@ -596,10 +602,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun doHarlemShakes() {
         if (!travelersPresenter.viewModel.allTravelersValid()) {
-            AnimUtils.doTheHarlemShake(travelerSummaryCardView)
+            AnimUtils.doTheHarlemShake(travelerSummaryCard)
         }
         if (!paymentWidget.isComplete()) {
-            AnimUtils.doTheHarlemShake(paymentWidget)
+            AnimUtils.doTheHarlemShake((paymentWidget as BillingDetailsPaymentWidget).cardInfoSummary)
         }
     }
 }

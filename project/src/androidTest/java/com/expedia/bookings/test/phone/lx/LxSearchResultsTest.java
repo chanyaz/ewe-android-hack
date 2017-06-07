@@ -2,8 +2,10 @@ package com.expedia.bookings.test.phone.lx;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -28,6 +30,7 @@ public class LxSearchResultsTest extends LxTestCase {
 	List<LXActivity> mActivities;
 	SearchResultsHandler searchResultsHandler = new SearchResultsHandler();
 
+	@Test
 	public void testSearchResultPageTestCases() throws Throwable {
 		searchListDisplayed(true);
 		//by this time we must have all the activities loaded.
@@ -53,15 +56,17 @@ public class LxSearchResultsTest extends LxTestCase {
 			// Check strikethrough price
 			if (!activity.originalPrice.getAmount().equals(BigDecimal.ZERO)) {
 				LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
-						hasDescendant(withText(containsString(activity.fromOriginalPriceValue.toString().toLowerCase())))));
+						hasDescendant(withText(containsString(activity.fromOriginalPriceValue.toString().toLowerCase(
+							Locale.getDefault()))))));
 			}
 			LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
-				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
+				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase(Locale.getDefault()))))));
 			currentCounter++;
 		}
 		//To-Do : Since Sort and Filter functionality are under discussion, will implement the test cases when we have a clarity around them.
 	}
 
+	@Test
 	public void testSearchResultsFromOverlayOnDetails() throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
@@ -69,6 +74,7 @@ public class LxSearchResultsTest extends LxTestCase {
 		searchListDisplayed(false);
 	}
 
+	@Test
 	public void testSearchResultsFromOverlayOnDetailsWithRecommendations()  throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();

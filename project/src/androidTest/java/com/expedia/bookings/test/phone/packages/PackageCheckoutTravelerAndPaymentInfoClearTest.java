@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.phone.packages;
 
 
+import org.junit.Test;
+
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -27,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestCase {
 
+	@Test
 	public void testPackageChangeFlightClearsPaymentInfoTest() throws Throwable {
 		PackageScreen.doPackageSearch();
 		PackageScreen.checkout().perform(click());
@@ -61,6 +64,7 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		assertPaymentInfoCleared();
 	}
 
+	@Test
 	public void testPackageCcNumberAndCvvClearsAfterPaymentError() throws Throwable {
 		PackageScreen.doPackageSearch();
 		PackageScreen.checkout().perform(click());
@@ -89,6 +93,7 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_cvv, "");
 	}
 
+	@Test
 	public void testPaymentInfoChangedAfterUserLoggedIn() throws Throwable {
 		PackageScreen.doPackageSearch();
 		PackageScreen.checkout().perform(click());

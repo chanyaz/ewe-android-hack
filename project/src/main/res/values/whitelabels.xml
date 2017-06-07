@@ -221,7 +221,6 @@
     <attr name="skin_tripsTabText" format="reference|string" />
     <attr name="skin_hotelPriceTextStyle" format="reference" />
 
-    <attr name="skin_flightLoadingMessageTextColor" format="reference|color" />
     <attr name="skin_ticketSelectorDisabledColor" format="reference" />
     <attr name="skin_lxResultsBottomPadding" format="reference" />
     <attr name="skin_lxErrorNoResultsText" format="reference" />
@@ -232,7 +231,6 @@
 
     <attr name="skin_rippleDrawable" format="reference" />
     <attr name="skin_material_checkout_account_logo" format="reference" />
-    <attr name="skin_material_checkout_yellow_account_button_logo" format="reference" />
     <!-- AccountView -->
     <attr name="skin_acctSignInButtonTextColor" format="reference|color" />
     <attr name="skin_acctLogoSmallDrawable" format="reference" />

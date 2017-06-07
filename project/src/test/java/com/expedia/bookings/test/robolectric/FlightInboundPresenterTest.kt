@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.flight.FlightInboundPresenter
@@ -284,6 +285,7 @@ class FlightInboundPresenterTest {
                 .destination(destination)
                 .startDate(startDate)
                 .adults(1) as FlightSearchParams.Builder
+        paramsBuilder.flightCabinClass("coach")
 
         if (roundTrip) {
             paramsBuilder.endDate(endDate)
@@ -307,7 +309,11 @@ class FlightInboundPresenterTest {
     private fun prepareFlightResultObservables(flightSearchParams: FlightSearchParams, travellerCountSubscriber: TestSubscriber<Int>) {
         val flightSelectedSubject = PublishSubject.create<FlightLeg>()
         val isRoundTripSubject = BehaviorSubject.create<Boolean>()
-        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
+        isRoundTripSubject.onNext(false)
+        val flightCabinClassSubject = BehaviorSubject.create<String>()
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
+        val isOutboundSearch = false
+        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
         flightInboundPresenter.resultsPresenter.setAdapter(flightListAdapter)
 
         Db.setFlightSearchParams(flightSearchParams)
@@ -318,6 +324,7 @@ class FlightInboundPresenterTest {
 
     private fun invokeSetupComplete() {
         flightInboundPresenter.flightOfferViewModel = FlightOffersViewModel(activity, service)
+        flightInboundPresenter.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(true).build())
         flightInboundPresenter.setupComplete()
     }
 

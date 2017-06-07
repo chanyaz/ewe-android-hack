@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import android.support.test.espresso.ViewAssertion;
 
 import com.expedia.bookings.R;
@@ -19,6 +21,7 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
+	@Test
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
@@ -28,7 +31,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 		assertPayLaterPayNowRooms();
 	}
 
-
+	@Test
 	public void testNonETPHotelWithoutFreeCancellation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
@@ -37,6 +40,7 @@ public class HotelDetailEtpFreeCancellationTest extends HotelTestCase {
 		assertViewsBasedOnETPAndFreeCancellation(false, false);
 	}
 
+	@Test
 	public void testNonETPHotelWithFreeCancellation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_non_etp_with_free_cancellation");

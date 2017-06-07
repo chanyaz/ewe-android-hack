@@ -39,6 +39,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
@@ -204,7 +205,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mValidExpiration.setMaterialDropdownResource(R.drawable.material_dropdown);
 	}
 
-	public void setMaterialErrorStrings() {
+	public void setErrorStrings() {
 		mValidCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 		mValidMaskedCCNum.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_number));
 		mValidNameOnCard.setErrorString(getContext().getResources().getString(R.string.error_enter_a_valid_card_name));
@@ -869,7 +870,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			}
 
-			View view = Ui.inflate(this, R.layout.fragment_dialog_expiration, null);
+			final View view = Ui.inflate(this, R.layout.fragment_dialog_expiration, null);
 
 			int themeResId = R.style.ExpediaLoginDialog;
 			Dialog dialog = new Dialog(getActivity(), themeResId);
@@ -889,11 +890,18 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void onMonthChange(int month) {
 					mMonth = month;
+					announceDateForAccessibility();
 				}
 
 				@Override
 				public void onYearChange(int year) {
 					mYear = year;
+					announceDateForAccessibility();
+				}
+
+				private void announceDateForAccessibility() {
+					LocalDate date = new LocalDate().withMonthOfYear(mMonth).withYear(mYear);
+					view.announceForAccessibility(DateUtils.localDateToMMyyyy(date));
 				}
 
 			});

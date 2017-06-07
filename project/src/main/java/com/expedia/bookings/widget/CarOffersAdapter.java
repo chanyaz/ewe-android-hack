@@ -229,7 +229,7 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			root.setBackground(background);
 
 			ratePrice.setTextColor(isChecked ? mContext.getResources()
-				.getColor(R.color.cars_primary_color)
+				.getColor(R.color.app_primary)
 				: mContext.getResources().getColor(R.color.cars_checkout_text_color));
 
 			collapsedContainer.setPadding(isChecked ? sideExpanded : sideCollapsed,

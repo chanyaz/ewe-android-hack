@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.junit.Test;
 
@@ -210,12 +211,12 @@ public class StringsTests {
 
 	@Test
 	public void testCapitalizeString() {
-		assertEquals("", Strings.capitalize(""));
-		assertEquals(null, Strings.capitalize(null));
-		assertEquals("Abcd_Efgh", Strings.capitalize("aBCD_EFGH", '_'));
-		assertEquals("Bcde*Dnas", Strings.capitalize("bCDE*dnAS", '*'));
-		assertEquals("Direct Agency", Strings.capitalize("DIRECT AGENCY"));
-		assertEquals("Merchant", Strings.capitalize("MERCHANT"));
+		assertEquals("", Strings.capitalize("", Locale.US));
+		assertEquals(null, Strings.capitalize(null, Locale.US));
+		assertEquals("Abcd_Efgh", Strings.capitalize("aBCD_EFGH", '_', Locale.US));
+		assertEquals("Bcde*Dnas", Strings.capitalize("bCDE*dnAS", '*', Locale.US));
+		assertEquals("Direct Agency", Strings.capitalize("DIRECT AGENCY", Locale.US));
+		assertEquals("Merchant", Strings.capitalize("MERCHANT", Locale.US));
 	}
 
 	@Test

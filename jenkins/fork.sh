@@ -57,36 +57,24 @@ fi
 # unistall old apks
 ./tools/uninstall.sh com.expedia.bookings
 
-run() {
-	 # run tests
-	./gradlew --no-daemon forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
-}
+# run test
+./gradlew --no-daemon -PrunProguard=false forkExpediaDebug
 
-failed_test_classes=""
-for runCount in `seq 3`
-	do
-		echo "run count - $runCount"
+cat project/build/fork/expedia/debug/summary/fork-*.json |
+tr '}' '\n' |
+grep failureTrace |
+sed 's/.*"testClass":"\([^"]*\)","testMethod":"\([^"]*\)","failureTrace".*/\1/' > project/build/fork/expedia/debug/summary/failed_test_classes.txt
 
-		# run test
-		run $failed_test_classes
+failed_test_classes=$(cat project/build/fork/expedia/debug/summary/failed_test_classes.txt | tr '\n' ',')
 
-		cat project/build/fork/expedia/debug/summary/fork-*.json |
-		tr '}' '\n' |
-		grep failureTrace |
-		sed 's/.*"testClass":"\([^"]*\)","testMethod":"\([^"]*\)","failureTrace".*/\1/' > project/build/fork/expedia/debug/summary/failed_test_classes.txt
-
-		failed_test_classes=$(cat project/build/fork/expedia/debug/summary/failed_test_classes.txt | tr '\n' ',')
-
-		# exit if all test passed
-		if [ "$failed_test_classes" == "" ]; then
-			echo "All tests passed quit build."
-			internal_artifact "$runCount-success"
-			break
-		else
-			internal_artifact "$runCount-failure"
-		fi
-	done
-
+# exit if all test passed
+if [ "$failed_test_classes" == "" ]; then
+    echo "All tests passed quit build."
+    internal_artifact "success"
+    break
+else
+    internal_artifact "failure"
+fi
 if [ hasPullId == true ]; then
 	python ./jenkins/pr_ui_feedback.py $GITHUB_ACCESS_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_ACCESS_TOKEN
 fi

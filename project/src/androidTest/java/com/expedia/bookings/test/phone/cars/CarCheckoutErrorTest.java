@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.junit.Test;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
@@ -29,6 +31,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 	private static final int CC_REQUIRED = 1;
 	private static final String EMAIL = "george@mobiata.com";
 
+	@Test
 	public void testUnknownError() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "UnknownError");
 
@@ -43,6 +46,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 		screenshot("Default Error Message Close");
 	}
 
+	@Test
 	public void testPriceChange() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "PriceChange");
 
@@ -58,6 +62,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
+	@Test
 	public void testInvalidInput() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "InvalidInput");
 
@@ -75,6 +80,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("Slide to reserve");
 	}
 
+	@Test
 	public void testTripAlreadyBooked() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "AlreadyBooked");
 
@@ -87,6 +93,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 		screenshot("Trips");
 	}
 
+	@Test
 	public void testPaymentFailed() throws Throwable {
 		performCarCheckout(CC_REQUIRED, "PaymentFailed");
 
@@ -104,6 +111,7 @@ public class CarCheckoutErrorTest extends CarTestCase {
 		screenshot("Payment Failed Recourse Complete");
 	}
 
+	@Test
 	public void testSessionTimeout() throws Throwable {
 		performCarCheckout(CC_NOT_REQUIRED, "SessionTimeout");
 

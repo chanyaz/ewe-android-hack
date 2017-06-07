@@ -42,6 +42,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     val cancelOutboundSearchObservable = PublishSubject.create<Unit>()
     val cancelInboundSearchObservable = PublishSubject.create<Unit>()
     val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
+    val flightCabinClassSubject = BehaviorSubject.create<String>()
     var isOutboundSearch = true
 
     protected var isRoundTripSearch = true
@@ -53,6 +54,7 @@ abstract class BaseFlightOffersViewModel(val context: Context, val flightService
     init {
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
+            flightCabinClassSubject.onNext(params.flightCabinClass)
             searchingForFlightDateTime.onNext(Unit)
             flightOutboundSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
         }

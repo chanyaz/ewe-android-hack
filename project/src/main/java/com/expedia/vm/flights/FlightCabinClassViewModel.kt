@@ -7,6 +7,7 @@ import rx.subjects.PublishSubject
 class FlightCabinClassViewModel {
     val flightCabinClassObservable = BehaviorSubject.create<FlightServiceClassType.CabinCode>()
     val flightSelectedCabinClassIdObservable = PublishSubject.create<Int>()
+    val flightCabinClassSelectedObservable = PublishSubject.create<Unit>()
 
     init {
         flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.COACH)

@@ -5,7 +5,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="24dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="0dp"
     android:shrinkColumns="0">
 
     <TextView
@@ -14,7 +17,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:paddingBottom="16dp"
+        android:paddingBottom="12dp"
         android:text="@string/pending_points_info"
         android:textColor="@color/gray8" />
 

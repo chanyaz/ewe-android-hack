@@ -3,6 +3,7 @@ package com.expedia.bookings.test.happy;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -45,6 +46,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testLxPhoneHappyPathLoggedInCustomer() throws Throwable {
 		goToLxSearchResults();
 		LXScreen.goToSearchResults(mLxIdlingResource);
@@ -57,6 +59,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		verifyBooking();
 	}
 
+	@Test
 	public void testLxPhoneHappyPathLoggedInCustomerCanSelectNewTraveler() throws Throwable {
 		goToLxSearchResults();
 		LXScreen.goToSearchResults(mLxIdlingResource);
@@ -77,6 +80,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		CheckoutViewModel.phone().check(matches(withText("")));
 	}
 
+	@Test
 	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
 		goToLxSearchResults();
 		LXScreen.goToSearchResults(mLxIdlingResource);
@@ -84,6 +88,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		validateRestHappyFlow();
 	}
 
+	@Test
 	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
 		goToLxSearchResults();
 		LXScreen.location().perform(waitForViewToDisplay(), typeText("San"));

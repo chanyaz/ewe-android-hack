@@ -12,6 +12,7 @@ import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
+import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
@@ -61,7 +62,8 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun inflateFilterView(viewStub: ViewStub): BaseHotelFilterView {
-        return inflateClientFilterView(viewStub)
+        viewStub.layoutResource = R.layout.hotel_client_filter_stub
+        return viewStub.inflate() as HotelClientFilterView
     }
 
     override fun doAreaSearch() {

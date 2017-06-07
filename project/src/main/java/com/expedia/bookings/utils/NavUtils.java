@@ -9,13 +9,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.expedia.account.Config;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ActivityKillReceiver;
-import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -53,6 +53,10 @@ public class NavUtils {
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
+	}
+
+	public static void startActivityForResult(Context context, Intent intent, Bundle options, int requestCode) {
+		((AppCompatActivity) context).startActivityForResult(intent, requestCode, options);
 	}
 
 	public static void startActivity(Context context, Intent intent, Bundle options) {
@@ -138,7 +142,7 @@ public class NavUtils {
 		context.startActivity(intent);
 		Bundle bundle = new Bundle();
 		if (useItinSyncExtender) {
-			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, new ItinerarySyncLoginExtender());
+			bundle = AccountLibActivity.createArgumentsBundle(LineOfBusiness.LAUNCH, new ItinerarySyncLoginExtender());
 		}
 
 		if ((flags & MEMBER_ONLY_DEAL_SEARCH) != 0) {
@@ -232,10 +236,22 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToPackages(Context context, Bundle animOptions) {
+	public static void goToPackages(Context context, Bundle data, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, PackageActivity.class);
+		if (data != null) {
+			intent.putExtras(data);
+		}
 		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToPackagesForResult(Context context, Bundle data, Bundle animOptions, int requestCode) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, PackageActivity.class);
+		if (data != null) {
+			intent.putExtras(data);
+		}
+		startActivityForResult(context, intent, animOptions, requestCode);
 	}
 
 	public static void goToRail(Context context, Bundle animOptions) {
@@ -271,11 +287,7 @@ public class NavUtils {
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
 		FlightSearchParams flightSearchParams) {
 		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
-			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
-			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
-			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);
-			intent.addFlags(flags);
-			startActivity(context, intent, animOptions);
+			NavUtils.goToLaunchScreen(context, false, LineOfBusiness.FLIGHTS);
 		}
 		else {
 			sendKillActivityBroadcast(context);

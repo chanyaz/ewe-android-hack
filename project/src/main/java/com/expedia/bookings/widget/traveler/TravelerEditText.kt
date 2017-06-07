@@ -29,6 +29,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     val errorIcon: Drawable
     var errorContDesc = ""
+    val defaultErrorString = context.resources.getString(R.string.accessibility_cont_desc_role_error)
 
     private var textChangedSubscription: Subscription? = null
     private var errorSubscription: Subscription? = null
@@ -100,13 +101,14 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
         val text = this.text?.toString()
         var hint = this.hint?.toString()
+        val error = (this.parent as? TextInputLayout)?.error ?: errorContDesc
         if (Strings.isEmpty(hint)) {
             hint = (this.parent as? TextInputLayout)?.hint.toString()
         }
         val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
             this.contentDescription.toString()
         } else ""
-        nodeInfo.text = if (!valid) " $hint, $text, $errorContDesc, $conDescription" else " $hint, $text, $conDescription"
+        nodeInfo.text = if (!valid) " $hint, $text, $defaultErrorString, $error, $conDescription" else " $hint, $text, $conDescription"
     }
 
     private fun resetError() {

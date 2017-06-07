@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusResponse;
@@ -15,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class CommonSteps {
+	public static Map<String, String> storeDataAtRuntime = new HashMap();
 	@And("^I set the POS to \"(.*?)\"$")
 	public void setPOS(String name) throws Throwable {
 		switch (name) {

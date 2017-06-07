@@ -45,8 +45,7 @@
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
-        <item name="skin_material_checkout_account_logo">@drawable/brand_logo_white</item>
-        <item name="skin_material_checkout_yellow_account_button_logo">@drawable/brand_logo_blue</item>
+        <item name="skin_material_checkout_account_logo">@drawable/brand_logo_blue</item>
         
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>
@@ -823,11 +822,15 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginTop">11dp</item>
     </style>
+
     <!--Header title text used inside search results for things like "50 Results" or "Prices roundtrip per person"-->
     <style name="ResultsDescriptionText">
         <item name="android:textColor">@color/search_results_list_header_gray</item>
         <item name="android:textSize">@dimen/temporary_font_size_medium</item>
         <item name="textStyle">normal</item>
+    </style>
+
+    <style name="ResultsDescriptionText.Center">
         <item name="android:gravity">center</item>
     </style>
 
@@ -847,6 +850,9 @@
     <style name="FlightsResultsDescriptionText" parent="ResultsDescriptionText">
         <item name="android:paddingBottom">9dp</item>
         <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="FlightsResultsDescriptionText.CenterHorizontal">
         <item name="android:gravity">center_horizontal</item>
     </style>
 

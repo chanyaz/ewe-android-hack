@@ -22,6 +22,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
+import org.junit.Test
 
 class SearchScreenTest : HotelTestCase() {
 
@@ -71,6 +72,7 @@ class SearchScreenTest : HotelTestCase() {
 //    }
 
     @Throws(Throwable::class)
+    @Test
     fun testNewSearchScreenTravelerDismiss() {
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_search)
 
@@ -112,6 +114,7 @@ class SearchScreenTest : HotelTestCase() {
     }
 
     @Throws(Throwable::class)
+    @Test
     fun testNewSearchScreenToResult() {
         EspressoUtils.assertViewIsDisplayed(R.id.widget_hotel_search)
 
@@ -144,6 +147,7 @@ class SearchScreenTest : HotelTestCase() {
     }
 
     @Throws(Throwable::class)
+    @Test
     fun testNewSearchScreenToDetail() {
         SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"))
         Common.closeSoftKeyboard(SearchScreen.searchEditText())

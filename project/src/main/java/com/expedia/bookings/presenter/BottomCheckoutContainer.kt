@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
@@ -38,7 +37,6 @@ class BottomCheckoutContainer(context: Context, attrs: AttributeSet) : LinearLay
     val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
-    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
     val checkoutButtonContainer: View by bindView(R.id.button_container)
     val checkoutButton: Button by bindView(R.id.checkout_button)

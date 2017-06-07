@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
 
@@ -30,6 +31,10 @@ open class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFli
 
     override fun getFlightDetailCardContDescriptionStringID(): Int {
         return R.string.flight_detail_card_cont_desc_without_price_diff_TEMPLATE
+    }
+
+    override fun isUserBucketedInHideFSRInfographicTest(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightHideFSRInfographic)
     }
 }
 

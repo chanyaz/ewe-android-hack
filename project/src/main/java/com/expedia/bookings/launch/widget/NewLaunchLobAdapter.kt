@@ -48,19 +48,7 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
 
     fun getSpanSize(position: Int): Int {
         val length = itemCount
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLOBAccentuating)) {
-            return if (length % 2 == 0) {
-                        if (length <= 2) 1
-                        else if (position < 2) 2
-                        else 1
-                    }
-                    else {
-                        if (length == 1) 1
-                        else if (position < 3) 2
-                        else 1
-                    }
-        }
-        return if (position == length - 1 && position % 2 == 0) 2 else 1
+        return if (length > 0 && position == length - 1 && position % 2 == 0) 2 else 1
     }
 
     class LobViewHolder(itemView: View, val viewModel: NewLaunchLobViewModel) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="LinearLayout"
+    tools:orientation="vertical">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:text="@string/Filter_By"
+        android:textColor="@color/hotel_filter_text"
+        android:textSize="15sp"
+        app:textStyle="medium" />
+
+    <RelativeLayout
+        android:id="@+id/filter_hotel_name_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/filter_search_input"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/hotel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/filter_search_icon"
+            android:tint="@color/hotel_filter_hotel_name_icon" />
+
+        <com.expedia.bookings.widget.accessibility.AccessibleEditText
+            android:id="@+id/filter_hotel_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@id/hotel_name"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="@string/filter_hotel_name_hint2"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:textColorHint="@color/hotel_filter_text"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/clear_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/filter_hotel_name_edit_text"
+            android:contentDescription="@string/clear_filters"
+            android:layout_centerVertical="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/filter_clear"
+            android:tint="@color/hotel_filter_hotel_name_icon"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+    </RelativeLayout>
+</merge>

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import android.content.Context;
@@ -8,7 +9,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -26,8 +26,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
-import com.expedia.bookings.data.user.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -40,6 +38,7 @@ import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
 import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -48,7 +47,6 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.LoyaltyUtil;
 import com.squareup.phrase.Phrase;
-import java.text.DecimalFormat;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -161,21 +159,8 @@ public class AccountButton extends LinearLayout {
 		if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
 			lpt.width = LayoutParams.WRAP_CONTENT;
 			lpt.gravity = Gravity.CENTER;
-			int textColor;
-			int drawableSkinAttribute;
-			if (LobExtensionsKt.isUniversalCheckout(lob, getContext()) && Db.getAbacusResponse()
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInButtonYellow)) {
-				textColor = R.color.material_checkout_yellow_account_button_text_color;
-				((CardView) mLoginContainer).setCardBackgroundColor(
-					ContextCompat
-						.getColor(getContext(), R.color.material_checkout_yellow_account_button_background_color));
-				drawableSkinAttribute = R.attr.skin_material_checkout_yellow_account_button_logo;
-			}
-			else {
-				textColor = R.color.material_checkout_account_button_text_color;
-				drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
-			}
-
+			int textColor = R.color.material_checkout_account_button_text_color;
+			int drawableSkinAttribute = R.attr.skin_material_checkout_account_logo;
 			mLoginTextView.setTextColor(
 				ContextCompat.getColor(getContext(), textColor));
 			int[] attrs = { drawableSkinAttribute };

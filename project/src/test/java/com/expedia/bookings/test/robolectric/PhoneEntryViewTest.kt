@@ -15,6 +15,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.vm.traveler.TravelerPhoneViewModel
@@ -28,7 +29,9 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowAlertDialog::class))
@@ -252,6 +255,24 @@ class PhoneEntryViewTest {
         widget.viewModel = setupViewModelWithPhone()
 
         assertEquals("0987654321", phoneNumberField.text.toString())
+    }
+
+    @Test
+    fun testCountryCodeFocusDependsOnVisibility() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        widget = LayoutInflater.from(themedContext).inflate(R.layout.test_phone_entry_view, null) as PhoneEntryView
+        val phoneCountryCode = widget.phoneEditBox as AccessibleEditTextForSpinner
+
+        assertTrue(phoneCountryCode.isFocusable)
+        assertTrue(phoneCountryCode.isFocusableInTouchMode)
+
+        widget.visibility = View.GONE
+        assertFalse(phoneCountryCode.isFocusable)
+        assertFalse(phoneCountryCode.isFocusableInTouchMode)
+
+        widget.visibility = View.VISIBLE
+        assertTrue(phoneCountryCode.isFocusable)
+        assertTrue(phoneCountryCode.isFocusableInTouchMode)
     }
 
     private fun setupViewModelWithPhone() : TravelerPhoneViewModel{

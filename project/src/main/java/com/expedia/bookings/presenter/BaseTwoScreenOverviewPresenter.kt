@@ -59,7 +59,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
-    val disabledSTPStateEnabled = isDisabledSTPStateEnabled(context)
+    val disabledSTPStateEnabled = isDisabledSTPStateEnabled()
 
     val slideTotalText by lazy {
         bottomCheckoutContainer.slideTotalText
@@ -75,10 +75,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     val slideToPurchaseLayout by lazy {
         bottomCheckoutContainer.slideToPurchaseLayout
-    }
-
-    val priceChangeWidget by lazy {
-        bottomCheckoutContainer.priceChangeWidget
     }
 
     val slideToPurchase by lazy {
@@ -137,38 +133,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         airlineFeeWebview.viewModel = WebViewViewModel()
         (checkoutPresenter.getCheckoutViewModel() as AbstractCardFeeEnabledCheckoutViewModel).obFeeDetailsUrlSubject.subscribe(airlineFeeWebview.viewModel.webViewURLObservable)
         airlineFeeWebview
-    }
-
-
-    protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
-        priceChangeWidget.viewmodel = vm
-        vm.priceChangeVisibility.subscribe { visible ->
-            if (priceChangeWidget.measuredHeight == 0) {
-                priceChangeWidget.measure(MeasureSpec.makeMeasureSpec(this.width, MeasureSpec.AT_MOST),
-                        MeasureSpec.makeMeasureSpec(this.height, MeasureSpec.UNSPECIFIED))
-            }
-            val height = priceChangeWidget.measuredHeight
-            if (visible) {
-                priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-                AnimUtils.slideInOut(priceChangeWidget, height, object : Animator.AnimatorListener {
-                    override fun onAnimationCancel(animation: Animator) {
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator) {
-                    }
-
-                    override fun onAnimationStart(animation: Animator) {
-                    }
-
-                    override fun onAnimationEnd(animation: Animator) {
-                        priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-                    }
-                })
-                AnimUtils.slideInOut(bottomContainerDropShadow, height)
-            } else {
-                priceChangeWidget.translationY = height.toFloat()
-            }
-        }
     }
 
     protected var totalPriceViewModel: AbstractUniversalCKOTotalPriceViewModel by notNullAndObservable { vm ->
@@ -316,12 +280,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             } else {
                 trackShowBundleOverview()
             }
-            val checkoutButtonTextColor = ContextCompat.getColor(context, if (forward) {
-                R.color.white_disabled
-            } else {
-                R.color.search_dialog_background_v2
-            })
-            checkoutButton.setTextColor(checkoutButtonTextColor)
         }
 
         private fun translateCheckout(f: Float, forward: Boolean) {
@@ -398,9 +356,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (slideToPurchaseLayout.height > 0) {
             scrollspaceheight -= slideToPurchaseLayout.height
         }
-        if (priceChangeWidget.height > 0) {
-            scrollspaceheight -= priceChangeWidget.height
-        }
         if (scrollSpaceViewLp?.height != scrollspaceheight) {
             scrollSpaceViewLp?.height = scrollspaceheight
             scrollSpaceView?.layoutParams = scrollSpaceViewLp
@@ -415,7 +370,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     fun resetPriceChange() {
-        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
         checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(null)
     }
 
@@ -432,6 +386,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val showSlider = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
                 && state == TwoScreenOverviewState.CHECKOUT
         toggleCheckoutButtonOrSlider(showSlider, state)
+        toggleSlideToPurchaseText(showSlider)
         toggleAcceptTermsWidget(showSlider)
         if (showSlider) {
             checkoutPresenter.trackShowSlideToPurchase()
@@ -471,9 +426,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.subscribe { currentState ->
-            val hasText = !checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.value.isNullOrEmpty()
-            slideToPurchaseSpace.setInverseVisibility(hasText)
-            slideTotalText.updateVisibility(hasText)
             toggleBottomContainerViews(currentState)
         }
     }
@@ -528,6 +480,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             if (checkoutViewModel.builder.hasValidCVV()) {
                 val params = checkoutViewModel.builder.build()
                 if (!ExpediaBookingApp.isAutomation() && !checkoutViewModel.builder.hasValidCheckoutParams()) {
+                    (context.applicationContext as ExpediaBookingApp).setCrashlyticsMetadata()
                     Crashlytics.logException(Exception(("User slid to purchase, see params: ${params.toValidParamsMap()}, hasValidParams: ${checkoutViewModel.builder.hasValidParams()}")))
                 }
                 checkoutViewModel.checkoutParams.onNext(params)
@@ -536,21 +489,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             }
         }
         bottomCheckoutContainer.viewModel = bottomCheckoutContainerViewModel
-        priceChangeViewModel = PriceChangeViewModel(context, checkoutPresenter.getLineOfBusiness())
         totalPriceViewModel = getPriceViewModel(context)
         baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
     }
 
     private fun setupCreateTripViewModelSubscriptions() {
-        checkoutPresenter.getCreateTripViewModel().updatePriceChangeWidgetObservable.subscribe { response ->
-            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
-        }
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
             resetCheckoutState()
         }
-        checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
-        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
     }
 
     private fun toggleCheckoutButtonOrSlider(showSlider: Boolean, state: TwoScreenOverviewState) {
@@ -566,14 +512,26 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 slideToPurchase.visibility = View.VISIBLE
                 checkoutButtonContainer.visibility = View.GONE
             } else {
-                if (state == TwoScreenOverviewState.BUNDLE|| (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
+                if (state == TwoScreenOverviewState.BUNDLE || (disabledSTPStateEnabled && state == TwoScreenOverviewState.CHECKOUT)) {
                     checkoutButtonContainer.visibility = View.VISIBLE
+                    val checkoutButtonTextColor = ContextCompat.getColor(context, if (state == TwoScreenOverviewState.BUNDLE) {
+                        R.color.search_dialog_background_v2
+                    } else {
+                        R.color.white_disabled
+                    })
+                    checkoutButton.setTextColor(checkoutButtonTextColor)
                 } else {
                     checkoutButtonContainer.visibility = View.GONE
                 }
                 slideToPurchase.visibility = View.GONE
             }
         }
+    }
+
+    private fun toggleSlideToPurchaseText(sliderIsShown: Boolean) {
+        val hasText = !checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.value.isNullOrEmpty()
+        slideToPurchaseSpace.setInverseVisibility(hasText && sliderIsShown)
+        slideTotalText.updateVisibility(hasText && sliderIsShown)
     }
 
     private fun toggleAcceptTermsWidget(showSlider: Boolean) {

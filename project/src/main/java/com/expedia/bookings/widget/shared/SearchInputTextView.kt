@@ -19,12 +19,13 @@ open class SearchInputTextView(context: Context, attrs: AttributeSet?): TextView
                 ta.recycle()
             }
         }
+        setCompoundDrawablesRelativeWithIntrinsicBounds(compoundDrawables[0], compoundDrawables[1], compoundDrawables[2], compoundDrawables[3])
     }
 
     fun setEndDrawable(endDrawable: Drawable?) {
-        val startDrawable = compoundDrawables[0]
-        val topDrawable = compoundDrawables[1]
-        val bottomDrawable = compoundDrawables[3]
+        val startDrawable = compoundDrawablesRelative[0]
+        val topDrawable = compoundDrawablesRelative[1]
+        val bottomDrawable = compoundDrawablesRelative[3]
         setCompoundDrawablesRelativeWithIntrinsicBounds(startDrawable, topDrawable, endDrawable, bottomDrawable)
     }
 

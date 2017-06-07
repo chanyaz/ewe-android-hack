@@ -10,6 +10,7 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.android.util.SettingUtils
@@ -25,6 +26,7 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -360,6 +362,40 @@ class FlightSearchViewModelTest {
         sut.isRoundTripSearchObservable.onNext(true)
         sut.performSearchObserver.onNext(Unit)
         assertEquals(sut.searchParamsObservable.value.legNo, 0)
+    }
+
+    @Test
+    fun testParamsNotSavedIfNotBucketedToRetainParamsABTest() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightRetainSearchParams)
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        sut.isRoundTripSearchObservable.onNext(true)
+        sut.performSearchObserver.onNext(Unit)
+        FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
+            assertNull(loadedParams)
+        })
+
+    }
+
+    @Test
+    fun testParamsSavedIfBucketedToRetainParamsABTest() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRetainSearchParams)
+        SettingUtils.save(context, R.string.preference_flight_retain_search_params, true)
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        sut.isRoundTripSearchObservable.onNext(true)
+        FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, { loadedParams ->
+            assertNotNull(loadedParams)
+        })
+        sut.performSearchObserver.onNext(Unit)
     }
 
     private fun givenByotOutboundSearch() {

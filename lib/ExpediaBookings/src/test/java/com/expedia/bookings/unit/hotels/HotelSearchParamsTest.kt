@@ -46,29 +46,15 @@ class HotelSearchParamsTest {
     }
 
     @Test
-    fun testClientSideSortTypeIsAlwaysDefault() {
-        testParamBuilder.userSort(HotelSearchParams.SortType.REVIEWS)
+    fun testSortDefault() {
         val searchParams = testParamBuilder.build()
-        searchParams.serverSort = false
-
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
-
-        searchParams.sortType = "SortMeSortMe"
         assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
     }
 
     @Test
-    fun testServerSideSortDefault() {
-        val searchParams = testParamBuilder.build()
-        searchParams.serverSort = true
-        assertEquals(HotelSearchParams.SortType.EXPERT_PICKS, searchParams.getSortOrder())
-    }
-
-    @Test
-    fun testServerSideSortWithUserPreference() {
+    fun testSortWithUserPreference() {
         testParamBuilder.userSort(HotelSearchParams.SortType.REVIEWS)
         val searchParams = testParamBuilder.build()
-        searchParams.serverSort = true
 
         assertEquals(HotelSearchParams.SortType.REVIEWS, searchParams.getSortOrder())
 
@@ -87,15 +73,14 @@ class HotelSearchParamsTest {
     }
 
     @Test
-    fun testServerSideSortWithSortType() {
+    fun testSortWithSortType() {
         val searchParams = testParamBuilder.build()
-        searchParams.serverSort = true
         searchParams.sortType = "Price"
         assertEquals(HotelSearchParams.SortType.PRICE, searchParams.getSortOrder())
     }
 
     @Test
-    fun testCurrentLocationServerSideSort() {
+    fun testCurrentLocationSortType() {
         val paramBuilder = HotelSearchParams.Builder(maxStay, maxRange)
         val currentLocation = getDummySuggestion("ChiTown", "CHI")
         currentLocation.gaiaId = ""
@@ -104,10 +89,23 @@ class HotelSearchParamsTest {
                 .startDate(tomorrow)
                 .endDate(checkoutDate)
         val searchParams = paramBuilder.build()
-        searchParams.serverSort = true
         assertEquals(HotelSearchParams.SortType.DISTANCE, searchParams.getSortOrder())
     }
 
+    @Test
+    fun testDestinationDeepCopy() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val originalSuggestion = getDummySuggestion("chicago", "CHI")
+        originalSuggestion.hotelId = "12345"
+        val params = builder.destination(originalSuggestion).startDate(tomorrow).endDate(checkoutDate).build() as HotelSearchParams
+        params?.clearPinnedHotelId()
+        val newBuilder = HotelSearchParams.Builder(maxStay, maxRange)
+                .destination(originalSuggestion)
+                .startDate(params?.checkIn)
+                .endDate(params?.checkOut) as HotelSearchParams.Builder
+
+        assertTrue(newBuilder.build().isPinnedSearch())
+    }
 
     private fun getDummySuggestion(city: String, airport: String): SuggestionV4 {
         val suggestion = SuggestionV4()
@@ -121,6 +119,4 @@ class HotelSearchParamsTest {
         suggestion.hierarchyInfo!!.airport!!.airportCode = airport
         return suggestion
     }
-
-
 }

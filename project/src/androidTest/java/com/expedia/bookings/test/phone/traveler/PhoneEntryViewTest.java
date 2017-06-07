@@ -127,8 +127,7 @@ public class PhoneEntryViewTest {
 		});
 
 		//test for accessibility content description
-		assertEquals(phoneEntryView.getPhoneNumber().getErrorContDesc(),
-			"Error");
+		assertEquals("Enter a valid phone number", phoneEntryView.getPhoneNumber().getErrorContDesc());
 
 		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(matches(isDisplayed()));
 

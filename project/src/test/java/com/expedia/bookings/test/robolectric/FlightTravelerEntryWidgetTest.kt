@@ -46,6 +46,7 @@ class FlightTravelerEntryWidgetTest {
     fun setUp() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultFlightComponents()
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_traveler_presenter)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
@@ -66,7 +67,20 @@ class FlightTravelerEntryWidgetTest {
         widget.viewModel = testVM
 
         assertEquals(countryName, widget.passportCountryEditBox.text.toString())
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
+    }
+
+    @Test
+    fun testPassportErrorMessage() {
+        givenMaterialForm(false)
+
+        assertEquals("Select a passport country", widget.passportCountrySpinner.errorMessage)
+    }
+
+    @Test
+    fun testEmailErrorMessage() {
+        givenMaterialForm(false)
+
+        assertEquals("Enter a valid email address", widget.emailEntryView.emailAddress.errorContDesc)
     }
 
     @Test
@@ -80,7 +94,6 @@ class FlightTravelerEntryWidgetTest {
         val expectedGender = widget.tsaEntryView.viewModel.genderViewModel.genderSubject.value
 
         assertEquals(Traveler.Gender.MALE, expectedGender)
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal)
     }
 
     @Test
@@ -185,7 +198,9 @@ class FlightTravelerEntryWidgetTest {
     }
 
     private fun givenMaterialForm(isMaterialForm: Boolean) {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        if (isMaterialForm) {
+            AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        }
 
         val viewStub = activity.findViewById(R.id.traveler_presenter_stub) as ViewStub
         travelerPresenter = viewStub.inflate() as FlightTravelersPresenter
@@ -203,6 +218,5 @@ class FlightTravelerEntryWidgetTest {
                 TravelerCheckoutStatus.CLEAN)
 
         widget.viewModel = testVM
-        assertTrue(widget.materialFormTestEnabled)
     }
 }

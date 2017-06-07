@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -26,6 +27,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageBackNavigationTest extends PackageTestCase {
 
+	@Test
 	public void testPackageBackNavigation() throws Throwable {
 		PackageScreen.searchPackage();
 		HotelScreen.selectHotel("Package Happy Path");
@@ -83,6 +85,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(waitForViewToDisplay());
 	}
 
+	@Test
 	public void testPackageBackNavigationAfterSelection() throws Throwable {
 		PackageScreen.doPackageSearch();
 		PackageScreen.outboundFlightInfoRowContainer().perform(click());

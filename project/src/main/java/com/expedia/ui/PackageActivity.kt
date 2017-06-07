@@ -16,12 +16,14 @@ import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {
     var changedOutboundFlight = false
+
+    private var isCrossSellPackageOnFSREnabled = false
 
     val packagePresenter: PackagePresenter by lazy {
         findViewById(R.id.package_presenter) as PackagePresenter
@@ -33,11 +35,11 @@ class PackageActivity : AbstractAppCompatActivity() {
         Ui.getApplication(this).defaultTravelerComponent()
         setContentView(R.layout.package_activity)
         Ui.showTransparentStatusBar(this)
+        isCrossSellPackageOnFSREnabled = intent.getBooleanExtra(Constants.INTENT_PERFORM_HOTEL_SEARCH, false)
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(this, R.string.preference_packages_remove_bundle_overview) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -46,7 +48,7 @@ class PackageActivity : AbstractAppCompatActivity() {
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
-        packagePresenter.bundleLoadingView.visibility = if(isRemoveBundleOverviewFeatureEnabled()) View.VISIBLE else View.GONE
+        packagePresenter.bundleLoadingView.visibility = if (isRemoveBundleOverviewFeatureEnabled()) View.VISIBLE else View.GONE
 
         when (resultCode) {
             Activity.RESULT_CANCELED -> {
@@ -54,11 +56,17 @@ class PackageActivity : AbstractAppCompatActivity() {
                 if (Db.getPackageParams().isChangePackageSearch() && obj !is Intent) {
                     onBackPressed()
                 } else {
+                    if (isCrossSellPackageOnFSREnabled) {
+                        finish()
+                        return
+                    }
+
                     if (isRemoveBundleOverviewFeatureEnabled()) {
                         onBackPressed()
                     } else {
                         PackagesTracking().trackViewBundlePageLoad()
                     }
+
                     if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                         Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 
@@ -198,7 +206,7 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     private fun packageFlightSearch() {
-        if(!isRemoveBundleOverviewFeatureEnabled()) {
+        if (!isRemoveBundleOverviewFeatureEnabled()) {
             PackagesTracking().trackViewBundlePageLoad()
         }
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
@@ -211,10 +219,10 @@ class PackageActivity : AbstractAppCompatActivity() {
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
             getCreateTripViewModel().reset()
+            params.flexEnabled = isFlexEnabled(this)
             getCreateTripViewModel().tripParams.onNext(params)
         }
     }
 
     private fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
-
 }

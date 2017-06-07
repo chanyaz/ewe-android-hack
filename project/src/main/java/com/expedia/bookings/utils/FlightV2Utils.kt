@@ -184,7 +184,7 @@ object FlightV2Utils {
         return Phrase.from(context.resources.getString(R.string.package_flight_overview_airline_airplane_TEMPLATE))
                 .put("carrier", flightSegment.carrier)
                 .put("flightnumber", flightSegment.flightNumber)
-                .put("airplanetype", Strings.capitalize(flightSegment.airplaneType))
+                .put("airplanetype", Strings.capitalize(flightSegment.airplaneType, Locale.US))
                 .format().toString()
     }
 

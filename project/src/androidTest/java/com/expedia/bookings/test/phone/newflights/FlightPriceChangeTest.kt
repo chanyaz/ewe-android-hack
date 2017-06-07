@@ -8,9 +8,6 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.test.espresso.AbacusTestUtils
-import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
@@ -32,8 +29,10 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
     fun testCreateTripPriceChange() {
         getToCheckoutOverview(PriceChangeType.CREATE_TRIP)
 
-        // test price change
-        FlightsOverviewScreen.assertPriceChangeShown("Price dropped from $763")
+        FlightsOverviewScreen.assertPriceChangeShown(
+                "The price of your trip has changed from $763.00 to $696.00. Rates can change frequently. Book now to lock in this price.")
+        onView(withId(android.R.id.button1)).perform(ViewActions.click())
+        PackageScreen.checkout().perform(ViewActions.click())
 
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo()
@@ -46,16 +45,18 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
     fun testCheckoutPriceChange() {
         getToCheckoutOverview(PriceChangeType.CHECKOUT)
 
+        PackageScreen.checkout().perform(ViewActions.click())
+
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo("checkoutpricechange lastname")
         CheckoutViewModel.performSlideToPurchase()
-
-        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
     }
 
     @Test
     fun testCheckoutPriceChangeWithInsurance() {
         getToCheckoutOverview(PriceChangeType.CHECKOUT, false)
+
+        PackageScreen.checkout().perform(ViewActions.click())
 
         assertInsuranceIsVisible()
         PackageScreen.toggleInsuranceSwitch()
@@ -65,7 +66,6 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         PackageScreen.enterPaymentInfo("checkoutpricechangewithinsurance lastname")
         CheckoutViewModel.performSlideToPurchase()
 
-        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $715")
         assertInsuranceAfterPriceChange()
     }
 
@@ -96,7 +96,6 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
                 selectFirstInboundFlight()
             }
         }
-        PackageScreen.checkout().perform(ViewActions.click())
     }
 
     private fun assertInsuranceAfterPriceChange() {

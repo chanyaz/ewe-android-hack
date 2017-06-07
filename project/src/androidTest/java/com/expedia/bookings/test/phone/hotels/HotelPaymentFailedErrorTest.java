@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
@@ -13,6 +15,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDispl
 
 public class HotelPaymentFailedErrorTest extends HotelTestCase {
 
+	@Test
 	public void testPaymentFailedError() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
@@ -28,6 +31,7 @@ public class HotelPaymentFailedErrorTest extends HotelTestCase {
 		assertViewIsDisplayed(R.id.section_billing_info);
 	}
 
+	@Test
 	public void testPaymentFailedErrorWithBack() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
@@ -43,6 +47,7 @@ public class HotelPaymentFailedErrorTest extends HotelTestCase {
 		assertViewIsDisplayed(R.id.section_billing_info);
 	}
 
+	@Test
 	public void testPaymentFailedErrorWithToolbarBack() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");

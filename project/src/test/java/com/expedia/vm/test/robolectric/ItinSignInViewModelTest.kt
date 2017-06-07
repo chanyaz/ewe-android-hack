@@ -1,14 +1,20 @@
 package com.expedia.vm.test.robolectric
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.Drawable
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.tracking.ItinPageUsableTrackingData
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.itin.ItinSignInViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Matchers
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
@@ -17,6 +23,8 @@ import kotlin.test.assertEquals
 class ItinSignInViewModelTest {
     lateinit private var activity: Activity
     lateinit private var sut: ItinSignInViewModel
+    lateinit private var testItinSignInViewModel: TestItinSignInViewModel
+    lateinit private var mockItinPageUsablePerformanceModel: ItinPageUsableTrackingData
 
     val statusTextTestSubscriber = TestSubscriber<String>()
     val buttonTextTestSubscriber = TestSubscriber<String>()
@@ -26,6 +34,7 @@ class ItinSignInViewModelTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        Ui.getApplication(activity).defaultTripComponents()
         sut = ItinSignInViewModel(activity)
     }
 
@@ -94,6 +103,39 @@ class ItinSignInViewModelTest {
         buttonTextTestSubscriber.assertValue("Sign in with Expedia")
         contDescTestSubscriber.assertValue("Sign in with Expedia Button")
         imageTestSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testItinLoginStartTimerPageUsableTracking() {
+        setUpItinLogin()
+        givenCustomerNotAuthenticated()
+
+        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.never()).markSuccessfulSignIn(Matchers.anyLong())
+        testItinSignInViewModel.signInClickSubject.onNext(Unit)
+
+        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.times(1)).markSuccessfulSignIn(Matchers.anyLong())
+    }
+
+    private fun setUpItinLogin() {
+        testItinSignInViewModel = TestItinSignInViewModel(activity)
+        mockItinPageUsablePerformanceModel = Mockito.mock(ItinPageUsableTrackingData::class.java)
+        testItinSignInViewModel.itinPageUsablePerformanceModel = mockItinPageUsablePerformanceModel
+    }
+
+    private fun givenCustomerNotAuthenticated() {
+        try {
+            User.signOut(activity)
+        } catch (e: Exception) {
+            // note: sign out triggers a notification clean-up which accesses the local DB.
+            // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
+        }
+    }
+
+    class TestItinSignInViewModel(context: Context) : ItinSignInViewModel(context) {
+        override fun doItinSignIn() {
+            this.userLoginStateChangedModel.userLoginStateChanged.onNext(true)
+        }
+
     }
 
 }

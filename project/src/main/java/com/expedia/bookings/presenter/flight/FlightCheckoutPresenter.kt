@@ -92,6 +92,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         vm as FlightCreateTripViewModel
 
         vm.tripParams.subscribe {
+            vm.showCreateTripDialogObservable.onNext(true)
             userAccountRefresher.ensureAccountIsRefreshed()
         }
     }
@@ -109,10 +110,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
         tripResponse as FlightCheckoutResponse
-        val oldPrice = tripResponse.getOldPrice()
-        if (oldPrice != null) {
-            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(tripResponse)
-        }
         onTripResponse(tripResponse)
     }
 
@@ -174,8 +171,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultTransition = object : DefaultCheckoutTransition() {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
-                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
+                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!offerInsuranceInFlightSummary)
         }
     }
@@ -183,8 +180,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     override val defaultToPayment = object : DefaultToPayment(this) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            val offerInsuranceInFlightSummary = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils
-                    .EBAndroidAppOfferInsuranceInFlightSummary, R.string.preference_insurance_in_flight_summary)
+            val offerInsuranceInFlightSummary = Db.getAbacusResponse().isUserBucketedForTest(
+                    AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary)
             insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward && !offerInsuranceInFlightSummary)
         }
     }
@@ -195,10 +192,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
         return DefaultToTraveler(FlightTravelersPresenter::class.java)
-    }
-
-    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert)
     }
 
     override fun trackCheckoutPriceChange(diffPercentage: Int) {

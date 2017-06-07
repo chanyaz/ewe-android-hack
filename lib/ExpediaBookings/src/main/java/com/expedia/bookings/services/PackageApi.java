@@ -45,7 +45,8 @@ public interface PackageApi {
 		@Query("destinationId") String destId,
 		@Query("roomOccupants[0].numberOfAdultGuests") int numberOfAdults,
 		@Query("roomOccupants[0].infantsInSeat") boolean infantInSeat,
-		@Query("roomOccupants[0].childGuestAge") List<Integer> childAges);
+		@Query("roomOccupants[0].childGuestAge") List<Integer> childAges,
+		@Query("mobileFlexEnabled") boolean flexEnabled);
 
 	@FormUrlEncoded
 	@POST("/api/packages/checkout")

@@ -196,16 +196,16 @@ public class Strings {
 	/**
 	 * Converts string to camel case using space as a delimiter
 	 */
-	public static String capitalize(String s) {
-		return capitalize(s, null);
+	public static String capitalize(String s, Locale locale) {
+		return capitalize(s, null, locale);
 	}
 
-	public static String capitalize(String s, Character delimiter) {
+	public static String capitalize(String s, Character delimiter, Locale locale) {
 		if (isEmpty(s)) {
 			return s;
 		}
 
-		s = s.toLowerCase();
+		s = s.toLowerCase(locale);
 
 		final char[] chars = s.toCharArray();
 		boolean capitalize = true;

@@ -1,6 +1,10 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -377,7 +381,20 @@ public class SearchScreenSteps {
 
 	@Then("^Validate the flight Search API request form data for following parameters")
 	public void validateFlightSearchRequestFormData(Map<String, String> expParameters) throws Throwable {
-		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
+
+		HashMap<String, String> modifiableExpParameters = new HashMap<>();
+		modifiableExpParameters.putAll(expParameters);
+		Format dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+		if (modifiableExpParameters.get("departureDate") != null ) {
+			LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("departureDate")));
+			modifiableExpParameters.put("departureDate", dateFormatter.format(stDate.toDate()).toString());
+		}
+		if (modifiableExpParameters.get("returnDate") != null ) {
+			LocalDate returnDate = LocalDate.now().plusDays(Integer.parseInt(expParameters.get("returnDate")));
+			modifiableExpParameters.put("returnDate", dateFormatter.format(returnDate.toDate()).toString());
+		}
+
+		for (Map.Entry<String, String> entry : modifiableExpParameters.entrySet()) {
 			Assert.assertEquals(entry.getValue(), apiRequestData.getFormData().get(entry.getKey()));
 		}
 	}

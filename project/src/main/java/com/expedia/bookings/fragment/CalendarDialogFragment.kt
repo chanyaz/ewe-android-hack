@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -137,6 +136,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
                 calendar.setSelectedDates(calendar.startDate, endDate)
             }
             userTappedDone = true
+            baseSearchViewModel.dateSetObservable.onNext(Unit)
             dialog.dismiss()
         })
 

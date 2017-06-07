@@ -7,8 +7,8 @@ import org.hamcrest.Matchers;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -132,7 +132,7 @@ public class CheckoutViewModel {
 	public static Matcher<View> toolBarMatcher() {
 		return allOf(
 			withParent(withClassName(is(CheckoutToolbar.class.getName()))),
-			withClassName(is(ImageButton.class.getName()))
+			withClassName(is(AppCompatImageButton.class.getName()))
 		);
 	}
 
@@ -361,4 +361,16 @@ public class CheckoutViewModel {
 	public static ViewInteraction freeCancellationText() {
 		return onView(withId(R.id.free_cancellation_text));
 	}
+	public static ViewInteraction freeCancellationTooltipText() {
+		return onView(withId(R.id.free_cancellation_tooltip_text));
+	}
+
+	public static ViewInteraction freeCancellationWidget() {
+		return onView(withId(R.id.free_cancellation_view));
+	}
+
+	public static ViewInteraction freeCancellationDescription() {
+		return onView(withId(R.id.free_cancellation_description));
+	}
+
 }

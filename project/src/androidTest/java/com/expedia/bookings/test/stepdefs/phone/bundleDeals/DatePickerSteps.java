@@ -46,8 +46,8 @@ public class DatePickerSteps {
 			//choose departure date
 			SearchScreen.chooseDates(stDate, null);
 			//validate calender tooltip and subtilte
-			SearchScreen.validateDatesToolTip(finalstr, "Drag to modify");
-			validateCalenderSubtitle(finalstr + " (1 night)");
+			SearchScreen.validateDatesToolTip(stDateStr, "Next: Select return date");
+			validateCalenderSubtitle(stDateStr + " – Select return date");
 		}
 	}
 }

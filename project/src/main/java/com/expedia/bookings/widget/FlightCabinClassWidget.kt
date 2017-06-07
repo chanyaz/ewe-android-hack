@@ -51,6 +51,7 @@ class FlightCabinClassWidget(context: Context, attrs: AttributeSet?) : SearchInp
         builder.setView(flightCabinClassDialogView)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(flightCabinClassView.getSelectedClass())
+            flightCabinClassView.viewmodel.flightCabinClassSelectedObservable.onNext(Unit)
             FlightsV2Tracking.trackFlightCabinClassSelect(flightCabinClassView.getSelectedClass().name)
             dialog.dismiss()
         })

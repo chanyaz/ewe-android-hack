@@ -68,25 +68,25 @@ public class HotelPriceRangeSeekBar extends FilterRangeSeekBar {
 			case R.id.price_range_increase_min_price:
 				seekBar.setMinValue(seekBar.getMinValue() + 1);
 				a11yMinPriceText = priceRange.formatValue(seekBar.getMinValue());
-				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue());
+				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue(), Thumb.MIN);
 				seekBar.setContentDescription(getContentDesc());
 				return true;
 			case R.id.price_range_decrease_min_price:
 				seekBar.setMinValue(seekBar.getMinValue() - 1);
 				a11yMinPriceText = priceRange.formatValue(seekBar.getMinValue());
-				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue());
+				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue(), Thumb.MIN);
 				seekBar.setContentDescription(getContentDesc());
 				return true;
 			case R.id.price_range_increase_max_price:
 				seekBar.setMaxValue(seekBar.getMaxValue() + 1);
 				a11yMaxPriceText = priceRange.formatValue(seekBar.getMaxValue());
-				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue());
+				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue(), Thumb.MAX);
 				seekBar.setContentDescription(getContentDesc());
 				return true;
 			case R.id.price_range_decrease_max_price:
 				seekBar.setMaxValue(seekBar.getMaxValue() - 1);
 				a11yMaxPriceText = priceRange.formatValue(seekBar.getMaxValue());
-				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue());
+				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue(), Thumb.MAX);
 				seekBar.setContentDescription(getContentDesc());
 				return true;
 			default:

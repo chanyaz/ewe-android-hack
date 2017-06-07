@@ -11,6 +11,7 @@ public class Constants {
 	public static final int PACKAGE_FLIGHT_OUTBOUND_REQUEST_CODE = 102;
 	public static final int PACKAGE_FLIGHT_RETURN_REQUEST_CODE = 103;
 	public static final int PACKAGE_API_ERROR_RESULT_CODE = 104;
+	public static final int FLIGHT_REQUEST_CODE = 105;
 	//For more info on Package trip type https://confluence/display/POS/GetPackages+API
 	public static final String PACKAGE_TRIP_TYPE = "2"; // 2 mean BYOT (build your own trip)
 	public static final String NUMBER_OF_ROOMS = "1";
@@ -48,6 +49,7 @@ public class Constants {
 	public static final String PACKAGE_LOAD_OUTBOUND_FLIGHT = "LOAD_OUTBOUND_FLIGHT";
 	public static final String PACKAGE_LOAD_INBOUND_FLIGHT = "LOAD_INBOUND_FLIGHT";
 	public static final String REQUEST = "REQUEST";
+	public static final String INTENT_PERFORM_HOTEL_SEARCH = "INTENT_PERFORM_HOTEL_SEARCH";
 
 	public static final String RAIL_CLIENT_CODE = "1002";
 	public static final String RAIL_STANDARD_FARE_CLASS = "Standard";

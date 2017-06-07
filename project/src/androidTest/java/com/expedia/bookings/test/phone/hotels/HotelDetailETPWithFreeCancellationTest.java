@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -17,6 +19,7 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class HotelDetailETPWithFreeCancellationTest extends HotelTestCase {
 
+	@Test
 	public void testPayLaterHotelWithFreeCancellation() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");

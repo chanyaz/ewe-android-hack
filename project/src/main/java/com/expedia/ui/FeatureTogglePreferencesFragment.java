@@ -28,13 +28,13 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_itin_card_detail);
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
 		initializeFeatureCheck(R.string.preference_enable_additional_content_flight_confirmation);
-		initializeFeatureCheck(R.string.preference_disabled_stp_state);
+		initializeFeatureCheck(R.string.preference_enable_flex);
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
-		initializeFeatureCheck(R.string.preference_insurance_in_flight_summary);
-		initializeFeatureCheck(R.string.preference_flight_search_form_validations);
-
 		//hotel features
-		initializeFeatureCheck(R.string.preference_hotel_pinned_search);
+		//trips features
+		initializeFeatureCheck(R.string.preference_share_button_remove_calendar);
+		//Flight features
+		initializeFeatureCheck(R.string.preference_flight_retain_search_params);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

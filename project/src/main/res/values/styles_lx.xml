@@ -13,10 +13,10 @@
     <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
         <!-- Required white label attr for login widget -->
         
-        <item name="primary_color">@color/lx_primary_color</item>
-        <item name="android:colorPrimaryDark">@color/lx_color_primary_dark</item>
-        <item name="android:colorButtonNormal">@color/lx_primary_color</item>
-        <item name="colorAccent">@color/lx_primary_color</item>
+        <item name="primary_color">@color/app_primary</item>
+        <item name="android:colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="android:colorButtonNormal">@color/app_primary</item>
+        <item name="colorAccent">@color/app_primary</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
 
         <item name="map_pin_drawable">@drawable/map_marker_green</item>
@@ -26,7 +26,7 @@
 
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
-        <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
+        <item name="skin_lxPrimaryColor">@color/app_primary</item>
 
         <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
         <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
@@ -41,7 +41,7 @@
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
 
-        <item name="skin_ticketSelectorDisabledColor">@color/lx_primary_disabled_color</item>
+        <item name="skin_ticketSelectorDisabledColor">@color/hotel_guest_selector_disabled_color</item>
         <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
@@ -51,7 +51,7 @@
         <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/traveler_text_color</item>
 
-        <item name="accept_terms_text_color">@color/lx_primary_color</item>
+        <item name="accept_terms_text_color">@color/app_primary</item>
         <item name="accept_terms_background_color">@color/white</item>
 
     </style>

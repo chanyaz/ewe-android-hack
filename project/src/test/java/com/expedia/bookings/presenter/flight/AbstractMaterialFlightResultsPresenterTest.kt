@@ -6,8 +6,10 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
@@ -24,6 +26,7 @@ import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -192,7 +195,40 @@ class AbstractMaterialFlightResultsPresenterTest {
         activity.setTheme(R.style.V2_Theme_Packages)
         sut = TestFlightResultsPresenter(activity, null, isOutboundPresenter)
         sut.flightOfferViewModel = FlightOffersViewModel(activity, service)
+        sut.flightOfferViewModel.isRoundTripSearchSubject.onNext(false)
+        sut.flightOfferViewModel.searchParamsObservable.onNext(getSearchParams(sut.flightOfferViewModel.isRoundTripSearchSubject.value).build())
         sut.setupComplete()
+    }
+
+    private fun getSearchParams(roundTrip: Boolean): FlightSearchParams.Builder {
+        val origin = getDummySuggestion()
+        val destination = getDummySuggestion()
+        val startDate = LocalDate.now()
+        val endDate = startDate.plusDays(2)
+        val paramsBuilder = FlightSearchParams.Builder(26, 500)
+                .origin(origin)
+                .destination(destination)
+                .startDate(startDate)
+                .adults(1) as FlightSearchParams.Builder
+        paramsBuilder.flightCabinClass("coach")
+
+        if (roundTrip) {
+            paramsBuilder.endDate(endDate)
+        }
+        return paramsBuilder
+    }
+
+    private fun getDummySuggestion(): SuggestionV4 {
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        suggestion.regionNames = SuggestionV4.RegionNames()
+        suggestion.regionNames.displayName = ""
+        suggestion.regionNames.fullName = ""
+        suggestion.regionNames.shortName = ""
+        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
+        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
+        return suggestion
     }
 
     private fun setupFlightLeg(): FlightLeg {

@@ -62,7 +62,7 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                 LineOfBusiness.TRANSPORT -> nav.goToTransport(null)
                 LineOfBusiness.LX -> nav.goToActivities(null)
                 LineOfBusiness.CARS -> nav.goToCars(null)
-                LineOfBusiness.PACKAGES -> nav.goToPackages(null)
+                LineOfBusiness.PACKAGES -> nav.goToPackages(null, null)
                 LineOfBusiness.RAILS -> nav.goToRail(null)
                 else -> {
                     //Add other lobs navigation in future

@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
@@ -12,6 +14,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 
 public class HotelUnknownCheckoutErrorTest extends HotelTestCase {
+
+	@Test
 	public void testUnknownCheckoutError() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("error_checkout_unknown");

@@ -28,6 +28,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
+                    android:id="@+id/card_info_summary"
                     android:orientation="horizontal">
 
                     <FrameLayout
@@ -130,13 +131,13 @@
                     android:id="@+id/section_billing_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
-                    android:focusable="true"
                     android:orientation="vertical">
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/card_info_label"
                         style="@style/MaterialCheckoutTextHeader"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:text="@string/card_info" />
 
                     <com.expedia.bookings.widget.TextView
@@ -288,8 +289,10 @@
 
                     <com.expedia.bookings.widget.TextView
                         style="@style/MaterialCheckoutTextHeader"
-                        android:text="@string/billing_address"
-                        android:paddingTop="12dp" />
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:paddingTop="12dp"
+                        android:text="@string/billing_address" />
 
                     <!--Billing Address section-->
                     <FrameLayout

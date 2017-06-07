@@ -6,6 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+
+    <com.expedia.bookings.widget.FreeCancellationWidget
+        android:id="@+id/free_cancellation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"
         android:layout_width="match_parent"

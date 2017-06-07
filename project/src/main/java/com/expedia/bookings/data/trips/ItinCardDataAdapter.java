@@ -1,5 +1,10 @@
 package com.expedia.bookings.data.trips;
 
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import com.expedia.bookings.tracking.ItinPageUsableTrackingData;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +38,7 @@ import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE ENUMERATIONS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -72,6 +78,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		mContext = context;
 		mItinCardDatas = new ArrayList<ItinCardData>();
 		mItinCardDatasSync = new ArrayList<ItinCardData>();
+		Ui.getApplication(context).defaultTripComponents();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -259,8 +266,36 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		//Notify listeners
 		notifyDataSetChanged();
 
+		trackItinLoginPageUsable();
+
 		// Reset state before next sync
 		mItinCardDatasSync.clear();
+	}
+
+	@Nullable
+	protected ItinPageUsableTrackingData getItinPageUsableTrackingDataModel() {
+		com.expedia.bookings.dagger.TripComponent tripComponent = Ui.getApplication(mContext).tripComponent();
+		if (tripComponent != null) {
+			return tripComponent.itinPageUsablePerformanceModel();
+		}
+		else {
+			return null;
+		}
+	}
+
+	@VisibleForTesting
+	public void trackItinLoginPageUsable() {
+		ItinPageUsableTrackingData itinPageUsablePerformanceModel = getItinPageUsableTrackingDataModel();
+		if (itinPageUsablePerformanceModel != null) {
+			if ((getItineraryManagerInstance().getItinCardData() != null
+				&& getItineraryManagerInstance().getItinCardData().size() > 0)) {
+				if (itinPageUsablePerformanceModel.hasStartTime()) {
+					itinPageUsablePerformanceModel.markTripResultsUsable(System.currentTimeMillis());
+					OmnitureTracking
+						.trackItinPageUsablePerformance(itinPageUsablePerformanceModel.getTripLoadPageUsableData());
+				}
+			}
+		}
 	}
 
 	/**

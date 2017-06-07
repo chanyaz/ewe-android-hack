@@ -50,7 +50,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/options"
-                    android:textColor="@color/cars_primary_color" />
+                    android:textColor="@color/app_primary" />
 
                 <android.support.v7.widget.CardView
                     style="@style/MaterialCardView"
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@string/car_filter_checkbox_air_conditioning"
-                        android:textColor="@color/cars_primary_color" />
+                        android:textColor="@color/app_primary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -170,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@string/car_filter_checkbox_unlimited_mileage"
-                        android:textColor="@color/cars_primary_color" />
+                        android:textColor="@color/app_primary" />
                 </LinearLayout>
 
                 <View
@@ -187,7 +187,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/car_types"
-                    android:textColor="@color/cars_primary_color" />
+                    android:textColor="@color/app_primary" />
 
                 <LinearLayout
                     android:id="@+id/filter_categories"
@@ -209,7 +209,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:text="@string/car_vendors"
-                    android:textColor="@color/cars_primary_color" />
+                    android:textColor="@color/app_primary" />
 
                 <LinearLayout
                     android:id="@+id/filter_suppliers"

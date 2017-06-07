@@ -19,6 +19,10 @@
     <string name="package_search_traveler_default_text">1 reiziger</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">Sleep om te wijzigen</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}. Selecteer datums opnieuw om te wijzigen</string>
+    <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
+    <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}. {instructiontext}</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
@@ -779,8 +783,6 @@
     <string name="prices_roundtrip_label">Retourprijzen per persoon</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prijzen per persoon (enkele vlucht)</string>
-    <!-- Label clarifying the type of flight trip -->
-    <string name="Roundtrip">Retour</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Retourprijzen, per persoon, vanaf</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -971,7 +973,7 @@
 
     <!--Onboarding-->
     <string name="booking_page_title">Boek waar je ook bent</string>
-    <string name="booking_page_subtitle">Vind de ideale vluchten, hotels, activiteiten en meer via onze app</string>
+    <string name="booking_page_subtitle">Plan je reis waar en wanneer dan ook</string>
     <string name="trip_page_title">Reis vol vertrouwen</string>
     <string name="trip_page_subtitle">Krijg toegang tot je boekingsdetails en ontvang alerts op je mobiel</string>
     <string name="reward_page_title">Reisvoordelen</string>
@@ -1491,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">Bel voor ondersteuning</string>
     <string name="itin_action_support">Ondersteuning</string>
     <string name="itin_action_share">Delen</string>
+    <string name="share_action_content_description">Delen-knop</string>
     <string name="itin_action_view">Reisplan weergeven</string>
 
     <!-- Itin webview titles -->
@@ -2537,6 +2540,9 @@
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
+    <!-- The label for the hotel cell of the hotel you selected on results. -->
+    <string name="you_picked_this_hotel_label">Je hebt dit hotel gekozen</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Businesscentrum</string>
@@ -2546,6 +2552,8 @@
     <string name="AmenityHotTub">Bubbelbad</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">Internet</string>
+    <!-- Free Internet access amenity -->
+    <string name="AmenityFreeInternet">Gratis internet</string>
     <!-- Kids' activities amenity -->
     <string name="AmenityKidsActivities">Activiteiten voor kinderen</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -2942,6 +2950,29 @@
     <string name="points_value_label">Puntenwaarde</string>
     <!-- Label (positioned above) for customer points value currency -->
     <string name="currency_label">Valuta</string>
+    <!-- Dialog for pending points -->
+    <string name="pending_points_info">Punten in behandeling worden beschikbaar na afloop van de reis binnen de volgende periode:</string>
+    <string name="pending_points_dialog_title">Punten in behandeling</string>
+    <string name="pending_points_button">Puntenknop</string>
+    <string name="trip_type">Soort reis</string>
+    <string name="up_to">Tot</string>
+    <string name="activities">Activiteiten</string>
+    <string name="cruises">Cruises</string>
+    <string name="cars">Auto\&apos;s</string>
+    <!--example: 30 days-->
+    <string name="number_of_days_points_TEMPLATE">{number_of_days} dagen</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">Punten voor Vluchten zijn max. {number_of_days} dagen na je reis klaar voor gebruik.</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">Punten voor Combipakketten zijn max. {number_of_days} dagen na je reis klaar voor gebruik.</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">Punten voor Activiteiten zijn max. {number_of_days} dagen na je reis klaar voor gebruik.</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">Punten voor Hotels zijn max. {number_of_days} dagen na je reis klaar voor gebruik.</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">Punten voor Cruises zijn max. {number_of_days} dagen na je reis klaar voor gebruik.</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">Punten voor Autoʼs zijn max. {number_of_days} dagen na je reis klaar voor gebruik.</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3600,7 +3631,6 @@
     <string name="hotels_filter_show_more_cont_desc">Toon meer buurten. Knop</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">Toon minder buurten. Knop</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon toegepast: je bespaart %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -3608,6 +3638,22 @@
     <string name="coupon_error_remove_dialog_title">Verwijdering coupon mislukt</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Er was een probleem met je coupon. Probeer het opnieuw in te voeren.</string>
+    <!-- Hotel Advanced Search Options card title -->
+    <string name="advanced_options">Geavanceerde opties</string>
+    <!-- VIP only search options on advanced options card title -->
+    <string name="vip_only">Alleen VIP</string>
+    <!-- Sort by search option on advanced options card title -->
+    <string name="hotel_sort_by_search_option_TEMPLATE">Sorteer op {sortby}</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="one_star">1 ster</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="two_star">2 sterren</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="three_star">3 sterren</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="four_star">4 sterren</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="five_star">5 sterren</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Mogelijk gelden er transactiekosten op basis van je betalingsmethode.</string>
@@ -3773,6 +3819,10 @@
     <string name="select_flight_to">Selecteer vlucht naar %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Vlucht naar %1$s</string>
+    <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
+    <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">op {date}</string>
+    <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
+    <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime} - {arrivaltime} · {stops}</string>
     <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
     <string name="flight_to_card_TEMPLATE">Vlucht naar ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
@@ -3794,6 +3844,12 @@
         <item quantity="one">Hotel in {city} - 1 kamer, {number} nacht</item>
         <item quantity="other">Hotel in {city} - 1 kamer, {number} nachten</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">Vlucht + Hotel</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">Bespaar wanneer je je vluchten en hotels samen boekt</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
@@ -3865,8 +3921,6 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Tussenstop in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
-    <!-- Example : Total Duration: 2h 20m • 939 miles -->
-    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Totale duur: {duration} - {distance}{distanceunit}</string>
     <!-- Toolbar Title for flight overview template. Example: Thurs May 12 - Fri May 14, 2 guests -->
     <string name="flight_overview_toolbar_TEMPLATE">{date}, {guests}</string>
     <!-- Title for flight overview summary template. Example: SFO to DEL Thurs, May 12 -->
@@ -4041,8 +4095,6 @@
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Tarieven vanaf {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Geselecteerde heenvlucht:</string>
-    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
-    <string name="rail_button_cont_desc_TEMPLATE">{description}. Knop</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Railcard toegepast: {railcards}</string>
@@ -4100,6 +4152,8 @@
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">Je gaat naar</string>
+    <!-- Message telling you on confirmation that your trip is booked -->
+    <string name="trip_is_booked">Je reis is geboekt!</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">Huurauto nodig?</string>
     <!-- Cars cross-sell origin description template-->
@@ -4309,6 +4363,7 @@
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">Terug</string>
     <string name="toolbar_nav_icon_close_cont_desc">Sluiten</string>
+    <string name="toolbar_nav_icon_close_gallery_cont_desc">Afbeeldingengalerij sluiten</string>
     <string name="search_button_cont_desc">Zoekknop</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Duur: {duration}</string>
@@ -4392,11 +4447,14 @@
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
-    <!-- Content description for hotel immage gallery -->
+    <!-- Content description for hotel image gallery -->
     <string name="gallery_cont_desc">Fotogalerie</string>
+    <string name="collapsed_gallery_photo_click_cont_desc">Door afbeeldingen bladeren</string>
 
-    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
-    <string name="gallery_photo_count_cont_desc_TEMPLATE">Knop om {index} van {count} galeriefotoʼs te zien</string>
+    <!-- Content Description for current index of the photo in the gallery. For example: "Image 1 of 14" -->
+    <string name="gallery_photo_count_cont_desc_TEMPLATE">Afbeelding {index} van {count}</string>
+    <!-- Content Description of gallery index plus description from the api. For Example: "Image 1 of 14 Lobby" or "Image 1 of 4 Bathroom -->
+    <string name="gallery_photo_count_plus_description_cont_desc_TEMPLATE">Afbeelding {index} van {count} {api_description}</string>
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Meerdere airlines</string>
@@ -4497,6 +4555,9 @@
     <!-- Text shown on flight itin when booking is still pending -->
     <string name="itin_flight_booking_status_pending">De boeking is bevestigd. Tickets in behandeling.</string>
 
+    <!-- Trip protection string in flight confirmation screen -->
+    <string name="trip_protection_message">Je hebt een reisverzekering gekocht.</string>
+
     <!-- Reset filter title -->
     <string name="reset_filter">Filters resetten</string>
     <!-- Filter no result error message -->
@@ -4507,4 +4568,13 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">Optie {number}</string>
+
+    <!-- Content description for double tap action to collapse HIS room info -->
+    <string name="collapse_room_info_cont_desc">Samenvouwen</string>
+    <!-- Content description for double tap action to expand HIS room info -->
+    <string name="expand_room_info_cont_desc">Uitvouwen</string>
+
+    <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
+    <string name="a11y_button_TEMPLATE">{description}. Knop</string>
+
 </resources>

@@ -41,7 +41,6 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -387,7 +386,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testSearchValidationConcurrent() {
-		SettingUtils.save(activity, R.string.preference_flight_search_form_validations, true);
 		RoboTestHelper.INSTANCE.bucketTests(AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		initializeWidget();
 		FlightSearchViewModel vm = widget.getSearchViewModel();
@@ -453,14 +451,14 @@ public class FlightSearchPresenterTest {
 		//When start date is selected
 		LocalDate dateNow = LocalDate.now();
 		vm.datesUpdated(dateNow, null);
-		assertEquals(DateUtils.localDateToMMMd(dateNow) + ". Select date to change",
+		assertEquals(DateUtils.localDateToMMMd(dateNow) + ". Select dates again to modify",
 			toolTipContDescTestSubscriber.getOnNextEvents().get(1));
 	}
 
 	private String getExpectedToolTipContDesc(LocalDate startDate, LocalDate endDate) {
 		return (endDate == null) ? DateUtils.localDateToMMMd(startDate) + ". Next: Select return date" :
 			DateUtils.localDateToMMMd(startDate)
-				+ " to " + DateUtils.localDateToMMMd(startDate.plusDays(3)) + ". Select date to change";
+				+ " to " + DateUtils.localDateToMMMd(startDate.plusDays(3)) + ". Select dates again to modify";
 	}
 
 	private void initializeWidget() {

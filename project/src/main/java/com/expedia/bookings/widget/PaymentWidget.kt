@@ -23,6 +23,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
+import com.expedia.bookings.data.trips.TripBucketItem
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
@@ -131,10 +132,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (lob == LineOfBusiness.HOTELS && !materialFormTestEnabled) {
                 creditCardNumber.setHint(R.string.credit_debit_card_hint)
             }
+            sectionBillingInfo.setErrorStrings()
+            sectionLocation.setErrorStrings()
             if (lob.isMaterialFormEnabled(context)) {
-                sectionBillingInfo.setMaterialErrorStrings()
                 sectionBillingInfo.setMaterialDropdownResources()
-                sectionLocation.setMaterialErrorStrings()
             }
         }
 
@@ -168,7 +169,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 val numberOfSavedCards = Db.getUser()?.storedCreditCards?.size ?: 0
                 val tempSavedCard = Db.getTemporarilySavedCard()
-                if (numberOfSavedCards >= 1 && tempSavedCard == null && !hasStoredCard()) {
+                if (numberOfSavedCards >= 1 && tempSavedCard == null) {
                     selectFirstAvailableCard()
                 } else if (numberOfSavedCards == 0 && tempSavedCard != null) {
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
@@ -347,21 +348,23 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         sectionBillingInfo.bind(Db.getBillingInfo())
         val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
         if (tripItem != null) {
-            val storedUserCreditCards = Db.getUser().storedCreditCards
-            for (storedCard in storedUserCreditCards) {
-                if (tripItem.isPaymentTypeSupported(storedCard.type)) {
-                    Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
-                    val currentCC = Db.getBillingInfo().storedCard
-                    BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, currentCC)
-                    val card = storedCard
-                    Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
-                    Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
-                    sectionBillingInfo.billingInfo.storedCard = card
-                    temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
-                    viewmodel.cardTypeSubject.onNext(card.type)
-                    viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
-                    viewmodel.cardBIN.onNext(card.id)
-                    break
+            if ((hasStoredCard() && !tripItem.isPaymentTypeSupported(getCardType())) || !hasStoredCard()) {
+                val storedUserCreditCards = Db.getUser().storedCreditCards
+                for (storedCard in storedUserCreditCards) {
+                    if (tripItem.isPaymentTypeSupported(storedCard.type)) {
+                        Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
+                        val currentCC = Db.getBillingInfo().storedCard
+                        BookingInfoUtils.resetPreviousCreditCardSelectState(userStateManager, currentCC)
+                        val card = storedCard
+                        Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
+                        Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
+                        sectionBillingInfo.billingInfo.storedCard = card
+                        temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
+                        viewmodel.cardTypeSubject.onNext(card.type)
+                        viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+                        viewmodel.cardBIN.onNext(card.id)
+                        break
+                    }
                 }
             }
         }
@@ -370,10 +373,14 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun clearCCAndCVV() {
         creditCardNumber.setText("")
         Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
-        Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
         Db.getBillingInfo().number = null
-        Db.getBillingInfo().securityCode = null
+        clearCVV()
         validateAndBind()
+    }
+
+    open fun clearCVV() {
+        Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
+        Db.getBillingInfo().securityCode = null
     }
 
     open fun isAtLeastPartiallyFilled(): Boolean {

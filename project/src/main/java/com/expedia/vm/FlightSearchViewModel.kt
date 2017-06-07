@@ -7,8 +7,11 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.tracking.hotel.ControlPageUsableData
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -16,6 +19,8 @@ import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
+import rx.Observable
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -25,11 +30,14 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
+    val controlPageUsableData = ControlPageUsableData()
+
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
+    val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -40,6 +48,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
+
+    var searchSubscription: Subscription? = null
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
@@ -62,6 +72,43 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
             }
         }
+
+        if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+            Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
+                object {
+                    val flyingFrom = flyFrom
+                    val flyingTo = flyTo
+                    val travelDate = date
+                }
+            }).subscribe {
+                if (!controlPageUsableData.isTimerAborted()) {
+                    if (controlPageUsableData.hasTimerStarted()) {
+                        controlPageUsableData.abortTimer()
+                    } else {
+                        controlPageUsableData.markPageLoadStarted(System.currentTimeMillis())
+                    }
+                }
+            }
+
+            abortTimerObservable.subscribe{
+                if (!controlPageUsableData.isTimerAborted()) {
+                    controlPageUsableData.abortTimer()
+                }
+            }
+
+            searchSubscription = searchParamsObservable.subscribe {
+                if (controlPageUsableData.isTimerAborted()) {
+                    FlightsV2Tracking.trackFlightsSearchFieldsChanged()
+                } else {
+                    controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                    FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
+                }
+            }
+        }
+
+        previousSearchParamsObservable.subscribe { params ->
+            setupViewModelFromPastSearch(params)
+        }
     }
 
     val performSearchObserver = endlessObserver<Unit> {
@@ -71,8 +118,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
+            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+                FlightSearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
+            }
+            searchSubscription?.unsubscribe()
         } else {
-            if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSearchFormValidation, R.string.preference_flight_search_form_validations)) {
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
                 stepByStepSearchFormValidation()
             }
             else {
@@ -134,6 +185,17 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)
         }
         performSearchObserver.onNext(Unit)
+    }
+
+    private fun setupViewModelFromPastSearch(pastSearchParams: FlightSearchParams) {
+        isRoundTripSearchObservable.onNext(pastSearchParams.isRoundTrip())
+        val currentDate = LocalDate.now()
+        val invalidDates = pastSearchParams.departureDate.isBefore(currentDate) || pastSearchParams.returnDate?.isBefore(currentDate) ?: false
+        if (!invalidDates) {
+            datesUpdated(pastSearchParams.departureDate, pastSearchParams.returnDate)
+        }
+        originLocationObserver.onNext(pastSearchParams.departureAirport)
+        destinationLocationObserver.onNext(pastSearchParams.arrivalAirport)
     }
 
     fun clearDestinationLocation() {

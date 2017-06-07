@@ -7,6 +7,7 @@ import android.view.View.VISIBLE
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
@@ -17,6 +18,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.flights.FlightConfirmationViewModel
@@ -31,6 +34,9 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertNotNull
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -60,6 +66,7 @@ class FlightConfirmationPresenterTest {
         Ui.getApplication(activity).defaultTravelerComponent()
         Ui.getApplication(activity).defaultFlightComponents()
         SettingUtils.save(activity.applicationContext, R.string.preference_enable_additional_content_flight_confirmation, false)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser(), activity)
     }
 
@@ -77,6 +84,13 @@ class FlightConfirmationPresenterTest {
 
         assertEquals(VISIBLE, presenter.hotelCrossSell.visibility)
         assertEquals(activity.getDrawable(R.color.air_attach_crystal_background).colorFilter, presenter.hotelCrossSell.background.colorFilter)
+
+        assertNotNull(presenter.toolbar)
+        assertEquals(VISIBLE, presenter.toolbar?.visibility)
+        assertEquals(true, presenter.toolbar?.navigationIcon?.isVisible)
+
+        val navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(activity, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        assertEquals(navIcon, presenter.toolbar?.navigationIcon)
 
         assertEquals(GONE, presenter.expediaPoints.visibility)
         assertEquals("Your trip is booked!", presenter.tripBookedMessage.text as String)
@@ -97,10 +111,40 @@ class FlightConfirmationPresenterTest {
         assertEquals(GONE, inboundSupplementaryText.visibility)
         assertEquals(GONE, outboundSupplementaryText.visibility)
 
+        assertNull(presenter.toolbar)
+
         assertEquals(VISIBLE, presenter.hotelCrossSell.visibility)
         assertEquals(activity.getDrawable(R.drawable.itin_button).colorFilter, presenter.hotelCrossSell.background.colorFilter)
         assertEquals("You're going to", presenter.tripBookedMessage.text as String)
         assertNull(presenter.flightSummary)
+    }
+
+    @Test
+    fun testNewConfirmationToolbarShowsNoMenuWhenControl() {
+        setupPresenter(isNewConfirmationEnabled = true)
+        givenCheckoutResponse()
+
+        assertFalse(presenter.toolbar?.menuItem?.isVisible ?: false)
+        assertNull(presenter.toolbar?.menuItem)
+    }
+
+    @Test
+    fun testNewConfirmationToolbarShowsIconWhenBucketedVariantOne() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
+        setupPresenter(isNewConfirmationEnabled = true)
+        givenCheckoutResponse()
+
+        assertTrue(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
+    }
+
+    @Test
+    fun testNewConfirmationToolbarShowsTextWhenBucketedVariantTwo() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 2)
+        setupPresenter(isNewConfirmationEnabled = true)
+        givenCheckoutResponse()
+
+        assertEquals("Share", presenter.toolbar?.menuItem?.title)
+        assertFalse(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
     }
 
 

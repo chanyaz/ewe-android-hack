@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.itin;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -13,6 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 public class ItinPhoneRefreshErrorTest extends PhoneTestCase {
 
+	@Test
 	public void testErrorItineraries() throws Throwable {
 
 		NewLaunchScreen.tripsButton().perform(click());
