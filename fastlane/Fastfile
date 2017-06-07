@@ -54,9 +54,9 @@ platform :android do
 
   desc "Create a new release branch and bump the version on the base branch. Optionally protects the newly created release branch."
   lane :branch_and_bump do |options|
-    curr_version = sh "cd .. && perl tools/extract_version.pl project/build.gradle #{options[:flavor]}"
+    curr_version = sh "cd .. && perl tools/extract_version.pl project/build.gradle"
     if curr_version == ''
-      UI.error("Could not calculate the current version for flavor #{options[:flavor]}")
+      UI.error("Could not calculate the current version")
       raise "Could not calculate current version"
     end
 
@@ -83,7 +83,7 @@ platform :android do
     sh "git checkout -b #{pr_branch}"
 
     # Bump version
-    sh "cd .. && perl tools/change_version.pl project/build.gradle #{options[:flavor]} #{options[:new_version]}"
+    sh "cd .. && perl tools/change_version.pl project/build.gradle #{options[:new_version]}"
 
     # Create pull request
     git_commit(path: "project/build.gradle", message: "version bump")
