@@ -107,7 +107,6 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             return if (billingInfo?.hasStoredCard() ?: false) {
                 !billingInfo?.storedCard?.id.isNullOrBlank() &&
                 !billingInfo?.storedCard?.nameOnCard.isNullOrBlank() &&
-                !billingInfo?.storedCard?.cardNumber.isNullOrBlank() &&
                 !(billingInfo?.storedCard?.isExpired ?: true)
             } else {
                 !billingInfo?.number.isNullOrBlank() &&
@@ -187,7 +186,6 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             val storedCard = billingInfo.storedCard
             params.put("storedCreditCardId", !storedCard?.id.isNullOrBlank())
             params.put("nameOnCard", !storedCard?.nameOnCard.isNullOrBlank())
-            params.put("creditCardNumber", !storedCard.cardNumber.isNullOrBlank())
             params.put("creditCardIsExpired", storedCard.isExpired)
 
         } else {
