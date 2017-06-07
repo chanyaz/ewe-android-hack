@@ -34,7 +34,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		//trips features
 		initializeFeatureCheck(R.string.preference_share_button_remove_calendar);
 		//Flight features
-		initializeFeatureCheck(R.string.preference_flight_retain_search_params);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

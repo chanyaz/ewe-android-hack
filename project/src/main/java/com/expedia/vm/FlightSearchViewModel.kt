@@ -10,7 +10,6 @@ import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.ControlPageUsableData
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
@@ -37,6 +36,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
+    var hasPreviousSearchParams = false
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -102,6 +102,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
 
         previousSearchParamsObservable.subscribe { params ->
+            hasPreviousSearchParams = true
             setupViewModelFromPastSearch(params)
         }
     }
@@ -113,7 +114,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
-            if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 FlightSearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
         } else {

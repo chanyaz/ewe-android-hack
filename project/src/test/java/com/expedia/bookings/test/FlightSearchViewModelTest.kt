@@ -384,7 +384,6 @@ class FlightSearchViewModelTest {
     @Test
     fun testParamsSavedIfBucketedToRetainParamsABTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightRetainSearchParams)
-        SettingUtils.save(context, R.string.preference_flight_retain_search_params, true)
         givenMockServer()
         givenDefaultTravelerComponent()
         createSystemUnderTest()

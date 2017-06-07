@@ -90,6 +90,9 @@ class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPi
         vm.childTravelerCountChangeObservable.subscribe {
             childPlus.announceForAccessibility(childText.text)
         }
+        vm.infantInSeatObservable.subscribe {
+            infantPreferenceSeatingSpinner.setSelection(1)
+        }
 
         for (i in childSpinners.indices) {
             val spinner = childSpinners[i]
