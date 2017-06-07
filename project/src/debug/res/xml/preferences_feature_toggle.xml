@@ -28,12 +28,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Material Flight Features">
 
-        <CheckBoxPreference
-            android:key="@string/preference_flight_retain_search_params"
-            android:layout="@layout/preference"
-            android:summary="Retain previous Flight Search Params"
-            android:title="Retain previous Flight Search Params" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

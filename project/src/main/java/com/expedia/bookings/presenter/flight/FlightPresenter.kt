@@ -407,7 +407,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
-        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
             FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, { params ->
                 (context as Activity).runOnUiThread {
                     searchViewModel.previousSearchParamsObservable.onNext(params)

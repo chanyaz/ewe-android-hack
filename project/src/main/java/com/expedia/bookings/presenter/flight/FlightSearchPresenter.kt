@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightCabinClassWidget
+import com.expedia.bookings.widget.TravelerPickerView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -118,7 +119,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                                 .format().toString()
                     else
                         context.resources.getString(R.string.fly_to_hint)
-            if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty()) {
+            if (this.visibility == VISIBLE && vm.startDate() == null && text.isNotEmpty() && !vm.hasPreviousSearchParams) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
@@ -140,6 +141,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                 viewpager.currentItem = 1
             }
             travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
+            if (params.children.contains(0) && !params.infantSeatingInLap) {
+                travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(Unit)
+            }
         }
 
         if (isUserBucketedInSearchFormValidation) {
