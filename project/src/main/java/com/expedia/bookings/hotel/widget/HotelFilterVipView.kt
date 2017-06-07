@@ -25,4 +25,9 @@ class HotelFilterVipView(context: Context, attrs: AttributeSet?) : RelativeLayou
     fun reset() {
         filterHotelVip.isChecked = false
     }
+
+    fun update(checked: Boolean) {
+        filterHotelVip.isChecked = checked
+        vipCheckedSubject.onNext(checked)
+    }
 }

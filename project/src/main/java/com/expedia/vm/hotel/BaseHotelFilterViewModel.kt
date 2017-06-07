@@ -2,8 +2,9 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.data.hotel.PriceRange
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.hotel.FilterTracker
@@ -15,7 +16,7 @@ import java.util.HashSet
 
 abstract class BaseHotelFilterViewModel(val context: Context) {
     var originalResponse: HotelSearchResponse? = null
-    val userFilterChoices = UserFilterChoices()
+    var userFilterChoices = UserFilterChoices()
 
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
@@ -28,13 +29,13 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
-    val sortByObservable = PublishSubject.create<Sort>()
-    val sortSpinnerObservable = PublishSubject.create<Sort>()
+    val sortSpinnerObservable = PublishSubject.create<DisplaySort>()
     val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
     val sortContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
+    val newSearchOptionsObservable = PublishSubject.create<HotelSearchParams.HotelFilterOptions>()
 
     private var trackingDone = false
     private val filterTracker: FilterTracker = createFilterTracker()
@@ -43,8 +44,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     var neighborhoodsExist = false
 
     init {
-        sortByObservable.subscribe(sortSpinnerObservable)
-
         clearObservable.subscribe {
             resetUserFilters()
             doneButtonEnableObservable.onNext(true)
@@ -129,7 +128,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             trackingDone = true
             trackHotelFilterByName()
         }
-        if (s.length == 0) trackingDone = false
+        if (s.isEmpty()) trackingDone = false
 
         updateFilterCount()
         handleFiltering()
@@ -178,7 +177,7 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
-    abstract fun sortItemToRemove(): Sort
+    abstract fun sortItemToRemove(): DisplaySort
     protected abstract fun createFilterTracker(): FilterTracker
     protected abstract fun isClientSideFiltering(): Boolean
 
@@ -198,12 +197,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         neighborhoodListObservable.onNext(neighborhoods)
         neighborhoodsExist = neighborhoods != null && neighborhoods.size > 0
         sendNewPriceRange()
-
-        if (isCurrentLocationSearch.value) { // sort by distance on currentLocation search
-            sortByObservable.onNext(Sort.DISTANCE)
-        } else {
-            sortByObservable.onNext(ProductFlavorFeatureConfiguration.getInstance().getDefaultSort())
-        }
     }
 
     fun sendNewPriceRange() {
@@ -242,6 +235,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         filterTracker.trackHotelSortBy(sortBy)
     }
 
+    protected open fun getDefaultSort(): DisplaySort {
+        return ProductFlavorFeatureConfiguration.getInstance().defaultSort
+    }
+
     private fun trackHotelFilterVIP(vipOnly: Boolean) {
         filterTracker.trackHotelFilterVIP(vipOnly)
     }
@@ -260,13 +257,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     private fun updateFilterCount() {
         filterCountObservable.onNext(userFilterChoices.filterCount())
-    }
-
-    private fun getDefaultSort(): Sort {
-        if (isCurrentLocationSearch.value) {
-            return Sort.DISTANCE
-        }
-        return ProductFlavorFeatureConfiguration.getInstance().getDefaultSort()
     }
 
     private fun resetUserFilters() {

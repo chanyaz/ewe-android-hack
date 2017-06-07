@@ -54,4 +54,8 @@ class HotelNameFilterView(context: Context, attrs: AttributeSet?) : LinearLayout
     fun resetFocus() {
         filterHotelName.clearFocus()
     }
+
+    fun updateName(name: String) {
+        filterHotelName.setText(name)
+    }
 }

@@ -1,6 +1,6 @@
 package com.expedia.vm.hotel
 
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
@@ -31,7 +31,7 @@ class AdvancedSearchOptionsViewModelTest {
         starRating.one = true
 
         vm.selectHotelName(name)
-        vm.selectSortOption(Sort.PRICE)
+        vm.selectSortOption(DisplaySort.PRICE)
         vm.updateStarRating(starRating)
         vm.isVipAccess(true)
 
@@ -51,7 +51,7 @@ class AdvancedSearchOptionsViewModelTest {
         starRating.one = true
 
         vm.selectHotelName(name)
-        vm.selectSortOption(Sort.PRICE)
+        vm.selectSortOption(DisplaySort.PRICE)
         vm.updateStarRating(starRating)
         vm.isVipAccess(true)
 
@@ -63,7 +63,7 @@ class AdvancedSearchOptionsViewModelTest {
         val searchOption = testSubject.onNextEvents[0]
         assertNotNull(searchOption)
         assertTrue(searchOption.name.isBlank())
-        assertEquals(Sort.RECOMMENDED, searchOption.userSort)
+        assertEquals(DisplaySort.RECOMMENDED, searchOption.userSort)
         assertFalse(searchOption.isVipOnlyAccess)
         assertEquals(0, searchOption.hotelStarRating.getStarRatingParamsAsList().size)
     }
@@ -79,7 +79,7 @@ class AdvancedSearchOptionsViewModelTest {
         vm.clearObservable.onNext(Unit)
         assertFalse(testSubject.onNextEvents[1])
 
-        vm.selectSortOption(Sort.PRICE)
+        vm.selectSortOption(DisplaySort.PRICE)
         assertTrue(testSubject.onNextEvents[2])
 
         vm.clearObservable.onNext(Unit)

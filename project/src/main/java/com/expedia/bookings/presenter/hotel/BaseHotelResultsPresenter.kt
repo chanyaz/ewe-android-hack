@@ -110,7 +110,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
 
-    protected val filterView: BaseHotelFilterView by lazy {
+    val filterView: BaseHotelFilterView by lazy {
         inflateFilterView(filterViewStub)
     }
     private val filterViewStub: ViewStub by bindView(R.id.hotel_filter_view_stub)

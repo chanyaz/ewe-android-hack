@@ -56,7 +56,7 @@ class HotelStarRatingFilterItem(context: Context, attrs: AttributeSet?) : FrameL
         selectStarRating(false)
     }
 
-    private fun select() {
+    fun select() {
         selectStarRating(true)
     }
 

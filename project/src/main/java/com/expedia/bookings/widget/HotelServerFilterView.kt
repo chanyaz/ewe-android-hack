@@ -6,10 +6,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
 import com.expedia.bookings.hotel.widget.ServerNeighborhoodFilterView
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.hotel.BaseHotelFilterViewModel
+import com.expedia.vm.hotel.HotelFilterViewModel
 
 class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelFilterView(context, attrs) {
     val staticClearFilterButton: CardView by bindView(R.id.hotel_server_filter_clear_pill)
@@ -35,10 +37,19 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
                 staticClearFilterButton.visibility = VISIBLE
             }
         }
+        (vm as HotelFilterViewModel).searchOptionsUpdatedObservable.subscribe { newFilterOptions ->
+            updateWithSearchOptions(newFilterOptions)
+        }
     }
 
     override fun inflateNeighborhoodView(stub: ViewStub): BaseNeighborhoodFilterView {
         stub.layoutResource = R.layout.server_neighborhood_filter_stub;
         return stub.inflate() as ServerNeighborhoodFilterView
+    }
+
+    fun updateWithSearchOptions(filterOptions: UserFilterChoices) {
+        if (!filterOptions.name.isNullOrEmpty())  hotelNameFilterView.updateName(filterOptions.name)
+        filterVipView.update(filterOptions.isVipOnlyAccess)
+        starRatingView.update(filterOptions.hotelStarRating)
     }
 }

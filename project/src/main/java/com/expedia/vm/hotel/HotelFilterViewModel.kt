@@ -1,19 +1,24 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
-import com.expedia.bookings.data.hotel.Sort
+import com.expedia.bookings.data.hotel.DisplaySort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.tracking.hotel.FilterTracker
 import com.expedia.bookings.tracking.hotel.HotelFilterTracker
+import rx.subjects.PublishSubject
 
 class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context) {
+    //in
+    val searchOptionsUpdatedObservable = PublishSubject.create<UserFilterChoices>()
+
+    private var withSearchOptions = false
     private var previousFilterChoices: UserFilterChoices? = null
 
     init {
         doneButtonEnableObservable.onNext(true)
         doneObservable.subscribe {
             filterCountObservable.onNext(userFilterChoices.filterCount())
-            if (defaultFilterOptions()) {
+            if (defaultFilterOptions() && !withSearchOptions) {
                 filterObservable.onNext(originalResponse)
             } else if (sameFilterOptions()) {
                 showPreviousResultsObservable.onNext(Unit)
@@ -26,10 +31,27 @@ class HotelFilterViewModel(context: Context) : BaseHotelFilterViewModel(context)
         clearObservable.subscribe {
             previousFilterChoices = null
         }
+
+        newSearchOptionsObservable.subscribe { searchOptions ->
+            withSearchOptions = false
+            if (searchOptions.isNotEmpty()) {
+                val filterChoices = UserFilterChoices.fromHotelFilterOptions(searchOptions)
+                previousFilterChoices = filterChoices
+                withSearchOptions = true
+                searchOptionsUpdatedObservable.onNext(filterChoices)
+            }
+        }
     }
 
-    override fun sortItemToRemove(): Sort {
-        return Sort.PACKAGE_DISCOUNT
+    override fun getDefaultSort(): DisplaySort {
+        if (isCurrentLocationSearch.value) {
+            return DisplaySort.DISTANCE
+        }
+        return super.getDefaultSort()
+    }
+
+    override fun sortItemToRemove(): DisplaySort {
+        return DisplaySort.PACKAGE_DISCOUNT
     }
 
     override fun createFilterTracker(): FilterTracker {
