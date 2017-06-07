@@ -246,8 +246,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Ebookers\""
             applicationId "com.ebookers"
 
-            def major = 7
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -262,8 +262,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"VSC\""
             applicationId "com.expedia.bookings.vsc"
 
-            def major = 5
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -278,8 +278,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"TVLY\""
             applicationId "com.travelocity.android"
 
-            def major = 10
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -294,8 +294,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
             applicationId "com.airasiago.android"
 
-            def major = 5
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -310,8 +310,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Wotif\""
             applicationId "com.wotif.android"
 
-            def major = 5
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -326,8 +326,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"LM\""
             applicationId "com.lastminute.android"
 
-            def major = 5
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -358,8 +358,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Orbitz\""
             applicationId "com.orbitz"
 
-            def major = 9
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -374,8 +374,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
             applicationId "com.cheaptickets"
 
-            def major = 7
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -390,8 +390,8 @@ android {
             buildConfigField "String", "USER_AGENT", "\"MrJet\""
             applicationId "se.mrjet"
 
-            def major = 7
-            def minor = 0
+            def major = 17
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
