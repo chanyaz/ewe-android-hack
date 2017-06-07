@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
@@ -30,7 +31,7 @@ class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDeta
         vm.subtitleColorObservable.subscribeTextColor(secondaryText)
         vm.iconStatusObservable.subscribe {
             travelerStatusIcon.status = it
-            setTravelerCardContentDescription(it, vm.titleObservable.value)
+            setTravelerCardContentDescription(it, vm.titleObservable.value, vm.subtitleObservable.value)
         }
     }
 
@@ -38,11 +39,16 @@ class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDeta
         return viewModel.travelerStatusObserver.value
     }
 
-    fun setTravelerCardContentDescription(status: ContactDetailsCompletenessStatus, title: String) {
+    fun setTravelerCardContentDescription(status: ContactDetailsCompletenessStatus, title: String, subtitle: String) {
         if (ContactDetailsCompletenessStatus.INCOMPLETE == status) {
             this.contentDescription = Phrase.from(context, R.string.traveler_details_incomplete_cont_desc_TEMPLATE).put("title", title).format().toString()
         } else if (ContactDetailsCompletenessStatus.COMPLETE == status) {
-            this.contentDescription = context.getString(R.string.traveler_details_complete_cont_desc)
+            this.contentDescription = Phrase.from(context, R.string.traveler_details_complete_cont_desc_TEMPLATE)
+                    .put("title", title)
+                    .put("subtitle", subtitle)
+                    .format().toString()
+        } else {
+            AccessibilityUtil.appendRoleContDesc(this, title, R.string.accessibility_cont_desc_role_button)
         }
     }
 }

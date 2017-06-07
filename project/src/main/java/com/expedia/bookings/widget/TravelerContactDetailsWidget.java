@@ -26,6 +26,7 @@ import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.expedia.util.RxKt;
@@ -269,6 +270,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			sectionTravelerInfo.resetValidation();
+			this.setContentDescription(getTravelerContentDescriptionString(traveler, false));
 			return;
 		}
 
@@ -282,6 +284,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
 		driverCheckoutStatusRightImageView.setStatus(
 			isValid ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.INCOMPLETE);
+		this.setContentDescription(getTravelerContentDescriptionString(traveler, isValid));
 		Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
 	}
 
@@ -423,4 +426,19 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		lineOfBusiness = lob;
 	}
 
+	public String getTravelerContentDescriptionString(Traveler traveler, Boolean isValid) {
+		String description;
+		if (isValid) {
+			description = Phrase.from(getContext(), R.string.traveler_details_complete_cont_desc_TEMPLATE)
+				.put("title", traveler.getFullName())
+				.put("subtitle", traveler.getPhoneNumber())
+				.format().toString();
+		}
+		else {
+			String title = Strings.isEmpty(traveler.getFirstName()) ? "" : traveler.getFirstName();
+			description = Phrase.from(getContext(), R.string.traveler_details_incomplete_cont_desc_TEMPLATE)
+				.put("title", title).format().toString();
+		}
+		return description;
+	}
 }
