@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -46,13 +47,10 @@ import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.widget.LaunchScreenAirAttachCard;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.util.PermissionsHelperKt;
-import com.expedia.vm.launch.ActiveItinType;
 import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
-
-import butterknife.ButterKnife;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -410,16 +408,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private ActiveItinViewModel makeActiveItinViewModel() {
-		if (userStateManager.isUserAuthenticated()) {
-			return new ActiveItinViewModel(ActiveItinType.SIGNED_IN,
-				context.getString(R.string.launch_upcoming_trips_signed_in),
-				context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
-		}
-		else {
-			return new ActiveItinViewModel(ActiveItinType.GUEST,
-				context.getString(R.string.launch_upcoming_trips_guest_user),
-				context.getString(R.string.launch_upcoming_trips_subtext_guest_user));
-		}
+		return new ActiveItinViewModel(
+			context.getString(R.string.launch_upcoming_trips_signed_in),
+			context.getString(R.string.launch_upcoming_trips_subtext_signed_in));
 	}
 
 	private boolean showSignInCard() {
@@ -446,21 +437,12 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return userBucketedForItinCardSignedIn() && ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager);
 	}
 
-	@VisibleForTesting
-	protected boolean showGuestItinLaunchScreenCard() {
-		return userBucketedForItinCardGuest() && ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager);
-	}
-
-	private boolean userBucketedForItinCardGuest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
-	}
-
 	private boolean userBucketedForItinCardSignedIn() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 	}
 
 	private boolean showItinCard() {
-		return showActiveItinLaunchScreenCard() || showGuestItinLaunchScreenCard();
+		return showActiveItinLaunchScreenCard();
 	}
 
 	private boolean userBucketedForPopularHotels() {

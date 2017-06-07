@@ -1838,12 +1838,6 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "App Landing", null, null);
 	}
 
-	public static void trackLaunchGuestItin() {
-		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_GUEST_ITIN);
-		addStandardFields(s);
-		s.trackLink(null, "o", "App Landing", null, null);
-	}
-
 	public static void trackLaunchMemberPricing() {
 		ADMS_Measurement s = createTrackLinkEvent(LAUNCH_MEMBER_PRICING);
 		addStandardFields(s);
@@ -2675,9 +2669,7 @@ public class OmnitureTracking {
 		if (ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 		}
-		if (ItinLaunchScreenHelper.showGuestItinLaunchScreenCard(userStateManager)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
-		}
+
 		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();
 			if (!usersTripComponentTypeEventString.isEmpty()) {

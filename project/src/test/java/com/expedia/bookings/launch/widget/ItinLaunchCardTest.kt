@@ -9,7 +9,6 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
-import com.expedia.vm.launch.ActiveItinType
 import com.expedia.vm.launch.ActiveItinViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,27 +26,13 @@ class ItinLaunchCardTest {
     lateinit private var sut: ItinLaunchCard
 
     @Test
-    fun bindFirstLineSecondLineGuest() {
-        val expectedFirstLine = "Have an upcoming trip?"
-        val expectedSecondLine = "Check the status of your existing trip"
-
-        createSystemUnderTest()
-        val activeItinViewModel = ActiveItinViewModel(ActiveItinType.GUEST, expectedFirstLine, expectedSecondLine)
-        sut.bind(activity, activeItinViewModel)
-
-        assertEquals(expectedFirstLine, sut.firstLine.text.toString())
-        assertEquals(expectedSecondLine, sut.secondLine.text.toString())
-
-    }
-
-    @Test
     fun bindFirstLineSecondLineSignedIn() {
         val expectedFirstLine = "You Have An Upcoming Trip!"
         val expectedSecondLine = "Access your itineraries on the go and stay up to date on changes"
 
         createSystemUnderTest()
         givenCustomerSignedIn()
-        val activeItinViewModel = ActiveItinViewModel(ActiveItinType.SIGNED_IN, expectedFirstLine, expectedSecondLine)
+        val activeItinViewModel = ActiveItinViewModel(expectedFirstLine, expectedSecondLine)
         sut.bind(activity, activeItinViewModel)
 
         assertEquals(expectedFirstLine, sut.firstLine.text)

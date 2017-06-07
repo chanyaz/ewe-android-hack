@@ -84,7 +84,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppTripsNewSignInPage);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
-			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard);
 			query.addExperiment(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
 			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);

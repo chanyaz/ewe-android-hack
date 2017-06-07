@@ -15,11 +15,6 @@ class ItinLaunchScreenHelper {
             return customerHasTripsInNextTwoWeeks() && isUserLoggedIn(userStateManager)
         }
 
-        @JvmStatic
-        fun showGuestItinLaunchScreenCard(userStateManager: UserStateManager): Boolean {
-            return !isUserLoggedIn(userStateManager) && getCustomerTrips().isEmpty()
-        }
-
         private fun customerHasTripsInNextTwoWeeks(): Boolean {
             val customersTrips = getCustomerTrips()
             val includeSharedItins = false

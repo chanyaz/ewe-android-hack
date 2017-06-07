@@ -93,12 +93,11 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun itemViewPosition_showingHotels_guestItin_signInCard_memberDeals_popularHotels() {
+    fun itemViewPosition_showingHotels_signInCard_memberDeals_popularHotels() {
         givenSignInCardEnabled()
         givenPopularHotelsCardEnabled()
         givenMemberDealsCardEnabled()
-        givenGuestItinCardEnabled()
-        createSystemUnderTest(isItinLaunchCardEnabled = true)
+        createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
 
         val firstPosition = sut.getItemViewType(0)
@@ -108,16 +107,13 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.ITIN_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
-
-        val sixthPosition = sut.getItemViewType(5)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
@@ -232,50 +228,6 @@ class LaunchListAdapterTest {
         assertEquals("Access your itineraries on the go and stay up to date on changes", viewHolder.secondLine.text.toString())
     }
 
-
-    @Test
-    fun onBindViewHolder_showingGuestItinCardt() {
-        givenGuestItinCardEnabled()
-        givenSignInCardEnabled()
-        createSystemUnderTest()
-        givenCustomerSignedOut()
-
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val recyclerView = RecyclerView(context)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = sut
-        givenWeHaveCurrentLocationAndHotels()
-
-        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchDataItem.ITIN_VIEW
-        ) as ItinLaunchCard
-        sut.onBindViewHolder(viewHolder, 1)
-
-        assertEquals("Have An Upcoming Trip?", viewHolder.firstLine.text.toString())
-        assertEquals("Check the status of your existing trip and get updates in the app", viewHolder.secondLine.text.toString())
-    }
-
-    @Test
-    fun getItemViewType_notShowingItinCard_guestWithTrips() {
-        givenGuestItinCardEnabled()
-        givenSignInCardEnabled()
-        sut = TestLaunchListAdapter(context, headerView, trips = listOf(Trip()))
-        sut.onCreateViewHolder(parentView, 0)
-        givenCustomerSignedOut()
-        givenWeHaveCurrentLocationAndHotels()
-
-        val firstPosition = sut.getItemViewType(0)
-        assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
-
-        val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
-
-        val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
-
-        val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
-    }
-
     @Test
     fun onBindViewHolder_showingPopularHotels() {
         givenPopularHotelsCardEnabled()
@@ -376,10 +328,9 @@ class LaunchListAdapterTest {
     }
 
     @Test
-    fun getItemViewType_showingLobView_showingCollectionView_guestItin() {
-        givenGuestItinCardEnabled()
+    fun getItemViewType_showingLobView_showingCollectionView() {
         givenSignInCardEnabled()
-        createSystemUnderTest(isItinLaunchCardEnabled = true)
+        createSystemUnderTest()
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
@@ -389,13 +340,10 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.ITIN_VIEW, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-
-        val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
     }
 
     @Test
@@ -746,10 +694,6 @@ class LaunchListAdapterTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard, 1)
     }
 
-    private fun givenGuestItinCardEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLaunchShowGuestItinCard, 1)
-    }
-
     private fun givenMemberDealsCardEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen, 1)
     }
@@ -767,10 +711,6 @@ class LaunchListAdapterTest {
     }
 
     class TestLaunchListAdapter(context: Context?, header: View?, var isItinLaunchCardEnabled: Boolean = false, val trips: List<Trip>? = null, var isCustomerAirAttachedQualified: Boolean = true, var recentAirAttachFlightTrip: Trip? = Trip()) : LaunchListAdapter(context, header) {
-
-        override fun showGuestItinLaunchScreenCard(): Boolean {
-            return isItinLaunchCardEnabled
-        }
 
         override fun showActiveItinLaunchScreenCard(): Boolean {
             return isItinLaunchCardEnabled
