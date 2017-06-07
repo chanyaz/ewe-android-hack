@@ -4,10 +4,10 @@
     <item>
         <selector>
             <item
-                android:drawable="@color/lx_primary_color"
+                android:drawable="@color/app_primary"
                 android:state_pressed="true" />
             <item
-                android:drawable="@color/lx_primary_color"
+                android:drawable="@color/app_primary"
                 android:state_selected="true" />
             <item
                 android:drawable="@android:color/white"

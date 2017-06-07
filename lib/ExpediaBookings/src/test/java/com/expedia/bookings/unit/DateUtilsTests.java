@@ -120,4 +120,15 @@ public class DateUtilsTests {
 		assertEquals("Sat, Jan 31 - 10:00 AM", obtained);
 	}
 
+	@Test
+	public void testLocalDateToMMyyyy() {
+		LocalDate localDateExpected = new LocalDate()
+			.withMonthOfYear(5)
+			.withYear(2020)
+			.withDayOfMonth(25);
+		String testString = DateUtils.localDateToMMyyyy(localDateExpected);
+
+		assertEquals("05 / 2020", testString);
+	}
+
 }

@@ -2,6 +2,7 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Test;
 
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
@@ -39,6 +40,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
+	@Test
 	public void testViewItineraries() throws Throwable {
 
 		AbacusTestUtils.bucketTests(EBAndroidAppLXNavigateToSRP);

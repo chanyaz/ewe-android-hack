@@ -175,6 +175,16 @@
                     android:textColor="@color/gray7"
                     android:textSize="13sp" />
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/hotel_loyalty_earn_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/gray4"
+                    android:textSize="11sp" />
+
             </LinearLayout>
 
         </LinearLayout>

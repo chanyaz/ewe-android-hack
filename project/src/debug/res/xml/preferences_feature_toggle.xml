@@ -6,10 +6,10 @@
         android:title="Hotel Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_hotel_pinned_search"
+            android:key="@string/preference_hotel_advanced_search_options"
             android:layout="@layout/preference"
-            android:title="Hotel Pinned Search"
-            android:summary="Deeplink to Results Not InfoSite" />
+            android:summary="Advanced search options"
+            android:title="Enable Advanced Search Options" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -29,16 +29,10 @@
         android:title="Material Flight Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_flight_search_form_validations"
+            android:key="@string/preference_flight_retain_search_params"
             android:layout="@layout/preference"
-            android:summary="Flight search form validations"
-            android:title="Flight search form validations" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_flight_hide_fsr_infographic"
-            android:layout="@layout/preference"
-            android:summary="Hide FSR Infographic"
-            android:title="Hide FSR Infographic" />
+            android:summary="Retain previous Flight Search Params"
+            android:title="Retain previous Flight Search Params" />
 
     </PreferenceCategory>
 
@@ -65,22 +59,16 @@
             android:title="Enable Universal Checkout on LX" />
 
         <CheckBoxPreference
-            android:key="@string/preference_disabled_stp_state"
+            android:key="@string/preference_enable_flex"
             android:layout="@layout/preference"
-            android:summary="Disabled STP state"
-            android:title="Enable Disabled STP state" />
+            android:summary="Enable Flex"
+            android:title="Enable Flex" />
 
         <CheckBoxPreference
             android:key="@string/preference_enable_additional_content_flight_confirmation"
             android:layout="@layout/preference"
             android:summary="Enable Additional Content on Fight Confirmation Screen"
             android:title="Enable Additional Content on Fight Confirmation Screen" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_insurance_in_flight_summary"
-            android:layout="@layout/preference"
-            android:summary="Insurance in flight summary"
-            android:title="Insurance in flight summary" />
 
     </PreferenceCategory>
 
@@ -95,10 +83,10 @@
             android:title="Enable new itinerary detail view" />
 
         <CheckBoxPreference
-            android:key="@string/preference_track_users_itin_data"
+            android:key="@string/preference_share_button_remove_calendar"
             android:layout="@layout/preference"
-            android:summary="Enable User's Itin Data Tracking"
-            android:title="Track User's Itin Data" />
+            android:summary="Share Button Remove Calendar"
+            android:title="Enable Share Button Remove Calendar" />
 
     </PreferenceCategory>
 
@@ -110,18 +98,7 @@
             android:key="@string/preference_payment_legal_message"
             android:layout="@layout/preference"
             android:summary="Payment Legal Message"
-            android:title="Payment Legal Message"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Packages features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_packages_remove_bundle_overview"
-            android:layout="@layout/preference"
-            android:summary="Packages Remove Bundle Overview"
-            android:title="Packages Remove Overview"/>
+            android:title="Payment Legal Message" />
     </PreferenceCategory>
 
 </PreferenceScreen>

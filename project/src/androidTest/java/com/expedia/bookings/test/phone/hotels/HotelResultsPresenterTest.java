@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.hotels;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
+import org.junit.Test;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
@@ -20,6 +21,7 @@ import static org.hamcrest.core.IsNot.not;
 
 public class HotelResultsPresenterTest extends HotelTestCase {
 
+	@Test
 	public void testSearchResults() throws Throwable {
 
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();

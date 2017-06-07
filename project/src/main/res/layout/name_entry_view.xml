@@ -18,7 +18,7 @@
             android:inputType="textPersonName|textCapWords"
             android:nextFocusForward="@+id/last_name_input"
             android:maxLines="1"
-            app:error_cont_desc="@string/accessibility_cont_desc_role_error"
+            app:error_cont_desc="@string/first_name_validation_error_message"
             android:textSize="@dimen/traveler_input_text_size" />
 
         <com.expedia.bookings.widget.traveler.TravelerEditText
@@ -31,7 +31,7 @@
             android:nextFocusForward="@+id/last_name_input"
             android:maxLines="1"
             android:textSize="@dimen/traveler_input_text_size"
-            app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
+            app:error_cont_desc="@string/middle_name_validation_error_message"/>
     </LinearLayout>
 
     <com.expedia.bookings.widget.traveler.TravelerEditText
@@ -42,6 +42,6 @@
         android:inputType="textPersonName|textCapWords"
         android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size"
-        app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
+        app:error_cont_desc="@string/last_name_validation_error_message"/>
 
 </merge>

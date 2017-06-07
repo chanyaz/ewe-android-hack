@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.accessibility.packages;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -27,6 +28,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 public class PackagesFlightsTest extends PackageTestCase {
 
+	@Test
 	public void testPackageFlightsOverview() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -48,6 +50,7 @@ public class PackagesFlightsTest extends PackageTestCase {
 
 	}
 
+	@Test
 	public void testPackageFlightsFilters() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);

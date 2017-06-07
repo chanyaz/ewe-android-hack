@@ -11,26 +11,31 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripUtils {
 
-	public static boolean customerHasTripsInNextTwoWeeks(@NotNull Collection<Trip> customerTrips, boolean includeSharedItins) {
+	public static boolean customerHasTripsInNextTwoWeeks(@NotNull Collection<Trip> customerTrips,
+		boolean includeSharedItins) {
 		DateTime twoWeeksFromNow = DateTime.now().plusDays(14);
 		return hasTripStartDateBeforeDateTime(customerTrips, twoWeeksFromNow, includeSharedItins);
 	}
 
-	public static boolean hasTripStartDateBeforeDateTime(Collection<Trip> trips, DateTime dateTime, boolean includeSharedItins) {
+	public static boolean hasTripStartDateBeforeDateTime(Collection<Trip> trips, DateTime dateTime,
+		boolean includeSharedItins) {
 		List<Trip> tripsSortedDateTimeAscending = new ArrayList<>(trips);
 
 		Collections.sort(tripsSortedDateTimeAscending, SORT_ASCENDING_ORDER_COMPARATOR);
@@ -55,9 +60,14 @@ public class TripUtils {
 	}
 
 	public static List<Trip> getTripsInStartTimeAscendingOrder(List<Trip> trips) {
-		List<Trip> sortedList = new ArrayList<>(trips);
-		Collections.sort(sortedList, SORT_ASCENDING_ORDER_COMPARATOR);
-		return sortedList;
+		if (trips.size() > 1) {
+			List<Trip> sortedList = new ArrayList<>(trips);
+			Collections.sort(sortedList, SORT_ASCENDING_ORDER_COMPARATOR);
+			return sortedList;
+		}
+		else {
+			return trips;
+		}
 	}
 
 	public static void putTripComponents(JSONObject obj, List<TripComponent> tripComponents) throws JSONException {
@@ -135,7 +145,7 @@ public class TripUtils {
 	};
 
 	public static List<Trip> getUpcomingAirAttachQualifiedFlightTrips(@NotNull Collection<Trip> trips) {
-		List<Trip> flightTrips = new ArrayList<Trip>();
+		List<Trip> flightTrips = new ArrayList<>();
 		for (Trip trip : trips) {
 			boolean hasOneTripComponent = trip.getTripComponents().size() == 1;
 			boolean isNotShared = !trip.isShared();
@@ -185,13 +195,13 @@ public class TripUtils {
 
 	//Below are methods used to populate Omniture data based on a User's Trip data
 
-	public static String createUsersTripTypeEventString(Collection<Trip> trips) {
+	public static String createUsersTripComponentTypeEventString(Collection<Trip> trips) {
 		HashSet<String> usersEventNumberSet = new HashSet<>();
 		String usersEventNumberString;
 		if (trips != null && !trips.isEmpty()) {
-			HashSet<TripComponent.Type> tripTypesAvailable = getTripTypesInUsersTrips(trips);
-			for (TripComponent.Type type : tripTypesAvailable) {
-				String eventNumber = createTripTypeEventHashMap().get(type);
+			HashSet<TripComponent.Type> tripComponentTypesAvailable = getTripComponentTypesInUsersTrips(trips);
+			for (TripComponent.Type type : tripComponentTypesAvailable) {
+				String eventNumber = createTripComponentTypeEventHashMap().get(type);
 				if (eventNumber != null) {
 					usersEventNumberSet.add(eventNumber);
 				}
@@ -201,29 +211,131 @@ public class TripUtils {
 		return usersEventNumberString;
 	}
 
-	private static HashSet<TripComponent.Type> getTripTypesInUsersTrips(Collection<Trip> trips) {
-		HashSet<TripComponent.Type> usersTripTypeHashSet = new HashSet<>();
+	//For prop 75 the order of the LOBs is important for tracking data
+
+	public static String createUsersProp75String(Collection<Trip> trips) {
+		String usersProp75String = " ";
+		ArrayList<String> usersProp75TripSet = new ArrayList<>();
+		HashSet<TripComponent.Type> usersTripComponentTypes = getTripComponentTypesInUsersTrips(trips);
+		List<TripComponent.Type> tripComponentOrder = tripComponentOrder();
+		for (TripComponent.Type type : tripComponentOrder) {
+			if (usersTripComponentTypes.contains(type)) {
+				String activeTrip = getUsersActiveTrip(trips, type);
+				addActiveTrip(usersProp75TripSet, activeTrip);
+			}
+		}
+		usersProp75String = TextUtils.join("|", usersProp75TripSet);
+
+		return usersProp75String;
+	}
+
+	private static List<TripComponent.Type> tripComponentOrder() {
+		List tripComponentOrder = new ArrayList<>();
+		tripComponentOrder.add(TripComponent.Type.HOTEL);
+		tripComponentOrder.add(TripComponent.Type.FLIGHT);
+		tripComponentOrder.add(TripComponent.Type.CAR);
+		tripComponentOrder.add(TripComponent.Type.ACTIVITY);
+		tripComponentOrder.add(TripComponent.Type.RAILS);
+		tripComponentOrder.add(TripComponent.Type.PACKAGE);
+		return tripComponentOrder;
+	}
+
+	private static void addActiveTrip(ArrayList<String> usersProp75TripSet, String activeTrip) {
+		if (!Strings.isEmpty(activeTrip)) {
+			usersProp75TripSet.add(activeTrip);
+		}
+	}
+
+	private static HashSet<TripComponent.Type> getTripComponentTypesInUsersTrips(Collection<Trip> trips) {
+		HashSet<TripComponent.Type> usersTripComponentTypeHashSet = new HashSet<>();
 		for (Trip trip : trips) {
 			if (!trip.isShared()) {
 				for (TripComponent component : trip.getTripComponents()) {
-					usersTripTypeHashSet.add(component.getType());
+					if (component != null) {
+						usersTripComponentTypeHashSet.add(component.getType());
+					}
 				}
 			}
 		}
-		return usersTripTypeHashSet;
+		return usersTripComponentTypeHashSet;
 	}
 
-	private static HashMap<TripComponent.Type, String> createTripTypeEventHashMap() {
-		HashMap<TripComponent.Type, String> tripTypeEventHashMap = new HashMap<>();
+	private static HashMap<TripComponent.Type, String> createTripComponentTypeEventHashMap() {
+		HashMap<TripComponent.Type, String> tripComponentTypeEventHashMap = new HashMap<>();
 
-		tripTypeEventHashMap.put(TripComponent.Type.HOTEL, "event250");
-		tripTypeEventHashMap.put(TripComponent.Type.FLIGHT, "event251");
-		tripTypeEventHashMap.put(TripComponent.Type.CAR, "event252");
-		tripTypeEventHashMap.put(TripComponent.Type.ACTIVITY, "event253");
-		tripTypeEventHashMap.put(TripComponent.Type.RAILS, "event254");
-		tripTypeEventHashMap.put(TripComponent.Type.PACKAGE, "event255");
+		tripComponentTypeEventHashMap.put(TripComponent.Type.HOTEL, "event250");
+		tripComponentTypeEventHashMap.put(TripComponent.Type.FLIGHT, "event251");
+		tripComponentTypeEventHashMap.put(TripComponent.Type.CAR, "event252");
+		tripComponentTypeEventHashMap.put(TripComponent.Type.ACTIVITY, "event253");
+		tripComponentTypeEventHashMap.put(TripComponent.Type.RAILS, "event254");
+		tripComponentTypeEventHashMap.put(TripComponent.Type.PACKAGE, "event255");
 
-		return tripTypeEventHashMap;
+		return tripComponentTypeEventHashMap;
 	}
 
+	private static String setTripComponentTypeCode(TripComponent tripComponent) {
+		String tripComponentType = tripComponent.getType().toString();
+
+		switch (tripComponentType) {
+		case "HOTEL":
+			return "HOT";
+		case "FLIGHT":
+			return "AIR";
+		case "ACTIVITY":
+			return "LX";
+		case "PACKAGE":
+			return "PGK";
+		case "RAILS":
+			return "RAIL";
+		case "CAR":
+			return "CAR";
+		default:
+			return tripComponentType;
+		}
+	}
+
+	public static String getUsersActiveTrip(Collection<Trip> trips, TripComponent.Type tripType) {
+		List<Trip> usersTrips = new ArrayList<>();
+		String activeTripString = "";
+		for (Trip trip : trips) {
+			if (trip.getEndDate() != null && trip.getEndDate().plusDays(1).isAfterNow() && !trip.getTripComponents().isEmpty()) {
+				TripComponent tripComponent = trip.getTripComponents().get(0);
+				if (tripComponent.getType().equals(tripType)) {
+					usersTrips.add(trip);
+				}
+			}
+		}
+		if (!usersTrips.isEmpty()) {
+			List<Trip> sortedTrips = getTripsInStartTimeAscendingOrder(usersTrips);
+			activeTripString = calculateActiveTripDatesFromNow(sortedTrips.get(0));
+		}
+
+		return activeTripString;
+	}
+
+	@VisibleForTesting
+	private static String calculateActiveTripDatesFromNow(Trip trip) {
+		DateTime now = DateTime.now();
+		StringBuilder tripDataStringBuilder = new StringBuilder();
+		DateTime tripStartDate = trip.getStartDate().withTimeAtStartOfDay();
+		DateTime tripEndDate = trip.getEndDate().withTimeAtStartOfDay().plusDays(1); //plus 1 day to account for today
+
+		int startDateDaysBetweenNow = Days.daysBetween(now, tripStartDate).getDays();
+		if (startDateDaysBetweenNow >= 1) {
+			startDateDaysBetweenNow += 1; //this accounts for today
+		}
+		int endDateDaysBetweenNow = Days.daysBetween(now, tripEndDate).getDays();
+
+		String tripType = setTripComponentTypeCode(trip.getTripComponents().get(0));
+
+		String tripDataString = tripDataStringBuilder.append(tripType)
+			.append(":")
+			.append(startDateDaysBetweenNow)
+			.append(":")
+			.append(endDateDaysBetweenNow)
+			.toString();
+
+		return tripDataString;
+	}
+	
 }

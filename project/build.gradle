@@ -4,12 +4,11 @@ def gitRev = GradleUtil.getGitRevision()
 def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
-apply plugin: 'fork'
+apply plugin: 'com.shazam.fork'
 apply from: '../jacoco.gradle'
 
 repositories {
@@ -36,8 +35,8 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:1.0.0'
-    compile 'com.expedia:android-account-lib:1.1.18'
-    compile 'com.mobiata:android-utils:1.1.0'
+    compile 'com.expedia:android-account-lib:1.1.19'
+    compile 'com.mobiata:android-utils:1.2.1'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
@@ -54,9 +53,13 @@ dependencies {
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    compile "com.android.support:customtabs:${rootProject.ext.supportLibVersion}"
 
     compile "com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-ads:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
@@ -158,6 +161,7 @@ android {
     }
 
     lintOptions {
+        disable 'NewerVersionAvailable'
         checkReleaseBuilds false
         showAll true
         lintConfig file("lint.xml")
@@ -196,7 +200,7 @@ android {
         versionName "undefined"
 
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 25
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
@@ -226,7 +230,7 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 17
-            def minor = 21
+            def minor = 23
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -408,6 +412,7 @@ android {
 
             ext.betaDistributionReleaseNotesFilePath = CHANGELOG_PATH
             ext.betaDistributionGroupAliasesFilePath = CRASHLYTICS_BETA_GROUPS_PATH
+            ext.alwaysUpdateBuildId = !GradleUtil.isLocalDevBuild(project)
 
             buildConfigField "boolean", "RELEASE", "Boolean.parseBoolean(\"false\")"
             buildConfigField "boolean", "USABILITY", GradleUtil.isUsabilityBuild(project) ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
@@ -468,6 +473,21 @@ android {
         classpath = files()
         ignoreFailures = false
     }
+
+    fork {
+        totalAllowedRetryQuota = 99
+        retryPerTestCaseQuota = 2
+        testOutputTimeout = 90000
+        // Workaround to run tests in parallel on all connected devices. It should run on all devices above api level 19.
+        poolingStrategy {
+            computed {
+                characteristic = "api"
+                groups {
+                    connected_devices = 19
+                }
+            }
+        }
+    }
 }
 
 public class GradleUtil {
@@ -516,6 +536,12 @@ public class GradleUtil {
 
     static def getBuildIdentifier(Project project) {
         return getPropertyWithDefault(project, "id", "debug")
+    }
+
+    static def isLocalDevBuild(Project project) {
+        def buildId = getBuildIdentifier(project)
+
+        return (buildId == "debug")
     }
 
     static def getAppName(Project project, variant) {

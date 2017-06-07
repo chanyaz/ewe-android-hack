@@ -99,6 +99,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             params.searchProduct = null
             bundleWidget.viewModel.hotelParamsObservable.onNext(params)
+            checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.onNext(null)
             PackagesTracking().trackBundleEditItemClick("Hotel")
             true
         })
@@ -168,6 +169,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         builder.setPositiveButton(context.getString(R.string.start_over)) { dialog, which ->
             checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.resetTravelers()
+            checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.onNext(null)
             bundleWidget.viewModel.showSearchObservable.onNext(Unit)
         }
         val dialog = builder.create()

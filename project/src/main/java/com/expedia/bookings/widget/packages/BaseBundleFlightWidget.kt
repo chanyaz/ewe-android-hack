@@ -66,7 +66,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 true -> {
                     rowContainer = this.findViewById(R.id.detailed_row_container) as ViewGroup
                     rowContainer.visibility = VISIBLE
-                    val flightCell = FlightCellWidget(context, 0, false)
+                    val flightCell = FlightCellWidget(context, false)
                     rowContainer.addView(flightCell)
                     flightDetailsContainer.setOnClickListener {
                         if (isFlightSegmentDetailsExpanded()) {
@@ -87,7 +87,10 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
         vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
         vm.travelInfoTextObservable.subscribeTextAndVisibility(travelInfoText)
-        vm.flightDetailsIconObservable.subscribeVisibility(flightDetailsIcon)
+        vm.flightDetailsIconObservable.subscribe {
+            flightDetailsIcon.clearAnimation()
+            flightDetailsIcon.visibility = if(it) View.VISIBLE else View.GONE
+        }
         vm.showLoadingStateObservable.subscribeVisibility(flightLoadingBar)
         vm.showLoadingStateObservable.subscribeInverseVisibility(travelInfoText)
         vm.flightInfoContainerObservable.subscribeEnabled(flightInfoContainer)
@@ -140,7 +143,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
                 }
             }
             if (vm.showRowContainerWithMoreInfo.value) {
-                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight))
+                (rowContainer.getChildAt(0) as FlightCellWidget).bind(FlightOverviewRowViewModel(context, selectedFlight), 0)
                 flightCollapseIcon = flightSegmentWidget.linearLayout.getChildAt(0).findViewById(R.id.flight_overview_collapse_icon) as ImageView
             }
             if (viewModel.isUserBucketedForRateDetailExpansionTest) {
@@ -170,7 +173,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             flightDetailsContainer.setAccessibilityHoverFocus(100)
         }
         flightDetailsContainer.visibility = Presenter.VISIBLE
-        AnimUtils.rotate(flightDetailsIcon)
+        if(flightDetailsIcon.visibility == View.VISIBLE) {
+            AnimUtils.rotate(flightDetailsIcon)
+        }
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(true)
         }
@@ -184,7 +189,9 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             AnimUtils.reverseRotate(flightCollapseIcon)
             rowContainer.setAccessibilityHoverFocus(100)
         }
-        AnimUtils.reverseRotate(flightDetailsIcon)
+        if(flightDetailsIcon.visibility == View.VISIBLE) {
+            AnimUtils.reverseRotate(flightDetailsIcon)
+        }
         if (trackClick) {
             trackBundleOverviewFlightExpandClick(false)
         }

@@ -1,10 +1,12 @@
 package com.expedia.ui
 
+import android.content.Intent
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.flight.FlightPresenter
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
 
@@ -51,6 +53,16 @@ class FlightActivity : AbstractAppCompatActivity() {
     override fun onBackPressed() {
         if (!flightsPresenter.back()) {
             super.onBackPressed()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+            Constants.FLIGHT_REQUEST_CODE -> when(resultCode) {
+                android.app.Activity.RESULT_OK -> finish()
+            }
         }
     }
 

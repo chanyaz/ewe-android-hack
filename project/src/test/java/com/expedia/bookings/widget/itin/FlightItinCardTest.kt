@@ -4,13 +4,20 @@ package com.expedia.bookings.widget.itin
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.TextView
+import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray
@@ -19,6 +26,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -32,6 +40,27 @@ class FlightItinCardTest {
     fun setUp() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun shareButtonTest(){
+        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_share_button_remove_calendar, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar)
+        AbacusTestUtils.bucketTestWithVariant(14201, 0)
+        createSystemUnderTest()
+        assertEquals(View.GONE, getShareButtonText().visibility)
+        assertEquals(View.VISIBLE, getShareButtonOverflow().visibility)
+        AbacusTestUtils.bucketTestWithVariant(14201, 1)
+        createSystemUnderTest()
+        assertEquals(View.VISIBLE, getShareButtonText().visibility)
+        assertEquals(View.GONE, getShareButtonOverflow().visibility)
+        assertEquals("", getShareButtonText().text)
+        AbacusTestUtils.bucketTestWithVariant(14201, 2)
+        createSystemUnderTest()
+        assertEquals(View.VISIBLE, getShareButtonText().visibility)
+        assertEquals(View.GONE, getShareButtonOverflow().visibility)
+        assertEquals("Share", getShareButtonText().text)
     }
 
     @Test
@@ -93,6 +122,16 @@ class FlightItinCardTest {
         val imageView = sut.findViewById(R.id.header_image_container)
 
         assertEquals("Image gallery", imageView.contentDescription)
+    }
+
+    private fun getShareButtonText(): TextView {
+        val shareButtonText = sut.findViewById(R.id.itin_share_button) as TextView
+        return shareButtonText
+    }
+
+    private fun getShareButtonOverflow(): ImageButton {
+        val shareButtonOverflow = sut.findViewById(R.id.itin_overflow_image_button) as ImageButton
+        return shareButtonOverflow
     }
 
     private fun getActionButtonLayout(): LinearLayout {

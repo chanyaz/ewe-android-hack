@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -26,7 +27,6 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -79,6 +79,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		super.tearDown();
 	}
 
+	@Test
 	public void testNewFlightHappyPath() throws Throwable {
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
@@ -112,10 +113,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
 		assertInsuranceTerms();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		assertInsuranceIsNotAdded();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		PackageScreen.toggleInsuranceSwitch();
+		PackageScreen.swipeToAddInsurance();
 		assertInsuranceIsAdded();
 		assertInsuranceToggleIsEnabled();
 		PackageScreen.toggleInsuranceSwitch();
@@ -153,6 +151,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertConfirmationView();
 	}
 
+	@Test
 	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		SearchScreen.origin().perform(click());
@@ -187,10 +186,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
 		assertInsuranceTerms();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		assertInsuranceIsNotAdded();
-		PackageScreen.toggleInsuranceSwitchProgrammatically();
-		PackageScreen.toggleInsuranceSwitch();
+		PackageScreen.swipeToAddInsurance();
 		assertInsuranceIsAdded();
 		assertInsuranceToggleIsEnabled();
 		PackageScreen.toggleInsuranceSwitch();
@@ -200,9 +196,9 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 
 		onView(withId(R.id.first_name_input)).perform(scrollTo(), click());
-		onView(withId(R.id.last_name_input)).perform(click());
+		onView(withId(R.id.last_name_input)).perform(scrollTo(), click());
 		onView(withText(R.string.first_name_validation_error_message)).check(matches(isDisplayed()));
-		onView(withId(R.id.edit_email_address)).perform(click());
+		onView(withId(R.id.edit_email_address)).perform(scrollTo(), click());
 		onView(withText(R.string.last_name_validation_error_message)).check(matches(isDisplayed()));
 		onView(withId(R.id.edit_phone_number)).perform(scrollTo(), click());
 		onView(withText(R.string.email_validation_error_message)).check(matches(isDisplayed()));
@@ -252,9 +248,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
 
+	@Test
 	public void testDisabledSTPState() throws Throwable {
-		Activity activity = getActivity();
-		SettingUtils.save(activity.getApplicationContext(), R.string.preference_disabled_stp_state, true);
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppDisabledSTPState, AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		getToCheckoutScreen();
 		assertViewIsCompletelyDisplayed(R.id.checkout_button);
@@ -271,6 +266,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertViewIsNotDisplayed(R.id.checkout_button);
 	}
 
+	@Test
 	public void testNewFlightHappyPathSignedIn() throws Throwable {
 		getToCheckoutScreen();
 		CheckoutViewModel.signInOnCheckout();
@@ -290,6 +286,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertSignedInConfirmationView();
 	}
 
+	@Test
 	public void getToCheckoutScreen() throws Throwable {
 		selectOriginDestinationAndDates();
 
@@ -447,8 +444,6 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertInsuranceVisibilityTests() {
-		SettingUtils.save(getActivity().getApplicationContext(), R.string.preference_insurance_in_flight_summary, true);
-
 		// insurance visibility in flight summary screen (Abacus 12268)
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppOfferInsuranceInFlightSummary,
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());

@@ -22,6 +22,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
+import com.expedia.bookings.dagger.TripComponent
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -105,6 +106,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         PagerAdapter(supportFragmentManager)
     }
 
+//    val tripComponent: TripComponent by lazy {
+//        Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppItinCrystalSkin)) {
@@ -139,12 +144,13 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
             gotoAccount()
         } else if (lineOfBusiness != null) {
-            var errorMessage: CharSequence = ""
-            if (lineOfBusiness == LineOfBusiness.CARS) {
-                errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", getString(R.string.Car)).format()
-            } else if (lineOfBusiness == LineOfBusiness.LX) {
-                errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", getString(R.string.Activity)).format()
+            val lobName = when (lineOfBusiness) {
+                LineOfBusiness.CARS -> getString(R.string.Car)
+                LineOfBusiness.LX -> getString(R.string.Activity)
+                LineOfBusiness.FLIGHTS -> getString(R.string.Flight)
+                else -> ""
             }
+            val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         }
         AbacusHelperUtils.downloadBucket(this)
@@ -281,6 +287,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                 }
             }
 
+            if (tab.position != PAGER_POS_ITIN) {
+                val tripComponent = Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
+                if (tripComponent != null) {
+                    val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
+                    itinPageUsablePerformanceModel.resetStartTime()
+                }
+            }
+
             if (tab.position != pagerPosition) {
                 when (tab.position) {
                     PAGER_POS_LAUNCH -> {
@@ -289,10 +303,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     }
                     PAGER_POS_ITIN -> {
                         gotoItineraries()
-                        val hasTrips = !ItineraryManager.getInstance().trips.isEmpty()
-                        if (!hasTrips) {
-                            OmnitureTracking.trackItinSignInExposure()
-                        }
                     }
                     PAGER_POS_ACCOUNT -> {
                         pagerPosition = PAGER_POS_ACCOUNT
@@ -322,7 +332,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     @Synchronized private fun gotoItineraries() {
-        itinListFragment?.logCrystalThemeExposure()
 
         if (pagerPosition != PAGER_POS_ITIN) {
 

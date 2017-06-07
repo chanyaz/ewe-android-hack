@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.lx;
 
+import org.junit.Test;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
@@ -25,12 +27,14 @@ public class LXCreateTripErrorTest extends LxTestCase {
 		LXInfositeScreen.bookNowButton(ticketName).perform(clickWhenEnabled());
 	}
 
+	@Test
 	public void testCreateTripError() throws Throwable {
 		goToCheckout(1, "2-Day New York Pass");
 
 		onView(withId(R.id.lx_checkout_error_widget)).perform(waitForViewToCompletelyDisplay());
 	}
 
+	@Test
 	public void testCreateTripPriceChange() throws Throwable {
 		goToCheckout(2, "2-Day New York Pass");
 

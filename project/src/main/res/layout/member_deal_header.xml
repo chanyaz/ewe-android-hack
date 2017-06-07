@@ -9,7 +9,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/member_deals_status_view"
-        style="@style/ResultsDescriptionText"
+        style="@style/ResultsDescriptionText.Center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/member_deal_loading_page_header" />

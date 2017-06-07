@@ -131,7 +131,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val hotel: Hotel = getHotel(adapterPosition)
         hotelSelectedSubject.onNext(hotel)
         if (hotel.isSponsoredListing) {
-            AdImpressionTracking.trackAdClickOrImpressionWithTest(context, hotel.clickTrackingUrl, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
+            AdImpressionTracking.trackAdClickOrImpression(context, hotel.clickTrackingUrl, null)
             HotelTracking.trackHotelSponsoredListingClick()
         }
     }

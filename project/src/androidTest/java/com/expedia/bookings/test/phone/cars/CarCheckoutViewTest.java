@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.junit.Test;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
@@ -18,6 +20,7 @@ public class CarCheckoutViewTest extends CarTestCase {
 	private final static int CREDIT_CARD_NOT_REQUIRED = 0;
 	private final static int INSURANCE_INCLUDED = 1;
 
+	@Test
 	public void testCheckoutView() throws Throwable {
 		gotoCheckout(CREDIT_CARD_NOT_REQUIRED);
 
@@ -37,6 +40,7 @@ public class CarCheckoutViewTest extends CarTestCase {
 		assertViewIsDisplayed(R.id.slide_to_purchase_widget);
 	}
 
+	@Test
 	public void testInsuranceIncludedViewAbacusTest() throws Throwable {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO,
 			AbacusUtils.DefaultVariant.BUCKETED.ordinal());

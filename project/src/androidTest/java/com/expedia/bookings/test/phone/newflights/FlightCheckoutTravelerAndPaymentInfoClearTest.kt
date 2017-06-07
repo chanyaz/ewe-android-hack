@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.newflights
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
@@ -17,9 +16,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Test
 import java.util.concurrent.TimeUnit
@@ -43,7 +40,8 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.checkout().perform(ViewActions.click())
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
-        assertTravelerInfoCleared()
+        Espresso.onView(ViewMatchers.withId(R.id.first_name_input))
+                .check(ViewAssertions.matches(ViewMatchers.withText("Eidur")))
 
         PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
 

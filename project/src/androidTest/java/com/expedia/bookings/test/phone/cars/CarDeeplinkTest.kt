@@ -8,9 +8,11 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.DeepLinkRouterActivity
 import com.expedia.bookings.test.espresso.EspressoUtils
+import org.junit.Test
 
 class CarDeeplinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>(DeepLinkRouterActivity::class.java) {
 
+    @Test
     @Throws(Throwable::class)
     fun testCarDeeplinkDropoffTimeBeforePickup() {
         val intent = Intent()
@@ -26,6 +28,7 @@ class CarDeeplinkTest : ActivityInstrumentationTestCase2<DeepLinkRouterActivity>
         EspressoUtils.assertViewIsDisplayed(R.id.widget_car_params)
     }
 
+    @Test
     @Throws(Throwable::class)
     fun testCarDeeplinkURLWithNoParams() {
         val intent = Intent()

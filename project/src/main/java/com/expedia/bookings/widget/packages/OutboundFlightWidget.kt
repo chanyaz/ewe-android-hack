@@ -22,8 +22,7 @@ class OutboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleF
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     override fun showLoading() {

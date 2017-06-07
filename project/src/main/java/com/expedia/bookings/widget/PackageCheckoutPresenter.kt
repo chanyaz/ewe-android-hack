@@ -27,10 +27,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         PackagesTracking().trackCheckoutPriceChange(diffPercentage)
     }
 
-    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
-        return false
-    }
-
     override fun handleCheckoutPriceChange(response: TripResponse) {
         onCreateTripResponse(response)
     }

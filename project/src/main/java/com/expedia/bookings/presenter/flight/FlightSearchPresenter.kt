@@ -12,7 +12,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
@@ -22,7 +24,6 @@ import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -33,6 +34,7 @@ import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -55,6 +57,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
+        flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassSelectedObservable.subscribe(vm.abortTimerObservable)
         flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
@@ -66,13 +69,14 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             searchTrackingBuilder.markSearchClicked()
             vm.performSearchObserver.onNext(Unit)
         }
+        travelerWidgetV2.traveler.getViewModel().travelerSelectedObservable.subscribe(vm.abortTimerObservable)
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
                     put("travelers", noOfTravelers).format().toString()
         }
 
-        val isUserBucketedInSearchFormValidation = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSearchFormValidation, R.string.preference_flight_search_form_validations)
+        val isUserBucketedInSearchFormValidation = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)
         vm.errorNoDestinationObservable.subscribe {
             AnimUtils.doTheHarlemShake(destinationCardView)
             if (isUserBucketedInSearchFormValidation) {
@@ -125,6 +129,17 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
         vm.dateAccessibilityObservable.subscribe { text ->
             calendarWidgetV2.contentDescription = text
+        }
+
+        vm.previousSearchParamsObservable.subscribe { params ->
+            val cabinClass = params.flightCabinClass
+            if (cabinClass != null) {
+                flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.onNext(FlightServiceClassType.CabinCode.valueOf(cabinClass))
+            }
+            if (!params.isRoundTrip()) {
+                viewpager.currentItem = 1
+            }
+            travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
         }
 
         if (isUserBucketedInSearchFormValidation) {

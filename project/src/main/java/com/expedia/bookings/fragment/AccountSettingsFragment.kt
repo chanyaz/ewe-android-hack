@@ -216,10 +216,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             builder.setTitle(R.string.about_section_support)
 
-            builder.addRow(getPOSSpecificWebsiteSupportString(), ROW_EXPEDIA_WEBSITE)
+            builder.addRow(ROW_EXPEDIA_WEBSITE, getPOSSpecificWebsiteSupportString(), Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getPOSSpecificWebsiteSupportString()).format().toString())
 
-            builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT)
-            builder.addRow(R.string.app_support, ROW_APP_SUPPORT)
+            builder.addRow(ROW_BOOKING_SUPPORT, R.string.booking_support, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.booking_support)).format().toString())
+
+            builder.addRow(ROW_APP_SUPPORT, R.string.app_support, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.app_support)).format().toString())
 
             if (ProductFlavorFeatureConfiguration.getInstance().isRewardsCardEnabled) {
                 builder.addRow(Phrase.from(context, R.string.rewards_visa_card_TEMPLATE).put("brand_reward_name",
@@ -239,11 +240,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                 builder.setTitle(R.string.about_section_communicate)
 
                 if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
-                    builder.addRow(R.string.rate_our_app, ROW_RATE_APP)
+                    builder.addRow(ROW_RATE_APP, R.string.rate_our_app, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.rate_our_app)).format().toString())
                 }
 
                 if (ProductFlavorFeatureConfiguration.getInstance().isWeReHiringEnabled()) {
-                    builder.addRow(R.string.WereHiring, ROW_WERE_HIRING)
+                    builder.addRow(ROW_WERE_HIRING, R.string.WereHiring, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.WereHiring)).format().toString())
                 }
 
                 communicateFragment = builder.build()
@@ -256,11 +257,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         if (legalFragment == null) {
             builder = AboutSectionFragment.Builder(context)
             builder.setTitle(R.string.legal_information)
-            builder.addRow(R.string.clear_private_data, ROW_CLEAR_PRIVATE_DATA)
-            builder.addRow(R.string.info_label_terms_conditions, ROW_TERMS_AND_CONDITIONS)
-            builder.addRow(R.string.info_label_privacy_policy, ROW_PRIVACY_POLICY)
-            builder.addRow(R.string.lawyer_label_atol_information, ROW_ATOL_INFO)
-            builder.addRow(R.string.open_source_software_licenses, ROW_OPEN_SOURCE_LICENSES)
+            builder.addRow(ROW_CLEAR_PRIVATE_DATA, R.string.clear_private_data, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.clear_private_data)).format().toString())
+            builder.addRow(ROW_TERMS_AND_CONDITIONS, R.string.info_label_terms_conditions, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.info_label_terms_conditions)).format().toString())
+            builder.addRow(ROW_PRIVACY_POLICY, R.string.info_label_privacy_policy, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.info_label_privacy_policy)).format().toString())
+            builder.addRow(ROW_ATOL_INFO, R.string.lawyer_label_atol_information, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.lawyer_label_atol_information)).format().toString())
+            builder.addRow(ROW_OPEN_SOURCE_LICENSES, R.string.open_source_software_licenses, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.open_source_software_licenses)).format().toString())
             legalFragment = builder.build()
             ft.add(R.id.section_legal, legalFragment, TAG_LEGAL)
         }
@@ -618,15 +619,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             ROW_OPEN_SOURCE_LICENSES -> {
                 aboutUtils.openOpenSourceLicenses()
                 return true
-            }
-
-            AboutSectionFragment.ROW_FLIGHT_TRACK -> {
-                OmnitureTracking.trackClickDownloadAppLink("FlightTrack")
-                return false
-            }
-            AboutSectionFragment.ROW_FLIGHT_BOARD -> {
-                OmnitureTracking.trackClickDownloadAppLink("FlightBoard")
-                return false
             }
 
             ROW_VSC_VOYAGES -> {

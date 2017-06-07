@@ -4,5 +4,5 @@
     android:id="@+id/title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/FlightsResultsDescriptionText"
+    style="@style/FlightsResultsDescriptionText.CenterHorizontal"
     android:text="@string/loading_flights_from_400_airlines" />

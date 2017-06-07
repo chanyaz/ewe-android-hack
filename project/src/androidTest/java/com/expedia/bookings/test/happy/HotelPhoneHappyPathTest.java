@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.happy;
 
+import org.junit.Test;
+
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.assertion.ViewAssertions;
 
@@ -24,6 +26,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDispl
 
 public class HotelPhoneHappyPathTest extends HotelTestCase {
 
+	@Test
 	public void testHotelPhoneHappyPath() throws Throwable {
 		SearchScreen.searchEditText().check(ViewAssertions.matches(withHint("Enter Destination")));
 		SearchScreen.doGenericHotelSearch();
@@ -42,6 +45,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		verifyTravelAdTracking();
 	}
 
+	@Test
 	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel();
@@ -60,6 +64,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		assertICanSeeItinNumber();
 	}
 
+	@Test
 	public void testSingleStoredCard() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
@@ -77,6 +82,7 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		assertViewIsDisplayed(R.id.confirmation_text);
 	}
 
+	@Test
 	public void testNoStoredCard() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");

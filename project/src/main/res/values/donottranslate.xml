@@ -93,6 +93,9 @@
     <string name="preference_abacus_setting_variant2">Variant2</string>
     <string name="preference_abacus_setting_upto_xx_off">Upto_XX_Percent_off</string>
     <string name="preference_abacus_setting_because_you_booked_a_flight">Because_you_booked_a_flight</string>
+    <string name="preference_abacus_setting_share_button_icon">Share button icon</string>
+    <string name="preference_abacus_setting_share_button_text">Share button text</string>
+    <string name="preference_share_button_remove_calendar">preference_share_button_remove_calendar</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
@@ -104,18 +107,14 @@
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
-    <string name="preference_disabled_stp_state">preference_disabled_stp_state</string>
+    <string name="preference_enable_flex">preference_enable_flex</string>
     <string name="preference_enable_additional_content_flight_confirmation">preference_enable_additional_content_flight_confirmation</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
-    <string name="preference_hotel_pinned_search">preference_hotel_pinned_search</string>
-    <string name="preference_insurance_in_flight_summary">preference_insurance_in_flight_summary</string>
-    <string name="preference_track_users_itin_data">preference_track_users_itin_data</string>
-    <string name="preference_packages_remove_bundle_overview">preference_packages_remove_bundle_overview</string>
-    <string name="preference_flight_search_form_validations">preference_flight_search_form_validations</string>
-    <string name="preference_flight_hide_fsr_infographic">preference_flight_hide_fsr_infographic</string>
+    <string name="preference_hotel_advanced_search_options">preference_enable_advanced_search</string>
+    <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

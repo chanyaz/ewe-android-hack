@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.junit.Test;
+
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
@@ -16,6 +18,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 * @throws Throwable
 	 * @author lsagar@
 	 */
+	@Test
 	public void testPwPHappyPathPayWithPointsOnly() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
@@ -59,6 +62,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 * @throws Throwable
 	 * @author lsagar@
 	 */
+	@Test
 	public void testPwPHappyPathPayWithPointsAndCard() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");
@@ -88,6 +92,7 @@ public class HotelPwpTest extends HotelTestCase {
 	 * @throws Throwable
 	 * @author lsagar@
 	 */
+	@Test
 	public void testPwPCalculatePoints() throws Throwable {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath_pwp");

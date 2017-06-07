@@ -39,30 +39,31 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.hotel.animation.HorizontalTranslateTransition
 import com.expedia.bookings.hotel.animation.VerticalFadeTransition
 import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.hotel.map.HotelMapClusterAlgorithm
+import com.expedia.bookings.hotel.map.HotelMapClusterRenderer
+import com.expedia.bookings.hotel.map.HotelMarkerIconGenerator
+import com.expedia.bookings.hotel.map.MapItem
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.HotelMapClusterAlgorithm
-import com.expedia.bookings.utils.HotelMapClusterRenderer
-import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelFilterView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelCarouselRecycler
-import com.expedia.bookings.widget.HotelClientFilterView
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.widget.HotelMarkerIconGenerator
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.hotel.HotelResultsSortFaqWebView
@@ -208,11 +209,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (animateCarousel && currentState == ResultsMap::class.java.name) {
             animateMapCarouselIn()
         }
-    }
-
-    protected fun inflateClientFilterView(viewStub: ViewStub): HotelClientFilterView {
-        viewStub.layoutResource = R.layout.hotel_client_filter_stub
-        return viewStub.inflate() as HotelClientFilterView
     }
 
     protected fun animateMapCarouselIn() {
@@ -502,11 +498,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 trackCarouselScroll()
             }
         }
-
-        if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
-            toolbar.inflateMenu(R.menu.menu_search_item)
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHideSearch)) {
+            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
+                toolbar.inflateMenu(R.menu.menu_search_item)
+            }
         }
-
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
         filterMenuItem.isVisible = false

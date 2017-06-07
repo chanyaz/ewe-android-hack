@@ -65,6 +65,14 @@
        "nameOnCard": "checkoutpricechange lastname",
        "expired": "false",
        "expirationDate": "2016-03"
+     },
+     {
+       "description": "Payment failed Card",
+       "paymentsInstrumentsId": "500C0690-D5C7-4208-8BB0-2A3760C21B4F",
+       "creditCardType": "Visa",
+       "nameOnCard": "paymentfailederror lastname",
+       "expired": "false",
+       "expirationDate": "2013-07"
      }
     ],
    "loyaltyMembershipNumber":"308127915",

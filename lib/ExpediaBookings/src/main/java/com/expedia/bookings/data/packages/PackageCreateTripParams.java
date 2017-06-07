@@ -11,6 +11,7 @@ public class PackageCreateTripParams {
 	private int numOfAdults;
 	private boolean infantsInLap;
 	private List<Integer> childAges;
+	public boolean flexEnabled;
 
 	public PackageCreateTripParams(String productKey, String destinationId,
 		int numOfAdults, boolean infantsInLap, List<Integer> childAges) {

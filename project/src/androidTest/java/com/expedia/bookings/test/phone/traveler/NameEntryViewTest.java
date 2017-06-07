@@ -109,12 +109,9 @@ public class NameEntryViewTest {
 		});
 
 		//test for accessibility content description
-		assertEquals(nameView.getFirstName().getErrorContDesc(),
-			"Error");
-		assertEquals(nameView.getMiddleName().getErrorContDesc(),
-			"Error");
-		assertEquals(nameView.getLastName().getErrorContDesc(),
-			"Error");
+		assertEquals("Enter first name using letters only", nameView.getFirstName().getErrorContDesc());
+		assertEquals("Enter middle name using letters only", nameView.getMiddleName().getErrorContDesc());
+		assertEquals("Enter last name using letters only (minimum 2 characters)", nameView.getLastName().getErrorContDesc());
 
 		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());

@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.lx;
 
+import org.junit.Test;
+
 import android.location.Location;
 
 import com.expedia.bookings.dagger.DaggerLXTestComponent;
@@ -52,6 +54,7 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 		super.runTest();
 	}
 
+	@Test
 	public void testNoCurrentLocationError() throws Throwable {
 		Common.delay(1);
 		LXScreen.didNotGoToResults();
@@ -59,11 +62,13 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 
 	}
 
+	@Test
 	public void testCurrentLocationNoSuggestionsError() throws Throwable {
 		Common.delay(1);
 		LXScreen.location().check(matches(isDisplayed()));
 	}
 
+	@Test
 	public void testCurrentLocationSuggestionWithNoActivitiesError() throws Throwable {
 		Common.delay(1);
 		LXScreen.searchFailed().check(matches(isDisplayed()));

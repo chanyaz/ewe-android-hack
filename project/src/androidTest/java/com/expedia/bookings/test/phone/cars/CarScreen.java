@@ -5,8 +5,8 @@ import org.joda.time.LocalDate;
 import android.app.Activity;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -131,13 +131,13 @@ public final class CarScreen {
 	}
 
 	public static ViewInteraction searchErrorToolbarBack() {
-		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(
+		return onView(allOf(isAssignableFrom(AppCompatImageButton.class), isDescendantOfA(
 			allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
 	}
 
 	public static ViewInteraction searchWidgetToolbarBack() {
 		return onView(allOf(isDescendantOfA(withId(R.id.widget_car_params)), withParent(withId(R.id.toolbar)),
-			isAssignableFrom(ImageButton.class)));
+			isAssignableFrom(AppCompatImageButton.class)));
 	}
 
 	//Filters

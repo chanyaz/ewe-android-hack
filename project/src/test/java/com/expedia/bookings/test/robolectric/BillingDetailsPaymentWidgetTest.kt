@@ -5,9 +5,7 @@ import android.support.design.widget.TextInputLayout
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import butterknife.ButterKnife
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -16,23 +14,22 @@ import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemPackages
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.getParentTextInputLayout
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.DateTime
@@ -55,6 +52,7 @@ import kotlin.test.assertNull
 @RunWith(RxJavaTestImmediateSchedulerRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class BillingDetailsPaymentWidgetTest {
+
     lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
     lateinit private var activity: Activity
     private var cardExpiry = DateTime.now().plusYears(1).toLocalDate()
@@ -164,6 +162,38 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
+
+    @Test
+    fun testFlexPaymentValidator() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        val info = BillingInfo()
+        info.setNumberAndDetectType("4111111111111111")
+        info.nameOnCard = "Test CArd"
+        info.expirationDate = cardExpiry
+        info.securityCode = "123"
+
+        val location = givenLocation()
+        info.location = location
+
+        givenTripResponse("Visa Debit")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+
+        givenTripResponse("Visa Credit")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+
+        givenTripResponse("Visa Electron")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+
+        givenTripResponse("Vis")
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
 
     @Test
     fun testAddressLimit() {
@@ -439,8 +469,9 @@ class BillingDetailsPaymentWidgetTest {
 
     @Test
     fun testMaterialBillingCardValidation() {
+        givenPackageTripWithVisaValidFormOfPayment()
         givenMaterialPaymentBillingWidget()
-        val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.parent as TextInputLayout
+        val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
 
@@ -448,13 +479,18 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(creditCardLayout, "Enter a valid card number")
 
         billingDetailsPaymentWidget.creditCardNumber.setText("4")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertErrorState(creditCardLayout, "Enter a valid card number")
+
+        billingDetailsPaymentWidget.creditCardNumber.setText("4111111111111111")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertValidState(creditCardLayout, "Enter new Debit/Credit Card")
     }
 
     @Test
     fun testMaterialBillingExpirationValidation() {
         givenMaterialPaymentBillingWidget()
-        val expirationLayout = billingDetailsPaymentWidget.expirationDate.parent as TextInputLayout
+        val expirationLayout = billingDetailsPaymentWidget.expirationDate.getParentTextInputLayout()!!
 
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(expirationLayout, "Expiration Date")
@@ -468,35 +504,41 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingCvvValidation() {
         givenMaterialPaymentBillingWidget()
-        val cvvLayout = billingDetailsPaymentWidget.creditCardCvv.parent as TextInputLayout
+        val cvvLayout = billingDetailsPaymentWidget.creditCardCvv.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(cvvLayout, "CVV")
 
         validateInvalidBillingInfo()
         assertErrorState(cvvLayout, "Enter a valid CVV number")
 
-        billingDetailsPaymentWidget.creditCardCvv.setText("41")
+        billingDetailsPaymentWidget.creditCardCvv.setText("1")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertErrorState(cvvLayout, "Enter a valid CVV number")
+
+        billingDetailsPaymentWidget.creditCardCvv.setText("111")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertValidState(cvvLayout, "CVV")
     }
 
     @Test
     fun testMaterialBillingNameValidation() {
         givenMaterialPaymentBillingWidget()
-        val nameLayout = billingDetailsPaymentWidget.creditCardName.parent as TextInputLayout
+        val nameLayout = billingDetailsPaymentWidget.creditCardName.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(nameLayout, "Cardholder name")
 
         validateInvalidBillingInfo()
         assertErrorState(nameLayout, "Enter name as it appears on the card")
 
-        billingDetailsPaymentWidget.creditCardName.setText("E")
+        billingDetailsPaymentWidget.creditCardName.setText("Joe Bloggs")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertValidState(nameLayout, "Cardholder name")
     }
 
     @Test
     fun testMaterialBillingAddressValidation() {
         givenMaterialPaymentBillingWidget()
-        val addressLayout = billingDetailsPaymentWidget.addressLineOne.parent as TextInputLayout
+        val addressLayout = billingDetailsPaymentWidget.addressLineOne.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(addressLayout, "Address line 1")
 
@@ -504,13 +546,14 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(addressLayout, "Enter a valid billing address (using letters and numbers only)")
 
         billingDetailsPaymentWidget.addressLineOne.setText("114 Sansome")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
         assertValidState(addressLayout, "Address line 1")
     }
 
     @Test
     fun testMaterialBillingCityValidation() {
         givenMaterialPaymentBillingWidget()
-        val cityLayout = billingDetailsPaymentWidget.addressCity.parent as TextInputLayout
+        val cityLayout = billingDetailsPaymentWidget.addressCity.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         assertValidState(cityLayout, "City")
 
@@ -518,13 +561,18 @@ class BillingDetailsPaymentWidgetTest {
         assertErrorState(cityLayout, "Enter a valid city")
 
         billingDetailsPaymentWidget.addressCity.setText("San")
-        assertNull(cityLayout.error)
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertValidState(cityLayout, "City")
+
+        billingDetailsPaymentWidget.addressCity.setText("")
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertErrorState(cityLayout, "Enter a valid city")
     }
 
     @Test
     fun testMaterialBillingStateValidation() {
         givenMaterialPaymentBillingWidget()
-        val stateLayout = billingDetailsPaymentWidget.addressState.parent as TextInputLayout
+        val stateLayout = billingDetailsPaymentWidget.addressState.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.updateStateFieldBasedOnBillingCountry("USA")
         assertValidState(stateLayout, "State")
@@ -551,7 +599,7 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingCountryValidation() {
         givenMaterialPaymentBillingWidget()
-        val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.parent as TextInputLayout
+        val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.getParentTextInputLayout()!!
         val testHasErrorSubscriber = TestSubscriber<Boolean>()
         billingDetailsPaymentWidget.sectionLocation.billingCountryErrorSubject.subscribe(testHasErrorSubscriber)
         val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
@@ -564,8 +612,8 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals(true, testHasErrorSubscriber.onNextEvents.isEmpty())
         assertEquals(countryName, countryLayout.editText?.text.toString())
         assertEquals(pointOfSale, billingDetailsPaymentWidget.sectionLocation.location.countryCode)
-        
-        countryLayout.editText?.setText(null)
+
+        countryLayout.editText?.text = null
         billingDetailsPaymentWidget.doneClicked.onNext(Unit)
 
         assertEquals(false, testHasErrorSubscriber.onNextEvents.isEmpty())
@@ -584,7 +632,7 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingCountryDialog(){
         givenMaterialPaymentBillingWidget()
-        val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.parent as TextInputLayout
+        val countryLayout = billingDetailsPaymentWidget.editCountryEditText?.getParentTextInputLayout()!!
         val pointOfSale = PointOfSale.getPointOfSale().threeLetterCountryCode
         val position =  billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getPositionByCountryThreeLetterCode(pointOfSale)
         val countryName = billingDetailsPaymentWidget.sectionLocation.materialCountryAdapter.getItem(position)
@@ -608,7 +656,7 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingZipValidationUsPos() {
         givenMaterialPaymentBillingWidget()
-        val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
+        val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.billingCountryCodeSubject.onNext("USA")
         billingDetailsPaymentWidget.sectionLocation.resetValidation(R.id.edit_address_postal_code, true)
@@ -631,7 +679,7 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingZipValidationNonUsPos() {
         givenMaterialPaymentBillingWidget()
-        val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.parent as TextInputLayout
+        val postalLayout = billingDetailsPaymentWidget.creditCardPostalCode.getParentTextInputLayout()!!
         billingDetailsPaymentWidget.cardInfoContainer.performClick()
         billingDetailsPaymentWidget.sectionLocation.updateMaterialPostalFields(PointOfSaleId.IRELAND)
         assertValidState(postalLayout, "Postal Code")
@@ -649,7 +697,7 @@ class BillingDetailsPaymentWidgetTest {
     @Test
     fun testMaterialBillingMaskedCreditCardAlternatesVisibility() {
         givenMaterialPaymentBillingWidget()
-        val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.parent as TextInputLayout
+        val creditCardLayout = billingDetailsPaymentWidget.creditCardNumber.getParentTextInputLayout()!!
         val maskedCreditLayout = billingDetailsPaymentWidget.maskedCreditLayout as TextInputLayout
 
         assertInverseLayoutVisibility(visibleLayout = creditCardLayout, hiddenLayout = maskedCreditLayout)
@@ -784,5 +832,13 @@ class BillingDetailsPaymentWidgetTest {
         assertEquals(View.GONE, hiddenLayout.editText?.visibility)
         assertEquals(View.VISIBLE, visibleLayout.visibility)
         assertEquals(View.VISIBLE, visibleLayout.editText?.visibility)
+    }
+
+    private fun givenPackageTripWithVisaValidFormOfPayment() {
+        val packageCreateTripResponse = PackageCreateTripResponse()
+        val visaFormOfPayment = ValidFormOfPayment()
+        visaFormOfPayment.name = "Visa"
+        packageCreateTripResponse.validFormsOfPayment = listOf(visaFormOfPayment)
+        Db.getTripBucket().add(TripBucketItemPackages(packageCreateTripResponse))
     }
 }

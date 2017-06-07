@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.LxTestCase;
@@ -57,6 +58,7 @@ public class LXInfositeTest extends LxTestCase {
 
 	private ExpectedDataSupplierForTicketWidget mExpectedDataTktWdgt;
 
+	@Test
 	public void testInfoSiteTestSuite() throws Throwable {
 		LXScreen.goToSearchResults(getLxIdlingResource());
 		LXScreen.waitForSearchListDisplayed();

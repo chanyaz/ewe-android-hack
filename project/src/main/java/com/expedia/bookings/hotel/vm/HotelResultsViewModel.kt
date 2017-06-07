@@ -3,16 +3,13 @@ package com.expedia.bookings.hotel.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.Sort
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.hotel.provider.HotelSearchProvider
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -50,10 +47,11 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
         })
 
         filterParamsSubject.subscribe(endlessObserver { filterParams ->
-            cachedParams?.clearPinnedHotelId()
             val paramBuilder = newParamBuilder(cachedParams?.suggestion, cachedParams)
             addFilterCriteria(paramBuilder, filterParams)
-            doSearch(paramBuilder.build(), true)
+            val newParams = paramBuilder.build()
+            newParams?.clearPinnedHotelId()
+            doSearch(newParams, true)
         })
 
         hotelSearchProvider.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
@@ -118,7 +116,6 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
         cachedParams = params
         this.isFilteredSearch = isFilteredSearch
         updateTitles(params)
-        params.serverSort = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelServerSideFilter)
         searchingForHotelsDateTime.onNext(Unit)
         hotelSearchProvider.doSearch(params)
     }

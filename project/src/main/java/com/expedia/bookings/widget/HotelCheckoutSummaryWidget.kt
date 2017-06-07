@@ -13,7 +13,9 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -28,6 +30,11 @@ import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.picasso.Picasso
 
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
+
+    val isFreeCancellationTooltipEnabled by lazy {
+        Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
+    }
+
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
 
     val hotelName: android.widget.TextView by bindView(R.id.hotel_name)
@@ -40,6 +47,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val numberNights: android.widget.TextView by bindView(R.id.number_nights)
     val numberGuests: android.widget.TextView by bindView(R.id.number_guests)
     val freeCancellationView: android.widget.TextView by bindView(R.id.free_cancellation_text)
+    val freeCancellationTooltipView: android.widget.TextView by bindView(R.id.free_cancellation_tooltip_text)
     val valueAddsContainer: ValueAddsContainer by bindView(R.id.value_adds_container)
     val totalWithTaxLabelWithInfoButton: android.widget.TextView by bindView(R.id.total_tax_label)
     val totalPriceWithTax: android.widget.TextView by bindView(R.id.total_price_with_tax)
@@ -74,8 +82,9 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.checkInOutDatesFormatted.subscribeText(date)
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
-        viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationView)
-        viewModel.freeCancellationText.subscribeText(freeCancellationView)
+
+        setUpFreeCancellationSubscription()
+
         viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
@@ -110,6 +119,12 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
 
+    }
+
+    private fun setUpFreeCancellationSubscription() {
+        val freeCancellationViewToDisplay = if (isFreeCancellationTooltipEnabled) freeCancellationTooltipView else freeCancellationView
+        viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationViewToDisplay)
+        viewModel.freeCancellationText.subscribeText(freeCancellationViewToDisplay)
     }
 
     val picassoTarget = object : PicassoTarget() {

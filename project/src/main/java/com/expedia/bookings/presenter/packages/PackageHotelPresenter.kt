@@ -196,8 +196,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     override fun onFinishInflate() {

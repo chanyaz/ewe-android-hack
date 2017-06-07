@@ -8,7 +8,6 @@
     <color name="hotel_price_sale_text_color_vsc">#cb0044</color>
     <color name="cost_summary_header_text_color_vsc">@color/vsc_primary_color</color>
     <color name="hotel_list_progress_text_color">#333</color>
-    <color name="flight_loading_message_text_color_vsc">#333</color>
     <color name="action_bar_text_vsc">#F5A337</color>
     <color name="action_bar_bg_color">#36424F</color>
     <color name="login_text_vsc">#333333</color>

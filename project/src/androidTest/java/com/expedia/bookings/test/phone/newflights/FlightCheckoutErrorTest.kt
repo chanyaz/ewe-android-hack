@@ -76,8 +76,9 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
         waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
 
         CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
-        PaymentOptionsScreen.assertCardSelectionMatches("Saved Expired Credit Card", 1)
+        val cardName = "Saved Payment failed Card"
+        CheckoutViewModel.selectStoredCard(cardName)
+        PaymentOptionsScreen.assertCardSelectionMatches(cardName, 5)
         Common.pressBack()
         CheckoutViewModel.performSlideToPurchase(true)
 
@@ -88,7 +89,7 @@ class FlightCheckoutErrorTest : FlightErrorTestCase() {
 
         clickActionButton()
         onView(withId(R.id.stored_card_list)).check(matches(isDisplayed()))
-        onView(allOf(withId(R.id.card_info_status_icon), hasSibling(withText("Saved Expired Credit Card")))).check(matches(not(withImageDrawable(R.drawable.validated))))
+        onView(allOf(withId(R.id.card_info_status_icon), hasSibling(withText(cardName)))).check(matches(not(withImageDrawable(R.drawable.validated))))
     }
 
     @Test

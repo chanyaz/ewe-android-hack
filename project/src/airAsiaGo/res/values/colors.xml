@@ -6,7 +6,6 @@
     <color name="hotel_price_text_color_airasiago">#333</color>
     <color name="hotel_price_sale_text_color_airasiago">@color/aag_primary_color</color>
     <color name="hotel_list_progress_text_color">#333</color>
-    <color name="flight_loading_message_text_color_aag">#333</color>
     <color name="action_bar_text_aag">#F5A337</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_aag</color>
     <color name="actionbar_menu_text_color">@color/aag_secondary_color</color>

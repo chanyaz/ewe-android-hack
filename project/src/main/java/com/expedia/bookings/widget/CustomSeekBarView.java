@@ -12,11 +12,10 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.View;
 
 import com.expedia.bookings.R;
 
-public class CustomSeekBarView extends View {
+public class CustomSeekBarView extends android.widget.SeekBar {
 
 	public static final int DEFAULT_BLUE = Color.parseColor("#FF33B5E5");
 	public static final int DEFAULT_GRAY = Color.parseColor("#FFD8D8D8");
@@ -28,6 +27,7 @@ public class CustomSeekBarView extends View {
 	protected final Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
 	private float thumbHalfWidth;
+	private float thumbHalfHeight;
 	protected int barHeight;
 
 	protected Drawable thumb;
@@ -96,9 +96,14 @@ public class CustomSeekBarView extends View {
 		return thumbHalfWidth;
 	}
 
+	public float getThumbHalfHeight() {
+		return thumbHalfHeight;
+	}
+
 	public void setThumb(Drawable thumb) {
 		this.thumb = thumb;
 		thumbHalfWidth = thumb.getIntrinsicWidth() / 2.0f;
+		thumbHalfHeight = thumb.getIntrinsicHeight() / 2.0f;
 		thumb.setBounds(0, 0, thumb.getIntrinsicWidth(), thumb.getIntrinsicHeight());
 	}
 
@@ -132,6 +137,7 @@ public class CustomSeekBarView extends View {
 		this.upperLimit = upperLimit;
 		setMinValue(0);
 		setMaxValue(upperLimit);
+		setMax(upperLimit);
 	}
 
 	public void setActiveColor(int activeColor) {
@@ -212,7 +218,11 @@ public class CustomSeekBarView extends View {
 		if (value <= minValue) {
 			value = minValue + 1;
 		}
+		else if (value > upperLimit) {
+			value = upperLimit;
+		}
 		maxValue = clamp(value);
+		setProgress(value);
 		invalidate();
 	}
 
@@ -224,6 +234,9 @@ public class CustomSeekBarView extends View {
 	public void setMinValue(int value) {
 		if (value >= maxValue) {
 			value = maxValue - 1;
+		}
+		else if (value < 0) {
+			value = 0;
 		}
 		minValue = clamp(value);
 		invalidate();

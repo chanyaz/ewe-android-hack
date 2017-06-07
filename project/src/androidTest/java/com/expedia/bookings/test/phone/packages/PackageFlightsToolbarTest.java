@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.packages;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -23,6 +24,7 @@ import static org.hamcrest.CoreMatchers.not;
 
 public class PackageFlightsToolbarTest extends PackageTestCase {
 
+	@Test
 	public void testPackageFlightsToolbar() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
@@ -56,7 +58,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 	}
 
 
-	public void checkBaggageFeeToolBarText(String previousToolBarText) {
+	private void checkBaggageFeeToolBarText(String previousToolBarText) {
 		PackageScreen.baggageFeeInfo().check(matches(isDisplayed()));
 		PackageScreen.baggageFeeInfo().perform(click());
 		PackageScreen.flightsToolbar().check(matches(not(isDisplayed())));

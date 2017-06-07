@@ -36,7 +36,6 @@
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
-        <item name="skin_flightLoadingMessageTextColor">@color/flight_loading_message_text_color_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">

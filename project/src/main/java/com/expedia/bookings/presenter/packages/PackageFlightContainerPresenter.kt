@@ -44,8 +44,7 @@ class PackageFlightContainerPresenter(context: Context, attrs: AttributeSet) : P
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     private fun initFlightLoadingPresenter() {

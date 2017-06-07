@@ -33,12 +33,15 @@ import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
@@ -189,6 +192,22 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		// Show itin Share overflow image only if sharing is supported.
 		if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
 			Ui.setOnClickListener(this, R.id.itin_overflow_image_button, mOnClickListener);
+			if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar,
+				R.string.preference_share_button_remove_calendar)) {
+				int shareVariants = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
+				TextView shareTextView = Ui.findView(this, R.id.itin_share_button);
+				if (shareVariants == AbacusUtils.ItinShareButton.SHARE_ICON_BUTTON.ordinal()) {
+					Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
+					shareTextView.setVisibility(View.VISIBLE);
+					shareTextView.setText("");
+				}
+				else if (shareVariants == AbacusUtils.ItinShareButton.SHARE_TEXT_BUTTON.ordinal()) {
+					Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
+					shareTextView.setVisibility(View.VISIBLE);
+					shareTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+				}
+				Ui.setOnClickListener(this, R.id.itin_share_button, mOnClickListener);
+			}
 		}
 		else {
 			Ui.findView(this, R.id.itin_overflow_image_button).setVisibility(View.GONE);
@@ -1015,6 +1034,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			case R.id.itin_overflow_image_button: {
 				mShareView.setVisibility(View.VISIBLE);
 				onOverflowButtonClicked(v);
+				break;
+			}
+			case R.id.itin_share_button: {
+				showShareDialog();
+				OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
 				break;
 			}
 			case R.id.summary_section_layout: {

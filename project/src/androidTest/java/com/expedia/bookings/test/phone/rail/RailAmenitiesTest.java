@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.rail;
 
 import org.hamcrest.Matcher;
+import org.junit.Test;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
@@ -20,6 +21,7 @@ import static org.hamcrest.Matchers.allOf;
 
 public class RailAmenitiesTest extends RailTestCase {
 
+	@Test
 	public void testRailAmenities() throws Throwable {
 		navigateFromSearchToAmenities();
 		assertTabVisible();

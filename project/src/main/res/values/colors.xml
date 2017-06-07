@@ -66,7 +66,6 @@
     <color name="itin_yes_ok_button">#4CA0FF</color>
 
     <!-- Old Flights colors -->
-    <color name="plane_window_background">#CACACA</color>
     <color name="flight_trip">#0D6599</color>
     <color name="flight_trip_price">#22599C</color>
     <color name="airport_text">#607480</color>
@@ -226,9 +225,6 @@
 
     <!-- Cars colors -->
     <color name="cars_primary_color">@color/exp_car_maroon</color>
-    <color name="cars_secondary_color">@color/exp_car_dark_maroon</color>
-    <color name="cars_button_ripple">#ECC3DC</color>
-    <color name="cars_button_color">@color/cars_primary_color</color>
 
     <color name="cars_actionbar_text_color">@color/gray8</color>
     <color name="cars_tooltip_disabled_color">@color/gray4</color>
@@ -241,23 +237,17 @@
     <color name="cars_confirmation_action_text_color">@color/gray1</color>
     <color name="cars_confirmation_email_text_color">@color/gray3</color>
 
-    <color name="cars_status_bar_color">#7E4569</color>
-    <color name="cars_ripple_color">#A4638D</color>
-    <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_checkmark_color">#29a653</color>
     <color name="cars_confirmation_icon_color">#D1D3D6</color>
     <color name="cars_confirmation_gradient">#80000000</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
     <color name="cars_selected_tab_color">#5F717F</color>
-    <color name="cars_color_primary_dark">#532C45</color>
 
     <!-- Checkout Colors -->
-    <color name="material_checkout_account_button_text_color">@android:color/white</color>
-    <color name="material_checkout_account_button_background_color">#384768</color>
-    <color name="material_checkout_yellow_account_button_background_color">@color/exp_yellow</color>
+    <color name="material_checkout_account_button_text_color">@color/gray9</color>
+    <color name="material_checkout_account_button_background_color">@color/exp_yellow</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
-    <color name="material_checkout_yellow_account_button_text_color">@color/gray9</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
@@ -279,10 +269,10 @@
     <color name="launch_screen_active_itin_bg">@color/blue5</color>
 
     <!-- LX colors -->
-    <color name="lx_primary_color">@color/exp_lx_orange</color>
-    <color name="lx_ripple_color">@color/exp_lx_secondary_orange</color>
-    <color name="lx_button_ripple">#F6DAC0</color>
-    <color name="lx_button_color">@color/lx_primary_color</color>
+    <color name="lx_primary_color">@color/app_primary</color>
+    <color name="lx_ripple_color">@color/app_primary_dark</color>
+    <color name="lx_button_ripple">@color/app_primary_light</color>
+    <color name="lx_button_color">@color/app_primary</color>
 
     <color name="lx_actionbar_text_color">@color/gray8</color>
 
@@ -321,9 +311,6 @@
     <color name="lx_secondary_color_disabled">#F6DAC0</color>
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
-    <color name="lx_primary_disabled_color">#40E88534</color>
-    <color name="lx_color_primary_dark">#A8540D</color>
-    <color name="lx_offer_date_ripple_color">#a25d24</color>
 
     <color name="checkout_login_button_color">#836B11</color>
 
@@ -371,7 +358,6 @@
     <color name="sign_in_user_middle_tier">#808080</color>
     <color name="sign_in_user_top_tier">#e7b40d</color>
 
-    <color name="flight_loading_message_text_color">#575757</color>
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
     <color name="error_button_color">@color/cars_primary_color</color>

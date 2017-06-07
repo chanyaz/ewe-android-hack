@@ -72,40 +72,13 @@ class PaymentViewModelTest {
         Db.getTripBucket().clear()
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
-
-    @Test
-    fun showCardInfoLabelHavePaymentFee() {
-        val testSubscriber = TestSubscriber<Boolean>()
-        val flightCreateTripResponse = FlightCreateTripResponse()
-        val amexValidFormOfPayment = ValidFormOfPayment()
-        amexValidFormOfPayment.name = "AmericanExpress"
-        amexValidFormOfPayment.fee = "42.0"
-        amexValidFormOfPayment.feeCurrencyCode = "USD"
-        val masterCardValidFormOfPayment = ValidFormOfPayment()
-        masterCardValidFormOfPayment.name = "MasterCard"
-        masterCardValidFormOfPayment.fee = "0"
-        masterCardValidFormOfPayment.feeCurrencyCode = "USD"
-        flightCreateTripResponse.validFormsOfPayment = listOf(amexValidFormOfPayment, masterCardValidFormOfPayment)
-        Db.getTripBucket().add(TripBucketItemFlightV2(flightCreateTripResponse))
-
-        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
-        viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
-
-        viewModel.showCardFeeInfoLabel.subscribe(testSubscriber)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
-        viewModel.cardTypeSubject.onNext(PaymentType.CARD_MASTERCARD)
-
-        testSubscriber.assertValues(false, true)
-    }
-
+    
     @Test
     fun showCardInfoLabelHaveInvalidPaymentWarning() {
         val testSubscriber = TestSubscriber<Boolean>()
         val flightCreateTripResponse = FlightCreateTripResponse()
         val amexValidFormOfPayment = ValidFormOfPayment()
         amexValidFormOfPayment.name = "AmericanExpress"
-        amexValidFormOfPayment.fee = "0"
-        amexValidFormOfPayment.feeCurrencyCode = "USD"
         flightCreateTripResponse.validFormsOfPayment = listOf(amexValidFormOfPayment)
         Db.getTripBucket().add(TripBucketItemFlightV2(flightCreateTripResponse))
 

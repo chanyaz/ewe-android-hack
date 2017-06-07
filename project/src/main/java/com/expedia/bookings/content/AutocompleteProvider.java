@@ -106,7 +106,7 @@ public class AutocompleteProvider extends ContentProvider {
 						row = new Object[] { id, freeformLocation, freeformLocation, json, R.drawable.ic_suggestion_hotel };
 					}
 					else {
-						row = new Object[] { id, freeformLocation, freeformLocation, json, R.drawable.ic_suggestion_place };
+						row = new Object[] { id, freeformLocation, freeformLocation, json, R.drawable.ic_suggestion_place_pin };
 					}
 
 					cursor.addRow(row);
@@ -133,7 +133,7 @@ public class AutocompleteProvider extends ContentProvider {
 						freeformLocation,
 						freeformLocation,
 						p.toJson(),
-						R.drawable.ic_suggestion_place,
+						R.drawable.ic_suggestion_place_pin,
 					};
 					cursor.addRow(suggestionRow);
 					id++;

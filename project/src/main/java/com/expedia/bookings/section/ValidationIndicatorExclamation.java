@@ -1,6 +1,7 @@
 package com.expedia.bookings.section;
 
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.TextInputLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.utils.FeatureUtilKt;
@@ -46,7 +47,8 @@ public class ValidationIndicatorExclamation<Data extends Object> extends
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
 		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled();
-		if (materialFormTestEnabled && !Strings.isEmpty(mErrorString)) {
+		//TODO `field.getParent()` this should be updated. We should never rely on hierarchy maintained by libs
+		if (materialFormTestEnabled && Strings.isNotEmpty(mErrorString) && (field.getParent() instanceof TextInputLayout || field.getParent().getParent() instanceof TextInputLayout)) {
 			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}
 		else {
@@ -56,11 +58,17 @@ public class ValidationIndicatorExclamation<Data extends Object> extends
 			else {
 				TextViewExtensionsKt.removeErrorExclamation(field, null);
 			}
-			if (field instanceof AccessibleEditText) {
-				((AccessibleEditText) field).setValid(isValid);
+		}
+		if (field instanceof AccessibleEditText) {
+			((AccessibleEditText) field).setValid(isValid);
+			if (Strings.isNotEmpty(mErrorString)) {
+				((AccessibleEditText) field).setErrorMessage(mErrorString);
 			}
-			else if (field instanceof AccessibleEditTextForSpinner) {
-				((AccessibleEditTextForSpinner) field).setValid(isValid);
+		}
+		else if (field instanceof AccessibleEditTextForSpinner) {
+			((AccessibleEditTextForSpinner) field).setValid(isValid);
+			if (Strings.isNotEmpty(mErrorString)) {
+				((AccessibleEditTextForSpinner) field).setErrorMessage(mErrorString);
 			}
 		}
 	}

@@ -30,7 +30,8 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             resultsPresenter.lineOfBusinessSubject.onNext(getLineOfBusiness())
             show(resultsPresenter, FLAG_CLEAR_BACKSTACK)
         }
-        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject)
+        val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject,
+                isOutboundResultsPresenter(), flightOfferViewModel.flightCabinClassSubject)
         resultsPresenter.setAdapter(flightListAdapter)
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         overviewPresenter.showPaymentFeesObservable.subscribe {

@@ -63,7 +63,8 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
     fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
-        params.put("originId", origin?.hierarchyInfo?.airport?.multicity)
+        // TODO Xselling packages: In Flights module we have gaiaId so we have to set originId with gaiaId
+        params.put("originId", (origin?.hierarchyInfo?.airport?.multicity ?: origin?.gaiaId))
 
         //Send gaiaId as the region id for destination to get the correct hotels
         //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT

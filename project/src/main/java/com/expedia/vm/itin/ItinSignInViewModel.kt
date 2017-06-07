@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
@@ -14,15 +15,22 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.trips.Trip
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.tracking.ItinPageUsableTrackingData
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender
+import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
+import rx.Subscription
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 
-class ItinSignInViewModel(val context: Context) {
+@VisibleForTesting
+open class ItinSignInViewModel(val context: Context) {
 
+    lateinit var itinPageUsablePerformanceModel: ItinPageUsableTrackingData
+        @Inject set
 
     var addGuestItinClickSubject = PublishSubject.create<Unit>()
 
@@ -40,15 +48,20 @@ class ItinSignInViewModel(val context: Context) {
     val syncItinManagerSubject = PublishSubject.create<Unit>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
+    var userLoginStateChangedModel: UserLoginStateChangedModel = Ui.getApplication(context).appComponent().userLoginStateChangedModel()
+    private var loginStateSubsciption: Subscription? = null
 
     var signInClickSubject = endlessObserver<Unit> {
         if (userStateManager.isUserAuthenticated()) {
             syncItinManagerSubject.onNext(Unit)
-        }
-        else {
+        } else {
+            loginStateSubsciption = userLoginStateChangedModel.userLoginStateChanged.filter { true }.subscribe {
+                startTimerOnSuccessfullSignIn()
+                loginStateSubsciption?.unsubscribe()
+            }
+
             OmnitureTracking.trackItinSignIn()
-            val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
-            User.signIn(context as Activity, args)
+            doItinSignIn()
         }
     }
 
@@ -61,6 +74,14 @@ class ItinSignInViewModel(val context: Context) {
         TRIPS_ERROR,
         FAILURE,
         NONE
+    }
+
+    init {
+        Ui.getApplication(context).tripComponent().inject(this)
+    }
+
+    fun startTimerOnSuccessfullSignIn() {
+        itinPageUsablePerformanceModel.markSuccessfulSignIn(System.currentTimeMillis())
     }
 
     fun getSignInText(): String {
@@ -100,6 +121,12 @@ class ItinSignInViewModel(val context: Context) {
             MessageState.NONE -> {
             }
         }
+    }
+
+    @VisibleForTesting
+    protected open fun doItinSignIn() {
+        val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.ITIN, ItineraryLoaderLoginExtender())
+        User.signIn(context as Activity, args)
     }
 
     private fun updateMessageAndButton(messageText: String, buttonText: String, imageResId: Int) {

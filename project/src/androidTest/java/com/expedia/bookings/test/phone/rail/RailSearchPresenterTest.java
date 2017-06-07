@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.rail;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -21,6 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class RailSearchPresenterTest extends RailTestCase {
 
+	@Test
 	public void testOneWaySearch() throws Throwable {
 		RailScreen.selectOneWay();
 		// Search button clicked without any input params

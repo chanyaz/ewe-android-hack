@@ -400,8 +400,8 @@ Feature: Flights Search
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | SFO                           |
       | arrivalAirport                        | LAS                           |
-      | returnDate                            | 2017-05-29                    |
-      | departureDate                         | 2017-05-24                    |
+      | returnDate                            | 20                            |
+      | departureDate                         | 15                            |
       | numberOfAdultTravelers                | 2                             |
     And I click on search icon to go to search form
     And I click on class widget
@@ -419,7 +419,7 @@ Feature: Flights Search
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | SFO                           |
       | arrivalAirport                        | LAS                           |
-      | returnDate                            | 2017-05-29                    |
-      | departureDate                         | 2017-05-24                    |
+      | returnDate                            | 20                            |
+      | departureDate                         | 15                            |
       | numberOfAdultTravelers                | 2                             |
 

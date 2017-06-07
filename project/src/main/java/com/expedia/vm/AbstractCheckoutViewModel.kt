@@ -44,6 +44,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
     val bottomContainerInverseVisibilityObservable = PublishSubject.create<Boolean>()
     val checkoutRequestStartTimeObservable = BehaviorSubject.create<Long>()
+    val clearCvvObservable = PublishSubject.create<Unit>()
 
     // Outputs
     val checkoutPriceChangeObservable = PublishSubject.create<TripResponse>()
@@ -89,10 +90,15 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
             if (builder.hasValidParams()) {
                 val params = builder.build()
                 if (!ExpediaBookingApp.isAutomation() && !builder.hasValidCheckoutParams()) {
+                    (context.applicationContext as ExpediaBookingApp).setCrashlyticsMetadata()
                     Crashlytics.logException(Exception("User entered CVV and booked, see params: ${params.toValidParamsMap()}, hasValidParams: ${builder.hasValidParams()}"))
                 }
                 checkoutParams.onNext(params)
             }
+        }
+
+        checkoutErrorObservable.subscribe {
+            clearCvvObservable.onNext(Unit)
         }
     }
 

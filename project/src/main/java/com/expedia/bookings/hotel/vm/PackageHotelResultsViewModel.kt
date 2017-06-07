@@ -101,8 +101,7 @@ class PackageHotelResultsViewModel(context: Context, private val packageServices
     }
 
     private fun isRemoveBundleOverviewFeatureEnabled(): Boolean {
-        return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_packages_remove_bundle_overview) &&
-                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview)
     }
 
     private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse) {

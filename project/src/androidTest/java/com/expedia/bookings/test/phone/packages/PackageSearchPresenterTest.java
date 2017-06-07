@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.joda.time.LocalDate;
+import org.junit.Test;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -19,6 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class PackageSearchPresenterTest extends PackageTestCase {
 
+	@Test
 	public void testOriginSameAsDestination() throws Throwable {
 		Common.delay(1);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
@@ -39,6 +41,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 			"Departure and arrival airports must be different.").check(matches(isDisplayed()));
 	}
 
+	@Test
 	public void testNoSearchUntilDateAndLocationSelected() throws Throwable {
 		Common.delay(1);
 		PackageScreen.toolbarNavigationUp(R.id.search_toolbar).perform(click());
@@ -71,6 +74,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 	}
 
+	@Test
 	public void testDateButtonTextPopulation() throws Throwable {
 		// Select location
 		SearchScreen.selectPackageOriginAndDestination();
@@ -97,6 +101,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
+	@Test
 	public void testMaxPackageDuration() throws Throwable {
 		// Select location
 		SearchScreen.selectPackageOriginAndDestination();
@@ -119,6 +124,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		//Dialog no longer pops up because this is enforced within the calendar
 	}
 
+	@Test
 	public void testPackageSearchWindow() throws Throwable {
 		// Select location
 		SearchScreen.selectPackageOriginAndDestination();
@@ -140,6 +146,7 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		SearchScreen.searchButton().perform(click());
 	}
 
+	@Test
 	public void testSameDay() throws Throwable {
 		// Select location
 		SearchScreen.selectPackageOriginAndDestination();

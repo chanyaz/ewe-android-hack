@@ -1,5 +1,6 @@
 package com.expedia.vm.packages
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
@@ -17,6 +18,7 @@ import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.ui.PackageActivity
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -109,6 +111,7 @@ class PackageConfirmationViewModel(private val context: Context) {
 
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
+                activity.setResult(Activity.RESULT_OK)
                 activity.finish()
             }
 

@@ -3,9 +3,12 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -16,13 +19,18 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
+import com.expedia.ui.FlightActivity
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.flights.FlightViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -35,21 +43,112 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class AbstractFlightListAdapterTest {
 
-    val context = RuntimeEnvironment.application
+    val activity = Robolectric.buildActivity(FlightActivity::class.java).create().get()
     lateinit var sut: AbstractFlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
+    lateinit var flightCabinClassSubject: BehaviorSubject<String>
     lateinit var flightLeg: FlightLeg
 
     @Before
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create()
+        flightCabinClassSubject = BehaviorSubject.create()
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_disabled.json", false)
     }
 
     fun createTestFlightListAdapter() {
-        sut = TestFlightListAdapter(context, flightSelectedSubject, isRoundTripSubject)
+        isRoundTripSubject.onNext(false)
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
+        sut = TestFlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject)
+    }
+
+    private fun activatePackageBannerWidget() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
+        isRoundTripSubject.onNext(true)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        sut.adjustPosition()
+        createFlightLegWithThreeAirlines()
+        sut.setNewFlights(listOf(flightLeg))
+    }
+
+    private fun preProcessForPackageBannerWidget() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
+        isRoundTripSubject.onNext(true)
+    }
+
+    private fun postProcessForPackageBannerWidget() {
+        sut.adjustPosition()
+        createFlightLegWithThreeAirlines()
+        sut.setNewFlights(listOf(flightLeg))
+    }
+
+    @Test
+    fun testPackageBannerWidgetVisibilityForOneway() {
+        preProcessForPackageBannerWidget()
+        isRoundTripSubject.onNext(false)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        postProcessForPackageBannerWidget()
+        assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
+    }
+
+    @Test
+    fun testPackageBannerWidgetVisibilityWithoutFlagInPOS() {
+        preProcessForPackageBannerWidget()
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_locale_test_config.json")
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        postProcessForPackageBannerWidget()
+        assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
+    }
+
+    @Test
+    fun testPackageBannerWidgetVisibilityForFirstClassCabinPreference() {
+        preProcessForPackageBannerWidget()
+        flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.FIRST.name)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        postProcessForPackageBannerWidget()
+        assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
+    }
+
+    @Test
+    fun testPackageBannerWidgetVisibility() {
+        activatePackageBannerWidget()
+
+        assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
+
+        val packageBannerHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
+                as AbstractFlightListAdapter.PackageBannerHeaderViewHolder
+
+        assertTrue(packageBannerHeaderViewHolder is AbstractFlightListAdapter.PackageBannerHeaderViewHolder)
+        assertEquals(View.VISIBLE, packageBannerHeaderViewHolder.packageBannerWidget.visibility)
+
+        val packageBannerTitle = packageBannerHeaderViewHolder.packageBannerWidget.findViewById(R.id.package_flight_banner_title) as TextView
+        assertEquals("Flight + Hotel", packageBannerTitle.text)
+
+        val packageBannerDescription = packageBannerHeaderViewHolder.packageBannerWidget.findViewById(R.id.package_flight_banner_description) as TextView
+        assertEquals("Save when you book your flights and hotels together", packageBannerDescription.text)
+    }
+
+    @Test
+    fun testAllFlightsPricingViewVisibility() {
+        activatePackageBannerWidget()
+
+        assertEquals(sut.getItemViewType(1), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
+
+        val allFlightsPricingHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
+                as AbstractFlightListAdapter.AllFlightsPricingHeaderViewHolder
+
+        assertTrue(allFlightsPricingHeaderViewHolder is AbstractFlightListAdapter.AllFlightsPricingHeaderViewHolder)
+        assertEquals(View.VISIBLE, allFlightsPricingHeaderViewHolder.root.visibility)
+
+        val textViewAllFlights = allFlightsPricingHeaderViewHolder.root.findViewById(R.id.textView_all_flights) as TextView
+        assertEquals("All Flights", textViewAllFlights.text)
+
+        val textViewFlightsPricing = allFlightsPricingHeaderViewHolder.root.findViewById(R.id.textView_flights_pricing) as TextView
+        assertEquals("Prices roundtrip per person", textViewFlightsPricing.text)
     }
 
     @Test
@@ -57,7 +156,7 @@ class AbstractFlightListAdapterTest {
         createTestFlightListAdapter()
         createFlightLegWithFourAirlines()
 
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
@@ -68,7 +167,7 @@ class AbstractFlightListAdapterTest {
     }
 
     @Test
-    fun testFlightEarnMessageVisiblity() {
+    fun testFlightEarnMessageVisibility() {
         createTestFlightListAdapter()
         val flightViewHolder = createFlightViewHolder()
         assertEquals(flightViewHolder.flightCell.flightEarnMessage.text, "")
@@ -79,11 +178,11 @@ class AbstractFlightListAdapterTest {
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines()
 
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
-        assertEquals(flightViewHolder.flightCell.flightAirlineWidget.childCount,3)
+        assertEquals(flightViewHolder.flightCell.flightAirlineWidget.childCount, 3)
 
         val airlineView1 = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
         val airlineView2 = flightViewHolder.flightCell.flightAirlineWidget.getChildAt(1) as FlightAirlineWidget.AirlineView
@@ -149,7 +248,7 @@ class AbstractFlightListAdapterTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
-    fun testEarnMessageForMoney(){
+    fun testEarnMessageForMoney() {
         createTestFlightListAdapter()
         createFlightLegWithThreeAirlines(true, "50")
 
@@ -166,7 +265,7 @@ class AbstractFlightListAdapterTest {
     }
 
     @Test
-    fun testAirlineWidgetTextWithEarnMessagingAndRoundTripWithControlledTest(){
+    fun testAirlineWidgetTextWithEarnMessagingAndRoundTripWithControlledTest() {
         createTestFlightListAdapter()
 
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
@@ -180,13 +279,13 @@ class AbstractFlightListAdapterTest {
     }
 
     private fun bindFlightViewHolderAndModel(): AbstractFlightListAdapter.FlightViewHolder {
-        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewModel = sut.makeFlightViewModel(activity, flightLeg)
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
         return flightViewHolder
     }
 
-    private fun createFlightLeg(isCurrencyTypeMoney:Boolean, price:String) {
+    private fun createFlightLeg(isCurrencyTypeMoney: Boolean, price: String) {
         flightLeg = FlightLeg()
         flightLeg.elapsedDays = 1
         flightLeg.durationHour = 19
@@ -213,7 +312,7 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.loyaltyInfo = loyaltyInfo
     }
 
-    private fun createFlightLeg(){
+    private fun createFlightLeg() {
         createFlightLeg(false, "")
     }
 
@@ -253,11 +352,11 @@ class AbstractFlightListAdapterTest {
         flightLeg.flightSegments = segments
     }
 
-    private fun createFlightLegWithThreeAirlines(){
+    private fun createFlightLegWithThreeAirlines() {
         createFlightLegWithThreeAirlines(false, "")
     }
 
-    private fun createFlightLegWithThreeAirlines(isCurrencyTypeMoney:Boolean, price: String) {
+    private fun createFlightLegWithThreeAirlines(isCurrencyTypeMoney: Boolean, price: String) {
         if (!isCurrencyTypeMoney) createFlightLeg() else createFlightLeg(true, price)
 
         val airlines = ArrayList<Airline>()
@@ -294,7 +393,7 @@ class AbstractFlightListAdapterTest {
         flightLeg.flightSegments = segments
     }
 
-    private fun createFlightSegment(airlineCode: String, departureAirportCode: String, arrivalAirportCode: String) : FlightLeg.FlightSegment {
+    private fun createFlightSegment(airlineCode: String, departureAirportCode: String, arrivalAirportCode: String): FlightLeg.FlightSegment {
         val airlineSegment = FlightLeg.FlightSegment()
         airlineSegment.airlineCode = airlineCode
         airlineSegment.departureAirportCode = departureAirportCode
@@ -306,7 +405,7 @@ class AbstractFlightListAdapterTest {
         return airlineSegment
     }
 
-    private fun createFlightClass(hasFlightClass : Boolean) {
+    private fun createFlightClass(hasFlightClass: Boolean) {
         createFlightLegWithThreeAirlines()
         val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()
         if (hasFlightClass) {
@@ -318,10 +417,11 @@ class AbstractFlightListAdapterTest {
     }
 
     private fun createFlightViewHolder(): AbstractFlightListAdapter.FlightViewHolder {
-        return sut.onCreateViewHolder(FrameLayout(context), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
+        return sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.FLIGHT_CELL_VIEW.ordinal) as AbstractFlightListAdapter.FlightViewHolder
     }
 
-    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+    private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
+            AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
         override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
             return false
         }

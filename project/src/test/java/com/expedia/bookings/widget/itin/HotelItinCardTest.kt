@@ -61,6 +61,7 @@ class HotelItinCardTest {
     fun vipLabelTextVisible() {
         createSystemUnderTest()
         givenGoldMember()
+        setTestPointOfSale("MockSharedData/pos_with_vipaccess_enabled.json")
         val itinCardData = ItinCardDataHotelBuilder().withVipEnabled(true).build()
         sut.bind(itinCardData)
         assertEquals(View.VISIBLE, getVipLabelTextView().visibility)
@@ -71,7 +72,7 @@ class HotelItinCardTest {
         createSystemUnderTest()
         givenGoldMember()
         val itinCardData = ItinCardDataHotelBuilder().withVipEnabled(true).build()
-        givenPointOfSaleVipSupportDisabled()
+        setTestPointOfSale("MockSharedData/pos_with_vipaccess_disabled.json")
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
     }
@@ -223,8 +224,8 @@ class HotelItinCardTest {
         assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
-    private fun givenPointOfSaleVipSupportDisabled() {
-        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_vipaccess_disabled.json")
+    private fun setTestPointOfSale(filePath: String) {
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, filePath)
     }
 
     private fun getVipLabelTextView(): TextView {

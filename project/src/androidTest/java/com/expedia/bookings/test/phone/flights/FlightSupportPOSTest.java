@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.flights;
 
+import org.junit.Test;
+
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -14,24 +16,27 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class FlightSupportPOSTest extends PhoneTestCase {
 
-	public void launchFlights() throws Throwable {
+	private void launchFlights() throws Throwable {
 		NewLaunchScreen.flightLaunchButton().perform(click());
 		onView(withText("Sorry, but mobile flight booking is not yet available in your location.")).check(matches(isDisplayed()));
 		onView(withId(android.R.id.button1)).perform(click());
 	}
 
+	@Test
 	public void testIndiaFlights() throws Throwable {
 		Common.setPOS(PointOfSaleId.INDIA);
 		Common.delay(1);
 		launchFlights();
 	}
 
+	@Test
 	public void testArgentinaFlights() throws Throwable {
 		Common.setPOS(PointOfSaleId.ARGENTINA);
 		Common.delay(1);
 		launchFlights();
 	}
 
+	@Test
 	public void testVietnamFlights() throws Throwable {
 		Common.setPOS(PointOfSaleId.VIETNAM);
 		Common.delay(1);

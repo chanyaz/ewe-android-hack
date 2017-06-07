@@ -17,19 +17,19 @@
         must be added in all Whitelabel.CarsTheme.Base for all whitelabels
     -->
     <style name="Whitelabel.CarsTheme.Base" parent="Cars.Base">
-        <item name="android:colorPrimaryDark">@color/cars_color_primary_dark</item>
-        <item name="android:colorButtonNormal">@color/cars_primary_color</item>
-        <item name="colorAccent">@color/cars_primary_color</item>
-        <item name="android:colorEdgeEffect">@color/cars_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="android:colorButtonNormal">@color/app_primary</item>
+        <item name="colorAccent">@color/app_primary</item>
+        <item name="android:colorEdgeEffect">@color/app_primary</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
 
 
         <!-- Skins added for whitelabel -->
         
-        <item name="skin_carsSecondaryColor">@color/cars_secondary_color</item>
-        <item name="skin_carsTooltipColor">@color/cars_tooltip_color</item>
-        <item name="primary_color">@color/cars_primary_color</item>
-        <item name="skin_carsStatusBarColor">@color/cars_status_bar_color</item>
+        <item name="skin_carsSecondaryColor">@color/app_primary_light</item>
+        <item name="skin_carsTooltipColor">@color/app_primary_light</item>
+        <item name="primary_color">@color/app_primary</item>
+        <item name="skin_carsStatusBarColor">@color/app_primary_dark</item>
 
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
         <item name="pickup_time_title">@string/pick_up_time_label</item>
@@ -72,7 +72,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="toolbarNavigationButtonStyle">@style/CarNavigationButtonStyle</item>
         <item name="sliderText">@string/cars_slider_text</item>
-        <item name="accept_terms_text_color">@color/cars_primary_color</item>
+        <item name="accept_terms_text_color">@color/app_primary</item>
         <item name="accept_terms_background_color">@color/white</item>
 
     </style>

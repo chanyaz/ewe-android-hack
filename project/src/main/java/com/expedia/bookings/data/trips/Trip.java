@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.AirAttach;
@@ -150,6 +151,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mStartDate = startDate;
 	}
 
+	@Nullable
 	public DateTime getEndDate() {
 		return mEndDate;
 	}

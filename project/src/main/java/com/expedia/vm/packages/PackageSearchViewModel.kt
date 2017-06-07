@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.text.HtmlCompat
@@ -32,6 +33,11 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
+    val performSearchObserver = endlessObserver<PackageSearchParams> {
+        travelerValidator.updateForNewSearch(it)
+        searchParamsObservable.onNext(it)
+    }
+
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
     }
@@ -45,9 +51,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
-                val packageSearchParams = getParamsBuilder().build()
-                travelerValidator.updateForNewSearch(packageSearchParams)
-                searchParamsObservable.onNext(packageSearchParams)
+                performSearchObserver.onNext(getParamsBuilder().build())
             }
         } else {
             if (!getParamsBuilder().hasOriginAndDestination()) {
@@ -82,17 +86,15 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
-        //dates cant be the same, shift end by 1 day
-        if (start != null && (end == null || end.isEqual(start))) {
-            end = start.plusDays(1)
-        }
-
         dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
         dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
         dateInstructionObservable.onNext(getDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
         calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
-
+        //dates cant be the same, shift end by 1 day
+        if (start != null && (end == null || end.isEqual(start))) {
+            end = start.plusDays(1)
+        }
         super.onDatesChanged(Pair(start, end))
     }
 
@@ -146,6 +148,9 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        if (end == null) {
+            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
+        }
         return context.getString(R.string.calendar_drag_to_modify)
     }
 

@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
     val carParamsBuilder = CarSearchParam.Builder()
     val searchParamsObservable = PublishSubject.create<CarSearchParam>()
-    val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_primary_color)
+    val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.app_primary)
     val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
 
     // Inputs

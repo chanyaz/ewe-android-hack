@@ -19,6 +19,10 @@
     <string name="package_search_traveler_default_text">旅行者 1 名</string>
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">ドラッグして変更</string>
+    <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate}。日付を変更するには再度選択してください</string>
+    <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
+    <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate}。{instructiontext}</string>
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
@@ -62,7 +66,7 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">1 日 :</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">料金の通貨単位は %sです。</string>
+    <string name="cars_checkout_breakdown_us_text">料金の通貨単位は %s です。</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
     <string name="cars_checkout_breakdown_non_us_text">料金の通貨単位は%1$sです。すべての税またはサービス料は、借出時に現地通貨 (%2$s) でお支払いください。</string>
     <!-- Cars weekly price templates-->
@@ -82,7 +86,7 @@
     <!-- Text for price change-->
     <string name="price_change_text">料金の変更</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
-    <string name="price_change_alert_TEMPLATE">旅行の料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
+    <string name="price_change_alert_TEMPLATE">料金が {oldprice} から {newprice} に変更されました。料金は頻繁に変更されます。料金が変わる前に、今すぐご予約ください。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">料金変更</string>
     <!-- Text for error toolbar-->
@@ -118,7 +122,7 @@
     <!-- car door range -->
     <string name="car_door_range_TEMPLATE">%1$d- %2$d</string>
     <!-- car details template -->
-    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+    <string name="car_details_TEMPLATE">%1$s%2$s</string>
 
     <!-- Cars Confirmation Screen -->
     <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
@@ -145,7 +149,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s– %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate}– 現地出発日を選択</string>
+    <string name="select_return_date_TEMPLATE">{startdate} – 現地出発日を選択</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">借出日を選択してください</string>
     <!-- Label for pick-up time picker -->
@@ -189,7 +193,7 @@
     </plurals>
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
-        <item quantity="one">結果 {number} 件を絞り込みました</item>
+        <item quantity="one">{number} 件に絞込みました</item>
         <item quantity="other">結果 {number} 件を絞り込みました</item>
     </plurals>
 
@@ -256,7 +260,7 @@
     <!--Text for selected card -->
     <string name="checkout_selected_card">{cardtype}…{cardno}</string>
     <!--Text for selecting user manually stored card -->
-    <string name="temporarily_saved_card_TEMPLATE">保存済み{cardtype}(カード番号 {cardno})</string>
+    <string name="temporarily_saved_card_TEMPLATE">保存済み {cardtype}(カード番号 {cardno})</string>
     <!--Text for stored card -->
     <string name="stored_card_TEMPLATE">保存済み{cardtype}</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
@@ -342,9 +346,9 @@
     <!-- Activity details know before you book heading -->
     <string name="know_before_you_book_activity_details">予約前の確認事項</string>
     <!-- Template for ticket details -->
-    <string name="ticket_details_template">%1$s%2$s (%3$s)</string>
+    <string name="ticket_details_template">%1$s%2$s(%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s%2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">予約する %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -360,7 +364,7 @@
     <!-- LX checkout cost breakdown for alert button -->
     <string name="lx_cost_breakdown_button_text">完了</string>
     <!-- LX checkout price breakdown for POS same as pickup location templates-->
-    <string name="lx_checkout_breakdown_price_disclaimer_text">料金の通貨単位は %sです。</string>
+    <string name="lx_checkout_breakdown_price_disclaimer_text">料金の通貨単位は %s です。</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">合計料金</string>
     <!-- Text for error toolbar-->
@@ -438,16 +442,16 @@
         <item quantity="other">シニア %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_group_TEMPLATE">
-        <item quantity="one">グループ %1$s組</item>
-        <item quantity="other">グループ %1$s組</item>
+        <item quantity="one">グループ %1$s 組</item>
+        <item quantity="other">グループ %1$s 組</item>
     </plurals>
     <plurals name="ticket_type_couple_TEMPLATE">
-        <item quantity="one">カップル %1$s組</item>
-        <item quantity="other">カップル %1$s組</item>
+        <item quantity="one">カップル %1$s 組</item>
+        <item quantity="other">カップル %1$s 組</item>
     </plurals>
     <plurals name="ticket_type_two_adults_TEMPLATE">
-        <item quantity="one">大人 2 名 %1$s組</item>
-        <item quantity="other">大人 2 名 %1$s組</item>
+        <item quantity="one">大人 2 名 %1$s 組</item>
+        <item quantity="other">大人 2 名 %1$s 組</item>
     </plurals>
     <plurals name="ticket_type_military_TEMPLATE">
         <item quantity="one">軍関係者 %1$s 名</item>
@@ -458,40 +462,40 @@
         <item quantity="other">学生 %1$s 名</item>
     </plurals>
     <plurals name="ticket_type_sedan_TEMPLATE">
-        <item quantity="one">セダン %1$s台</item>
-        <item quantity="other">セダン %1$s台</item>
+        <item quantity="one">セダン %1$s 台</item>
+        <item quantity="other">セダン %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_minivan_TEMPLATE">
-        <item quantity="one">ミニバン %1$s台</item>
-        <item quantity="other">ミニバン %1$s台</item>
+        <item quantity="one">ミニバン %1$s 台</item>
+        <item quantity="other">ミニバン %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_water_taxi_TEMPLATE">
-        <item quantity="one">水上タクシー %1$s台</item>
-        <item quantity="other">水上タクシー %1$s台</item>
+        <item quantity="one">水上タクシー %1$s 台</item>
+        <item quantity="other">水上タクシー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_suv_TEMPLATE">
-        <item quantity="one">SUV %1$s台</item>
-        <item quantity="other">SUV %1$s台</item>
+        <item quantity="one">SUV %1$s 台</item>
+        <item quantity="other">SUV %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_executive_car_TEMPLATE">
-        <item quantity="one">エグゼクティブ カー %1$s台</item>
-        <item quantity="other">エグゼクティブ カー %1$s台</item>
+        <item quantity="one">エグゼクティブ カー %1$s 台</item>
+        <item quantity="other">エグゼクティブ カー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_luxury_car_TEMPLATE">
-        <item quantity="one">ラグジュアリー カー %1$s台</item>
-        <item quantity="other">ラグジュアリー カー %1$s台</item>
+        <item quantity="one">ラグジュアリー カー %1$s 台</item>
+        <item quantity="other">ラグジュアリー カー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_limousine_TEMPLATE">
-        <item quantity="one">リムジン %1$s台</item>
-        <item quantity="other">リムジン %1$s台</item>
+        <item quantity="one">リムジン %1$s 台</item>
+        <item quantity="other">リムジン %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_towncar_TEMPLATE">
-        <item quantity="one">タウンカー %1$s台</item>
-        <item quantity="other">タウンカー %1$s台</item>
+        <item quantity="one">タウンカー %1$s 台</item>
+        <item quantity="other">タウンカー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
-        <item quantity="one">駐車場 %1$sか所</item>
-        <item quantity="other">駐車場 %1$sか所</item>
+        <item quantity="one">駐車場 %1$s か所</item>
+        <item quantity="other">駐車場 %1$s か所</item>
     </plurals>
     <plurals name="ticket_type_book_TEMPLATE">
         <item quantity="one">本 %1$s 冊</item>
@@ -506,16 +510,16 @@
         <item quantity="other">トラベルカード %1$s 枚</item>
     </plurals>
     <plurals name="ticket_type_boat_TEMPLATE">
-        <item quantity="one">ボート %1$s台</item>
-        <item quantity="other">ボート %1$s台</item>
+        <item quantity="one">ボート %1$s 台</item>
+        <item quantity="other">ボート %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_motorcycle_TEMPLATE">
-        <item quantity="one">バイク %1$s台</item>
-        <item quantity="other">バイク %1$s台</item>
+        <item quantity="one">バイク %1$s 台</item>
+        <item quantity="other">バイク %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_ceremony_TEMPLATE">
-        <item quantity="one">セレモニー %1$s回</item>
-        <item quantity="other">セレモニー %1$s回</item>
+        <item quantity="one">セレモニー %1$s 回</item>
+        <item quantity="other">セレモニー %1$s 回</item>
     </plurals>
     <plurals name="ticket_type_calling_card_TEMPLATE">
         <item quantity="one">コーリングカード %1$s 枚</item>
@@ -526,80 +530,80 @@
         <item quantity="other">パス %1$s 枚</item>
     </plurals>
     <plurals name="ticket_type_minibus_TEMPLATE">
-        <item quantity="one">ミニバス %1$s台</item>
-        <item quantity="other">ミニバス %1$s台</item>
+        <item quantity="one">ミニバス %1$s 台</item>
+        <item quantity="other">ミニバス %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_helicopter_TEMPLATE">
-        <item quantity="one">ヘリコプター %1$s台</item>
-        <item quantity="other">ヘリコプター %1$s台</item>
+        <item quantity="one">ヘリコプター %1$s 台</item>
+        <item quantity="other">ヘリコプター %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_device_TEMPLATE">
-        <item quantity="one">デバイス %1$s台</item>
-        <item quantity="other">デバイス %1$s台</item>
+        <item quantity="one">デバイス %1$s 台</item>
+        <item quantity="other">デバイス %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_room_TEMPLATE">
         <item quantity="one">%1$s 室</item>
         <item quantity="other">%1$s 室</item>
     </plurals>
     <plurals name="ticket_type_carriage_TEMPLATE">
-        <item quantity="one">馬車 %1$s台</item>
-        <item quantity="other">馬車 %1$s台</item>
+        <item quantity="one">馬車 %1$s 台</item>
+        <item quantity="other">馬車 %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_buggy_TEMPLATE">
         <item quantity="one">バギー %1$s台</item>
-        <item quantity="other">バギー %1$s台</item>
+        <item quantity="other">バギー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_atv_TEMPLATE">
-        <item quantity="one">ATV %1$s台</item>
+        <item quantity="one">ATV %1$s 台</item>
         <item quantity="other">ATV %1$s台</item>
     </plurals>
     <plurals name="ticket_type_jet_ski_TEMPLATE">
-        <item quantity="one">ジェットスキー %1$s台</item>
-        <item quantity="other">ジェットスキー %1$s台</item>
+        <item quantity="one">ジェットスキー %1$s 台</item>
+        <item quantity="other">ジェットスキー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_scooter_TEMPLATE">
-        <item quantity="one">スクーター %1$s台</item>
-        <item quantity="other">スクーター %1$s台</item>
+        <item quantity="one">スクーター %1$s 台</item>
+        <item quantity="other">スクーター %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_scooter_car_TEMPLATE">
-        <item quantity="one">スクーター カー %1$s台</item>
-        <item quantity="other">スクーター カー %1$s台</item>
+        <item quantity="one">スクーター カー %1$s 台</item>
+        <item quantity="other">スクーター カー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_snowmobile_TEMPLATE">
-        <item quantity="one">スノーモービル %1$s台</item>
-        <item quantity="other">スノーモービル %1$s台</item>
+        <item quantity="one">スノーモービル %1$s 台</item>
+        <item quantity="other">スノーモービル %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_day_TEMPLATE">
         <item quantity="one">%1$s 日</item>
         <item quantity="other">%1$s 日</item>
     </plurals>
     <plurals name="ticket_type_bike_TEMPLATE">
-        <item quantity="one">自転車 %1$s台</item>
-        <item quantity="other">自転車 %1$s台</item>
+        <item quantity="one">自転車 %1$s 台</item>
+        <item quantity="other">自転車 %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_week_TEMPLATE">
-        <item quantity="one">%1$s週</item>
-        <item quantity="other">%1$s週</item>
+        <item quantity="one">%1$s 週</item>
+        <item quantity="other">%1$s 週</item>
     </plurals>
     <plurals name="ticket_type_subscription_TEMPLATE">
         <item quantity="one">登録 %1$s 回</item>
         <item quantity="other">登録 %1$s 回</item>
     </plurals>
     <plurals name="ticket_type_electric_bike_TEMPLATE">
-        <item quantity="one">電動自転車 %1$s台</item>
-        <item quantity="other">電動自転車 %1$s台</item>
+        <item quantity="one">電動自転車 %1$s 台</item>
+        <item quantity="other">電動自転車 %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_segway_TEMPLATE">
-        <item quantity="one">セグウェイ %1$s台</item>
-        <item quantity="other">セグウェイ %1$s台</item>
+        <item quantity="one">セグウェイ %1$s 台</item>
+        <item quantity="other">セグウェイ %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_vehicle_TEMPLATE">
-        <item quantity="one">車両 %1$s台</item>
-        <item quantity="other">車両 %1$s台</item>
+        <item quantity="one">車両 %1$s 台</item>
+        <item quantity="other">車両 %1$s 台</item>
     </plurals>
     <plurals name="rail_changes_TEMPLATE">
-        <item quantity="one">%1$s回乗換</item>
-        <item quantity="other">%1$s回乗換</item>
+        <item quantity="one">%1$s 回乗換</item>
+        <item quantity="other">%1$s 回乗換</item>
     </plurals>
 
     <!-- Activity search results per ticket type -->
@@ -779,8 +783,6 @@
     <string name="prices_roundtrip_label">1 名あたりの往復料金</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">1 名あたりの片道料金</string>
-    <!-- Label clarifying the type of flight trip -->
-    <string name="Roundtrip">往復</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低価格</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -835,10 +837,10 @@
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
         <item quantity="zero">乗継なし</item>
-        <item quantity="one">乗継 %s回</item>
-        <item quantity="two">乗継 %s回</item>
-        <item quantity="few">乗継 %s回</item>
-        <item quantity="many">乗継 %s回</item>
+        <item quantity="one">乗継 %s 回</item>
+        <item quantity="two">乗継 %s 回</item>
+        <item quantity="few">乗継 %s 回</item>
+        <item quantity="many">乗継 %s 回</item>
         <item quantity="other">乗継 %s 回</item>
     </plurals>
 
@@ -871,9 +873,9 @@
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">{brand}アカウントでサインイン ボタン</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">サインインして {reward}Expedia+ ポイントを獲得</string>
+    <string name="Sign_in_to_earn_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして {reward}Expedia+ ポイントを獲得ボタン</string>
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得ボタン</string>
     <!-- or -->
     <string name="or">または</string>
     <!--Create Account -->
@@ -971,7 +973,7 @@
 
     <!--Onboarding-->
     <string name="booking_page_title">外出先でカンタン予約</string>
-    <string name="booking_page_subtitle">アプリでご希望のフライト、ホテル、現地オプショナルツアーを検索</string>
+    <string name="booking_page_subtitle">いつでもどこでも、旅行を計画</string>
     <string name="trip_page_title">旅先でも安心</string>
     <string name="trip_page_subtitle">外出先でも予約詳細にアクセス &amp; 最新情報のアラートを受信</string>
     <string name="reward_page_title">ポイントがたまる</string>
@@ -998,9 +1000,9 @@
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">%1$sへのフライト</string>
     <!-- Notification title for car pick up -->
-    <string name="Car_Pick_Up_X_TEMPLATE">レンタカーのピックアップ – %s</string>
+    <string name="Car_Pick_Up_X_TEMPLATE">レンタカーの借出 – %s</string>
     <!-- Notification text for car pick up -->
-    <string name="You_can_now_pick_up_your_car">レンタカーをピックアップできます。</string>
+    <string name="You_can_now_pick_up_your_car">レンタカーを借出できます。</string>
     <!-- Notification title for car drop off -->
     <string name="Car_Drop_Off_X_TEMPLATE">レンタカーの返却 – %s</string>
     <!-- Notification text for car drop off -->
@@ -1160,21 +1162,21 @@
     <!-- Itin flight gate only template -->
     <string name="Gate_X_TEMPLATE">ゲート%1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="Arrive_Gate_X_TEMPLATE">ゲート %1$sに到着</string>
+    <string name="Arrive_Gate_X_TEMPLATE">ゲート %1$s に到着</string>
     <!-- Itin flight depart gate only template -->
-    <string name="Depart_Gate_X_TEMPLATE">ゲート %1$sから出発</string>
+    <string name="Depart_Gate_X_TEMPLATE">ゲート %1$s から出発</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
-    <string name="Terminal_X_TEMPLATE">ターミナル%1$s</string>
+    <string name="Terminal_X_TEMPLATE">ターミナル %1$s</string>
     <!-- Special case for name of International Terminal -->
     <string name="International_Terminal">国際線ターミナル</string>
     <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
     <string name="Baggage_Claim_X_TEMPLATE">手荷物受取所%1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="Arrive_Terminal_X_TEMPLATE">ターミナル %1$sに到着</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">ターミナル %1$s に到着</string>
     <!-- Itin flight international terminal only -->
     <string name="Arrive_International_Terminal">国際線ターミナルに到着</string>
     <!-- Itin flight terminal only template -->
-    <string name="Depart_Terminal_X_TEMPLATE">ターミナル %1$sから出発</string>
+    <string name="Depart_Terminal_X_TEMPLATE">ターミナル %1$s から出発</string>
     <!-- Itin flight international terminal only -->
     <string name="Depart_International_Terminal">国際線ターミナルを出発</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -1402,18 +1404,18 @@
     <string name="itin_card_change_hotel_options">ホテル オプションを変更する</string>
 
     <string name="itin_card_flight_checkin_details">%sのサイトを表示する</string>
-    <string name="itin_card_details_pick_up">ピックアップ</string>
+    <string name="itin_card_details_pick_up">借出</string>
     <string name="itin_card_details_drop_off">返却</string>
     <!-- Tell users when they can pick up a rental car in three days -->
-    <string name="itin_card_details_pick_up_three_days">3 日後にピックアップ</string>
+    <string name="itin_card_details_pick_up_three_days">3 日後に借出</string>
     <!-- Tell users when they can pick up a rental car in two days -->
-    <string name="itin_card_details_pick_up_two_days">2 日後にピックアップ</string>
+    <string name="itin_card_details_pick_up_two_days">2 日後に借出</string>
     <!-- Tell users when they can pick up a rental car tomorrow -->
-    <string name="itin_card_details_pick_up_tomorrow">明日ピックアップ</string>
+    <string name="itin_card_details_pick_up_tomorrow">明日借出</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a day, e.g. ("pick up Jun 11") -->
-    <string name="itin_card_details_pick_up_day_TEMPLATE">%1$sにピックアップ</string>
+    <string name="itin_card_details_pick_up_day_TEMPLATE">%1$sに借出</string>
     <!-- Tell users when they can pick up a rental car. %1$s is a time, e.g. ("pick up after 5 PM") -->
-    <string name="itin_card_details_pick_up_TEMPLATE">%1$s以降にピックアップ</string>
+    <string name="itin_card_details_pick_up_TEMPLATE">%1$s以降に借出</string>
     <!-- Tell users when they need to drop off a rental car. %1$s is a date, e.g. ("drop off Jun 15") -->
     <string name="itin_card_details_drop_off_day_TEMPLATE">%1$sに返却</string>
     <!-- Tell users that they need to drop off a rental car in three days. -->
@@ -1491,6 +1493,7 @@
     <string name="itin_action_call_support_cont_desc">電話で問合せ</string>
     <string name="itin_action_support">サポート</string>
     <string name="itin_action_share">共有</string>
+    <string name="share_action_content_description">シェアボタン</string>
     <string name="itin_action_view">旅程を表示</string>
 
     <!-- Itin webview titles -->
@@ -1500,7 +1503,7 @@
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">%1$sに滞在中です (%2$s ～ %3$s)</string>
     <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
-    <string name="share_template_subject_hotel_reshare">%1$sは%2$sに宿泊中です (%3$s ～ %4$s)</string>
+    <string name="share_template_subject_hotel_reshare">%1$sは%2$sに滞在中です (%3$s ～ %4$s)</string>
     <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
     <string name="share_msg_template_short_hotel">%2$sに%1$sに滞在中です ! \n%3$s</string>
     <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
@@ -1557,7 +1560,7 @@
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">車両 : %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
-    <string name="share_car_pickup_TEMPLATE">ピックアップ : %1$s%2$s以降</string>
+    <string name="share_car_pickup_TEMPLATE">借出 : %1$s%2$s以降</string>
     <!-- The car rental drop off time.  %1$s is a date, %2$s is a time (e.g., "Drop Off Before: 3/21/13 at 5 PM") -->
     <string name="share_car_dropoff_TEMPLATE">返却 : %1$s%2$sまで</string>
     <!-- Section header for the location of the car rental pickup/dropoff. -->
@@ -1726,7 +1729,7 @@
     <!-- Header row for airports that were used recently for a search -->
     <string name="recent">最近</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
-    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
+    <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt;%2$s</string>
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
@@ -1734,7 +1737,7 @@
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
-    <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate}(片道)</string>
+    <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (片道)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
@@ -1742,7 +1745,7 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}- {enddate}, {guests}</string>
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}- {enddate}、{guests}</string>
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
@@ -1782,9 +1785,9 @@
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
     <string name="operated_by_TEMPLATE">運航会社 : %s</string>
     <!-- Message to user indicating how many points will be earned for this booking; parameter is the number of points; e.g. "Earn 478 points" -->
-    <string name="earn_points_TEMPLATE">{points}ポイント獲得</string>
+    <string name="earn_points_TEMPLATE">{points} ポイント獲得</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
-    <string name="earn_amount_TEMPLATE">{price}獲得</string>
+    <string name="earn_amount_TEMPLATE">{price} 獲得</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
     <string name="earn_amount_flight_TEMPLATE">{currency} で {price} 獲得</string>
     <!-- Carry-on baggage fees apply -->
@@ -1844,9 +1847,9 @@
         <item quantity="other">%1$d 名</item>
     </plurals>
     <!-- Price changed from -->
-    <string name="price_changed_from_TEMPLATE">料金が %1$sに変更されました</string>
+    <string name="price_changed_from_TEMPLATE">料金が %1$s に変更されました</string>
     <!-- Price dropped from -->
-    <string name="price_dropped_from_TEMPLATE">料金が %1$sから減額されました</string>
+    <string name="price_dropped_from_TEMPLATE">料金が %1$s から減額されました</string>
 
     <!-- Checkout Activity -->
     <!-- Explicit acceptance of TOS -->
@@ -1854,15 +1857,15 @@
     <!-- I Accept button label -->
     <string name="I_Accept">同意する</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_template">カードに {dueamount}が課金されます</string>
+    <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">{points}Expedia+ ポイント ({amount} 相当) を使用します</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">{points} Expedia+ ポイント ({amount} 相当) を使用します</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">{points}Expedia+ ポイント ({amount} 相当) を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
+    <string name="payment_through_card_and_pwp_points">{points} Expedia+ ポイント ({amount} 相当) を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_plus_airline_fee_template">カードに {dueamount}が課金されます (航空会社の手数料別)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_template">本日お支払いの合計金額 :{dueamount}</string>
+    <string name="amount_due_today_template">本日お支払いの合計金額 : {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">予約を完了する</string>
     <!-- Our price gaurentee string -->
@@ -1870,17 +1873,17 @@
     <!-- Sign out -->
     <string name="sign_out">サインアウト</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">今回のご予約で {reward_currency}ポイント付与されます !</string>
+    <string name="youll_earn_points_TEMPLATE">今回のご予約で {reward_currency} ポイント付与されます !</string>
     <!-- You are a valued member -->
     <string name="you_are_a_valued_member">いつもご利用ありがとうございます。</string>
     <!-- Shop as a {brand} member eg: Shop as an Expedia member! -->
     <string name="shop_as_a_member_TEMPLATE">{brand}の会員として予約 !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_rewards_currency_for_this_trip_TEMPLATE">今回の旅行で {reward_currency}ポイント付与されます !</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">今回の旅行で {reward_currency} ポイント付与されます !</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">申し訳ありません。ホテルがこの宿泊の合計料金を %1$sから %2$s に値上げしました。</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">うれしいお知らせです ! ご宿泊料金が %1$sから %2$s に値下げされました。</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">うれしいお知らせです ! ご宿泊料金が %1$s から %2$s に値下げされました。</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">完了</string>
     <string name="done_cont_desc">完了ボタン</string>
@@ -1893,11 +1896,11 @@
     <!-- Due to expedia today - today -->
     <string name="due_to_brand_today_today_TEMPLATE">本日 {brand}にお支払いの金額</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt;です。</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">ご旅行の合計金額は&lt;b&gt;%1$s&lt;/b&gt;です。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
-    <string name="brand_account_cont_desc_TEMPLATE">{brand}アカウント</string>
+    <string name="brand_account_cont_desc_TEMPLATE">{brand} アカウント</string>
     <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
     <string name="signed_in_account_cont_desc_TEMPLATE">{email}でサインイン済み</string>
     <!-- Enter Payment Information -->
@@ -2030,7 +2033,7 @@
         <item quantity="one">その他 {travelercount} 名の旅行者</item>
         <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者{travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2537,6 +2540,9 @@
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
+    <!-- The label for the hotel cell of the hotel you selected on results. -->
+    <string name="you_picked_this_hotel_label">選択したホテル</string>
+
     <!-- Amenity strings -->
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">ビジネスセンター</string>
@@ -2546,6 +2552,8 @@
     <string name="AmenityHotTub">浴槽</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">インターネット</string>
+    <!-- Free Internet access amenity -->
+    <string name="AmenityFreeInternet">インターネット無料</string>
     <!-- Kids' activities amenity -->
     <string name="AmenityKidsActivities">キッズ アクティビティ</string>
     <!-- Kitchen/kitchenette amenity -->
@@ -2748,7 +2756,7 @@
     <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">予約</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
-    <string name="view_room_button_content_description_TEMPLATE">{room} の客室を表示する</string>
+    <string name="view_room_button_content_description_TEMPLATE">{room}の客室を表示する</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">{room} を予約する</string>
     <!-- Room description alert dialog title -->
@@ -2776,7 +2784,7 @@
     <!-- Title for dialog confirming the clearing of private data when user is logged in-->
     <string name="dialog_clear_private_data_title_logged_in_user">処理を続けますか ?</string>
     <!-- Message for dialog confirming the clearing of private data when user is logged in. Ex: Changing the country will sign you out of your Expedia account​ -->
-    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">国を変更すると、ご利用の {brand} アカウントからサインアウトします。</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg_TEMPLATE">国を変更すると、ご利用の{brand}アカウントからサインアウトします。</string>
     <!-- Continue button for dialog confirming the clearing of private data -->
     <string name="continue_button">続ける</string>
     <!-- Title for dialog after private data has been cleared -->
@@ -2942,6 +2950,29 @@
     <string name="points_value_label">ポイント相当額</string>
     <!-- Label (positioned above) for customer points value currency -->
     <string name="currency_label">通貨</string>
+    <!-- Dialog for pending points -->
+    <string name="pending_points_info">仮付与のポイントは旅行完了後、以下の期間内に有効ポイントとなります。</string>
+    <string name="pending_points_dialog_title">仮付与ポイント</string>
+    <string name="pending_points_button">ポイント ボタン</string>
+    <string name="trip_type">旅行タイプ</string>
+    <string name="up_to">最大所要日数</string>
+    <string name="activities">現地オプショナルツアー</string>
+    <string name="cruises">クルーズ</string>
+    <string name="cars">レンタカー</string>
+    <!--example: 30 days-->
+    <string name="number_of_days_points_TEMPLATE">{number_of_days} 日</string>
+    <!--example: Points from flights become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_flights_accessibility_TEMPLATE">旅行完了後、航空券で貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from bundle deals become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_bundles_accessibility_TEMPLATE">旅行完了後、航空券 + ホテルで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from activities become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_activities_accessibility_TEMPLATE">旅行完了後、現地ツアーで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from hotels become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_hotels_accessibility_TEMPLATE">旅行完了後、ホテルで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from cruises become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cruises_accessibility_TEMPLATE">旅行完了後、クルーズで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
+    <!--example: Points from cars become available up to 30 days after travel has been completed.-->
+    <string name="pending_points_cars_accessibility_TEMPLATE">旅行完了後、レンタカーで貯まったポイントが利用可能になるまで、最大で {number_of_days} 日かかります。</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3047,9 +3078,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">現在地から %1$s%2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount}{currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3600,7 +3631,6 @@
     <string name="hotels_filter_show_more_cont_desc">周辺情報をさらに表示するボタン</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
     <string name="hotels_filter_show_less_cont_desc">周辺情報を一部のみ表示するボタン</string>
-
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">クーポンが適用されました : %1$sお得です !</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -3608,6 +3638,22 @@
     <string name="coupon_error_remove_dialog_title">クーポンを削除できませんでした</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">申し訳ありません。クーポンの適用中にエラーが発生しました。もう一度入力してください。</string>
+    <!-- Hotel Advanced Search Options card title -->
+    <string name="advanced_options">詳細オプション</string>
+    <!-- VIP only search options on advanced options card title -->
+    <string name="vip_only">VIP 提携ホテルのみ</string>
+    <!-- Sort by search option on advanced options card title -->
+    <string name="hotel_sort_by_search_option_TEMPLATE">{sortby}で並べ替え</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="one_star">1 つ星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="two_star">2 つ星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="three_star">3 つ星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="four_star">4 つ星</string>
+    <!-- 1 star rating search option on advanced options card title -->
+    <string name="five_star">5 つ星</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">お支払い方法に応じて追加手数料が課金される場合があります。</string>
@@ -3666,7 +3712,7 @@
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
         <item quantity="one">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
-        <item quantity="other">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
+        <item quantity="other">航空券との同時予約で、このホテルが {night}泊無料になります。</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s%2$s、%3$s</string>
@@ -3743,8 +3789,8 @@
 
     <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
     <plurals name="flight_seats_left_urgency_message_TEMPLATE">
-        <item quantity="one">この料金の座席は残り {seats}席</item>
-        <item quantity="other">この料金の座席は残り {seats}席</item>
+        <item quantity="one">この料金の座席は残り {seats} 席</item>
+        <item quantity="other">この料金の座席は残り {seats} 席</item>
     </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime}- {arrivaltime} -{elapseddays} 日</string>
@@ -3773,6 +3819,10 @@
     <string name="select_flight_to">%1$sへのフライトを選択</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$sへのフライト</string>
+    <!-- Flight Confirmation Cards Crystal - date template E.g. on March 39-->
+    <string name="flight_confirmation_crystal_title_on_date_TEMPLATE">、{date}</string>
+    <!-- Flight Confirmation Cards Crystal - flight to template E.g. MSP to SFO · 1 stop-->
+    <string name="flight_to_card_crystal_subtitle_TEMPLATE">{departuretime}～ {arrivaltime} · {stops}</string>
     <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
     <string name="flight_to_card_TEMPLATE">{airportcity}({airportcode}) 行きのフライト</string>
     <!-- Select return flight -->
@@ -3794,6 +3844,12 @@
         <item quantity="one">{city}のホテル - 1 室、{number} 泊</item>
         <item quantity="other">{city}のホテル - 1 室、{number} 泊</item>
     </plurals>
+    <!-- Label for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_title">航空券 + ホテル</string>
+    <!-- Description for Package Banner on Flight Search Results Screen -->
+    <string name="flight_package_banner_description">航空券とホテルを同時に予約するとお得 !</string>
+    <!-- Accessibility announcement when showing Flight Search Results with Package Banner on top Eg. Flight + Hotel. Save when you book your flights and hotels together. Button -->
+    <string name="accessibility_announcement_package_banner_TEMPLATE">{title}. {description}. {button}</string>
 
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
@@ -3838,12 +3894,12 @@
     <string name="paying_with_rewards">Expedia+ ポイントでお支払い</string>
     <string name="pay_with_rewards">Expedia+ ポイントでお支払い</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money}利用可能 ({points} Expedia+ ポイント)</string>
-    <string name="user_enters_more_than_available_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money}以下の値を入力してください。</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money} 以下の値を入力してください。</string>
     <string name="user_enters_more_than_trip">本日お支払いの金額以下のポイント相当額を入力してください。</string>
     <string name="pwp_calculating_points">ポイントを計算しています…</string>
     <plurals name="pwp_points_applied_TEMPLATE">
-        <item quantity="one">{points}ポイント適用済み</item>
-        <item quantity="other">{points}ポイント適用済み</item>
+        <item quantity="one">{points} ポイント適用済み</item>
+        <item quantity="other">{points} ポイント適用済み</item>
     </plurals>
 
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">残高 :</string>
@@ -3852,8 +3908,8 @@
     <!-- Package Flight Overview -->
     <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
     <plurals name="package_flight_overview_urgency_message_TEMPLATE">
-        <item quantity="one">残り {seats}席</item>
-        <item quantity="other">残り {seats}席</item>
+        <item quantity="one">残り {seats} 席</item>
+        <item quantity="other">残り {seats} 席</item>
     </plurals>
     <string name="package_flight_overview_baggage_fees">手荷物料金情報</string>
     <string name="package_flight_overview_select_flight">このフライトを選択</string>
@@ -3863,16 +3919,14 @@
     <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
     <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} → ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">{city}({airportcode}) で乗り継ぎ</string>
-    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier}{flightnumber} \u2022 {airplanetype}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
-    <!-- Example : Total Duration: 2h 20m • 939 miles -->
-    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">合計所要時間 : {duration}• {distance} {distanceunit}</string>
     <!-- Toolbar Title for flight overview template. Example: Thurs May 12 - Fri May 14, 2 guests -->
     <string name="flight_overview_toolbar_TEMPLATE">{date}、{guests}</string>
     <!-- Title for flight overview summary template. Example: SFO to DEL Thurs, May 12 -->
     <string name="flight_overview_header_TEMPLATE">{departureairportcode} → {arrivalairportcode}、出発日 : {dateoftravelling}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
-    <string name="itinerary_sent_to_confirmation_TEMPLATE">旅程番号 {itinerary}が {email} に送信されました</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">旅程番号 {itinerary} が {email} に送信されました</string>
 
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
@@ -3970,7 +4024,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} → {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass}{fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4041,8 +4095,6 @@
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">運賃 {price}～</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">選択した往路 (行き) の鉄道 :</string>
-    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
-    <string name="rail_button_cont_desc_TEMPLATE">{description}。ボタン</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">適用されたレイルカード : {railcards}</string>
@@ -4077,13 +4129,13 @@
 
     <!-- Material FLight breakdown dialog -->
     <!-- Add adult traveler number template for example: Adult 2 details -->
-    <string name="flight_add_adult_number_TEMPLATE">大人 {number}の詳細</string>
+    <string name="flight_add_adult_number_TEMPLATE">大人 {number} の詳細</string>
     <!-- Add child traveler number template for example: Child 4 details -->
-    <string name="flight_add_child_number_TEMPLATE">お子様 {number}の詳細</string>
+    <string name="flight_add_child_number_TEMPLATE">お子様 {number} の詳細</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
-    <string name="flight_add_infant_in_lap_number_TEMPLATE">膝抱きの乳幼児 {number}の詳細</string>
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">膝抱きの乳幼児 {number} の詳細</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
-    <string name="flight_add_infant_in_seat_number_TEMPLATE">座席が必要な乳幼児 {number}の詳細</string>
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">座席が必要な乳幼児 {number} の詳細</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Expedia+ ポイント適用済み ! (税およびサービス料別)</string>
@@ -4093,13 +4145,15 @@
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">還元率 2 倍で Expedia+ ポイント適用済み !</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
-    <string name="swp_widget_points_value_TEMPLATE">{points_or_amount}ポイント獲得済み</string>
+    <string name="swp_widget_points_value_TEMPLATE">{points_or_amount} ポイント獲得済み</string>
     <string name="vip_loyalty_applied_map_message">&lt;b&gt;+VIP&lt;/b&gt; 還元率 2 倍で Expedia+ ポイント適用済み !</string>
     <string name="swp_off_widget_header">Expedia+ ポイントを適用</string>
     <string name="swp_on_widget_header">Expedia+ ポイント適用済み</string>
 
     <!-- Message telling you on confirmation screen where you've booked a package to -->
     <string name="yay_going_somewhere">目的地 :</string>
+    <!-- Message telling you on confirmation that your trip is booked -->
+    <string name="trip_is_booked">ご予約が完了しました !</string>
     <!-- Cars cross-sell message on package confirmation -->
     <string name="rental_car_message">レンタカーを予約しますか ?</string>
     <!-- Cars cross-sell origin description template-->
@@ -4113,13 +4167,13 @@
 
     <!-- Strings used in Orbitz where amount type is rewards  -->
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
-    <string name="bucks_available_TEMPLATE">{money}の Orbucks をご利用いただけます</string>
+    <string name="bucks_available_TEMPLATE">{money} の Orbucks をご利用いただけます</string>
     <!-- Label indicating Orbucks Applied By User. Eg: $1000.12 in Orbucks applied-->
-    <string name="bucks_applied_TEMPLATE">{money}の Orbucks 適用済み</string>
+    <string name="bucks_applied_TEMPLATE">{money} の Orbucks 適用済み</string>
     <!-- Label above the slider when user is fully paying with Orbucks. Eg: You are using $1000.12 in Orbucks-->
-    <string name="you_are_using_bucks_TEMPLATE">{amount}の Orbucks を使用します</string>
+    <string name="you_are_using_bucks_TEMPLATE">{amount} の Orbucks を使用します</string>
     <!-- Label above the slider when user is paying with Orbucks and Card. Eg: You are using $1000.12 in Orbucks\nYour card will be charged $100.00-->
-    <string name="payment_through_card_and_bucks_TEMPLATE">{amount}の Orbucks を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
+    <string name="payment_through_card_and_bucks_TEMPLATE">{amount} の Orbucks を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
 
     <!-- Feeds -->
     <!-- Label for Browse hotels card for staff picked city/destination -->
@@ -4147,13 +4201,13 @@
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
     <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">フライト時刻は {time} で料金は {price} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating}の評価の{hotel}。ゲスト評価 5 段階中{guestrating}。料金{price}。ホテルと航空券込み \u0020</string>
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の {hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating}の評価の{hotel}。ゲスト評価 5 段階中{guestrating}。\u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の {hotel}。ゲスト評価 5 段階中 {guestrating}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">ゲスト評価 5 段階中 {guestrating} の{hotel}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
-    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">5 段階中 {hotel}の評価の{starrating}。\u0020</string>
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">5 段階中 {hotel} の評価の {starrating}。\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
     <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
@@ -4167,13 +4221,13 @@
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超目玉セール {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地{arrivalairport}。所要時間{durationhours}{durationmins}。\u0020</string>
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地{arrivalairport}。所要時間 {durationhours} {durationmins}。\u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間{layoverhours}{layovermins}。\u0020</string>
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間 {layoverhours} {layovermins}。\u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
     <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
-        <item quantity="one">この料金の座席は残り {seatsleft}席です</item>
-        <item quantity="other">の料金の座席は残り {seatsleft}席です</item>
+        <item quantity="one">この料金の座席は残り {seatsleft} 席です</item>
+        <item quantity="other">の料金の座席は残り {seatsleft} 席です</item>
     </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地。ボタン。{to_destination}</string>
@@ -4186,7 +4240,7 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">旅行日を選択してください。ボタン。ダイアログを開きます</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">料金{price}。\u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">料金 {price}。\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">旅行者数ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
@@ -4220,13 +4274,13 @@
     <string name="rails_remove_senior_traveler_cont_desc">旅行者からシニア 1 名を削除する</string>
 
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber}の年齢を選択してください。</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。</string>
     <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1. 10 Years old selected."-->
-    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。{currentselection} が選択されています。</string>
+    <string name="search_child_age_drop_down_cont_desc_TEMPLATE">お子様{childnumber} の年齢を選択してください。{currentselection} が選択されています。</string>
     <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
-    <string name="search_youth_drop_down_cont_desc_TEMPLATE">中人 {youthnumber}の年齢を選択してください。</string>
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">中人 {youthnumber} の年齢を選択してください。</string>
     <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
-    <string name="search_senior_drop_down_cont_desc_TEMPLATE">シニア {seniornumber}の年齢を選択してください。</string>
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">シニア {seniornumber} の年齢を選択してください。</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">その他の航空会社を表示します。ボタン</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
@@ -4243,13 +4297,13 @@
     <string name="flight_overview_price_widget_button_open_TEMPLATE">旅行料金は 1 名 {price_per_person} です。税およびサービス料込み。フライトを表示するボタン。</string>
 
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は{totalprice}です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は{totalprice}です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}。料金明細のダイアログ。ボタン。</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}。料金明細のダイアログ。ボタン。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名{price_per_person}です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened. Example: Trip to Seattle, WA. March 6 to March 7, 1 traveller-->
-    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate} → {enddate}、出発日 : {guests}</string>
+    <string name="trip_overview_price_widget_expanded_TEMPLATE">{city_name}への旅行。{startdate}→ {enddate}、出発日 : {guests}</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
@@ -4280,7 +4334,7 @@
     <string name="insurance_price_per_person">/ 人</string>
 
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
-    <string name="hotel_rating_bar_cont_desc_TEMPLATE">5 段階中 {rating}の評価</string>
+    <string name="hotel_rating_bar_cont_desc_TEMPLATE">5 段階中 {rating} の評価</string>
     <!--LX search accessibility -->
     <string name="location_edit_box_cont_desc">ロケーション。ボタン</string>
     <!-- Content description for location entered, e.g- Location. Gurgaon,India. Button-->
@@ -4309,6 +4363,7 @@
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">戻る</string>
     <string name="toolbar_nav_icon_close_cont_desc">閉じる</string>
+    <string name="toolbar_nav_icon_close_gallery_cont_desc">写真ギャラリーを閉じる</string>
     <string name="search_button_cont_desc">検索ボタン</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">所要時間 {duration}</string>
@@ -4334,10 +4389,10 @@
     <string name="accessibility_cont_desc_card_is_disabled">無効のクレジットカード タイプ</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
-    <string name="activity_price_without_discount_cont_desc_TEMPLATE">料金は {activity_price}です</string>
+    <string name="activity_price_without_discount_cont_desc_TEMPLATE">料金は {activity_price} です</string>
 
     <!-- LX SRP activity price content description when price is discounted e.g. Price is $180. Price before discount was $230 -->
-    <string name="activity_price_with_discount_cont_desc_TEMPLATE">料金は{activity_price}です。割引前の料金は {activity_original_price}でした</string>
+    <string name="activity_price_with_discount_cont_desc_TEMPLATE">料金は {activity_price} です。割引前の料金は {activity_original_price} でした</string>
     <!-- Content description for Checkbox types, state Checked -->
     <string name="accessibility_cont_desc_role_checkbox_checked">チェックボックス。チェック済みです。</string>
     <!-- Content description for Checkbox types, state Unchecked -->
@@ -4354,9 +4409,9 @@
     <string name="discount_minus_amount">- {amount}</string>
     <string name="local_charges_due_at_hotel">現地でお支払いの料金</string>
     <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
-    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">ホテルにて、&lt;b&gt;{resort_fee}&lt;/b&gt;の地方税および / またはホテル料金をお支払いいただきます。&lt;b&gt;ご宿泊の合計金額は {trip_total} &lt;/b&gt;です</string>
+    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">ホテルにて、&lt;b&gt;{resort_fee}&lt;/b&gt;の地方税および / またはホテル料金をお支払いいただきます。&lt;b&gt;ご宿泊の合計金額は {trip_total} &lt;/b&gt; です</string>
     <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
-    <string name="package_resort_fees_disclaimer_TEMPLATE">ホテルにて、&lt;b&gt;{resort_fee}&lt;/b&gt;の地方税および / またはホテル料金を現地の通貨でお支払いいただきます。</string>
+    <string name="package_resort_fees_disclaimer_TEMPLATE">ホテルにて、&lt;b&gt;{resort_fee}&lt;/b&gt; の地方税および / またはホテル料金を現地の通貨でお支払いいただきます。</string>
     <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
     <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
@@ -4392,11 +4447,14 @@
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
-    <!-- Content description for hotel immage gallery -->
+    <!-- Content description for hotel image gallery -->
     <string name="gallery_cont_desc">写真ギャラリー</string>
+    <string name="collapsed_gallery_photo_click_cont_desc">写真を閲覧する</string>
 
-    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
-    <string name="gallery_photo_count_cont_desc_TEMPLATE">{count} 枚中 {index} 枚目の写真を表示するボタン</string>
+    <!-- Content Description for current index of the photo in the gallery. For example: "Image 1 of 14" -->
+    <string name="gallery_photo_count_cont_desc_TEMPLATE">写真 {count} 枚中 {index} 枚目</string>
+    <!-- Content Description of gallery index plus description from the api. For Example: "Image 1 of 14 Lobby" or "Image 1 of 4 Bathroom -->
+    <string name="gallery_photo_count_plus_description_cont_desc_TEMPLATE">{api_description}の写真 {count} 枚中 {index} 枚目</string>
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">複数の航空会社</string>
@@ -4497,6 +4555,9 @@
     <!-- Text shown on flight itin when booking is still pending -->
     <string name="itin_flight_booking_status_pending">予約が確定しました。ただ今発券中です。</string>
 
+    <!-- Trip protection string in flight confirmation screen -->
+    <string name="trip_protection_message">旅行保険ご購入済み</string>
+
     <!-- Reset filter title -->
     <string name="reset_filter">絞り込み条件をリセット</string>
     <!-- Filter no result error message -->
@@ -4507,4 +4568,13 @@
 
     <!-- Hotel detail grouped room option message, example: Option 1 -->
     <string name="option_TEMPLATE">オプション {number}</string>
+
+    <!-- Content description for double tap action to collapse HIS room info -->
+    <string name="collapse_room_info_cont_desc">表示する</string>
+    <!-- Content description for double tap action to expand HIS room info -->
+    <string name="expand_room_info_cont_desc">非表示にする</string>
+
+    <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
+    <string name="a11y_button_TEMPLATE">{description}。ボタン</string>
+
 </resources>

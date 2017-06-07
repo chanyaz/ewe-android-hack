@@ -26,15 +26,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="13098"
-            android:layout="@layout/preference"
-            android:title="Hotel Member Pricing Badge Color Test - 13098" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="13179"
             android:layout="@layout/preference"
             android:title="Hotel Loyalty Earn Message - 13179" />
@@ -53,15 +44,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="13178"
-            android:layout="@layout/preference"
-            android:title="Hotel Remove Auto Focus On Search - 13178" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="13415"
             android:layout="@layout/preference"
             android:title="Hotel Details Gallery Peak - 13415" />
@@ -74,15 +56,6 @@
             android:key="13264"
             android:layout="@layout/preference"
             android:title="Hotel Result Sort FAQ - 13264" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="13177"
-            android:layout="@layout/preference"
-            android:title="Hotel Server Side Filtering - 13177" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -116,10 +89,27 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
+            android:key="13563"
+            android:layout="@layout/preference"
+            android:title="Hotel Pinned Search - 13563" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
             android:key="13906"
             android:layout="@layout/preference"
             android:title="Hotel Grouped Room Rate Offer - 13906" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14271"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel hide search icon - 14271" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -180,6 +170,14 @@
             android:key="13152"
             android:layout="@layout/preference"
             android:title="LX Navigate To SRP - 13152" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="14380"
+            android:layout="@layout/preference"
+            android:title="LX Voucher Redemption - 14380" />
 
     </PreferenceCategory>
 
@@ -277,20 +275,29 @@
             android:summary="%s"
             android:title="Hide FSR Infographics - 13844" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14183"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Cross Sell Package on FSR - 14183" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14297"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Retain previous Flight search params - 14297" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Launch Screen Tests">
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="13718"
-            android:layout="@layout/preference"
-            android:title="Hotel and Flight Accentuating - 13718" />
 
         <ListPreference
             android:entries="@array/abacus_air_attach_choices"
@@ -352,6 +359,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:key="13548"
             android:summary="%s"
+            android:layout="@layout/preference"
             android:title="New User Onboarding" />
 
     </PreferenceCategory>
@@ -400,6 +408,15 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
+            android:key="14513"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Free Cancellation Tooltip - 14513" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
             android:key="13741"
             android:layout="@layout/preference"
             android:summary="%s"
@@ -409,19 +426,10 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="13002"
+            android:key="14137"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Yellow sign-in button - 13002" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="12992"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Flight price change alert - 12992" />
+            android:title="Flight Confirmation sharing button - 14137" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -431,15 +439,6 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Checkout button text - 13480" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="13046"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Remove expired credit cards - 13046" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -495,15 +494,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="12465"
-            android:layout="@layout/preference"
-            android:title="Hotel Gallery - 12465" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
             android:key="13257"
             android:layout="@layout/preference"
             android:title="User Reviews - 13257" />
@@ -516,15 +506,6 @@
             android:key="13890"
             android:layout="@layout/preference"
             android:title="New trips sign in screen - 13890" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="13026"
-            android:layout="@layout/preference"
-            android:title="Hotel Soft change web view - 13026" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -543,6 +524,15 @@
             android:key="13812"
             android:layout="@layout/preference"
             android:title="Trips Crystal Skin - 13812" />
+
+        <ListPreference
+            android:entries="@array/abacus_itin_share_button_choices"
+            android:entryValues="@array/abacus_itin_share_button_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="14201"
+            android:layout="@layout/preference"
+            android:title="Itin share button icon or text - 14201"/>
 
     </PreferenceCategory>
 

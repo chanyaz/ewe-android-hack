@@ -53,6 +53,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -103,6 +105,7 @@ class PackageCheckoutTest {
         createTripWithResortFee()
         enterValidTraveler()
         enterValidPayment()
+        checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
@@ -115,10 +118,16 @@ class PackageCheckoutTest {
     }
 
     @Test
-    fun testSlideTotalTextVisibilityDependsOnResortFees() {
+    fun testSlideTotalTextVisibilityDependsOnResortFeesAndOverviewState() {
         createTripWithResortFee()
         enterValidTraveler()
         enterValidPayment()
+
+        assertEquals(View.GONE, overview.slideTotalText.visibility)
+        assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)
+        assertEquals(View.VISIBLE, overview.slideToPurchaseSpace.visibility)
+
+        checkout.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
 
         assertEquals(View.VISIBLE, overview.slideTotalText.visibility)
         assertEquals("Your card will be charged $173.68", overview.slideTotalText.text)
@@ -153,6 +162,7 @@ class PackageCheckoutTest {
         errorResponseSubscriber.assertValue(ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS))
 
         (checkout.paymentWidget as BillingDetailsPaymentWidget).addressLineOne.setText("1735 Steiner st")
+        (checkout.paymentWidget as BillingDetailsPaymentWidget).creditCardCvv.setText("123")
         checkout.paymentWidget.validateAndBind()
         overview.bottomCheckoutContainer.onSlideAllTheWay()
 
@@ -160,6 +170,27 @@ class PackageCheckoutTest {
         checkoutResponseSubscriber.assertValueCount(1)
 
         assertEquals("malcolmnguyen@gmail.com", checkoutResponseSubscriber.onNextEvents[0].second)
+    }
+
+    @Test
+    fun testCheckoutErrorClearsCvv() {
+        val clearCvvSubscriber = TestSubscriber<Unit>()
+        checkout.getCheckoutViewModel().clearCvvObservable.subscribe(clearCvvSubscriber)
+        val billingInfo = getBillingInfo()
+        Db.setBillingInfo(billingInfo)
+        Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(billingInfo)
+        (checkout.paymentWidget as BillingDetailsPaymentWidget).creditCardCvv.setText(billingInfo.securityCode)
+
+        assertEquals("111", Db.getBillingInfo().securityCode)
+        assertEquals("111", (Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode))
+        assertEquals("111", (checkout.paymentWidget as BillingDetailsPaymentWidget).creditCardCvv.text.toString())
+
+        checkout.getCheckoutViewModel().checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+
+        clearCvvSubscriber.assertValueCount(1)
+        assertNull(Db.getBillingInfo().securityCode)
+        assertNull(Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode)
+        assertEquals("", (checkout.paymentWidget as BillingDetailsPaymentWidget).creditCardCvv.text.toString())
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.flight
 
 import android.animation.ArgbEvaluator
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
@@ -18,6 +19,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -26,11 +28,13 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.isFlexEnabled
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
@@ -39,7 +43,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.BaseFlightOffersViewModel
-import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
@@ -326,6 +329,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         viewModel.flightProductId.subscribe { productKey ->
             flightOverviewPresenter.overviewPageUsableData.markPageLoadStarted(System.currentTimeMillis())
             val createTripParams = FlightCreateTripParams(productKey)
+            createTripParams.flexEnabled = isFlexEnabled(context)
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
@@ -403,6 +407,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
+        if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+            FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, { params ->
+                (context as Activity).runOnUiThread {
+                    searchViewModel.previousSearchParamsObservable.onNext(params)
+                }
+            })
+        }
     }
 
     private fun flightListToOverviewTransition() {
@@ -410,7 +421,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.resetAndShowTotalPriceWidget()
         flightOverviewPresenter.totalPriceWidget.bundleTotalPrice.visibility = View.GONE
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
-        flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
+        flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel()
+                .bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)) {
             flightOverviewPresenter.flightSummary.outboundFlightWidget.expandFlightDetails(false)
             flightOverviewPresenter.flightSummary.inboundFlightWidget.expandFlightDetails(false)

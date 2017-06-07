@@ -35,8 +35,12 @@ open class NavigationHelper {
         NavUtils.goToTransport(context, animOptions)
     }
 
-    open fun goToPackages(animOptions: Bundle?) {
-        NavUtils.goToPackages(context, animOptions)
+    open fun goToPackages(data: Bundle?, animOptions: Bundle?) {
+        NavUtils.goToPackages(context, data, animOptions)
+    }
+
+    open fun goToPackagesForResult(data: Bundle?, animOptions: Bundle?, requestCode: Int) {
+        NavUtils.goToPackagesForResult(context, data, animOptions, requestCode)
     }
 
     open fun goToRail(animOptions: Bundle?) {

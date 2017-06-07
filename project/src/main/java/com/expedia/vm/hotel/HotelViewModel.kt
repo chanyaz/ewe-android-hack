@@ -77,7 +77,7 @@ open class HotelViewModel(private val context: Context) {
         this.isHotelSoldOut = hotel.isSoldOut
 
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
-            AdImpressionTracking.trackAdClickOrImpressionWithTest(context, hotel.impressionTrackingUrl, AbacusUtils.EBAndroidAppHotelServerSideFilter, null)
+            AdImpressionTracking.trackAdClickOrImpression(context, hotel.impressionTrackingUrl, null)
             hotel.hasShownImpression = true
         }
     }
@@ -243,13 +243,9 @@ open class HotelViewModel(private val context: Context) {
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
         if (hasMemberDeal(hotel)) {
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelMemberPricingBadge)) {
-                return UrgencyMessage(R.drawable.ic_hotel_member_test, R.color.hotel_member_pricing_color_test,
-                        resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_color)
-            } else {
-                return UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
-                        resources.getString(R.string.member_pricing))
-            }
+            return UrgencyMessage(R.drawable.ic_hotel_member_test, R.color.hotel_member_pricing_color_test,
+                    resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_color)
+
         }
         return null
     }

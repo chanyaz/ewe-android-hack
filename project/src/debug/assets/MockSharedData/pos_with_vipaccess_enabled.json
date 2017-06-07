@@ -1,0 +1,9 @@
+{
+  "US": {
+    "supportsVipAccess": true,
+    "pointOfSaleId": 29,
+
+    "supportedLocales": [{}],
+    "automaticallyMappedLocales": []
+  }
+}

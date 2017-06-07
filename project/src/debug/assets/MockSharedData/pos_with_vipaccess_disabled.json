@@ -1,28 +1,9 @@
 {
-  "US":{
-    "adjustPricingMessagingForAirlinePaymentMethodFee": true,
-    "supportPhoneNumber": {
-      "Android": "1-877-222-6503"
-    },
-    "supportPhoneNumberSilver": {
-      "Android": "1-877-240-3302"
-    },
-    "supportPhoneNumberGold": {
-      "Android": "1-866-925-2524"
-    },
-    "TPID": 1,
-    "url": "expedia.com",
-    "countryCode": "USA",
-    "supportedLocales": [
-      {
-        "localeIdentifier": "en_US"
-      }
-    ],
-    "branding": "Expedia",
+  "US": {
+    "supportsVipAccess": false,
     "pointOfSaleId": 29,
-    "automaticallyMappedLocales": [
-      "en_US"
-    ],
-    "supportsVipAccess": false
+
+    "supportedLocales": [{}],
+    "automaticallyMappedLocales": []
   }
 }

@@ -11,13 +11,10 @@
     <color name="exp_hotel_green">#009688</color>
 
     <color name="exp_car_maroon">#9E4E7F</color>
-    <color name="exp_car_dark_maroon">#915B7C</color>
 
     <color name="exp_gt_red">#B93F62</color>
     <color name="exp_action_required_red">#E44A01</color>
 
-    <color name="exp_lx_orange">#CD4E05</color>
-    <color name="exp_lx_secondary_orange">#F7840D</color>
 
     <color name="exp_itin_bg">#212527</color>
     <color name="exp_itin_bg_crystal_theme">@color/gray1</color>

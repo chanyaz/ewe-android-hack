@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.happy;
 
 import org.hamcrest.Matcher;
+import org.junit.Test;
 
 import android.view.View;
 
@@ -22,6 +23,7 @@ import static org.hamcrest.CoreMatchers.allOf;
 
 public class RailPhoneHappyPathTest extends RailTestCase {
 
+	@Test
 	public void testRailPhoneHappyPath() throws Throwable {
 		RailScreen.navigateToTripOverview();
 		assertLegInfo();
@@ -37,6 +39,7 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		assertConfirmationScreen();
 	}
 
+	@Test
 	public void testRoundTripSearch() throws Throwable {
 		RailScreen.performRoundTripSearch();
 		onView(withText(R.string.select_outbound)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));

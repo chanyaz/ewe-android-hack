@@ -7,7 +7,6 @@ import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.hotel.FilterTracker
-import com.expedia.bookings.tracking.hotel.HotelFilterTracker
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -32,7 +31,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
     val sortByObservable = PublishSubject.create<Sort>()
     val sortSpinnerObservable = PublishSubject.create<Sort>()
     val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
-    val clientSideFilterObservable = BehaviorSubject.create<Boolean>()
     val sortContainerVisibilityObservable = BehaviorSubject.create<Boolean>()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
@@ -54,8 +52,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
             finishClear.onNext(Unit)
             sendNewPriceRange()
         }
-
-        clientSideFilterObservable.onNext(isClientSideFiltering())
     }
 
     val oneStarFilterObserver: Observer<Unit> = endlessObserver {
@@ -182,6 +178,10 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
+    abstract fun sortItemToRemove(): Sort
+    protected abstract fun createFilterTracker(): FilterTracker
+    protected abstract fun isClientSideFiltering(): Boolean
+
     open fun isFilteredToZeroResults(): Boolean {
         return false
     }
@@ -218,10 +218,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         }
     }
 
-    open fun sortItemToRemove(): Sort {
-        return Sort.PACKAGE_DISCOUNT
-    }
-
     fun trackClearFilter() {
         filterTracker.trackClearFilter()
     }
@@ -240,10 +236,6 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
 
     protected fun defaultFilterOptions(): Boolean {
         return userFilterChoices.filterCount() == 0 && userFilterChoices.userSort == getDefaultSort()
-    }
-
-    protected open fun createFilterTracker(): FilterTracker {
-        return HotelFilterTracker()
     }
 
     protected fun trackHotelSortBy(sortBy: String) {
@@ -288,7 +280,4 @@ abstract class BaseHotelFilterViewModel(val context: Context) {
         userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<HotelSearchResponse.Neighborhood>()
     }
-
-    abstract fun isClientSideFiltering(): Boolean
-
 }

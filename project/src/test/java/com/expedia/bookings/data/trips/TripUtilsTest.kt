@@ -347,8 +347,8 @@ class TripUtilsTest {
 
     @Test
     fun getTripTypesInUsersTrips() {
-        val usersTrips = getUsersTrips()
-        val usersTripTypeEventSet = TripUtils.createUsersTripTypeEventString(usersTrips)
+        val usersTrips = getUsersTripsForEventString()
+        val usersTripTypeEventSet = TripUtils.createUsersTripComponentTypeEventString(usersTrips)
         val expectedValues = HashSet<String>()
         expectedValues.add("event255")
         expectedValues.add("event250")
@@ -358,11 +358,42 @@ class TripUtilsTest {
     }
 
     @Test
-    fun getTripsTypesUserWithNoTrips() {
+    fun userWithOneActiveTrip() {
+        val oneTrip = getUserWithOneTrip()
+        val oneTripComponentTypesEventString = TripUtils.createUsersTripComponentTypeEventString(oneTrip)
+        val oneTripProp75String = TripUtils.createUsersProp75String(oneTrip)
+        val expectedEventString = "event255"
+        val expectedProp75String = "PGK:3:10"
+        assertEquals(expectedEventString, oneTripComponentTypesEventString)
+        assertEquals(expectedProp75String, oneTripProp75String)
+    }
+
+    @Test
+    fun getTripsTypesAndProp75WithNoTrips() {
         val noTrips = emptyList<Trip>()
-        val noTripTypesEventSet = TripUtils.createUsersTripTypeEventString(noTrips)
+        val noTripTypesEventString = TripUtils.createUsersTripComponentTypeEventString(noTrips)
+        val noTripProp75String = TripUtils.createUsersProp75String(noTrips)
         val expectedValue = ""
-        assertEquals(expectedValue, noTripTypesEventSet)
+        assertEquals(expectedValue, noTripTypesEventString)
+        assertEquals(expectedValue, noTripProp75String)
+    }
+
+    @Test
+    fun calculateHotelTripDates() {
+        val hotelTripsWithDates = setUsersHotelTripDates()
+        val calculatedDatesString = TripUtils.getUsersActiveTrip(hotelTripsWithDates, TripComponent.Type.HOTEL)
+
+        val expectedTripString = "HOT:-1:3"
+
+        assertEquals(expectedTripString, calculatedDatesString)
+    }
+
+    @Test
+    fun getUsersProp75String() {
+        val usersTrips = getUsersTrips();
+        val prop75String = TripUtils.createUsersProp75String(usersTrips);
+        val expectedProp75String = "HOT:-1:3|AIR:-1:3|CAR:-5:0|LX:2:2|RAIL:0:0|PGK:3:10"
+        assertEquals(expectedProp75String, prop75String)
     }
 
     private fun setUpAirAttachObject(expirationEpochSeconds: Long): JSONObject {
@@ -384,20 +415,105 @@ class TripUtilsTest {
     private fun dateTimeTwoWeeksFromNow() = DateTime.now().plusDays(14)
 
     private fun getUsersTrips(): Collection<Trip> {
-        val flightTrip = Trip()
+        val flightTrip = Trip() //trip in progress
         flightTrip.addTripComponent(TripFlight())
+        flightTrip.startDate = DateTime.now().minusDays(1)
+        flightTrip.endDate = DateTime.now().plusDays(3)
 
-        val packageTrip = Trip()
+        val packageTrip = Trip() //trip in future
         packageTrip.addTripComponent(TripPackage())
+        packageTrip.startDate = DateTime.now().plusDays(3)
+        packageTrip.endDate = DateTime.now().plusDays(10)
 
-        val hotelTrip = Trip()
+        val hotelTrip = Trip() //trip in progress
         hotelTrip.addTripComponent(TripHotel())
+        hotelTrip.startDate = DateTime.now().minusDays(1)
+        hotelTrip.endDate = DateTime.now().plusDays(3)
 
         val secondHotelTrip = Trip()
         secondHotelTrip.addTripComponent(TripHotel())
+        secondHotelTrip.startDate = DateTime.now().minusDays(20)
+        secondHotelTrip.endDate = DateTime.now().minusDays(13)
 
-        val trips = mutableListOf(packageTrip, flightTrip, hotelTrip)
+        val activityTrip = Trip() //one day trip completely in future
+        activityTrip.addTripComponent(TripActivity())
+        activityTrip.startDate = DateTime.now().plusDays(2)
+        activityTrip.endDate = DateTime.now().plusDays(2)
+
+        val carTrip = Trip() //trip ending today
+        carTrip.addTripComponent(TripCar())
+        carTrip.startDate = DateTime.now().minusDays(5)
+        carTrip.endDate = DateTime.now()
+
+        val railTrip = Trip() //trips happening today
+        railTrip.addTripComponent(TripRails())
+        railTrip.startDate = DateTime.now()
+        railTrip.endDate = DateTime.now()
+
+        val trips = mutableListOf(packageTrip, flightTrip, hotelTrip, secondHotelTrip, activityTrip, carTrip, railTrip)
         return trips
+    }
+
+    private fun setUsersHotelTripDates(): MutableCollection<Trip> {
+        val hotelTripInPast = Trip()
+        hotelTripInPast.addTripComponent(TripHotel())
+        hotelTripInPast.startDate = DateTime.now().minusDays(10)
+        hotelTripInPast.endDate = DateTime.now().minusDays(2)
+
+        val hotelTripInProgress = Trip()
+        hotelTripInProgress.addTripComponent(TripHotel())
+        hotelTripInProgress.startDate = DateTime.now().minusDays(1)
+        hotelTripInProgress.endDate = DateTime.now().plusDays(3)
+
+        val hotelTripInFuture = Trip()
+        hotelTripInFuture.addTripComponent(TripHotel())
+        hotelTripInFuture.startDate = DateTime.now().plusDays(2)
+        hotelTripInFuture.endDate = DateTime.now().plusDays(10)
+
+        val hotelTripNullEndDate = Trip()
+        hotelTripNullEndDate.addTripComponent(TripHotel())
+        hotelTripNullEndDate.startDate = DateTime.now().plusDays(5)
+        hotelTripNullEndDate.endDate = null
+
+        val userHotelTrips = mutableListOf(hotelTripInPast, hotelTripInProgress, hotelTripInFuture, hotelTripNullEndDate)
+
+        return userHotelTrips
+    }
+
+    private fun getUsersTripsForEventString(): Collection<Trip> {
+        val flightTrip = Trip()
+        flightTrip.addTripComponent(TripFlight())
+        flightTrip.startDate = DateTime.now().minusDays(1)
+        flightTrip.endDate = DateTime.now().plusDays(3)
+
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripPackage())
+        packageTrip.startDate = DateTime.now().plusDays(3)
+        packageTrip.endDate = DateTime.now().plusDays(10)
+
+        val hotelTrip = Trip()
+        hotelTrip.addTripComponent(TripHotel())
+        hotelTrip.startDate = DateTime.now().minusDays(1)
+        hotelTrip.endDate = DateTime.now().plusDays(3)
+
+        val secondHotelTrip = Trip()
+        secondHotelTrip.addTripComponent(TripHotel())
+        secondHotelTrip.startDate = DateTime.now().plusDays(13)
+        secondHotelTrip.endDate = DateTime.now().plusDays(20)
+
+        val trips = mutableListOf(packageTrip, flightTrip, hotelTrip, secondHotelTrip)
+
+        return trips
+    }
+
+    private fun getUserWithOneTrip() : Collection<Trip> {
+        val packageTrip = Trip()
+        packageTrip.addTripComponent(TripPackage())
+        packageTrip.startDate = DateTime.now().plusDays(3)
+        packageTrip.endDate = DateTime.now().plusDays(10)
+
+        val trip = mutableListOf(packageTrip)
+        return trip
     }
 
 }

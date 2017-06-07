@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.EditText
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
 import com.expedia.bookings.data.pos.PointOfSale
@@ -39,6 +40,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     var maskedCreditLayout: TextInputLayout ?= null
     var defaultCreditCardNumberLayout: TextInputLayout ?= null
     var editCountryEditText: EditText ?= null
+    val cardInfoSummary: LinearLayout by bindView(R.id.card_info_summary)
 
     val creditCardFeesView = CreditCardFeesView(context, null)
     val dialog: AlertDialog by lazy {
@@ -133,8 +135,8 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         activity.onBackPressed()
     }
 
-    override fun clearCCAndCVV() {
-        super.clearCCAndCVV()
+    override fun clearCVV() {
+        super.clearCVV()
         creditCardCvv.setText("")
     }
 
