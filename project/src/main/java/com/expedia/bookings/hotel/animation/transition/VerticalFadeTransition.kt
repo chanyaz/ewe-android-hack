@@ -1,6 +1,7 @@
-package com.expedia.bookings.hotel.animation
+package com.expedia.bookings.hotel.animation.transition
 
 import android.view.View
+import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 
 class VerticalFadeTransition(private val view: View, private val origin: Int, private val target: Int) {
     private val translateTransition: VerticalTranslateTransition

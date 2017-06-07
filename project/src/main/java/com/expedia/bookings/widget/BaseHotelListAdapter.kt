@@ -37,12 +37,14 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val PRICING_STRUCTURE_HEADER_VIEW = 1
     val HOTEL_VIEW = 2
     val LOADING_VIEW = 3
+    val FILTER_PROMPT = 15
 
     val allViewsLoadedTimeObservable = PublishSubject.create<Unit>()
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
     val resultsSubject = BehaviorSubject.create<HotelSearchResponse>()
+    val filterPromptSubject = PublishSubject.create<Unit>()
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
@@ -122,6 +124,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                     allViewsLoadedTimeObservable.onNext(Unit)
                 }
                 holder.markPinned(pinnedSearch && fixedPosition == 0)
+                if (fixedPosition == FILTER_PROMPT) {
+                    filterPromptSubject.onNext(Unit)
+                }
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
         }

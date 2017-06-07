@@ -46,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:clipChildren="false"
             android:background="?attr/primary_color"
+            android:clipChildren="false"
             android:minHeight="?attr/actionBarSize">
 
             <LinearLayout
@@ -75,12 +75,12 @@
             android:id="@+id/hotel_urgency_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:paddingTop="4dp"
-            android:paddingBottom="8dp"
-            android:visibility="gone"
             android:background="?attr/hotel_urgency_background_color"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="4dp"
+            android:visibility="gone"
             tools:visibility="visible">
 
             <com.expedia.bookings.widget.TextView
@@ -88,20 +88,20 @@
                 style="@style/Core.Text.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:gravity="center_vertical"
-                android:drawablePadding="8dp"
                 android:drawableLeft="@drawable/ic_trending_up_white_18px"
-                tools:text="30% Booked"/>
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                tools:text="30% Booked" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/urgency_destination_description_view"
                 style="@style/Core.Text.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
                 android:gravity="center"
-                tools:text="San Fransisco is a popular location on your dates"/>
+                android:textColor="@color/white"
+                tools:text="San Fransisco is a popular location on your dates" />
         </LinearLayout>
 
         <View
@@ -119,6 +119,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             android:background="?attr/secondary_ripple_button_drawable"
+            android:drawableLeft="@drawable/ic_material_location_pin"
             android:drawablePadding="8dp"
             android:minHeight="0dp"
             android:paddingBottom="8dp"
@@ -129,7 +130,6 @@
             android:textAllCaps="false"
             android:textColor="?attr/primary_color"
             android:textSize="12sp"
-            android:drawableLeft="@drawable/ic_material_location_pin"
             app:textStyle="thin" />
     </LinearLayout>
 
@@ -140,21 +140,38 @@
         android:layout_gravity="bottom"
         android:orientation="vertical" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/narrow_result_prompt"
+        style="@style/Core.Text.Large.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/hotel_narrow_results_tooltip"
+        android:paddingBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="8dp"
+        android:text="@string/narrow_your_results"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="4dp"
-        android:src="@drawable/ic_transition_map_list_fab"
         android:background="?attr/primary_color"
+        android:src="@drawable/ic_transition_map_list_fab"
         app:useCompatPadding="true" />
 
     <ViewStub
         android:id="@+id/hotel_filter_view_stub"
-        android:inflatedId="@+id/hotel_filter_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/hotel_filter_view" />
 
     <com.expedia.bookings.widget.MapLoadingOverlayWidget
         android:id="@+id/map_loading_overlay"

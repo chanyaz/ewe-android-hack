@@ -45,9 +45,9 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.hotel.animation.HorizontalTranslateTransition
-import com.expedia.bookings.hotel.animation.VerticalFadeTransition
-import com.expedia.bookings.hotel.animation.VerticalTranslateTransition
+import com.expedia.bookings.hotel.animation.transition.HorizontalTranslateTransition
+import com.expedia.bookings.hotel.animation.transition.VerticalFadeTransition
+import com.expedia.bookings.hotel.animation.transition.VerticalTranslateTransition
 import com.expedia.bookings.hotel.map.HotelMapClusterAlgorithm
 import com.expedia.bookings.hotel.map.HotelMapClusterRenderer
 import com.expedia.bookings.hotel.map.HotelMarkerIconGenerator

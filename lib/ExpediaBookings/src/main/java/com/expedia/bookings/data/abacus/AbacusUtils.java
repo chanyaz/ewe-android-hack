@@ -76,6 +76,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
 	public static final int EBAndroidAppHotelGroupRoomRate = 14591;
 	public static final int EBAndroidAppHotelHideSearch = 14271;
+	public static final int EBAndroidAppHotelSortCallToAction = 14332;
 
 	// Cars Web View Tests
 	public static final int EBAndroidAppCarsWebViewUK = 12913;
@@ -183,6 +184,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelHideSearch);
 		testIDs.add(EBAndroidAppTripsDetailRemoveCalendar);
 		testIDs.add(EBAndroidAppFlightRetainSearchParams);
+		testIDs.add(EBAndroidAppHotelSortCallToAction);
 		return testIDs;
 	}
 

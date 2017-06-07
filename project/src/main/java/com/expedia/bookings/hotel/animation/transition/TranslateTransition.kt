@@ -1,4 +1,4 @@
-package com.expedia.bookings.hotel.animation
+package com.expedia.bookings.hotel.animation.transition
 
 import android.view.View
 
