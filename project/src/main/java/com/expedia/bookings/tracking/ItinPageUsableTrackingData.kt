@@ -14,6 +14,11 @@ open class ItinPageUsableTrackingData {
         startTimeOnSuccessfulSignInResponse = time
     }
 
+    open fun markItinRefreshStartTime(time: Long) {
+        tripLoadPageUsableData.markPageLoadStarted(time)
+        startTimeOnSuccessfulSignInResponse = time
+    }
+
     open fun markTripResultsUsable(time: Long) {
         tripLoadPageUsableData.markAllViewsLoaded(time)
     }
