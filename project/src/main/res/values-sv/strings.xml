@@ -47,6 +47,10 @@
     <string name="secure_checkout">Säker betalning</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Map, Sök i hotellresultat med karta</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">Zooma in på {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Information om hotell med pris {price} nedan, knapp</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Köp</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">Ett fel uppstod när sidan hämtades! Felmeddelande: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">Ingen webb-url att ladda.</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Lyfter snart…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Flygbokning via mobil är tyvärr inte tillgängligt där du befinner dig än.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

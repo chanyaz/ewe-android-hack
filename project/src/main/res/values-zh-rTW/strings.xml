@@ -47,6 +47,10 @@
     <string name="secure_checkout">安全付款</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google 地圖，使用地圖搜尋飯店結果</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">放大檢視 {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">於下方顯示價格為 {price} 的飯店資訊，按鈕</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">購買</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">載入頁面錯誤！錯誤訊息：%1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">沒有可載入的網址。</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">即將推出，敬請期待…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">很抱歉，您的所在地點尚未提供以行動裝置預訂班機。</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
@@ -3080,7 +3082,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
