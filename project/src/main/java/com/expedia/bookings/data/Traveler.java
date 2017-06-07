@@ -29,11 +29,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	// Expedia
 	private Long mTuid = 0L;
-	private String mLoyaltyMembershipName;
-	private boolean mIsLoyaltyMembershipActive = false;
-	private LoyaltyMembershipTier mLoyaltyMembershipTier = LoyaltyMembershipTier.NONE;
-	private Long mLoyaltyPointsAvailable = 0L;
-	private Long mLoyaltyPointsPending = 0L;
 	private Long mExpediaUserId;
 
 	// General
@@ -114,30 +109,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public boolean hasTuid() {
 		return (mTuid != 0);
-	}
-
-	public void resetTuid() {
-		mTuid = 0L;
-	}
-
-	public boolean getIsLoyaltyMembershipActive() {
-		return mIsLoyaltyMembershipActive;
-	}
-
-	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
-		return mLoyaltyMembershipTier;
-	}
-
-	public boolean isLoyaltyMember() {
-		return mLoyaltyMembershipTier != LoyaltyMembershipTier.NONE;
-	}
-
-	public Long getLoyaltyPointsAvailable() {
-		return mLoyaltyPointsAvailable;
-	}
-
-	public Long getLoyaltyPointsPending() {
-		return mLoyaltyPointsPending;
 	}
 
 	public TravelerName getName() {
@@ -391,30 +362,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mExpediaUserId = expediaUserId;
 	}
 
-	public void setLoyaltyMembershipActive(boolean active) {
-		mIsLoyaltyMembershipActive = active;
-	}
-
-	public void setLoyaltyMembershipName(String loyaltyMembershipName) {
-		mLoyaltyMembershipName = loyaltyMembershipName;
-	}
-
-	public void setLoyaltyMembershipTier(String tierString) {
-		setLoyaltyMembershipTier(LoyaltyMembershipTier.fromApiValue(tierString));
-	}
-
-	public void setLoyaltyMembershipTier(LoyaltyMembershipTier loyaltyMembershipTier) {
-		mLoyaltyMembershipTier = loyaltyMembershipTier;
-	}
-
-	public void setLoyaltyPointsAvailable(Long pointsAvailable) {
-		mLoyaltyPointsAvailable = pointsAvailable;
-	}
-
-	public void setLoyaltyPointsPending(Long pointsPending) {
-		mLoyaltyPointsPending = pointsPending;
-	}
-
 	public void setFirstName(String firstName) {
 		mName.setFirstName(firstName);
 	}
@@ -589,11 +536,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		try {
 			obj.putOpt("tuid", mTuid);
 			obj.putOpt("expUserId", mExpediaUserId);
-			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
-			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
-			obj.putOpt("membershipTier", mLoyaltyMembershipTier.toApiValue());
-			obj.putOpt("loyaltyPointsAvailable", mLoyaltyPointsAvailable);
-			obj.putOpt("loyaltyPointsPending", mLoyaltyPointsPending);
 
 			mName.toJson(obj);
 			JSONUtils.putJSONable(obj, "homeAddress", mHomeAddress);
@@ -637,11 +579,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public boolean fromJson(JSONObject obj) {
 		mTuid = obj.optLong("tuid");
 		mExpediaUserId = obj.optLong("expUserId");
-		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
-		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
-		setLoyaltyMembershipTier(obj.optString("membershipTier", null));
-		mLoyaltyPointsAvailable = obj.optLong("loyaltyPointsAvailable", 0);
-		mLoyaltyPointsPending = obj.optLong("loyaltyPointsPending", 0);
 
 		mName.fromJson(obj);
 		mHomeAddress = JSONUtils.getJSONable(obj, "homeAddress", Location.class);

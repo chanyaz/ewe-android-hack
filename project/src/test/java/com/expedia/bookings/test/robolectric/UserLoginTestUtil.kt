@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
 import org.robolectric.Robolectric
 import org.robolectric.Shadows.shadowOf
 
@@ -37,8 +38,10 @@ class UserLoginTestUtil {
         fun mockUser(membershipTier: LoyaltyMembershipTier): User {
             val user = User()
             val traveler = Traveler()
-            traveler.loyaltyMembershipTier = membershipTier
             user.primaryTraveler = traveler
+            val loyaltyInfo = UserLoyaltyMembershipInformation()
+            loyaltyInfo.loyaltyMembershipTier = membershipTier
+            user.loyaltyMembershipInformation = loyaltyInfo
             return user
         }
 

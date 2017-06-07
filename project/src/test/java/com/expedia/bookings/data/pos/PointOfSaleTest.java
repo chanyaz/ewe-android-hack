@@ -9,8 +9,8 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 
 import com.expedia.bookings.data.LoyaltyMembershipTier;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.RunForBrands;
@@ -24,20 +24,20 @@ public class PointOfSaleTest {
 	Context context = RuntimeEnvironment.application;
 
 	User mockUser = Mockito.mock(User.class);
-	Traveler mockTraveler = Mockito.mock(Traveler.class);
+	UserLoyaltyMembershipInformation mockLoyaltyInfo = Mockito.mock(UserLoyaltyMembershipInformation.class);
 
 	private final String expediaSharedFilePath = "ExpediaSharedData/ExpediaPointOfSaleConfig.json";
 
 	@Before
 	public void setup() {
-		Mockito.when(mockUser.getPrimaryTraveler()).thenReturn(mockTraveler);
+		Mockito.when(mockUser.getLoyaltyMembershipInformation()).thenReturn(mockLoyaltyInfo);
 	}
 
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkSupportPhoneNumbersMiddleTier() {
-		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
-		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.MIDDLE);
+		Mockito.when(mockLoyaltyInfo.isLoyaltyMembershipActive()).thenReturn(true);
+		Mockito.when(mockLoyaltyInfo.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.MIDDLE);
 
 		// Phone
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", false);
@@ -55,8 +55,8 @@ public class PointOfSaleTest {
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkSupportPhoneNumbersTopTier() {
-		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
-		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.TOP);
+		Mockito.when(mockLoyaltyInfo.isLoyaltyMembershipActive()).thenReturn(true);
+		Mockito.when(mockLoyaltyInfo.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.TOP);
 
 		// Phone
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", false);
@@ -73,7 +73,7 @@ public class PointOfSaleTest {
 
 	@Test
 	public void checkSupportPhoneNumbersGuest() {
-		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(false);
+		Mockito.when(mockLoyaltyInfo.isLoyaltyMembershipActive()).thenReturn(false);
 
 		// Phone
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", false);
@@ -89,8 +89,8 @@ public class PointOfSaleTest {
 	@Test
 	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkSupportPhoneNumbersBaseTier() {
-		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
-		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.BASE);
+		Mockito.when(mockLoyaltyInfo.isLoyaltyMembershipActive()).thenReturn(true);
+		Mockito.when(mockLoyaltyInfo.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.BASE);
 
 		// Phone
 		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", false);

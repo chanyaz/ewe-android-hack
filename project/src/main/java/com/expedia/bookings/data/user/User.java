@@ -573,8 +573,9 @@ public class User implements JSONable {
 			if (Db.getUser() == null) {
 				Db.loadUser(context);
 			}
-			if (Db.getUser().getPrimaryTraveler() != null) {
-				return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+			UserLoyaltyMembershipInformation loyaltyInfo = Db.getUser().getLoyaltyMembershipInformation();
+			if (loyaltyInfo != null) {
+				return loyaltyInfo.getLoyaltyMembershipTier();
 			}
 		}
 

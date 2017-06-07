@@ -24,7 +24,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
@@ -39,6 +38,7 @@ import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.data.user.User;
+import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -126,11 +126,6 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u, LineOfBusiness lob) {
-		Traveler traveler = null;
-		if (u != null) {
-			traveler = u.getPrimaryTraveler();
-		}
-
 		// Loading container
 		mAccountLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
@@ -139,7 +134,7 @@ public class AccountButton extends LinearLayout {
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.VISIBLE);
 			mRewardsTextView.setVisibility(View.VISIBLE);
-			bindLogoutContainer(traveler, lob);
+			bindLogoutContainer(u, lob);
 		}
 		// If not logged in, show the login container
 		else {
@@ -244,22 +239,37 @@ public class AccountButton extends LinearLayout {
 			|| lob == LineOfBusiness.PACKAGES && pos.isEarnMessageEnabledForPackages());
 	}
 
-	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
+	private void bindLogoutContainer(User user, LineOfBusiness lob) {
 		updateBrandLogoVisibility();
+
+		if (user == null || user.getPrimaryTraveler() == null) {
+			return;
+		}
+
+		String email = user.getPrimaryTraveler().getEmail();
 
 		// Traveler Email Text
 		TextView travelerEmailTextView = Ui.findView(mLogoutContainer, R.id.account_top_textview);
-		travelerEmailTextView.setText(traveler.getEmail());
+		travelerEmailTextView.setText(email);
 		travelerEmailTextView
 			.setContentDescription(Phrase.from(getContext(), R.string.signed_in_account_cont_desc_TEMPLATE)
-				.put("email", traveler.getEmail())
+				.put("email", email)
 				.format());
+
+		UserLoyaltyMembershipInformation loyaltyInfo = user.getLoyaltyMembershipInformation();
+		LoyaltyMembershipTier loyaltyTier = null;
+		if (loyaltyInfo != null) {
+			loyaltyTier = loyaltyInfo.getLoyaltyMembershipTier();
+		}
+		if (loyaltyTier == null) {
+			loyaltyTier = LoyaltyMembershipTier.NONE;
+		}
 
 		// Bottom text -- rewards
 		@StringRes int rewardsCategoryTextResId = 0;
 		@ColorRes int rewardsCategoryColorResId = 0;
 		@ColorRes int rewardsCategoryTextColorResId = 0;
-		switch (traveler.getLoyaltyMembershipTier()) {
+		switch (loyaltyTier) {
 		case BASE:
 			rewardsCategoryTextResId = R.string.reward_base_tier_name_long;
 			rewardsCategoryColorResId = R.color.account_reward_base_tier_color;
@@ -281,7 +291,7 @@ public class AccountButton extends LinearLayout {
 
 		// If we should show rewards
 		final boolean isRewardsEnabled = PointOfSale.getPointOfSale().shouldShowRewards();
-		if (isRewardsEnabled && traveler.getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE) {
+		if (isRewardsEnabled && loyaltyTier != LoyaltyMembershipTier.NONE) {
 			//Show Rewards Category Text View
 			if (ProductFlavorFeatureConfiguration.getInstance().shouldShowMemberTier()) {
 				rewardsCategoryTextView.setVisibility(View.VISIBLE);
@@ -295,11 +305,11 @@ public class AccountButton extends LinearLayout {
 			//Show Reward Points Container
 			mRewardsTextView.setVisibility(View.VISIBLE);
 			FontCache.setTypeface(rewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
-			setRewardsContainerBackgroundColor(mRewardsTextView, traveler.getLoyaltyMembershipTier());
+			setRewardsContainerBackgroundColor(mRewardsTextView, loyaltyTier);
 
 			//Show/Update Reward Points Text
 			String rewardPointsText = getRewardPointsText(lob);
-			if (updateRewardsTextViewVisibility(rewardPointsText, lob, traveler.isLoyaltyMember())) {
+			if (updateRewardsTextViewVisibilityForUserInLoyaltyProgram(rewardPointsText)) {
 				updateRewardsText(lob);
 				mRewardsTextView.setTextColor(ContextCompat.getColor(getContext(), rewardsCategoryTextColorResId));
 			}
@@ -316,17 +326,15 @@ public class AccountButton extends LinearLayout {
 		mRewardsTextView.setText(getRewardPointsText(lob));
 	}
 
-	private boolean updateRewardsTextViewVisibility(String rewardPointsText, LineOfBusiness lob,
-		boolean isLoyaltyMember) {
+	private boolean updateRewardsTextViewVisibilityForUserInLoyaltyProgram(String rewardPointsText) {
 		if (!Strings.isEmpty(rewardPointsText)) {
 			mRewardsTextView.setVisibility(View.VISIBLE);
 			return true;
 		}
-		else if (isLoyaltyMember) {
+		else {
 			mRewardsTextView.setVisibility(View.GONE);
 			return false;
 		}
-		return false;
 	}
 
 	private void updateBrandLogoVisibility() {
