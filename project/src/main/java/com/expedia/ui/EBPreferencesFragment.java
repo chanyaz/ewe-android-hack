@@ -104,6 +104,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			chuckNotificationPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				@Override
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					SettingUtils.save(getActivity(), getString(R.string.preference_enable_chuck_notification), (boolean)newValue);
 					restartApp();
 					return true;
 				}
