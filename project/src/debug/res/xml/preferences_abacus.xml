@@ -98,9 +98,9 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="13906"
+            android:key="14591"
             android:layout="@layout/preference"
-            android:title="Hotel Grouped Room Rate Offer - 13906" />
+            android:title="Hotel Grouped Room Rate Offer - 14591" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
