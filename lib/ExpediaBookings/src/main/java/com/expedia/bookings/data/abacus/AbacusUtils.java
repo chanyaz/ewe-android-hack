@@ -74,7 +74,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelLPASEndpoint = 13929;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
-	public static final int EBAndroidAppHotelGroupRoomRate = 13906;
+	public static final int EBAndroidAppHotelGroupRoomRate = 14591;
 	public static final int EBAndroidAppHotelHideSearch = 14271;
 
 	// Cars Web View Tests
