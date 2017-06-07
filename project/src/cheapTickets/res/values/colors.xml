@@ -66,6 +66,7 @@
     <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">@color/lob_btn_color</color>

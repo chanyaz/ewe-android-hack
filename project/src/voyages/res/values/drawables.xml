@@ -7,6 +7,5 @@
     <item name="checkout_logout_logo" type="drawable">@drawable/ic_log_out_vsc</item>
     <item name="tablet_checkout_login_logo" type="drawable">@drawable/ic_log_out_vsc</item>
     <item name="old_checkout_account_button_background" type="drawable">@android:color/white</item>
-    <item name="brand_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/rainbow_bar</item>
 </resources>

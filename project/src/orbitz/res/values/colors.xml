@@ -108,6 +108,7 @@
     <color name="material_cko_acct_btn_rewards_bg_color">#8E0099</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Rewards -->
     <color name="reward_base_tier_color">#668193</color>

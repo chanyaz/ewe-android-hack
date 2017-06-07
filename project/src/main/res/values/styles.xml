@@ -45,7 +45,7 @@
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
-        <item name="skin_material_checkout_account_logo">@drawable/brand_logo_blue</item>
+        <item name="skin_material_checkout_account_logo">@drawable/brand_logo</item>
         
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>

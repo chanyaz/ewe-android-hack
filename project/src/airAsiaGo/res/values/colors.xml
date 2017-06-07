@@ -41,6 +41,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#F8A424</color>
