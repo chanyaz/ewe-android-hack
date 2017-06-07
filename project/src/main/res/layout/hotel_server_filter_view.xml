@@ -16,9 +16,11 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         android:visibility="gone"
+        android:accessibilityTraversalBefore="@+id/option_label"
         app:cardCornerRadius="18dp"
         app:cardPreventCornerOverlap="false"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        tools:ignore="UnusedAttribute">
 
         <com.expedia.bookings.widget.TextView
             style="@style/Core.Text.Default"
