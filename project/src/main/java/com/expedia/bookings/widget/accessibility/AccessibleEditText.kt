@@ -14,7 +14,7 @@ open class AccessibleEditText(context: Context, attributeSet: AttributeSet?) : E
 
     open fun getAccessibilityNodeInfo(): String {
         val text = this.text.toString()
-        val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint.toString() ?: ""
+        val hint = (this.parent as? TextInputLayout)?.hint ?: this.hint?.toString() ?: ""
         val error = (this.parent as? TextInputLayout)?.error ?: errorMessage
         val sb: StringBuilder = StringBuilder(" $hint")
         if (!text.isEmpty()) {
