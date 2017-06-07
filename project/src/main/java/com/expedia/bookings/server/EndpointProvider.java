@@ -121,7 +121,7 @@ public class EndpointProvider {
 			endpoint = getCustomServerAddress();
 			break;
 		case INTEGRATION:
-			endpoint = "http://www.expedia.com.urgency-prime.us-west-2.test.expedia.com/urgencyservice/v1";
+			endpoint = "https://www.expedia.com.urgency-prime.us-west-2.test.expedia.com/urgencyservice/v1/";
 			break;
 		case PRODUCTION:
 			endpoint = "https://urgency.expedia.com/urgencyservice/v1/";
