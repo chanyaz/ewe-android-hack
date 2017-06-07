@@ -9,10 +9,6 @@
     <!-- App Support URL -->
     <string name="app_support_url_tvly">http://www.mobiata.com/support/travelocity/android</string>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Travelocity</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">188386</string>
     <string name="tune_sdk_app_conversion_key">e4e4b8b0d86f58e4c65c8945506ae756</string>

@@ -16,10 +16,6 @@
     <color name="actionbar_text_color">#dddfe1</color>
     <color name="actionbar_text_color_disabled">#90FFFFFF</color>
 
-    <!-- Tablet colors -->
-    <color name="tablet_confirmation_color">#374F6E</color>
-    <color name="tablet_confirmation_action_color">#2970CC</color>
-
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
 
@@ -494,8 +490,8 @@
     <!-- Member Only Deals colors-->
     <color name="member_deal_background_gradient">@color/exp_launch_secondary_blue_70</color>
     <color name="member_deal_destination_card_text">@color/gray8</color>
-    <color name="tablet_hotel_sort_filter_area_price">#2970cc</color>
-    <color name="tablet_hotel_sort_filter_area_price_disabled">#800558c4</color>
+    <color name="hotel_sort_filter_area_price">#2970cc</color>
+    <color name="hotel_sort_filter_area_price_disabled">#800558c4</color>
 
     <!--New User Onboarding colors-->
     <color name="onboarding_page_background_gradient">@color/exp_brand_blue_65</color>

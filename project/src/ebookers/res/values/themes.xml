@@ -19,7 +19,6 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_traveller_logo_disabled</item>
-        <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
@@ -88,8 +87,6 @@
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
-        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>

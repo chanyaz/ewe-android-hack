@@ -103,13 +103,9 @@
         <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
-        <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
-        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_color</item>
-        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_color</item>
-        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_confirmation_action_color</item>
         <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_hotel</item>
         <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_flight</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
@@ -429,8 +425,6 @@
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itinerary_card_popup</item>
-        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
     </style>

@@ -9,9 +9,6 @@
     <!-- App Support URL -->
     <string name="app_support_url_aag">http://www.mobiata.com/support/airasiago/android</string>
 
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">AirAsiaGo</string>
-
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">190169</string>
     <string name="tune_sdk_app_conversion_key">b36282b87552015465546ff0a43572de</string>

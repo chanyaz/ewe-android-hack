@@ -115,9 +115,6 @@
     <attr name="skin_itinAirAttachButtonDrawable" format="reference"/>
     <attr name="skin_itinDismissListSelectorDrawable" format="reference"/>
 
-    <attr name="skin_itinTabletCardPopupBackgroundDrawable" format="reference"/>
-    <attr name="skin_itinTabletCardPopupHeaderDrawable" format="reference"/>
-
     <attr name="skin_hotelConfirmationPlaceholderDrawable" format="reference" />
     <attr name="skin_couponSuccessMessageColor" fomrat="reference|color"/>
 
@@ -136,21 +133,8 @@
     <attr name="skin_flightPriceTextColor" format="reference|color" />
     <attr name="skin_icSuitCaseBaggage" format="reference" />
 
-    <attr name="skin_action_bar_logo_tablet" format="reference"/>
-    <attr name="skin_tablet_book_button_text_color" format="reference|color" />
-    <attr name="skin_tablet_bucket_item_counter" format="reference" />
-    <attr name="skin_tablet_search_result_error_button_text_color" format="color|reference" />
-    <attr name="skin_tablet_dates_popup_done_color" format="color|reference" />
-
-    <!-- Flight Map -->
-    <attr name="skin_tablet_hotel_details_background_drawable" format="reference" />
-
       <!--Action menu done button text -->
     <attr name="skin_actionMenuDoneButtonText" format="reference|string" />
-    <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
-
-    <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
-    <attr name="skin_tablet_ab_launch_text1_base" format="reference" />
 
     <!-- Hotel Checkout Credit Card Edit Text, Postal Code Section & Coupon Edit Text Style -->
     <attr name="skin_HotelCheckout_CreditCardEditTextStyle" format="reference" />
@@ -170,25 +154,10 @@
     <attr name="skin_hotelSearchPopupFilterTextColor" format="reference|color" />
 
     <attr name="skin_launchCirclePlaceholderDrawable" format="reference" />
-    <attr name="skin_tablet_confirmation_book_next_arrow_icon" format="reference" />
-    <attr name="skin_tablet_confirmation_book_next_arrow_color" format="reference|color" />
-    <attr name="skin_tablet_confirmation_done_booking_icon" format="reference" />
-    <attr name="skin_tablet_confirmation_done_booking_color" format="reference|color" />
-    <attr name="skin_tablet_confirmation_calendar_icon" format="reference" />
-    <attr name="skin_tablet_confirmation_share_icon" format="reference" />
-    <attr name="skin_tablet_confirmation_phone_icon" format="reference" />
-    <attr name="skin_tablet_confirmation_action_color" format="reference|color" />
-    <attr name="skin_tablet_price_expanded_bucket_text_color" format="reference|color" />
-    <attr name="skin_tablet_checkout_price_breakdown_icon" format="reference" />
-    <attr name="skin_tabletCalenderResultsSearchBlue" format="reference|color" />
 
     <attr name="skin_confirmationHeaderHotelDividerLineColor" format="reference|color" />
     <attr name="skin_confirmationHeaderFlightDividerLineColor" format="reference|color" />
     <attr name="skin_checkmarkFlightDrawable" format="reference" />
-
-    <attr name="skin_icTabletConfirmationCheckmarkDrawable" format="reference" />
-    <attr name="skin_icRenovationTabletDrawable" format="reference" />
-    <attr name="skin_tabletFilterPriceTextColor" format="reference|color" />
     <attr name="skin_bookNowButtonDrawable" format="reference" />
 
     <!-- Cars -->

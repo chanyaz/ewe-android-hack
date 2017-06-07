@@ -991,8 +991,6 @@
     <string name="trips">Trips</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Your Trips</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">Explore</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">This app requires Google Play Services. Please install the latest version of Google Play Services.</string>
 

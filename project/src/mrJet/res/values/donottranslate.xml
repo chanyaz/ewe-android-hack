@@ -9,9 +9,6 @@
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/mrjet/android</string>
 
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">MrJet</string>
-
     <!-- Brand reward name -->
     <string name="brand_reward_name">MrJet Rewards</string>
 
