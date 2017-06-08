@@ -38,7 +38,8 @@
         android:layout_marginRight="@dimen/new_launch_screen_fab_bottom_margin"
         android:src="@drawable/fab_search"
         android:visibility="invisible"
-        app:backgroundTint="@color/new_launch_fab_color" />
+        app:backgroundTint="@color/new_launch_fab_color"
+        android:contentDescription="@string/search"/>
 
     <include
         android:id="@+id/launch_error"
