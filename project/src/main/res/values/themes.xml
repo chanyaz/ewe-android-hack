@@ -191,7 +191,7 @@
 
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
     <style name="NewLaunchTheme" parent="AppTheme.Base">
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/exp_itin_bg</item>
         <item name="android:colorPrimaryDark">#04445e</item>
         <item name="android:colorButtonNormal">@color/new_launch_primary_color</item>
         <item name="colorAccent">@color/new_launch_primary_color</item>
