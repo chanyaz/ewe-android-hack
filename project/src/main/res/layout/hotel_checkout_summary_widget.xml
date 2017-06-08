@@ -90,10 +90,10 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/free_cancellation_tooltip_text"
             style="@style/HotelCheckoutSummaryCommon.Common"
+            android:layout_width="wrap_content"
             android:drawableLeft="@drawable/ic_hotel_check"
             android:drawablePadding="8dp"
             android:drawableRight="@drawable/ic_checkout_info"
-            android:paddingRight="15dp"
             android:paddingBottom="3dp"
             android:visibility="gone"/>
 
