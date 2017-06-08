@@ -75,7 +75,7 @@ Feature: Flights Search Results
 
 
 
-  @Flights @FlightSearchResults @CALocale @Prod
+  @Flights @EBOnly @CALocale @Prod
   Scenario: POS and locale combination
     Given I launch the App
     And I set the POS to "Canada"
@@ -195,7 +195,7 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @FlightSearchResults
+  @Flights  @EBOnly
   Scenario: Validate legal compliance messaging FSR for AU POS
     Given I launch the App
     And I set the POS to "Australia"
