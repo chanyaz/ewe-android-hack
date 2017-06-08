@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
-import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -95,10 +94,6 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             super.endTransition(forward)
             hotelVIPAccessInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
-            if (!forward) {
-                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.vipAccessMessageContainer)
-            }
-
         }
     }
 
@@ -112,9 +107,6 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             super.endTransition(forward)
             hotelPayLaterInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
-            if (!forward) {
-                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.etpInfoText)
-            }
         }
     }
 

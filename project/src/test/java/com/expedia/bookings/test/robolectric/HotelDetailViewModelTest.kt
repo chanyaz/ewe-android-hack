@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -96,6 +98,77 @@ class HotelDetailViewModelTest {
         offer3.latitude = 101.0
         offer3.longitude = 152.0
         offer3.hotelRoomResponse = emptyList()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMessageVisibility_discountOnly() {
+        val testSubscriber = TestSubscriber.create<Boolean>()
+        vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
+        triggerHotelMessageContainer(showDiscount = true, vip = false, promoMessage = "",
+                soldOut = false, loyaltyApplied = false, airAttach = false)
+        assertTrue(testSubscriber.onNextEvents.last())
+
+        triggerHotelMessageContainer(showDiscount = true, vip = false, promoMessage = "",
+                soldOut = true, loyaltyApplied = false, airAttach = false)
+        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMessageVisibility_VIPOnly() {
+        val testSubscriber = TestSubscriber.create<Boolean>()
+        vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
+        triggerHotelMessageContainer(showDiscount = false, vip = true, promoMessage = "",
+                soldOut = false, loyaltyApplied = false, airAttach = false)
+        assertTrue(testSubscriber.onNextEvents.last())
+
+        triggerHotelMessageContainer(showDiscount = false, vip = true, promoMessage = "",
+                soldOut = true, loyaltyApplied = false, airAttach = false)
+        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMessageVisibility_loyaltyOnly() {
+        val testSubscriber = TestSubscriber.create<Boolean>()
+        vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
+        triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "",
+                soldOut = false, loyaltyApplied = true, airAttach = false)
+        assertTrue(testSubscriber.onNextEvents.last())
+
+        triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "",
+                soldOut = true, loyaltyApplied = true, airAttach = false)
+        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testHotelMessageVisibility_promoOnly() {
+        val testSubscriber = TestSubscriber.create<Boolean>()
+        vm.hotelMessagingContainerVisibility.subscribe(testSubscriber)
+        triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "Mobile Exclusive",
+                soldOut = false, loyaltyApplied = false, airAttach = false)
+        assertTrue(testSubscriber.onNextEvents.last())
+
+        triggerHotelMessageContainer(showDiscount = false, vip = false, promoMessage = "Mobile Exclusive",
+                soldOut = true, loyaltyApplied = false, airAttach = false)
+        assertFalse(testSubscriber.onNextEvents.last(), "FAILURE: Expected false when soldOut = true")
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testRatingContainerBackground() {
+        val testSubscriber = TestSubscriber.create<Drawable>()
+        vm.ratingContainerBackground.subscribe(testSubscriber)
+
+        vm.isUserRatingAvailableObservable.onNext(true)
+        assertEquals(ContextCompat.getDrawable(context, R.drawable.gray_background_ripple), testSubscriber.onNextEvents[0],
+                "FAILURE: Rating available needs a clickable ripple background")
+
+        vm.isUserRatingAvailableObservable.onNext(false)
+        assertEquals(ContextCompat.getDrawable(context, R.color.gray1), testSubscriber.onNextEvents[1],
+                "FAILURE: No rating available needs a static background")
     }
 
     @Test
@@ -544,6 +617,16 @@ class HotelDetailViewModelTest {
         rooms.last().hasFreeCancellation = false
 
         return rooms
+    }
+
+    private fun triggerHotelMessageContainer(showDiscount: Boolean, vip: Boolean, promoMessage: String,
+                                             soldOut: Boolean, loyaltyApplied: Boolean, airAttach: Boolean) {
+        vm.showDiscountPercentageObservable.onNext(showDiscount)
+        vm.hasVipAccessObservable.onNext(vip)
+        vm.promoMessageObservable.onNext(promoMessage)
+        vm.hotelSoldOut.onNext(soldOut)
+        vm.hasRegularLoyaltyPointsAppliedObservable.onNext(loyaltyApplied)
+        vm.showAirAttachSWPImageObservable.onNext(airAttach)
     }
 
     private fun createRoomResponse(roomTypeCode: String, priceToShowUser: Float) : HotelOffersResponse.HotelRoomResponse {
