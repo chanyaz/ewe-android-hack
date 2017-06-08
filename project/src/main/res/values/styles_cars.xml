@@ -26,7 +26,7 @@
 
         <!-- Skins added for whitelabel -->
         
-        <item name="skin_carsSecondaryColor">@color/app_primary_light</item>
+        <item name="skin_carsSecondaryColor">@color/app_primary</item>
         <item name="skin_carsTooltipColor">@color/app_primary_light</item>
         <item name="primary_color">@color/app_primary</item>
         <item name="skin_carsStatusBarColor">@color/app_primary_dark</item>

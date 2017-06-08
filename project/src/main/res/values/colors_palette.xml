@@ -10,11 +10,8 @@
 
     <color name="exp_hotel_green">#009688</color>
 
-    <color name="exp_car_maroon">#9E4E7F</color>
-
     <color name="exp_gt_red">#B93F62</color>
     <color name="exp_action_required_red">#E44A01</color>
-
 
     <color name="exp_itin_bg">#212527</color>
     <color name="exp_itin_bg_crystal_theme">@color/gray1</color>
@@ -71,8 +68,6 @@
     <color name="exp_launch_dark_teal">#3E6A85</color> <!-- TODO wtf to call this color -->
     <color name="exp_launch_secondary">#005199</color>
     <color name="air_attach_orange">#FD8126</color>
-
-
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
     <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->
     <color name="green_savings">#0f7800</color>
