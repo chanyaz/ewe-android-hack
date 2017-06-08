@@ -86,7 +86,6 @@ import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.enums.OnboardingPagerState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData;
-import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
@@ -2665,10 +2664,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppUserOnboarding);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
-
-		if (ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
-		}
 
 		if (userStateManager.isUserAuthenticated()) {
 			String usersTripComponentTypeEventString = getUsersTripComponentTypeEventString();

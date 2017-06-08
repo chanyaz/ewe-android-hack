@@ -434,12 +434,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	protected boolean showActiveItinLaunchScreenCard() {
-		return userBucketedForItinCardSignedIn() && ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager);
+		return ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager);
 	}
 
-	private boolean userBucketedForItinCardSignedIn() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard);
-	}
 
 	private boolean showItinCard() {
 		return showActiveItinLaunchScreenCard();

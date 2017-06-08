@@ -66,7 +66,6 @@ class LaunchListAdapterTest {
     @Test
     fun itemViewPosition_showingHotels_signedInItin_memberDeals_popularHotels() {
         givenPopularHotelsCardEnabled()
-        givenSignedInItinCardEnabled()
         givenPopularHotelsCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
@@ -146,7 +145,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingLobView_showingHotels_signedInItin() {
-        givenSignedInItinCardEnabled()
         givenSignInCardEnabled()
         givenCustomerSignedIn()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
@@ -209,7 +207,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun onBindViewHolder_showingSignedInItinCard() {
-        givenSignedInItinCardEnabled()
         givenSignInCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
@@ -263,7 +260,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun getItemViewType_showingHotels_signedInItin() {
-        givenSignedInItinCardEnabled()
         givenSignInCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
@@ -286,7 +282,6 @@ class LaunchListAdapterTest {
     fun getItemViewType_ShowingHotels_CustomerSignedIn_ActiveItin_AirAttach() {
         givenAirAttachCardEnabled()
         givenSignInCardEnabled()
-        givenSignedInItinCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -385,7 +380,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun testItinManagerSyncShowsActiveItin() {
-        givenSignedInItinCardEnabled()
         givenCustomerSignedIn()
         createSystemUnderTest(isItinLaunchCardEnabled = false)
         givenWeHaveStaffPicks()
@@ -427,7 +421,6 @@ class LaunchListAdapterTest {
         assertFalse(sut.isStaticCardAlreadyShown(LaunchDataItem.AIR_ATTACH_VIEW))
 
         sut.isItinLaunchCardEnabled = true
-        givenSignedInItinCardEnabled()
         givenAirAttachCardEnabled()
         givenCustomerSignedIn()
         givenWeHaveStaffPicks()
@@ -688,10 +681,6 @@ class LaunchListAdapterTest {
             // note: sign out triggers a notification clean-up which accesses the local DB.
             // As the DB isn't setup for the test it blows. We're just catching this so the test can still run.
         }
-    }
-
-    private fun givenSignedInItinCardEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLaunchShowActiveItinCard, 1)
     }
 
     private fun givenMemberDealsCardEnabled() {
