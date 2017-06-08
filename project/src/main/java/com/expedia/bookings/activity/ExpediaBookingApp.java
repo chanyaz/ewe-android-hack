@@ -166,6 +166,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			startupTimer.addSplit("Mock mode init");
 		}
 
+
+		
 		FacebookSdk.sdkInitialize(this);
 		startupTimer.addSplit("FacebookSdk started.");
 
