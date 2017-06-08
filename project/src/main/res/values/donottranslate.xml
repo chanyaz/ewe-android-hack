@@ -114,6 +114,7 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
+    <string name="preference_new_saved_traveler_behavior">preference_enable_new_saved_traveler_behavior</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

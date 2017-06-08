@@ -58,6 +58,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private static final int MIN_ADULT_CHILD_AGE = 12;
 	private static final int MIN_ADULT_AGE = 18;
 
+	private static final String NON_NUMBERS_REGEX = "[^0-9]";
+
 	// Utility - not actually coming from the Expedia
 	private boolean mSaveTravelerToExpediaAccount = false;
 
@@ -662,7 +664,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Phone number
-		diff = Strings.compareTo(getPhoneNumber(), another.getPhoneNumber());
+		diff = Strings.compareTo(getPhoneNumber().replaceAll(NON_NUMBERS_REGEX, ""), another.getPhoneNumber().replaceAll(NON_NUMBERS_REGEX, ""));
 		if (diff != 0) {
 			return diff;
 		}

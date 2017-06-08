@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
 import android.view.View
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.ApiError
@@ -21,6 +22,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.user.User
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.Presenter
@@ -39,6 +41,9 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.vm.packages.BundleOverviewViewModel
+import com.expedia.vm.test.traveler.MockTravelerProvider
+import com.expedia.vm.traveler.TravelerSelectItemViewModel
+import com.mobiata.android.util.SettingUtils
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -47,7 +52,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -269,6 +276,68 @@ class PackageCheckoutTest {
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
 
+    @Test
+    fun testTravelerChangeShouldShowUpdateTravelerDialogForMainTravelerOnDoneClick() {
+        givenCompletedTravelerEntryWidget()
+        assertEquals("malcolm", Db.getTravelers()[0].firstName)
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
+
+        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        assertUpdateTravelerDialog()
+    }
+
+    @Test
+    fun testTravelerChangeShouldShowUpdateTravelerDialogForMainTravelerOnBack() {
+        givenCompletedTravelerEntryWidget()
+        assertEquals("nguyen", Db.getTravelers()[0].lastName)
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.lastNameViewModel.textSubject.onNext("Billy")
+        checkout.travelersPresenter.back()
+
+        assertUpdateTravelerDialog()
+    }
+
+    @Test
+    fun testTravelerChangeShouldShowUpdateTravelerDialogForDifferentPhoneFormat() {
+        givenCompletedTravelerEntryWidget()
+        assertEquals("9163355329", Db.getTravelers()[0].primaryPhoneNumber.number.replace("-", ""))
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.phoneViewModel.phoneViewModel.textSubject.onNext("987-654-321")
+        checkout.travelersPresenter.doneClicked.onNext(Unit)
+
+        assertUpdateTravelerDialog()
+    }
+
+    @Test
+    fun testNoTravelerChangeShouldNotShowTravelerDialogOnDoneClick() {
+        givenCompletedTravelerEntryWidget()
+        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        val testDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        assertNull(testDialog)
+        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
+    }
+
+    @Test
+    fun testNoTravelerChangeShouldNotShowTravelerDialogOnBack() {
+        givenCompletedTravelerEntryWidget()
+        checkout.travelersPresenter.back()
+        val testDialog = ShadowAlertDialog.getLatestAlertDialog()
+
+        assertNull(testDialog)
+        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
+    }
+
+    @Test
+    fun testSaveTravelerDialogShowsForNewTraveler() {
+        givenCompletedTravelerEntryWidget(3)
+        assertEquals("malcolm", Db.getTravelers()[0].firstName)
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.isNewTravelerObservable.onNext(true)
+
+        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        assertSaveTravelerDialog()
+    }
+
+
     private fun createTrip() {
         checkout.travelerManager.updateDbTravelers(Db.getPackageParams())
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
@@ -309,6 +378,9 @@ class PackageCheckoutTest {
         traveler.birthDate = LocalDate.now().minusYears(18)
         traveler.seatPreference = Traveler.SeatPreference.WINDOW
         traveler.redressNumber = "123456"
+        traveler.age = 18
+        traveler.passengerCategory = PassengerCategory.ADULT
+        traveler.primaryPassportCountry =  "USA"
         return traveler
     }
 
@@ -405,5 +477,37 @@ class PackageCheckoutTest {
         tripResponseSubscriber.assertValueCount(1)
 
         checkout.updateTravelerPresenter()
+    }
+
+    private fun givenCompletedTravelerEntryWidget(numOfTravelers: Int = 1) {
+        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, true)
+        val testUser = User()
+        testUser.primaryTraveler = enterTraveler(Traveler())
+        Db.setUser(testUser)
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+        val mockTravelerProvider = MockTravelerProvider()
+        mockTravelerProvider.updateDBWithMockTravelers(numOfTravelers, testUser.primaryTraveler)
+        checkout.travelerSummaryCardView.findViewById(R.id.traveler_default_state).performClick()
+        checkout.travelersPresenter.travelerPickerWidget.viewModel.selectedTravelerSubject
+                .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18))
+        checkout.travelersPresenter.show(checkout.travelersPresenter.travelerEntryWidget)
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(enterTraveler(Traveler()))
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.isNewTravelerObservable.onNext(false)
+    }
+
+    private fun assertUpdateTravelerDialog() {
+        val testDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertNotNull(testDialog)
+        assertEquals("Update Saved Traveler", testDialog.title)
+        assertEquals("Update traveler information under your ${BuildConfig.brand} account to speed up future purchases?", testDialog.message)
+        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
+    }
+
+    private fun assertSaveTravelerDialog() {
+        val testDialog = Shadows.shadowOf(ShadowAlertDialog.getLatestAlertDialog())
+        assertNotNull(testDialog)
+        assertEquals("Save Traveler", testDialog.title)
+        assertEquals("Save traveler information under your ${BuildConfig.brand} account to speed up future purchases?", testDialog.message)
+        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
     }
 }

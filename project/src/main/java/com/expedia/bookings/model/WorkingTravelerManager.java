@@ -102,9 +102,8 @@ public class WorkingTravelerManager {
 	 * @param wait    - do we block until the call finishes?
 	 * @return the traveler passed in (and it will be updated if wait is set to true)
 	 */
-	public Traveler commitTravelerToAccount(Context context, Traveler trav, boolean wait,
-		ITravelerUpdateListener listener) {
-		commitTravelerToAccount(context, trav, listener);
+	public Traveler commitTravelerToAccount(Context context, Traveler trav, boolean wait) {
+		commitTravelerToAccount(context, trav);
 		if (wait) {
 			try {
 				mCommitTravelerSem.acquire();
@@ -115,12 +114,6 @@ public class WorkingTravelerManager {
 			}
 		}
 		return trav;
-	}
-
-	public interface ITravelerUpdateListener {
-		void onTravelerUpdateFinished();
-
-		void onTravelerUpdateFailed();
 	}
 
 	public boolean isCommittingTravelerToAccount() {
@@ -172,8 +165,7 @@ public class WorkingTravelerManager {
 	 * @param context
 	 * @param trav
 	 */
-	private void commitTravelerToAccount(final Context context, final Traveler trav,
-		final ITravelerUpdateListener listener) {
+	private void commitTravelerToAccount(final Context context, final Traveler trav) {
 		final UserStateManager userStateManager = Ui.getApplication(context).appComponent().userStateManager();
 		if (userStateManager.isUserAuthenticated()) {
 			if (mCommitTravelerSem == null) {
@@ -218,14 +210,6 @@ public class WorkingTravelerManager {
 						if (semGot) {
 							mCommitTravelerSem.release();
 						}
-						if (listener != null) {
-							if (success) {
-								listener.onTravelerUpdateFinished();
-							}
-							else {
-								listener.onTravelerUpdateFailed();
-							}
-						}
 					}
 				}
 			};
@@ -233,11 +217,6 @@ public class WorkingTravelerManager {
 			Thread commitTravelerThread = new Thread(commitTravelerRunner);
 			commitTravelerThread.setPriority(Thread.MIN_PRIORITY);
 			commitTravelerThread.start();
-		}
-		else {
-			if (listener != null) {
-				listener.onTravelerUpdateFinished();
-			}
 		}
 	}
 

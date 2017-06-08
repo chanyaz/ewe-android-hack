@@ -253,6 +253,8 @@ public class OmnitureTracking {
 
 	private static final String APP_CKO_PAYMENT_SAVE = "App.CKO.Payment.Save";
 	private static final String APP_CKO_PAYMENT_DECLINE_SAVE = "App.CKO.Payment.DeclineSave";
+	private static final String APP_CKO_TRAVELER_SAVE = "App.CKO.Traveler.Save";
+	private static final String APP_CKO_TRAVELER_DECLINE_SAVE = "App.CKO.Traveler.DeclineSave";
 
 	private static final String UNIVERSAL_CHECKOUT = "Universal Checkout";
 
@@ -402,6 +404,16 @@ public class OmnitureTracking {
 
 	public static void trackUserChoosesToSaveCard() {
 		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_PAYMENT_SAVE);
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+	}
+
+	public static void trackUserChoosesToSaveTraveler() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_TRAVELER_SAVE);
+		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
+	}
+
+	public static void trackUserChoosesNotToSaveTraveler() {
+		ADMS_Measurement s = createTrackLinkEvent(APP_CKO_TRAVELER_DECLINE_SAVE);
 		s.trackLink(null, "o", UNIVERSAL_CHECKOUT, null, null);
 	}
 

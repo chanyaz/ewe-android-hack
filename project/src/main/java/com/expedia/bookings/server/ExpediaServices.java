@@ -1167,9 +1167,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "lastName", traveler.getLastName()));
 		query.add(new BasicNameValuePair(prefix + "birthDate", dtf.print(traveler.getBirthDate())));
 		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
-		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
 		query.add(new BasicNameValuePair(prefix + "passengerCategory",
-			traveler.getPassengerCategory(searchParams).toString()));
+			traveler.getPassengerCategory().toString()));
 		String assistanceOption;
 		if (traveler.getAssistance() != null) {
 			assistanceOption = traveler.getAssistance().name();
@@ -1180,12 +1179,15 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "specialAssistanceOption", assistanceOption));
 		query.add(new BasicNameValuePair(prefix + "seatPreference", traveler.getSafeSeatPreference().name()));
 
-		if (!TextUtils.isEmpty(traveler.getPhoneCountryCode())) {
-			query.add(new BasicNameValuePair(prefix + "phoneCountryCode", traveler.getPhoneCountryCode()));
-		}
-		if (!TextUtils.isEmpty(traveler.getPhoneNumber())) {
-			query.add(new BasicNameValuePair(prefix + "phone", traveler.getPrimaryPhoneNumber().getNumber()));
-		}
+		String travelerPhoneCountryCode = !TextUtils.isEmpty(traveler.getPhoneCountryCode()) ?
+			traveler.getPhoneCountryCode() : Db.getUser().getPrimaryTraveler().getPhoneCountryCode();
+
+		query.add(new BasicNameValuePair(prefix + "phoneCountryCode", travelerPhoneCountryCode));
+
+		String travelerPhoneNumber = !TextUtils.isEmpty(traveler.getOrCreatePrimaryPhoneNumber().getNumber()) ?
+			traveler.getPrimaryPhoneNumber().getNumber() : Db.getUser().getPrimaryTraveler().getPhoneNumber();
+
+		query.add(new BasicNameValuePair(prefix + "phone", travelerPhoneNumber));
 
 		//Email is required (but there is no traveler email entry)
 		String email = traveler.getEmail();

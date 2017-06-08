@@ -1,6 +1,7 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -16,6 +17,7 @@ abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
     val showEmailObservable = BehaviorSubject.create<Boolean>()
     var numberOfInvalidFields = BehaviorSubject.create<Int>()
+    val isNewTravelerObservable = BehaviorSubject.create<Boolean>()
 
     protected val userStateManager: UserStateManager
 
@@ -30,6 +32,7 @@ abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context
         nameViewModel.updateTravelerName(traveler.name)
         phoneViewModel.updatePhone(traveler.orCreatePrimaryPhoneNumber)
         emailViewModel.updateEmail(traveler)
+        Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler)
     }
 
     open fun validate(): Boolean {

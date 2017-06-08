@@ -6,8 +6,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMaterialFormsEnabled
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
@@ -51,5 +49,4 @@ class FlightTravelersPresenter(context: Context, attrs: AttributeSet) : Abstract
             travelerEntryWidget.layoutParams = newParams
         }
     }
-
 }

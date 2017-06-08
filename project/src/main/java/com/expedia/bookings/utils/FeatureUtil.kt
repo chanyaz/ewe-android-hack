@@ -15,3 +15,7 @@ fun isDisabledSTPStateEnabled(): Boolean {
 fun isFlexEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_flex)
 }
+
+fun isSaveTravelerDialogEnabled(context: Context) : Boolean {
+    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_saved_traveler_behavior)
+}

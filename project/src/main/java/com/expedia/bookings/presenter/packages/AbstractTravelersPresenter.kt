@@ -1,18 +1,26 @@
 package com.expedia.bookings.presenter.packages
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isSaveTravelerDialogEnabled
 import com.expedia.bookings.widget.AbstractTravelerEntryWidget
+import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.traveler.TravelerPickerWidget
 import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -60,6 +68,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             show(travelerEntryWidget)
             toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
+            travelerEntryWidget.viewModel.isNewTravelerObservable.onNext(true)
             if (viewModel.isTravelerEmpty(viewModel.getTraveler(travelerSelectItemViewModel.index))) {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.CLEAN)
                 travelerEntryWidget.resetErrorState()
@@ -73,8 +82,10 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             val numberOfInvalidFields = travelerEntryWidget.getNumberOfInvalidFields()
             if (numberOfInvalidFields == 0) {
                 viewModel.updateCompletionStatus()
-                if (viewModel.allTravelersValid()) {
-                    closeSubject.onNext(Unit)
+                if (shouldShowTravelerDialog()) {
+                    showTravelerDialog()
+                } else {
+                    showPickerWidgetOrCloseEntryWidget()
                 }
             } else {
                 Ui.hideKeyboard(this@AbstractTravelersPresenter)
@@ -185,6 +196,66 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
 
     override fun back(): Boolean {
         menuVisibility.onNext(false)
+        if (shouldShowTravelerDialog()) {
+            showTravelerDialog()
+            return true
+        }
         return super.back()
+    }
+
+    fun showTravelerDialog() {
+        var title = context.getString(R.string.update_traveler_dialog_title)
+        var positiveButtonText = context.getString(R.string.update)
+        val negativeButtonText = context.getString(R.string.no_thanks)
+        var message = Phrase.from(context.getString(R.string.update_traveler_dialog_message_TEMPLATE))
+                .put("brand", BuildConfig.brand)
+                .format().toString()
+        val newTraveler = travelerEntryWidget.viewModel.getTraveler()
+        if (travelerEntryWidget.viewModel.isNewTravelerObservable.value) {
+            title = context.getString(R.string.save_traveler)
+            positiveButtonText = context.getString(R.string.save)
+            message = Phrase.from(context.getString(R.string.save_traveler_dialog_message_TEMPLATE))
+                    .put("brand", BuildConfig.brand)
+                    .format().toString()
+        }
+
+        val alert = AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, DialogInterface.OnClickListener { dialog, which ->
+                    Db.getWorkingTravelerManager().commitTravelerToAccount(context, newTraveler, true)
+                    OmnitureTracking.trackUserChoosesToSaveTraveler()
+                    closeDialogAndForm(dialog)
+                })
+                .setNegativeButton(negativeButtonText, DialogInterface.OnClickListener { dialog, which ->
+                    OmnitureTracking.trackUserChoosesNotToSaveTraveler()
+                    closeDialogAndForm(dialog)
+                })
+
+        alert.show()
+    }
+
+    private fun closeDialogAndForm(dialog: DialogInterface) {
+        dialog.dismiss()
+        showPickerWidgetOrCloseEntryWidget()
+    }
+
+    fun showPickerWidgetOrCloseEntryWidget() {
+        viewModel.refreshSelectedTravelerStatus.onNext(Unit)
+        if (!viewModel.allTravelersValid() && viewModel.requiresMultipleTravelers()) {
+            showPickerWidget()
+        } else {
+            closeSubject.onNext(Unit)
+        }
+    }
+
+    fun shouldShowTravelerDialog() : Boolean {
+        return isSaveTravelerDialogEnabled(context) &&
+                currentState == FlightTravelerEntryWidget::class.java.name &&
+                User.isLoggedInToAccountManager(context) &&
+                (travelerEntryWidget.viewModel.getTraveler().compareTo(Db.getWorkingTravelerManager().workingTraveler)) != 0 &&
+                travelerEntryWidget.getNumberOfInvalidFields() == 0
+
     }
 }

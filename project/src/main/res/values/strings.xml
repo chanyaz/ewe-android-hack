@@ -2054,6 +2054,14 @@
     <string name="dont_save">Don\&apos;t Save</string>
     <!-- Overwrite -->
     <string name="overwrite">Overwrite</string>
+    <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
+    <string name="update_traveler_dialog_message_TEMPLATE">Update traveler information under your {brand} account to speed up future purchases?</string>
+    <!-- Update traveler dialog title-->
+    <string name="update_traveler_dialog_title">Update Saved Traveler</string>
+    <!-- Update -->
+    <string name="update">Update</string>
+    <!-- Dialog message for saving new travelers during checkout Eg. Save traveler information under your Orbitz account to speed up future purchases?  -->
+    <string name="save_traveler_dialog_message_TEMPLATE">Save traveler information under your {brand} account to speed up future purchases?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
