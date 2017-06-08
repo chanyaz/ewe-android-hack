@@ -2,7 +2,7 @@ def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 def gitRev = GradleUtil.getGitRevision()
 
 def CHANGELOG_PATH = "changelog.txt"
-def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
+def CRASHLYTICS_BETA_GROUPS_PATH = "jenkins/crashlytics_beta_groups.txt"
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'

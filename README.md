@@ -76,18 +76,9 @@ Android Tests
 Make sure the device(s) that will be running the tests has turned off animations:
 Window Animation, Transition Animation, Animator Duration.
 
-````shell
-BUILDER_NAME=expedia # or another product flavor
-./buildbot/build.sh
-
-# Happy path tests
-./buildbot/happypath.sh
-open spoon/happy/index.html
-
-# Subset of the regression tests we want to run on every checkin
-./buildbot/regression.sh
-open spoon/regression/index.html
-````
+```shell
+./gradlew --no-daemon forkExpediaDebug
+```
 
 Creating Feature Builds
 =======================

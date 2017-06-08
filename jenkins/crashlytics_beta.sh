@@ -1,19 +1,15 @@
 #!/bin/bash
 
-PROPERTIES_FILE="properties.json"
 CHANGE_LOG_FILE="changelog.txt"
 
-if [ -e "$PROPERTIES_FILE" ] ; then
-    echo "=== Properties ==="
-    cat $PROPERTIES_FILE | python -m json.tool
-    echo "=== End Properties ==="
+LOG_COMMITS="HEAD~1..HEAD"
 
-    echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
-    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | head -c 14000 >> "$CHANGE_LOG_FILE"
-else
-    echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
-    git log "HEAD~1..HEAD" | head -c 14000  >> "$CHANGE_LOG_FILE"
+if [ -n "$GIT_COMMIT" -a -n "$GIT_PREVIOUS_SUCCESSFUL_COMMIT" ] ; then
+    LOG_COMMITS="$GIT_PREVIOUS_SUCCESSFUL_COMMIT..$GIT_COMMIT"
 fi
+
+echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
+git log $LOG_COMMITS | head -c 14000  >> "$CHANGE_LOG_FILE"
 
 if [ -e "$CHANGE_LOG_FILE" ] ; then
     echo "=== Changelog ==="
