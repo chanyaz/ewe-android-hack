@@ -4505,10 +4505,6 @@
     <string name="itin_sign_in_message">Sign in to access your upcoming trips</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Find Guest Booked Trip</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">Find Hotels Near You</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">Recommended hotels tonight</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Booking Successful!</string>
     <!-- Check your email for itinerary alert message-->

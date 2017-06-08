@@ -161,13 +161,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
 
         currentLocationSubject.subscribe { currentLocation ->
-            if (userBucketedForPopularHotels()) {
-                showCollections()
-                if (isNearByHotelDataExpired() || isPOSChanged) {
-                    isPOSChanged = false
-                    searchParams = buildDeeplinkToHotelSearchParams(currentLocation)
-                }
-            } else {
                 launchListWidget.visibility = View.VISIBLE
                 launchError.visibility = View.GONE
                 if (isNearByHotelDataExpired() || isPOSChanged) {
@@ -178,7 +171,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                     launchDataTimeStamp = DateTime.now()
                     launchListWidget.showListLoadingAnimation()
                 }
-            }
         }
 
         locationNotAvailable.subscribe {
@@ -433,9 +425,5 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     fun refreshState() {
         launchListWidget.notifyDataSetChanged()
-    }
-
-    private fun userBucketedForPopularHotels(): Boolean {
-        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen)
     }
 }

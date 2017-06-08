@@ -62,7 +62,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return itemViewKey == LaunchDataItem.SIGN_IN_VIEW
 			|| itemViewKey == LaunchDataItem.AIR_ATTACH_VIEW
 			|| itemViewKey == LaunchDataItem.ITIN_VIEW
-			|| itemViewKey == LaunchDataItem.POPULAR_HOTELS
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
 
@@ -138,15 +137,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (viewType == LaunchDataItem.AIR_ATTACH_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.launch_screen_air_attach_card, parent, false);
 			return new LaunchScreenAirAttachCard(view);
-		}
-		else if (viewType == LaunchDataItem.POPULAR_HOTELS) {
-			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
-			BigImageLaunchViewModel vm = getPopularHotelViewModel();
-			vm.setBackgroundResId(R.drawable.popular_hotel_stock_image);
-			BigImageLaunchViewHolder holder = new BigImageLaunchViewHolder(view);
-			holder.bind(vm);
-			holder.itemView.setOnClickListener(recommendedHotelsClickListener);
-			return holder;
 		}
 		else if (viewType == LaunchDataItem.ITIN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.launch_active_itin, parent, false);
@@ -291,9 +281,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		if (showMemberDeal()) {
 			items.add(new LaunchDataItem(LaunchDataItem.MEMBER_ONLY_DEALS));
 		}
-		if (userBucketedForPopularHotels()) {
-			items.add(new LaunchDataItem(LaunchDataItem.POPULAR_HOTELS));
-		}
 		items.add(new LaunchDataItem(LaunchDataItem.HEADER_VIEW));
 		return items;
 	}
@@ -346,14 +333,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return new ArrayList<>(ItineraryManager.getInstance().getTrips());
 	}
 
-	private final View.OnClickListener recommendedHotelsClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			checkForPermissionAndGoToHotels(v);
-			OmnitureTracking.trackRecommendedHotelsClick();
-		}
-	};
-
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -384,13 +363,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			context.getString(R.string.earn_rewards_and_unlock_deals),
 			context.getString(R.string.sign_in),
 			context.getString(R.string.Create_Account));
-	}
-
-	private BigImageLaunchViewModel getPopularHotelViewModel() {
-		return new BigImageLaunchViewModel(R.drawable.location_pin_icon,
-			R.color.hotel_tonight_background_gradient,
-			R.string.launch_find_hotels_near_you,
-			R.string.launch_find_recommended_hotels);
 	}
 
 	private BigImageLaunchViewModel getMemberDealViewModel() {
@@ -442,10 +414,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return showActiveItinLaunchScreenCard();
 	}
 
-	private boolean userBucketedForPopularHotels() {
-		return Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
-	}
 
 	private boolean userBucketedForSignIn() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);

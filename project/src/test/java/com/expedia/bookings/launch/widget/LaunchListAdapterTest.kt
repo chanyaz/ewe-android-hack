@@ -65,8 +65,6 @@ class LaunchListAdapterTest {
 
     @Test
     fun itemViewPosition_showingHotels_signedInItin_memberDeals_popularHotels() {
-        givenPopularHotelsCardEnabled()
-        givenPopularHotelsCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest(isItinLaunchCardEnabled = true)
         givenCustomerSignedIn()
@@ -82,19 +80,15 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
-
-        val sixthPosition = sut.getItemViewType(5)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
     fun itemViewPosition_showingHotels_signInCard_memberDeals_popularHotels() {
         givenSignInCardEnabled()
-        givenPopularHotelsCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest()
         givenWeHaveCurrentLocationAndHotels()
@@ -106,18 +100,14 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-
-        val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
     }
 
     @Test
     fun itemViewPosition_showing_hotels_airAttach_memberDeals_popularHotels() {
-        givenPopularHotelsCardEnabled()
         givenAirAttachCardEnabled()
         givenMemberDealsCardEnabled()
         createSystemUnderTest()
@@ -134,13 +124,10 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.MEMBER_ONLY_DEALS, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, fourthPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
 
         val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fifthPosition)
-
-        val sixthPosition = sut.getItemViewType(5)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, sixthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
     }
 
     @Test
@@ -166,7 +153,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_showingPopularHotels_signInCard() {
         givenSignInCardEnabled()
-        givenPopularHotelsCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
@@ -177,32 +163,25 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.SIGN_IN_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-
-        val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, fourthPosition)
     }
 
     @Test
     fun getItemViewType_showingPopularHotels() {
-        givenPopularHotelsCardEnabled()
         createSystemUnderTest()
         givenWeHaveStaffPicks()
 
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
-        val thirdPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
+        val secondPosition = sut.getItemViewType(1)
+        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
-        val fourthPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-
-        val fifthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.COLLECTION_VIEW, fifthPosition)
+        val thirdPosition = sut.getItemViewType(2)
+        assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
     }
 
     @Test
@@ -223,24 +202,6 @@ class LaunchListAdapterTest {
 
         assertEquals("You Have An Upcoming Trip!", viewHolder.firstLine.text.toString())
         assertEquals("Access your itineraries on the go and stay up to date on changes", viewHolder.secondLine.text.toString())
-    }
-
-    @Test
-    fun onBindViewHolder_showingPopularHotels() {
-        givenPopularHotelsCardEnabled()
-
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val recyclerView = RecyclerView(context)
-        recyclerView.layoutManager = layoutManager
-        createSystemUnderTest()
-        recyclerView.adapter = sut
-        givenWeHaveCurrentLocationAndHotels()
-
-        val viewHolder = sut.onCreateViewHolder(recyclerView, LaunchDataItem.POPULAR_HOTELS) as BigImageLaunchViewHolder
-        sut.onBindViewHolder(viewHolder, 1)
-
-        assertEquals("Find Hotels Near You", viewHolder.titleView.text.toString())
-        assertEquals("Recommended hotels tonight", viewHolder.subTitleView.text.toString())
     }
 
     @Test
@@ -452,7 +413,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_AirAttach() {
         givenAirAttachCardEnabled()
-        givenPopularHotelsCardEnabled()
         createSystemUnderTest()
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -465,13 +425,10 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.AIR_ATTACH_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, thirdPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
 
         val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HEADER_VIEW, fourthPosition)
-
-        val fifthPosition = sut.getItemViewType(4)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fifthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
     }
 
     @Test
@@ -533,7 +490,6 @@ class LaunchListAdapterTest {
     @Test
     fun getItemViewType_ShowingLobView_ShowingPopularHotels_NoFlightTrip() {
         givenAirAttachCardEnabled()
-        givenPopularHotelsCardEnabled()
         createSystemUnderTest(isCustomerAirAttachedQualified = true, recentAirAttachFlightTrip = null)
         givenCustomerSignedIn()
         givenWeHaveCurrentLocationAndHotels()
@@ -543,13 +499,10 @@ class LaunchListAdapterTest {
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
         val secondPosition = sut.getItemViewType(1)
-        assertEquals(LaunchDataItem.POPULAR_HOTELS, secondPosition)
+        assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
         val thirdPosition = sut.getItemViewType(2)
-        assertEquals(LaunchDataItem.HEADER_VIEW, thirdPosition)
-
-        val fourthPosition = sut.getItemViewType(3)
-        assertEquals(LaunchDataItem.HOTEL_VIEW, fourthPosition)
+        assertEquals(LaunchDataItem.HOTEL_VIEW, thirdPosition)
     }
 
     @Test
@@ -685,10 +638,6 @@ class LaunchListAdapterTest {
 
     private fun givenMemberDealsCardEnabled() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen, 1)
-    }
-
-    private fun givenPopularHotelsCardEnabled() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppShowPopularHotelsCardOnLaunchScreen, 1)
     }
 
     private fun givenSignInCardEnabled() {

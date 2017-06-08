@@ -260,7 +260,6 @@
     <color name="new_launch_screen_itin_button_color">@color/white_25</color>
     <color name="new_launch_lob_divider_color">#dcdcdc</color>
     <color name="launch_screen_itin_divider">@color/white_70</color>
-    <color name="hotel_tonight_background_gradient">#B3B31B63</color>
     <color name="launch_screen_active_itin_bg">@color/blue5</color>
 
     <!-- LX colors -->

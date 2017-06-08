@@ -35,7 +35,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
 	public static final int EBAndroidAppShowAirAttachMessageOnLaunchScreen = 13345;
 	public static final int EBAndroidAppShowMemberPricingCardOnLaunchScreen = 13697;
-	public static final int EBAndroidAppShowPopularHotelsCardOnLaunchScreen = 13314;
 	public static final int EBAndroidAppHotelUpgrade = 13196;
 	public static final int EBAndroidCheckoutPaymentTravelerInfo = 13280;
 	public static final int EBAndroidAppItinCrystalSkin = 13812;
@@ -148,7 +147,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXNavigateToSRP);
 		testIDs.add(EBAndroidAppHotelLPASEndpoint);
 		testIDs.add(EBAndroidAppShowMemberPricingCardOnLaunchScreen);
-		testIDs.add(EBAndroidAppShowPopularHotelsCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelUpgrade);
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);

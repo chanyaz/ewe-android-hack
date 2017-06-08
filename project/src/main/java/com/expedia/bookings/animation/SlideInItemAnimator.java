@@ -38,7 +38,7 @@ public class SlideInItemAnimator extends DefaultItemAnimator {
 	@Override
 	public boolean animateAdd(RecyclerView.ViewHolder viewHolder) {
 		boolean animated;
-		boolean shouldRunEnterAnimation = (viewHolder.getItemViewType() == LaunchDataItem.ITIN_VIEW || viewHolder.getItemViewType() == LaunchDataItem.POPULAR_HOTELS || viewHolder.getItemViewType() == LaunchDataItem.AIR_ATTACH_VIEW);
+		boolean shouldRunEnterAnimation = (viewHolder.getItemViewType() == LaunchDataItem.ITIN_VIEW || viewHolder.getItemViewType() == LaunchDataItem.AIR_ATTACH_VIEW);
 
 		if (shouldRunEnterAnimation) {
 			runEnterAnimation(viewHolder);
