@@ -46,6 +46,10 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFreeCancellationTooltip)
     }
 
+    private val hotelCheckoutWidgetHeight by lazy {
+        hotelCheckoutWidget.height
+    }
+
     val freeCancellationWidget: FreeCancellationWidget by bindView(R.id.free_cancellation_view)
     var hotelCheckoutViewModel: HotelCheckoutViewModel by notNullAndObservable { vm ->
         bookedWithCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits,{cvv, paymentSplits->
@@ -121,7 +125,23 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         }
     }
 
-    private val checkoutToFreeCancellation = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, FreeCancellationWidget::class.java){}
+    private val checkoutToFreeCancellation = object : Transition(HotelCheckoutMainViewPresenter::class.java, FreeCancellationWidget::class.java) {
+        override fun startTransition(forward: Boolean) {
+            freeCancellationWidget.visibility = View.VISIBLE
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            val pos = if (forward) (hotelCheckoutWidgetHeight - (f * hotelCheckoutWidgetHeight)) else (f * hotelCheckoutWidgetHeight)
+            freeCancellationWidget.translationY = pos
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                freeCancellationWidget.visibility = View.GONE
+            }
+        }
+    }
 
     private val checkoutToCvv = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
