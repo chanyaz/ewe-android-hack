@@ -115,4 +115,8 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     override fun trackHotelDetailLoad(isRoomSoldOut: Boolean) {
         PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId)
     }
+
+    override fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
+        return priceToShowCustomerObservable.value + context.getString(R.string.per_person)
+    }
 }

@@ -642,7 +642,7 @@ abstract class BaseHotelDetailViewModel(val context: Context) :
         return 0
     }
 
-    private fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
+    open fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
         return if (showStrikeThrough) {
             Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
                     .put("strikethroughprice", strikeThroughPriceObservable.value)
