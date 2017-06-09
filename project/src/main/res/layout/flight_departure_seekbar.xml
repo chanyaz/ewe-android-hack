@@ -11,12 +11,14 @@
 
         <TextView
             android:id="@+id/departure_range_min_text"
-            style="@style/FilterSortValueTheme" />
+            style="@style/FilterSortValueTheme"
+            android:importantForAccessibility="no" />
 
         <TextView
             android:id="@+id/departure_range_max_text"
             style="@style/FilterSortValueTheme"
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:importantForAccessibility="no" />
     </FrameLayout>
 
     <com.expedia.bookings.widget.FilterRangeSeekBar
@@ -24,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/sort_filter_padding_small"
+        android:background="@null"
         app:rsb__activeColor="@color/packages_primary_color" />
 
 </LinearLayout>

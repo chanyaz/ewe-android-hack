@@ -47,6 +47,10 @@
     <string name="secure_checkout">Pembayaran Aman</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Map, Hasil pencarian hotel di tampilan peta</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">Perbesar pada {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Tampilkan informasi untuk hotel dengan harga {price} ke bawah, Tombol</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Beli</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">Bermasalah dalam memuat halaman! Pesan masalah: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">Tidak ada url halaman web yang bisa dimuat.</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Segera Lepas Landas…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Maaf, pemesanan penerbangan melalui perangkat mobile belum tersedia di lokasi Anda.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

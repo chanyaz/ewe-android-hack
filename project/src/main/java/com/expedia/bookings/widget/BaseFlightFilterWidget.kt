@@ -54,22 +54,10 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     val departureRangeBar: FilterRangeSeekBar by bindView(R.id.departure_range_bar)
     val departureRangeMinText: TextView by bindView(R.id.departure_range_min_text)
     val departureRangeMaxText: TextView by bindView(R.id.departure_range_max_text)
-    val departureStub: ViewStub by bindView(R.id.departure_stub)
-    val a11yDepartureStub: ViewStub by bindView(R.id.a11y_departure_stub)
-    val a11yDepartureStartSeekBar: FilterSeekBar by bindView(R.id.departure_a11y_start_bar)
-    val a11yDepartureStartText: TextView by bindView(R.id.departure_a11y_start_text)
-    val a11yDepartureEndSeekBar: FilterSeekBar by bindView(R.id.departure_a11y_end_bar)
-    val a11yDepartureEndText: TextView by bindView(R.id.departure_a11y_end_text)
 
-    val arrivalStub: ViewStub by bindView(R.id.arrival_stub)
     val arrivalRangeBar: FilterRangeSeekBar by bindView(R.id.arrival_range_bar)
     val arrivalRangeMinText: TextView by bindView(R.id.arrival_range_min_text)
     val arrivalRangeMaxText: TextView by bindView(R.id.arrival_range_max_text)
-    val a11yArrivalStub: ViewStub by bindView(R.id.a11y_arrival_stub)
-    val a11yArrivalStartSeekBar: FilterSeekBar by bindView(R.id.arrival_a11y_start_bar)
-    val a11yArrivalStartText: TextView by bindView(R.id.arrival_a11y_start_text)
-    val a11yArrivalEndSeekBar: FilterSeekBar by bindView(R.id.arrival_a11y_end_bar)
-    val a11yArrivalEndText: TextView by bindView(R.id.arrival_a11y_end_text)
 
     val airlinesLabel: android.widget.TextView by bindView(R.id.airlines_label)
     val airlinesContainer: LinearLayout by bindView(R.id.airlines_container)
@@ -122,118 +110,60 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        var departureStartCurrentProgress: Int
-        var departureEndCurrentProgress: Int
-
         vm.newDepartureRangeObservable.subscribe { timeRange ->
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                departureStartCurrentProgress = timeRange.minDurationHours
-                departureEndCurrentProgress = timeRange.maxDurationHours
-                a11yDepartureStartSeekBar.upperLimit = timeRange.maxDurationHours
-                a11yDepartureEndSeekBar.upperLimit = timeRange.maxDurationHours
-                a11yDepartureStartText.text = timeRange.defaultMinText
-                a11yDepartureEndText.text = timeRange.defaultMaxText
-                a11yDepartureStartSeekBar.a11yName = context.getString(R.string.departure_time_range_start)
-                a11yDepartureEndSeekBar.a11yName = context.getString(R.string.departure_time_range_end)
-                a11yDepartureStartSeekBar.currentA11yValue = a11yDepartureStartText.text.toString()
-                a11yDepartureEndSeekBar.currentA11yValue = a11yDepartureEndText.text.toString()
+            departureRangeBar.a11yStartName = context.getString(R.string.departure_time_range_start)
+            departureRangeBar.a11yEndName = context.getString(R.string.departure_time_range_end)
+            departureRangeBar.currentA11yStartValue = timeRange.defaultMinText
+            departureRangeBar.currentA11yEndValue = timeRange.defaultMaxText
 
-                a11yDepartureStartSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
-                    departureStartCurrentProgress = timeRange.maxDurationHours - progress
-                    if (departureStartCurrentProgress < departureEndCurrentProgress) {
-                        a11yDepartureStartText.text = timeRange.formatValue(timeRange.maxDurationHours - progress)
-                        a11yDepartureStartSeekBar.currentA11yValue = a11yDepartureStartText.text.toString()
-                        announceForAccessibility(a11yDepartureStartSeekBar.currentA11yValue)
-                        vm.departureRangeChangedObserver.onNext(timeRange.update(timeRange.maxDurationHours - progress, departureEndCurrentProgress))
-                    }
+            departureRangeBar.upperLimit = timeRange.notches
+            departureRangeMinText.text = timeRange.defaultMinText
+            departureRangeMaxText.text = timeRange.defaultMaxText
+
+            departureRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                    departureRangeMinText.text = timeRange.formatValue(minValue)
+                    departureRangeMaxText.text = timeRange.formatValue(maxValue)
+                    vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
 
-                a11yDepartureEndSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
-                    departureEndCurrentProgress = progress
-                    if (departureEndCurrentProgress > departureStartCurrentProgress) {
-                        a11yDepartureEndText.text = timeRange.formatValue(progress)
-                        a11yDepartureEndSeekBar.currentA11yValue = a11yDepartureEndText.text.toString()
-                        announceForAccessibility(a11yDepartureEndSeekBar.currentA11yValue)
-                        vm.departureRangeChangedObserver.onNext(timeRange.update(departureStartCurrentProgress, progress))
-                    }
+                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int, thumb: FilterRangeSeekBar.Thumb) {
+                    departureRangeMinText.text = timeRange.formatValue(minValue)
+                    departureRangeMaxText.text = timeRange.formatValue(maxValue)
+                    departureRangeBar.currentA11yStartValue = departureRangeMinText.text.toString()
+                    departureRangeBar.currentA11yEndValue = departureRangeMaxText.text.toString()
+                    announceForAccessibility(departureRangeBar.getAccessibilityText(thumb))
+                    vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
-            }
-            else {
-                departureRangeBar.upperLimit = timeRange.notches
-                departureRangeMinText.text = timeRange.defaultMinText
-                departureRangeMaxText.text = timeRange.defaultMaxText
-
-                departureRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
-                    override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                        departureRangeMinText.text = timeRange.formatValue(minValue)
-                        departureRangeMaxText.text = timeRange.formatValue(maxValue)
-                        vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                    }
-
-                    override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                        departureRangeMinText.text = timeRange.formatValue(minValue)
-                        departureRangeMaxText.text = timeRange.formatValue(maxValue)
-                        vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                    }
-                })
-            }
+            })
         }
 
-        var arrivalStartCurrentProgress: Int
-        var arrivalEndCurrentProgress: Int
-
         vm.newArrivalRangeObservable.subscribe { timeRange ->
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                arrivalStartCurrentProgress = timeRange.minDurationHours
-                arrivalEndCurrentProgress = timeRange.maxDurationHours
-                a11yArrivalStartSeekBar.upperLimit = timeRange.maxDurationHours
-                a11yArrivalEndSeekBar.upperLimit = timeRange.maxDurationHours
-                a11yArrivalStartText.text = timeRange.defaultMinText
-                a11yArrivalEndText.text = timeRange.defaultMaxText
-                a11yArrivalStartSeekBar.a11yName = context.getString(R.string.arrival_time_range_start)
-                a11yArrivalEndSeekBar.a11yName = context.getString(R.string.arrival_time_range_end)
-                a11yArrivalStartSeekBar.currentA11yValue = a11yArrivalStartText.text.toString()
-                a11yArrivalEndSeekBar.currentA11yValue = a11yArrivalEndText.text.toString()
+            arrivalRangeBar.a11yStartName = context.getString(R.string.arrival_time_range_start)
+            arrivalRangeBar.a11yEndName = context.getString(R.string.arrival_time_range_end)
+            arrivalRangeBar.currentA11yStartValue = timeRange.defaultMinText
+            arrivalRangeBar.currentA11yEndValue = timeRange.defaultMaxText
 
-                a11yArrivalStartSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
-                    arrivalStartCurrentProgress = timeRange.maxDurationHours - progress
-                    if (arrivalStartCurrentProgress < arrivalEndCurrentProgress) {
-                        a11yArrivalStartText.text = timeRange.formatValue(timeRange.maxDurationHours - progress)
-                        a11yArrivalStartSeekBar.currentA11yValue = a11yArrivalStartText.text.toString()
-                        announceForAccessibility(a11yArrivalStartSeekBar.currentA11yValue)
-                        vm.arrivalRangeChangedObserver.onNext(timeRange.update(timeRange.maxDurationHours - progress, arrivalEndCurrentProgress))
-                    }
+            arrivalRangeBar.upperLimit = timeRange.notches
+            arrivalRangeMinText.text = timeRange.defaultMinText
+            arrivalRangeMaxText.text = timeRange.defaultMaxText
+
+            arrivalRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                    arrivalRangeMinText.text = timeRange.formatValue(minValue)
+                    arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
+                    vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
 
-                a11yArrivalEndSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
-                    arrivalEndCurrentProgress = progress
-                    if (arrivalEndCurrentProgress > arrivalStartCurrentProgress) {
-                        a11yArrivalEndText.text = timeRange.formatValue(progress)
-                        a11yArrivalEndSeekBar.currentA11yValue = a11yArrivalEndText.text.toString()
-                        announceForAccessibility(a11yArrivalEndSeekBar.currentA11yValue)
-                        vm.arrivalRangeChangedObserver.onNext(timeRange.update(arrivalStartCurrentProgress, progress))
-                    }
+                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int, thumb: FilterRangeSeekBar.Thumb) {
+                    arrivalRangeMinText.text = timeRange.formatValue(minValue)
+                    arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
+                    arrivalRangeBar.currentA11yStartValue = arrivalRangeMinText.text.toString()
+                    arrivalRangeBar.currentA11yEndValue = arrivalRangeMaxText.text.toString()
+                    announceForAccessibility(arrivalRangeBar.getAccessibilityText(thumb))
+                    vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
                 }
-            }
-            else {
-                arrivalRangeBar.upperLimit = timeRange.notches
-                arrivalRangeMinText.text = timeRange.defaultMinText
-                arrivalRangeMaxText.text = timeRange.defaultMaxText
-
-                arrivalRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
-                    override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                        arrivalRangeMinText.text = timeRange.formatValue(minValue)
-                        arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
-                        vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                    }
-
-                    override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                        arrivalRangeMinText.text = timeRange.formatValue(minValue)
-                        arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
-                        vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                    }
-                })
-            }
+            })
         }
 
         vm.doneButtonEnableObservable.subscribe { enable ->
@@ -367,14 +297,6 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             toolbar.setPadding(0, statusBarHeight, 0, 0)
             var lp = filterContainer.layoutParams as android.widget.FrameLayout.LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
-        }
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            a11yDepartureStub.inflate()
-            a11yArrivalStub.inflate()
-        }
-        else {
-            departureStub.inflate()
-            arrivalStub.inflate()
         }
     }
 

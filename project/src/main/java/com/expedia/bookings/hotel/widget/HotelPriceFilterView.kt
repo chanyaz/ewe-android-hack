@@ -29,7 +29,7 @@ class HotelPriceFilterView(context: Context, attrs: AttributeSet?) : LinearLayou
                     priceRangeMaxText.text = priceRange.formatValue(maxValue)
                 }
 
-                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int, thumb: FilterRangeSeekBar.Thumb) {
                     priceRangeMinText.text = priceRange.formatValue(minValue)
                     priceRangeMaxText.text = priceRange.formatValue(maxValue)
                     vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))

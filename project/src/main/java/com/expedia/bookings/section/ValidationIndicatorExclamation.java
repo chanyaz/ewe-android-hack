@@ -47,7 +47,8 @@ public class ValidationIndicatorExclamation<Data extends Object> extends
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
 		boolean materialFormTestEnabled = FeatureUtilKt.isMaterialFormsEnabled();
-		if (materialFormTestEnabled && Strings.isNotEmpty(mErrorString) && (field.getParent() instanceof TextInputLayout)) {
+		//TODO `field.getParent()` this should be updated. We should never rely on hierarchy maintained by libs
+		if (materialFormTestEnabled && Strings.isNotEmpty(mErrorString) && (field.getParent() instanceof TextInputLayout || field.getParent().getParent() instanceof TextInputLayout)) {
 			TextViewExtensionsKt.setMaterialFormsError(field, isValid, mErrorString, mDropDownInt);
 		}
 		else {

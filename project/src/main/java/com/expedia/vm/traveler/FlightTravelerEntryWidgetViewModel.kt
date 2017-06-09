@@ -34,10 +34,7 @@ class FlightTravelerEntryWidgetViewModel(val context: Context, travelerIndex: In
     }
 
     override fun getTraveler(): Traveler {
-        return if (Db.getTravelers().isNotEmpty())
-            Db.getTravelers()[travelerIndex]
-        else
-            Traveler()
+        return Db.getTravelers()[travelerIndex]
     }
 
 

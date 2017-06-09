@@ -3880,6 +3880,8 @@
     <string name="arrival_time_range_end">Arrival Time End</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} Seekbar {value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">{name} Range Slider {value}, use back-and-forth gesture or local context menu to adjust</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Change hotel</string>
@@ -4576,5 +4578,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Button</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">Enter a number from {min_value} to {max_value}.</string>
+    <string name="title_seek_bar_edit">Edit seek control level</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>
