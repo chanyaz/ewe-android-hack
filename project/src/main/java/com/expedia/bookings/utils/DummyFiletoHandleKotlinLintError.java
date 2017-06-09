@@ -1080,6 +1080,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.AmenityFreeInternet,
 		R.string.expand_room_info_cont_desc,
 		R.string.a11y_button_TEMPLATE,
-		R.string.invalid_flights_pos
+		R.string.invalid_flights_pos,
+		R.string.preference_flight_retain_search_params
 	};
 }
