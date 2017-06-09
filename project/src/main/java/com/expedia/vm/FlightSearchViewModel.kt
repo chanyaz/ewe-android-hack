@@ -121,6 +121,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             travelerValidator.updateForNewSearch(flightSearchParams)
             Db.setFlightSearchParams(flightSearchParams)
             searchParamsObservable.onNext(flightSearchParams)
+            FlightsV2Tracking.trackSearchClick()
             if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 FlightSearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }

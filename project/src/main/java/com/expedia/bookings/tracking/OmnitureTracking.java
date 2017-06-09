@@ -4350,7 +4350,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
 	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
 	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
-	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
+	private static final String FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX = "App.Flight.DS.";
 	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
 	private static final String FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME = "Package Xsell Banner";
 	private static final String FLIGHTS_V2_SORTBY_TEMPLATE = "App.Flight.Search.Sort.";
@@ -4666,9 +4666,15 @@ public class OmnitureTracking {
 
 	public static void trackFlightTravelerPickerClick(String actionLabel) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		s.setEvar(28, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
-		s.setProp(16, FLIGHTS_V2_TRAVELER_CHANGE_PREFIX + actionLabel);
+		s.setEvar(28, FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX + actionLabel);
+		s.setProp(16, FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX + actionLabel);
 		s.trackLink(null, "o", FLIGHTS_V2_TRAVELER_LINK_NAME, null, null);
+	}
+
+	public static void trackFlightSearchButtonClick() {
+		StringBuilder link = new StringBuilder(FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX);
+		link.append("Search.Clicked");
+		createAndtrackLinkEvent(link.toString(), "Search Button Clicked");
 	}
 
 	public static void trackPageLoadFlightSearchV2() {

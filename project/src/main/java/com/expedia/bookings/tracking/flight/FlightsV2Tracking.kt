@@ -16,6 +16,10 @@ import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
 object FlightsV2Tracking {
+    fun trackSearchClick() {
+        OmnitureTracking.trackFlightSearchButtonClick()
+    }
+
     fun trackSearchPageLoad() {
         OmnitureTracking.trackPageLoadFlightSearchV2()
     }
