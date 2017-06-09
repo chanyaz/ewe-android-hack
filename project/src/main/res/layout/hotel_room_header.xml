@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/header_image_view"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="14dp"
         android:layout_marginRight="@dimen/hotel_room_padding"
         android:layout_marginTop="@dimen/hotel_room_padding"
         android:src="@drawable/details_info" />
