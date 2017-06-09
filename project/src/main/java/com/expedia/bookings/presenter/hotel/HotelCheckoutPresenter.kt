@@ -127,6 +127,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
     private val checkoutToFreeCancellation = object : Transition(HotelCheckoutMainViewPresenter::class.java, FreeCancellationWidget::class.java) {
         override fun startTransition(forward: Boolean) {
+            hotelCheckoutWidget.visibility = View.VISIBLE
             freeCancellationWidget.visibility = View.VISIBLE
         }
 
@@ -137,7 +138,9 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (!forward) {
+            if (forward) {
+                hotelCheckoutWidget.visibility = View.GONE
+            } else {
                 freeCancellationWidget.visibility = View.GONE
             }
         }
