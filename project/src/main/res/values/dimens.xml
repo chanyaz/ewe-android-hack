@@ -72,17 +72,11 @@
     <dimen name="account_reward_textview_padding">2dp</dimen>
 
     <!-- Text sizes for amenities -->
-    <dimen name="amenity_text_size_large">12sp</dimen>
-    <dimen name="amenity_text_size_small">10sp</dimen>
-    <dimen name="amenity_layout_width">60dp</dimen>
     <dimen name="single_amenity_margin">3dp</dimen>
-    <dimen name="amenity_icon_size">30dp</dimen>
 
     <!-- Dimensions for book now button or any other button in the header -->
     <dimen name="min_height_rating_bar_small">16dp</dimen>
     <dimen name="max_height_rating_bar_small">16dp</dimen>
-    <dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
-    <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
 
     <!-- User review dimens -->
     <dimen name="user_review_text_padding_right">0dp</dimen>

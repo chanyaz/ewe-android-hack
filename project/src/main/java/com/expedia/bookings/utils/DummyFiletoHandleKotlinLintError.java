@@ -965,6 +965,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.mobile_exclusive,
 		R.string.tonight_only,
 		R.string.sponsored,
+		R.string.value_add_template,
+		R.string.non_refundable,
 		R.string.hotel_search_range_error_TEMPLATE,
 		R.plurals.num_rooms_left,
 		R.string.map_snippet_price_template,

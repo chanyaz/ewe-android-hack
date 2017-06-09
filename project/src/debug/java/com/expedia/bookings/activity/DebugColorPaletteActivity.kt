@@ -77,9 +77,6 @@ class DebugColorPaletteActivity : AppCompatActivity() {
 
                 DebugColorPaletteItem(DebugColorPaletteItem.TITLE, "Random Hotel Colors"),
                 DebugColorPaletteItem(colorId = R.color.hotelsv2_discount_green),
-                DebugColorPaletteItem(colorId = R.color.hotel_price_breakdown_discount_green),
-                DebugColorPaletteItem(colorId = R.color.amenity_text_color_large),
-                DebugColorPaletteItem(colorId = R.color.amenity_icon_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_filter_spinner_text_color),
                 DebugColorPaletteItem(colorId = R.color.etp_text_color),
                 DebugColorPaletteItem(colorId = R.color.pay_now_earn_text_color),

@@ -91,10 +91,7 @@
     <color name="hotel_urgency_variant_color">@color/app_primary_light</color>
     <color name="search_anim_background">@color/gray1</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
-    <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="hotel_result_background">@color/gray1</color>
-    <color name="amenity_text_color_large">#79848f</color>
-    <color name="amenity_icon_color">#717880</color>
     <color name="hotels_room_title">@color/gray10</color>
     <color name="hotels_room_info">@color/gray6</color>
     <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
@@ -157,7 +154,6 @@
     <color name="hotel_cell_primary_color">#3D4552</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
-    <color name="hotel_price_air_attach_text_color">#fd8126</color>
     <color name="bg_row_state_pressed">#f0f0f0</color>
     <color name="text_dark">#ff545454</color>
     <color name="text_black">#ff232323</color>

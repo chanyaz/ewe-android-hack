@@ -854,8 +854,6 @@
     <string name="room_rate_pay_now">Pay Now</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} Due Now</string>
-    <!-- Rooms and rates pay later deposit due now -->
-    <string name="old_room_rate_pay_later_due_now">Due Now</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s reviews</string>
     <!-- Information for the review about who submitted it and when -->
@@ -2454,12 +2452,6 @@
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Searching hundreds of hotels for you!</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable_tonight">No hotels available tonight</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">No hotels available</string>
-    <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Please try a different location or date.</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Select another room</string>
     <!-- Message displayed when room is sold out -->
@@ -2478,8 +2470,6 @@
     <string name="per_night">/night</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
-    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f%% OFF</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filter</string>
@@ -2709,14 +2699,6 @@
         <item quantity="other">Total price for stay • %d Results</item>
     </plurals>
 
-    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-    <plurals name="number_of_rooms_left">
-        <item quantity="zero">No rooms left!</item>
-        <item quantity="one">Only 1 room left!</item>
-        <item quantity="two">Only %d rooms left!</item>
-        <item quantity="many">Only %d rooms left!</item>
-        <item quantity="other">Only %d rooms left!</item>
-    </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% booked</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -2732,8 +2714,6 @@
     <string name="free">FREE!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
     <string name="delimiter_multiple_bed">" or "</string>
-    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">Includes %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">All rooms include %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -2756,6 +2736,8 @@
     <string name="book_room_button_text">Book</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">View Room, {room}</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">Includes %s</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">Book, {room}</string>
     <!-- Room description alert dialog title -->
