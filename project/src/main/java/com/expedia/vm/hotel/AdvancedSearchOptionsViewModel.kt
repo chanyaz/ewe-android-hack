@@ -14,6 +14,7 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
     //inputs
     val doneObservable = PublishSubject.create<Unit>()
     val clearObservable = PublishSubject.create<Unit>()
+    val resetSearchOptionsObservable = PublishSubject.create<Unit>()
 
     //out
     val doneClickedSubject = PublishSubject.create<Unit>()
@@ -23,6 +24,7 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
     val showClearButtonSubject = BehaviorSubject.create<Boolean>()
 
     private val searchOptions = UserFilterChoices()
+    private val DEFAULT_TEXT = context.getString(R.string.advanced_options)
 
     init {
         doneObservable.subscribe {
@@ -32,10 +34,14 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
         }
 
         clearObservable.subscribe {
-            resetUserFilters()
-            filterCountChanged()
-            resetViewsSubject.onNext(searchOptions)
+            reset()
             HotelTracking.trackLinkHotelSuperSearchClearFilter()
+        }
+
+        resetSearchOptionsObservable.subscribe {
+            reset()
+            searchOptionsSubject.onNext(searchOptions)
+            searchOptionsSummarySubject.onNext(DEFAULT_TEXT)
         }
     }
 
@@ -75,14 +81,14 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
 
         if (searchOptions.userSort != ProductFlavorFeatureConfiguration.getInstance().defaultSort) {
             val sortBy = Phrase.from(context, R.string.hotel_sort_by_search_option_TEMPLATE)
-                .put("sortby", context.getString(searchOptions.userSort.resId))
-                .format()
-                .toString()
+                    .put("sortby", context.getString(searchOptions.userSort.resId))
+                    .format()
+                    .toString()
             addField(sb, sortBy)
         }
 
-        if (sb.length == 0) {
-            sb.append(context.getString(R.string.advanced_options))
+        if (sb.isEmpty()) {
+            sb.append(DEFAULT_TEXT)
         }
 
         return sb.toString()
@@ -90,7 +96,7 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
 
     private fun addStarRating(sb: StringBuffer) {
         val hotelStarRating = searchOptions.hotelStarRating
-        if (hotelStarRating.getStarRatingParamsAsList().size > 0) {
+        if (hotelStarRating.getStarRatingParamsAsList().isNotEmpty()) {
             if (hotelStarRating.one) {
                 addField(sb, context.getString(R.string.one_star))
             }
@@ -107,6 +113,12 @@ class AdvancedSearchOptionsViewModel(val context: Context) {
                 addField(sb, context.getString(R.string.five_star))
             }
         }
+    }
+
+    private fun reset() {
+        resetUserFilters()
+        filterCountChanged()
+        resetViewsSubject.onNext(searchOptions)
     }
 
     private fun filterCountChanged() {

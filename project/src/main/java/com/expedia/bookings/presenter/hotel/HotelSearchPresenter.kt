@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelSearchParams
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
@@ -131,15 +132,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             updateDestinationText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName(), shouldSaveSuggestionHierarchyChildInfo())
+            updateSearchOptions(suggestion)
             showDefault()
         }
-    }
-
-    private fun updateDestinationText(locationText: String) {
-        destinationCardView.setText(locationText)
-        destinationCardView.contentDescription = Phrase.from(context, R.string.hotel_search_destination_cont_desc_TEMPLATE)
-                .put("destination", locationText)
-                .format().toString()
     }
 
     override fun inflate() {
@@ -215,6 +210,30 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
         return context.resources.getString(R.string.enter_destination_hint)
+    }
+
+    fun resetSearchOptions() {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)) {
+            advancedOptionsDetails.viewModel.resetSearchOptionsObservable.onNext(Unit)
+        }
+    }
+
+    private fun updateSearchOptions(suggestion: SuggestionV4) {
+        if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)) {
+            return
+        }
+
+        if (suggestion.isPinnedHotelSearch) {
+            resetSearchOptions()
+        }
+        advancedOptionsView.setInverseVisibility(suggestion.isPinnedHotelSearch)
+    }
+
+    private fun updateDestinationText(locationText: String) {
+        destinationCardView.setText(locationText)
+        destinationCardView.contentDescription = Phrase.from(context, R.string.hotel_search_destination_cont_desc_TEMPLATE)
+                .put("destination", locationText)
+                .format().toString()
     }
 
     private val searchToAdvancedOptions = object : Transition(InputSelectionState::class.java, AdvancedSearchOptionsView::class.java) {

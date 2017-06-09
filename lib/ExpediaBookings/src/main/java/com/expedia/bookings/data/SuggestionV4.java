@@ -124,6 +124,10 @@ public class SuggestionV4 {
 		return "GOOGLE_SUGGESTION_SEARCH".equals(type);
 	}
 
+	public boolean isPinnedHotelSearch() {
+		return hotelId != null;
+	}
+
 	@Override
 	public int hashCode() {
 		int result = 17;

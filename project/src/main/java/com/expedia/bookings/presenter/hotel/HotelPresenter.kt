@@ -457,6 +457,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.getViewModel().searchErrorObservable.subscribe {
+            searchPresenter.resetSearchOptions()
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
         errorPresenter.viewmodel.defaultErrorObservable.subscribe {

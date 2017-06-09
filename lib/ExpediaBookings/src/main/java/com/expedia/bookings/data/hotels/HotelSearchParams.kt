@@ -21,7 +21,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
     }
 
     fun isPinnedSearch(): Boolean {
-        return suggestion.hotelId != null
+        return suggestion.isPinnedHotelSearch
     }
 
     /**
