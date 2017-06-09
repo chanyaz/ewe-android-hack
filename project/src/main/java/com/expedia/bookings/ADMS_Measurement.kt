@@ -46,7 +46,7 @@ class ADMS_Measurement {
     }
 
     fun setEvar(i: Int, s: String?) {
-        //TODO
+        cData.put(EVAR + i, s ?: "")
     }
 
     fun setProp(i: Int, s: String?) {
@@ -58,7 +58,7 @@ class ADMS_Measurement {
     }
 
     fun track() {
-        //TO-DO
+        Analytics.trackAction("", cData)
     }
 
     fun startActivity(sContext: Context) {
