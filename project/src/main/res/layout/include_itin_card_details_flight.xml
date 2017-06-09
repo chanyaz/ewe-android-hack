@@ -65,7 +65,7 @@
                 android:maxLines="1"
                 android:textColor="?attr/itin_card_detail_triplet_value_text_color"
                 android:textSize="?attr/itin_card_detail_triplet_value_text_size"
-                app:textStyle="medium" />
+                app:textStyle="normal" />
 
             <com.expedia.bookings.widget.AutoResizeTextView
                 android:id="@+id/arrival_time_tz"
