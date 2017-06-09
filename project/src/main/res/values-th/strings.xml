@@ -47,6 +47,10 @@
     <string name="secure_checkout">การชำระเงินอย่างปลอดภัย</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">แผนที่ Google ค้นหาผลลัพธ์โรงแรมโดยใช้มุมมองแผนที่</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">ซูมเข้าเพื่อดูโรงแรม {hotel_count} แห่ง</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">ปุ่มแสดงข้อมูลโรงแรมราคา {price} ด้านล่าง</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">ซื้อ</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">เกิดข้อผิดพลาดในการโหลดเพจ! ข้อความแสดงข้อผิดพลาด: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">ไม่มี URL ให้โหลด</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">เครื่องกำลังจะออกในอีกไม่ช้า…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยังไม่มีให้บริการในพื้นที่ของคุณ</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

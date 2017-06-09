@@ -76,10 +76,10 @@ class TSAEntryViewTest {
 
             tsaEntryView.viewModel = tsaVM
             tsaVM.genderViewModel.errorSubject.onNext(true)
-            assertEquals((genderEditText.parent as TextInputLayout).error, "Select a gender")
+            assertEquals((genderEditText.parent.parent as TextInputLayout).error, "Select a gender")
 
             tsaVM.genderViewModel.errorSubject.onNext(false)
-            assertEquals((genderEditText.parent as TextInputLayout).error, null)
+            assertEquals((genderEditText.parent.parent as TextInputLayout).error, null)
         }
     }
 

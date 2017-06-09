@@ -12,6 +12,7 @@ import com.expedia.bookings.tracking.hotel.ControlPageUsableData
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightSearchParamsHistoryUtil
 import com.expedia.bookings.utils.FlightsV2DataUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
@@ -19,6 +20,7 @@ import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -48,6 +50,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
 
+    var searchSubscription: Subscription? = null
+
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
 
@@ -70,34 +74,36 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             }
         }
 
-        Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
-            object {
-                val flyingFrom = flyFrom
-                val flyingTo = flyTo
-                val travelDate = date
-            }
-        }).subscribe {
-            if (!controlPageUsableData.isTimerAborted()) {
-                if (controlPageUsableData.hasTimerStarted()) {
-                    controlPageUsableData.abortTimer()
-                } else {
-                    controlPageUsableData.markPageLoadStarted(System.currentTimeMillis())
+        if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+            Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
+                object {
+                    val flyingFrom = flyFrom
+                    val flyingTo = flyTo
+                    val travelDate = date
+                }
+            }).subscribe {
+                if (!controlPageUsableData.isTimerAborted()) {
+                    if (controlPageUsableData.hasTimerStarted()) {
+                        controlPageUsableData.abortTimer()
+                    } else {
+                        controlPageUsableData.markPageLoadStarted(System.currentTimeMillis())
+                    }
                 }
             }
-        }
 
-        abortTimerObservable.subscribe{
-            if (!controlPageUsableData.isTimerAborted()) {
-                controlPageUsableData.abortTimer()
+            abortTimerObservable.subscribe{
+                if (!controlPageUsableData.isTimerAborted()) {
+                    controlPageUsableData.abortTimer()
+                }
             }
-        }
 
-        searchParamsObservable.subscribe {
-            if (controlPageUsableData.isTimerAborted()) {
-                FlightsV2Tracking.trackFlightsSearchFieldsChanged()
-            } else {
-                controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
-                FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
+            searchSubscription = searchParamsObservable.subscribe {
+                if (controlPageUsableData.isTimerAborted()) {
+                    FlightsV2Tracking.trackFlightsSearchFieldsChanged()
+                } else {
+                    controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
+                    FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
+                }
             }
         }
 
@@ -117,6 +123,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
                 FlightSearchParamsHistoryUtil.saveFlightParams(context, flightSearchParams)
             }
+            searchSubscription?.unsubscribe()
         } else {
             if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSearchFormValidation)) {
                 stepByStepSearchFormValidation()

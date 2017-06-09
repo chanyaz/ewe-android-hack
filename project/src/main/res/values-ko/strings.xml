@@ -47,6 +47,10 @@
     <string name="secure_checkout">안전한 보안 결제</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">구글 지도, 호텔 검색 결과를 지도로 보기</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">{hotel_count} 확대하기</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">아래에서 금액이 {price}인 호텔에 대한 정보 보기, 버튼</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">구매하기</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">페이지 로드 오류! 오류 메시지: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">로드할 웹페이지 URL이 없습니다.</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">곧 이용 가능…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">죄송합니다. 고객님의 현재 지역에서는 모바일 항공 예약이 아직 지원되지 않습니다.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

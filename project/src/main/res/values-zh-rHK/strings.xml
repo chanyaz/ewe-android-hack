@@ -47,6 +47,10 @@
     <string name="secure_checkout">安全付款</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google 地圖，使用地圖搜尋酒店結果</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">放大以顯示 {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">按此顯示 {price} 或以下酒店的資料</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">購買</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">頁面載入錯誤！錯誤訊息：%1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">沒有可載入的網頁 URL。</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">快將推出…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">很抱歉，您的地點尚未提供流動機票預訂服務。</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

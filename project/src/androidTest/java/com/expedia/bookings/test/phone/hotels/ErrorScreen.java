@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
 import android.support.test.espresso.ViewInteraction;
-import android.widget.ImageButton;
+import android.support.v7.widget.AppCompatImageButton;
 
 import com.expedia.bookings.R;
 
@@ -45,7 +45,7 @@ public class ErrorScreen {
 	}
 
 	private static ViewInteraction toolbarNavigationBack(int id) {
-		return onView(allOf(withParent(withId(id)), withClassName(is(ImageButton.class.getName()))));
+		return onView(allOf(withParent(withId(id)), withClassName(is(AppCompatImageButton.class.getName()))));
 	}
 
 }
