@@ -6,7 +6,6 @@
         android:id="@+id/menu_share"
         app:showAsAction="always|withText"
         android:title="@string/itin_action_share"
-        android:icon="@drawable/ic_social_share"
         android:visible="true"
         android:enabled="true" />
 

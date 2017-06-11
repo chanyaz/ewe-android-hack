@@ -19,6 +19,9 @@ class ConfirmationToolbar(context: Context, attrs: AttributeSet?) : Toolbar(cont
 
     val menuItem: MenuItem by lazy {
         val item = menu.findItem(R.id.menu_share)
+        val shareIcon = context.getDrawable(R.drawable.ic_social_share)
+        shareIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        item.setIcon(shareIcon)
         val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing)
         if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
             item.icon = null
