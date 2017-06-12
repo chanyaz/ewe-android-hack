@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hotel_review_background_color"
+    android:background="@color/egg_white"
     android:paddingTop="?attr/actionBarSize">
 
     <com.expedia.bookings.widget.MessageProgressView

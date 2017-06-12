@@ -259,7 +259,7 @@
             android:id="@+id/room_info_divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/hotel_detail_divider"
+            android:background="@color/gray2"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
             android:visibility="gone" />
@@ -318,6 +318,6 @@
         android:id="@+id/row_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/hotel_detail_divider" />
+        android:background="@color/gray2" />
 
 </merge>

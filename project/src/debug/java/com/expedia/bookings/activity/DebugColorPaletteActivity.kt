@@ -77,24 +77,13 @@ class DebugColorPaletteActivity : AppCompatActivity() {
 
                 DebugColorPaletteItem(DebugColorPaletteItem.TITLE, "Random Hotel Colors"),
                 DebugColorPaletteItem(colorId = R.color.hotelsv2_discount_green),
-                DebugColorPaletteItem(colorId = R.color.hotel_filter_spinner_text_color),
                 DebugColorPaletteItem(colorId = R.color.etp_text_color),
                 DebugColorPaletteItem(colorId = R.color.pay_now_earn_text_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_cell_distance_text),
-                DebugColorPaletteItem(colorId = R.color.hotel_detail_divider),
-                DebugColorPaletteItem(colorId = R.color.pwp_total_available_points),
                 DebugColorPaletteItem(colorId = R.color.hotel_urgency_message_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_tonight_only_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_mobile_exclusive_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_member_pricing_color),
                 DebugColorPaletteItem(colorId = R.color.hotel_member_pricing_color_test),
-                DebugColorPaletteItem(colorId = R.color.hotel_coupon_code_error_message_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_review_background_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_review_title_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_review_date_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_review_summary_rating_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_overall_rating_background_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_review_body_color),
-                DebugColorPaletteItem(colorId = R.color.hotel_reviews_row_divider_color))
+                DebugColorPaletteItem(colorId = R.color.hotel_coupon_code_error_message_color))
     }
 }

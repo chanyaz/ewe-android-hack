@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Core.Text.Large.Medium.LightColor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="middle"
@@ -7,6 +8,4 @@
     android:paddingBottom="12dp"
     android:paddingRight="12dp"
     android:paddingLeft="16dp"
-    android:textColor="@color/hotel_filter_spinner_text_color"
-    android:maxLines="1"
-    android:textSize="15sp" />
+    android:maxLines="1"/>

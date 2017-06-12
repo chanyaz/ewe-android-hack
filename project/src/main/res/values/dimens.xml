@@ -185,9 +185,6 @@
     <dimen name="hotel_sticky_bottom_shadow_height">8dp</dimen>
 
     <!--Dimensions for hotel review row-->
-    <dimen name="hotel_review_title_text_size">13dp</dimen>
-    <dimen name="hotel_review_date_text_size">12dp</dimen>
-    <dimen name="hotel_review_body_text_size">12dp</dimen>
     <dimen name="hotel_reviewer_text_size">12dp</dimen>
     <dimen name="hotel_review_row_padding_top">18dp</dimen>
     <dimen name="hotel_review_row_padding_bottom">@dimen/hotel_review_row_padding_top</dimen>

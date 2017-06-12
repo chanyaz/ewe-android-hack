@@ -28,10 +28,9 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/total_points_available_view"
+                style="@style/Core.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/pwp_total_available_points"
-                android:textSize="12sp"
                 app:textStyle="thin" />
         </LinearLayout>
 

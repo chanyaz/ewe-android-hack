@@ -330,14 +330,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/rating_container"
-                    android:background="@color/hotel_detail_divider" />
+                    android:background="@color/gray2" />
 
                 <View
                     android:id="@+id/etp_and_free_cancellation_divider"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/amenities_scroll_view"
-                    android:background="@color/hotel_detail_divider" />
+                    android:background="@color/gray2" />
 
                 <LinearLayout
                     android:id="@+id/etp_and_free_cancellation_messaging_container"
@@ -400,7 +400,7 @@
                             android:id="@+id/horizontal_divider_bw_etp_and_free_cancellation"
                             android:layout_width="1px"
                             android:layout_height="match_parent"
-                            android:background="@color/hotel_detail_divider" />
+                            android:background="@color/gray2" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/etp_info_text_small"
@@ -420,7 +420,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/etp_and_free_cancellation_messaging_container"
-                    android:background="@color/hotel_detail_divider" />
+                    android:background="@color/gray2" />
 
                 <RelativeLayout
                     android:id="@+id/hotel_description_container"
@@ -489,7 +489,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/hotel_description_container"
-                    android:background="@color/hotel_detail_divider" />
+                    android:background="@color/gray2" />
 
                 <com.expedia.bookings.widget.FrameLayout
                     android:id="@+id/map_click_container"
@@ -524,7 +524,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/etp_placeholder"
-                    android:background="@color/hotel_detail_divider" />
+                    android:background="@color/gray2" />
 
                 <LinearLayout
                     android:id="@+id/room_rate_header"
@@ -599,7 +599,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/room_rate_header"
-                    android:background="@color/hotel_detail_divider"
+                    android:background="@color/gray2"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -624,7 +624,7 @@
                     android:layout_height="1px"
                     android:layout_below="@+id/property_info_container"
                     android:layout_marginTop="10dp"
-                    android:background="@color/hotel_detail_divider" />
+                    android:background="@color/gray2" />
 
                 <RelativeLayout
                     android:id="@+id/renovation_container"

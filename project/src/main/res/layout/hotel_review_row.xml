@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:background="@color/hotel_review_background_color">
+    android:background="@color/gray1">
 
     <LinearLayout
         android:id="@+id/root"
@@ -24,13 +24,11 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/review_title"
+                style="@style/Core.Text.Default.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/date"
-                android:textColor="@color/hotel_review_title_color"
-                android:textSize="@dimen/hotel_review_title_text_size"
-                app:textStyle="medium" />
+                android:layout_toLeftOf="@+id/date"/>
 
             <com.expedia.bookings.widget.BoxRatingBar
                 android:id="@+id/user_rating_bar"
@@ -49,23 +47,21 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/date"
+                style="@style/Core.Text.Default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingLeft="5dp"
-                android:textColor="@color/hotel_review_date_color"
-                android:textSize="@dimen/hotel_review_date_text_size" />
+                android:paddingLeft="5dp"/>
 
         </RelativeLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/content"
+            style="@style/Core.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="@dimen/hotel_review_content_line_spacing"
-            android:paddingBottom="@dimen/hotel_review_padding_bottom"
-            android:textColor="@color/hotel_review_body_color"
-            android:textSize="@dimen/hotel_review_body_text_size" />
+            android:paddingBottom="@dimen/hotel_review_padding_bottom"/>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/reviewer"
@@ -81,6 +77,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_review_divider_height"
         android:layout_below="@+id/root"
-        android:background="@color/hotel_reviews_row_divider_color" />
+        android:background="@color/gray1" />
 
 </RelativeLayout>

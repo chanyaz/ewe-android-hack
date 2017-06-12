@@ -95,15 +95,11 @@
     <color name="hotels_room_title">@color/gray10</color>
     <color name="hotels_room_info">@color/gray6</color>
     <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
-    <color name="hotel_filter_spinner_text_color">#707070</color>
     <color name="etp_text_color">#29a653</color>
     <color name="pay_now_earn_text_color">#8E0099</color>
     <color name="hotel_cell_gray_text">@color/gray6</color>
-    <color name="hotel_cell_distance_text">#D7D7D7</color>
     <color name="hotel_cell_disabled_text">@color/gray7</color>
-    <color name="hotel_detail_divider">#CACACA</color>
     <color name="hotel_filter_background_color">@color/gray1</color>
-    <color name="pwp_total_available_points">#969696</color>
     <color name="hotel_points_applied_plus_color">@color/hotels_primary_color</color>
 
     <color name="hotel_urgency_message_color">#E2934A</color>
@@ -116,14 +112,7 @@
     <color name="hotel_earn_message_text_color">@color/gray6</color>
 
     <!-- Hotel reviews colors -->
-    <color name="hotel_review_background_color">#FAFAFA</color>
-    <color name="hotel_review_title_color">#686868</color>
-    <color name="hotel_review_date_color">#A5A5A5</color>
-    <color name="hotel_review_summary_rating_color">#888888</color>
-    <color name="hotel_overall_rating_background_color">#787878</color>
-    <color name="hotel_review_body_color">#686868</color>
     <color name="hotel_review_reviewer_color">#A5A5A5</color>
-    <color name="hotel_reviews_row_divider_color">#E2E2E2</color>
     <color name="hotel_reviews_summary_background_color">@color/white</color>
 
     <!--Hotel Filter Colors -->
