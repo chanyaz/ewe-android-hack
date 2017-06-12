@@ -148,7 +148,7 @@ public class OmnitureTracking {
 	private static final Application.ActivityLifecycleCallbacks sOmnitureActivityCallbacks = new Application.ActivityLifecycleCallbacks() {
 		@Override
 		public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-			// ignore
+			//ignore
 		}
 
 		@Override
@@ -159,13 +159,13 @@ public class OmnitureTracking {
 		@Override
 		public void onActivityResumed(Activity activity) {
 			Log.v(TAG, "onResume - " + activity.getClass().getSimpleName());
-			ADMS_Measurement.sharedInstance(sContext).startActivity(sContext);
+			ADMS_Measurement.sharedInstance().resumeActivity(activity);
 		}
 
 		@Override
 		public void onActivityPaused(Activity activity) {
 			Log.v(TAG, "onPause - " + activity.getClass().getSimpleName());
-			ADMS_Measurement.sharedInstance().stopActivity();
+			ADMS_Measurement.sharedInstance().pauseActivity();
 		}
 
 		@Override

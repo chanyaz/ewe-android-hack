@@ -1,7 +1,9 @@
 package com.expedia.bookings
 
+import android.app.Activity
 import android.content.Context
 import com.adobe.mobile.Analytics
+import com.adobe.mobile.Config
 
 class ADMS_Measurement {
 
@@ -55,13 +57,14 @@ class ADMS_Measurement {
         Analytics.trackAction("", cData)
     }
 
-    fun startActivity(sContext: Context) {
-        //TO-DO
+    fun pauseActivity() {
+        Config.pauseCollectingLifecycleData();
     }
 
-    fun stopActivity() {
-        //TO-DO
+    fun resumeActivity(activity: Activity) {
+        Config.collectLifecycleData(activity);
     }
+
 
     fun getOmnitureDataValue(key: String): Any? {
         return cData[key]
