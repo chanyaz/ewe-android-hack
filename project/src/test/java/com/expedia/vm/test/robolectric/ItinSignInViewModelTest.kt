@@ -110,10 +110,10 @@ class ItinSignInViewModelTest {
         setUpItinLogin()
         givenCustomerNotAuthenticated()
 
-        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.never()).markSuccessfulSignIn(Matchers.anyLong())
+        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.never()).markSuccessfulStartTime(Matchers.anyLong())
         testItinSignInViewModel.signInClickSubject.onNext(Unit)
 
-        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.times(1)).markSuccessfulSignIn(Matchers.anyLong())
+        Mockito.verify(mockItinPageUsablePerformanceModel, Mockito.times(1)).markSuccessfulStartTime(Matchers.anyLong())
     }
 
     private fun setUpItinLogin() {

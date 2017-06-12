@@ -9,12 +9,7 @@ open class ItinPageUsableTrackingData {
     private var startTimeOnSuccessfulSignInResponse: Long? = INVALID_TIME
 
     @VisibleForTesting
-    open fun markSuccessfulSignIn(time: Long) {
-        tripLoadPageUsableData.markPageLoadStarted(time)
-        startTimeOnSuccessfulSignInResponse = time
-    }
-
-    open fun markItinRefreshStartTime(time: Long) {
+    open fun markSuccessfulStartTime(time: Long) {
         tripLoadPageUsableData.markPageLoadStarted(time)
         startTimeOnSuccessfulSignInResponse = time
     }

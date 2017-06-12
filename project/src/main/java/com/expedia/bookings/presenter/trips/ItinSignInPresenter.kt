@@ -66,7 +66,7 @@ class ItinSignInPresenter(context: Context, attr: AttributeSet?) : Presenter(con
         }
         signInWidget.viewModel.syncItinManagerSubject.subscribe {
             OmnitureTracking.trackItinRefresh()
-            itinPageUsablePerformanceModel.markItinRefreshStartTime(System.currentTimeMillis())
+            itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
             showItinFetchProgress()
         }
     }

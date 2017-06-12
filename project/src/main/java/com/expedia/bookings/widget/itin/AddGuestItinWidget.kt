@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.model.PointOfSaleStateModel
+import com.expedia.bookings.tracking.ItinPageUsableTrackingData
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -62,6 +63,8 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
     init {
         View.inflate(context, R.layout.add_guest_itin_widget, this)
         com.expedia.bookings.utils.Ui.getApplication(context).appComponent().inject(this)
+        val tripComponent = com.expedia.bookings.utils.Ui.getApplication(context).tripComponent()
+        val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
         orientation = VERTICAL
         viewModel = AddGuestItinViewModel(context)
         viewModel.addItinSyncListener()
@@ -73,6 +76,7 @@ class AddGuestItinWidget(context: Context, attr: AttributeSet?) : LinearLayout(c
             } else {
                 Ui.hideKeyboard(this)
                 viewModel.performGuestTripSearch.onNext(Pair(guestEmailEditText.text.toString(), itinNumberEditText.text.toString()))
+                itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
             }
         }
 

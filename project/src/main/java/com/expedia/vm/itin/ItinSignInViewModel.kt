@@ -81,7 +81,7 @@ open class ItinSignInViewModel(val context: Context) {
     }
 
     fun startTimerOnSuccessfullSignIn() {
-        itinPageUsablePerformanceModel.markSuccessfulSignIn(System.currentTimeMillis())
+        itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
     }
 
     fun getSignInText(): String {
