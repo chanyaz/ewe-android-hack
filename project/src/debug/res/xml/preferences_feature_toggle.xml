@@ -5,11 +5,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Hotel Features">
 
-        <CheckBoxPreference
-            android:key="@string/preference_hotel_advanced_search_options"
-            android:layout="@layout/preference"
-            android:summary="Advanced search options"
-            android:title="Enable Advanced Search Options" />
     </PreferenceCategory>
 
     <PreferenceCategory

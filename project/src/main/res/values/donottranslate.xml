@@ -113,7 +113,6 @@
     <string name="preference_itin_card_detail">preference_itin_card_detail</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
-    <string name="preference_hotel_advanced_search_options">preference_enable_advanced_search</string>
     <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
 
     <!-- Default values for preference keys -->
