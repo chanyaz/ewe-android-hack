@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "analytics": {
+    "rsids": "expediaglobaldev",
+    "server": "oms.expedia.com",
+    "charset": "UTF-8",
+    "ssl": true,
+    "offlineEnabled": false,
+    "lifecycleTimeout": 300,
+    "referrerTimeout": 0,
+    "batchLimit": 0,
+    "privacyDefault": "optedin",
+    "backdateSessionInfo": false,
+    "poi": []
+  },
+  "marketingCloud": {
+    "org": "C00802BE5330A8350A490D4C@AdobeOrg"
+  }
+}

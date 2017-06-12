@@ -2989,19 +2989,6 @@ public class OmnitureTracking {
 			s.setDebugLogging(true);
 		}
 
-		// Add offline tracking, so user doesn't have to be online to be tracked
-		if (ExpediaBookingApp.isAutomation()) {
-			s.setOfflineTrackingEnabled(false);
-			s.setOffline();
-			if (!ExpediaBookingApp.isRobolectric()) {
-				s.clearTrackingQueue();
-			}
-		}
-		else {
-			s.setOfflineTrackingEnabled(true);
-			s.setOnline();
-		}
-
 		// account
 		s.setReportSuiteIDs(getReportSuiteIds());
 

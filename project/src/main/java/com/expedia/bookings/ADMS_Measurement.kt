@@ -32,18 +32,6 @@ class ADMS_Measurement {
         return getOmnitureDataValue(EVAR + i) as String?
     }
 
-    fun setOnline() {
-        //TO-DO
-    }
-
-    fun clearTrackingQueue() {
-        //TO-DO
-    }
-
-    fun setOffline() {
-        //TO-DO
-    }
-
     fun setEvar(i: Int, s: String?) {
         cData.put(EVAR + i, s ?: "")
     }
