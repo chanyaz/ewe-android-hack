@@ -25,8 +25,7 @@ class ADMS_Measurement {
     }
 
     fun getEvar(i: Int): String? {
-        //TO-DO
-        return null
+        return getOmnitureDataValue(EVAR + i) as String?
     }
 
     fun clearVars() {
