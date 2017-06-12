@@ -5,6 +5,8 @@ import org.junit.Test;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -28,9 +30,11 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private final static int CREDIT_CARD_REQUIRED = 1;
 
 	private void goToCarDetails() throws Throwable {
+		AbacusTestUtils.updateABTest(PointOfSale.getPointOfSale().getCarsWebViewABTestID(), 0);
 		ViewInteraction carsLaunchButton = NewLaunchScreen.carsLaunchButton();
 		Common.delay(1);
 		carsLaunchButton.perform(click());
+		CarScreen.waitForSearchScreen();
 		SearchScreen.doGenericCarSearch();
 		Common.delay(1);
 
@@ -39,6 +43,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	}
 
 	private void doLogin() throws Throwable {
+		CheckoutViewModel.waitForCheckout();
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
 		CheckoutViewModel.enterLoginDetails();
 		CheckoutViewModel.pressDoLogin();
@@ -83,15 +88,15 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		enterCVV("111");
 	}
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
-//	public void testCarPhoneLoggedInHappyPath() throws Throwable {
-//		goToCarDetails();
-//		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
-//		doLogin();
-//
-//		slideToPurchase();
-//		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
-//	}
+	@Test
+	public void testCarPhoneLoggedInHappyPath() throws Throwable {
+		goToCarDetails();
+		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
+		doLogin();
+
+		slideToPurchase();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
+	}
 
 	@Test
 	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
@@ -105,28 +110,29 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	}
 
 	private void selectSavedCreditCard() throws Throwable {
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 		CheckoutViewModel.clickDone();
 	}
 
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
-//	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
-//		goToCarDetails();
-//		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-//		doLogin();
-//
-//		CheckoutViewModel.clickTravelerInfo();
-//		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
-//		CheckoutViewModel.clickStoredTravelerButton();
-//		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
-//		CheckoutViewModel.pressClose();
-//
-//		selectSavedCreditCard();
-//		slideToPurchase();
-//		enterCVV("6286");
-//	}
+	@Test
+	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
+		goToCarDetails();
+		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
+		doLogin();
+
+		CheckoutViewModel.clickTravelerInfo();
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+		CheckoutViewModel.pressClose();
+
+		selectSavedCreditCard();
+		slideToPurchase();
+		enterCVV("6286");
+	}
 
 	@Test
 	public void testCarPhoneSignedInCustomerCanEnterNewTraveler() throws Throwable {
