@@ -170,13 +170,13 @@ public class TripUtils {
 	}
 
 	public static String getFlightTripDestinationCity(TripFlight trip) {
-		if (trip != null) {
+		if (trip != null && trip.getFlightTrip() != null && !trip.getFlightTrip().getLegs().isEmpty()) {
 			FlightLeg firstFlightLeg = trip.getFlightTrip().getLeg(0);
 			String cityName = firstFlightLeg.getSegment(firstFlightLeg.getSegmentCount() - 1).getDestinationWaypoint()
 				.getAirport().mCity;
 			return cityName;
 		}
-		return null;
+		return "";
 	}
 
 	public static HotelSearchParams getHotelSearchParamsForRecentFlightAirAttach(TripFlight tripFlight) {

@@ -195,13 +195,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 		else if (holder instanceof LaunchScreenAirAttachCard) {
 			Trip recentUpcomingFlightTrip = getUpcomingAirAttachQualifiedFlightTrip();
-			TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
-			HotelSearchParams hotelSearchParams = TripUtils.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
-			String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
-
-			LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView,
-				recentUpcomingFlightTrip, hotelSearchParams, cityName);
-			((LaunchScreenAirAttachCard) holder).bind(viewModel);
+			if (recentUpcomingFlightTrip != null) {
+				TripFlight tripFlight = (TripFlight) recentUpcomingFlightTrip.getTripComponents().get(0);
+				HotelSearchParams hotelSearchParams = TripUtils
+					.getHotelSearchParamsForRecentFlightAirAttach(tripFlight);
+				String cityName = TripUtils.getFlightTripDestinationCity(tripFlight);
+				LaunchScreenAirAttachViewModel viewModel = new LaunchScreenAirAttachViewModel(context, holder.itemView,
+					recentUpcomingFlightTrip, hotelSearchParams, cityName);
+				((LaunchScreenAirAttachCard) holder).bind(viewModel);
+			}
 		}
 
 		else if (holder instanceof ItinLaunchCard) {
