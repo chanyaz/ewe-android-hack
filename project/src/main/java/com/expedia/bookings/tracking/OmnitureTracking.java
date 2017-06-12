@@ -2979,7 +2979,6 @@ public class OmnitureTracking {
 	 */
 	private static ADMS_Measurement getFreshTrackingObject() {
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(sContext);
-		s.clearVars();
 		addStandardFields(s);
 		return s;
 	}

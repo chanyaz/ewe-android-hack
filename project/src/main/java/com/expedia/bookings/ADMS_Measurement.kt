@@ -20,16 +20,11 @@ class ADMS_Measurement {
     private val cData = HashMap<String, Any>()
 
     fun getProp(i: Int): String? {
-        //TO-DO
-        return null
+        return getOmnitureDataValue(EVAR + i) as String?
     }
 
     fun getEvar(i: Int): String? {
         return getOmnitureDataValue(EVAR + i) as String?
-    }
-
-    fun clearVars() {
-        //TO-DO
     }
 
     fun setOnline() {
@@ -49,7 +44,7 @@ class ADMS_Measurement {
     }
 
     fun setProp(i: Int, s: String?) {
-        //TO-DO
+        cData.put(PROP + i, s ?: "")
     }
 
     fun trackLink(o: Any?, o1: String?, s: String?, o2: Any?, o3: Any?) {
@@ -75,6 +70,8 @@ class ADMS_Measurement {
     companion object {
 
         private val EVAR = "&&v"
+
+        private val PROP = "&&c"
 
         @JvmStatic fun sharedInstance(sContext: Context): ADMS_Measurement {
             return ADMS_Measurement()
