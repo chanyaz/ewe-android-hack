@@ -2043,6 +2043,9 @@
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Advanced (optional)</string>
     <string name="contact_airline_message">Please contact airline to confirm requests</string>
+    <!--Content description for the Advanced button in traveler entry form used for Talkback-->
+    <string name="expand_advanced_button_cont_desc">Expand Advanced (Optional) Button</string>
+    <string name="collapse_advanced_button_cont_desc">Collapse Advanced (Optional) Button</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->

@@ -40,6 +40,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
+    val advancedOptionsText: TextView by bindView(R.id.advanced_options_text)
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
@@ -195,11 +196,13 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         advancedOptionsWidget.visibility = Presenter.VISIBLE
         resizeOpenAnimator.start()
         AnimUtils.rotate(advancedOptionsIcon)
+        advancedOptionsText.contentDescription = context.getString(R.string.collapse_advanced_button_cont_desc)
     }
 
     private fun hideAdvancedOptions() {
         AnimUtils.reverseRotate(advancedOptionsIcon)
         resizeCloseAnimator.start()
+        advancedOptionsText.contentDescription = context.getString(R.string.expand_advanced_button_cont_desc)
     }
 
     private inner class CountryItemSelectedListener() : AdapterView.OnItemSelectedListener {

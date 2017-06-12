@@ -1083,6 +1083,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_sticky_bottom_shadow_height,
 		R.layout.hotel_bottom_button_widget,
 		R.string.preference_flight_retain_search_params,
-		R.string.change_dates
+		R.string.change_dates,
+		R.string.expand_advanced_button_cont_desc,
+		R.string.collapse_advanced_button_cont_desc
 	};
 }

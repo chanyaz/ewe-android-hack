@@ -79,9 +79,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/advanced_options_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/expand_advanced_button_cont_desc"
                 android:text="@string/advanced_optional"
                 android:textColor="@color/black"
                 android:textSize="18dp" />

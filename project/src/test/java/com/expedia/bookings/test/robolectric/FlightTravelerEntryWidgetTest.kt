@@ -197,6 +197,20 @@ class FlightTravelerEntryWidgetTest {
         assertTrue(widget.phoneEntryView.phoneNumber.valid)
     }
 
+    @Test
+    fun testAdvancedOptionsContentDescription() {
+        givenMaterialForm(true)
+        val expandAdvancedOptionsContDesc = widget.context.resources.getString(R.string.expand_advanced_button_cont_desc)
+        val collapseAdvancedOptionsContDesc = widget.context.resources.getString(R.string.collapse_advanced_button_cont_desc)
+        assertEquals(expandAdvancedOptionsContDesc, widget.advancedOptionsText.contentDescription)
+
+        widget.advancedButton.callOnClick()
+        assertEquals(collapseAdvancedOptionsContDesc, widget.advancedOptionsText.contentDescription)
+
+        widget.advancedButton.callOnClick()
+        assertEquals(expandAdvancedOptionsContDesc, widget.advancedOptionsText.contentDescription)
+    }
+
     private fun givenMaterialForm(isMaterialForm: Boolean) {
         if (isMaterialForm) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
