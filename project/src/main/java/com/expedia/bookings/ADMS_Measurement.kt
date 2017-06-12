@@ -17,7 +17,10 @@ class ADMS_Measurement {
     var trackingServer: String? = null
     var SSL: Boolean = false
     var debugLogging: Boolean = false
-    val visitorID: String? = null
+
+    val visitorID by lazy {
+        Config.getUserIdentifier()
+    }
 
     private val cData = HashMap<String, Any>()
 
