@@ -39,7 +39,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
-import com.expedia.bookings.fragment.ItinCardDetailsActivity;
+import com.expedia.bookings.data.trips.TripComponent;
+import com.expedia.bookings.fragment.FlightItinDetailsActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
@@ -869,7 +870,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
-		Boolean isItinCardDetailFeatureOn = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_card_detail);
+		Boolean isItinCardDetailFeatureOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidAppFlightItin, R.string.preference_itin_card_detail);
 		if (view instanceof ItinButtonCard) {
 			// Do nothing
 		}
@@ -879,8 +880,8 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		else if (data instanceof ItinCardDataRails) {
 			openItinInWebView(data.getDetailsUrl());
 		}
-		else if (data.hasDetailData() && isItinCardDetailFeatureOn) {
-			Intent i = new Intent(getContext(), ItinCardDetailsActivity.class);
+		else if (data.getTripComponentType() == TripComponent.Type.FLIGHT && isItinCardDetailFeatureOn) {
+			Intent i = new Intent(getContext(), FlightItinDetailsActivity.class);
 			i.putExtra("tripId", data.getTripId());
 			getContext().startActivity(i);
 		}
