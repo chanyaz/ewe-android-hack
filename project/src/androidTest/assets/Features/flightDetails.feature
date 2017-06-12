@@ -32,6 +32,44 @@ Feature: Flight Details on a seperate screen
     And Baggage link "Baggage fee info" is present on the flight details
     And Select button "Select this Flight" is displayed at the bottom of the flight details screen
 
+ @Flights @FlightDetails @WIP
+  Scenario: Verify basic economy functionality on outbound details screen
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I click on the flight with airline name "happy_round_trip" at "9:00 pm - 11:00 pm"
+    Then basic economy link isDisplayed : true
+    And I click on the Basic Economy link
+    Then Validate title info of Basic Economy Dialog is American Airlines Basic Economy Fare
+    And I click on Done button
+
+@Flights @FlightDetails
+  Scenario: Verify basic economy is not visible on outbound details screen
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I click on the flight with airline name "happy_round_trip_with_insurance_available" at "9:00 pm - 11:00 pm"
+    Then basic economy link isDisplayed : false
 
   @Flights @FlightDetails
   Scenario: Verify multi leg information

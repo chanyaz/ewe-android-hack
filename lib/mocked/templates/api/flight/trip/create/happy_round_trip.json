@@ -26,7 +26,7 @@
         "legs": [
             {
                 "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
-                "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+                "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=V&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
                 "segments": [
                     {
                         "airlineCode": "AA",
@@ -52,7 +52,8 @@
                         "meal": "Food and beverage for purchase",
                         "onTimePercentage": "70",
                         "providerCode": "Amadeus",
-                        "stops": 0
+                        "stops": 0,
+                        "isBasicEconomy": true
                     }
                 ]
             },

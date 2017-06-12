@@ -129,6 +129,11 @@ public class FlightsSearchResultsSingleCellSteps {
 		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.urgency_message,isDisplayed,true);
 	}
 
+	@Then("^basic economy on cell (\\d+) isDisplayed : (true|false)$")
+	public void lookForBasicEconomy(int cellNumber, boolean isDisplayed) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.flight_class_text_view,isDisplayed,true);
+	}
+
 	private void legalComplianceAU(int resid, String text, boolean outBound) {
 		onView(allOf(withId(resid), (outBound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound))))).check(matches(withText(containsString(text))));
 	}

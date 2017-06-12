@@ -9,6 +9,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -16,6 +17,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 public class FlightDetailsScreenSteps {
 
@@ -154,6 +156,22 @@ public class FlightDetailsScreenSteps {
 	public void verifyBaggageLink(String baggageText) throws Throwable {
 		onView(withId(R.id.show_baggage_fees))
 			.check(matches(withText(containsString(baggageText))));
+	}
+
+	@Then("^basic economy link isDisplayed : (true|false)$")
+	public void verifyBasicEconomy(boolean isDisplayed) throws Throwable {
+		onView(withId(R.id.flight_basic_economy_tooltip))
+			.check(matches(isDisplayed ? isDisplayed() : not(isDisplayed())));
+	}
+
+	@Then("^Validate title info of Basic Economy Dialog is \"([^\"]*)\"$")
+	public void verifyTitleInfoOfBasicEconomyDialog(String title) {
+		onView(withId(R.id.alertTitle)).check(matches(withText(containsString(title))));
+	}
+
+	@And("^I click on the Basic Economy link")
+	public void clickOnBasicEconomyLink() throws Throwable {
+		onView(withId(R.id.flight_basic_economy_tooltip)).perform(click());
 	}
 
 	@And("^Select button \"([^\"]*)\" is displayed at the bottom of the flight details screen$")

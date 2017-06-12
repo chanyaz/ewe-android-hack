@@ -30,6 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 
 public class FlightsOverviewScreenSteps {
@@ -148,6 +149,13 @@ public class FlightsOverviewScreenSteps {
 			withText(price), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).perform(scrollTo())
 			.check(matches(allOf(hasSibling(withId(R.id.price_text_view)), isDisplayed())));
 	}
+
+	@Then("^basic economy link isDisplayed : (true|false)$")
+	public void verifyBasicEconomy(boolean isDisplayed) throws Throwable {
+		onView(withId(R.id.flight_basic_economy_tooltip))
+			.check(matches(isDisplayed ? isDisplayed() : not(isDisplayed())));
+	}
+
 	private void validateFlightInfo(int resId, String parameter, boolean outBound) throws Throwable {
 		onView(Matchers.allOf(outBound ? isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))
 						: isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
