@@ -50,7 +50,7 @@ class ADMS_Measurement {
     }
 
     fun trackLink(o: Any?, o1: String?, s: String?, o2: Any?, o3: Any?) {
-        //TO-DO
+        Analytics.trackAction(s, cData)
     }
 
     fun track() {
