@@ -87,7 +87,7 @@ def main():
     githubRepository = githubRepo[1]
     checkstyleReportFileList = ['./lib/ExpediaBookings/build/reports/checkstyle/main.xml', './lib/ExpediaBookings/build/reports/checkstyle/test.xml', './project/build/reports/checkstyle/checkstyle.xml']
     unitTestReportFileList = ['./lib/ExpediaBookings/build/test-results/TEST-com.expedia.*', './project/build/test-results/TEST-com.expedia.*']
-    lintTestReportFilePath = ['./project/build/outputs/lint-results-expediaDebug.xml', './project/build/outputs/lint-results-expediaRelease.xml']
+    lintTestReportFilePath = ['./project/build/reports/lint-results-expediaDebug.xml', './project/build/reports/lint-results-expediaRelease.xml']
     kotlinUnusedResourcesReportFileName = './project/build/outputs/kotlin-unused-resources.txt'
 
     unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + formatCheckstyleErrorMessage(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath) + formatKotlinUnusedResourcesMessage(kotlinUnusedResourcesReportFileName)
