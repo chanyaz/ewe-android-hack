@@ -7,6 +7,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -50,11 +51,12 @@ public class FlightDetailsScreenSteps {
 
 	@And("^on Flight detail check the date is as user selected$")
 	public void validateDateOnDetails() throws Throwable {
-		LocalDate startDate = LocalDate.now()
-			.plusDays(Integer.parseInt(TestUtilFlights.dataSet.get("start_date")));
-		String date = String.valueOf(startDate.getDayOfMonth());
-		String year = String.valueOf(startDate.getYear());
-		String month = getMonth(startDate.getMonthOfYear());
+
+		LocalDate startDate = TestUtil.getDateFromOffset(
+			Integer.parseInt(TestUtil.dataSet.get("start_date")));
+		String date = TestUtil.getDayFromDate(startDate);
+		String year = TestUtil.getYearFromDate(startDate);
+		String month = TestUtil.getMonthFromDate(startDate);
 		onView(
 			allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
 			.check(matches(withText(containsString(date))));

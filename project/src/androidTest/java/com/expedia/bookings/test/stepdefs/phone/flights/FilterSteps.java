@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.widget.FilterSeekBar;
 import com.expedia.bookings.widget.TextView;
 
@@ -72,7 +73,7 @@ public class FilterSteps {
 	@Then("^Validate that after filter applied the number of result changes$")
 	public void validateResultsAfterFilter() throws Throwable {
 		onView(withId(R.id.dynamic_feedback_counter)).check(getDynamicResultCountOnSortAndFilterScreen());
-		onView(withId(R.id.list_view)).check(TestUtilFlights.assertFlightsResultsListSizeEquals(Integer.parseInt(filterResult)));
+		onView(withId(R.id.list_view)).check(TestUtil.assertFlightsResultsListSizeEquals(Integer.parseInt(filterResult)));
 
 	}
 
@@ -84,7 +85,8 @@ public class FilterSteps {
 
 	@Then("^Validate all results are \"(.*?)\"$")
 	public void checkResultsForNumberOfStops(String stopsValue) throws Throwable {
-		onView(Matchers.allOf(withId(R.id.list_view),(isDescendantOfA(withId(R.id.widget_flight_outbound)) ))).check(TestUtilFlights.assertFlightResultsListFor( hasDescendant(
+		onView(Matchers.allOf(withId(R.id.list_view),(isDescendantOfA(withId(R.id.widget_flight_outbound)) ))).check(
+			TestUtil.assertFlightResultsListFor( hasDescendant(
 			Matchers.allOf(withId(R.id.flight_duration_text_view), withText(containsString(stopsValue))))));
 	}
 

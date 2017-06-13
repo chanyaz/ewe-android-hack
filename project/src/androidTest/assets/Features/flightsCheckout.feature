@@ -5,6 +5,8 @@ Feature: Flights Checkout
   Scenario: Verify that cardholder name field is present
 
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -26,6 +28,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout
   Scenario: Verify that cardholder field cannot be left blank
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -49,6 +53,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout
   Scenario: Verify that on entering only first or last name will result in error
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -73,6 +79,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout
   Scenario: Verify that user can enter both the first name and last name
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -97,6 +105,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout
   Scenario: Verify that Main traveler and credit card (if single stored) should auto -populate for Logged in User
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -123,6 +133,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout
   Scenario: Verify that Main traveler and credit card (if multiple stored) should auto-populate for Logged in User
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -149,6 +161,8 @@ Feature: Flights Checkout
   Scenario: Passport field is mandatory on checkout in international flights
 
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -182,6 +196,8 @@ Feature: Flights Checkout
   @Flights @Prod @FlightsCheckout
   Scenario: Passport field is mandatory on checkout in domestic flights for AirAsia
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | KUL                                      |
@@ -219,6 +235,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout @Prod
   Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for round trip flights.
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     When I make a flight search with following parameters
       | source              | SFO                                      |
@@ -264,6 +282,8 @@ Feature: Flights Checkout
   @Flights @FlightsCheckout @Prod
   Scenario: Verify that traveler details and card details are erased on each create trip from checkout page for one-way trip flights.
     Given I launch the App
+    And I put following tests in control
+      | FlightsCrossSellPackage |
     And I launch "Flights" LOB
     And I select one way trip
     When I enter source and destination for flights

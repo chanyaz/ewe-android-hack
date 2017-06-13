@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -122,10 +123,10 @@ public class SearchResultsScreenSteps {
 
 	private String getPackageHotelSubTitle(Map<String, String> parameters) {
 		StringBuilder stringBuilder = new StringBuilder("");
-		stringBuilder.append(TestUtilFlights.getFormattedDateString(parameters.get("start_date"), parameters.get("end_date")));
+		stringBuilder.append(TestUtil.getFormattedDateString(parameters.get("start_date"), parameters.get("end_date")));
 		stringBuilder.append(", ");
 		int totalGuests = (Integer.parseInt(parameters.get("adults")) + Integer.parseInt(parameters.get("child")));
-		stringBuilder.append(TestUtilFlights.getFormattedGuestString(totalGuests));
+		stringBuilder.append(TestUtil.getFormattedGuestString(totalGuests));
 		return stringBuilder.toString();
 	}
 

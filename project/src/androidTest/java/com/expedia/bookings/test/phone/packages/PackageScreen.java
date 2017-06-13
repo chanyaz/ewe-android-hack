@@ -79,6 +79,16 @@ public class PackageScreen {
 		return onView(withId(R.id.hotel_details_toolbar));
 	}
 
+	public static ViewInteraction hotelCardViewOnBundleOverviewText() {
+		return onView(withId(R.id.hotels_card_view_text));
+	}
+
+	public static ViewInteraction hotelTravelerDatesOnBundleOverviewText() {
+		return onView(withId(R.id.hotels_dates_guest_info_text));
+	}
+
+
+
 	public static void searchPackage() throws Throwable {
 		SearchScreen.doGenericSearch();
 	}

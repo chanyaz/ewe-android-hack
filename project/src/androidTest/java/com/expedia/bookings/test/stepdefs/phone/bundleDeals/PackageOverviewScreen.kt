@@ -9,15 +9,14 @@ import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
 
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withParent
+import android.support.test.espresso.matcher.ViewMatchers.*
 
-import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
-import com.expedia.bookings.test.stepdefs.phone.CommonSteps.getDateInMMMdd
+import com.expedia.bookings.test.phone.packages.PackageScreen
+import com.expedia.bookings.test.stepdefs.phone.TestUtil
+import com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd
+import cucumber.api.java.en.When
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.AllOf.allOf
@@ -66,7 +65,8 @@ class PackageOverviewScreen{
 
     @And("^validate hotel widget luggage image icon is checked$")
     fun validateHotelWidgetLuggageIcon() {
-        onView(allOf<View>(withId(R.id.package_hotel_luggage_icon), isDescendantOfA(withId(R.id.package_bundle_hotel_widget)))).check(matches(CustomMatchers.withImageDrawable(R.drawable.packages_hotels_checkmark_icon)))
+        onView(allOf<View>(withId(R.id.package_hotel_luggage_icon), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))))
+                .check(matches(CustomMatchers.withImageDrawable(R.drawable.packages_hotels_checkmark_icon)))
     }
 
     @Then("^I click on hotel widget details icon$")
@@ -116,7 +116,8 @@ class PackageOverviewScreen{
 
     @Then("^validate package outbound flight icon is checked")
     fun validatePackageOutboundFlightIcon() {
-        onView(allOf<View>(withId(R.id.package_flight_icon), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(matches(CustomMatchers.withImageDrawable(R.drawable.packages_flight1_checkmark_icon)))
+        onView(allOf<View>(withId(R.id.package_flight_icon), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+                .check(matches(CustomMatchers.withImageDrawable(R.drawable.packages_flight1_checkmark_icon)))
     }
 
     @Then("^verify package outbound flight widget view is displayed : (true|false)")
@@ -222,4 +223,99 @@ class PackageOverviewScreen{
                 isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
                 .perform(click())
     }
+
+    @Then("^following information on the bundle overview screen isDisplayed: (true|false)$")
+    @Throws(Throwable::class)
+    fun verifyDetailsOverviewScreen(isDisplayed: Boolean, info: Map<String, String>) {
+        validateDisplayedOnBundleOverview(R.id.step_one_text, info["Step 1 Text"], isDisplayed)
+
+
+        validateDisplayedOnBundleOverview(R.id.hotels_card_view_text, info["Hotel Bar - Hotel text"],
+                isDisplayed)
+        validateDateOnBundleOverview(R.id.hotels_dates_guest_info_text, info["Hotel Bar - Date"])
+        validateTravelersOnBundleOverview(R.id.package_bundle_hotel_widget, R.id.hotels_dates_guest_info_text,
+                info["Hotel Bar - travelers"])
+        validateDrawableDisplayedOnBundleOverview(R.id.package_hotel_luggage_icon, info["Hotel Image"])
+
+
+        validateDisplayedOnBundleOverview(R.id.step_two_text, info["Step 2 Text"],
+                isDisplayed)
+
+
+        validateDisplayedOnBundleOverview(R.id.flight_card_view_text, info["Outbound Flight Bar - Flight Text"],
+                isDisplayed)
+        validateDateOnBundleOverview(R.id.travel_info_view_text, info["Outbound Flight Bar - date"])
+        validateTravelersOnBundleOverview(R.id.package_bundle_outbound_flight_widget, R.id.travel_info_view_text,
+                info["Outbound Flight Bar - traveler"])
+        validateDrawableDisplayedOnBundleOverview(R.id.package_flight_icon, info["Flight Outbound Image"])
+
+
+        validateDisplayedOnBundleOverview(R.id.flight_card_view_text, info["Inbound Flight Bar - Flight Text"],
+                isDisplayed)
+        validateDateOnBundleOverview(R.id.travel_info_view_text, info["Inbound Flight Bar - date"])
+        validateTravelersOnBundleOverview(R.id.package_bundle_inbound_flight_widget, R.id.travel_info_view_text,
+                info["Inbound Flight Bar - traveler"])
+        validateDrawableDisplayedOnBundleOverview(R.id.package_flight_icon, info["Flight Inbound Image"])
+
+    }
+
+    private fun validateDrawableDisplayedOnBundleOverview(resId: Int, value: String?) {
+        if(value!!.contains("Hotel")) {
+            onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_hotel_widget))))
+                    .check(matches(isDisplayed()))
+        } else if(value!!.contains("Flight Outbound")) {
+            onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))))
+                    .check(matches(isDisplayed()))
+        } else if (value!!.contains("Flight Inbound")) {
+            onView(allOf<View>(withId(resId), isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))))
+                    .check(matches(isDisplayed()))
+        }
+    }
+
+    private fun validateDateOnBundleOverview(resId: Int, value: String?) {
+        if (value!!.contains("-")) {
+            val dateString = TestUtil.getDateRangeInMMMdd(value)
+            onView(withId(resId)).check(matches(withText(containsString(dateString))))
+        } else {
+            onView(allOf(withId(resId), withText(containsString(TestUtil.getDateInMMMdd(value)))))
+                    .check(matches(isDisplayed()))
+        }
+    }
+
+    private fun validateTravelersOnBundleOverview(parentId: Int, resId: Int, value: String?) {
+        onView(allOf(withId(resId),
+                isDescendantOfA(withId(parentId))))
+                .check(matches(withText(containsString(value))))
+    }
+
+    @Throws(Throwable::class)
+    private fun validateDisplayedOnBundleOverview(resId: Int, value: String?, shouldBeDisplayed: Boolean) {
+        onView(allOf(withId(resId), withText(containsString(value))))
+                .check(matches(if (shouldBeDisplayed) isDisplayed() else not(isDisplayed())))
+    }
+
+    @And("^\"(.*?)\" on bundle overview isDisabled: (true|false)$")
+    fun verifyDiabledViewsOnOverviewScreen(barName: String, isDisabled: Boolean) {
+        if (barName.contains("Outbound")) {
+            PackageScreen.outboundFlightInfo()
+                    .check(matches(if (isDisabled) not<View>(isEnabled()) else isEnabled()))
+        } else if (barName.contains("Inbound")) {
+            PackageScreen.inboundFlightInfo()
+                    .check(matches(if (isDisabled) not<View>(isEnabled()) else isEnabled()))
+        }
+
+    }
+
+    @When("^I tap on \"(.*?)\" on bundle overview screen$")
+    @Throws(Throwable::class)
+    fun launchHotelsFromBO(arg1: String) {
+        PackageScreen.hotelBundleContainer().perform(click())
+    }
+
+    @Then("^Bundle Overview screen is displayed$")
+    @Throws(Throwable::class)
+    fun bundleOverviewDisplayed() {
+        PackageScreen.hotelBundleContainer().check(matches(isDisplayed()))
+    }
+
 }

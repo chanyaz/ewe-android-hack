@@ -1,29 +1,33 @@
-package com.expedia.bookings.test.stepdefs.phone.flights;
+package com.expedia.bookings.test.stepdefs.phone;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
 import org.hamcrest.Matcher;
+import org.joda.time.LocalDate;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.expedia.bookings.test.stepdefs.phone.CommonSteps;
+import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.widget.flights.FlightListAdapter;
 
 import junit.framework.Assert;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TestUtilFlights {
+public class TestUtil {
 	public static Map<String, String> dataSet;
+	public static Map<String, String> storeDataAtRuntime = new HashMap();
 
 	public static int convertFlightDepartureTimeToInteger(String time) throws ParseException {
 
@@ -123,8 +127,8 @@ public class TestUtilFlights {
 	}
 
 	public static String getFormattedDateString(String startDays, String endDays) {
-		String stDateStr = CommonSteps.getDateInMMMdd(startDays);
-		String endDateStr = CommonSteps.getDateInMMMdd(endDays);
+		String stDateStr = getDateInMMMdd(startDays);
+		String endDateStr = getDateInMMMdd(endDays);
 		return (stDateStr + " - " + endDateStr);
 	}
 
@@ -132,5 +136,69 @@ public class TestUtilFlights {
 		String guestStr = Integer.toString(guestCount);
 		guestStr += ((guestCount > 1) ? " Guests" : " Guest");
 		return guestStr;
+	}
+
+	public static LocalDate getDateFromOffset(int offset) {
+		return LocalDate.now()
+			.plusDays(offset);
+	}
+
+	public static String getDayFromDate(LocalDate date) {
+		return String.valueOf(date.getDayOfMonth());
+	}
+
+	public static String getMonthFromDate(LocalDate date) {
+		return String.valueOf(getMonth(date.getMonthOfYear()));
+	}
+
+	public static String getYearFromDate(LocalDate date) {
+		return String.valueOf(date.getYear());
+	}
+
+	public static String getMonth(int month) {
+		switch (month) {
+		case 1:
+			return "Jan";
+		case 2:
+			return "Feb";
+		case 3:
+			return "Mar";
+		case 4:
+			return "Apr";
+		case 5:
+			return "May";
+		case 6:
+			return "Jun";
+		case 7:
+			return "Jul";
+		case 8:
+			return "Aug";
+		case 9:
+			return "Sep";
+		case 10:
+			return "Oct";
+		case 11:
+			return "Nov";
+		default:
+			return "Dec";
+		}
+
+	}
+
+	public static void validateRequestParams(Map<String, String> expParameters, ApiRequestData apiRequestData) {
+		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
+			Assert.assertEquals(entry.getValue(), apiRequestData.getQueryParams().get(entry.getKey()).get(0));
+		}
+	}
+
+	public static String getDateInMMMdd(String days) {
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
+		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
+		return dateFormatter.format(startDate.toDate());
+	}
+
+	public static String getDateRangeInMMMdd(String range) {
+		String dateString = getDateInMMMdd(range.split(" - ")[0]) + " - " + getDateInMMMdd(range.split(" - ")[1]);
+		return dateString;
 	}
 }

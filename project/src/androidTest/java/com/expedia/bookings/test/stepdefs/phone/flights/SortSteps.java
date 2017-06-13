@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -94,10 +95,10 @@ public class SortSteps {
 	public void assertResultsSortedByDepartureTime(ViewInteraction viewInteraction) throws ParseException {
 		int items = EspressoUtils.getListChildCount(viewInteraction);
 		for (int i = 1; i < items - 1; i++) {
-			int currentPositionTime = TestUtilFlights.convertFlightDepartureTimeToInteger(
+			int currentPositionTime = TestUtil.convertFlightDepartureTimeToInteger(
 				getFlightTimeAtPosition(i, viewInteraction).toString().split(" - ")[0]);
 
-			int nextPositionTime = TestUtilFlights.convertFlightDepartureTimeToInteger(
+			int nextPositionTime = TestUtil.convertFlightDepartureTimeToInteger(
 				getFlightTimeAtPosition(i + 1, viewInteraction).toString().split(" - ")[0]);
 
 			assert (currentPositionTime <= nextPositionTime);
@@ -108,10 +109,10 @@ public class SortSteps {
 	public void assertResultsSortedByArrivalTime(ViewInteraction viewInteraction) throws ParseException {
 		int items = EspressoUtils.getListChildCount(viewInteraction);
 		for (int i = 1; i < items - 1; i++) {
-			int currentPositionTime = TestUtilFlights.convertArrivalTimeToInteger(
+			int currentPositionTime = TestUtil.convertArrivalTimeToInteger(
 				getFlightTimeAtPosition(i, viewInteraction).toString().split(" - ")[1]);
 
-			int nextPositionTime = TestUtilFlights.convertArrivalTimeToInteger(
+			int nextPositionTime = TestUtil.convertArrivalTimeToInteger(
 				getFlightTimeAtPosition(i + 1, viewInteraction).toString().split(" - ")[1]);
 
 			assert (currentPositionTime <= nextPositionTime);
@@ -123,9 +124,9 @@ public class SortSteps {
 		int items = EspressoUtils.getListChildCount(viewInteraction);
 
 		for (int i = 1; i < items - 1; i++) {
-			int currentPositionDuration = TestUtilFlights
+			int currentPositionDuration = TestUtil
 				.convertDurationToInteger(getDurationAtPosition(i, viewInteraction).toString());
-			int nextPositionDuration = TestUtilFlights
+			int nextPositionDuration = TestUtil
 				.convertDurationToInteger(getDurationAtPosition(i + 1, viewInteraction).toString());
 
 			assert (currentPositionDuration <= nextPositionDuration);

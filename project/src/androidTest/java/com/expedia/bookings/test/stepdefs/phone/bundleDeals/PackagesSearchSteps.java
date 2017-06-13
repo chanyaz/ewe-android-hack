@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.stepdefs.phone.bundleDeals;
 
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
@@ -38,4 +39,5 @@ public class PackagesSearchSteps {
 		SearchScreen.waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
 		SearchScreen.suggestionList().check(matches(allOf(hasDescendant(withId(R.id.suggestion_text_container)), isDisplayed())));
 	}
+
 }

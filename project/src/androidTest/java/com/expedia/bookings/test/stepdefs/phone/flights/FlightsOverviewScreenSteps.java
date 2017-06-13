@@ -5,6 +5,7 @@ import com.expedia.bookings.R;
 
 import com.expedia.bookings.test.phone.newflights.FlightsOverviewScreen;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -133,7 +134,7 @@ public class FlightsOverviewScreenSteps {
 
 	@Then("^validate price info for multi travellers$")
 	public void validatePriceOfMultiTravellers() throws Throwable {
-		Map<String, String> travellers = TestUtilFlights.dataSet;
+		Map<String, String> travellers = TestUtil.dataSet;
 		int adult = Integer.parseInt(travellers.get("adults"));
 		int child = Integer.parseInt(travellers.get("child"));
 

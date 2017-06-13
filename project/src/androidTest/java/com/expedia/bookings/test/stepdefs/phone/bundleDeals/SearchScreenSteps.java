@@ -19,8 +19,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.expedia.bookings.test.stepdefs.phone.CommonSteps;
-import com.expedia.bookings.test.stepdefs.phone.flights.TestUtilFlights;
+import com.expedia.bookings.test.stepdefs.phone.TestUtil;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
 
@@ -55,8 +54,8 @@ import static com.expedia.bookings.test.espresso.ViewActions.getString;
 
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
-import static com.expedia.bookings.test.stepdefs.phone.CommonSteps.getDateInMMMdd;
-import static com.expedia.bookings.test.stepdefs.phone.CommonSteps.validateRequestParams;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.getDateInMMMdd;
+import static com.expedia.bookings.test.stepdefs.phone.TestUtil.validateRequestParams;
 import static org.hamcrest.CoreMatchers.not;
 
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
@@ -133,7 +132,7 @@ public class SearchScreenSteps {
 	}
 	@And("^I make a packages search with following parameters$")
 	public void packagesSearchCall(Map<String, String> parameters) throws Throwable {
-		TestUtilFlights.dataSet = parameters;
+		TestUtil.dataSet = parameters;
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
 		SearchScreen.selectLocation(parameters.get("source_suggest"));
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
@@ -178,7 +177,7 @@ public class SearchScreenSteps {
 	@Then("^I store the hotel name in \"(.*?)\"$")
 	public void saveHotel(String key) throws Throwable {
 		onView(withId(R.id.hotel_details_toolbar)).perform(waitForViewToDisplay());
-		CommonSteps.storeDataAtRuntime.put(key, getHotelName());
+		TestUtil.storeDataAtRuntime.put(key, getHotelName());
 	}
 	@Then("^I select first room$")
 	public void selectRoom() throws Throwable {
@@ -192,8 +191,9 @@ public class SearchScreenSteps {
 	}
 	@Then("^validate \"(.*?)\" is same as user selected on package overview screen$")
 	public void matchHotelName(String key) throws Throwable {
-		validateHotelName(CommonSteps.storeDataAtRuntime.get(key));
+		validateHotelName(TestUtil.storeDataAtRuntime.get(key));
 	}
+
 	@Then("^validate hotel widget of overview screen with following details$")
 	public void validateHotelWidget(Map<String, String> parameters) throws Throwable {
 		validateTravelersCountHotelWidget(parameters.get("Total_Travelers"));
@@ -211,6 +211,7 @@ public class SearchScreenSteps {
 		validateTravelDatesInboundFlightWidget(getDate(parameters.get("travel_date")));
 		validateTravelersCountFlightInboundWidget(parameters.get("Total_Travelers"));
 	}
+
 	@Then("^I validate that checkout screen is displayed$")
 	public void validateCheckoutScreenVisible() throws Throwable {
 		onView(withId(R.id.login_widget)).perform(waitForViewToDisplay()).check(matches(isDisplayed()));
