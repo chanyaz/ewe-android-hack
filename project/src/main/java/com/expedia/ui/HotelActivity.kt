@@ -153,7 +153,9 @@ class HotelActivity : AbstractAppCompatActivity() {
 
     private fun startSuggestionLookup(displayName: String, callback: Observer<List<SuggestionV4>>) {
         val service = Ui.getApplication(this).hotelComponent().suggestionsService()
-        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClient(this), callback, PointOfSale.getSuggestLocaleIdentifier())
+        val sameAsWeb = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelAutoSuggestSameAsWeb)
+        val guid: String? = if (sameAsWeb) Db.getAbacusGuid() else null
+        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClient(this), callback, PointOfSale.getSuggestLocaleIdentifier(), sameAsWeb, guid)
     }
 
     private val currentLocationSearchObserver = endlessObserver<HotelSearchParams?> { hotelSearchParams ->

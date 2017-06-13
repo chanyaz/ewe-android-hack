@@ -13,4 +13,5 @@ public class SuggestionResultType {
 	public static final int MULTI_REGION = 256;
 	public static final int TRAIN_STATION = 512;
 	public static final int METRO_STATION = 1024;
+	public static final int ALL_REGION = 2047;
 }

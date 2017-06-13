@@ -2,8 +2,9 @@ package com.expedia.vm
 
 import android.content.Context
 import android.location.Location
-import com.expedia.bookings.data.SuggestionResultType
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.ServicesUtil
@@ -24,7 +25,9 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: Sugg
     }
 
     override fun getSuggestionService(query: String) {
-        suggestionsService.getHotelSuggestionsV4(query, ServicesUtil.generateClient(context), generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier())
+        val sameAsWeb = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelAutoSuggestSameAsWeb)
+        val guid: String? = if (sameAsWeb) Db.getAbacusGuid() else null
+        suggestionsService.getHotelSuggestionsV4(query, ServicesUtil.generateClient(context), generateSuggestionServiceCallback(), PointOfSale.getSuggestLocaleIdentifier(), sameAsWeb, guid)
     }
 
     override fun getSuggestionHistoryFile(): String {

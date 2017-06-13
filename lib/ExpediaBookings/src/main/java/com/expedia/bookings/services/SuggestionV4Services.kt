@@ -60,10 +60,26 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
                 .subscribe(observer)
     }
 
-    fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
-        val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
-                SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
-        return suggestApi.suggestV4(query, locale, type, false, "ta_hierarchy", clientId, "HOTELS", null, null, null)
+    fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String,
+                              sameAsWeb: Boolean, guid: String?): Subscription {
+        val regiontype: Int
+        val dest: Boolean
+        val features: String
+        val maxResults: Int?
+
+        if (sameAsWeb) {
+            regiontype = SuggestionResultType.ALL_REGION
+            dest = true
+            features = "ta_hierarchy|postal_code|contextual_ta"
+            maxResults = 10
+        } else {
+            regiontype = SuggestionResultType.REGION
+            dest = false
+            features = "ta_hierarchy"
+            maxResults = null
+        }
+
+        return suggestApi.suggestV4(query, locale, regiontype, dest, features, clientId, "HOTELS", null, maxResults, guid)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
