@@ -7,8 +7,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.hotel.tracking.SuggestionTrackingData
 import com.expedia.bookings.hotel.widget.AdvancedSearchOptionsView
 import com.expedia.bookings.hotel.widget.HotelSuggestionAdapter
@@ -172,7 +174,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         advancedOptionsViewModel.searchOptionsSummarySubject.subscribeText(advancedOptionsView)
 
-        val showAdvancedOptions = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)
+        val showAdvancedOptions = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)
         advancedOptionsView.updateVisibility(showAdvancedOptions)
     }
 
@@ -213,13 +215,13 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     }
 
     fun resetSearchOptions() {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)) {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             advancedOptionsDetails.viewModel.resetSearchOptionsObservable.onNext(Unit)
         }
     }
 
     private fun updateSearchOptions(suggestion: SuggestionV4) {
-        if (!FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_hotel_advanced_search_options)) {
+        if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSuperSearch)) {
             return
         }
 

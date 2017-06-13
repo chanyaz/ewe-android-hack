@@ -128,6 +128,15 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Auto Suggest Same as Web - 14483" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14336"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel Super Search - 14336" />
     </PreferenceCategory>
 
     <PreferenceCategory

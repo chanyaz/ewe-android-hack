@@ -504,6 +504,7 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSuperSearch);
 		// Send the tracking data
 		s.track();
 	}
