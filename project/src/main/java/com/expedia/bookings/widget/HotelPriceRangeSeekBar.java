@@ -21,6 +21,8 @@ public class HotelPriceRangeSeekBar extends FilterRangeSeekBar {
 	public HotelPriceRangeSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		ViewCompat.setAccessibilityDelegate(this, new RangeBarAllyDelegate());
+		//TODO Hotels should also use the same accessibility, if Accessibility team approves
+		mTouchHelper = null;
 	}
 
 	public void setPriceRange(PriceRange range) {
