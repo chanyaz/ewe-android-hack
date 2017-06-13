@@ -22,7 +22,6 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
-import com.expedia.bookings.dagger.TripComponent
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -105,10 +104,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
     }
-
-//    val tripComponent: TripComponent by lazy {
-//        Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -276,6 +271,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         }
 
         override fun onTabSelected(tab: TabLayout.Tab) {
+            val tripComponent = Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
             if (tab.position != PAGER_SELECTED_POS) {
                 PAGER_SELECTED_POS = tab.position
             } else {
@@ -288,7 +284,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             }
 
             if (tab.position != PAGER_POS_ITIN) {
-                val tripComponent = Ui.getApplication(this@NewPhoneLaunchActivity).tripComponent()
                 if (tripComponent != null) {
                     val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
                     itinPageUsablePerformanceModel.resetStartTime()
@@ -302,6 +297,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                         OmnitureTracking.trackPageLoadLaunchScreen()
                     }
                     PAGER_POS_ITIN -> {
+                        if (tripComponent != null) {
+                            val itinPageUsablePerformanceModel = tripComponent.itinPageUsablePerformanceModel()
+                            itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
+                        }
                         gotoItineraries()
                     }
                     PAGER_POS_ACCOUNT -> {
