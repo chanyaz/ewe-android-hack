@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="app_primary">#003E74</color>
     <color name="bg_blue_color_travelocity">#003e74</color>
     <color name="lob_primary_color">#003e74</color>
     <color name="actionbar_button_background_pressed">#004888</color>
@@ -35,6 +35,7 @@
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="preferences_text">#495863</color>
     <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
     <color name="hotel_member_pricing_color">#00335f</color>

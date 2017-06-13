@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="app_primary">#7ac231</color>
     <color name="action_bar_bg_color">#F1F1F1</color>
     <color name="action_bar_text_color">#1F8EDE</color>
     <color name="hotels_primary_color">#7AC231</color>
@@ -43,6 +44,7 @@
     <color name="review_screen_tab_indicator">@color/white</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <color name="hotel_urgency_message_color">#c20202</color>
     <color name="hotel_tonight_only_color">#FFBA12</color>

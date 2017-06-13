@@ -1031,7 +1031,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.bg_loyalty_badge_top_tier,
 		R.string.app_copyright_name,
 		R.string.open_source_names,
-		R.drawable.app_copyright_logo,
 		R.string.error_name_on_card_mismatch,
 		R.string.toast_private_data_cleared,
 		R.string.account_settings_menu_label,

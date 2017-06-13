@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="app_primary">#e31f0e</color>
     <color name="aag_primary_color">#E31F0E</color>
     <color name="aag_secondary_color">#F18700</color>
     <color name="hotel_price_text_color_airasiago">#333</color>
@@ -41,6 +41,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#F8A424</color>

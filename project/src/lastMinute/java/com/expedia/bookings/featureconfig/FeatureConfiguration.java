@@ -418,5 +418,13 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public int getPOSSpecificBrandLogo() {
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.LASTMINUTE) {
+			return R.drawable.app_copyright_logo_au;
+		}
+		return R.drawable.app_copyright_logo;
+	}
+
 }
 

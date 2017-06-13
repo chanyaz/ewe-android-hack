@@ -47,9 +47,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:pathPrefix="/m/trips/shared"
-                    android:scheme="https"/>
                 <data android:scheme="https"/>
                 <data android:scheme="http"/>
                 <data android:pathPrefix="/activitySearch"/>
@@ -57,6 +54,11 @@
                 <data android:pathPrefix="/mobile/deeplink"/>
 
                 <data android:host="www.ebookers.com" />
+                <data android:host="www.ebookers.ch" />
+                <data android:host="www.ebookers.fi" />
+                <data android:host="www.ebookers.de" />
+                <data android:host="www.ebookers.ie" />
+                <data android:host="www.ebookers.fr" />
 
                 <!-- Integration Server -->
                 <data android:host="wwwebookerscom.integration.sb.karmalab.net" />
