@@ -3,6 +3,7 @@ package com.expedia.bookings.data.abacus;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.AbstractItinDetailsResponse;
+import com.expedia.bookings.data.FlightItinDetailsResponse;
 import com.expedia.bookings.data.HotelItinDetailsResponse;
 import com.expedia.bookings.data.ItinDetailsResponse;
 import com.expedia.bookings.services.DateTimeTypeAdapter;
@@ -24,6 +25,9 @@ public class ItinTripDeserializer implements JsonDeserializer<AbstractItinDetail
 		Gson gson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter()).create();
 		if (responseData.has("hotels")) {
 			return gson.fromJson(object, HotelItinDetailsResponse.class);
+		}
+		else if (responseData.has("flights")) {
+			return gson.fromJson(object, FlightItinDetailsResponse.class);
 		}
 		else {
 			return gson.fromJson(object, ItinDetailsResponse.class);

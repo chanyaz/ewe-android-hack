@@ -4397,6 +4397,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_ERROR = "App.Flight.Error";
 	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
 	private static final String FLIGHTS_V2_ITIN_SHARE_CLICK = "App.Flight.CKO.Share.Start";
+	private static final String FLIGHTS_V2_SHARE = "App.Flight.CKO.Share";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -4627,6 +4628,16 @@ public class OmnitureTracking {
 
 	public static void trackFlightConfirmationShareItinClicked() {
 		createAndtrackLinkEvent(FLIGHTS_V2_ITIN_SHARE_CLICK, "Itinerary Sharing");
+	}
+
+	public static void trackFlightConfirmationShareAppChosen(String tripType, String shareApp) {
+		String pageName = FLIGHTS_V2_SHARE + "." + shareApp;
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.setEvar(2, tripType);
+		s.setEvents("event48");
+
+		internalTrackLink(s);
 	}
 
 	public static void trackFlightCheckoutInfoPageLoad(FlightCreateTripResponse tripResponse) {

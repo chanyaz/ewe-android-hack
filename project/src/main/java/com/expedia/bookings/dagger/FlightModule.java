@@ -6,6 +6,7 @@ import android.content.Context;
 import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.FlightServices;
+import com.expedia.bookings.services.ItinTripServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder;
 import com.expedia.vm.FlightCheckoutViewModel;
@@ -62,5 +63,12 @@ public final class FlightModule {
 	@FlightScope
 	FlightSearchTrackingDataBuilder provideFlightTrackingBuilder() {
 		return new FlightSearchTrackingDataBuilder();
+	}
+
+	@Provides
+	@FlightScope
+	ItinTripServices provideItinTripServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new ItinTripServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 }

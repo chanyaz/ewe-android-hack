@@ -64,6 +64,15 @@ class FlightCheckoutResponse() : FlightTripResponse() {
         return legs.first()
     }
 
+    fun getFirstFlightFirstSegment(): FlightLeg.FlightSegment {
+        return getFirstFlightLeg().segments[0]
+    }
+
+    fun getFirstFlightLastSegment(): FlightLeg.FlightSegment {
+        val segments = getFirstFlightLeg().segments
+        return segments[segments.size - 1]
+    }
+
     /**
      * This method's been created because the aggregated response tag is missing in case of price change.
      * Every other time, we should be relying on aggregated response to give us the flight trip details
@@ -81,6 +90,10 @@ class FlightCheckoutResponse() : FlightTripResponse() {
     fun getLastFlightLastSegment(): FlightLeg.FlightSegment {
         val segments = getLastFlightLeg().segments
         return segments[segments.size - 1]
+    }
+
+    fun isRoundTrip(): Boolean {
+        return getFirstFlightTripDetails().legs.size == 2
     }
 
     override fun getOffer(): FlightTripDetails.FlightOffer {

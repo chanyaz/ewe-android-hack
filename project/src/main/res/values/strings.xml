@@ -1524,6 +1524,8 @@
     <string name="share_msg_template_short_flight">I\&apos;m flying to %1$s on %2$s!\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$s is flying to %2$s on %3$s!\n%4$s</string>
+    <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
+    <string name="share_msg_template_roundtrip_flight">I\&apos;m flying roundtrip from %1$s to %2$s on %3$s - %4$s!\nOutbound: %5$s\nInbound: %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->

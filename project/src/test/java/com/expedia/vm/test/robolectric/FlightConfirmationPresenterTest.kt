@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import com.expedia.bookings.R
+import com.expedia.bookings.data.AbstractItinDetailsResponse
+import com.expedia.bookings.data.FlightItinDetailsResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -31,6 +33,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import java.util.ArrayList
+import java.util.Locale
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -41,7 +44,6 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class FlightConfirmationPresenterTest {
-
 
     private var presenter: FlightConfirmationPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
@@ -74,7 +76,8 @@ class FlightConfirmationPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNewFlightConfirmationVisibility() {
         setupPresenter(isNewConfirmationEnabled = true)
-        givenCheckoutResponse()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+        givenCheckoutResponse(checkoutResponse)
         val tripTotalText = presenter.flightSummary?.findViewById(R.id.trip_total_text) as TextView
 
         assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
@@ -104,7 +107,8 @@ class FlightConfirmationPresenterTest {
     @Test
     fun testOldFlightConfirmationVisibility() {
         setupPresenter(isNewConfirmationEnabled = false)
-        givenCheckoutResponse()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+        givenCheckoutResponse(checkoutResponse)
 
         assertEquals(VISIBLE, presenter.inboundFlightCard.visibility)
         assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
@@ -122,7 +126,8 @@ class FlightConfirmationPresenterTest {
     @Test
     fun testNewConfirmationToolbarShowsNoMenuWhenControl() {
         setupPresenter(isNewConfirmationEnabled = true)
-        givenCheckoutResponse()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+        givenCheckoutResponse(checkoutResponse)
 
         assertFalse(presenter.toolbar?.menuItem?.isVisible ?: false)
         assertNull(presenter.toolbar?.menuItem)
@@ -132,7 +137,8 @@ class FlightConfirmationPresenterTest {
     fun testNewConfirmationToolbarShowsIconWhenBucketedVariantOne() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
         setupPresenter(isNewConfirmationEnabled = true)
-        givenCheckoutResponse()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+        givenCheckoutResponse(checkoutResponse)
 
         assertTrue(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
     }
@@ -141,12 +147,55 @@ class FlightConfirmationPresenterTest {
     fun testNewConfirmationToolbarShowsTextWhenBucketedVariantTwo() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 2)
         setupPresenter(isNewConfirmationEnabled = true)
-        givenCheckoutResponse()
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+        givenCheckoutResponse(checkoutResponse)
 
         assertEquals("Share", presenter.toolbar?.menuItem?.title)
         assertFalse(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNewConfirmationToolbarShareOneWay() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
+        setupPresenter(isNewConfirmationEnabled = true)
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = false)
+        givenCheckoutResponse(checkoutResponse)
+
+        val flightItinDetailsResponse = generateFlightItinDetailsResponse(false)
+
+        var shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        var expectedShareMessage = "I'm flying to Oakland on 5/20/17!" + "\n" + "www.expedia_test_outbound.com"
+        assertEquals(expectedShareMessage, shareMessage)
+
+        Locale.setDefault(Locale.CHINA)
+        shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        expectedShareMessage = "www.expedia_test_outbound.com"
+        assertEquals(expectedShareMessage, shareMessage)
+        Locale.setDefault(Locale.US)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNewConfirmationToolbarShareRoundTrip() {
+        AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
+        setupPresenter(isNewConfirmationEnabled = true)
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+        givenCheckoutResponse(checkoutResponse)
+
+        val flightItinDetailsResponse = generateFlightItinDetailsResponse(true)
+
+        var shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        var expectedShareMessage = "I'm flying roundtrip from Seattle to Oakland on 5/20/17 - 5/24/17!" + "\n" +
+            "Outbound: www.expedia_test_outbound.com" + "\n" + "Inbound: www.expedia_test_inbound.com"
+        assertEquals(expectedShareMessage, shareMessage)
+
+        Locale.setDefault(Locale.CHINA)
+        shareMessage = presenter.toolbar?.viewModel?.getShareMessage(flightItinDetailsResponse)
+        expectedShareMessage = "www.expedia_test_outbound.com" + "\n" + "www.expedia_test_inbound.com"
+        assertEquals(expectedShareMessage, shareMessage)
+        Locale.setDefault(Locale.US)
+    }
 
     private fun setupPresenter(isNewConfirmationEnabled: Boolean) {
         SettingUtils.save(activity.applicationContext, R.string.preference_enable_additional_content_flight_confirmation, isNewConfirmationEnabled)
@@ -156,11 +205,10 @@ class FlightConfirmationPresenterTest {
         outboundSupplementaryText = presenter.outboundFlightCard.findViewById(R.id.confirmation_title_supplement) as TextView
     }
 
-    private fun givenCheckoutResponse() {
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
+    private fun givenCheckoutResponse(response: FlightCheckoutResponse) {
         presenter.viewModel.inboundCardVisibility.onNext(true)
         presenter.viewModel.setRewardsPoints.onNext(rewardPoints)
-        presenter.showConfirmationInfo(checkoutResponse, "test@mail.com")
+        presenter.showConfirmationInfo(response, "test@mail.com")
     }
 
     fun getCheckoutResponse(dateOfExpiration: String, hasAirAttach: Boolean = false, isRoundTrip: Boolean = false, numberOfTickets: String = "1") : FlightCheckoutResponse {
@@ -238,5 +286,42 @@ class FlightConfirmationPresenterTest {
         arrivalSegment.departureAirportAddress.city = departureCity
 
         return arrivalSegment
+    }
+
+    private fun generateFlightItinDetailsResponse(isRoundTrip: Boolean): FlightItinDetailsResponse {
+        val outboundLeg = FlightItinDetailsResponse.Flight.Leg()
+        outboundLeg.sharableFlightLegURL = "www.expedia_test_outbound.com"
+        val outboundSegments = ArrayList<FlightItinDetailsResponse.Flight.Leg.Segment>()
+        val outboundSegment = FlightItinDetailsResponse.Flight.Leg.Segment()
+        outboundSegment.departureTime = AbstractItinDetailsResponse.Time()
+        outboundSegment.departureTime.localizedShortDate = "5/20/17"
+        outboundSegments.add(outboundSegment)
+        outboundLeg.segments = outboundSegments
+
+        val legs = ArrayList<FlightItinDetailsResponse.Flight.Leg>()
+        legs.add(outboundLeg)
+
+        if (isRoundTrip) {
+            val inboundLeg = FlightItinDetailsResponse.Flight.Leg()
+            inboundLeg.sharableFlightLegURL = "www.expedia_test_inbound.com"
+            val inboundSegments = ArrayList<FlightItinDetailsResponse.Flight.Leg.Segment>()
+            val inboundSegment = FlightItinDetailsResponse.Flight.Leg.Segment()
+            inboundSegment.arrivalTime = AbstractItinDetailsResponse.Time()
+            inboundSegment.arrivalTime.localizedShortDate = "5/24/17"
+            inboundSegments.add(inboundSegment)
+            inboundLeg.segments = inboundSegments
+            legs.add(inboundLeg)
+        }
+
+        val flight = FlightItinDetailsResponse.Flight()
+        flight.legs = legs
+
+        val flights = ArrayList<FlightItinDetailsResponse.Flight>()
+        flights.add(flight)
+
+        var response = FlightItinDetailsResponse()
+        response.responseData = FlightItinDetailsResponse.FlightResponseData()
+        response.responseData.flights = flights
+        return response
     }
 }

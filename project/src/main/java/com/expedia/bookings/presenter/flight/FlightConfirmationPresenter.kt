@@ -9,10 +9,10 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.bookings.widget.ConfirmationSummaryCardView
 import com.expedia.bookings.widget.HotelCrossSellView
@@ -23,6 +23,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.updateVisibility
+import com.expedia.vm.ConfirmationToolbarViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
 
@@ -62,7 +63,6 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             }
         }
         vm.rewardPointsObservable.subscribeTextAndVisibility(flightSummary?.pointsEarned ?: expediaPoints)
-
     }
 
     init {
@@ -76,6 +76,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
             flightSummary = findViewById(R.id.trip_summary_card) as ConfirmationSummaryCardView
             tripBookedMessage.setText(R.string.trip_is_booked)
             toolbar = findViewById(R.id.checkout_toolbar) as ConfirmationToolbar
+            toolbar?.viewModel = ConfirmationToolbarViewModel(context)
         }
         confirmationContainer.setPadding(0, if (isNewConfirmationScreenEnabled)
             Ui.getStatusBarHeight(context) else Ui.toolbarSizeWithStatusBar(context), 0, 0)
@@ -91,6 +92,9 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         setCardViewModels(response)
         viewModel.confirmationObservable.onNext(Pair(response, email))
         hotelCrossSell.viewModel.confirmationObservable.onNext(response)
+        if (isNewConfirmationScreenEnabled) {
+            toolbar?.viewModel?.bindCheckoutResponseData(response)
+        }
     }
 
     fun setCardViewModels(response: FlightCheckoutResponse) {

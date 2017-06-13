@@ -1,6 +1,5 @@
 package com.expedia.bookings.data
 
-import org.joda.time.DateTime
 import java.util.ArrayList
 
 abstract class AbstractItinDetailsResponse {
@@ -15,9 +14,10 @@ abstract class AbstractItinDetailsResponse {
         var orderNumber: Long? = null
         var title: String? = null
         var updateTripNameDescPathURL: String? = null
+        val sharableDetailsURL: String? = null
 
-        var startTime: DateTime? = null
-        var endTime: DateTime? = null
+        lateinit var startTime: Time
+        lateinit var endTime: Time
 
         var totalTripPrice: TotalTripPrice? = null
 
@@ -27,6 +27,11 @@ abstract class AbstractItinDetailsResponse {
             var totalFormatted: String? = null
         }
     }
+
+    class Time {
+        lateinit var localizedShortDate: String
+    }
+
 
     abstract fun getResponseDataForItin(): ResponseData?
 }

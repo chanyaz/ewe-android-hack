@@ -1095,7 +1095,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.expand_advanced_button_cont_desc,
 		R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE,
 		R.string.collapse_advanced_button_cont_desc,
-		R.string.collapse_advanced_button_cont_desc,
-		R.string.change_dates
+		R.string.change_dates,
+		R.string.share_msg_template_roundtrip_flight
 	};
 }
