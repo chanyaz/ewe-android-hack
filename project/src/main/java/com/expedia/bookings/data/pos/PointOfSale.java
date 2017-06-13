@@ -204,6 +204,8 @@ public class PointOfSale {
 	// Should Cross Sell Package on FSR
 	private boolean isCrossSellPackageOnFSR;
 
+	private String businessRegion;
+
 	private static boolean sIsTablet;
 
 	private boolean mShouldShowKnownTravelerNumber;
@@ -933,6 +935,10 @@ public class PointOfSale {
 		return getPosLocale().getHotelResultsSortFaqUrl();
 	}
 
+	public String getBusinessRegion() {
+		return businessRegion;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1361,6 +1367,7 @@ public class PointOfSale {
 		pos.mShouldFormatTravelerPhoneNumber = data.optBoolean("shouldFormatTravelerPhoneNumber", false);
 		pos.showAirlinePaymentMethodFeeLegalMessage = data.optBoolean("showAirlinePaymentMethodFeeLegalMessage", false);
 		pos.isCrossSellPackageOnFSR = data.optBoolean("crossSellPackageOnFSR", false);
+		pos.businessRegion = data.optString("businessRegion");
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

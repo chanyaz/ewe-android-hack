@@ -465,6 +465,24 @@
             android:summary="%s"
             android:title="Smart Lock Sign In Test - 11269" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14215"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Sign Up Strings Non-APAC - 14215" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14218"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Sign Up Strings APAC - 14218" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

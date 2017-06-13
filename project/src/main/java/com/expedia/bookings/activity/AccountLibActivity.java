@@ -12,6 +12,7 @@ import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Codes;
@@ -33,6 +34,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -101,6 +103,16 @@ public class AccountLibActivity extends AppCompatActivity
 		userStateManager = Ui.getApplication(this).appComponent().userStateManager();
 
 		Config.InitialState startState = Config.InitialState.SignIn;
+		int variation = AbacusUtils.DefaultThreeVariant.CONTROL.ordinal();
+
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSignUpStringNonAPAC)) {
+			variation = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppSignUpStringNonAPAC);
+		}
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSignUpStringAPAC)) {
+			variation = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppSignUpStringAPAC);
+		}
+
+		String abTestAccountSignUpString = getVariantStringForAccountStringTest(variation);
 
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
@@ -149,7 +161,8 @@ public class AccountLibActivity extends AppCompatActivity
 			.setInitialState(startState)
 			.setAutoEnrollUserInRewards(PointOfSale.getPointOfSale().shouldAutoEnrollUserInRewards())
 			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
-			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this));
+			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this))
+			.setSignupString(abTestAccountSignUpString);
 
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSmartLockTest,
 			R.string.preference_enable_smart_lock)) {
@@ -281,6 +294,22 @@ public class AccountLibActivity extends AppCompatActivity
 			OmnitureTracking.trackSmartLockPasswordSignIn();
 		}
 	};
+
+	private String getVariantStringForAccountStringTest(int variation) {
+		if (variation == AbacusUtils.DefaultThreeVariant.VARIANT1.ordinal()) {
+			return getString(R.string.signup_variant_1);
+		}
+
+		if (variation == AbacusUtils.DefaultThreeVariant.VARIANT2.ordinal()) {
+			return getString(R.string.signup_variant_2);
+		}
+
+		if (variation == AbacusUtils.DefaultThreeVariant.VARIANT3.ordinal()) {
+			return Phrase.from(this, R.string.signup_variant_3_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
+		}
+
+		return Phrase.from(this, R.string.signup_variant_control_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
+	}
 
 	public class Listener extends AccountView.Listener {
 

@@ -2,13 +2,11 @@ package com.expedia.bookings.activity;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -24,13 +22,13 @@ import com.expedia.bookings.onboarding.activity.OnboardingActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.util.SettingUtils;
-
 import rx.Observer;
 
 
@@ -76,8 +74,9 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		boolean isNewVersionOfApp = ExpediaBookingApp.isFirstLaunchOfAppVersion();
 		boolean userNotLoggedIn = !userStateManager.isUserAuthenticated();
 		loadSignInView = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
+		PointOfSale pos = PointOfSale.getPointOfSale();
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), pos.getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
@@ -86,6 +85,13 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			query.addExperiment(AbacusUtils.EBAndroidAppItinCrystalSkin);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightAATest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
+
+			if (Constants.ASIA_PACIFIC_REGION.equals(pos.getBusinessRegion())) {
+				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringAPAC);
+			}
+			else {
+				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringNonAPAC);
+			}
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

@@ -41,6 +41,8 @@ public class AbacusUtils {
 	public static final int EBAndroidLXVoucherRedemption = 14380;
 	public static final int EBAndroidAppTripsDetailRemoveCalendar = 14201;
 	public static final int EBAndroidAppFreeCancellationTooltip = 14513;
+	public static final int EBAndroidAppSignUpStringNonAPAC = 14215;
+	public static final int EBAndroidAppSignUpStringAPAC = 14218;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -98,6 +100,13 @@ public class AbacusUtils {
 		CONTROL,
 		VARIANT1,
 		VARIANT2
+	}
+
+	public enum DefaultThreeVariant {
+		CONTROL,
+		VARIANT1,
+		VARIANT2,
+		VARIANT3
 	}
 
 	public enum LaunchScreenAirAttachVariant {
@@ -179,6 +188,8 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightDayPlusDateSearchForm);
 		testIDs.add(EBAndroidAppHotelAutoSuggestSameAsWeb);
 		testIDs.add(EBAndroidAppHotelSuperSearch);
+		testIDs.add(EBAndroidAppSignUpStringNonAPAC);
+		testIDs.add(EBAndroidAppSignUpStringAPAC);
 		return testIDs;
 	}
 

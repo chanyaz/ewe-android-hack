@@ -80,4 +80,7 @@ public class Constants {
 	public static final String ONBOARDING_BOOKING_PAGE_URL = "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/Onboarding/expedia-onboarding-ad-1.jpg";
 	public static final String ONBOARDING_TRIP_PAGE_URL = "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/Onboarding/expedia-onboarding-ad-2.jpg";
 	public static final String ONBOARDING_REWARD_PAGE_URL = "https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/Onboarding/expedia-onboarding-ad-3.jpg";
+
+	//Business Region
+	public static final String ASIA_PACIFIC_REGION = "APAC";
 }
