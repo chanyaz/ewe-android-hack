@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="app_primary">#7abb00</color>
     <color name="vsc_primary_color">#7abb00</color>
     <color name="vsc_secondary_color">#0088CE</color>
     <color name="action_bar_text_green">@color/vsc_primary_color</color>
@@ -39,6 +39,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/vsc_primary_color</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <color name="tablet_confirmation_action_color">@color/vsc_secondary_color</color>
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>

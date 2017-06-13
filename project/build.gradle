@@ -315,7 +315,7 @@ android {
             buildConfigField "String", "USER_AGENT", "\"Orbitz\""
             applicationId "com.orbitz"
 
-            resConfigs "en"
+            resConfigs "en", "es"
         }
 
         cheapTickets {

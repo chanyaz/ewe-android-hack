@@ -6,7 +6,6 @@
 
     <item name="ic_action_bar_logo_dark" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>
-    <item name="brand_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
 
     <item name="old_checkout_account_logo" type="drawable">@drawable/brand_logo_white</item>

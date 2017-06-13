@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -294,8 +295,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             val copyBuilder = CopyrightFragment.Builder()
             copyBuilder.setAppName(R.string.app_copyright_name)
             copyBuilder.setCopyright(getCopyrightString())
-            copyBuilder.setLogo(R.drawable.app_copyright_logo)
-
+            copyBuilder.setLogo(ProductFlavorFeatureConfiguration.getInstance().posSpecificBrandLogo)
             copyrightFragment = copyBuilder.build()
             ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT)
         }
@@ -400,6 +400,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         Events.post(Events.PhoneLaunchOnPOSChange())
 
         Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
+
+        refreshCopyrightFragment()
     }
 
     fun doLogout() {
@@ -705,6 +707,16 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         val countryChangeListener = CountryChangeListener()
         firstRowCountry.setOnClickListener(countryChangeListener)
         secondRowCountry.setOnClickListener(countryChangeListener)
+    }
+
+    private fun refreshCopyrightFragment() {
+        copyrightFragment = null
+        val copyBuilder = CopyrightFragment.Builder()
+        copyBuilder.setAppName(R.string.app_copyright_name)
+        copyBuilder.setCopyright(getCopyrightString())
+        copyBuilder.setLogo(ProductFlavorFeatureConfiguration.getInstance().posSpecificBrandLogo)
+        copyrightFragment = copyBuilder.build()
+        childFragmentManager.beginTransaction().replace(R.id.section_copyright, copyrightFragment, TAG_APP_SETTINGS).commit()
     }
 
     private inner class CountryChangeListener : View.OnClickListener {

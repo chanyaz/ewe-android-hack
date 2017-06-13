@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="app_primary">#004d7c</color>
     <color name="action_bar_bg_color">#00253C</color>
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="hotels_primary_color">@color/lob_btn_color</color>
@@ -108,6 +108,7 @@
     <color name="material_cko_acct_btn_rewards_bg_color">#8E0099</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
+    <color name="material_checkout_account_button_text_color">@android:color/white</color>
 
     <!-- Rewards -->
     <color name="reward_base_tier_color">#668193</color>
