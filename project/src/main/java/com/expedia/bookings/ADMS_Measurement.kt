@@ -12,7 +12,6 @@ class ADMS_Measurement {
     var products: String? = null
     var purchaseID: String? = null
     var currencyCode: String? = null
-    var offlineTrackingEnabled: Boolean = false
     var reportSuiteIDs: String? = null
     var trackingServer: String? = null
     var SSL: Boolean = false
