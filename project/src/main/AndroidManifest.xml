@@ -417,6 +417,13 @@
                 <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name="com.expedia.bookings.itin.ItinShareTargetBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.extra.CHOSEN_COMPONENT" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

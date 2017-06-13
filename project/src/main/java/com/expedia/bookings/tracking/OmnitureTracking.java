@@ -2149,6 +2149,16 @@ public class OmnitureTracking {
 		internalTrackLink(s);
 	}
 
+	public static void trackItinShareAppChosen(String tripType, String shareApp) {
+		String pageName = ITIN + "." + tripType + ".Share." + shareApp;
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.setEvar(2, tripType);
+		s.setEvents("event48");
+
+		internalTrackLink(s);
+	}
+
 	public static void trackHotelItinCancelRoomClick() {
 		Log.d(TAG, "Tracking \"" + ITIN_HOTEL_ROOM_CANCEL_CLICK + "\" click...");
 
