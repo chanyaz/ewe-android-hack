@@ -970,10 +970,6 @@
     <string name="launch_upcoming_trips_signed_in">您有一個即將出發的行程！</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">隨時隨地查看您的行程並留意最新動態</string>
-    <!-- Text for itin card on guest user launch screen -->
-    <string name="launch_upcoming_trips_guest_user">有即將出發的行程嗎？</string>
-    <!-- Subtext for active itin card on guest user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_guest_user">您可以在 App 內查看現有行程並留意最新動態</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">隨時預訂</string>
@@ -991,8 +987,6 @@
     <string name="trips">行程</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">您的行程</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">探索</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">此 App 需要 Google Play 服務。請安裝最新版的 Google Play 服務。</string>
 
@@ -3656,6 +3650,8 @@
     <string name="four_star">4 星</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5 星</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">縮小搜尋範圍</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">航空公司可能會針對您選擇的付款方式收取額外手續費。</string>
@@ -3884,6 +3880,8 @@
     <string name="arrival_time_range_end">最晚抵達時間</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name}拖動條 {value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">{name}範圍選擇軸，{value}，左右拖曳選擇方塊或使用關聯內容選單來做選擇</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">變更飯店</string>
@@ -4379,6 +4377,8 @@
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}錯誤：請輸入遺漏的旅客資料。按鈕。</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">旅客資料已填妥</string>
+    <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
+    <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}，{subtitle}，旅客詳細資料已填妥。按鈕。</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">按鈕</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4505,10 +4505,6 @@
     <string name="itin_sign_in_message">登入以取得您接下來的行程</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">尋找以訪客身分預訂的行程</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">搜尋您附近的飯店</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">今晚推薦飯店</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">預訂成功！</string>
     <!-- Check your email for itinerary alert message-->
@@ -4578,5 +4574,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}。按鈕</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">請輸入介於 {min_value} 至 {max_value} 的數字。</string>
+    <string name="title_seek_bar_edit">編輯搜尋控制介面等級</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>
