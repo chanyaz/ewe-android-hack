@@ -126,6 +126,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void pressClose() {
+		onView(toolBarMatcher()).perform(waitForViewToDisplay());
 		onView(toolBarMatcher()).perform(click());
 	}
 
@@ -138,6 +139,7 @@ public class CheckoutViewModel {
 
 	public static void clickStoredTravelerButton() {
 		Espresso.closeSoftKeyboard();
+		onView(withId(R.id.select_traveler_button)).perform(waitForViewToDisplay());
 		onView(withId(R.id.select_traveler_button)).perform(click());
 	}
 
@@ -167,10 +169,12 @@ public class CheckoutViewModel {
 
 	public static ViewInteraction performSlideToPurchase(boolean isStoredCard) {
 		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
+		Common.delay(1);	//Even though waitForViewToDisplay() is used, there is still some more delay that is needed before the swipe operation can be performed
 		ViewInteraction viewInteraction = onView(withId(R.id.slide_to_purchase_widget))
 			.perform(ViewActions.swipeRight());
 		Common.delay(1);
 		if (isStoredCard) {
+			CVVEntryScreen.waitForCvvScreen();
 			CVVEntryScreen.enterCVV("6286");
 			CVVEntryScreen.clickBookButton();
 		}
@@ -183,6 +187,7 @@ public class CheckoutViewModel {
 		Common.closeSoftKeyboard(CheckoutViewModel.password());
 		Common.delay(1);
 		signInButton.perform(click());
+		Common.delay(2);		//This resolves the main reason for flakiness as the login screen takes a few seconds to load the CKO page again.
 	}
 
 	public static void clickLogin() {
