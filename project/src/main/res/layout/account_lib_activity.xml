@@ -10,6 +10,13 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <View
+        android:id="@+id/white_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/acct__white"
+        android:visibility="gone"/>
+
     <com.expedia.account.AccountView
         android:id="@+id/account_view"
         android:layout_width="match_parent"

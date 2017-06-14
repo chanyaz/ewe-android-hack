@@ -49,6 +49,9 @@ public class AccountLibActivity extends AppCompatActivity
 	@InjectView(R.id.parallax_view)
 	public PanningImageView background;
 
+	@InjectView(R.id.white_background)
+	public View whiteBackground;
+
 	@InjectView(R.id.account_view)
 	public AccountView accountView;
 
@@ -167,6 +170,12 @@ public class AccountLibActivity extends AppCompatActivity
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSmartLockTest,
 			R.string.preference_enable_smart_lock)) {
 			config.setParentActivity(this);
+		}
+
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppAccountSinglePageSignUp,
+			R.string.preference_single_page_sign_up)) {
+			accountView.setWhiteBackgroundFromActivity(whiteBackground);
+			config.setEnableSinglePageSignUp(true);
 		}
 
 		accountView.configure(config);

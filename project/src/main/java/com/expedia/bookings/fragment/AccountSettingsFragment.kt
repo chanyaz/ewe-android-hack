@@ -27,6 +27,7 @@ import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
@@ -37,12 +38,14 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -321,7 +324,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
 
         createAccountButton.setOnClickListener {
-            val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null)
+            val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE,
+                    if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppAccountSinglePageSignUp, R.string.preference_single_page_sign_up))
+                        Config.InitialState.SinglePageCreateAccount
+                    else
+                        Config.InitialState.CreateAccount
+                    , null)
             User.signIn(activity, args)
         }
 

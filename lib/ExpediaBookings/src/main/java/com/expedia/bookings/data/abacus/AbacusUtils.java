@@ -91,6 +91,9 @@ public class AbacusUtils {
 	// Packages Tests
 	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
 
+	// Account
+	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
+
 	public enum DefaultVariant {
 		CONTROL,
 		BUCKETED
@@ -191,6 +194,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSignUpStringNonAPAC);
 		testIDs.add(EBAndroidAppSignUpStringAPAC);
 		testIDs.add(EBAndroidAppAPIMAuth);
+		testIDs.add(EBAndroidAppAccountSinglePageSignUp);
 		return testIDs;
 	}
 

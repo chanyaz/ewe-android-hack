@@ -444,6 +444,31 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
+        android:title="Account">
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="11269"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Smart Lock Sign In Test - 11269" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="13923"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Single Page Sign Up - 13923" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
         android:title="Misc Tests">
 
         <ListPreference
@@ -454,15 +479,6 @@
             android:key="11455"
             android:layout="@layout/preference"
             android:title="Integration AA Test - 11455" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="11269"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Smart Lock Sign In Test - 11269" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"

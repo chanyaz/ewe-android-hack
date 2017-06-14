@@ -9,7 +9,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Login Features">
+        android:title="Account Features">
 
         <CheckBoxPreference
             android:key="@string/preference_enable_smart_lock"
@@ -17,11 +17,11 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Material Flight Features">
+        <CheckBoxPreference
+            android:key="@string/preference_single_page_sign_up"
+            android:layout="@layout/preference"
+            android:summary="Single page sign up flow."
+            android:title="Enable Single Page Sign Up Flow" />
 
 
         <CheckBoxPreference
