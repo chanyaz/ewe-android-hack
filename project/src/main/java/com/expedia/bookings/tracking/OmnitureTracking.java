@@ -89,7 +89,6 @@ import com.expedia.bookings.hotel.tracking.SuggestionTrackingData;
 import com.expedia.bookings.itin.ItinLaunchScreenHelper;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
-import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
@@ -159,13 +158,13 @@ public class OmnitureTracking {
 		@Override
 		public void onActivityResumed(Activity activity) {
 			Log.v(TAG, "onResume - " + activity.getClass().getSimpleName());
-			ADMS_Measurement.sharedInstance(sContext).startActivity(sContext);
+			ADMS_Measurement.sharedInstance().resumeActivity(activity);
 		}
 
 		@Override
 		public void onActivityPaused(Activity activity) {
 			Log.v(TAG, "onPause - " + activity.getClass().getSimpleName());
-			ADMS_Measurement.sharedInstance().stopActivity();
+			ADMS_Measurement.sharedInstance().pauseActivity();
 		}
 
 		@Override
@@ -2979,7 +2978,6 @@ public class OmnitureTracking {
 	 */
 	private static ADMS_Measurement getFreshTrackingObject() {
 		ADMS_Measurement s = ADMS_Measurement.sharedInstance(sContext);
-		s.clearVars();
 		addStandardFields(s);
 		return s;
 	}
@@ -2990,31 +2988,11 @@ public class OmnitureTracking {
 			s.setDebugLogging(true);
 		}
 
-		// Add offline tracking, so user doesn't have to be online to be tracked
-		if (ExpediaBookingApp.isAutomation()) {
-			s.setOfflineTrackingEnabled(false);
-			s.setOffline();
-			if (!ExpediaBookingApp.isRobolectric()) {
-				s.clearTrackingQueue();
-			}
-		}
-		else {
-			s.setOfflineTrackingEnabled(true);
-			s.setOnline();
-		}
-
-		// account
-		s.setReportSuiteIDs(getReportSuiteIds());
-
 		// Marketing date tracking
 		s.setEvar(10, sMarketingDate);
 
 		// Deep Link tracking
 		addDeepLinkData(s);
-
-		// Server
-		s.setTrackingServer(getTrackingServer(sContext));
-		s.setSSL(true);
 
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
@@ -3278,26 +3256,6 @@ public class OmnitureTracking {
 			}
 
 			deepLinkArgs.clear();
-		}
-	}
-
-	private static String getReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobal";
-		}
-		else {
-			return "expediaglobaldev";
-		}
-	}
-
-	private static String getTrackingServer(Context context) {
-		EndPoint endpoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint();
-		if (endpoint == EndPoint.CUSTOM_SERVER) {
-			return SettingUtils.get(context, context.getString(R.string.preference_proxy_server_address),
-				"localhost:3000");
-		}
-		else {
-			return context.getString(R.string.omniture_tracking_server_url);
 		}
 	}
 
