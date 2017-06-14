@@ -4292,9 +4292,9 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights.</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights.\u0020</string>
     <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
-    <string name="packages_flight_filter_checkbox_diabled_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights. Cannot be deselected, all flight results are {filter_name}.</string>
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} available {filter_name} flights. Cannot be deselected, all flight results are {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Adding trip protection…</string>

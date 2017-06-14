@@ -59,7 +59,7 @@ class LabeledCheckableFilter<T>(context: Context, attrs: AttributeSet) : Relativ
     }
 
     fun setDisabledContentDescription() {
-        val contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_diabled_cont_desc_TEMPLATE)
+        val contentDesc = StringBuilder(Phrase.from(context, R.string.packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE)
                 .put("filter_name", stopsLabel.text)
                 .put("filter_results", resultsLabel.text)
                 .format().toString())

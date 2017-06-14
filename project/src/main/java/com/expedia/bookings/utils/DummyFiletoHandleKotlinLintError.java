@@ -134,7 +134,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.new_credit_card,
 		R.string.flight_error_retry,
 		R.layout.resort_fee_widget,
-		R.string.packages_flight_filter_checkbox_diabled_cont_desc_TEMPLATE,
+		R.string.packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE,
 		R.layout.hotel_loading_cell,
 		R.layout.hotel_review_row,
 		R.layout.hotel_reviews_page_widget,
