@@ -200,7 +200,7 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         PRICE("PriceAsc"),
         REVIEWS("Reviews"),
         DISTANCE("Distance"),
-        MOBILE_DEALS("MobileDeals")
+        MOBILE_DEALS("Deals")
     }
 
     data class PriceRange(val minPrice: Int, val maxPrice: Int) {

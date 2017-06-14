@@ -69,7 +69,7 @@ class HotelSearchParamsTest {
         assertEquals("PriceAsc", HotelSearchParams.SortType.PRICE.sortName)
         assertEquals("Reviews", HotelSearchParams.SortType.REVIEWS.sortName)
         assertEquals("Distance", HotelSearchParams.SortType.DISTANCE.sortName)
-        assertEquals("MobileDeals", HotelSearchParams.SortType.MOBILE_DEALS.sortName)
+        assertEquals("Deals", HotelSearchParams.SortType.MOBILE_DEALS.sortName)
     }
 
     @Test
