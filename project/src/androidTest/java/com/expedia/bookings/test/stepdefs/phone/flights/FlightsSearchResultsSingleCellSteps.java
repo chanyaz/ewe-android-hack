@@ -158,5 +158,9 @@ public class FlightsSearchResultsSingleCellSteps {
 		checkAirlineName(cellNumber, "Multiple Carriers", isOutBound);
 	}
 
+	@Then("^basic economy on cell (\\d+) isDisplayed : (true|false)$")
+	public void lookForBasicEconomy(int cellNumber, boolean isDisplayed) throws Throwable {
+		validateFlightSRPListViewCellItemVisibility(cellNumber,R.id.flight_class_text_view,isDisplayed,true);
+	}
 }
 

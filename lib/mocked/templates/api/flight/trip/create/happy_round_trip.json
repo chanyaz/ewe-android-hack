@@ -27,6 +27,7 @@
             {
                 "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
                 "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
+                "isBasicEconomy": true,
                 "segments": [
                     {
                         "airlineCode": "AA",

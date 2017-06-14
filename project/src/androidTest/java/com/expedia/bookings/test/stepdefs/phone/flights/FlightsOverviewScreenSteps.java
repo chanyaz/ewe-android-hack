@@ -15,7 +15,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 
-
+import static org.hamcrest.Matchers.not;
 import org.hamcrest.Matchers;
 
 import java.util.Map;
@@ -125,6 +125,12 @@ public class FlightsOverviewScreenSteps {
 		validateCostSummaryPriceDetails("Expedia Booking Fee", params.get("Expedia Booking Fee"));
 		validateCostSummaryPriceDetails("Total Due Today", params.get("Total Due Today"));
 	}
+	@Then("^basic economy link with text \"([^\"]*)\" isDisplayed : (true|false)$")
+	public void verifyBasicEconomy(String linkText,boolean isDisplayed) throws Throwable {
+		onView(allOf(withId(R.id.basic_economy_info), withText(linkText)))
+			.check(matches(allOf(withText(linkText),isDisplayed ? isDisplayed() : not(isDisplayed()))));
+	}
+
 	@Then("^validate price info for multi travellers$")
 	public void validatePriceOfMultiTravellers() throws Throwable {
 		Map<String, String> travellers = TestUtilFlights.dataSet;

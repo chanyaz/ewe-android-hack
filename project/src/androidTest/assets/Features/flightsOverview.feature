@@ -151,3 +151,22 @@ Feature: Flights Overview
     Then validate price info for multi travellers
     And validate price for "Expedia Booking Fee" is displayed
     And validate price for "Total Due Today" is displayed
+
+  @Flights @FlightsOverview
+  Scenario: Verify basic economy link on Overview screen is visible
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I wait for results to load
+    And I select outbound flight at position 1 and reach inbound FSR
+    And I wait for inbound flights results to load
+    And I select inbound flight at position 1 and reach overview
+    Then basic economy link with text "Please Read Important Flight Restrictions" isDisplayed : true

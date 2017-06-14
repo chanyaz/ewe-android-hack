@@ -53,7 +53,7 @@ public class SearchResultsScreenSteps {
 
 	@And("^I wait for results to load$")
 	public void waitForResultsToLoad() throws Throwable {
-		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 30, TimeUnit.SECONDS));
+		onView(withId(R.id.sort_filter_button)).perform(waitFor(isDisplayed(), 40, TimeUnit.SECONDS));
 	}
 
 	@And("^I wait for inbound flights results to load$")

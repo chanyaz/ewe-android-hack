@@ -100,6 +100,9 @@ def generateStepsHTML(testcaseStepsJson, testExecutionTime, testcaseStatus, isAf
         if stepStatus=="skipped":
             if testcaseStatus!="failed":
                 testcaseStatus="skipped"
+        if stepStatus=="undefined":
+            testcaseStatus = "failed"
+            errorMessage = "Missing or Ambiguous step definition"
         if stepStatus=="passed":
             if testcaseStatus!="failed" and testcaseStatus!="skipped":
                 testcaseStatus="passed"

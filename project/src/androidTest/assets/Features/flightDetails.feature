@@ -85,6 +85,67 @@ Feature: Flight Details on a seperate screen
       And Validate that flight search results are displayed
 
   @Flights @FlightDetails
+  Scenario: Verify basic economy is not visible on outbound details screen
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I click on the flight with airline name "happy_round_trip_with_insurance_available" at "9:00 pm - 11:00 pm"
+    Then basic economy tooltip with text "This flight is Basic Economy" isDisplayed : false and isOutbound : true
+
+  @Flights @FlightDetails
+  Scenario: Verify basic economy functionality on outbound details screen
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I click on the flight with airline name "happy_round_trip" at "9:00 pm - 11:00 pm"
+    Then basic economy tooltip with text "This flight is Basic Economy" isDisplayed : true and isOutbound : true
+    And I click on the Basic Economy link isOutbound : true
+    Then Validate title info of Basic Economy Dialog is "American Airlines Basic Economy Fare"
+    Then Validate info of Basic Economy Dialog is "1 personal item only, no access to overhead bin."
+    And I click on Done button
+
+  @Flights @FlightDetails
+  Scenario: Verify basic economy functionality on inbound details screen
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 25                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    Then I select outbound flight at position 3
+    Then Select outbound flight from Overview
+    Then I select inbound flight at position 1
+    Then basic economy tooltip with text "This flight is Basic Economy" isDisplayed : true and isOutbound : false
+    And I click on the Basic Economy link isOutbound : false
+    Then Validate title info of Basic Economy Dialog is "United Airlines Basic Economy Fare"
+    Then Validate info of Basic Economy Dialog is "1 personal item only, no access to overhead bin."
+    And I click on Done button
+
+  @Flights @FlightDetails
   Scenario: Verify that on selecting different flight, details for the new selection is displayed
     Given I launch the App
     And I launch "Flights" LOB

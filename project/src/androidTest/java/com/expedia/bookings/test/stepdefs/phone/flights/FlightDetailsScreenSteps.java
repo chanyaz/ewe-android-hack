@@ -1,6 +1,9 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import org.hamcrest.core.AllOf;
 import org.joda.time.LocalDate;
+
+import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.phone.newflights.FlightsScreen;
@@ -10,12 +13,16 @@ import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static android.support.test.espresso.action.ViewActions.click;
 
 public class FlightDetailsScreenSteps {
 
@@ -180,5 +187,43 @@ public class FlightDetailsScreenSteps {
 		onView(allOf(withId(R.id.flight_overview_urgency_messaging), withText(containsString(urgencyText))))
 			.check(matches(isDisplayed()));
 
+	}
+
+	@Then("^basic economy tooltip with text \"([^\"]*)\" isDisplayed : (true|false) and isOutbound : (true|false)$")
+	public void verifyBasicEconomy(String text, boolean isDisplayed, boolean isOutbound) throws Throwable {
+		onView(allOf(withId(R.id.flight_basic_economy_tooltip),
+			(isOutbound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound)))))
+			.check(matches(allOf(withText(text),
+				isDisplayed ? isDisplayed() : not(isDisplayed()))));
+	}
+
+	@Then("^Validate info of Basic Economy Dialog is \"([^\"]*)\"$")
+	public void verifyInfoOfBasicEconomyDialog(String info) throws Throwable {
+		validateInfo(info);
+	}
+
+	@Then("^Validate title info of Basic Economy Dialog is \"([^\"]*)\"$")
+	public void verifyTitleInfoOfBasicEconomyDialog(String title) throws Throwable {
+		validateTitle(title);
+	}
+
+	@And("^I click on the Basic Economy link isOutbound : (true|false)")
+	public void clickOnBasicEconomyLink(boolean isOutbound) throws Throwable {
+		onView(allOf(withId(R.id.flight_basic_economy_tooltip),
+			(isOutbound ? isDescendantOfA(withId(R.id.widget_flight_outbound)) : isDescendantOfA(withId(R.id.widget_flight_inbound)))))
+			.perform(click());
+	}
+
+	private void validateTitle(String title) throws Throwable {
+		onView(withText(title)).check(matches(
+				isDisplayed()));
+	}
+
+	private void validateInfo(String info) throws Throwable {
+		onView(AllOf.allOf(isDescendantOfA(withId(R.id.basic_economy_tooltip_info_container)), withId(R.id.basic_economy_rules_tv),
+			withText(info), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+			.check(matches(AllOf.allOf(withId(R.id.basic_economy_rules_tv),
+				withText(info), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+			)));
 	}
 }

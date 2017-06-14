@@ -239,3 +239,20 @@ Feature: Flights Search Results
       | child               | 0                                        |
     And I wait for results to load
     Then multi carrier text is shown instead of Airline Name on cell 5 isOutbound : true
+
+  @Flights @FlightSearchResults
+  Scenario: Validate basic economy is displayed when isBasicEconomy is true in response
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    Then basic economy on cell 1 isDisplayed : true
