@@ -7,11 +7,7 @@ import com.adobe.mobile.Config
 
 class ADMS_Measurement {
 
-    var events: String? = null
     var appState: String? = null
-    var products: String? = null
-    var purchaseID: String? = null
-    var currencyCode: String? = null
     var reportSuiteIDs: String? = null
     var trackingServer: String? = null
     var SSL: Boolean = false
@@ -23,20 +19,44 @@ class ADMS_Measurement {
 
     private val cData = HashMap<String, Any>()
 
-    fun getProp(i: Int): String? {
-        return getOmnitureDataValue(EVAR + i) as String?
+    fun setEvar(i: Int, s: String?) {
+        cData.put(EVAR + i, s ?: "")
     }
 
     fun getEvar(i: Int): String? {
         return getOmnitureDataValue(EVAR + i) as String?
     }
 
-    fun setEvar(i: Int, s: String?) {
-        cData.put(EVAR + i, s ?: "")
-    }
-
     fun setProp(i: Int, s: String?) {
         cData.put(PROP + i, s ?: "")
+    }
+
+    fun getProp(i: Int): String? {
+        return getOmnitureDataValue(PROP + i) as String?
+    }
+
+    fun setEvents(s: String?) {
+        cData.put(EVENTS, s ?: "")
+    }
+
+    fun getEvents(): String? {
+        return getOmnitureDataValue(EVENTS) as String?
+    }
+
+    fun setProducts(s: String?) {
+        cData.put(PRODUCTS, s ?: "")
+    }
+
+    fun getProducts(): String? {
+        return getOmnitureDataValue(PRODUCTS) as String?
+    }
+
+    fun setPurchaseID(s: String?) {
+        cData.put(PURCHASE_ID, s ?: "")
+    }
+
+    fun setCurrencyCode(s: String?) {
+        cData.put(CURRENCY_CODE, s ?: "")
     }
 
     fun trackLink(o: Any?, o1: String?, s: String?, o2: Any?, o3: Any?) {
@@ -44,7 +64,7 @@ class ADMS_Measurement {
     }
 
     fun track() {
-        Analytics.trackAction("", cData)
+        Analytics.trackState(appState, cData)
     }
 
     fun pauseActivity() {
@@ -55,7 +75,6 @@ class ADMS_Measurement {
         Config.collectLifecycleData(activity);
     }
 
-
     fun getOmnitureDataValue(key: String): Any? {
         return cData[key]
     }
@@ -65,6 +84,14 @@ class ADMS_Measurement {
         private val EVAR = "&&v"
 
         private val PROP = "&&c"
+
+        private val EVENTS = "&&events"
+
+        private val PRODUCTS = "&&products"
+
+        private val CURRENCY_CODE = "&&cc"
+
+        private val PURCHASE_ID = "&&purchaseID"
 
         @JvmStatic fun sharedInstance(sContext: Context): ADMS_Measurement {
             return ADMS_Measurement()
