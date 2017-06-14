@@ -47,6 +47,10 @@
     <string name="secure_checkout">Thanh toán an toàn</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Map, kết quả tìm khách sạn trên bản đồ</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">Phóng to {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Hiển thị thông tin khách sạn giá từ {price} trở xuống, Nút</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Thanh toán</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">Lỗi khi tải trang! Thông báo lỗi: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">Không có url trang web để tải.</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Sắp cất cánh…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Rất tiếc, tính năng đặt chuyến bay qua di động hiện chưa được áp dụng tại khu vực của quý vị.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->

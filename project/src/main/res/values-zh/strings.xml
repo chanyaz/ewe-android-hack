@@ -26,7 +26,7 @@
 
     <!-- Hotels Reviews Strings -->
     <!-- Hotels summary rating template-->
-    <string name="hotel_rating_summary_Template">{rating}- {attribute}</string>
+    <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
     <!-- Hotels rating room cleanliness string -->
     <string name="hotel_rating_room_cleanliness">客房清洁度</string>
     <!-- Hotels rating room comfort string -->
@@ -47,6 +47,10 @@
     <string name="secure_checkout">安全付款</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">谷歌地图，在地图上显示酒店搜索结果</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">放大地图，详细查看 {hotel_count}</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">按钮：显示酒店价格 {price}</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">预订</string>
@@ -86,7 +90,7 @@
     <!-- Text for price change-->
     <string name="price_change_text">价格变动</string>
     <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
-    <string name="price_change_alert_TEMPLATE">您此次旅行的价格已由 {oldprice}更改为{newprice}。价格经常变化。马上预订，锁定这个价格。</string>
+    <string name="price_change_alert_TEMPLATE">您此次旅行的价格已由 {oldprice} 更改为 {newprice}。价格经常变化。马上预订，锁定这个价格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">价格有变动</string>
     <!-- Text for error toolbar-->
@@ -198,7 +202,7 @@
     </plurals>
 
     <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">拖动条，价格最低 {min_price}到最高 {max_price}</string>
+    <string name="price_range_filter_cont_desc_TEMPLATE">拖动条，价格最低 {min_price} 到最高 {max_price}</string>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -315,7 +319,7 @@
 
     <!-- LX -->
     <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_TEMPLATE">{from_date}- {to_date}</string>
+    <string name="lx_toolbar_date_range_TEMPLATE">{from_date} - {to_date}</string>
     <!-- LX Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
     <string name="lx_toolbar_date_range_cont_desc_TEMPLATE">{from_date}- {to_date}</string>
     <!--LX Search widget header text -->
@@ -354,7 +358,7 @@
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
     <string name="search_result_multiple_duration_TEMPLATE">加 {duration}</string>
     <!-- Cancellation policy template -->
-    <string name="lx_cancellation_policy_TEMPLATE">如还没有开始使用，您可以在{hours}小时内免费取消。超出时限后，将无法取消、变更或退款。</string>
+    <string name="lx_cancellation_policy_TEMPLATE">如还没有开始使用，您可以在 {hours} 小时内免费取消。超出时限后，将无法取消、变更或退款。</string>
     <!-- Cancellation policy text for non-cancellable activities -->
     <string name="lx_policy_non_cancellable">此预订在确认后不可退款，也不得变更或取消。</string>
     <!-- LX checkout cost breakdown total due today -->
@@ -873,9 +877,9 @@
     <!-- Content description for sign in button. Eg: Sign in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">登录 {brand} 按钮</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward}Expedia+ 积分</string>
+    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} Expedia+ 积分</string>
     <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
-    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录，累积 {reward}Expedia+ 积分</string>
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录，累积 {reward} Expedia+ 积分</string>
     <!-- or -->
     <string name="or">或</string>
     <!--Create Account -->
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">加载页面时出错！错误消息：%1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">未找到可以加载的网页 URL。</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">即将推出…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">抱歉，您所在的位置尚未提供移动机票预订服务。</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
@@ -1733,7 +1735,7 @@
 
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">{startdate}- {enddate}</string>
+    <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate}- {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
@@ -1761,7 +1763,7 @@
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">在%2$s&lt;b&gt;中途停留 %1$s&lt;/b&gt;</string>
     <!-- Price per person. For example: "$20.31 per person" -->
-    <string name="flight_details_price_per_person_TEMPLATE">{price}（每人）</string>
+    <string name="flight_details_price_per_person_TEMPLATE">每人 {price}</string>
     <!-- Messaging on flight details for basic economy" -->
     <string name="flight_details_basic_economy_message">此航班为&lt;b&gt;基本经济舱&lt;/b&gt;</string>
     <!-- Messaging on flight checkout overview for basic economy" -->
@@ -1859,9 +1861,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">您的卡将被收取 {dueamount}</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">您使用了 {points}Expedia+ 积分（价值 {amount}）</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">您使用了 {points} Expedia+ 积分（价值 {amount}）</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">您使用了 {points}Expedia+ 积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
+    <string name="payment_through_card_and_pwp_points">您使用了 {points} Expedia+ 积分（价值 {amount}）\n您的卡将被收取 {dueamount}</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_plus_airline_fee_template">将向您的卡收取 {dueamount}（加航空公司收费）</string>
     <!-- Cars amount due today without a required credit card -->
@@ -1896,7 +1898,7 @@
     <!-- Due to expedia today - today -->
     <string name="due_to_brand_today_today_TEMPLATE">今天要付给 {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
-    <string name="resort_fee_disclaimer_TEMPLATE">度假费用&lt;b&gt;%1$s&lt;/b&gt;将在酒店收取。您的住宿费用总计 &lt;b&gt;%2$s&lt;/b&gt;。</string>
+    <string name="resort_fee_disclaimer_TEMPLATE">度假费用 &lt;b&gt;%1$s&lt;/b&gt; 将在酒店收取。您的住宿费用总计 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">您的旅行费用总计&lt;b&gt;%1$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订总额。</string>
     <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
@@ -2356,16 +2358,16 @@
     <string name="button_done">完成</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt;岁</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt;岁</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt;岁</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt;岁</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; 岁</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 岁</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;不到 1 岁&lt;/b&gt;</string>
 
     <!-- This is a special case for rails senior age greater than 62 -->
-    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62岁&lt;/b&gt;以上</string>
+    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62 岁&lt;/b&gt;以上</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -2632,7 +2634,7 @@
         1$ represents the number of guests that recommend this hotel
         2$ represents the total number of guests
     -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt;位住客中的 &lt;b&gt;%1$d&lt;/b&gt; 位推荐此酒店。</string>
+    <string name="user_review_recommendation_tag_text">&lt;b&gt;%2$d&lt;/b&gt; 位住客中的 &lt;b&gt;%1$d&lt;/b&gt; 位推荐此酒店。</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">没有点评</string>
 
@@ -2935,7 +2937,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">隐私政策</string>
     <!-- Copyright information -->
-    <string name="copyright_TEMPLATE">© 版权所有 2012-{year}{brand}, Inc.\n保留所有权利。</string>
+    <string name="copyright_TEMPLATE">© 版权所有 2012-{year} {brand}, Inc.\n保留所有权利。</string>
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">开源软件许可</string>
     <!-- String for acrediting the open source libraries we use -->
@@ -3708,16 +3710,16 @@
     <!-- package hotel results unreal deal message for freeFlight -->
     <string name="free_flight_deal">预订此酒店，机票 0 折！</string>
     <!-- package hotel results unreal deal message for hotelDeal -->
-    <string name="hotel_deal_TEMPLATE">预订此酒店可省 {price}({savings}%)</string>
+    <string name="hotel_deal_TEMPLATE">预订此酒店可省 {price} ({savings}%)</string>
     <!-- package hotel results unreal deal message for freeOneNightHotel -->
     <plurals name="free_one_night_hotel_deal_TEMPLATE">
-        <item quantity="one">与机票一起订，免费住 {night}晚。</item>
-        <item quantity="other">与机票一起订，免费住 {night}晚。</item>
+        <item quantity="one">与机票一起订，免费住 {night} 晚。</item>
+        <item quantity="other">与机票一起订，免费住 {night} 晚。</item>
     </plurals>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s到达：%2$s%3$s</string>
     <!-- Template for package bundle total savings amount -->
-    <string name="bundle_total_savings_TEMPLATE">{savings}已保存</string>
+    <string name="bundle_total_savings_TEMPLATE">节省了 {savings}</string>
     <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
     <string name="select_hotel_cont_desc_TEMPLATE">搜索已完成。选择{destination}的酒店，入住日期 {startdate} 到 {enddate}，入住人数为{guests}。按钮</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
@@ -3735,7 +3737,7 @@
     <!-- Bundle Overview expanded flight card accessibility content description. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. Expanded button. Double tap to collapse. -->
     <string name="bundle_overview_detailed_button_description_TEMPLATE">{rowdescription} 展开按钮。连按两次，可以折叠。</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">航班时间为 {time}。搭乘{airline}航班。飞行时间 {hours}{minutes}，经停 {stops} 次\u0020</string>
+    <string name="flight_detail_card_cont_desc_without_price_TEMPLATE">航班时间为 {time}。搭乘{airline}航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
     <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
     <string name="select_flight_disabled_cont_desc_TEMPLATE">{travelers}、{date}飞往{flight}的机票请先选择{previous}。按钮。</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
@@ -3801,13 +3803,13 @@
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
     <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime}至 {arrivaltime}（加 {elapseddays} 天）</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
-    <string name="flight_departure_arrival_time_template">%1$s- %2$s</string>
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime}- {arrivaltime}</string>
     <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
-    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">由 {operatingairlinename}({operatingairlinecode}) 运营</string>
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">由 {operatingairlinename} ({operatingairlinecode}) 运营</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
-    <string name="flight_operated_by_carrier_name_only_TEMPLATE">由 {operatingairlinename}运营</string>
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">由{operatingairlinename}运营</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">正在搜索航班。请稍候。</string>
@@ -3893,7 +3895,7 @@
     <!-- Pay with points widget -->
     <string name="paying_with_rewards">使用 Expedia+ 积分支付</string>
     <string name="pay_with_rewards">使用 Expedia+ 积分支付</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money}可用（{points} 点 Expedia+ 积分）</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} 可以使用（{points} Expedia+ 积分）</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">积分价值超出您现有的余额。\n请输入 {money} 或以下。</string>
     <string name="user_enters_more_than_trip">积分价值不能超出今天应付的款额。</string>
     <string name="pwp_calculating_points">正在计算积分…</string>
@@ -3926,7 +3928,7 @@
     <!-- Title for flight overview summary template. Example: SFO to DEL Thurs, May 12 -->
     <string name="flight_overview_header_TEMPLATE">{departureairportcode}至 {arrivalairportcode}，{dateoftravelling} 位旅客</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
-    <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary}已发送至 {email}</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已发送至 {email}</string>
 
     <!--Rail search screen title-->
     <string name="trains">火车</string>
@@ -3941,7 +3943,7 @@
     <string name="rail_direct">直达</string>
 
     <!--toolbar subtitle, will take the form of "Sept 12 - Sept 15 - 3 Travelers" -->
-    <string name="rail_results_toolbar_subtitle_TEMPLATE">{searchdates}- {travelerspart}</string>
+    <string name="rail_results_toolbar_subtitle_TEMPLATE">{searchdates} - {travelerspart}</string>
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
@@ -4088,7 +4090,7 @@
     <!--Rails content description for results card, e.g. Departs at 10:06am Arrives at 11:11am London Midlan Trip Duration 5h 43min, 2 changes -->
     <string name="rail_result_card_cont_desc_TEMPLATE">{departuretime}出发，{arrivaltime} 到达，{trainoperator} 的行程，所需时间 {tripdurationandchanges}</string>
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
-    <string name="rail_journey_details_cont_desc_TEMPLATE">通过 {trainoperator}的{travelmode}从 {departurestation} 前往 {arrivalstation}，所需时间 {duration}，{departuretime} 出发，{arrivaltime} 到达</string>
+    <string name="rail_journey_details_cont_desc_TEMPLATE">通过{trainoperator}的{travelmode}从 {departurestation} 前往 {arrivalstation}，所需时间 {duration}，{departuretime} 出发，{arrivaltime} 到达</string>
     <!--Rails content description for results card Railcard applied portion -->
     <string name="rail_railcard_applied_cont_desc">使用了铁路卡</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
@@ -4129,13 +4131,13 @@
 
     <!-- Material FLight breakdown dialog -->
     <!-- Add adult traveler number template for example: Adult 2 details -->
-    <string name="flight_add_adult_number_TEMPLATE">第 {number}位成人的信息</string>
+    <string name="flight_add_adult_number_TEMPLATE">第 {number} 位成人的信息</string>
     <!-- Add child traveler number template for example: Child 4 details -->
-    <string name="flight_add_child_number_TEMPLATE">第 {number}名儿童的信息</string>
+    <string name="flight_add_child_number_TEMPLATE">第 {number} 名儿童的信息</string>
     <!-- Add infant in lap traveler number template for example: Infant in lap 1 details -->
-    <string name="flight_add_infant_in_lap_number_TEMPLATE">第 {number}名怀抱婴儿的信息</string>
+    <string name="flight_add_infant_in_lap_number_TEMPLATE">第 {number} 名怀抱婴儿的信息</string>
     <!-- Add infant in seat traveler number template for example: Infant in seat 6 details -->
-    <string name="flight_add_infant_in_seat_number_TEMPLATE">第 {number}名占座婴儿的信息</string>
+    <string name="flight_add_infant_in_seat_number_TEMPLATE">第 {number} 名占座婴儿的信息</string>
 
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">使用了 Expedia+ 积分！（不含税费）</string>
@@ -4197,9 +4199,9 @@
     <!-- Best Flight card view content description for accessibility.-->
     <string name="best_flight_detail_card_cont_desc">最佳航班。廉价 • 时间短 • 出发时间适宜。\u0020</string>
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">航班出发时间 {time}，价差为{pricedifference}。搭乘{airline}航班。飞行时间 {hours}{minutes}，经停 {stops} 次\u0020</string>
+    <string name="flight_detail_card_cont_desc_with_price_diff_TEMPLATE">航班出发时间 {time}，价差为{pricedifference}。搭乘{airline}航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
     <!-- Flight List card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price $150. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops -->
-    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">航班出发时间 {time}，价差为{price}。搭乘{airline}航班。飞行时间 {hours}{minutes}，经停 {stops} 次\u0020</string>
+    <string name="flight_detail_card_cont_desc_without_price_diff_TEMPLATE">航班出发时间 {time}，价差为{price}。搭乘{airline}航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格{price}。含酒店和机票\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
@@ -4223,7 +4225,7 @@
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport}到{arrivalairport}。{durationhours}{durationmins}。\u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">中途停留{layoverhours}{layovermins}。\u0020</string>
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">中途停留 {layoverhours} {layovermins}。\u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
     <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
         <item quantity="one">此价格的机票只剩 {seatsleft} 张</item>
@@ -4409,9 +4411,9 @@
     <string name="discount_minus_amount">-{amount}</string>
     <string name="local_charges_due_at_hotel">在酒店支付的本地费用</string>
     <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
-    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt;的地方税款和/或酒店收费将在到店时付款。您住宿的&lt;b&gt;总额为 {trip_total}&lt;/b&gt;</string>
+    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; 的地方税款和/或酒店收费将在到店时付款。您住宿的&lt;b&gt;总额为 {trip_total}&lt;/b&gt;</string>
     <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
-    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt;的地方税款和/或酒店收费将使用酒店的当地货币，在到店时付款。</string>
+    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; 的地方税款和/或酒店收费将使用酒店的当地货币，在到店时付款。</string>
     <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
     <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->

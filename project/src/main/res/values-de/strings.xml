@@ -47,6 +47,10 @@
     <string name="secure_checkout">Sicherer Buchungsabschluss</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Maps, Hotelergebnisse in der Kartenansicht suchen</string>
+    <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
+    <string name="hotel_map_pin_cluster_cont_desc_TEMPLATE">Heranzoomen, um {hotel_count} anzuzeigen</string>
+    <!-- Ally Description for individual map pins on hotel results. Ex. Show information for hotel of price $543 below, Button-->
+    <string name="hotel_map_pin_price_cont_desc_TEMPLATE">Informationen über Hotel zum Preis von {price} anzeigen</string>
 
     <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
     <string name="accessibility_purchase_button">Kaufen</string>
@@ -1697,8 +1701,6 @@
     <string name="web_view_loading_error_TEMPLATE">Fehler beim Laden der Seite! Fehlermeldung: %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
     <string name="web_view_no_url">Keine URL zum Laden.</string>
-    <!-- Title for screen when in an invalid POS we can't search for yet -->
-    <string name="taking_off_soon">Bald geht\&apos;s los…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
     <string name="invalid_flights_pos">Leider ist das mobile Buchen von Flügen für Ihren Standort noch nicht verfügbar.</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
