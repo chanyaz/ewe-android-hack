@@ -47,7 +47,7 @@
     <color name="hotel_tonight_only_color">#7AC231</color>
     <color name="hotel_mobile_exclusive_color">#F58025</color>
 
-    <color name="hotelsv2_discount_green">#7AC231</color>
+    <color name="hotelsv2_discount_green">#428201</color>
     <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <!-- Cars and LX -->
@@ -121,4 +121,9 @@
 
     <!-- Splash screen -->
     <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
+
+
+    <!-- New launch screen colors -->
+    <color name="launch_discount">#0e8264</color>
+    <color name="launch_primary">#ffffff</color>
 </resources>
