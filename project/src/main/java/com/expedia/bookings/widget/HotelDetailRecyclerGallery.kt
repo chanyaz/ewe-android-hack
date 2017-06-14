@@ -15,10 +15,10 @@ class HotelDetailRecyclerGallery(context: Context, attrs: AttributeSet) : Recycl
         val first = (layoutManager as A11yLinearLayoutManager).findFirstVisibleItemPosition()
         val last = (layoutManager as A11yLinearLayoutManager).findLastVisibleItemPosition()
 
-        (findViewHolderForAdapterPosition(first) as RecyclerGallery.RecyclerAdapter.GalleryViewHolder).updateContDesc()
+        (findViewHolderForAdapterPosition(first) as? RecyclerGallery.RecyclerAdapter.GalleryViewHolder)?.updateContDesc()
 
         if (first != last) {
-            (findViewHolderForAdapterPosition(last) as RecyclerGallery.RecyclerAdapter.GalleryViewHolder).updateContDesc()
+            (findViewHolderForAdapterPosition(last) as? RecyclerGallery.RecyclerAdapter.GalleryViewHolder)?.updateContDesc()
         }
     }
 }
