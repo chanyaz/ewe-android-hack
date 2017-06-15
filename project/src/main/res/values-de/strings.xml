@@ -970,10 +970,6 @@
     <string name="launch_upcoming_trips_signed_in">Ihnen steht eine Reise bevor!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Rufen Sie Ihren Reiseplan unterwegs ab und bleiben Sie über Änderungen auf dem Laufenden</string>
-    <!-- Text for itin card on guest user launch screen -->
-    <string name="launch_upcoming_trips_guest_user">Steht Ihnen eine Reise bevor?</string>
-    <!-- Subtext for active itin card on guest user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_guest_user">Prüfen Sie den Status Ihrer bestehenden Reise und erhalten Sie über die App Updates</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Unterwegs buchen</string>
@@ -991,8 +987,6 @@
     <string name="trips">Reisen</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Ihre Reisen</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">Erkunden</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Diese App benötigt Google Play-Dienste. Bitte installieren Sie die neueste Version der Google Play-Dienste.</string>
 
@@ -3657,6 +3651,8 @@
     <string name="four_star">4 Sterne</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5 Sterne</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">Suche eingrenzen</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Gegebenenfalls wird basierend auf der Zahlungsweise eine zusätzliche Gebühr berechnet.</string>
@@ -3885,6 +3881,8 @@
     <string name="arrival_time_range_end">Ankunft bis spätestens</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">Filterleiste für {name} {value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">Ergebnisse filtern: {name} um {value}. Wischen Sie für Änderungen nach rechts oder links oder nutzen Sie das lokale Kontextmenü</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Hotel ändern</string>
@@ -4380,6 +4378,8 @@
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Fehler bei {title}: Bitte geben Sie die fehlenden Angaben zum Reisenden ein. Schaltfläche.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Angaben des Reisenden vollständig</string>
+    <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
+    <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, Angaben zum Reisenden vollständig. Schaltfläche.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Schaltfläche</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4506,10 +4506,6 @@
     <string name="itin_sign_in_message">Melden Sie sich an, um auf Ihre bevorstehenden Reisen zuzugreifen.</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Als Gast gebuchte Reise suchen</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">Hotels in Ihrer Nähe finden</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">Empfohlene Hotels für heute Abend</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Buchung erfolgreich!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4579,5 +4575,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Schaltfläche</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">Geben Sie eine Zahl von {min_value} bis {max_value} ein.</string>
+    <string name="title_seek_bar_edit">Suchleistenlevel bearbeiten</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>

@@ -970,10 +970,6 @@
     <string name="launch_upcoming_trips_signed_in">Anda Memiliki Perjalanan yang Akan Datang!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Akses itinerary Anda kapan saja dan di mana saja, dan terus ikuti perubahan</string>
-    <!-- Text for itin card on guest user launch screen -->
-    <string name="launch_upcoming_trips_guest_user">Memiliki Perjalanan yang Akan Datang?</string>
-    <!-- Subtext for active itin card on guest user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_guest_user">Lihat status perjalanan Anda yang ada dan dapatkan pembaruan di aplikasi</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Pesan dari mana saja, kapan saja</string>
@@ -991,8 +987,6 @@
     <string name="trips">Perjalanan</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Perjalanan Anda</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">Cari</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Aplikasi ini memerlukan Google Play Services. Harap instal versi terbaru Google Play Services.</string>
 
@@ -3656,6 +3650,8 @@
     <string name="four_star">4 bintang</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5 bintang</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">Persempit pencarian Anda</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Maskapai mungkin mengenakan biaya tambahan berdasarkan metode pembayaran Anda.</string>
@@ -3884,6 +3880,8 @@
     <string name="arrival_time_range_end">Waktu Kedatangan Berakhir</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} Seekbar {value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">{name} Penggeser Kisaran {value}, lakukan gerakan maju mundur atau menu konteks lokal untuk menyesuaikan</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Ubah hotel</string>
@@ -4379,6 +4377,8 @@
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Kesalahan: Lengkapi rincian traveler. Tombol.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informasi Traveler Lengkap</string>
+    <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
+    <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, rincian traveler selesai. Tombol.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Tombol</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4505,10 +4505,6 @@
     <string name="itin_sign_in_message">Login untuk mengakses perjalanan Anda yang akan datang</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Cari Perjalanan yang Dipesan Tamu</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">Cari Hotel di Sekitar Lokasi Anda</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">Hotel yang direkomendasikan malam ini</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Pemesanan Berhasil!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4578,5 +4574,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Tombol</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">Masukkan angka dari {min_value} hingga {max_value}.</string>
+    <string name="title_seek_bar_edit">Edit tingkat kontrol pencarian</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>

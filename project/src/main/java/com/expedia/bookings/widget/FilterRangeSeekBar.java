@@ -31,7 +31,7 @@ import com.squareup.phrase.Phrase;
 
 public class FilterRangeSeekBar extends CustomSeekBarView {
 
-	private final FilterRangeSeekBarTouchHelper mTouchHelper;
+	protected FilterRangeSeekBarTouchHelper mTouchHelper;
 
 	// Internal view state
 	private Thumb pressedThumb = null;
@@ -54,7 +54,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 	@Override
 	public boolean dispatchHoverEvent(MotionEvent event) {
 		// Always attempt to dispatch hover events to accessibility first.
-		return mTouchHelper.dispatchHoverEvent(event) || super.dispatchHoverEvent(event);
+		return (mTouchHelper != null && mTouchHelper.dispatchHoverEvent(event)) || super.dispatchHoverEvent(event);
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 	 * @return The pressed thumb or null if none has been touched.
 	 */
 	private Thumb findPressedThumb(float touchX) {
-		if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
+		if (AccessibilityUtil.isTalkBackEnabled(getContext()) && mTouchHelper != null) {
 			return mTouchHelper.getThumb();
 		}
 		Thumb result = null;
@@ -220,8 +220,11 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 	}
 
 	private void requestFocus(Thumb pressedThumb) {
-		mTouchHelper.invalidateVirtualView(pressedThumb == Thumb.MIN ? FilterRangeSeekBarTouchHelper.MIN_VALUE_THUMB_ID
-			: FilterRangeSeekBarTouchHelper.MAX_VALUE_THUMB_ID);
+		if (mTouchHelper != null) {
+			mTouchHelper
+				.invalidateVirtualView(pressedThumb == Thumb.MIN ? FilterRangeSeekBarTouchHelper.MIN_VALUE_THUMB_ID
+					: FilterRangeSeekBarTouchHelper.MAX_VALUE_THUMB_ID);
+		}
 	}
 
 	private void setLeftThumbBound(Rect bounds) {

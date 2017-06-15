@@ -970,10 +970,6 @@
     <string name="launch_upcoming_trips_signed_in">고객님, 다가오는 여행 일정이 있습니다!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">이동 중에도 일정을 확인하시고 최신 변경 사항도 놓치지 마세요.</string>
-    <!-- Text for itin card on guest user launch screen -->
-    <string name="launch_upcoming_trips_guest_user">다가오는 여행 일정이 있습니다!</string>
-    <!-- Subtext for active itin card on guest user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_guest_user">여행 상태를 확인하시고 앱에서 업데이트를 받아보세요.</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">이동 중에도 예약하세요!</string>
@@ -991,8 +987,6 @@
     <string name="trips">일정</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">내 일정</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">둘러보기</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">이 앱을 사용하려면 Google Play 서비스가 필요합니다. 최신 버전의 Google Play 서비스를 설치해 주세요.</string>
 
@@ -3656,6 +3650,8 @@
     <string name="four_star">4성급</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5성급</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">결과 자세히 검색</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">결제 방법에 따라 추가 수수료가 있을 수 있습니다.</string>
@@ -3884,6 +3880,8 @@
     <string name="arrival_time_range_end">도착 시간 종료</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} 필터링 바 {value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">검색 결과 필터링. {name} {value}, 조정하려면 왼쪽 오른쪽으로 움직여 사용 또는 로컬 컨텍스트 메뉴 사용</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">호텔 변경</string>
@@ -4379,6 +4377,8 @@
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} 오류: 누락된 여행객 정보를 입력하세요. 버튼.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">여행객 정보 완성</string>
+    <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
+    <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, 여행객 정보 완료. 버튼.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">버튼</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4505,10 +4505,6 @@
     <string name="itin_sign_in_message">로그인하여 예정된 여행에 액세스하세요.</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">비회원 예약 여행 찾기</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">근처에 있는 호텔 찾기</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">오늘 밤 추천 호텔</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">예약 성공!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4578,5 +4574,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. 버튼</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">{min_value}에서 {max_value}까지의 숫자를 입력해 주세요.</string>
+    <string name="title_seek_bar_edit">찾기 컨트롤 수준 수정</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>
