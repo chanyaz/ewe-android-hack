@@ -163,7 +163,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             tsaEntryView.genderEditText?.updatePaddingForOldApi()
             if (materialFormTestEnabled) {
                 nameEntryView.firstName.updatePaddingForOldApi()
-                nameEntryView.middleName.updatePaddingForOldApi()
+                nameEntryView.middleName?.updatePaddingForOldApi()
                 nameEntryView.lastName.updatePaddingForOldApi()
                 emailEntryView.emailAddress.updatePaddingForOldApi()
                 advancedOptionsWidget.travelerNumber.updatePaddingForOldApi()
