@@ -970,10 +970,6 @@
     <string name="launch_upcoming_trips_signed_in">Vous avez un voyage à venir !</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">Accédez à vos voyages où que vous soyez et restez informé en cas de changement.</string>
-    <!-- Text for itin card on guest user launch screen -->
-    <string name="launch_upcoming_trips_guest_user">Vous avez un voyage à venir ?</string>
-    <!-- Subtext for active itin card on guest user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_guest_user">Vérifiez le statut de votre voyage et recevez des mises à jour avec l\&apos;appli.</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">Réservez partout, à tout moment</string>
@@ -991,8 +987,6 @@
     <string name="trips">Voyages</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">Vos voyages</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">Explorer</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Cette app nécessite Google Play Services. Veuillez installer la dernière version de Google Play Services.</string>
 
@@ -3656,6 +3650,8 @@
     <string name="four_star">4 étoiles</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5 étoiles</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">Cibler vos résultats</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">Des frais supplémentaires peuvent s\&apos;appliquer en fonction du moyen de paiement utilisé.</string>
@@ -3884,6 +3880,8 @@
     <string name="arrival_time_range_end">la fin du créneau horaire d\&apos;arrivée</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">Barre de filtre pour {name} placée à {value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">Filtrez vos résultats : {name} à {value}. Pour ajuster, faites glisser sur la gauche ou sur la droite ou servez-vous du menu contextuel local.</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Modifier l\&apos;hôtel</string>
@@ -4026,7 +4024,7 @@
     <string name="rail_station_info_TEMPLATE">de {departure} à {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4379,6 +4377,8 @@
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Erreur : saisissez les détails manquants sur le voyageur. Bouton.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informations sur le voyageur complètes</string>
+    <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
+    <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle} : détails sur le voyageur complétés. Bouton.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Bouton</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4505,10 +4505,6 @@
     <string name="itin_sign_in_message">Connectez-vous pour accéder à vos voyages à venir</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">Trouver le voyage réservé en tant qu\&apos;invité</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">Trouvez des hôtels près de vous</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">Hôtels recommandés ce soir</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">Réservation réussie !</string>
     <!-- Check your email for itinerary alert message-->
@@ -4578,5 +4574,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description}. Bouton</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">Saisissez un nombre entre {min_value} et {max_value}.</string>
+    <string name="title_seek_bar_edit">Modifier le niveau de la barre avec curseur</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>

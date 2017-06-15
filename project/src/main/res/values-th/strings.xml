@@ -20,7 +20,7 @@
     <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
     <string name="calendar_drag_to_modify">ลากเพื่อปรับเปลี่ยน</string>
     <!-- Calendar tooltip bottom line content description after two dates are selected Example: Jun 1 to Jun 2. Select dates again to modify -->
-    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate} แก้ไขวันเดินทางที่ต้องการได้โดยเลือกวันที่ไปและวันที่กลับอีกครั้ง</string>
+    <string name="calendar_complete_tooltip_cont_desc_TEMPLATE">{selecteddate} แก้ไขวันเดินทางที่ต้องการได้โดยเลือกวันไปและวันกลับอีกครั้ง</string>
     <!-- Calendar tooltip bottom line content description after start date is selected E.g. Jun 1. Next. Select return date-->
     <string name="calendar_start_date_tooltip_cont_desc_TEMPLATE">{selecteddate} {instructiontext}</string>
 
@@ -40,11 +40,11 @@
     <!-- slide to reserve -->
     <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
     <!-- slide to purchase -->
-    <string name="hotelsv2_slide_purchase">เลื่อนเพื่อซื้อ</string>
+    <string name="hotelsv2_slide_purchase">เลื่อนเพื่อจอง</string>
     <!-- Change Dates in case of Sold Out -->
     <string name="change_dates">เปลี่ยนวันที่</string>
     <!-- checkout view toolbar title -->
-    <string name="secure_checkout">การชำระเงินอย่างปลอดภัย</string>
+    <string name="secure_checkout">การชำระเงินที่ปลอดภัย</string>
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">แผนที่ Google ค้นหาผลลัพธ์โรงแรมโดยใช้มุมมองแผนที่</string>
     <!-- Ally Description for clustered map pins on hotel results Ex. Zoom in on 13 Hotels-->
@@ -970,10 +970,6 @@
     <string name="launch_upcoming_trips_signed_in">คุณมีทริปที่กำลังจะถึง!</string>
     <!-- Subtext for active itin card on signed-in user's launch screen -->
     <string name="launch_upcoming_trips_subtext_signed_in">ดูแผนการเดินทางได้ทุกที่ทุกเวลาและไม่พลาดทุกการเปลี่ยนแปลง</string>
-    <!-- Text for itin card on guest user launch screen -->
-    <string name="launch_upcoming_trips_guest_user">มีทริปที่กำลังจะถึง?</string>
-    <!-- Subtext for active itin card on guest user's launch screen -->
-    <string name="launch_upcoming_trips_subtext_guest_user">เช็คสถานะทริปปัจจุบันของคุณและติดตามอัพเดทล่าสุดผ่านแอพ</string>
 
     <!--Onboarding-->
     <string name="booking_page_title">จองได้ทุกที่ ทุกเวลา</string>
@@ -991,8 +987,6 @@
     <string name="trips">การเดินทาง</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">การเดินทางของคุณ</string>
-    <!-- Actionbar Title on main launch screen -->
-    <string name="Explore">ค้นหา</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">แอพนี้ต้องใช้ Google Play Services โปรดติดตั้ง Google Play Services เวอร์ชั่นล่าสุด</string>
 
@@ -3656,6 +3650,8 @@
     <string name="four_star">4 ดาว</string>
     <!-- 1 star rating search option on advanced options card title -->
     <string name="five_star">5 ดาว</string>
+    <!-- Prompt to use filter after scrolling hotel results -->
+    <string name="narrow_your_results">จำกัดการค้นหา</string>
 
     <!-- Airline Payment Method Fee Legal Message -->
     <string name="airline_additional_fee_notice">อาจมีค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
@@ -3884,6 +3880,8 @@
     <string name="arrival_time_range_end">เวลามาถึงสิ้นสุด</string>
     <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
     <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name}แถบกรองเวลา{value}</string>
+    <!-- Content description for slider role. Example: Arrival Time Start Range Slider 12:00am, use back-and-forth gesture or local context menu to adjust -->
+    <string name="accessibility_slider_cont_desc_name_role_value_TEMPLATE">แถบเลื่อน {name} {value} เลื่อนไปด้านหน้าและหลังหรือใช้เมนูตามบริบทเฉพาะรายการเพื่อปรับเปลี่ยน</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">เปลี่ยนโรงแรม</string>
@@ -4379,6 +4377,8 @@
     <string name="traveler_details_incomplete_cont_desc_TEMPLATE">ข้อผิดพลาด{title}: ป้อนรายละเอียดผู้เดินทางให้ครบถ้วน ปุ่ม</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">ข้อมูลผู้เดินทางสมบูรณ์แล้ว</string>
+    <!--Packages accessibility content description for traveler details completed, eg. FiveStarBear, 5103669829, traveler details complete. Button.-->
+    <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, ปุ่มป้อนรายละเอียดผู้เดินทาง</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">ปุ่ม</string>
     <!--Packages accessibility content description for role - Button to expand -->
@@ -4505,10 +4505,6 @@
     <string name="itin_sign_in_message">เข้าสู่ระบบเพื่อดูการเดินทางที่กำลังจะมาถึง</string>
     <!-- Find Guest Itinerary Screen Title -->
     <string name="find_guest_itinerary_title">หาการเดินทางที่จองโดยไม่ได้เข้าสู่ระบบ</string>
-    <!-- find hotels header text-->
-    <string name="launch_find_hotels_near_you">ค้นหาโรงแรมใกล้ตัวคุณ</string>
-    <!-- Popular hotels header text-->
-    <string name="launch_find_recommended_hotels">โรงแรมแนะนำประจำคืนนี้</string>
     <!-- Booking successful alert text-->
     <string name="booking_successful">จองเรียบร้อยแล้ว!</string>
     <!-- Check your email for itinerary alert message-->
@@ -4578,5 +4574,10 @@
 
     <!-- Default Accessibility Template to describe text that is also a button.  Ex. Booking Support. Button. -->
     <string name="a11y_button_TEMPLATE">{description} ปุ่ม</string>
+
+    <!-- Edit seekbar dialog title in case of accessibility, example: Enter a number from 0 to 99 -->
+    <string name="value_seek_bar_dialog_instructions_TEMPLATE">ใส่ตัวเลขตั้งแต่ {min_value} ถึง {max_value}</string>
+    <string name="title_seek_bar_edit">แก้ไขระดับตัวควบคุมการค้นหา</string>
+    <string name="value_seek_bar_dialog_percent">%</string>
 
 </resources>
