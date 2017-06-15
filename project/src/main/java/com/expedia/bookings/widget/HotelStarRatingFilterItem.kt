@@ -67,13 +67,12 @@ class HotelStarRatingFilterItem(context: Context, attrs: AttributeSet?) : FrameL
         filterStar.setColorFilter(ContextCompat.getColor(context, colorId))
         setBackgroundColor(ContextCompat.getColor(context, backgroundId))
         updateContentDescription(selected)
-        filterStar.contentDescription = valueContentDescription
         starSelected = selected
     }
 
     private fun updateContentDescription(isSelected: Boolean = false) {
         val template = if (isSelected) R.string.star_rating_selected_cont_desc_TEMPLATE else R.string.star_rating_not_selected_cont_desc_TEMPLATE
-        contentDescription = Phrase.from(context, template)
+        filterStar.contentDescription = Phrase.from(context, template)
                 .put("star_rating", valueContentDescription)
                 .format().toString()
     }
