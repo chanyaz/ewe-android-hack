@@ -929,6 +929,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_cell_content_right_of_image,
 		R.dimen.hotel_results_content_right_image_height,
 		R.dimen.hotel_results_content_right_text_height,
+		R.dimen.hotel_results_last_price_buffer,
 		R.layout.hotel_cell_name_star_amenity_distance,
 		R.layout.hotel_cell_price_top_amenity,
 		R.layout.hotel_cell_urgency_message,

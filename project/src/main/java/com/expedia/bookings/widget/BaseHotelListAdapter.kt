@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val PRICING_STRUCTURE_HEADER_VIEW = 1
     val HOTEL_VIEW = 2
     val LOADING_VIEW = 3
+    val END_OF_LIST = 4
     val FILTER_PROMPT = 15
 
     val allViewsLoadedTimeObservable = PublishSubject.create<Unit>()
@@ -97,6 +99,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     }
 
     override fun getItemCount(): Int {
+        if (hotels.size != 1) {
+            return hotels.size + numHeaderItemsInHotelsList() + 1
+        }
         return hotels.size + numHeaderItemsInHotelsList()
     }
 
@@ -107,6 +112,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             return PRICING_STRUCTURE_HEADER_VIEW
         } else if (loading) {
             return LOADING_VIEW
+        } else if (position == hotels.size + numHeaderItemsInHotelsList()) {
+            return END_OF_LIST
         } else {
             return HOTEL_VIEW
         }
@@ -166,6 +173,12 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             resultsSubject.subscribe(vm.resultsDeliveredObserver)
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
             return holder
+        } else if (viewType == END_OF_LIST) {
+            val header = View(parent.context)
+            var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            lp.height = parent.context.resources.getDimensionPixelSize(R.dimen.hotel_results_last_price_buffer)
+            header.layoutParams = lp
+            return EndOfListViewHolder(header)
         } else {
             val holder: AbstractHotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->
@@ -230,4 +243,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             itemView.contentDescription = root.context.getString(R.string.hotel_results_map_view_cont_desc)
         }
     }
+
+    inner class EndOfListViewHolder(root: View) : RecyclerView.ViewHolder(root)
 }
