@@ -3,8 +3,8 @@
     <string name="app_name">AirAsiaGo</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">airasiago-android@mobiata.com</string>
-    <string name="email_app_review_feedback">airasiago-android@mobiata.com</string>
+    <string name="email_app_support">airasiago-android@airasiago.com</string>
+    <string name="email_app_review_feedback">airasiago-android@airasiago.com</string>
 
     <!-- App Support URL -->
     <string name="app_support_url_aag">http://www.mobiata.com/support/airasiago/android</string>
