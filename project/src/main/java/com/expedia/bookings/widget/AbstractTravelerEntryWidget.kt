@@ -58,7 +58,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         }).subscribe()
 
         focusedView.subscribe { view ->
-            nameEntryViewFocused.onNext(nameEntryView.firstName.hasFocus() || nameEntryView.middleName.hasFocus() || nameEntryView.lastName.hasFocus())
+            nameEntryViewFocused.onNext(nameEntryView.firstName.hasFocus() || (nameEntryView.middleName?.hasFocus() ?: false) || nameEntryView.lastName.hasFocus())
         }
 
         setUpViewModel(vm)
@@ -77,7 +77,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         inflateWidget()
         travelerButton.setTravelButtonListener(this)
         nameEntryView.firstName.addOnFocusChangeListener(this)
-        nameEntryView.middleName.addOnFocusChangeListener(this)
+        nameEntryView.middleName?.let { it.addOnFocusChangeListener(this) }
         nameEntryView.lastName.addOnFocusChangeListener(this)
         emailEntryView.emailAddress.addOnFocusChangeListener(this)
         phoneEntryView.phoneNumber.addOnFocusChangeListener(this)
