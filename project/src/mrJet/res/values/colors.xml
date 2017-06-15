@@ -51,7 +51,8 @@
     <color name="hotel_promo_background">#2d3e5e</color>
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
-    <color name="hotel_member_pricing_color">#1f2a40</color>
+    <color name="hotel_member_pricing_bg_color">#1f2a40</color>
+    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
