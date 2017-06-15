@@ -10,19 +10,25 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
 import com.expedia.vm.traveler.TravelerNameViewModel;
+import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.view.View.GONE;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -166,6 +172,44 @@ public class NameEntryViewTest {
 		onView(withId(R.id.middle_name_input)).perform(typeText(validMiddleName));
 		assertEquals("More than one letter allowed", initial, traveler.getMiddleName());
 		assertEquals("More than one letter allowed", initial, nameView.getMiddleName().getText().toString());
+	}
+
+	@Test
+	public void testMaterialReversedNameLayout() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
+		SettingUtils.save(activityTestRule.getActivity(), R.string.PointOfSaleKey, Integer.toString(PointOfSaleId.HONG_KONG.getId()));
+		PointOfSale.onPointOfSaleChanged(activityTestRule.getActivity());
+
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+			.inflate(R.layout.test_name_entry_view, null);
+
+		assertTrue(PointOfSale.getPointOfSale().showLastNameFirst());
+
+		TextInputLayout lastNameInputLayout = (TextInputLayout) nameEntryView.getChildAt(0);
+		assertEquals(lastNameInputLayout, nameEntryView.getLastName().getParent().getParent());
+
+		TextInputLayout firstNameInputLayout = (TextInputLayout) nameEntryView.getChildAt(1);
+		assertEquals(firstNameInputLayout, nameEntryView.getFirstName().getParent().getParent());
+
+		assertEquals(GONE, nameEntryView.getMiddleName().getVisibility());
+	}
+
+	@Test
+	public void testMaterialNameLayoutOrder() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
+
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+			.inflate(R.layout.test_name_entry_view, null);
+
+		LinearLayout linearLayoutParent = (LinearLayout) nameEntryView.getChildAt(0);
+		TextInputLayout firstNameParentLayout = (TextInputLayout) linearLayoutParent.getChildAt(0);
+		assertEquals(firstNameParentLayout, nameEntryView.getFirstName().getParent().getParent());
+
+		TextInputLayout middleNameInputLayout = (TextInputLayout) linearLayoutParent.getChildAt(1);
+		assertEquals(middleNameInputLayout, (nameEntryView.getMiddleName().getParent().getParent()));
+
+		TextInputLayout lastNameInputLayout = (TextInputLayout) nameEntryView.getChildAt(1);
+		assertEquals(lastNameInputLayout, (nameEntryView.getLastName().getParent().getParent()));
 	}
 
 	private void setViewModel(final TravelerNameViewModel viewModel) throws Throwable {
