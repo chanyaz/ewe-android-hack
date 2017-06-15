@@ -38,7 +38,8 @@
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="preferences_text">#495863</color>
     <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
-    <color name="hotel_member_pricing_color">#00335f</color>
+    <color name="hotel_member_pricing_bg_color">#00335f</color>
+    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>

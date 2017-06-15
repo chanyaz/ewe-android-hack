@@ -37,7 +37,8 @@
     <color name="hotels_primary_color">@color/aag_primary_color</color>
     <color name="review_screen_tab_indicator">#ffffff</color>
     <color name="traveler_drop_down_checked_color">@color/aag_primary_color</color>
-    <color name="hotel_member_pricing_color">#3e3f43</color>
+    <color name="hotel_member_pricing_bg_color">#3e3f43</color>
+    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/aag_primary_color</color>

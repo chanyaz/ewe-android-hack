@@ -48,7 +48,8 @@
 
     <color name="hotelsv2_discount_green">#0079a1</color>
     <color name="hotelsv2_coupon_applied_color">#E40088</color>
-    <color name="hotel_member_pricing_color">#a1266c</color>
+    <color name="hotel_member_pricing_bg_color">#a1266c</color>
+    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
 
     <color name="hotel_price_text_color">#4F4F4F</color>
     <color name="hotel_price_sale_text_color">#0079a1</color>

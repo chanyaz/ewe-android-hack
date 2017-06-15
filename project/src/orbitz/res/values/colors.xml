@@ -37,7 +37,8 @@
     <color name="destination_list_detail_container_background">#ff070f24</color>
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
-    <color name="hotel_member_pricing_color">#00253c</color>
+    <color name="hotel_member_pricing_bg_color">#00253c</color>
+    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
     <color name="loyalty_earn_color">#8E0099</color>
 
     <!--Splash-->
