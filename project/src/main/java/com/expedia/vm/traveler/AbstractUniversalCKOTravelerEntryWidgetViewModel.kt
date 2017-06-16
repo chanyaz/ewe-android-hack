@@ -17,7 +17,6 @@ abstract class AbstractUniversalCKOTravelerEntryWidgetViewModel(context: Context
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
     val showEmailObservable = BehaviorSubject.create<Boolean>()
     var numberOfInvalidFields = BehaviorSubject.create<Int>()
-    val isNewTravelerObservable = BehaviorSubject.create<Boolean>()
 
     protected val userStateManager: UserStateManager
 

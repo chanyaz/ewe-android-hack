@@ -119,7 +119,6 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
     override fun onTravelerChosen(traveler: Traveler) {
         val passengerCategory = viewModel.getTraveler().passengerCategory
         traveler.passengerCategory = passengerCategory
-        viewModel.isNewTravelerObservable.onNext(false)
         viewModel.updateTraveler(traveler)
     }
 
@@ -129,7 +128,6 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         newTraveler.passengerCategory = passengerCategory
         newTraveler.phoneCountryCode = viewModel.getTraveler().phoneCountryCode
         viewModel.updateTraveler(newTraveler)
-        viewModel.isNewTravelerObservable.onNext(true)
         if (isMaterialFormsEnabled()) {
             resetErrorState()
         }

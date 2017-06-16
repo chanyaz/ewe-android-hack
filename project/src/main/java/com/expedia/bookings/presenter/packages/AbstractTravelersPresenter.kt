@@ -68,7 +68,6 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
             travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             show(travelerEntryWidget)
             toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
-            travelerEntryWidget.viewModel.isNewTravelerObservable.onNext(true)
             if (viewModel.isTravelerEmpty(viewModel.getTraveler(travelerSelectItemViewModel.index))) {
                 travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.CLEAN)
                 travelerEntryWidget.resetErrorState()
@@ -211,7 +210,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
                 .put("brand", BuildConfig.brand)
                 .format().toString()
         val newTraveler = travelerEntryWidget.viewModel.getTraveler()
-        if (travelerEntryWidget.viewModel.isNewTravelerObservable.value) {
+        if (!newTraveler.hasTuid()) {
             title = context.getString(R.string.save_traveler)
             positiveButtonText = context.getString(R.string.save)
             message = Phrase.from(context.getString(R.string.save_traveler_dialog_message_TEMPLATE))

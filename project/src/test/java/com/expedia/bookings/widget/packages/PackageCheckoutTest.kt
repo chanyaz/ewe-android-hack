@@ -329,11 +329,15 @@ class PackageCheckoutTest {
     @Test
     fun testSaveTravelerDialogShowsForNewTraveler() {
         givenCompletedTravelerEntryWidget(3)
-        assertEquals("malcolm", Db.getTravelers()[0].firstName)
-        checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
-        checkout.travelersPresenter.travelerEntryWidget.viewModel.isNewTravelerObservable.onNext(true)
+        val newTraveler = enterTraveler(Traveler())
+        newTraveler.tuid = 0
 
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(newTraveler)
+        assertEquals("malcolm", Db.getTravelers()[0].firstName)
+
+        checkout.travelersPresenter.travelerEntryWidget.viewModel.nameViewModel.firstNameViewModel.textSubject.onNext("Billy")
         checkout.travelersPresenter.doneClicked.onNext(Unit)
+
         assertSaveTravelerDialog()
     }
 
@@ -381,6 +385,7 @@ class PackageCheckoutTest {
         traveler.age = 18
         traveler.passengerCategory = PassengerCategory.ADULT
         traveler.primaryPassportCountry =  "USA"
+        traveler.tuid = 12345
         return traveler
     }
 
@@ -492,7 +497,6 @@ class PackageCheckoutTest {
                 .onNext(TravelerSelectItemViewModel(activity, if (numOfTravelers > 1) 1 else 0, 18))
         checkout.travelersPresenter.show(checkout.travelersPresenter.travelerEntryWidget)
         checkout.travelersPresenter.travelerEntryWidget.viewModel.updateTraveler(enterTraveler(Traveler()))
-        checkout.travelersPresenter.travelerEntryWidget.viewModel.isNewTravelerObservable.onNext(false)
     }
 
     private fun assertUpdateTravelerDialog() {
