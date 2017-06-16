@@ -40,6 +40,7 @@
     <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
     <color name="hotel_member_pricing_bg_color">#00335f</color>
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
+    <color name="launch_list_header_title_color">#565656</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
