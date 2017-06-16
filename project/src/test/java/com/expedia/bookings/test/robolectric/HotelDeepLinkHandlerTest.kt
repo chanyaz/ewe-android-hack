@@ -96,7 +96,7 @@ class HotelDeepLinkHandlerTest {
         // 2) create HotelSearchParams from suggestionv4 + dates
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        // 3) call handleNavigateionDeepLink
+        // 3) call handleNavigationDeepLink
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify

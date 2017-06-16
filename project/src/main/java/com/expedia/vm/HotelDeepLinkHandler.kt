@@ -83,6 +83,7 @@ class HotelDeepLinkHandler(private val context: Context, private val deepLinkSea
                 hotelPresenter.setDefaultTransition(HotelActivity.Screen.RESULTS)
                 hotelSearchParams.suggestion.gaiaId = essSuggestions.first().gaiaId
                 deepLinkSearchObserver.onNext(hotelSearchParams)
+                searchSuggestionObserver.onNext(hotelSearchParams.suggestion)
             }
 
             override fun onCompleted() {
