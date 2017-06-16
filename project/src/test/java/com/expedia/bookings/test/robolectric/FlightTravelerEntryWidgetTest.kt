@@ -8,8 +8,12 @@ import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -17,6 +21,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
+import com.mobiata.android.util.SettingUtils
 import junit.framework.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
@@ -211,6 +216,104 @@ class FlightTravelerEntryWidgetTest {
         assertEquals(expandAdvancedOptionsContDesc, widget.advancedOptionsText.contentDescription)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardShowEmailAndPhoneDefaultLayout() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(true)
+        widget.viewModel.showPhoneNumberObservable.onNext(true)
+
+        assertEquals(R.id.edit_email_address, widget.nameEntryView.lastName.nextFocusForwardId)
+        assertEquals(R.id.edit_phone_number, widget.emailEntryView.emailAddress.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardShowEmailNoPhoneDefaultLayout() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(true)
+        widget.viewModel.showPhoneNumberObservable.onNext(false)
+
+        assertEquals(R.id.edit_email_address, widget.nameEntryView.lastName.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardShowPhoneNoEmailDefaultLayout() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(false)
+        widget.viewModel.showPhoneNumberObservable.onNext(true)
+
+        assertEquals(R.id.edit_phone_number, widget.nameEntryView.lastName.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardNoPhoneNoEmailDefaultLayout() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(false)
+        widget.viewModel.showPhoneNumberObservable.onNext(false)
+
+        assertEquals(R.id.edit_birth_date_text_btn, widget.nameEntryView.lastName.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardShowEmailAndPhoneReversedLayout() {
+        setPOS(PointOfSaleId.JAPAN)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(true)
+        widget.viewModel.showPhoneNumberObservable.onNext(true)
+
+        assertEquals(R.id.edit_email_address, widget.nameEntryView.firstName.nextFocusForwardId)
+        assertEquals(R.id.edit_phone_number, widget.emailEntryView.emailAddress.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardNoEmailShowPhonePhoneReversedLayout() {
+        setPOS(PointOfSaleId.JAPAN)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(false)
+        widget.viewModel.showPhoneNumberObservable.onNext(true)
+
+        assertEquals(R.id.edit_phone_number, widget.nameEntryView.firstName.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardShowEmailNoPhoneReversedLayout() {
+        setPOS(PointOfSaleId.JAPAN)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(true)
+        widget.viewModel.showPhoneNumberObservable.onNext(false)
+
+        assertEquals(R.id.edit_email_address, widget.nameEntryView.firstName.nextFocusForwardId)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNextFocusForwardNoPhoneNoEmailReversedLayout() {
+        setPOS(PointOfSaleId.JAPAN)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.viewModel.showEmailObservable.onNext(false)
+        widget.viewModel.showPhoneNumberObservable.onNext(false)
+
+        assertEquals(R.id.edit_birth_date_text_btn, widget.nameEntryView.firstName.nextFocusForwardId)
+    }
+
     private fun givenMaterialForm(isMaterialForm: Boolean) {
         if (isMaterialForm) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
@@ -232,5 +335,10 @@ class FlightTravelerEntryWidgetTest {
                 TravelerCheckoutStatus.CLEAN)
 
         widget.viewModel = testVM
+    }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(activity, R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
     }
 }
