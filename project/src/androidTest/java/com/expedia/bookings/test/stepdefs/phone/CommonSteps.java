@@ -66,8 +66,16 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRateDetailExpansion,
 					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("FlightXSellPackage")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR,
+					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 		if (list.contains("FlightRetainSearchParams")) {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRetainSearchParams,
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
+		if (list.contains("FlightStaticSortFilter")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightStaticSortFilter,
 				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
 
@@ -88,7 +96,6 @@ public class CommonSteps {
 	public static String getDateInMMMdd(String days) {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
 		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String monthDate = dateFormatter.format(startDate.toDate()).toString();
-		return monthDate;
+		return dateFormatter.format(startDate.toDate());
 	}
 }

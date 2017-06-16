@@ -143,7 +143,6 @@ Feature: Flights Search Results
     And Validate that on the selected outbound docked view Flight Airline name is displayed
     And Validate the toolbar header text on the selected outbound docked view
 
-
   @Flights @FlightSearchResults
   Scenario: Validate urgency message is displayed when seats left is less than 6
     Given I launch the App
@@ -160,8 +159,6 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
     Then urgency message on cell 1 isDisplayed : true
-
-
 
   @Flights @FlightSearchResults
   Scenario: Validate urgency message is not displayed when seats left is greater than 6
@@ -223,7 +220,6 @@ Feature: Flights Search Results
     Then I select inbound flight at position 1
     And Validate legal compliance message on flight detail screen and isOutbound : false
 
-    
   @Flights @FlightSearchResults
   Scenario: Multi-Carrier as airline name text for more than 3 airlines
     Given I launch the App
@@ -256,3 +252,177 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
     Then basic economy on cell 1 isDisplayed : true
+
+  @Flights @FlightSearchResults
+  Scenario: Validate that XSell Package Banner is displayed for Round Trip, Economy and UK/US POS
+    Given I launch the App
+    And I bucket the following tests
+      | FlightXSellPackage  |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    Then Validate that XSell Package Banner is displayed with title "Flight + Hotel" and description "Save when you book your flights and hotels together"
+    And I tap on XSell Package Banner
+    Then Validate Hotel Search Results Screen Header
+      | title               | Hotels in Delhi, India                   |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+    And I press back
+    Then Validate that XSell Package Banner is displayed with title "Flight + Hotel" and description "Save when you book your flights and hotels together"
+
+  @Flights @FlightSearchResults
+  Scenario: Validate that XSell Package Banner is not displayed for POS other than UK/US POS
+    Given I launch the App
+    And I set the POS to "Australia"
+    And I bucket the following tests
+      | FlightXSellPackage  |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 2                                        |
+      | child               | 1                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    Then Validate that XSell Package Banner is not displayed
+
+  @Flights @FlightSearchResults
+  Scenario: Validate that XSell Package Banner is not displayed for Cabin Class other than Economy
+    Given I launch the App
+    And I bucket the following tests
+      | FlightXSellPackage  |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 2                                        |
+      | child               | 1                                        |
+      | class               | Business                                 |
+    And I wait for results to load
+    Then Validate that XSell Package Banner is not displayed
+
+  @Flights @FlightSearchResults
+  Scenario: Validate that XSell Package Banner is not displayed for One Way Flights
+    Given I launch the App
+    And I bucket the following tests
+      | FlightXSellPackage  |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date          | 10                                       |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "Economy" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And I wait for results to load
+    Then Validate that XSell Package Banner is not displayed
+
+  @Flights @FlightSearchResults @Prod
+  Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
+    Given I launch the App
+    And I bucket the following tests
+      | FlightXSellPackage  |
+    And I want to intercept these calls for packages
+      | GetPackagesV1       |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 15                                       |
+      | end_date            | 20                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    And I tap on XSell Package Banner
+    Then Validate the getPackages API request query data for following parameters for packages
+      | forceNoRedir        | 1                                        |
+      | packageType         | fh                                       |
+    Then Validate the getPackages API request form data for following parameters
+      | fromDate            | 15                                       |
+      | destinationId       | 6000184                                  |
+      | ttla                | DEL                                      |
+      | ftla                | SFO                                      |
+      | packageTripType     | 2                                        |
+      | adultsPerRoom[1]    | 1                                        |
+      | numberOfRooms       | 1                                        |
+      | toDate              | 20                                       |
+      | originId            | 178305                                   |
+
+  @Flights @FlightSearchResults
+  Scenario: Intercept getPackages API call after hitting XSell Package Banner and validate request parameters
+    Given I launch the App
+    And I bucket the following tests
+      | FlightXSellPackage  |
+    And I want to intercept these calls for packages
+      | GetPackagesV1       |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 15                                       |
+      | end_date            | 20                                       |
+      | adults              | 1                                        |
+      | child               | 0                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    And I tap on XSell Package Banner
+    And I press back
+    And I press back
+    When I trigger flight search again with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 20                                       |
+      | end_date            | 30                                       |
+      | adults              | 2                                        |
+      | child               | 2                                        |
+      | class               | Economy                                  |
+    And I wait for results to load
+    And I tap on XSell Package Banner
+    Then Validate the getPackages API request query data for following parameters for packages
+      | forceNoRedir        | 1                                        |
+      | packageType         | fh                                       |
+    Then Validate the getPackages API request form data for following parameters
+      | fromDate            | 20                                       |
+      | destinationId       | happy                                    |
+      | ttla                | DEL                                      |
+      | ftla                | SFO                                      |
+      | packageTripType     | 2                                        |
+      | adultsPerRoom[1]    | 2                                        |
+      | numberOfRooms       | 1                                        |
+      | toDate              | 30                                       |
+      | originId            | happy                                    |
+      | childrenPerRoom[1]  | 2                                        |
+      | childAges[1][1]     | 10                                       |
+      | childAges[1][2]     | 10                                       |

@@ -1,7 +1,7 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -15,12 +15,12 @@ import android.support.test.espresso.ViewAssertion;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.expedia.bookings.test.stepdefs.phone.CommonSteps;
 import com.expedia.bookings.widget.flights.FlightListAdapter;
 
 import junit.framework.Assert;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-
 
 public class TestUtilFlights {
 	public static Map<String, String> dataSet;
@@ -91,8 +91,6 @@ public class TestUtilFlights {
 		return formattedTime;
 	}
 
-
-
 	public static ViewAssertion assertFlightResultsListFor(final Matcher<View> matcher) {
 		return new ViewAssertion() {
 
@@ -122,5 +120,17 @@ public class TestUtilFlights {
 				Assert.assertEquals(itemCount, size);
 			}
 		};
+	}
+
+	public static String getFormattedDateString(String startDays, String endDays) {
+		String stDateStr = CommonSteps.getDateInMMMdd(startDays);
+		String endDateStr = CommonSteps.getDateInMMMdd(endDays);
+		return (stDateStr + " - " + endDateStr);
+	}
+
+	public static String getFormattedGuestString(int guestCount) {
+		String guestStr = Integer.toString(guestCount);
+		guestStr += ((guestCount > 1) ? " Guests" : " Guest");
+		return guestStr;
 	}
 }

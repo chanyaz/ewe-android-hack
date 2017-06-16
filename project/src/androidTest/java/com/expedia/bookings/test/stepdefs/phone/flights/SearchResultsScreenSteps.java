@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.stepdefs.phone.flights;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
@@ -13,6 +15,7 @@ import cucumber.api.java.en.Then;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -71,15 +74,15 @@ public class SearchResultsScreenSteps {
 	}
 
 	@And("^Validate that flight search results are displayed$")
-	public void validateThatFlightSearchResultsDisplyed() throws Throwable {
+	public void validateThatFlightSearchResultsDisplayed() throws Throwable {
 		onView(withId(R.id.list_view)).check(matches(isDisplayed()));
 	}
 
 	@And("^Validate that flight search results are displayed for inbound flights$")
-	public void validateThatFlightSearchResultsDisplyedOnInboundFSR() throws Throwable {
+	public void validateThatFlightSearchResultsDisplayedOnInboundFSR() throws Throwable {
 		onView(allOf(withId(R.id.list_view), hasSibling(allOf(
-				withId(R.id.docked_outbound_flight_selection),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
+			withId(R.id.docked_outbound_flight_selection),
+			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))))
 			.check(matches(isDisplayed()));
 	}
 
@@ -92,5 +95,42 @@ public class SearchResultsScreenSteps {
 	@And("^I click on sort and filter icon$")
 	public void clickOnSortAndFilterIcon() throws Throwable {
 		onView(withId(R.id.sort_filter_button)).perform(click());
+	}
+
+	private ViewInteraction xSellPackageBanner() {
+		return onView(withId(R.id.card_view_package_banner));
+	}
+
+	@Then("^Validate that XSell Package Banner is displayed with title \"(.*?)\" and description \"(.*?)\"$")
+	public void validateXSellPackageDisplayed(String title, String description) throws Throwable {
+		xSellPackageBanner().check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.package_flight_banner_title), withText(title))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.package_flight_banner_description), withText(description))).check(matches(isDisplayed()));
+	}
+
+	@And("^I tap on XSell Package Banner$")
+	public void clickXSellPackageBanner() throws Throwable {
+		xSellPackageBanner().perform(click());
+	}
+
+	@Then("^Validate Hotel Search Results Screen Header$")
+	public void checkForBundlesScreen(Map<String, String> parameters) throws Throwable {
+		onView(withId(R.id.title)).perform(waitFor(isDisplayed(), 40, TimeUnit.SECONDS));
+		onView(allOf(withId(R.id.title), withText(parameters.get("title")))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.subtitle), withText(getPackageHotelSubTitle(parameters)))).check(matches(isDisplayed()));
+	}
+
+	private String getPackageHotelSubTitle(Map<String, String> parameters) {
+		StringBuilder stringBuilder = new StringBuilder("");
+		stringBuilder.append(TestUtilFlights.getFormattedDateString(parameters.get("start_date"), parameters.get("end_date")));
+		stringBuilder.append(", ");
+		int totalGuests = (Integer.parseInt(parameters.get("adults")) + Integer.parseInt(parameters.get("child")));
+		stringBuilder.append(TestUtilFlights.getFormattedGuestString(totalGuests));
+		return stringBuilder.toString();
+	}
+
+	@Then("^Validate that XSell Package Banner is not displayed$")
+	public void validateXSellPackageNotDisplayed() throws Throwable {
+		xSellPackageBanner().check(doesNotExist());
 	}
 }

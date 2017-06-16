@@ -21,6 +21,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 import com.expedia.bookings.test.stepdefs.phone.utils.StepDefUtils;
+import com.expedia.bookings.utils.Strings;
 
 import junit.framework.Assert;
 
@@ -175,6 +176,7 @@ public class SearchScreenSteps {
 		enterSourceAndDestination(parameters);
 		pickDates(parameters);
 		selectTravelers(parameters);
+		selectCabinClass(parameters);
 		SearchScreen.searchButton().perform(click());
 	}
 
@@ -224,6 +226,15 @@ public class SearchScreenSteps {
 			SearchScreen.incrementChildrenButton();
 		}
 		SearchScreen.searchAlertDialogDone().perform(click());
+	}
+
+	private void selectCabinClass(Map<String, String> parameters) throws Throwable {
+		String cabinClass = parameters.get("class");
+		if (Strings.isNotEmpty(cabinClass)) {
+			clickPreferredClassWidget();
+			clickPreferredClass(cabinClass);
+			SearchScreen.searchAlertDialogDone().perform(click());
+		}
 	}
 
 	private void changeNumberOfAdults(int previousNumberOfAdults) {
