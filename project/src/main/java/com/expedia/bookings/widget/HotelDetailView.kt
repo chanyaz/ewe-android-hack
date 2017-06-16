@@ -435,6 +435,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     if (isHotelDescriptionExpanded) {
                         description = context.resources.getString(R.string.show_less)
                     } else {
+                        setHotelDescriptionContainerA11y()
                         description = context.resources.getString(R.string.show_more)
                     }
                     val customClick = AccessibilityAction(AccessibilityNodeInfo.ACTION_CLICK, description)
