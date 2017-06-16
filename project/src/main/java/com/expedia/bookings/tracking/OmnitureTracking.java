@@ -3262,7 +3262,8 @@ public class OmnitureTracking {
 		return null;
 	}
 
-	private static void addDeepLinkData(ADMS_Measurement s) {
+	@VisibleForTesting
+	protected static void addDeepLinkData(ADMS_Measurement s) {
 		// Yes this logic is ugly (but is as desired by marketing).
 		// See https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9353 for details
 
