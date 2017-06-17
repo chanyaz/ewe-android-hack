@@ -18,10 +18,10 @@ public class MapLoadingOverlayWidget extends FrameLayout {
 		inflate(context, R.layout.map_loading_overlay, this);
 	}
 
-	@InjectView(R.id.overlay_loading_text)
+	//@InjectView(R.id.overlay_loading_text)
 	View loadingText;
 
-	@InjectView(R.id.loading_overlay)
+	//@InjectView(R.id.loading_overlay)
 	View loadingOverlay;
 
 	@Override

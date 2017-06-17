@@ -86,34 +86,34 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@InjectView(R.id.category_text)
+		//@InjectView(R.id.category_text)
 		public TextView categoryTextView;
 
-		@InjectView(R.id.category_price_text)
+		//@InjectView(R.id.category_price_text)
 		public TextView bestPriceTextView;
 
-		@InjectView(R.id.total_price_text)
+		//@InjectView(R.id.total_price_text)
 		public TextView totalTextView;
 
-		@InjectView(R.id.background_image_view)
+		//@InjectView(R.id.background_image_view)
 		public ImageView backgroundImageView;
 
-		@InjectView(R.id.passenger_count)
+		//@InjectView(R.id.passenger_count)
 		public TextView passengerCount;
 
-		@InjectView(R.id.bag_count)
+		//@InjectView(R.id.bag_count)
 		public TextView bagCount;
 
-		@InjectView(R.id.door_count)
+		//@InjectView(R.id.door_count)
 		public TextView doorCount;
 
-		@InjectView(R.id.card_view)
+		//@InjectView(R.id.card_view)
 		public CardView cardView;
 
-		@InjectView(R.id.gradient_mask)
+		//@InjectView(R.id.gradient_mask)
 		public View gradientMask;
 
-		@InjectView(R.id.list_card_announce_button_cont_desc)
+		//@InjectView(R.id.list_card_announce_button_cont_desc)
 		public View listCardAnnounceButtonContDesc;
 
 		public ViewHolder(View view) {

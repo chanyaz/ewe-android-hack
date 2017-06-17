@@ -12,7 +12,7 @@ import butterknife.InjectView;
 public class LoadingViewHolder extends RecyclerView.ViewHolder {
 	private ValueAnimator animator;
 
-	@InjectView(R.id.background_image_view)
+	//@InjectView(R.id.background_image_view)
 	public View backgroundImageView;
 
 	public LoadingViewHolder(View view) {

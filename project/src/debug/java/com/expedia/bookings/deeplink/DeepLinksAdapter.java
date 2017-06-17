@@ -197,9 +197,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	}
 
 	public static class DeepLinkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@InjectView(R.id.button)
+		//@InjectView(R.id.button)
 		Button button;
-		@InjectView(R.id.link)
+		//@InjectView(R.id.link)
 		TextView linkTextView;
 
 		public DeepLinkViewHolder(View itemView) {
@@ -246,7 +246,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	public static class DeepLinkWithPackageViewHolder extends DeepLinkViewHolder implements View.OnClickListener {
 
-		@InjectView(R.id.app_package_spinner)
+		//@InjectView(R.id.app_package_spinner)
 		Spinner packageSpinner;
 
 		public DeepLinkWithPackageViewHolder(View itemView) {
@@ -268,10 +268,10 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder {
 
-		@InjectView(R.id.app_ab_tests_spinner)
+		//@InjectView(R.id.app_ab_tests_spinner)
 		Spinner abTestsSpinner;
 
-		@InjectView(R.id.test_variant_edit_text)
+		//@InjectView(R.id.test_variant_edit_text)
 		EditText testVariantEditText;
 
 		public DeepLinkWithABTestsViewHolder(View itemView) {

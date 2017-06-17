@@ -64,10 +64,10 @@ public class CVVEntryWidget extends LinearLayout implements CreditCardInputListe
 		super(context, attrs, defStyleAttr);
 	}
 
-	@InjectView(R.id.cvv_toolbar)
+	//@Injectview(R.id.cvv_toolbar)
 	public Toolbar toolbar;
 
-	@InjectView(R.id.main_container)
+	//@Injectview(R.id.main_container)
 	RelativeLayout mainContainer;
 
 	public void setCVVEntryListener(CVVEntryFragmentListener listener) {

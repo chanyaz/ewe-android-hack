@@ -40,31 +40,31 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.lx_activity_title_text)
+	//@InjectView(R.id.lx_activity_title_text)
 	TextView lxActivityTitleText;
 
-	@InjectView(R.id.lx_offer_title_text)
+	//@InjectView(R.id.lx_offer_title_text)
 	TextView lxOfferTitleText;
 
-	@InjectView(R.id.lx_group_text)
+	//@InjectView(R.id.lx_group_text)
 	TextView lxGroupText;
 
-	@InjectView(R.id.lx_offer_date)
+	//@InjectView(R.id.lx_offer_date)
 	TextView lxOfferDate;
 
-	@InjectView(R.id.lx_offer_location)
+	//@InjectView(R.id.lx_offer_location)
 	TextView lxOfferLocation;
 
-	@InjectView(R.id.free_cancellation_text)
+	//@InjectView(R.id.free_cancellation_text)
 	TextView freeCancellationText;
 
-	@InjectView(R.id.price_text)
+	//@InjectView(R.id.price_text)
 	TextView tripTotalText;
 
-	@InjectView(R.id.price_change_container)
+	//@InjectView(R.id.price_change_container)
 	ViewGroup priceChangeContainer;
 
-	@InjectView(R.id.price_change_text)
+	//@InjectView(R.id.price_change_text)
 	TextView priceChangeText;
 
 	@Inject
@@ -119,12 +119,12 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		}
 	}
 
-	@OnClick(R.id.free_cancellation_text)
+	//@OnClick(R.id.free_cancellation_text)
 	public void showLxRules() {
 		Events.post(new Events.LXShowRulesOnCheckout());
 	}
 
-	@OnClick(R.id.price_text)
+	//@OnClick(R.id.price_text)
 	public void showCostBreakdown() {
 		buildCostBreakdownDialog(getContext(), lxState.selectedTickets());
 	}

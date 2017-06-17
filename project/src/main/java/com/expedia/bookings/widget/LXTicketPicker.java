@@ -23,16 +23,16 @@ import butterknife.OnClick;
 
 public class LXTicketPicker extends LinearLayout {
 
-	@InjectView(R.id.ticket_details)
+	//@InjectView(R.id.ticket_details)
 	TextView ticketDetails;
 
-	@InjectView(R.id.ticket_count)
+	//@InjectView(R.id.ticket_count)
 	TextView ticketCount;
 
-	@InjectView(R.id.ticket_add)
+	//@InjectView(R.id.ticket_add)
 	ImageButton ticketAdd;
 
-	@InjectView(R.id.ticket_remove)
+	//@InjectView(R.id.ticket_remove)
 	ImageButton ticketRemove;
 
 	private Ticket ticket;
@@ -45,7 +45,7 @@ public class LXTicketPicker extends LinearLayout {
 	private int disabledTicketSelectorColor;
 	private boolean isGroundTransport;
 
-	@OnClick(R.id.ticket_add)
+	//@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
 		trackAddOrRemove("Add.");
 		ticket.count++;
@@ -55,7 +55,7 @@ public class LXTicketPicker extends LinearLayout {
 		setTicketCount();
 	}
 
-	@OnClick(R.id.ticket_remove)
+	//@OnClick(R.id.ticket_remove)
 	public void onRemoveTicket() {
 		trackAddOrRemove("Remove.");
 		ticket.count--;

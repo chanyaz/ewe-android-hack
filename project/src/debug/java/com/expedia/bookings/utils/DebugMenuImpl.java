@@ -81,7 +81,7 @@ class DebugMenuImpl implements DebugMenu {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+		/*switch (item.getItemId()) {
 		case R.id.debug_menu_settings: {
 			if (settingsActivityClass != null) {
 				Intent intent = new Intent(hostActivity, settingsActivityClass);
@@ -93,7 +93,7 @@ class DebugMenuImpl implements DebugMenu {
 		case R.id.debug_menu_build_number:
 			// just consume the click
 			return true;
-		}
+		}*/
 
 		return false;
 	}

@@ -100,31 +100,31 @@ public class LXOffersListAdapter extends BaseAdapter {
 			itemView.setOnClickListener(this);
 		}
 
-		@InjectView(R.id.offer_title)
+		//@InjectView(R.id.offer_title)
 		TextView offerTitle;
 
-		@InjectView(R.id.price_summary)
+		//@InjectView(R.id.price_summary)
 		TextView priceSummary;
 
-		@InjectView(R.id.select_tickets)
+		//@InjectView(R.id.select_tickets)
 		Button selectTickets;
 
-		@InjectView(R.id.offer_row)
+		//@InjectView(R.id.offer_row)
 		View offerRow;
 
-		@InjectView(R.id.offer_tickets_picker)
+		//@InjectView(R.id.offer_tickets_picker)
 		LXTicketSelectionWidget ticketSelectionWidget;
 
-		@InjectView(R.id.lx_book_now)
+		//@InjectView(R.id.lx_book_now)
 		Button bookNow;
 
-		@OnClick(R.id.select_tickets)
+		//@OnClick(R.id.select_tickets)
 		public void offerExpanded() {
 			Events.post(new Events.LXOfferExpanded(offer));
 			publishSuject.onNext(offer);
 		}
 
-		@OnClick(R.id.lx_book_now)
+		//@OnClick(R.id.lx_book_now)
 		public void offerBooked() {
 			Events.post(new Events.LXOfferBooked(offer, ticketSelectionWidget.getSelectedTickets()));
 		}

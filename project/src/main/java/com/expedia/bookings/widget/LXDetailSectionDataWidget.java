@@ -25,13 +25,13 @@ public class LXDetailSectionDataWidget extends LinearLayout implements View.OnCl
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.section_content)
+	//@InjectView(R.id.section_content)
 	TextView sectionContent;
 
-	@InjectView(R.id.section_title)
+	//@InjectView(R.id.section_title)
 	TextView sectionTitle;
 
-	@InjectView(R.id.read_more)
+	//@InjectView(R.id.read_more)
 	ImageButton readMoreView;
 
 	private int maxLineCount;

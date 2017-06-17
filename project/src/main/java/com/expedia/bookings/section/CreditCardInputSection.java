@@ -91,7 +91,7 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 
 		int code;
 		switch (v.getId()) {
-		case R.id.zero_button:
+		/*case R.id.zero_button:
 			code = 0;
 			break;
 		case R.id.one_button:
@@ -126,14 +126,14 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 			break;
 		case R.id.book_button:
 			code = CODE_BOOK;
-			break;
+			break;*/
 		default:
 			throw new RuntimeException("How did you even get here?");
 		}
 
-		if (mListener != null) {
+		/*if (mListener != null) {
 			mListener.onKeyPress(code);
-		}
+		}*/
 	}
 
 	//////////////////////////////////////////////////////////////////////////

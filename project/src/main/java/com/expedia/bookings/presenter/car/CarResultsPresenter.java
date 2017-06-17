@@ -66,44 +66,44 @@ public class CarResultsPresenter extends Presenter {
 	@Inject
 	CarServices carServices;
 
-	@InjectView(R.id.categories)
+	//@Injectview(R.id.categories)
 	CarCategoryListWidget categories;
 
-	@InjectView(R.id.details)
+	//@Injectview(R.id.details)
 	CarCategoryDetailsWidget details;
 
 	// This is here just for an animation
-	@InjectView(R.id.toolbar_background)
+	//@Injectview(R.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R.id.toolbar)
+	//@Injectview(R.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.sort_toolbar)
+	//@Injectview(R.id.sort_toolbar)
 	FilterButtonWithCountWidget filterToolbar;
 
-	@InjectView(R.id.category_sort_toolbar)
+	//@Injectview(R.id.category_sort_toolbar)
 	FilterButtonWithCountWidget categoryFilterToolbar;
 
-	@InjectView(R.id.toolbar_dropshadow)
+	//@Injectview(R.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
-	@InjectView(R.id.filter)
+	//@Injectview(R.id.filter)
 	CarFilterWidget filter;
 
-	@InjectView(R.id.search_error_widget)
+	//@Injectview(R.id.search_error_widget)
 	ErrorWidget errorScreen;
 
-	@InjectView(R.id.toolbar_search_text)
+	//@Injectview(R.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R.id.toolbar_detail_text)
+	//@Injectview(R.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R.id.toolbar_subtitle_text)
+	//@Injectview(R.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R.id.toolbar_two)
+	//@Injectview(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
 	private Subscription searchSubscription;
@@ -141,7 +141,7 @@ public class CarResultsPresenter extends Presenter {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
 				switch (menuItem.getItemId()) {
-				case R.id.menu_search:
+				case 1://R.id.menu_search:
 					Events.post(new Events.CarsGoToOverlay());
 					return true;
 				}
@@ -493,12 +493,12 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
-	@OnClick(R.id.sort_toolbar)
+	//@OnClick(R.id.sort_toolbar)
 	public void onFilterClick() {
 		show(filter);
 	}
 
-	@OnClick(R.id.category_sort_toolbar)
+	//@OnClick(R.id.category_sort_toolbar)
 	public void onCategoryFilterClick() {
 		show(filter);
 	}

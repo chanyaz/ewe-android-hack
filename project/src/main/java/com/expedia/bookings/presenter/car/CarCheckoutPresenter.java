@@ -45,13 +45,13 @@ public class CarCheckoutPresenter extends Presenter {
 	@Inject
 	CarServices carServices;
 
-	@InjectView(R.id.checkout)
+	//@InjectView(R.id.checkout)
 	CarCheckoutMainViewPresenter checkout;
 
-	@InjectView(R.id.cvv)
+	//@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
-	@InjectView(R.id.checkout_error_widget)
+	//@InjectView(R.id.checkout_error_widget)
 	ErrorWidget errorScreen;
 
 	private ProgressDialog checkoutDialog;

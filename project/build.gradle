@@ -4,13 +4,14 @@ def gitRev = GradleUtil.getGitRevision()
 def CHANGELOG_PATH = "changelog.txt"
 def CRASHLYTICS_BETA_GROUPS_PATH = "jenkins/crashlytics_beta_groups.txt"
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 //apply plugin: 'com.shazam.fork'
 apply from: '../jacoco.gradle'
 apply plugin: 'com.shazam.fork.reporter.jenkins'
+//apply plugin: 'com.jakewharton.butterknife'
 
 repositories {
     jcenter()
@@ -25,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    application project(':complete')
     implementation fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
             'ADMS_AppLibrary-3.2.7-Android.jar',
@@ -156,6 +158,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     useLibrary 'org.apache.http.legacy'
+    baseFeature = true
 
     dexOptions {
         javaMaxHeapSize "2g"
@@ -215,7 +218,7 @@ android {
         targetSdkVersion 25
 
         multiDexEnabled = true
-        testApplicationId "com.expedia.bookings.test"
+        //testApplicationId "com.expedia.bookings.test"
 
         def testRunnerPackage = "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
 
@@ -241,7 +244,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
             buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
-            applicationId "com.expedia.bookings"
+            //applicationId "com.expedia.bookings"
 
             // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
             resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
@@ -253,7 +256,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
             buildConfigField "String", "USER_AGENT", "\"Ebookers\""
-            applicationId "com.ebookers"
+            //applicationId "com.ebookers"
 
             resConfigs "de", "en_GB", "fi", "fr"
             dimension "testing"
@@ -264,7 +267,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
             buildConfigField "String", "USER_AGENT", "\"VSC\""
-            applicationId "com.expedia.bookings.vsc"
+            //applicationId "com.expedia.bookings.vsc"
 
             resConfigs "fr"
             dimension "testing"
@@ -275,7 +278,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"tvly\""
             buildConfigField "String", "USER_AGENT", "\"TVLY\""
-            applicationId "com.travelocity.android"
+            //applicationId "com.travelocity.android"
 
             resConfigs "en_CA", "fr_CA"
             dimension "testing"
@@ -286,7 +289,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
             buildConfigField "String", "USER_AGENT", "\"AirAsiaGo\""
-            applicationId "com.airasiago.android"
+            //applicationId "com.airasiago.android"
 
             resConfigs "th", "zh", "zh_HK", "in", "ja"
             dimension "testing"
@@ -297,7 +300,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
             buildConfigField "String", "USER_AGENT", "\"Wotif\""
-            applicationId "com.wotif.android"
+            //applicationId "com.wotif.android"
 
             resConfigs "en"
             dimension "testing"
@@ -308,7 +311,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
             buildConfigField "String", "USER_AGENT", "\"LM\""
-            applicationId "com.lastminute.android"
+            //applicationId "com.lastminute.android"
 
             resConfigs "en"
             dimension "testing"
@@ -319,7 +322,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
             buildConfigField "String", "USER_AGENT", "\"ExpediaBookings\""
-            applicationId "com.samsung.travel.android"
+            //applicationId "com.samsung.travel.android"
 
             resConfigs "ko", "fr", "fr_CA", "en_CA"
             dimension "testing"
@@ -330,7 +333,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
             buildConfigField "String", "USER_AGENT", "\"Orbitz\""
-            applicationId "com.orbitz"
+            //applicationId "com.orbitz"
 
             resConfigs "en", "es"
             dimension "testing"
@@ -341,7 +344,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
             buildConfigField "String", "USER_AGENT", "\"CheapTickets\""
-            applicationId "com.cheaptickets"
+            //applicationId "com.cheaptickets"
 
             resConfigs "en"
             dimension "testing"
@@ -352,7 +355,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
             buildConfigField "String", "USER_AGENT", "\"MrJet\""
-            applicationId "se.mrjet"
+            //applicationId "se.mrjet"
 
             resConfigs "sv"
             dimension "testing"
@@ -363,7 +366,7 @@ android {
         debug {
             testCoverageEnabled = GradleUtil.shouldEnableTestCoverage(project)
 
-            applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+            //applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
 
             minifyEnabled shouldRunProguard
             proguardFile file('proguard.cfg')
@@ -379,7 +382,7 @@ android {
 
         release {
             if (GradleUtil.isUsabilityBuild(project)) {
-                applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+                //applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
             }
 
             minifyEnabled true
@@ -565,7 +568,7 @@ def releaseAccountTokens = [
     'com.travelocity.android' : 'travelocity.tuid',
 ]
 
-android.applicationVariants.all { variant ->
+/*android.applicationVariants.all { variant ->
     // We released apps with the following tokens so we should maintain them so people don't get logged out
     def token = releaseAccountTokens[variant.applicationId]
     if (!GradleUtil.isDefined(token)) {
@@ -590,7 +593,7 @@ android.applicationVariants.all { variant ->
         delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
 
     }
-}
+}*/
 
 def sharedDataFilesToRemove(variant) {
     List<String> filesToRemove = new ArrayList<String>()

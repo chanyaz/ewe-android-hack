@@ -92,58 +92,58 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
 
-		@InjectView(R.id.vendor)
+		//@InjectView(R.id.vendor)
 		public TextView vendor;
 
-		@InjectView(R.id.car_details)
+		//@InjectView(R.id.car_details)
 		public TextView carDetails;
 
-		@InjectView(R.id.passengers)
+		//@InjectView(R.id.passengers)
 		public TextView passengers;
 
-		@InjectView(R.id.bags)
+		//@InjectView(R.id.bags)
 		public TextView bags;
 
-		@InjectView(R.id.doors)
+		//@InjectView(R.id.doors)
 		public TextView doors;
 
-		@InjectView(R.id.transmission)
+		//@InjectView(R.id.transmission)
 		public TextView transmission;
 
-		@InjectView(R.id.address_line_one)
+		//@InjectView(R.id.address_line_one)
 		public TextView addressLineOne;
 
-		@InjectView(R.id.address_line_two)
+		//@InjectView(R.id.address_line_two)
 		public TextView addressLineTwo;
 
-		@InjectView(R.id.category_price_text)
+		//@InjectView(R.id.category_price_text)
 		public TextView ratePrice;
 
-		@InjectView(R.id.map_click_container)
+		//@InjectView(R.id.map_click_container)
 		public FrameLayout mapClickContainer;
 
-		@InjectView(R.id.map_view)
+		//@InjectView(R.id.map_view)
 		public MapView mapView;
 
-		@InjectView(R.id.reserve_now)
+		//@InjectView(R.id.reserve_now)
 		public ToggleButton reserveNow;
 
-		@InjectView(R.id.reserve_now_container)
+		//@InjectView(R.id.reserve_now_container)
 		public LinearLayout reserveNowContainer;
 
-		@InjectView(R.id.total_price_text)
+		//@InjectView(R.id.total_price_text)
 		public TextView totalPrice;
 
-		@InjectView(R.id.root)
+		//@InjectView(R.id.root)
 		public LinearLayout root;
 
-		@InjectView(R.id.map_text)
+		//@InjectView(R.id.map_text)
 		public TextView mapText;
 
-		@InjectView(R.id.collapsed_container)
+		//@InjectView(R.id.collapsed_container)
 		public RelativeLayout collapsedContainer;
 
-		@InjectView(R.id.main_container)
+		//@InjectView(R.id.main_container)
 		public android.widget.FrameLayout mainContainer;
 
 		public Context mContext;

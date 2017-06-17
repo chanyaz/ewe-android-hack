@@ -58,40 +58,40 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Button doneButton;
 
-	@InjectView(R.id.price_sort_button)
+	//@InjectView(R.id.price_sort_button)
 	Button priceSortButton;
 
-	@InjectView(R.id.popularity_sort_button)
+	//@InjectView(R.id.popularity_sort_button)
 	Button popularitySortButton;
 
-	@InjectView(R.id.filter_categories)
+	//@InjectView(R.id.filter_categories)
 	LinearLayout filterCategoriesContainer;
 
-	@InjectView(R.id.dynamic_feedback_container)
+	//@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
-	@InjectView(R.id.toolbar_sort_filter)
+	//@InjectView(R.id.toolbar_sort_filter)
 	Toolbar toolbar;
 
-	@InjectView(R.id.toolbar_dropshadow)
+	//@InjectView(R.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
-	@InjectView(R.id.scroll_filter)
+	//@InjectView(R.id.scroll_filter)
 	android.widget.ScrollView scrollFilter;
 
-	@InjectView(R.id.space_below_filter_categories)
+	//@InjectView(R.id.space_below_filter_categories)
 	Space spaceBelowFilterCategories;
 
-	@InjectView(R.id.category_title)
+	//@InjectView(R.id.category_title)
 	TextView categoryTitle;
 
-	public @InjectView(R.id.filter_activity_name_edit_text)
+	public //@InjectView(R.id.filter_activity_name_edit_text)
 	EditText activityNameFilterEditText;
 
-	@InjectView(R.id.filter_by_text_container)
+	//@InjectView(R.id.filter_by_text_container)
 	LinearLayout activityNameFilterContainer;
 
-	@InjectView(R.id.filter_divider_line)
+	//@InjectView(R.id.filter_divider_line)
 	View filterDivider;
 
 	@Override
@@ -167,7 +167,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		super.onDetachedFromWindow();
 	}
 
-	@OnClick(R.id.price_sort_button)
+	//@OnClick(R.id.price_sort_button)
 	public void onPriceSortClicked() {
 		popularitySortButton.setSelected(false);
 		priceSortButton.setSelected(true);
@@ -175,7 +175,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		OmnitureTracking.trackLinkLXSort(LXSortType.PRICE);
 	}
 
-	@OnClick(R.id.popularity_sort_button)
+	//@OnClick(R.id.popularity_sort_button)
 	public void onPopularitySortClicked() {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);

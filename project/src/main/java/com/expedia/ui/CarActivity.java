@@ -20,7 +20,7 @@ import butterknife.InjectView;
 
 public class CarActivity extends AbstractAppCompatActivity {
 
-	@InjectView(R.id.car_presenter)
+	//@InjectView(R.id.car_presenter)
 	CarPresenter carsPresenter;
 
 	@Override

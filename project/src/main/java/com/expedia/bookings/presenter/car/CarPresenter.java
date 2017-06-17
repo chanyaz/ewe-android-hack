@@ -32,16 +32,16 @@ public class CarPresenter extends Presenter {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.widget_car_params)
+	//@InjectView(R.id.widget_car_params)
 	public CarSearchPresenter carSearchPresenter;
 
-	@InjectView(R.id.car_results_presenter)
+	//@InjectView(R.id.car_results_presenter)
 	CarResultsPresenter carResultsPresenter;
 
-	@InjectView(R.id.car_checkout_presenter)
+	//@InjectView(R.id.car_checkout_presenter)
 	CarCheckoutPresenter carCheckoutPresenter;
 
-	@InjectView(R.id.confirmation)
+	//@InjectView(R.id.confirmation)
 	CarConfirmationWidget confirmation;
 
 	private float searchStartingAlpha = 0f;

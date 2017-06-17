@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="launcher_name">Expedia</string>
+    <string name="authority_autocomplete_hotel">com.expedia.bookings.autocomplete.hotel</string>
+    <string name="authority_autocomplete_airport">com.expedia.bookings.autocomplete.airport</string>
+    <string name="authority_autocomplete_suggestions">com.expedia.bookings.suggestions</string>
+    <string name="authority_account_sync">com.expedia.bookings.account.sync</string>
+    <string name="expedia_account_token_type_tuid_identifier">expedia.tuid</string>
+    <string name="expedia_account_type_identifier">com.expedia.bookings</string>
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
     <string name="select_checkin_date">Select check in date</string>

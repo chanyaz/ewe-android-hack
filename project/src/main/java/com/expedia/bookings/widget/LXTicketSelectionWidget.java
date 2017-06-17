@@ -40,31 +40,31 @@ public class LXTicketSelectionWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.ticket_selectors_container)
+	//@InjectView(R.id.ticket_selectors_container)
 	LinearLayout ticketSelectorContainer;
 
-	@InjectView(R.id.selected_ticket_summary)
+	//@InjectView(R.id.selected_ticket_summary)
 	TextView ticketSummary;
 
-	@InjectView(R.id.lx_book_now)
+	//@InjectView(R.id.lx_book_now)
 	Button bookNow;
 
-	@InjectView(R.id.offer_title)
+	//@InjectView(R.id.offer_title)
 	com.expedia.bookings.widget.TextView title;
 
-	@InjectView(R.id.ticket_summary_container)
+	//@InjectView(R.id.ticket_summary_container)
 	LinearLayout ticketSummaryContainer;
 
-	@InjectView(R.id.offer_passengers)
+	//@InjectView(R.id.offer_passengers)
 	com.expedia.bookings.widget.TextView offerPassengers;
 
-	@InjectView(R.id.offer_bags)
+	//@InjectView(R.id.offer_bags)
 	com.expedia.bookings.widget.TextView offerBags;
 
-	@InjectViews({ R.id.offer_detail1, R.id.offer_detail2, R.id.offer_detail3 })
+	//@InjectViews({ R.id.offer_detail1, R.id.offer_detail2, R.id.offer_detail3 })
 	List<com.expedia.bookings.widget.TextView> offerDetails;
 
-	@InjectView(R.id.offer_description)
+	//@InjectView(R.id.offer_description)
 	LXOfferDescription offerDescription;
 
 	private List<Ticket> selectedTickets = new ArrayList<>();

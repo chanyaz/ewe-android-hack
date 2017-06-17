@@ -7,7 +7,7 @@ import butterknife.InjectView;
 
 public class HotelLoadingViewHolder extends LoadingViewHolder {
 
-	@InjectView(R.id.text_layout)
+	//@InjectView(R.id.text_layout)
 	protected LinearLayout textLayoutView;
 
 	public HotelLoadingViewHolder(View view) {

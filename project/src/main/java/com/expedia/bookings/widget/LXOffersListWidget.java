@@ -27,13 +27,13 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.offer_show_more_container)
+	//@InjectView(R.id.offer_show_more_container)
 	android.widget.LinearLayout showMoreContainer;
 
-	@InjectView(R.id.offers_container)
+	//@InjectView(R.id.offers_container)
 	android.widget.LinearLayout offerContainer;
 
-	@InjectView(R.id.show_more_widget)
+	//@InjectView(R.id.show_more_widget)
 	ShowMoreWithCountWidget showMoreWithCountWidget;
 
 	private PublishSubject<Offer> lxOfferSubject = PublishSubject.create();
@@ -78,7 +78,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 		}
 	}
 
-	@OnClick((R.id.offer_show_more_container))
+	//@OnClick((R.id.offer_show_more_container))
 	public void onShowMoreClicked() {
 		for (int position = offersListInitialMaxCount; position < availableOffers.size(); position++) {
 			View offerRow = adapter.getView(position, null, this);

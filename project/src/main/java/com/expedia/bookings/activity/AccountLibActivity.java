@@ -44,16 +44,16 @@ public class AccountLibActivity extends AppCompatActivity
 	private static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
 	private static final String ARG_INITIAL_STATE = "ARG_INITIAL_STATE";
 
-	@InjectView(R.id.parallax_view)
+	//@InjectView(R.id.parallax_view)
 	public PanningImageView background;
 
-	@InjectView(R.id.account_view)
+	//@InjectView(R.id.account_view)
 	public AccountView accountView;
 
-	@InjectView(R.id.login_extension_container)
+	//@InjectView(R.id.login_extension_container)
 	public LinearLayout loginExtenderContainer;
 
-	@InjectView(R.id.extender_status)
+	//@InjectView(R.id.extender_status)
 	public TextView extenderStatus;
 
 	private UserStateManager userStateManager;

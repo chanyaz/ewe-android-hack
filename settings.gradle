@@ -1,5 +1,5 @@
 // Main projects
-include ':lib:ExpediaBookings'
+include ':lib:ExpediaBookings', ':complete'
 include ':lib:bug-reporter:bugshaker'
 include ':project'
 

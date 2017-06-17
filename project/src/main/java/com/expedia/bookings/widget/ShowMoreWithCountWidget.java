@@ -14,7 +14,7 @@ public class ShowMoreWithCountWidget extends android.widget.LinearLayout {
 		inflate(context, R.layout.show_more_with_count_layout, this);
 	}
 
-	@InjectView(R.id.more_offer_count)
+	//@InjectView(R.id.more_offer_count)
 	android.widget.TextView moreOfferCount;
 
 	@Override

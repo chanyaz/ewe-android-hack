@@ -20,18 +20,18 @@ public class CarsSupplierFilterWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.vendor)
+	//@InjectView(R.id.vendor)
 	public TextView vendorTitle;
 
-	@InjectView(R.id.vendor_check_box)
+	//@InjectView(R.id.vendor_check_box)
 	public CheckBox vendorCheckBox;
 
-	@OnClick(R.id.filter_categories_widget)
+	//@OnClick(R.id.filter_categories_widget)
 	public void onCategoryClick() {
 		vendorCheckBox.setChecked(!vendorCheckBox.isChecked());
 	}
 
-	@OnCheckedChanged(R.id.vendor_check_box)
+	//@OnCheckedChanged(R.id.vendor_check_box)
 	public void onCategoryCheckedChanged(boolean checked) {
 		Events.post(new Events.CarsSupplierFilterCheckChanged(vendorTitle.getText().toString(), checked));
 	}

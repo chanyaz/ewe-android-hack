@@ -60,58 +60,58 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		inflate(context, R.layout.widget_checkout_base, this);
 	}
 
-	@InjectView(R.id.checkout_scroll)
+	//@Injectview(R.id.checkout_scroll)
 	public ScrollView scrollView;
 
-	@InjectView(R.id.scroll_content)
+	//@Injectview(R.id.scroll_content)
 	public LinearLayout checkoutContent;
 
-	@InjectView(R.id.checkout_toolbar)
+	//@Injectview(R.id.checkout_toolbar)
 	public CheckoutToolbar toolbar;
 
-	@InjectView(R.id.main_contact_info_card_view)
+	//@Injectview(R.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
 
 	public ViewStub paymentStub;
 
 	public PaymentWidget paymentInfoCardView;
 
-	@InjectView(R.id.slide_to_purchase_layout)
+	//@Injectview(R.id.slide_to_purchase_layout)
 	public ViewGroup slideToContainer;
 
-	@InjectView(R.id.summary_container)
+	//@Injectview(R.id.summary_container)
 	public FrameLayout summaryContainer;
 
-	@InjectView(R.id.coupon_container)
+	//@Injectview(R.id.coupon_container)
 	public FrameLayout couponContainer;
 
 	public View mSummaryProgressLayout;
 
-	@InjectView(R.id.login_widget)
+	//@Injectview(R.id.login_widget)
 	public AccountButton loginWidget;
 
-	@InjectView(R.id.hint_container)
+	//@Injectview(R.id.hint_container)
 	ViewGroup hintContainer;
 
-	@InjectView(R.id.legal_information_text_view)
+	//@Injectview(R.id.legal_information_text_view)
 	public TextView legalInformationText;
 
-	@InjectView(R.id.disclaimer_text)
+	//@Injectview(R.id.disclaimer_text)
 	public TextView disclaimerText;
 
-	@InjectView(R.id.deposit_policy_text)
+	//@Injectview(R.id.deposit_policy_text)
 	public TextView depositPolicyText;
 
-	@InjectView(R.id.layout_confirm_tos)
+	//@Injectview(R.id.layout_confirm_tos)
 	public AcceptTermsWidget acceptTermsWidget;
 
-	@InjectView(R.id.slide_to_purchase_widget)
+	//@Injectview(R.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
 
-	@InjectView(R.id.purchase_total_text_view)
+	//@Injectview(R.id.purchase_total_text_view)
 	public TextView sliderTotalText;
 
-	@InjectView(R.id.spacer)
+	//@Injectview(R.id.spacer)
 	public Space space;
 
 	public MenuItem menuDone;

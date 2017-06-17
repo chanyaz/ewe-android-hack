@@ -29,13 +29,13 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.background_header)
+	//@InjectView(R.id.background_header)
 	View backgroundHeader;
 
-	@InjectView(R.id.header_image)
+	//@InjectView(R.id.header_image)
 	ImageView headerImage;
 
-	@InjectView(R.id.offer_list)
+	//@InjectView(R.id.offer_list)
 	public RecyclerView offerList;
 
 	private CarOffersAdapter adapter;

@@ -57,49 +57,49 @@ public class CarConfirmationWidget extends FrameLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.toolbar)
+	//@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.confirmation_text)
+	//@InjectView(R.id.confirmation_text)
 	TextView confirmationText;
 
-	@InjectView(R.id.email_text)
+	//@InjectView(R.id.email_text)
 	TextView emailText;
 
-	@InjectView(R.id.vendor_text)
+	//@InjectView(R.id.vendor_text)
 	TextView vendorText;
 
-	@InjectView(R.id.pickup_label)
+	//@InjectView(R.id.pickup_label)
 	TextView pickUpLabel;
 
-	@InjectView(R.id.background_image_view)
+	//@InjectView(R.id.background_image_view)
 	ImageView backgroundImageView;
 
-	@InjectView(R.id.pickup_location_text)
+	//@InjectView(R.id.pickup_location_text)
 	TextView pickupLocationText;
 
-	@InjectView(R.id.pickup_date_text)
+	//@InjectView(R.id.pickup_date_text)
 	TextView pickupDateText;
 
-	@InjectView(R.id.dropoff_date_text)
+	//@InjectView(R.id.dropoff_date_text)
 	TextView dropofDateText;
 
-	@InjectView(R.id.itinerary_text_view)
+	//@InjectView(R.id.itinerary_text_view)
 	TextView itinText;
 
-	@InjectView(R.id.add_hotel_textView)
+	//@InjectView(R.id.add_hotel_textView)
 	TextView addHotelTextView;
 
-	@InjectView(R.id.add_flight_textView)
+	//@InjectView(R.id.add_flight_textView)
 	TextView addFlightTextView;
 
-	@InjectView(R.id.direction_action_textView)
+	//@InjectView(R.id.direction_action_textView)
 	TextView directionsTextView;
 
-	@InjectView(R.id.calendar_action_textView)
+	//@InjectView(R.id.calendar_action_textView)
 	TextView calendarTextView;
 
-	@InjectView(R.id.text_container)
+	//@InjectView(R.id.text_container)
 	ViewGroup textContainer;
 
 	private CreateTripCarOffer offer;
@@ -240,7 +240,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		AdTracker.trackCarBooked(response);
 	}
 
-	@OnClick(R.id.add_hotel_textView)
+	//@OnClick(R.id.add_hotel_textView)
 	public void searchHotels() {
 		HotelSearchParams sp = HotelSearchParams.fromCarParams(offer);
 		NavUtils.goToHotels(getContext(), sp);
@@ -248,21 +248,21 @@ public class CarConfirmationWidget extends FrameLayout {
 		Events.post(new Events.FinishActivity());
 	}
 
-	@OnClick(R.id.add_flight_textView)
+	//@OnClick(R.id.add_flight_textView)
 	public void searchFlight() {
 		searchForFlights();
 		OmnitureTracking.trackAppCarCheckoutConfirmationCrossSell(LineOfBusiness.FLIGHTS);
 		Events.post(new Events.FinishActivity());
 	}
 
-	@OnClick(R.id.direction_action_textView)
+	//@OnClick(R.id.direction_action_textView)
 	public void getDirections() {
 		Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + offer.pickUpLocation.toAddress());
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 		getContext().startActivity(intent);
 	}
 
-	@OnClick(R.id.calendar_action_textView)
+	//@OnClick(R.id.calendar_action_textView)
 	public void generateCalendarInsertIntent() {
 		Intent intent = AddToCalendarUtils
 			.generateCarAddToCalendarIntent(getContext(), itineraryNumber, offer);

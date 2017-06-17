@@ -1018,7 +1018,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private final OnClickListener mOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			switch (v.getId()) {
+			/*switch (v.getId()) {
 			case R.id.close_image_button: {
 				if (mOnItinCardClickListener != null) {
 					mOnItinCardClickListener.onCloseButtonClicked();
@@ -1040,20 +1040,20 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 				}
 				break;
 			}
-			}
+			}*/
 		}
 	};
 
 	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.itin_card_share:
+		/*case R.id.itin_card_share:
 			showNativeShareDialog();
 			OmnitureTracking.trackItinShareStart(mItinContentGenerator.getType());
 			return true;
 		case R.id.itin_card_add_to_calendar:
 			addToCalendar();
-			return true;
+			return true;*/
 		default:
 			return false;
 		}

@@ -45,37 +45,37 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 		inflate(context, R.layout.widget_lx_confirmation, this);
 	}
 
-	@InjectView(R.id.confirmation_image_view)
+	//@InjectView(R.id.confirmation_image_view)
 	ImageView confirmationImageView;
 
-	@InjectView(R.id.confirmation_text)
+	//@InjectView(R.id.confirmation_text)
 	TextView confirmationText;
 
-	@InjectView(R.id.email_text)
+	//@InjectView(R.id.email_text)
 	TextView emailText;
 
-	@InjectView(R.id.title)
+	//@InjectView(R.id.title)
 	android.widget.TextView title;
 
-	@InjectView(R.id.location)
+	//@InjectView(R.id.location)
 	android.widget.TextView location;
 
-	@InjectView(R.id.tickets)
+	//@InjectView(R.id.tickets)
 	android.widget.TextView tickets;
 
-	@InjectView(R.id.date)
+	//@InjectView(R.id.date)
 	android.widget.TextView date;
 
-	@InjectView(R.id.toolbar)
+	//@InjectView(R.id.toolbar)
 	android.support.v7.widget.Toolbar toolbar;
 
-	@InjectView(R.id.text_container)
+	//@InjectView(R.id.text_container)
 	ViewGroup textContainer;
 
-	@InjectView(R.id.itin_number)
+	//@InjectView(R.id.itin_number)
 	TextView itineraryNumber;
 
-	@InjectView(R.id.reservation_confirmation_text)
+	//@InjectView(R.id.reservation_confirmation_text)
 	TextView reservationConfirmation;
 
 	@Inject

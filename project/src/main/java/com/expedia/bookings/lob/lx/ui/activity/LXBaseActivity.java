@@ -34,10 +34,10 @@ import rx.Subscription;
 
 public class LXBaseActivity extends AbstractAppCompatActivity {
 
-	@InjectView(R.id.lx_base_presenter)
+	//@InjectView(R.id.lx_base_presenter)
 	LXPresenter lxPresenter;
 
-	@InjectView(R.id.details_map_view)
+	//@InjectView(R.id.details_map_view)
 	MapView detailsMapView;
 
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;

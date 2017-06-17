@@ -67,7 +67,7 @@ public class HotelPriceRangeSeekBar extends FilterRangeSeekBar {
 		public boolean performAccessibilityAction(View host, int action, Bundle args) {
 			FilterRangeSeekBar seekBar = (FilterRangeSeekBar) host;
 			switch (action) {
-			case R.id.price_range_increase_min_price:
+			/*case R.id.price_range_increase_min_price:
 				seekBar.setMinValue(seekBar.getMinValue() + 1);
 				a11yMinPriceText = priceRange.formatValue(seekBar.getMinValue());
 				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue(), Thumb.MIN);
@@ -90,7 +90,7 @@ public class HotelPriceRangeSeekBar extends FilterRangeSeekBar {
 				a11yMaxPriceText = priceRange.formatValue(seekBar.getMaxValue());
 				seekBar.listener.onRangeSeekBarValuesChanged(seekBar, seekBar.getMinValue(), seekBar.getMaxValue(), Thumb.MAX);
 				seekBar.setContentDescription(getContentDesc());
-				return true;
+				return true;*/
 			default:
 				return super.performAccessibilityAction(host, action, args);
 			}

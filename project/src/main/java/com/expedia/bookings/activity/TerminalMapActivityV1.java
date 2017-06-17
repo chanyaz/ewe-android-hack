@@ -112,9 +112,9 @@ public class TerminalMapActivityV1 extends FragmentActivity implements OnNavigat
 		case android.R.id.home:
 			finish();
 			return true;
-		case R.id.menu_legend:
+		/*case R.id.menu_legend:
 			showLegendDialog();
-			return true;
+			return true;*/
 		}
 		return super.onOptionsItemSelected(item);
 	}

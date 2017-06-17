@@ -39,46 +39,46 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.car_vendor_text)
+	//@InjectView(R.id.car_vendor_text)
 	TextView carCompanyText;
 
-	@InjectView(R.id.category_title_text)
+	//@InjectView(R.id.category_title_text)
 	TextView categoryTitleText;
 
-	@InjectView(R.id.car_model_text)
+	//@InjectView(R.id.car_model_text)
 	TextView carModelText;
 
-	@InjectView(R.id.location_description_text)
+	//@InjectView(R.id.location_description_text)
 	TextView locationDescriptionText;
 
-	@InjectView(R.id.airport_text)
+	//@InjectView(R.id.airport_text)
 	TextView airportText;
 
-	@InjectView(R.id.date_time_text)
+	//@InjectView(R.id.date_time_text)
 	TextView dateTimeText;
 
-	@InjectView(R.id.ticked_info_text_1)
+	//@InjectView(R.id.ticked_info_text_1)
 	TextView tickedInfoText1;
 
-	@InjectView(R.id.ticked_info_text_2)
+	//@InjectView(R.id.ticked_info_text_2)
 	TextView tickedInfoText2;
 
-	@InjectView(R.id.ticked_info_text_3)
+	//@InjectView(R.id.ticked_info_text_3)
 	TextView tickedInfoText3;
 
-	@InjectView(R.id.due_at_text)
+	//@InjectView(R.id.due_at_text)
 	TextView dueAtText;
 
-	@InjectView(R.id.price_text)
+	//@InjectView(R.id.price_text)
 	TextView tripTotalText;
 
-	@InjectView(R.id.price_change_container)
+	//@InjectView(R.id.price_change_container)
 	ViewGroup priceChangeContainer;
 
-	@InjectView(R.id.price_change_text)
+	//@InjectView(R.id.price_change_text)
 	TextView priceChangeText;
 
-	@InjectView(R.id.divider_line)
+	//@InjectView(R.id.divider_line)
 	View dividerLine;
 
 	@Override
@@ -181,7 +181,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 		dividerLine.setVisibility(tickedInfoTextStringValues.size() == 3 ? VISIBLE : GONE);
 	}
 
-	@OnClick(R.id.price_text)
+	//@OnClick(R.id.price_text)
 	public void showCarCostBreakdown() {
 		buildCarBreakdownDialog(getContext(), offer);
 	}

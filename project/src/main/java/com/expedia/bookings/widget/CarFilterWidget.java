@@ -48,54 +48,54 @@ public class CarFilterWidget extends LinearLayout {
 		inflate(context, R.layout.widget_car_filter, this);
 	}
 
-	@InjectView(R.id.car_filter_scrollview)
+	//@InjectView(R.id.car_filter_scrollview)
 	ScrollView scrollView;
 
-	@InjectView(R.id.ac_filter_checkbox)
+	//@InjectView(R.id.ac_filter_checkbox)
 	CheckBox airConditioningCheckbox;
 
-	@InjectView(R.id.unlimited_mileage_filter_checkbox)
+	//@InjectView(R.id.unlimited_mileage_filter_checkbox)
 	CheckBox unlimitedMileageCheckbox;
 
-	@InjectView(R.id.ac_filter)
+	//@InjectView(R.id.ac_filter)
 	View airConditioningFilter;
 
-	@InjectView(R.id.unlimited_mileage_filter)
+	//@InjectView(R.id.unlimited_mileage_filter)
 	View unlimitedMileageFilter;
 
-	@InjectView(R.id.car_type_text)
+	//@InjectView(R.id.car_type_text)
 	View carTypeText;
 
-	@InjectView(R.id.filter_categories)
+	//@InjectView(R.id.filter_categories)
 	LinearLayout filterCategoriesContainer;
 
-	@InjectView(R.id.filter_suppliers)
+	//@InjectView(R.id.filter_suppliers)
 	LinearLayout filterSuppliersContainer;
 
-	@InjectView(R.id.transmission_filter_automatic)
+	//@InjectView(R.id.transmission_filter_automatic)
 	Button auto;
 
-	@InjectView(R.id.transmission_filter_manual)
+	//@InjectView(R.id.transmission_filter_manual)
 	Button manual;
 
-	@InjectView(R.id.transmission_filter_all)
+	//@InjectView(R.id.transmission_filter_all)
 	Button all;
 
-	@InjectView(R.id.filter_categories_divider)
+	//@InjectView(R.id.filter_categories_divider)
 	View divider;
 
-	@InjectView(R.id.toolbar)
+	//@InjectView(R.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.dynamic_feedback_container)
+	//@InjectView(R.id.dynamic_feedback_container)
 	DynamicFeedbackWidget dynamicFeedbackWidget;
 
-	@InjectView(R.id.toolbar_dropshadow)
+	//@InjectView(R.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
 	private Button doneButton;
 
-	@OnClick(R.id.transmission_filter_all)
+	//@OnClick(R.id.transmission_filter_all)
 	public void allClicked() {
 		auto.setSelected(false);
 		manual.setSelected(false);
@@ -106,7 +106,7 @@ public class CarFilterWidget extends LinearLayout {
 		OmnitureTracking.trackAppCarFilterUsage("All");
 	}
 
-	@OnClick(R.id.transmission_filter_manual)
+	//@OnClick(R.id.transmission_filter_manual)
 	public void manualClicked() {
 		auto.setSelected(false);
 		manual.setSelected(true);
@@ -118,7 +118,7 @@ public class CarFilterWidget extends LinearLayout {
 
 	}
 
-	@OnClick(R.id.transmission_filter_automatic)
+	//@OnClick(R.id.transmission_filter_automatic)
 	public void autoClicked() {
 		auto.setSelected(true);
 		manual.setSelected(false);
@@ -130,27 +130,27 @@ public class CarFilterWidget extends LinearLayout {
 
 	}
 
-	@OnClick(R.id.ac_filter)
+	//@OnClick(R.id.ac_filter)
 	public void onAirConditioningFilterClick() {
 		airConditioningCheckbox.setChecked(!airConditioningCheckbox.isChecked());
 		OmnitureTracking.trackAppCarFilterUsage("Air");
 
 	}
 
-	@OnClick(R.id.unlimited_mileage_filter)
+	//@OnClick(R.id.unlimited_mileage_filter)
 	public void onMileageFilterClick() {
 		unlimitedMileageCheckbox.setChecked(!unlimitedMileageCheckbox.isChecked());
 		OmnitureTracking.trackAppCarFilterUsage("Unlimited");
 	}
 
-	@OnCheckedChanged(R.id.ac_filter_checkbox)
+	//@OnCheckedChanged(R.id.ac_filter_checkbox)
 	public void onACFilterCheckedChanged(boolean checked) {
 		filter.hasAirConditioning = checked;
 		postCarFilterEvent();
 		OmnitureTracking.trackAppCarFilterUsage("Air");
 	}
 
-	@OnCheckedChanged(R.id.unlimited_mileage_filter_checkbox)
+	//@OnCheckedChanged(R.id.unlimited_mileage_filter_checkbox)
 	public void onMileageFilterCheckedChanged(boolean checked) {
 		filter.hasUnlimitedMileage = checked;
 		postCarFilterEvent();

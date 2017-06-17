@@ -33,19 +33,19 @@ public class ErrorWidget extends FrameLayout {
 		inflate(context, R.layout.error_widget, this);
 	}
 
-	@InjectView(R.id.main_container)
+	//@InjectView(R.id.main_container)
 	ViewGroup root;
 
-	@InjectView(R.id.error_image)
+	//@InjectView(R.id.error_image)
 	ImageView errorImage;
 
-	@InjectView(R.id.error_action_button)
+	//@InjectView(R.id.error_action_button)
 	Button errorButton;
 
-	@InjectView(R.id.error_text)
+	//@InjectView(R.id.error_text)
 	TextView errorText;
 
-	@InjectView(R.id.error_toolbar)
+	//@InjectView(R.id.error_toolbar)
 	Toolbar toolbar;
 
 	private ArrowXDrawable navIcon;

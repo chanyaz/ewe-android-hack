@@ -31,10 +31,10 @@ public class LXSearchResultsWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 12;
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
-	@InjectView(R.id.lx_search_results_list)
+	//@InjectView(R.id.lx_search_results_list)
 	RecyclerView recyclerView;
 
-	@InjectView(R.id.lx_search_error_widget)
+	//@InjectView(R.id.lx_search_error_widget)
 	LXErrorWidget errorScreen;
 
 	public LXResultsListAdapter adapter;

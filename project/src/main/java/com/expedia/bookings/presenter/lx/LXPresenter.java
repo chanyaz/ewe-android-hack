@@ -42,22 +42,22 @@ public class LXPresenter extends Presenter {
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.search_params_widget)
+	//@InjectView(R.id.search_params_widget)
 	public LXSearchPresenter searchParamsWidget;
 
-	@InjectView(R.id.search_list_presenter)
+	//@InjectView(R.id.search_list_presenter)
 	LXResultsPresenter resultsPresenter;
 
-	@InjectView(R.id.details_map_view)
+	//@InjectView(R.id.details_map_view)
 	MapView detailsMapView;
 
-	@InjectView(R.id.activity_details_presenter)
+	//@InjectView(R.id.activity_details_presenter)
 	LXDetailsPresenter detailsPresenter;
 
-	@InjectView(R.id.details_loading_overlay)
+	//@InjectView(R.id.details_loading_overlay)
 	LoadingOverlayWidget loadingOverlay;
 
-	@InjectView(R.id.confirmation)
+	//@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
 
@@ -69,10 +69,10 @@ public class LXPresenter extends Presenter {
 		// ignore
 	}
 
-	@InjectView(R.id.overview_presenter)
+	//@InjectView(R.id.overview_presenter)
 	ViewStub overviewPresenterViewStub;
 
-	@InjectView(R.id.lx_checkout_presenter_stub)
+	//@InjectView(R.id.lx_checkout_presenter_stub)
 	ViewStub checkoutPresenterViewStub;
 
 	@Inject

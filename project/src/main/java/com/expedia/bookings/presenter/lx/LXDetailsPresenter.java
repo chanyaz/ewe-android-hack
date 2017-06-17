@@ -52,37 +52,37 @@ public class LXDetailsPresenter extends Presenter {
 
 	private ArrowXDrawable navIcon;
 
-	@InjectView(R.id.activity_details)
+	//@Injectview(R.id.activity_details)
 	LXActivityDetailsWidget details;
 
-	@InjectView(R.id.lx_maps_view)
+	//@Injectview(R.id.lx_maps_view)
 	LXMapView fullscreenMapView;
 
-	@InjectView(R.id.toolbar)
+	//@Injectview(R.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.toolbar_background)
+	//@Injectview(R.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R.id.toolbar_dropshadow)
+	//@Injectview(R.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
 	@Inject
 	LXState lxState;
 
-	@InjectView(R.id.toolbar_search_text)
+	//@Injectview(R.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R.id.toolbar_detail_text)
+	//@Injectview(R.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R.id.toolbar_subtitle_text)
+	//@Injectview(R.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R.id.toolbar_two)
+	//@Injectview(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	@InjectView(R.id.lx_details_gradient_top)
+	//@Injectview(R.id.lx_details_gradient_top)
 	View lxDetailsGradientTop;
 
 	private Subscription detailsSubscription;
@@ -228,11 +228,11 @@ public class LXDetailsPresenter extends Presenter {
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
-				switch (menuItem.getItemId()) {
+				/*switch (menuItem.getItemId()) {
 				case R.id.menu_open_search:
 					Events.post(new Events.LXSearchParamsOverlay());
 					return true;
-				}
+				}*/
 				return false;
 			}
 		});

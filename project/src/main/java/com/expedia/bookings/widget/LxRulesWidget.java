@@ -29,10 +29,10 @@ public class LxRulesWidget extends LinearLayout {
 		inflate(context, R.layout.widget_lx_rules, this);
 	}
 
-	@InjectView(R.id.cancellation_policy_text_view)
+	//@InjectView(R.id.cancellation_policy_text_view)
 	TextView cancellationPolicy;
 
-	@InjectView(R.id.lx_rules_toolbar)
+	//@InjectView(R.id.lx_rules_toolbar)
 	Toolbar toolbar;
 
 	private String tripId;
@@ -63,18 +63,18 @@ public class LxRulesWidget extends LinearLayout {
 		updateCancellationPolicyDisplayText(event.activity.freeCancellationMinHours);
 	}
 
-	@OnClick(R.id.rules_and_restrictions)
+	//@OnClick(R.id.rules_and_restrictions)
 	public void showRulesAndRestrictions() {
 		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		showLegalPage(LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId), R.string.rules_and_restrictions);
 	}
 
-	@OnClick(R.id.terms_and_conditions)
+	//@OnClick(R.id.terms_and_conditions)
 	public void showTermsAndConditions() {
 		showLegalPage(PointOfSale.getPointOfSale().getTermsAndConditionsUrl(), R.string.terms_and_conditions);
 	}
 
-	@OnClick(R.id.privacy_policy)
+	//@OnClick(R.id.privacy_policy)
 	public void showPrivacyPolicy() {
 		showLegalPage(PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), R.string.privacy_policy);
 	}

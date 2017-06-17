@@ -22,10 +22,10 @@ public class LXFilterCategoryWidget extends LinearLayout implements View.OnClick
 		super(context, attrs);
 	}
 
-	@InjectView(R.id.category)
+	//@InjectView(R.id.category)
 	TextView categoryTitle;
 
-	@InjectView(R.id.category_check_box)
+	//@InjectView(R.id.category_check_box)
 	CheckBox categoryCheckBox;
 
 	@Override

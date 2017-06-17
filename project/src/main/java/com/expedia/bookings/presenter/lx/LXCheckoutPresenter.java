@@ -52,16 +52,16 @@ public class LXCheckoutPresenter extends Presenter {
 	@Inject
 	protected UserStateManager userStateManager;
 
-	@InjectView(R.id.checkout)
+	//@InjectView(R.id.checkout)
 	LXCheckoutMainViewPresenter checkout;
 
-	@InjectView(R.id.rules)
+	//@InjectView(R.id.rules)
 	LxRulesWidget rules;
 
-	@InjectView(R.id.cvv)
+	//@InjectView(R.id.cvv)
 	CVVEntryWidget cvv;
 
-	@InjectView(R.id.lx_checkout_error_widget)
+	//@InjectView(R.id.lx_checkout_error_widget)
 	LXErrorWidget errorScreen;
 
 	private LXCheckoutParams checkoutParams;

@@ -25,16 +25,16 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		inflate(context, R.layout.widget_filter_button_with_count, this);
 	}
 
-	@InjectView(R.id.sort_filter_button)
+	//@InjectView(R.id.sort_filter_button)
 	LinearLayout buttonContainer;
 
-	@InjectView(R.id.filter_number_text)
+	//@InjectView(R.id.filter_number_text)
 	TextView filterNumber;
 
-	@InjectView(R.id.filter_icon)
+	//@InjectView(R.id.filter_icon)
 	View filterIcon;
 
-	@InjectView(R.id.filter_text)
+	//@InjectView(R.id.filter_text)
 	TextView filterText;
 
 	@Override

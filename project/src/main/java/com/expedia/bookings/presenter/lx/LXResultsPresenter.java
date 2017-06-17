@@ -66,46 +66,46 @@ public class LXResultsPresenter extends Presenter {
 	@Inject
 	LXState lxState;
 
-	@InjectView(R.id.lx_search_results_widget)
+	//@Injectview(R.id.lx_search_results_widget)
 	LXSearchResultsWidget searchResultsWidget;
 
-	@InjectView(R.id.lx_theme_results_widget)
+	//@Injectview(R.id.lx_theme_results_widget)
 	LXThemeResultsWidget themeResultsWidget;
 
 	Subscription searchSubscription;
 
-	@InjectView(R.id.toolbar)
+	//@Injectview(R.id.toolbar)
 	Toolbar toolbar;
 
-	@InjectView(R.id.sort_filter_widget)
+	//@Injectview(R.id.sort_filter_widget)
 	LXSortFilterWidget sortFilterWidget;
 
-	@InjectView(R.id.sort_filter_button_container)
+	//@Injectview(R.id.sort_filter_button_container)
 	FilterButtonWithCountWidget sortFilterButton;
 
 	// This is here just for an animation
-	@InjectView(R.id.toolbar_background)
+	//@Injectview(R.id.toolbar_background)
 	View toolbarBackground;
 
-	@InjectView(R.id.toolbar_search_text)
+	//@Injectview(R.id.toolbar_search_text)
 	android.widget.TextView toolBarSearchText;
 
-	@InjectView(R.id.toolbar_detail_text)
+	//@Injectview(R.id.toolbar_detail_text)
 	android.widget.TextView toolBarDetailText;
 
-	@InjectView(R.id.toolbar_subtitle_text)
+	//@Injectview(R.id.toolbar_subtitle_text)
 	android.widget.TextView toolBarSubtitleText;
 
-	@InjectView(R.id.toolbar_two)
+	//@Injectview(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
-	@InjectView(R.id.transparent_view)
+	//@Injectview(R.id.transparent_view)
 	View transparentView;
 
-	@InjectView(R.id.sort_filter_widget_animate_view)
+	//@Injectview(R.id.sort_filter_widget_animate_view)
 	View sortFilterWidgetAnimateView;
 
-	@OnClick(R.id.transparent_view)
+	//@OnClick(R.id.transparent_view)
 	public void onTransparentViewClick() {
 		show(searchResultsWidget, FLAG_CLEAR_TOP);
 	}
@@ -126,7 +126,7 @@ public class LXResultsPresenter extends Presenter {
 	private LXTheme themeSelected = new LXTheme();
 	private boolean lxFilterTextSearchEnabled;
 
-	@OnClick(R.id.sort_filter_button)
+	//@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
 		OmnitureTracking.trackAppLXSortAndFilterOpen();
 		show(sortFilterWidget);
@@ -539,11 +539,11 @@ public class LXResultsPresenter extends Presenter {
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
-				switch (menuItem.getItemId()) {
+				/*switch (menuItem.getItemId()) {
 				case R.id.menu_open_search:
 					Events.post(new Events.LXSearchParamsOverlay());
 					return true;
-				}
+				}*/
 				return false;
 			}
 		});

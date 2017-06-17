@@ -336,14 +336,14 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 			case AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD:
 				updateValueBy(-1, getThumb());
 				return true;
-			case R.id.seekbar_breakout_set_level:
+			/*case R.id.seekbar_breakout_set_level:
 				post(new Runnable() {
 					@Override
 					public void run() {
 						new SeekBarDialogManager(getThumb()).showDialog();
 					}
 				});
-				return true;
+				return true;*/
 			default:
 				return super.performAccessibilityAction(host, action, args);
 			}

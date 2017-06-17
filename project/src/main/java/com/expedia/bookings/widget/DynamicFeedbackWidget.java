@@ -22,13 +22,13 @@ public class DynamicFeedbackWidget extends CardView {
 		inflate(context, R.layout.dynamic_feedback_widget, this);
 	}
 
-	@InjectView(R.id.dynamic_feedback_counter)
+	//@InjectView(R.id.dynamic_feedback_counter)
 	android.widget.TextView dynamicFeedbackCounter;
 
-	@InjectView(R.id.dynamic_feedback_clear_button)
+	//@InjectView(R.id.dynamic_feedback_clear_button)
 	android.widget.TextView dynamicFeedbackClearButton;
 
-	@OnClick(R.id.dynamic_feedback_clear_button)
+	//@OnClick(R.id.dynamic_feedback_clear_button)
 	public void onClearFiltersClick() {
 		Events.post(new Events.DynamicFeedbackClearButtonClicked());
 	}

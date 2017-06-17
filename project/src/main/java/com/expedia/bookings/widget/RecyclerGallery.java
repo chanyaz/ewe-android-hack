@@ -225,11 +225,11 @@ public class RecyclerGallery extends RecyclerView {
 		}
 
 		public class GalleryViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-			@InjectView(R.id.gallery_item_progress_bar)
+			//@InjectView(R.id.gallery_item_progress_bar)
 			public ProgressBar progressBar;
-			@InjectView(R.id.photo_count_textview)
+			//@InjectView(R.id.photo_count_textview)
 			public TextView photoCountTextView;
-			@InjectView(R.id.gallery_item_image_view)
+			//@InjectView(R.id.gallery_item_image_view)
 			public HotelDetailsGalleryImageView mImageView;
 
 			public GalleryViewHolder(View root) {

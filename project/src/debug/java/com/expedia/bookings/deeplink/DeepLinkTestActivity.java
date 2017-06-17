@@ -11,7 +11,7 @@ import butterknife.InjectView;
 
 public class DeepLinkTestActivity extends AppCompatActivity {
 
-	@InjectView(R.id.link_list)
+	//@InjectView(R.id.link_list)
 	RecyclerView mRecycler;
 
 	@Override

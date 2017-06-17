@@ -62,10 +62,10 @@ public class TravelerButton extends LinearLayout {
 		void onAddNewTravelerSelected();
 	}
 
-	@InjectView(R.id.select_traveler_button)
+	//@InjectView(R.id.select_traveler_button)
 	Button selectTraveler;
 
-	@OnClick(R.id.select_traveler_button)
+	//@OnClick(R.id.select_traveler_button)
 	public void onShowTraveler() {
 		Ui.hideKeyboard((Activity) getContext());
 		postDelayed(new Runnable() {

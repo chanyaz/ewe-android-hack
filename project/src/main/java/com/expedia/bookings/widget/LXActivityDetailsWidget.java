@@ -55,70 +55,70 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public static final int DURATION = 500;
 
-	@InjectView(R.id.activity_details_container)
+	//@Injectview(R.id.activity_details_container)
 	LinearLayout activityContainer;
 
-	@InjectView(R.id.activity_details)
+	//@Injectview(R.id.activity_details)
 	LXDetailsScrollView activityDetailsContainer;
 
-	@InjectView(R.id.gallery_container)
+	//@Injectview(R.id.gallery_container)
 	FrameLayout galleryContainer;
 
-	@InjectView(R.id.activity_gallery)
+	//@Injectview(R.id.activity_gallery)
 	RecyclerGallery activityGallery;
 
-	@InjectView(R.id.highlights)
+	//@Injectview(R.id.highlights)
 	LXDetailSectionDataWidget highlights;
 
-	@InjectView(R.id.mini_map_view)
+	//@Injectview(R.id.mini_map_view)
 	LocationMapImageView miniMapView;
 
-	@InjectView(R.id.map_divider)
+	//@Injectview(R.id.map_divider)
 	View mapDivider;
 
-	@InjectView(R.id.map_click_container)
+	//@Injectview(R.id.map_click_container)
 	View miniMapContainer;
 
-	@InjectView(R.id.offers)
+	//@Injectview(R.id.offers)
 	LXOffersListWidget offers;
 
-	@InjectView(R.id.description)
+	//@Injectview(R.id.description)
 	LXDetailSectionDataWidget description;
 
-	@InjectView(R.id.location)
+	//@Injectview(R.id.location)
 	LXDetailSectionDataWidget location;
 
-	@InjectView(R.id.event_location)
+	//@Injectview(R.id.event_location)
 	LXDetailSectionDataWidget eventLocation;
 
-	@InjectView(R.id.redemption_location)
+	//@Injectview(R.id.redemption_location)
 	LXDetailSectionDataWidget redemptionLocation;
 
-	@InjectView(R.id.offer_dates_container)
+	//@Injectview(R.id.offer_dates_container)
 	LinearLayout offerDatesContainer;
 
-	@InjectView(R.id.inclusions)
+	//@Injectview(R.id.inclusions)
 	LXDetailSectionDataWidget inclusions;
 
-	@InjectView(R.id.exclusions)
+	//@Injectview(R.id.exclusions)
 	LXDetailSectionDataWidget exclusions;
 
-	@InjectView(R.id.know_before_you_book)
+	//@Injectview(R.id.know_before_you_book)
 	LXDetailSectionDataWidget knowBeforeYouBook;
 
-	@InjectView(R.id.cancellation)
+	//@Injectview(R.id.cancellation)
 	LXDetailSectionDataWidget cancellation;
 
-	@InjectView(R.id.offer_dates_scroll_view)
+	//@Injectview(R.id.offer_dates_scroll_view)
 	HorizontalScrollView offerDatesScrollView;
 
-	@InjectView(R.id.recommendation_percentage_container)
+	//@Injectview(R.id.recommendation_percentage_container)
 	LinearLayout recommendPercentageLayout;
 
-	@InjectView(R.id.recommended_percentage)
+	//@Injectview(R.id.recommended_percentage)
 	TextView recommendedPercentage;
 
-	@InjectView(R.id.recommended_divider)
+	//@Injectview(R.id.recommended_divider)
 	View recommendedDivider;
 
 	@Inject
@@ -196,7 +196,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 	}
 
-	@OnClick(R.id.transparent_view_over_mini_map)
+	//@OnClick(R.id.transparent_view_over_mini_map)
 	public void openFullMap() {
 		mapClickSubject.onNext(Unit.INSTANCE);
 	}

@@ -16,7 +16,7 @@ import butterknife.InjectView;
 /* TODO remove old phone launch toolbar */
 public class NewPhoneLaunchToolbar extends Toolbar {
 
-	@InjectView(R.id.tab_layout)
+	//@InjectView(R.id.tab_layout)
 	public TabLayout tabLayout;
 
 	public NewPhoneLaunchToolbar(Context context, AttributeSet attrs) {
@@ -36,6 +36,7 @@ public class NewPhoneLaunchToolbar extends Toolbar {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
+		tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			setElevation(getResources().getDimensionPixelSize(R.dimen.launch_toolbar_elevation));
