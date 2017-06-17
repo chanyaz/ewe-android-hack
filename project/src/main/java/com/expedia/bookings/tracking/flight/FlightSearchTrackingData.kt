@@ -15,6 +15,8 @@ class FlightSearchTrackingData: AbstractSearchTrackingData() {
     var guests: Int = children.size + adults
     var infantSeatingInLap: Boolean = false
     var flightCabinClass: String? = null
+    var showRefundableFlight: Boolean? = null
+    var nonStopFlight: Boolean? = null
 
     var resultsReturned = false
     var flightLegList: List<FlightLeg> = emptyList()

@@ -8,7 +8,8 @@ import org.joda.time.LocalDate
 import java.util.HashMap
 
 class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int,
-                         children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?) :
+                         children: List<Int>, infantSeatingInLap: Boolean, val flightCabinClass: String?, val legNo: Int?, val selectedOutboundLegId: String?,
+                         val showRefundableFlight: Boolean?, val nonStopFlight: Boolean?) :
                          AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
@@ -16,6 +17,9 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
         private var flightCabinClass: String? = null
         private var legNo: Int? = null
         private var selectedOutboundLegId: String? = null
+        //TODO default these values to false when showAdavanceSearch ABTest passes
+        private var showRefundableFlight: Boolean? = null
+        private var showNonStopFlight: Boolean? = null
 
         override fun build(): FlightSearchParams {
             val departureAirport = originLocation ?: throw IllegalArgumentException()
@@ -31,7 +35,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
                             "or if for inbound then legNo should be 1 and selectedOutboundLegId should be non-empty ")
                 }
             }
-            return FlightSearchParams(departureAirport, arrivalAirport, departureDate, endDate, adults, children, infantSeatingInLap, flightCabinClass, searchLegNo, selectedOutboundLegId)
+            return FlightSearchParams(departureAirport, arrivalAirport, departureDate, endDate, adults, children, infantSeatingInLap, flightCabinClass,
+                    searchLegNo, selectedOutboundLegId, showRefundableFlight, showNonStopFlight)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
@@ -72,10 +77,21 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
             this.selectedOutboundLegId = legId
             return this
         }
+
+        fun nonStopFlight(isApplied: Boolean?): Builder {
+            this.showNonStopFlight = isApplied
+            return this
+        }
+
+        fun showRefundableFlight(isApplied: Boolean?): Builder {
+            this.showRefundableFlight = isApplied
+            return this
+        }
     }
 
     fun buildParamsForInboundSearch(maxStay: Int, maxRange: Int, selectedOutboundLegId: String?): FlightSearchParams {
         return Builder(maxStay, maxRange).roundTrip(true).legNo(1).selectedLegID(selectedOutboundLegId).flightCabinClass(flightCabinClass)
+                .showRefundableFlight(showRefundableFlight).nonStopFlight(nonStopFlight)
                 .infantSeatingInLap(infantSeatingInLap).origin(departureAirport)
                 .destination(arrivalAirport).startDate(departureDate).endDate(returnDate)
                 .adults(adults).children(children)

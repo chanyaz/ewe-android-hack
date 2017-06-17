@@ -33,6 +33,8 @@ class FlightSearchTrackingDataBuilder : AbstractTrackingDataBuilder<FlightSearch
         trackingData.guests = searchParams.guests
         trackingData.infantSeatingInLap = searchParams.infantSeatingInLap
         trackingData.flightCabinClass = searchParams.flightCabinClass
+        trackingData.nonStopFlight = searchParams.nonStopFlight
+        trackingData.showRefundableFlight = searchParams.showRefundableFlight
     }
 
     private fun populateSearchResponseFields(flightLegs: List<FlightLeg>) {

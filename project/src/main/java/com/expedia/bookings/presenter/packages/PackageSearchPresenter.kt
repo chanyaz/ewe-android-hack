@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -14,6 +15,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
@@ -32,6 +34,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
 
     private var originSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
     private var destinationSuggestionAdapter: SuggestionAdapter by Delegates.notNull()
+    val widgetTravelerAndCabinClassStub : ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
 
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -95,6 +98,11 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.PACKAGES
+    }
+
+    init {
+        widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_vertical
+        widgetTravelerAndCabinClassStub.inflate()
     }
 
     override fun inflate() {

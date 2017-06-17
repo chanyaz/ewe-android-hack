@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.AdvanceSearchCheckableFilter android:id="@+id/filter_option_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingBottom="@dimen/sort_filter_padding_small"
+    android:paddingTop="@dimen/sort_filter_padding_small">
+
+    <CheckBox
+        android:id="@+id/filter_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/sort_filter_padding_checkmarks"
+        android:clickable="false"
+        android:focusable="false"
+        android:checked="false"
+        android:gravity="center_vertical" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/filter_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/filter_check_box"
+        android:layout_toRightOf="@id/filter_check_box"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:maxLines="1"
+        android:textColor="@color/defaultTextColor"
+        android:textSize="15sp" />
+</com.expedia.bookings.widget.AdvanceSearchCheckableFilter>

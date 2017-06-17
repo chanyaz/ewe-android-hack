@@ -73,10 +73,10 @@ class FlightCellWidget(context: Context, showPrice: Boolean = true) : FrameLayou
     }
 
     fun setMargins() {
-        val paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
+        val paddingBottom = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
         val paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 9f, resources.displayMetrics).toInt()
         val newParams = cardView.layoutParams as ViewGroup.MarginLayoutParams
-        newParams.setMargins(paddingSide, paddingTop, paddingSide, 0)
+        newParams.setMargins(paddingSide, 0, paddingSide, paddingBottom)
         cardView.layoutParams = newParams
     }
 }

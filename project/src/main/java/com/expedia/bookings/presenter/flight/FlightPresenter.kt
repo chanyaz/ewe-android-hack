@@ -586,6 +586,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private inner class SearchToOutboundTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : ScaleTransition(presenter, left, right) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)) {
+                    searchPresenter.flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
+                }
+            }
+        }
+
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {

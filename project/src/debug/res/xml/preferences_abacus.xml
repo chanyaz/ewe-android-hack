@@ -311,6 +311,14 @@
             android:summary="%s"
             android:title="Showing day along with date Flight search - 14742" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14602"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Advance Search Filters on SRP - 14602" />
     </PreferenceCategory>
 
     <PreferenceCategory

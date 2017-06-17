@@ -30,10 +30,12 @@ import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CalendarWidgetV2;
+import com.expedia.bookings.widget.FlightAdvanceSearchWidget;
 import com.expedia.bookings.widget.FlightCabinClassPickerView;
 import com.expedia.bookings.widget.FlightCabinClassWidget;
 import com.expedia.bookings.widget.TravelerPickerView;
@@ -41,6 +43,8 @@ import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
+import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -281,6 +285,24 @@ public class FlightSearchPresenterTest {
 
 		flightCabinClassWidget.performClick();
 		assertEquals(flightCabinClassPickerView.getBusinessClassRadioButton().getId(), flightCabinClassPickerView.getRadioGroup().getCheckedRadioButtonId());
+	}
+
+	@Test
+	public void testFlightAdvanceSearchWidget() {
+		SettingUtils.save(activity, R.string.preference_advance_search_on_srp, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
+			null);
+		FlightAdvanceSearchWidget flightAdvanceSearchWidget = widget.getFlightAdvanceSearchWidget();
+		FlightAdvanceSearchViewModel vm = new FlightAdvanceSearchViewModel();
+		flightAdvanceSearchWidget.setViewModel(vm);
+
+		assertEquals(View.GONE, flightAdvanceSearchWidget.getExpandedAdvanceSearchView().getVisibility());
+		assertEquals(View.VISIBLE, flightAdvanceSearchWidget.getCollapsedAdvanceSearchView().getVisibility());
+
+		flightAdvanceSearchWidget.getCollapsedAdvanceSearchView().performClick();
+		assertEquals(View.VISIBLE, flightAdvanceSearchWidget.getExpandedAdvanceSearchView().getVisibility());
 	}
 
 	private String getCabinClassContentDescription(String cabinClassName) {

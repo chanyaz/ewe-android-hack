@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
@@ -25,6 +26,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
 import com.expedia.bookings.widget.TravelerPickerView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -33,9 +36,10 @@ import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.expedia.vm.flights.AdvanceSearchFilter
+import com.expedia.vm.flights.FlightAdvanceSearchViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -48,11 +52,22 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val flightCabinClassWidget by lazy {
         flightCabinClassStub.inflate().findViewById(R.id.flight_cabin_class_widget) as FlightCabinClassWidget
     }
+    val widgetTravelerAndCabinClassStub: ViewStub by bindView(R.id.widget_traveler_and_cabin_clas_stub)
+
+    val flightAdvanceSearchStub: ViewStub by bindView(R.id.flight_advanced_search_stub)
+    val flightAdvanceSearchView: CardView by bindView(R.id.flight_advanced_search_card_view)
+
+    val flightAdvanceSearchWidget by lazy {
+        flightAdvanceSearchStub.inflate().findViewById(R.id.flight_advanced_search_widget) as FlightAdvanceSearchWidget
+    }
+
     lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
 
     val errorDrawable = ContextCompat.getDrawable(context,
             Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
+
+    val isFlightAdvanceSearchTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -60,6 +75,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassSelectedObservable.subscribe(vm.abortTimerObservable)
         flightCabinClassWidget.flightCabinClassView.viewmodel.flightCabinClassObservable.subscribe(vm.flightCabinClassObserver)
+        if (isFlightAdvanceSearchTestEnabled) {
+            flightAdvanceSearchWidget.viewModel.selectAdvancedSearch.subscribe(vm.advanceSearchObserver)
+        }
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
             if (AccessibilityUtil.isTalkBackEnabled(context)) {
@@ -140,6 +158,15 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             if (!params.isRoundTrip()) {
                 viewpager.currentItem = 1
             }
+            if (params.nonStopFlight != null && params.nonStopFlight as Boolean) {
+                flightAdvanceSearchWidget.viewModel.applySelectedFilter.onNext(AdvanceSearchFilter.NonStop.ordinal)
+                flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
+            }
+
+            if (params.showRefundableFlight != null && params.showRefundableFlight as Boolean) {
+                flightAdvanceSearchWidget.viewModel.applySelectedFilter.onNext(AdvanceSearchFilter.Refundable.ordinal)
+                flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
+            }
             travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
             if (params.children.contains(0) && !params.infantSeatingInLap) {
                 travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(Unit)
@@ -165,6 +192,14 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     init {
         Ui.getApplication(getContext()).flightComponent().inject(this)
+        if (isFlightAdvanceSearchTestEnabled) {
+            widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_horizontal
+            flightAdvanceSearchView.visibility = View.VISIBLE
+            flightAdvanceSearchWidget.viewModel = FlightAdvanceSearchViewModel()
+        } else {
+            widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_vertical
+        }
+        widgetTravelerAndCabinClassStub.inflate()
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2
         showFlightOneWayRoundTripOptions = true

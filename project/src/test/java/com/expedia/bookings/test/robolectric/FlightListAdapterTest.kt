@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
+import android.view.View
 import android.widget.FrameLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
@@ -14,6 +16,7 @@ import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.ui.FlightActivity
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,6 +37,8 @@ class FlightListAdapterTest {
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
     lateinit var flightCabinClassSubject: BehaviorSubject<String>
     var isOutboundSearch: Boolean by Delegates.notNull<Boolean>()
+    lateinit var isNonStopSubject: BehaviorSubject<Boolean>
+    lateinit var isRefundableSubject: BehaviorSubject<Boolean>
     lateinit var flightLeg: FlightLeg
 
     @Before
@@ -41,18 +46,20 @@ class FlightListAdapterTest {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create<Boolean>()
         isRoundTripSubject.onNext(false)
+        isNonStopSubject = BehaviorSubject.create(false)
+        isRefundableSubject = BehaviorSubject.create(false)
         flightCabinClassSubject = BehaviorSubject.create()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
         isOutboundSearch = false
     }
 
     fun createSystemUnderTest() {
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
     }
 
     @Test
     fun allFlightsHeaderNotShownForFlightsLOB() {
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         sut.setNewFlights(emptyList())
 
         val itemViewType = sut.getItemViewType(1)
@@ -66,7 +73,7 @@ class FlightListAdapterTest {
         givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip per person", headerViewHolder.title.text)
+        assertEquals("Prices roundtrip per person", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -76,7 +83,7 @@ class FlightListAdapterTest {
         givenOneWayFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices one-way per person", headerViewHolder.title.text)
+        assertEquals("Prices one-way per person", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -86,7 +93,7 @@ class FlightListAdapterTest {
         givenOneWayFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices one-way, per person, from", headerViewHolder.title.text)
+        assertEquals("Prices one-way, per person, from", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -96,7 +103,36 @@ class FlightListAdapterTest {
         givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip, per person, from", headerViewHolder.title.text)
+        assertEquals("Prices roundtrip, per person, from", headerViewHolder.priceHeader.text)
+    }
+
+
+    @Test
+    fun flightResultsAdvanceSearchFilterHeader() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+        SettingUtils.save(activity, R.string.preference_advance_search_on_srp, true)
+        configurePointOfSale()
+        createSystemUnderTest()
+        val headerViewHolder = createHeaderViewHolder()
+        //When Non Stop and Refundable both are not chosen
+        assertEquals(View.GONE, headerViewHolder.advanceSearchFilterHeader.visibility)
+        //When User searches with Non Stop filter
+        isNonStopSubject.onNext(true)
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
+        assertEquals("•  Nonstop  •", headerViewHolder.advanceSearchFilterHeader.text)
+
+        //When User searches with Refundable and Non Stop filter
+        isRefundableSubject.onNext(true)
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
+        assertEquals("•  Nonstop  •  Refundable  •", headerViewHolder.advanceSearchFilterHeader.text)
+
+        //When User searches with Refundable filter
+        isNonStopSubject.onNext(false)
+        sut.onBindViewHolder(headerViewHolder, 0)
+        assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
+        assertEquals("•  Refundable  •", headerViewHolder.advanceSearchFilterHeader.text)
     }
 
     @Test

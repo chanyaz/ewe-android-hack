@@ -3,6 +3,7 @@ package com.expedia.bookings.test.data.flights
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import junit.framework.Assert.assertNull
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
@@ -192,6 +193,28 @@ class NewFlightSearchParamsTest {
         assertEquals(expectedReturnDate, params.getEndOfTripDate())
         assertNotEquals(params.startDate, params.getEndOfTripDate())
 
+    }
+
+    @Test
+    fun testBuildParamsForAdvanceSearchFilter() {
+        builder.adults(expectedNumAdults)
+        builder.startDate(tomorrow)
+        builder.endDate(expectedReturnDate)
+        builder.origin(expectedOrigin)
+        builder.destination(expectedDestination)
+        var params = builder.build()
+
+        assertNull(params.nonStopFlight)
+        assertNull(params.showRefundableFlight)
+
+        params = builder.nonStopFlight(true).build()
+
+        assertTrue(params.nonStopFlight!!)
+        assertNull(params.showRefundableFlight)
+
+        params = builder.showRefundableFlight(true).build()
+        assertTrue(params.nonStopFlight!!)
+        assertTrue(params.showRefundableFlight!!)
     }
 
     @Test

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/advance_search_view_header"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:text="@string/advanced_search"
+            android:textColor="@color/flight_primary_color"
+            android:textSize="15sp"
+            app:textStyle="medium" />
+
+        <ImageView
+            android:id="@+id/advanced_search_chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/read_more_without_padding"
+            android:tint="@color/flight_primary_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expanded_advance_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingBottom ="10dp"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/flight_type"
+            android:textColor="@color/defaultTextColor"
+            android:textSize="15sp"
+            app:textStyle="medium" />
+
+        <LinearLayout
+            android:id="@+id/advance_search_filter_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" />
+    </LinearLayout>
+</merge>

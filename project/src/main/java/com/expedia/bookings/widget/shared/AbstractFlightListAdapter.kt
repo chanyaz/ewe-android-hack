@@ -10,12 +10,15 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.PackageBannerWidget
 import com.expedia.vm.AbstractFlightViewModel
+import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -50,6 +53,9 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     abstract protected fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean
     abstract protected fun showAllFlightsHeader(): Boolean
     abstract fun adjustPosition(): Int
+    abstract protected fun showAdvanceSearchFilterHeader(): Boolean
+    abstract protected fun isShowOnlyNonStopSearch(): Boolean
+    abstract protected fun isShowOnlyRefundableSearch(): Boolean
 
     @UiThread
     open fun setNewFlights(flights: List<FlightLeg>) {
@@ -163,12 +169,25 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     }
 
     inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
-        val title: TextView by bindView(R.id.flight_results_price_header)
+        val priceHeader: TextView by bindView(R.id.flight_results_price_header)
+        val advanceSearchFilterHeader: TextView by bindView(R.id.flight_results_advance_search_filter_header)
+        val headerDivider: View by bindView(R.id.header_divider_shadow)
 
         fun bind(isRoundTripSearch: Boolean) {
             val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
             val oneWayStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
-            title.text = context.resources.getText(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
+            priceHeader.text = context.resources.getText(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
+            val advanceSearchFilterHeaderText = FlightV2Utils.getAdvanceSearchFilterHeaderString(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch())
+            if (showAdvanceSearchFilterHeader() && Strings.isNotEmpty(advanceSearchFilterHeaderText)) {
+                advanceSearchFilterHeader.visibility = View.VISIBLE
+                headerDivider.visibility = View.VISIBLE
+                advanceSearchFilterHeader.text = advanceSearchFilterHeaderText
+                advanceSearchFilterHeader.contentDescription = Phrase.from(context, R.string.advancedSearchFilterHeaderContDesc)
+                        .put("filterapplied", advanceSearchFilterHeaderText).format().toString()
+            } else {
+                advanceSearchFilterHeader.visibility = View.GONE
+                headerDivider.visibility = View.GONE
+            }
         }
     }
 

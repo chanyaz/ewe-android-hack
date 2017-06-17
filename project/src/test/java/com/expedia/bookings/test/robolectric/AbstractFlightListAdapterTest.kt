@@ -48,12 +48,16 @@ class AbstractFlightListAdapterTest {
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
     lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
     lateinit var flightCabinClassSubject: BehaviorSubject<String>
+    lateinit var isNonStopSubject: BehaviorSubject<Boolean>
+    lateinit var isRefundableSubject: BehaviorSubject<Boolean>
     lateinit var flightLeg: FlightLeg
 
     @Before
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create()
+        isNonStopSubject = BehaviorSubject.create(false)
+        isRefundableSubject = BehaviorSubject.create(false)
         flightCabinClassSubject = BehaviorSubject.create()
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_disabled.json", false)
     }
@@ -68,7 +72,7 @@ class AbstractFlightListAdapterTest {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR)
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_test_config.json")
         isRoundTripSubject.onNext(true)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         sut.adjustPosition()
         createFlightLegWithThreeAirlines()
         sut.setNewFlights(listOf(flightLeg))
@@ -90,7 +94,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityForOneway() {
         preProcessForPackageBannerWidget()
         isRoundTripSubject.onNext(false)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -99,7 +103,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityWithoutFlagInPOS() {
         preProcessForPackageBannerWidget()
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_locale_test_config.json")
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -108,7 +112,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibilityForFirstClassCabinPreference() {
         preProcessForPackageBannerWidget()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.FIRST.name)
-        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject)
+        sut = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, true, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         postProcessForPackageBannerWidget()
         assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
     }
@@ -422,6 +426,14 @@ class AbstractFlightListAdapterTest {
 
     private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) :
             AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
+        override fun isShowOnlyNonStopSearch(): Boolean {
+            return false
+        }
+
+        override fun isShowOnlyRefundableSearch(): Boolean {
+            return false
+        }
+
         override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
             return false
         }
@@ -437,5 +449,11 @@ class AbstractFlightListAdapterTest {
         override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): AbstractFlightViewModel {
             return FlightViewModel(context, flightLeg)
         }
+
+        override fun showAdvanceSearchFilterHeader(): Boolean {
+            return true
+        }
+
+
     }
 }

@@ -21,7 +21,9 @@ public interface FlightApi {
 	Observable<FlightSearchResponse> flightSearch(
 		@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges,
 		@Query("cabinClassPreference") String cabinClass, @Field("ul") Integer legNo,
-		@Field("fl0") String selectedOutboundId);
+		@Field("fl0") String selectedOutboundId,
+		@Query("showRefundableFlight") Boolean showRefundableFlight,
+		@Query("nonStopFlight") Boolean nonStopFlight);
 
 	@FormUrlEncoded
 	@POST("/api/flight/trip/create?withInsurance=true")

@@ -2387,6 +2387,18 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Search</string>
+    <!-- Label for "advanced search" view -->
+    <string name="advanced_search">Advanced Search</string>
+    <!-- Title for "flight type" view -->
+    <string name="flight_type">Flight Type</string>
+    <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
+    <string name= "advance_search_cont_desc_TEMPLATE">Advanced Search {expandstate}</string>
+    <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
+    <string name="row_collapse_button_description">Expand button. Double tap to collapse.</string>
+    <!-- Title for non stop filter on advance search view -->
+    <string name="nonstop_flight_filter_label">Nonstop flights only</string>
+    <!-- Title for refundable filter on advance search view -->
+    <string name="refundable_flight_filter_label">Refundable flights only</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s to %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -3802,6 +3814,14 @@
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Operated by {operatingairlinename} ({operatingairlinecode})</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Operated by {operatingairlinename}</string>
+    <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
+    <string name="flight_nonstop_refundable_search_header">• \u0020Nonstop\u0020 • \u0020Refundable\u0020 •</string>
+    <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
+    <string name="flight_nonstop_search_header">• \u0020Nonstop\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search -->
+    <string name="flight_refundable_search_header">• \u0020Refundable\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearchFilterHeaderContDesc">Showing {filterapplied} flights only</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Searching for flights. Please wait.</string>

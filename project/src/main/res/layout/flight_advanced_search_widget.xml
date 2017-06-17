@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.FlightAdvanceSearchWidget
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flight_advanced_search_widget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardUseCompatPadding="true"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:orientation="vertical"/>

@@ -95,4 +95,16 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
     override fun makeFlightViewModel(context: Context, flightLeg: FlightLeg): PackageFlightViewModel {
         return PackageFlightViewModel(context, flightLeg)
     }
+
+    override fun showAdvanceSearchFilterHeader(): Boolean {
+        return false
+    }
+
+    override fun isShowOnlyNonStopSearch(): Boolean {
+        return false
+    }
+
+    override fun isShowOnlyRefundableSearch(): Boolean {
+        return false
+    }
 }

@@ -16,6 +16,7 @@ import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowDateFormat::class))
@@ -186,6 +187,14 @@ class FlightV2UtilsTest {
         testFlightLeg.packageOfferModel.segmentsSeatClassAndBookingCode = buildTestSeatClassAndBookingCodeList(2)
         testFlightLeg.isBasicEconomy = true
         assertEquals("Basic Economy", FlightV2Utils.getFlightCabinPreferences(activity, testFlightLeg))
+    }
+
+    @Test
+    fun testGetAdvanceSearchFilterHeaderString() {
+        assertNull(FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, false))
+        assertEquals("•  Nonstop  •  Refundable  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, true, true))
+        assertEquals("•  Nonstop  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, true, false))
+        assertEquals("•  Refundable  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, true))
     }
 
     fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {

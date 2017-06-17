@@ -28,6 +28,10 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightTravelerPickerClick(actionLabel)
     }
 
+    fun trackAdvanceSearchFilterClick(filterLabel: String, isSelected: Boolean) {
+        OmnitureTracking.trackFlightAdvanceSearchFiltersClick(filterLabel, isSelected)
+    }
+
     fun trackResultOutBoundFlights(trackingData: FlightSearchTrackingData) {
         OmnitureTracking.trackResultOutBoundFlights(trackingData)
         TuneUtils.trackFlightV2OutBoundResults(trackingData)

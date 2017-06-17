@@ -312,8 +312,10 @@ class FlightInboundPresenterTest {
         isRoundTripSubject.onNext(false)
         val flightCabinClassSubject = BehaviorSubject.create<String>()
         flightCabinClassSubject.onNext(FlightServiceClassType.CabinCode.COACH.name)
+        val isNonStopSubject = BehaviorSubject.create(false)
+        val isRefundableSubject = BehaviorSubject.create(false)
         val isOutboundSearch = false
-        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject)
+        val flightListAdapter = FlightListAdapter(activity, flightSelectedSubject, isRoundTripSubject, isOutboundSearch, flightCabinClassSubject, isNonStopSubject, isRefundableSubject)
         flightInboundPresenter.resultsPresenter.setAdapter(flightListAdapter)
 
         Db.setFlightSearchParams(flightSearchParams)
@@ -372,6 +374,6 @@ class FlightInboundPresenterTest {
         val checkIn = LocalDate().plusDays(2)
         val checkOut = LocalDate().plusDays(3)
 
-        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null)
+        return FlightSearchParams(departureSuggestion, arrivalSuggestion, checkIn, checkOut, adultCount, childList, false, null, null, null, null, null)
     }
 }

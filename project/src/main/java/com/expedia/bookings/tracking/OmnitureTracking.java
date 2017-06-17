@@ -4717,6 +4717,13 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(link.toString(), "Search Button Clicked");
 	}
 
+	public static void trackFlightAdvanceSearchFiltersClick(String filterLabel, boolean isSelected) {
+		StringBuilder link = new StringBuilder(FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX);
+		link.append(filterLabel);
+		link.append(isSelected ? ".Select" : ".Deselect");
+		createAndtrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
+	}
+
 	public static void trackPageLoadFlightSearchV2() {
 		ADMS_Measurement s = getFreshTrackingObject();
 
@@ -4728,7 +4735,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRetainSearchParams);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
-
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_advance_search_on_srp)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
+		}
 		s.track();
 	}
 
@@ -4978,6 +4987,15 @@ public class OmnitureTracking {
 
 		if (searchTrackingData.getFlightCabinClass() != null) {
 			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
+		}
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightAdvanceSearch,
+			R.string.preference_advance_search_on_srp)) {
+			if (searchTrackingData.getNonStopFlight() != null && searchTrackingData.getNonStopFlight()) {
+				str += "|Dir";
+			}
+			if (searchTrackingData.getShowRefundableFlight() != null && searchTrackingData.getShowRefundableFlight()) {
+				str += "|Rfd";
+			}
 		}
 		return str;
 	}

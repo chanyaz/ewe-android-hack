@@ -24,6 +24,11 @@
         android:title="Material Flight Features">
 
 
+        <CheckBoxPreference
+            android:key="@string/preference_advance_search_on_srp"
+            android:layout="@layout/preference"
+            android:summary="Advance Search on SRP"
+            android:title="Advance Search on SRP" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
+import com.expedia.vm.flights.AdvanceSearchFilter
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.Observable
@@ -52,6 +53,18 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     var searchSubscription: Subscription? = null
+    val advanceSearchObserver = endlessObserver<AdvanceSearchFilter> {
+        when (it) {
+            AdvanceSearchFilter.NonStop -> {
+                getParamsBuilder().nonStopFlight(it.isChecked)
+                FlightsV2Tracking.trackAdvanceSearchFilterClick("NonStop", it.isChecked)
+            }
+            AdvanceSearchFilter.Refundable -> {
+                getParamsBuilder().showRefundableFlight(it.isChecked)
+                FlightsV2Tracking.trackAdvanceSearchFilterClick("Refundable", it.isChecked)
+            }
+        }
+    }
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
@@ -75,7 +88,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             }
         }
 
-        if (!FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) {
+        if (!((FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) ||
+                (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)))) {
             Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
                 object {
                     val flyingFrom = flyFrom
