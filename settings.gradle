@@ -1,5 +1,5 @@
 // Main projects
-include ':lib:ExpediaBookings', ':complete'
+include ':lib:ExpediaBookings', ':complete', ':instantapp'
 include ':lib:bug-reporter:bugshaker'
 include ':project'
 

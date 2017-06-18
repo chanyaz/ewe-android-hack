@@ -157,7 +157,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		sIsDeviceShitty = memClass <= 64;
 
 		if (!isAutomation()) {
-			Fabric.with(this, new Crashlytics());
+			//Fabric.with(this, new Crashlytics());
 			startupTimer.addSplit("Crashlytics started.");
 		}
 

@@ -36,7 +36,7 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
             chuckInterceptor.showNotification(SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false))
             client.addInterceptor(chuckInterceptor)
 
-            setupStetho()
+            //setupStetho()
             client.networkInterceptors().add(StethoInterceptor())
         }
 

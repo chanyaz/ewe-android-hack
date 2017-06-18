@@ -47,7 +47,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.expedia.bookings.activity.ExpediaBookingApp"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -87,7 +86,52 @@
             android:exported="true"
             android:resizeableActivity="false"
             android:theme="@style/SplashTheme"
-            tools:ignore="UnusedAttribute" />
+            tools:ignore="UnusedAttribute"></activity>
+
+        <activity
+            android:name="com.expedia.bookings.activity.HackActivity"
+            android:theme="@style/NewLaunchTheme"
+            android:exported="true"
+            android:resizeableActivity="false"
+            tools:ignore="UnusedAttribute">
+
+            <tools:validation testUrl="https://www.expedia.com/m/trips" />
+            <tools:validation testUrl="https://www.expedia.com" />
+            <tools:validation testUrl="http://www.expedia.com" />
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.expedia.com"
+                    android:pathPattern="/m/trips" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="www.expedia.com" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="www.expedia.com" />
+            </intent-filter>
+        </activity>
+
         <activity-alias
             android:name="com.expedia.bookings.activity.SearchActivity"
             android:targetActivity="com.expedia.bookings.activity.RouterActivity">
@@ -151,7 +195,8 @@
             android:resizeableActivity="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:ignore="UnusedAttribute" />
-        <activity android:name="com.expedia.ui.GalleryActivity"
+        <activity
+            android:name="com.expedia.ui.GalleryActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
@@ -205,7 +250,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Rail"
-            tools:ignore="UnusedAttribute"/>
+            tools:ignore="UnusedAttribute" />
 
         <!-- Cars activity -->
 
@@ -255,7 +300,7 @@
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.RailActivity"
             android:theme="@style/Theme.Rail"
-            tools:ignore="UnusedAttribute"/>
+            tools:ignore="UnusedAttribute" />
 
         <activity
             android:name="com.expedia.ui.FlightActivity"
@@ -343,7 +388,7 @@
                 <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="${applicationId}" />
+                <category android:name="com.expedia.bookings" />
             </intent-filter>
         </receiver>
 

@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.expedia.bookings"
+        applicationId "com.expedia.bookings.debug"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
