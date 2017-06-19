@@ -53,6 +53,7 @@ public class User implements JSONable {
 	// Kind of pointless when this is just stored as a static field, but at least protects
 	// against someone getting the plaintext file but not the app itself.
 	static final String PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9";
+	public static final char EMAIL_USER_ID = '@';
 
 	private Traveler mPrimaryTraveler;
 	private List<Traveler> mAssociatedTravelers = new ArrayList<>();
@@ -597,6 +598,11 @@ public class User implements JSONable {
 	public static void loadUser(Context context, UserAccountRefresher.IUserAccountRefreshListener listener) {
 		UserAccountRefresher userAccountRefresher = new UserAccountRefresher(context, LineOfBusiness.NONE, listener);
 		userAccountRefresher.forceAccountRefresh();
+	}
+
+	public String getUsername() {
+		String email = mPrimaryTraveler.getEmail();
+		return email.substring(0, email.indexOf(EMAIL_USER_ID));
 	}
 
 }
