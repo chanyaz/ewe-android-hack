@@ -88,6 +88,8 @@
 
                 <include layout="@layout/clock_trip_view" />
             </android.support.v7.widget.CardView>
+
+            <include layout="@layout/lx_cross_sell_trip_view"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
