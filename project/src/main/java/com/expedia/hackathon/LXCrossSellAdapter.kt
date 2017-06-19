@@ -1,5 +1,6 @@
 package com.expedia.hackathon
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.DownloadPrompt
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.utils.Images
@@ -25,6 +27,10 @@ class LXCrossSellAdapter(private val lxList: List<LXActivity>) : RecyclerView.Ad
             imageView = view.findViewById(R.id.image_view) as ImageView
             name = view.findViewById(R.id.name) as TextView
             price = view.findViewById(R.id.price) as TextView
+            view.setOnClickListener {
+                val intent = Intent(view.context, DownloadPrompt::class.java)
+                view.context.startActivity(intent)
+            }
 //            time = view.findViewById(R.id.time) as TextView
         }
     }
