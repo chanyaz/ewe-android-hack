@@ -45,6 +45,8 @@ class HackActivity : AppCompatActivity() {
 
     var inputTranslate: EditText? = null
     var outputTranslate: TextView? = null
+    var inputConvert: EditText? = null
+    var outputConvert: TextView? = null
     var uberButton: RideRequestButton? = null
     val translateServices: TranslateServices = TranslateServices(AndroidSchedulers.mainThread(), Schedulers.io())
     var config: SessionConfiguration? = null
@@ -67,9 +69,10 @@ class HackActivity : AppCompatActivity() {
         val appBarLayout = findViewById(R.id.main_appbar) as AppBarLayout
         inputTranslate = findViewById(R.id.input_translate) as EditText
         outputTranslate = findViewById(R.id.output_translate) as TextView
+        inputConvert = findViewById(R.id.input_convert) as EditText
+        outputConvert = findViewById(R.id.output_convert) as TextView
         uberButton = findViewById(R.id.uber_button) as RideRequestButton
         button = findViewById(R.id.floating_button) as FloatingActionButton
-
         (button as FloatingActionButton).setOnClickListener {
             val intent = Intent(this, DownloadPrompt::class.java)
             startActivity(intent)
@@ -102,7 +105,6 @@ class HackActivity : AppCompatActivity() {
 
         setupMyViews()
     }
-
     private fun setupMyViews() {
         val departureClock = findViewById(R.id.departure_clock) as CustomAnalogClock
         departureClock.setTimezone(TimeZone.getTimeZone("Asia/Calcutta"))
@@ -119,7 +121,7 @@ class HackActivity : AppCompatActivity() {
 
         Ui.getApplication(this).defaultLXComponents()
 
-        Ui.getApplication(this).lxComponent().lxService.lxCategorySearch(params, object: Observer<LXSearchResponse> {
+        Ui.getApplication(this).lxComponent().lxService.lxCategorySearch(params, object : Observer<LXSearchResponse> {
             override fun onError(e: Throwable?) {
 
             }
@@ -137,7 +139,7 @@ class HackActivity : AppCompatActivity() {
 
         val carparams = CarSearchParam("SFO", DateTime.now().plusDays(5), DateTime.now().plusDays(6))
         Ui.getApplication(this).defaultCarComponents()
-        Ui.getApplication(this).carComponent().carServices.carSearch(carparams, object: Observer<CarSearch> {
+        Ui.getApplication(this).carComponent().carServices.carSearch(carparams, object : Observer<CarSearch> {
             override fun onNext(t: CarSearch?) {
                 carCrossSell.adapter = CarCrossSellAdapter(t!!.categories)
             }
@@ -169,6 +171,15 @@ class HackActivity : AppCompatActivity() {
                 }
 
             })
+        }
+
+        RxTextView.textChanges(inputConvert as EditText).debounce(500, TimeUnit.MILLISECONDS).subscribe {
+            Log.d("Testingggg", it.toString())
+            outputConvert?.post {
+                try {
+                    outputConvert!!.text = "€" + "%.2f".format(((it.toString().removePrefix("$").toFloatOrNull() ?: 1f) * 0.90))
+                } catch(e: Exception) {}
+            }
         }
     }
 
