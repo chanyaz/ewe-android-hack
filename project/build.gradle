@@ -35,6 +35,7 @@ dependencies {
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
+
     compile 'com.expedia:svg-android:1.0.0'
     compile 'com.expedia:android-account-lib:1.1.20'
     compile 'com.mobiata:android-utils:1.2.2'
@@ -594,3 +595,5 @@ def sharedDataFilesToRemove(variant) {
     filesToRemove.add('ExpediaSharedData/validate.sh')
     return filesToRemove
 }
+apply plugin: 'com.google.gms.google-services'
+
