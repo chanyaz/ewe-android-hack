@@ -22,6 +22,9 @@ class ToDoList(context: Context, attrs: AttributeSet?) : LinearLayout(context, a
 
     init {
         View.inflate(context, R.layout.activity_task, this)
+        listItem.add("Remember to pack Sunscreen")
+        listItem.add("Passport and Tickets")
+        listItem.add("Please take your SUNGLASSES")
         mAdapter = TaskAdapter(context, listItem)
 
         listView = findViewById(R.id.list) as ListView
