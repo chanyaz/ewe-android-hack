@@ -133,6 +133,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.expedia.bookings.activity.DownloadPrompt"
+            android:theme="@style/NewLaunchTheme"
+            android:exported="true"
+            android:resizeableActivity="false"
+            tools:ignore="UnusedAttribute"/>
+
         <activity-alias
             android:name="com.expedia.bookings.activity.SearchActivity"
             android:targetActivity="com.expedia.bookings.activity.RouterActivity">

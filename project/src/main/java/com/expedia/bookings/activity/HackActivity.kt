@@ -1,7 +1,9 @@
 package com.expedia.bookings.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -42,16 +44,7 @@ class HackActivity : AppCompatActivity() {
     var uberButton: RideRequestButton? = null
     val translateServices: TranslateServices = TranslateServices(AndroidSchedulers.mainThread(), Schedulers.io())
     var config: SessionConfiguration? = null
-    init {
-        /*config = SessionConfiguration.Builder().setClientId("03PqsgLaSnDv0oDa3QqNAHpOB-68qm_8")
-                .setServerToken("IObjvb1JZW9Jpp5cxQUPyohlFGkyV6NVTvFUsKRq")
-                .setScopes(Arrays.asList(Scope.RIDE_WIDGETS))
-                .setEnvironment(SessionConfiguration.Environment.SANDBOX)
-                .build()
-
-        UberSdk.initialize(config)*/
-
-    }
+    var button: FloatingActionButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +64,12 @@ class HackActivity : AppCompatActivity() {
         inputTranslate = findViewById(R.id.input_translate) as EditText
         outputTranslate = findViewById(R.id.output_translate) as TextView
         uberButton = findViewById(R.id.uber_button) as RideRequestButton
+        button = findViewById(R.id.floating_button) as FloatingActionButton
 
+        (button as FloatingActionButton).setOnClickListener {
+            val intent = Intent(this, DownloadPrompt::class.java)
+            startActivity(intent)
+        }
 
         val rideParams = RideParameters.Builder()
                 // Optional product_id from /v1/products endpoint (e.g. UberX). If not provided, most cost-efficient product will be used
