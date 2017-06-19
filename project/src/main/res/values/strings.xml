@@ -4280,6 +4280,8 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Show fewer airlines. Button</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Clear Filters. Button</string>
+    <!--Content description for clear button alert in filter used for Talkback-->
+    <string name="search_filter_clear_button_alert_cont_desc">Clear filters button available at the end of the screen</string>
 
 
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
