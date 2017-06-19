@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
@@ -243,8 +242,8 @@ open class HotelViewModel(private val context: Context) {
 
     private fun getMemberDealUrgencyMessage(): UrgencyMessage? {
         if (hasMemberDeal(hotel)) {
-            return UrgencyMessage(R.drawable.ic_hotel_member_test, R.color.hotel_member_pricing_color_test,
-                    resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_color)
+            return UrgencyMessage(R.drawable.ic_hotel_member, R.color.hotel_member_pricing_bg_color,
+                    resources.getString(R.string.member_pricing), R.color.hotel_member_pricing_text_color)
 
         }
         return null

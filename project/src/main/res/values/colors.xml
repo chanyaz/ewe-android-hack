@@ -36,6 +36,7 @@
     <color name="actionbar_tab_text_unselected">#8CFFFFFF</color>
     <color name="placeholder_card_background_color">@color/exp_launch_secondary</color>
     <color name="placeholder_card_button_text_color">@color/exp_launch_blue</color>
+    <color name="launch_list_header_title_color">@color/gray6</color>
 
     <!--Splash-->
     <color name="splash_screen_bg">@color/exp_yellow</color>
@@ -105,8 +106,8 @@
     <color name="hotel_urgency_message_color">#E2934A</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
-    <color name="hotel_member_pricing_color">#00355F</color>
-    <color name="hotel_member_pricing_color_test">#FFC60B</color>
+    <color name="hotel_member_pricing_text_color">#00355F</color>
+    <color name="hotel_member_pricing_bg_color">#FFC60B</color>
     <color name="hotel_sold_out_color">@color/gray6</color>
     <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
     <color name="hotel_earn_message_text_color">@color/gray6</color>

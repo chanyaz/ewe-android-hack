@@ -38,7 +38,9 @@
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="preferences_text">#495863</color>
     <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
-    <color name="hotel_member_pricing_color">#00335f</color>
+    <color name="hotel_member_pricing_bg_color">#00335f</color>
+    <color name="hotel_member_pricing_text_color">#FFFFFF</color>
+    <color name="launch_list_header_title_color">#565656</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
@@ -47,7 +49,7 @@
     <color name="hotel_tonight_only_color">#7AC231</color>
     <color name="hotel_mobile_exclusive_color">#F58025</color>
 
-    <color name="hotelsv2_discount_green">#7AC231</color>
+    <color name="hotelsv2_discount_green">#428201</color>
     <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <!-- Cars and LX -->
@@ -83,13 +85,14 @@
 
     <!--Account Screen-->
     <color name="account_toolbar_text_color">@android:color/white</color>
-    <color name="account_sign_out_button_background_color">#7baed4</color>
+    <color name="account_sign_out_button_background_color">#003e74</color>
     <color name="account_sign_in_button_background_color">@color/hotels_primary_color</color>
     <color name="account_create_button_text_color">@color/hotels_primary_color</color>
 
     <color name="error_widget_edit_button_selected_color">#033057</color>
     <color name="error_button_color">#003E74</color>
     <color name="launch_tab_indicator">#7BAED4</color>
+    <color name="error_widget_text">#656565</color>
 
     <!-- Packages colors -->
     <color name="packages_primary_color">@color/lob_primary_color</color>
@@ -120,4 +123,9 @@
 
     <!-- Splash screen -->
     <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
+
+
+    <!-- New launch screen colors -->
+    <color name="launch_discount">#0e8264</color>
+    <color name="launch_primary">#ffffff</color>
 </resources>
