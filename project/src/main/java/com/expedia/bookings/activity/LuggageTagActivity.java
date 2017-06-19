@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.LuggageScanFoundSmartTagFragment;
-import com.expedia.bookings.utils.Ui;
 
 public class LuggageTagActivity extends AppCompatActivity {
 	private static final String TAG_SCAN_FOUND_SMART_TAG = "TAG_SCAN_FOUND_SMART_TAG";
