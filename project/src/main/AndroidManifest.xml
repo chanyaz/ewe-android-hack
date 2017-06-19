@@ -214,13 +214,11 @@
 
         <activity
             android:name="com.expedia.bookings.luggagetags.BarCodeActivity"
-            android:label="Bar code reader dummy"
-            android:theme="@style/Material.WebView.Theme" />
+            android:theme="@style/Theme.AppCompat" />
 
         <activity
-            android:name="com.expedia.bookings.luggagetags.BarcodeCaptureActivity"
-            android:label="Read Barcode"
-            android:theme="@style/Material.WebView.Theme" />
+            android:name="com.expedia.bookings.luggagetags.BarCodeCaptureActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <!-- Cars activity -->
 
