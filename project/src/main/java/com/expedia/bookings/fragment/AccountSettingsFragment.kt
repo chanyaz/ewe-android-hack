@@ -35,6 +35,7 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.luggagetags.BarCodeActivity
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -659,7 +660,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
 
             ROW_LUGGAGE_TAG -> {
-                val intent = Intent(context, LuggageTagActivity::class.java)
+                //val intent = Intent(context, LuggageTagActivity::class.java)
+                val intent = Intent(context, BarCodeActivity::class.java)
                 activity.startActivity(intent)
                 return true
             }

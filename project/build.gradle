@@ -61,6 +61,7 @@ dependencies {
     compile "com.google.android.gms:play-services-ads:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
+    compile "com.google.android.gms:play-services-vision:${rootProject.ext.googlePlayServicesVersion}"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
