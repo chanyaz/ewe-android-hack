@@ -48,6 +48,7 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.saveUserAndReferIds
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -152,6 +153,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+
+        if (UserStateManager(this).isUserAuthenticated()) {
+            saveUserAndReferIds(Db.getUser().username)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
