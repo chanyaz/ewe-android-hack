@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
@@ -17,15 +19,16 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.FireBaseRewardsUtil;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -33,9 +36,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -185,6 +185,7 @@ public class AccountLibActivity extends AppCompatActivity
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 		if (userStateManager.isUserAuthenticated()) {
+			FireBaseRewardsUtil.Companion.saveUserAndReferIds(Db.getUser().getUsername());
 			if (userLoggedInWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
 				Db.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
