@@ -59,6 +59,11 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
+        createTripViewmodel.couponApplyObservable.subscribe {
+            couponCardView.couponCode.setText("CL9Z55R7CR71ZHK4")
+            couponCardView.onCouponSubmitClicked.onNext(Unit)
+        }
+        createTripViewmodel.couponApplyObservable.onNext(Unit)
         couponCardView.viewmodel.couponObservable.subscribe(createTripViewmodel.tripResponseObservable)
         couponCardView.viewmodel.errorShowDialogObservable.subscribe {
 

@@ -22,6 +22,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
     val errorObservable = PublishSubject.create<ApiError>()
     val noResponseObservable = PublishSubject.create<Unit>()
     val tripResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
+    val couponApplyObservable = BehaviorSubject.create<Unit>()
 
     init {
         tripParams.subscribe { params ->
@@ -46,6 +47,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
                     Db.getTripBucket().add(TripBucketItemHotelV2(response))
                     // TODO: populate hotelCreateTripResponseData with response data
                     tripResponseObservable.onNext(response)
+                    couponApplyObservable.onNext(Unit)
                     paymentModel?.createTripSubject?.onNext(response)
                 }
             }
