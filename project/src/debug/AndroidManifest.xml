@@ -22,6 +22,11 @@
             android:theme="@style/Theme.Phone.Preferences" />
 
         <activity
+            android:name="com.expedia.bookings.activity.LuggageTagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Material.WebView.Theme" />
+
+        <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
             android:label="Playground"
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"

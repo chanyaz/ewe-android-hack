@@ -1018,6 +1018,10 @@
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
+    <!-- Scan a found smart tag -->
+    <string name="scan_a_found_smart_tag">Scan a found smart tag</string>
+    <!-- My smart luggage tags text view-->
+    <string name="my_luggage_tag_text_view">My smart luggage tags</string>
     <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
@@ -2895,6 +2899,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Booking Support</string>
+    <!-- Label for "Luggage tag" button in info page -->
+    <string name="luggage_tag">Expedia smart luggage tags</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">Support Request</string>
     <!-- Title for different ways to connect to Expedia -->
@@ -2911,6 +2917,8 @@
     <string name="app_support">App Support</string>
     <!-- Section label for app settings functionality -->
     <string name="about_section_app_settings">App Settings</string>
+    <!-- Section label for app settings functionality -->
+    <string name="about_section_settings">Settings</string>
     <!-- Section label for user support functionality -->
     <string name="about_section_support">Support</string>
     <!-- Section label for communication options that are not related to user support -->
