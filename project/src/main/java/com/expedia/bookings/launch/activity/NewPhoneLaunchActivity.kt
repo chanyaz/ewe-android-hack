@@ -48,11 +48,13 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
+import com.expedia.bookings.utils.FireBaseRewardsUtil
 import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.saveUserAndReferIds
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
+import com.mobiata.android.Log
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
@@ -300,6 +302,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
                         OmnitureTracking.trackPageLoadLaunchScreen()
+                        val numberOfRefers = FireBaseRewardsUtil.getNumberOfRefers()
+                        Log.v("MOHIT number of refers "+numberOfRefers)
                     }
                     PAGER_POS_ITIN -> {
                         if (tripComponent != null) {
@@ -312,6 +316,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                         pagerPosition = PAGER_POS_ACCOUNT
                         gotoAccount()
                         OmnitureTracking.trackAccountPageLoad()
+                        // Increment the refer number
+                        FireBaseRewardsUtil.onReferClicked()
+
                     }
                 }
                 OmnitureTracking.trackGlobalNavigation(viewPager.currentItem)
