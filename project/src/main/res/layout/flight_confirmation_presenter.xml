@@ -104,6 +104,31 @@
                 android:layout_marginRight="@dimen/card_view_container_margin"
                 app:cardPreventCornerOverlap="false"/>
 
+            <LinearLayout
+                android:id="@+id/hotel_carousel_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+                android:orientation="vertical" >
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/crazy_glue_hotels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="Because you booked a flight, save on select hotels in Las Vegas"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"/>
+                <com.expedia.bookings.widget.HotelCarouselRecycler
+                    android:id="@+id/test_hotel_carousel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

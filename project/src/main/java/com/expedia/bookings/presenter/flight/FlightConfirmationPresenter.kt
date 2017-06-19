@@ -7,26 +7,24 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.CrazyGlueResponse
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.navigation.NavUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.ConfirmationRowCardView
-import com.expedia.bookings.widget.ConfirmationSummaryCardView
-import com.expedia.bookings.widget.HotelCrossSellView
-import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.ConfirmationToolbar
+import com.expedia.bookings.widget.*
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.updateVisibility
 import com.expedia.vm.ConfirmationToolbarViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import rx.subjects.PublishSubject
 
 class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -44,6 +42,13 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     val toolbar: ConfirmationToolbar by bindView(R.id.confirmation_toolbar)
     val tripProtectionLabel: TextView by bindView(R.id.trip_protection)
     val tripProtectionDivider: View by bindView(R.id.trip_protection_divider)
+
+    val testGallery: HotelCarouselRecycler by lazy {
+        val view = findViewById(R.id.test_hotel_carousel) as HotelCarouselRecycler
+        view.adapter = HotelKrazyGlueCarouselAdapter(CrazyGlueResponse().getTheseHotels(), PublishSubject.create<Hotel>())
+        (view.adapter as HotelKrazyGlueCarouselAdapter).setLob(LineOfBusiness.FLIGHTS_V2)
+        view
+    }
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumContentDescriptionObservable.subscribeContentDescription(itinNumber)
@@ -69,6 +74,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
         confirmationContainer.setPadding(0, Ui.getStatusBarHeight(context), 0, 0)
         tripBookedMessage.setText(R.string.trip_is_booked)
+        testGallery.visibility = View.VISIBLE
     }
 
     override fun back(): Boolean {

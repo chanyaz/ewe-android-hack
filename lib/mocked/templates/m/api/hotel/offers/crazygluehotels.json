@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "destinationName": "Las Vegas (and vicinity)",
+  "xsellHotels": [
+    {
+      "hotelId": "15237",
+      "hotelName": "Luxor Hotel and Casino",
+      "starRating": "3.5",
+      "guestRating": "3.6",
+      "standAlonePrice": "$107",
+      "airAttachedPrice": "$61",
+      "hotelImage": "https://images.trvl-media.com//hotels/1000000/20000/15300/15237/15237_227_l.jpg"
+    },
+    {
+      "hotelId": "58201",
+      "hotelName": "Monte Carlo Resort and Casino",
+      "starRating": "4.0",
+      "guestRating": "3.7",
+      "standAlonePrice": "$141",
+      "airAttachedPrice": "$82",
+      "hotelImage": "https://images.trvl-media.com//hotels/1000000/60000/58300/58201/58201_244_l.jpg"
+    },
+    {
+      "hotelId": "41308",
+      "hotelName": "Excalibur Hotel Casino",
+      "starRating": "3.0",
+      "guestRating": "3.6",
+      "standAlonePrice": "$70",
+      "airAttachedPrice": "$42",
+      "hotelImage": "https://images.trvl-media.com//hotels/1000000/50000/41400/41308/41308_135_l.jpg"
+    }
+  ]
+}

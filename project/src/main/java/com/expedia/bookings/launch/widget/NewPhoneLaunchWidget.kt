@@ -20,13 +20,14 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.ActivityTransitionUtil
-import com.expedia.bookings.data.HotelSearchParams
-import com.expedia.bookings.data.HotelSearchResponse
-import com.expedia.bookings.data.Property
+import android.widget.LinearLayout
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.user.User
+import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
@@ -42,6 +43,7 @@ import com.expedia.bookings.utils.navigation.HotelNavUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.updateVisibility
+import com.expedia.bookings.widget.*
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import org.joda.time.DateTime
@@ -50,7 +52,8 @@ import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
-import java.util.Locale
+import rx.subjects.PublishSubject
+import java.util.*
 import javax.inject.Inject
 
 class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -119,6 +122,13 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     val darkView: View by bindView(R.id.darkness)
 
+    val testGallery: HotelCarouselRecycler by lazy {
+        val view = findViewById(R.id.test_hotel_carousel) as HotelCarouselRecycler
+        view.adapter = HotelKrazyGlueCarouselAdapter(emptyList(), PublishSubject.create<Hotel>())
+        (view.adapter as HotelKrazyGlueCarouselAdapter).setLob(LineOfBusiness.FLIGHTS_V2)
+        view
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).defaultLaunchComponents()
@@ -165,6 +175,13 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         adjustLobViewHeight()
 
         hasInternetConnection.subscribe { isOnline ->
+            if (UserStateManager(context).isUserAuthenticated() && testGallery.adapter.itemCount > 1) {
+                testGallery.visibility = View.VISIBLE
+                findViewById(R.id.crazy_glue_hotels).visibility = View.VISIBLE
+            } else {
+                findViewById(R.id.crazy_glue_hotels).visibility = View.GONE
+                testGallery.visibility = View.GONE
+            }
             launchListWidget.onHasInternetConnectionChange(isOnline)
             if (!isOnline) {
                 launchListWidget.scrollToPosition(0)
@@ -416,6 +433,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 if (nearbyHotelResponse.size > 0) {
                     wasHotelsDownloadEmpty = false
                     Events.post(Events.LaunchHotelSearchResponse(nearbyHotelResponse))
+                    val hotels = CrazyGlueResponse().getTheseHotels()
+                    (testGallery.adapter as HotelKrazyGlueCarouselAdapter).setItems(hotels)
+//                    val container = findViewById(R.id.crazy_glue_container)
                 } else {
                     wasHotelsDownloadEmpty = true
                     locationNotAvailable.onNext(Unit)

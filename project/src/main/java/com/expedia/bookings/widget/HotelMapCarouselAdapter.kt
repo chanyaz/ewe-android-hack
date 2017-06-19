@@ -29,7 +29,7 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
-class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
@@ -81,7 +81,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         super.onViewRecycled(holder)
     }
 
-    inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
+    open inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val resources: Resources by lazy {
             itemView.resources
