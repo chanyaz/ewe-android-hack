@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="2">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/curr_dollar_symbol"
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:src="@drawable/ic_monetization_on_black_24dp"
+            />
+
+        <ImageView
+            android:id="@+id/conversion_symbol"
+            android:layout_height="match_parent"
+            android:layout_weight=".8"
+            android:src="@drawable/ic_swap_horiz_black_24dp"
+             />
+
+        <ImageView
+            android:id="@+id/curr_bhat_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:src="@drawable/euro_symbol_black_24x24"
+            />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/currency-con-box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_currency_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/clear_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="12dp"
+                android:paddingBottom="7dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:src="@drawable/widget_close" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
