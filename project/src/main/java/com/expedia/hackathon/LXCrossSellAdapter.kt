@@ -19,13 +19,13 @@ class LXCrossSellAdapter(private val lxList: List<LXActivity>) : RecyclerView.Ad
         var imageView: ImageView
         var name: TextView
         var price: TextView
-        var time: TextView
+//        var time: TextView
 
         init {
             imageView = view.findViewById(R.id.image_view) as ImageView
             name = view.findViewById(R.id.name) as TextView
             price = view.findViewById(R.id.price) as TextView
-            time = view.findViewById(R.id.time) as TextView
+//            time = view.findViewById(R.id.time) as TextView
         }
     }
 
@@ -39,8 +39,9 @@ class LXCrossSellAdapter(private val lxList: List<LXActivity>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val activity = lxList[position]
 
-        LXDataUtils.bindOriginalPrice(holder.view.context, activity.originalPrice, holder.price)
-        LXDataUtils.bindDuration(holder.view.context, activity.duration, activity.isMultiDuration, holder.time)
+        holder.name.text = activity.title
+        LXDataUtils.bindOriginalPrice(holder.view.context, activity.price, holder.price)
+//        LXDataUtils.bindDuration(holder.view.context, activity.duration, activity.isMultiDuration, holder.time)
 
         val imageURLs = Images
                 .getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(holder.view.context).x)

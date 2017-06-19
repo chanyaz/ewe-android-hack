@@ -63,13 +63,15 @@ class HackActivity : AppCompatActivity() {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(14))
                 .build() as LxSearchParams
+
+        Ui.getApplication(this).defaultLXComponents()
+
         Ui.getApplication(this).lxComponent().lxService.lxCategorySearch(params, object: Observer<LXSearchResponse> {
             override fun onError(e: Throwable?) {
 
             }
 
             override fun onCompleted() {
-
             }
 
             override fun onNext(t: LXSearchResponse?) {
