@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout style="@style/MaterialCardView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/flight_trip_view"
+    style="@style/MaterialCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
+    android:paddingBottom="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:paddingTop="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,18 +54,17 @@
             android:id="@+id/plane_image_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/airline_logo"
             android:layout_weight=".05"
-            />
+            android:src="@drawable/airline_logo" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight=".85"
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_weight=".85">
+            android:paddingRight="10dp">
 
 
             <com.expedia.bookings.widget.TextView
@@ -99,6 +98,5 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
