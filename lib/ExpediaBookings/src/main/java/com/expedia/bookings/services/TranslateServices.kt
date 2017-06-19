@@ -23,7 +23,7 @@ class TranslateServices(private val observeOn: Scheduler, private val subscribeO
     }
 
     fun translate(text: String, observer: Observer<TranslateResponse>): Subscription {
-        val subscription = translateApi.translate("trnsl.1.1.20170619T150017Z.10e58c69a0144f48.1c098464a0ddd365223e56921afaeaec35835cca", text, "en-th")
+        val subscription = translateApi.translate("trnsl.1.1.20170619T150017Z.10e58c69a0144f48.1c098464a0ddd365223e56921afaeaec35835cca", text, "en-fr")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
