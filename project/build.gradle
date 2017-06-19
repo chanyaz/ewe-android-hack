@@ -76,6 +76,8 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.16.1'
 
+    compile 'com.google.firebase:firebase-database:10.0.1'
+
     compile ('com.tune:tune-marketing-console-sdk:4.10.1') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
@@ -594,3 +596,5 @@ def sharedDataFilesToRemove(variant) {
     filesToRemove.add('ExpediaSharedData/validate.sh')
     return filesToRemove
 }
+
+apply plugin: 'com.google.gms.google-services'
