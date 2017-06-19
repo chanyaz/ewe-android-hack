@@ -29,8 +29,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
-import rx.subjects.PublishSubject
+import rx.subjects.BehaviorSubject
 import javax.inject.Inject
+import com.mobiata.android.Log
 import kotlin.properties.Delegates
 
 class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
@@ -49,7 +50,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
 
-    private val onCouponSubmitClicked = PublishSubject.create<Unit>()
+    val onCouponSubmitClicked = BehaviorSubject.create<Unit>()
 
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.errorMessageObservable.subscribeText(error)
@@ -176,6 +177,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     }
 
     private fun submitCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse) {
+        Log.e("**************HAHAHAHAHAHAHAHA")
         var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
         //Send 'User Preference Points' only in case Trip is Redeemable
         if (userStateManager.isUserAuthenticated() && tripResponse.isRewardsRedeemable()) {
