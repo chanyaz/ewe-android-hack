@@ -22,6 +22,7 @@ import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
+import com.expedia.bookings.services.TranslateServices;
 import com.expedia.bookings.services.sos.SmartOfferService;
 import com.expedia.bookings.tracking.AppStartupTimeLogger;
 import com.expedia.bookings.utils.ClientLogConstants;
