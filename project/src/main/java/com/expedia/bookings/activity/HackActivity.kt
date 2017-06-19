@@ -11,6 +11,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.expedia.bookings.R
+import com.expedia.bookings.data.cars.CarSearch
+import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.services.LxServices
@@ -21,6 +23,7 @@ import org.joda.time.LocalDate
 import java.util.*
 import com.expedia.bookings.data.rail.responses.TranslateResponse
 import com.expedia.bookings.services.TranslateServices
+import com.expedia.hackathon.CarCrossSellAdapter
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.uber.sdk.android.core.UberSdk
 import com.uber.sdk.android.rides.RideRequestButton
@@ -32,6 +35,7 @@ import com.uber.sdk.android.rides.RideParameters
 import com.uber.sdk.core.auth.Scope
 import com.uber.sdk.rides.client.ServerTokenSession
 import com.uber.sdk.rides.client.SessionConfiguration
+import org.joda.time.DateTime
 import java.util.Arrays
 
 
@@ -127,6 +131,24 @@ class HackActivity : AppCompatActivity() {
 
             override fun onNext(t: LXSearchResponse?) {
                 lxCrossSell.adapter = LXCrossSellAdapter(t!!.activities)
+            }
+
+        })
+
+        val carCrossSell = findViewById(R.id.car_cross_sell) as RecyclerView
+
+        val carparams = CarSearchParam("SFO", DateTime.now().plusDays(5), DateTime.now().plusDays(6))
+        Ui.getApplication(this).defaultCarComponents()
+        Ui.getApplication(this).carComponent().carServices.carSearch(carparams, object: Observer<CarSearch> {
+            override fun onNext(t: CarSearch?) {
+                carCrossSell.adapter = CarCrossSellAdapter(t!!.categories)
+            }
+
+            override fun onError(e: Throwable?) {
+            }
+
+            override fun onCompleted() {
+
             }
 
         })

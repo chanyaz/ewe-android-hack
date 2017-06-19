@@ -6,7 +6,7 @@ import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.utils.Strings
 import org.joda.time.DateTime
 
-open class CarSearchParam(val originLocation: String?, val startDateTime: DateTime, val endDateTime: DateTime, val pickupLocationLatLng: LatLong?, val originDescription: String) :
+open class CarSearchParam(val originLocation: String?, val startDateTime: DateTime, val endDateTime: DateTime, val pickupLocationLatLng: LatLong? = null, val originDescription: String = "") :
         BaseSearchParams(origin = null, destination = null, adults = 0, children = emptyList(), startDate = startDateTime.toLocalDate(), endDate = endDateTime.toLocalDate()) {
 
     companion object {
