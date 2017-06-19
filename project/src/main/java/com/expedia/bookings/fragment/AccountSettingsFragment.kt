@@ -23,6 +23,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
+import com.expedia.bookings.activity.LuggageTagActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -67,6 +68,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val TAG_COPYRIGHT = "TAG_COPYRIGHT"
     private val TAG_COMMUNICATE = "TAG_COMMUNICATE"
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
+    private val TAG_SETTINGS = "TAG_SETTINGS"
     private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
     private val ROW_BOOKING_SUPPORT = 1
@@ -90,11 +92,14 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val INSTALL_SHORTCUTS = 15
     private val ROW_REWARDS_VISA_CARD = 16
 
+    private val ROW_LUGGAGE_TAG = 17
+
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)
     }
 
     private var appSettingsFragment: AboutSectionFragment? = null
+    private var settingsFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
     private var copyrightFragment: CopyrightFragment? = null
     private var legalFragment: AboutSectionFragment? = null
@@ -207,6 +212,19 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             appSettingsFragment = builder.build()
             ft.add(R.id.section_app_settings, appSettingsFragment, TAG_APP_SETTINGS)
+        }
+
+        //Settings
+        settingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_SETTINGS)
+        if (settingsFragment == null) {
+            builder = AboutSectionFragment.Builder(context)
+
+            builder.setTitle(R.string.about_section_settings)
+
+            builder.addRow(ROW_LUGGAGE_TAG, R.string.luggage_tag, Phrase.from(context, R.string.a11y_button_TEMPLATE).put("description", getString(R.string.luggage_tag)).format().toString())
+
+            settingsFragment = builder.build()
+            ft.add(R.id.section_luggage_tag, settingsFragment, TAG_SETTINGS)
         }
 
         // Support
@@ -637,6 +655,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             ROW_SETTINGS -> {
                 val intent = Intent(context, ExpediaBookingPreferenceActivity::class.java)
                 activity.startActivityForResult(intent, Constants.REQUEST_SETTINGS)
+                return true
+            }
+
+            ROW_LUGGAGE_TAG -> {
+                val intent = Intent(context, LuggageTagActivity::class.java)
+                activity.startActivity(intent)
                 return true
             }
 

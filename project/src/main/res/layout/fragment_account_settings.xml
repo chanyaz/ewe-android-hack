@@ -325,6 +325,12 @@
                 android:layout_margin="@dimen/about_section_margin" />
 
             <FrameLayout
+                android:id="@+id/section_luggage_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <FrameLayout
                 android:id="@+id/section_contact_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
