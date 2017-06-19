@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.LabeledCheckableFilter android:id="@+id/filter_categories_widget"
+<com.expedia.bookings.widget.ToDoList android:id="@+id/filter_categories_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/airlines_filter_height"
-    android:background="@color/white"
+    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:paddingBottom="@dimen/sort_filter_padding_small"
@@ -30,7 +30,6 @@
         android:focusable="false"
         android:maxLines="1"
         android:textColor="@color/hotel_filter_neighborhood_text"
-        android:text=""
         android:textSize="@dimen/package_sort_filter_label_text_size" />
 
     <com.expedia.bookings.widget.TextView
@@ -51,4 +50,4 @@
         android:textColor="@color/packages_filter_color"
         android:textSize="10sp" />
 
-</com.expedia.bookings.widget.LabeledCheckableFilter>
+</com.expedia.bookings.widget.ToDoList>
