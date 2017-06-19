@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Arrays;
 import java.util.Locale;
 
 import android.app.ActivityManager;
@@ -70,6 +71,9 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import com.uber.sdk.android.core.UberSdk;
+import com.uber.sdk.core.auth.Scope;
+import com.uber.sdk.rides.client.SessionConfiguration;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -141,6 +145,14 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			.appModule(new AppModule(this))
 			.build();
 		startupTimer.addSplit("Dagger AppModule created");
+
+		/*SessionConfiguration config = new SessionConfiguration.Builder().setClientId("03PqsgLaSnDv0oDa3QqNAHpOB-68qm_8")
+			.setServerToken("IObjvb1JZW9Jpp5cxQUPyohlFGkyV6NVTvFUsKRq")
+			.setScopes(Arrays.asList(Scope.RIDE_WIDGETS))
+			.setEnvironment(SessionConfiguration.Environment.SANDBOX)
+			.build();
+
+		UberSdk.initialize(config);*/
 
 		appStartupTimeLogger = mAppComponent.appStartupTimeLogger();
 		appStartupTimeLogger.setAppLaunchedTime(System.currentTimeMillis());
