@@ -5,6 +5,8 @@ import android.support.design.widget.AppBarLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.expedia.bookings.R
+import com.tomerrosenfeld.customanalogclockview.CustomAnalogClock
+import java.util.*
 
 class HackActivity : AppCompatActivity() {
 
@@ -15,12 +17,16 @@ class HackActivity : AppCompatActivity() {
 
         val appBarLayout = findViewById(R.id.main_appbar) as AppBarLayout
         appBarLayout.addOnOffsetChangedListener({ appBarLayout: AppBarLayout, offset: Int ->
-            if (Math.abs(offset) >= appBarLayout.getTotalScrollRange()) {
-                myToolbar.setNavigationIcon(R.drawable.ic_action_bar_brand_logo)
-            } else {
-                myToolbar.navigationIcon = null
-            }
+            val drawable = getDrawable(R.drawable.ic_action_bar_brand_logo)
+            drawable.alpha = Math.abs(offset * 255) / appBarLayout.totalScrollRange
+            myToolbar.navigationIcon = drawable
         })
+
+        val departureClock = findViewById(R.id.departure_clock) as CustomAnalogClock
+        departureClock.setTimezone(TimeZone.getTimeZone("Asia/Calcutta"))
+
+        val arrivalClock = findViewById(R.id.arrival_clock) as CustomAnalogClock
+        arrivalClock.setTimezone(TimeZone.getTimeZone("PST"))
     }
 
 }
