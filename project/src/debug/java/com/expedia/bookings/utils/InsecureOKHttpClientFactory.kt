@@ -27,22 +27,22 @@ open class InsecureOKHttpClientFactory(context: Context, cookieManager: Persiste
     override fun addInterceptors(client: OkHttpClient.Builder) {
         super.addInterceptors(client)
 
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-        client.addInterceptor(logger)
+//        val logger = HttpLoggingInterceptor()
+//        logger.level = HttpLoggingInterceptor.Level.BODY
+//        client.addInterceptor(logger)
 
-        if (!ExpediaBookingApp.isAutomation()) {
-            val chuckInterceptor = ChuckInterceptor(context)
-            chuckInterceptor.showNotification(SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false))
-            client.addInterceptor(chuckInterceptor)
-
-            //setupStetho()
-            client.networkInterceptors().add(StethoInterceptor())
-        }
-
-        if (ExpediaBookingApp.isInstrumentation()) {
-            client.addNetworkInterceptor(RequestInterceptor())
-        }
+//        if (!ExpediaBookingApp.isAutomation()) {
+//            val chuckInterceptor = ChuckInterceptor(context)
+//            chuckInterceptor.showNotification(SettingUtils.get(context, context.getString(R.string.preference_enable_chuck_notification), false))
+//            client.addInterceptor(chuckInterceptor)
+//
+//            //setupStetho()
+//            client.networkInterceptors().add(StethoInterceptor())
+//        }
+//
+//        if (ExpediaBookingApp.isInstrumentation()) {
+//            client.addNetworkInterceptor(RequestInterceptor())
+//        }
     }
 
     override fun setupSSLSocketFactoryAndConnectionSpec(client: OkHttpClient.Builder, sslContext: SSLContext) {

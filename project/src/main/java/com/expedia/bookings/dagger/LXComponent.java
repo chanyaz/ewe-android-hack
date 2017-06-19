@@ -8,6 +8,7 @@ import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
 import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.presenter.lx.LXResultsPresenter;
 import com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
@@ -39,4 +40,5 @@ public interface LXComponent {
 
 	Observable<SuggestionV4> currentLocationSuggestionObservable();
 	SuggestionV4Services suggestionsService();
+	LxServices getLXService();
 }

@@ -357,15 +357,11 @@ public class LXDataUtils {
 
 	public static void bindOriginalPrice(Context context, Money originalPrice, TextView activityOriginalPrice) {
 		if (originalPrice.getAmount().equals(BigDecimal.ZERO)) {
-			activityOriginalPrice.setVisibility(View.GONE);
+			activityOriginalPrice.setText("Free");
 		}
 		else {
-			activityOriginalPrice.setVisibility(View.VISIBLE);
 			String formattedOriginalPrice = originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP);
-			activityOriginalPrice.setText(HtmlCompat.fromHtml(
-				context.getString(R.string.strike_template, formattedOriginalPrice),
-				null,
-				new StrikethroughTagHandler()));
+			activityOriginalPrice.setText(formattedOriginalPrice);
 		}
 	}
 
