@@ -1,8 +1,11 @@
 package com.expedia.bookings.fragment
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,13 +50,22 @@ class LuggageScanFoundSmartTagFragment: Fragment() {
         mAddTagToAccount?.setOnClickListener {
             val fragment = AddTagToAccountFragment()
             val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, fragment).commit()
+            transaction.replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
+
+            val toolbar = activity.findViewById(R.id.toolbar) as Toolbar
+            toolbar.title = resources.getString(R.string.add_a_tag_to_my_account_button)
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         }
-
-
         return view
     }
 
+    fun onBackPressed() {
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+        } else {
+            activity.onBackPressed()
+        }
+    }  
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == BARCODE_CAPTURE_REQUEST) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
@@ -67,7 +79,6 @@ class LuggageScanFoundSmartTagFragment: Fragment() {
                 }
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+            super.onActivityResult(requestCode, resultCode, data)        
     }
 }
