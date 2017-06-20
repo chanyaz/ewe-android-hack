@@ -466,6 +466,7 @@ public class PackageScreen {
 		HotelScreen.selectFirstRoom();
 
 		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 
 		PackageScreen.selectFlight(0);

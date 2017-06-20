@@ -67,6 +67,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		PackageScreen.outboundFlight().perform(click());
 		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 		Common.pressBack();
 		checkBundleTotalWidgetContentDescription("$4,211.90", "$540.62", false);
@@ -75,6 +76,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		PackageScreen.inboundFLight().perform(click());
 		onView(withId(R.id.bundle_price_widget)).perform(click());
 		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "Jul 10 at 9:00 am", "(DTW) Detroit", false, false);
+		Common.delay(1);
 		PackageScreen.inboundFLight().perform(click());
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());

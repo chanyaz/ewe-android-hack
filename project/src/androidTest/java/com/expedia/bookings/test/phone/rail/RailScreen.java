@@ -9,6 +9,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.CalendarPickerActions;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -196,7 +197,9 @@ public class RailScreen {
 		checkoutButton().perform(click());
 
 		clickTravelerCard();
+		Common.delay(1);
 		fillInTraveler();
+		Common.delay(1);
 		onView(withId(R.id.rail_traveler_card_view)).check(matches(isDisplayed()));
 
 		CheckoutViewModel.waitForPaymentInfoDisplayed();
