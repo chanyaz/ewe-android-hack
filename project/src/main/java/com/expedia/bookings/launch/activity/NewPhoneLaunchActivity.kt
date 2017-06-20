@@ -50,7 +50,6 @@ import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.FireBaseRewardsUtil
 import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.saveUserAndReferIds
-import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.shareRewards
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
@@ -319,7 +318,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                             itinPageUsablePerformanceModel.markSuccessfulStartTime(System.currentTimeMillis())
                         }
                         gotoItineraries()
-                        shareRewards(this@NewPhoneLaunchActivity, Db.getUser().username)
                     }
                     PAGER_POS_ACCOUNT -> {
                         pagerPosition = PAGER_POS_ACCOUNT

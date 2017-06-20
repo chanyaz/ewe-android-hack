@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.expedia.bookings.activity.ReferActivity">
 
-    <ImageView
+    <ImageButton
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:id="@+id/close"
         android:src="@drawable/sg_beach"
         android:tint="#6800355f"/>
 
@@ -34,8 +35,8 @@
             android:paddingTop="48dp"
             app:srcCompat="@drawable/gift" />
 
-        <EditText
-            android:id="@+id/editText1"
+        <TextView
+            android:id="@+id/TextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -46,8 +47,8 @@
             android:textSize="24dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText2"
+        <TextView
+            android:id="@+id/TextView2"
             android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,19 +71,19 @@
             android:text="Share your link"
             android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/editText3"
+        <TextView
+            android:id="@+id/number_of_available_coupons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="center"
-            android:text="[5]"
+            android:text="[0]"
             android:textColor="@color/white"
             android:textSize="35dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText4"
+        <TextView
+            android:id="@+id/TextView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -93,20 +94,20 @@
             android:textSize="18dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText5"
+        <TextView
+            android:id="@+id/TextView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:text="[30]"
+            android:text="[0]"
             android:gravity="center"
             android:textColor="@color/white"
             android:paddingTop="24dp"
             android:textSize="35dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editText6"
+        <TextView
+            android:id="@+id/TextView6"
             android:layout_width="285dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -119,8 +120,8 @@
 
     </LinearLayout>
 
-        <EditText
-            android:id="@+id/editText7"
+        <TextView
+            android:id="@+id/TextView7"
             android:layout_width="285dp"
             android:layout_height="wrap_content"
             android:text="Legal jargon"
