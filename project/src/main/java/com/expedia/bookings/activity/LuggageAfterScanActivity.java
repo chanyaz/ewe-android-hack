@@ -9,14 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.fragment.LuggageScanFoundSmartTagFragment;
+import com.expedia.bookings.fragment.LuggageAfterScanFragment;
 
-public class LuggageTagActivity extends AppCompatActivity {
-	private LuggageScanFoundSmartTagFragment mScanFoundSmartTag;
+public class LuggageAfterScanActivity extends AppCompatActivity {
 
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, LuggageTagActivity.class);
-		return intent;
+		return new Intent(context, LuggageAfterScanActivity.class);
 	}
 
 	@Override
@@ -25,12 +23,12 @@ public class LuggageTagActivity extends AppCompatActivity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.fragment_container_with_toolbar);
 
-		mScanFoundSmartTag = new LuggageScanFoundSmartTagFragment();
+		LuggageAfterScanFragment luggageAfterScanFragment = new LuggageAfterScanFragment();
 
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mScanFoundSmartTag).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, luggageAfterScanFragment).commit();
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setTitle(getResources().getString(R.string.luggage_tag));
+		toolbar.setTitle(getResources().getString(R.string.luggage_tag_scanned));
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
