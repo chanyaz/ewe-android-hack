@@ -13,16 +13,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.CarSearch
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LxSearchParams
-import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.hackathon.LXCrossSellAdapter
 import com.tomerrosenfeld.customanalogclockview.CustomAnalogClock
@@ -44,6 +41,7 @@ import com.uber.sdk.rides.client.ServerTokenSession
 import com.uber.sdk.rides.client.SessionConfiguration
 import org.joda.time.DateTime
 import java.util.Arrays
+import kotlin.properties.Delegates
 
 
 class HackActivity : AppCompatActivity() {
@@ -56,6 +54,7 @@ class HackActivity : AppCompatActivity() {
     val translateServices: TranslateServices = TranslateServices(AndroidSchedulers.mainThread(), Schedulers.io())
     var config: SessionConfiguration? = null
     var button: FloatingActionButton? = null
+    var menuItem: MenuItem by Delegates.notNull()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (menu is MenuBuilder) {
@@ -132,6 +131,16 @@ class HackActivity : AppCompatActivity() {
             myToolbar.navigationIcon = drawable
         })
 
+        myToolbar.inflateMenu(R.menu.hack_toolbar_menu)
+        menuItem = myToolbar.menu.findItem(R.id.menu_search)
+        menuItem.setOnMenuItemClickListener {
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+            sendIntent.type = "text/plain"
+            startActivity(sendIntent)
+            true
+        }
         setupMyViews()
     }
     private fun setupMyViews() {
