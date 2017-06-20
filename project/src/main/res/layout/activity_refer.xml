@@ -110,7 +110,7 @@
             android:layout_width="285dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:text="coupons used"
+            android:text="friends referred"
             android:gravity="center"
             android:textColor="@color/white"
             android:paddingTop="8dp"
