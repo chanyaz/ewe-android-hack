@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
@@ -34,6 +35,7 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.TextViewDialog
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.server.TravelerProfile
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AboutUtils
@@ -163,6 +165,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         alertDialog.setPositiveButton(R.string.ok, { dialog, which -> dialog.dismiss() })
         alertDialog.create()
     }
+
+    private lateinit var travelerProfile : TravelerProfile
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -449,6 +453,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             val user = Db.getUser()
             val member = user.primaryTraveler
+            travelerProfile = TravelerProfile(user.expediaUserId)
 
             memberNameView.text = member.fullName
             memberEmailView.text = member.email
@@ -484,8 +489,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                 }
 
                 memberTierView.setOnClickListener {
-                    val viewGroup = activity.findViewById(R.id.account_layout_fetti) as ViewGroup
-
+                    //activity.findViewById(R.id.account_layout_fetti) as ViewGroup
                     //TODO Make it rain in here
 
                     //CommonConfetti.rainingConfetti(viewGroup, intArrayOf(Color.MAGENTA, Color.GREEN, Color.BLUE, Color.RED)).confettiManager.setNumInitialCount(50).setEmissionDuration(0).animate()
@@ -554,6 +558,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             createAccountButton.text = Phrase.from(context, R.string.acct__Create_a_new_brand_account).put("brand", BuildConfig.brand).format()
         }
+        val viewGroup = activity.findViewById(R.id.account_layout_fetti) as ViewGroup
+        CommonConfetti.explosion(viewGroup, viewGroup.width - memberTierView.width, memberTierView.height, intArrayOf(Color.parseColor("#FFC300"), Color.parseColor("#668193"), Color.parseColor("#085BA5"))).oneShot()
     }
 
     private fun setupCountryView(countryView: View) {
