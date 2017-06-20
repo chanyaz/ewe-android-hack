@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "789950496875",
+    "firebase_url": "https://my-awesome-project-60778.firebaseio.com",
+    "project_id": "my-awesome-project-60778",
+    "storage_bucket": "my-awesome-project-60778.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789950496875:android:7737f2d8f3188ef7",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.fcm.expedia.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789950496875-d9tm1m8rtm2ftfhmpfppavus79e5bcge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4I0ly-6ps-oPaLqMW_ZXp7AjQ-1ljYfY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789950496875:android:3b05c35184eba178",
+        "android_client_info": {
+          "package_name": "com.expedia.bookings.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789950496875-d9tm1m8rtm2ftfhmpfppavus79e5bcge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4I0ly-6ps-oPaLqMW_ZXp7AjQ-1ljYfY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

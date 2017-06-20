@@ -31,16 +31,11 @@ dependencies {
     compile project(':lib:AndroidTime')
     debugCompile project(':lib:bug-reporter:bugshaker')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
-    compile (project(':lib:ExpediaBookings')) {
+    compile(project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
-    compile 'com.expedia:svg-android:1.0.0'
-    compile 'com.expedia:android-account-lib:1.1.20'
-    compile 'com.mobiata:android-utils:1.2.2'
-    compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
-    compile 'com.google.maps.android:android-maps-utils:0.4.3'
 
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
@@ -61,33 +56,23 @@ dependencies {
     compile "com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}"
     compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
     compile "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
-    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
-    compile 'com.squareup.okio:okio:1.11.0'
-    compile 'com.squareup:otto:1.3.8'
-    compile 'com.squareup.phrase:phrase:1.1.0'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.jakewharton:butterknife:6.1.0'
-    compile 'io.reactivex:rxandroid:1.2.1'
     compile "io.reactivex:rxjava:${rxjava_version}"
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.16.1'
 
-    compile ('com.tune:tune-marketing-console-sdk:4.10.1') {
+
+    compile('com.tune:tune-marketing-console-sdk:4.10.1') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    compile ('com.wefika:flowlayout:0.4.0') {
+    compile('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
     }
 
     // Dagger 2.6.1
-    compile 'com.google.dagger:dagger:2.6.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.6.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    compile ('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true
     }
 
@@ -99,7 +84,7 @@ dependencies {
     // junit is only for mockwebserver
     debugCompile "com.squareup.okhttp3:mockwebserver:${okhttp_version}"
     debugCompile 'junit:junit:4.12'
-    debugCompile (project(':lib:mocked:mocke3')) {
+    debugCompile(project(':lib:mocked:mocke3')) {
         transitive = false
     }
 
@@ -107,8 +92,8 @@ dependencies {
     debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
     debugCompile "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 
-    def chuckVersion='1.0.4'
-    debugCompile ("com.readystatesoftware.chuck:library:${chuckVersion}"){
+    def chuckVersion = '1.0.4'
+    debugCompile("com.readystatesoftware.chuck:library:${chuckVersion}") {
         exclude group: 'com.android.support'
     }
     debugCompile "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
@@ -120,22 +105,23 @@ dependencies {
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
     testCompile "org.robolectric:shadows-support-v4:${roboVersion}"
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
-    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1' // required to fill robolectric gap: https://github.com/robolectric/robolectric/issues/1932
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+    // required to fill robolectric gap: https://github.com/robolectric/robolectric/issues/1932
 
     def espressoVersion = '2.2.2'
-    androidTestCompile ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoVersion}") {
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
-    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:${espressoVersion}"){
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:${espressoVersion}") {
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
     }
 
-    androidTestCompile ('com.android.support.test:rules:0.5') {
+    androidTestCompile('com.android.support.test:rules:0.5') {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
+    androidTestCompile("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
         exclude group: 'com.android.support'
     }
 
@@ -149,7 +135,32 @@ dependencies {
     androidTestCompile "tools.fastlane:screengrab:0.5.5"
     androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestCompile 'com.linkedin.testbutler:test-butler-library:1.2.0'
+    compile 'com.expedia:svg-android:1.0.0'
+    compile 'com.expedia:android-account-lib:1.1.20'
+    compile 'com.mobiata:android-utils:1.2.2'
+    compile 'com.dgmltn:share-everywhere:1.0.1'
+    compile 'com.google.maps.android:android-maps-utils:0.4.3'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.squareup:otto:1.3.8'
+    compile 'com.squareup.phrase:phrase:1.1.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.16.1'
+
+    compile 'com.google.firebase:firebase-messaging:11.0.1'
+    compile 'com.firebase:firebase-jobdispatcher:0.6.0'
+
+    compile 'com.google.dagger:dagger:2.6.1'
+    compile 'com.google.android.gms:play-services-ads:11.0.1'
+    compile 'com.google.android.gms:play-services-auth:11.0.1'
+    compile 'com.google.android.gms:play-services-gcm:11.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -208,7 +219,7 @@ android {
         targetSdkVersion 25
 
         multiDexEnabled = true
-        testApplicationId "com.expedia.bookings.test"
+        testApplicationId "com.google.firebase.quickstart.fcm.expedia.test"
 
         def testRunnerPackage = "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
 
@@ -218,10 +229,10 @@ android {
         }
 
         testInstrumentationRunner testRunnerPackage
-        manifestPlaceholders = [instrumentationRunnerPath : testRunnerPackage]
+        manifestPlaceholders = [instrumentationRunnerPath: testRunnerPackage]
 
-        buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
-        buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
+        buildConfigField "String", "GIT_REVISION", "\"${gitRev}\""
+        buildConfigField "String", "BUILD_NUMBER", "\"${System.env.BUILD_NUMBER}\""
         buildConfigField "boolean", "IS_SCREENSHOT_BUILD", project.hasProperty("SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
         buildConfigField "boolean", "ITIN_SCREENSHOT_BUILD", project.hasProperty("ITIN_SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
     }
@@ -343,7 +354,7 @@ android {
         debug {
             testCoverageEnabled = GradleUtil.shouldEnableTestCoverage(project)
 
-            applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+            applicationIdSuffix("." + GradleUtil.getBuildIdentifier(project))
 
             minifyEnabled shouldRunProguard
             proguardFile file('proguard.cfg')
@@ -359,7 +370,7 @@ android {
 
         release {
             if (GradleUtil.isUsabilityBuild(project)) {
-                applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
+                applicationIdSuffix("." + GradleUtil.getBuildIdentifier(project))
             }
 
             minifyEnabled true
@@ -404,9 +415,9 @@ android {
         include '**/*.java'
 
         // These files are from outside our project
-        exclude (
-            '**/CustomEditText.java',
-            '**/SocketActivityHierarchyServer.java',
+        exclude(
+                '**/CustomEditText.java',
+                '**/SocketActivityHierarchyServer.java',
         )
 
         classpath = files()
@@ -442,7 +453,8 @@ public class GradleUtil {
         return shouldEnableOnJenkinsOrIfManuallyEnabled(project, "enableTestCoverage")
     }
 
-    private static def shouldEnableOnJenkinsOrIfManuallyEnabled(Project project, String manualEnableKey) {
+    private static
+    def shouldEnableOnJenkinsOrIfManuallyEnabled(Project project, String manualEnableKey) {
         def buildNumber = "${System.env.BUILD_NUMBER}"
         def ci = "${System.env.CI}"
         def boolean shouldEnable = false
@@ -529,9 +541,9 @@ public class GradleUtil {
 }
 
 def releaseAccountTokens = [
-    'com.expedia.bookings' : 'expedia.tuid',
-    'com.expedia.bookings.vsc' : 'vsc.tuid',
-    'com.travelocity.android' : 'travelocity.tuid',
+        'com.expedia.bookings'    : 'expedia.tuid',
+        'com.expedia.bookings.vsc': 'vsc.tuid',
+        'com.travelocity.android' : 'travelocity.tuid',
 ]
 
 android.applicationVariants.all { variant ->
@@ -568,12 +580,10 @@ def sharedDataFilesToRemove(variant) {
             if (flavor.name == 'travelocity') {
                 filesToRemove.add('ExpediaSharedData/TravelocityPointOfSaleConfig.json')
                 filesToRemove.add('ExpediaSharedData/TVLYServerURLs.json')
-            }
-            else if (flavor.name == 'voyages') {
+            } else if (flavor.name == 'voyages') {
                 filesToRemove.add('ExpediaSharedData/VSCPointOfSaleConfig.json')
                 filesToRemove.add('ExpediaSharedData/VSCServerURLs.json')
-            }
-            else {
+            } else {
                 filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('PointOfSaleConfig.json'))
                 filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('ServerURLs.json'))
             }

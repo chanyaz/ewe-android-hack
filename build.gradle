@@ -18,6 +18,8 @@ buildscript {
         }
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
         classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.9.0"
+        classpath 'com.google.gms:google-services:3.1.0'
+
     }
 }
 
@@ -38,7 +40,7 @@ apply plugin: 'com.github.ben-manes.versions'
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
 ext.supportLibVersion = "25.3.1"
-ext.googlePlayServicesVersion = "10.0.1"
+ext.googlePlayServicesVersion = "11.0.1"
 
 ext.compileSdkVersion = 25
 ext.buildToolsVersion = "25.0.3"

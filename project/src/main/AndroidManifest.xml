@@ -35,16 +35,17 @@
 
     <!-- For Push Notifications (GCM) -->
 
-    <permission
-        android:name="${applicationId}.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+    <!--<permission-->
+        <!--android:name="${applicationId}.permission.C2D_MESSAGE"-->
+        <!--android:protectionLevel="signature" />-->
 
-    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+    <!--<uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />-->
 
-    <!-- App receives GCM messages. -->
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!--&lt;!&ndash; App receives GCM messages. &ndash;&gt;-->
+    <!--<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
     <!-- Keeps the processor from sleeping when a message is received. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
     <application
         android:name="com.expedia.bookings.activity.ExpediaBookingApp"
@@ -325,27 +326,27 @@
 
         <!-- Notifications -->
 
-        <receiver
-            android:name="com.expedia.bookings.notification.NotificationReceiver"
-            android:exported="false" />
+        <!--<receiver-->
+            <!--android:name="com.expedia.bookings.notification.NotificationReceiver"-->
+            <!--android:exported="false" />-->
 
-        <!-- Push Notifications -->
+         <!--&lt;!&ndash;Push Notifications&ndash;&gt;-->
 
-        <service android:name="com.expedia.bookings.notification.GCMIntentService" />
+        <!--<service android:name="com.expedia.bookings.notification.GCMIntentService" />-->
 
-        <receiver
-            android:name="com.expedia.bookings.notification.GCMReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
+        <!--<receiver-->
+            <!--android:name="com.expedia.bookings.notification.GCMReceiver"-->
+            <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+            <!--<intent-filter>-->
 
-                <!-- Receives the actual messages. -->
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <!-- Receives the registration id. -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <!--&lt;!&ndash; Receives the actual messages. &ndash;&gt;-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
+                <!--&lt;!&ndash; Receives the registration id. &ndash;&gt;-->
+                <!--<action android:name="com.google.android.c2dm.intent.REGISTRATION" />-->
 
-                <category android:name="${applicationId}" />
-            </intent-filter>
-        </receiver>
+                <!--<category android:name="${applicationId}" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <!-- Search autocomplete components -->
 
@@ -385,6 +386,23 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
+
+        <!-- [START firebase_service] -->
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
+        <!-- [START firebase_iid_service] -->
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_iid_service] -->
+
+        <service android:name=".GeofenceTransitionsIntentService" />
 
         <!-- Account Manager -->
 

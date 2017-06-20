@@ -4566,5 +4566,57 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">Enter a number from {min_value} to {max_value}.</string>
     <string name="title_seek_bar_edit">Edit seek control level</string>
     <string name="value_seek_bar_dialog_percent">%</string>
+    <string name="expanded">I\'m the expanded notification.\nCollapse me!</string>
+    <string name="collapsed">I\'m the collapsed notification.\nCreated at: %s</string>
+    <string name="show_notification">Show Notification</string>
+    <string name="custom_notification">I\'m a custom notification.</string>
+    <string name="intro_text">This sample demonstrates how a notification is created using the
+        <b>NotificationCompatBuilder</b>
+        with a custom content view. The layout of the notification is defined as a
+        layout resource and inflated as a <b>RemoteViews</b> object.
+        \n\nOn API level 16 and above, a different layout is inflated and set as
+        the <i>big content view</i>, which is used when the notification is expanded.
+        \n\n<b>Use the button below to create the notification.
+        \n\nIf your device is running Jelly Bean or above, try expanding or collapsing
+        the notification to see the different layouts.</b>
+    </string>
+    <string name="collapsed_image">A single Android robot waving. Symbolises a collapsed
+        notification.
+    </string>
+    <string name="expanded_image">Two Androids on top of each other. Symbolises an expanded
+        notification.
+    </string>
 
+    <string name="add_geofences">Add geofences</string>
+    <string name="remove_geofences">Remove geofences</string>
+
+    <string name="geofences_added">Geofences added</string>
+    <string name="geofences_removed">Geofences removed</string>
+
+    <!-- Error strings -->
+    <string name="geofence_not_available">Geofence service is not available now</string>
+    <string name="geofence_too_many_geofences">Your app has registered too many geofences</string>
+    <string name="geofence_too_many_pending_intents">
+        You have provided too many PendingIntents to the addGeofences() call
+    </string>
+    <string name="unknown_geofence_error">
+        Unknown error: the Geofence service is not available now
+    </string>
+    <string name="geofence_transition_invalid_type">
+        Geofence transition error: invalid transition type %1$d
+    </string>
+
+    <!-- Transition type strings -->
+    <string name="geofence_transition_entered">Entered</string>
+    <string name="geofence_transition_exited">Exited</string>
+    <string name="unknown_geofence_transition">Unknown Transition</string>
+
+    <string name="geofence_transition_notification_text">
+        Click notification to return to app
+    </string>
+
+    <string name="insufficient_permissions">Insufficient permissions.</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
 </resources>

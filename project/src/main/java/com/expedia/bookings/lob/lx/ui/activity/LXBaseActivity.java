@@ -79,8 +79,13 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
 			// If no permission on LX, we should go to the search screen instead of results
-			Events.post(new Events.LXNewSearch(null, LocalDate.now(),
-				LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range))));
+//			Events.post(new Events.LXNewSearch(null, LocalDate.now(),
+//				LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range))));
+
+			Events.LXNewSearch event = new Events.LXNewSearch("London, Uk", LocalDate.now(),
+				LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)));
+			updateSearchViewModel(event);
+			Events.post(event);
 			return;
 		}
 

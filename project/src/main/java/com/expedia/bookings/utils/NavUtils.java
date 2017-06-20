@@ -383,6 +383,7 @@ public class NavUtils {
 
 		if (flags == FLAG_DEEPLINK) {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			// If we don't have filters, open search box.
 			if (Strings.isNotEmpty(searchParams.getActivityId())) {
 				intent.putExtra("activityId", searchParams.getActivityId());
