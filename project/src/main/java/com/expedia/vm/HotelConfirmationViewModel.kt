@@ -11,7 +11,6 @@ import com.expedia.bookings.data.HotelItinDetailsResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -23,10 +22,12 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
+import com.expedia.bookings.tracking.InstallReceiver.REWARDS_USER_NAME
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.FireBaseRewardsUtil
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.NumberUtils
@@ -141,6 +142,12 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                 ItineraryManager.getInstance().addGuestTrip(it.checkoutResponse.bookingResponse.email, itinNumber)
             } else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
                 // If user is logged in and if PWP or SWP is enabled for hotels, refresh user.
+                val userName = SettingUtils.get(context, REWARDS_USER_NAME, "")
+                // Increment the refer number
+                if(userName.isNotEmpty()) {
+                    FireBaseRewardsUtil.onReferClicked(context, userName)
+                }
+
                 userAccountRefresher.forceAccountRefresh()
             }
             // disabled for now. See mingle: #5574

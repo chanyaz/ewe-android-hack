@@ -318,9 +318,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                         pagerPosition = PAGER_POS_ACCOUNT
                         gotoAccount()
                         OmnitureTracking.trackAccountPageLoad()
-                        // Increment the refer number
-                        FireBaseRewardsUtil.onReferClicked(this@NewPhoneLaunchActivity)
-
                     }
                 }
                 OmnitureTracking.trackGlobalNavigation(viewPager.currentItem)
