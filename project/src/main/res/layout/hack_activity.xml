@@ -51,7 +51,8 @@
         android:background="#efefef"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <com.expedia.hackathon.DragLinearLayout
+            android:id="@+id/drag_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -79,6 +80,7 @@
 
                 <include layout="@layout/hotel_trip_view" />
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,6 +92,7 @@
 
                 <include layout="@layout/weather_trip_view" />
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +185,7 @@
                 <include layout="@layout/car_cross_sell_trip_view" />
             </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+        </com.expedia.hackathon.DragLinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.widget.RecyclerView
@@ -13,16 +14,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.CarSearch
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LxSearchParams
-import com.expedia.bookings.services.LxServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.hackathon.LXCrossSellAdapter
 import com.tomerrosenfeld.customanalogclockview.CustomAnalogClock
@@ -31,6 +28,7 @@ import java.util.*
 import com.expedia.bookings.data.rail.responses.TranslateResponse
 import com.expedia.bookings.services.TranslateServices
 import com.expedia.hackathon.CarCrossSellAdapter
+import com.expedia.hackathon.DragLinearLayout
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.uber.sdk.android.core.UberSdk
 import com.uber.sdk.android.rides.RideRequestButton
@@ -70,7 +68,7 @@ class HackActivity : AppCompatActivity() {
         if (item == null) {
             return super.onOptionsItemSelected(item)
         }
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.emergency_contact -> {
                 val builder = AlertDialog.Builder(this)
                 builder.setView(View.inflate(this, R.layout.emergency_alert, null))
@@ -81,6 +79,7 @@ class HackActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hack_activity)
@@ -134,6 +133,7 @@ class HackActivity : AppCompatActivity() {
 
         setupMyViews()
     }
+
     private fun setupMyViews() {
         val departureClock = findViewById(R.id.departure_clock) as CustomAnalogClock
         departureClock.setTimezone(TimeZone.getTimeZone("Asia/Calcutta"))
@@ -207,9 +207,17 @@ class HackActivity : AppCompatActivity() {
             outputConvert?.post {
                 try {
                     outputConvert!!.text = "€" + "%.2f".format(((it.toString().removePrefix("$").toFloatOrNull() ?: 1f) * 0.90))
-                } catch(e: Exception) {}
+                } catch(e: Exception) {
+                }
             }
         }
+        val dragLinearLayout = findViewById(R.id.drag_container) as DragLinearLayout
+        Log.e("------------>", "--------->" + dragLinearLayout)
+        dragLinearLayout.setContainerScrollView(dragLinearLayout.parent as NestedScrollView)
+        (0..(dragLinearLayout.childCount-1))
+                .map { dragLinearLayout.getChildAt(it) }
+                .forEach { dragLinearLayout.setViewDraggable(it, it) }
+
     }
 
 }
