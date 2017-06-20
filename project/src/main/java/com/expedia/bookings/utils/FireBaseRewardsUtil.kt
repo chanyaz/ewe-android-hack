@@ -8,7 +8,15 @@ import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
-import com.google.firebase.database.*
+
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
+import com.google.firebase.database.ValueEventListener
+import com.mobiata.android.util.SettingUtils
 
 
 class FireBaseRewardsUtil {
@@ -16,18 +24,23 @@ class FireBaseRewardsUtil {
         val database = FirebaseDatabase.getInstance().reference
         lateinit var userRefernce: DatabaseReference
         var numberofRefers = 0L
+        val LAST_REFER_VALUE = "LAST_REFER_VALUE"
 
         fun saveUserAndReferIds(context: Context, userName: String) {
-            database.child("users").child(userName).setValue(0)
+            database.child("users").child(userName)
             userRefernce = database.child("users").child(userName)
             userRefernce.addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val value = dataSnapshot.value as? Long ?: 0
-                    if (dataSnapshot.exists()) {
-                        numberofRefers = value
+                    if(dataSnapshot.value != null) {
+                        val value = dataSnapshot.value as Long
+                        if (dataSnapshot.exists()) {
+                            numberofRefers = value
+                        }
+                        if (SettingUtils.get(context, LAST_REFER_VALUE, 0L) != value) {
+                            issueNotification(context)
+                        }
                     }
-                    issueNotification(context)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -59,7 +72,7 @@ class FireBaseRewardsUtil {
             return numberofRefers
         }
 
-        fun onReferClicked() {
+        fun onReferClicked(context: Context) {
             userRefernce.runTransaction(object : Transaction.Handler {
                 override fun doTransaction(mutableData: MutableData): Transaction.Result {
                     if (mutableData.value == null) {
@@ -67,6 +80,7 @@ class FireBaseRewardsUtil {
                     } else {
                         mutableData.value = mutableData.value as Long + 1
                     }
+                    SettingUtils.save(context, LAST_REFER_VALUE, mutableData.value as Long)
                     return Transaction.success(mutableData)
                 }
 

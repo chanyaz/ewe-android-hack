@@ -319,7 +319,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                         gotoAccount()
                         OmnitureTracking.trackAccountPageLoad()
                         // Increment the refer number
-                        FireBaseRewardsUtil.onReferClicked()
+                        FireBaseRewardsUtil.onReferClicked(this@NewPhoneLaunchActivity)
 
                     }
                 }
