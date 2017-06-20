@@ -519,6 +519,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             val user = Db.getUser()
             val member = user.primaryTraveler
             travelerProfile = TravelerProfile(user.expediaUserId)
+            CommonConfetti.explosion(viewGroup, viewGroup.width - memberTierView.width, memberTierView.height, intArrayOf(Color.parseColor("#FFC300"), Color.parseColor("#668193"), Color.parseColor("#085BA5"))).oneShot()
 
             memberNameView.text = member.fullName
             memberEmailView.text = member.email
@@ -624,7 +625,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             createAccountButton.text = Phrase.from(context, R.string.acct__Create_a_new_brand_account).put("brand", BuildConfig.brand).format()
         }
-        CommonConfetti.explosion(viewGroup, viewGroup.width - memberTierView.width, memberTierView.height, intArrayOf(Color.parseColor("#FFC300"), Color.parseColor("#668193"), Color.parseColor("#085BA5"))).oneShot()
     }
 
     private fun setupCountryView(countryView: View) {
