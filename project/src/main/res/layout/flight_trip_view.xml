@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/flight_trip_view"
+<LinearLayout android:id="@+id/flight_trip_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:text="Flights"
+            android:text="Departing Flight - July 21"
             android:textColor="@color/gray7"
             android:textSize="15dp" />
     </LinearLayout>
@@ -43,45 +43,73 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:weightSum="1">
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/plane_image_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_weight=".05"
+            android:layout_marginTop="2dp"
             android:src="@drawable/airline_logo" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight=".85"
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/flight_text_view"
-                style="@style/Core.Text.Large"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:text="Delhi --> London"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_depart"
+                    style="@style/Core.Text.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:text="San Francisco"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/itin_arrow_icon" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_arrival"
+                    style="@style/Core.Text.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:text="Paris"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/date_text_view"
                 style="@style/Core.Text.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:text="28 September 2017"
-                android:textSize="12dp" />
+                android:text="Non Stop . 12h 40m"
+                android:textSize="14dp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/time_text_view"
@@ -92,7 +120,18 @@
                 android:text="9:30 a.m - 2:30 pm"
                 android:textSize="18dp"
                 android:textStyle="bold" />
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="ON TIME"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/green_savings" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>
