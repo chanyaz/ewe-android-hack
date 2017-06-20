@@ -2,6 +2,7 @@ package com.expedia.bookings.activity
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.FloatingActionButton
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -30,6 +32,7 @@ import com.expedia.bookings.data.rail.responses.TranslateResponse
 import com.expedia.bookings.services.TranslateServices
 import com.expedia.hackathon.CarCrossSellAdapter
 import com.expedia.hackathon.DragLinearLayout
+import com.google.android.instantapps.InstantApps
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.uber.sdk.android.core.UberSdk
 import com.uber.sdk.android.rides.RideRequestButton
@@ -225,11 +228,10 @@ class HackActivity : AppCompatActivity() {
             }
         }
         val dragLinearLayout = findViewById(R.id.drag_container) as DragLinearLayout
-        Log.e("------------>", "--------->" + dragLinearLayout)
         dragLinearLayout.setContainerScrollView(dragLinearLayout.parent as NestedScrollView)
         (0..(dragLinearLayout.childCount-1))
                 .map { dragLinearLayout.getChildAt(it) }
-                .forEach { dragLinearLayout.setViewDraggable(it, it) }
+                .forEach { dragLinearLayout.setViewDraggable(it, it.findViewById(R.id.header_view)) }
 
     }
 
