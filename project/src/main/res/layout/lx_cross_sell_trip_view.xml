@@ -14,10 +14,10 @@
 
         <ImageView
             android:id="@+id/airline_logo_image_view"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/packages_search_departure"
-            android:tint="@color/search_screen_icon_color_v2" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_lob_lx"
+            android:tint="@color/new_launch_lx_lob_color" />
 
         <com.expedia.bookings.widget.TextView
             style="@style/Core.Text.Large"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/cardview_divider_lines_gray" />
 
     <android.support.v7.widget.RecyclerView

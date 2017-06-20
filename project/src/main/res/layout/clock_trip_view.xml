@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="10dp">
 
     <LinearLayout
@@ -14,10 +15,9 @@
 
         <ImageView
             android:id="@+id/airline_logo_image_view"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/packages_search_departure"
-            android:tint="@color/search_screen_icon_color_v2" />
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/clock" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_text_view"
@@ -42,7 +42,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="20dp"
         android:paddingTop="20dp">
 
         <View
@@ -67,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="DEL" />
+                android:text="San Fransisco" />
         </LinearLayout>
 
         <View
@@ -92,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="SFO" />
+                android:text="Paris" />
         </LinearLayout>
 
         <View
@@ -113,6 +112,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:elevation="5dp"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:scaleType="fitCenter"
