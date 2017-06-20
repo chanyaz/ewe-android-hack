@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +24,12 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
+import com.expedia.bookings.activity.ReferActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -47,6 +48,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.mobiata.android.Log
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -133,6 +135,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
 
     val memberNameView: TextView by bindView(R.id.toolbar_name)
+    val creditContainer: CardView by bindView(R.id.credit_container)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
     val memberTierView: TextView by bindView(R.id.toolbar_loyalty_tier_text)
     val userAccountRefresher: UserAccountRefresher by lazy {
@@ -191,6 +194,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         setGoogleAccountChangeVisibility(googleAccountChange)
         googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
         setCountryChangeListeners()
+
+        creditContainer.setOnClickListener {
+            val referIntent = Intent(activity, ReferActivity::class.java)
+            activity.startActivity(referIntent)
+        }
 
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)
