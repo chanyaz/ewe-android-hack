@@ -42,6 +42,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     compile 'com.google.maps.android:android-maps-utils:0.4.3'
+    compile 'com.github.jinatonic.confetti:confetti:1.1.0'
 
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves

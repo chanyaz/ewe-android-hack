@@ -28,7 +28,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -47,6 +46,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
+import com.github.jinatonic.confetti.CommonConfetti
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -56,7 +56,7 @@ import com.mobiata.android.util.SettingUtils
 import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 import java.text.NumberFormat
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
@@ -481,6 +481,15 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     }
                 } else {
                     memberTierView.visibility = View.GONE
+                }
+
+                memberTierView.setOnClickListener {
+                    val viewGroup = activity.findViewById(R.id.account_layout_fetti) as ViewGroup
+
+                    //TODO Make it rain in here
+
+                    //CommonConfetti.rainingConfetti(viewGroup, intArrayOf(Color.MAGENTA, Color.GREEN, Color.BLUE, Color.RED)).confettiManager.setNumInitialCount(50).setEmissionDuration(0).animate()
+                    //CommonConfetti.rainingConfetti(viewGroup, intArrayOf(Color.YELLOW)).confettiManager.setNumInitialCount(500).setEmissionDuration(0).animate()
                 }
 
 
