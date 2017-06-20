@@ -297,7 +297,7 @@
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Phone number length must be between 4 and 20.</string>
     <!-- Error button text indicating that the user should search again -->
-    <string name= "search_again">Search Again</string>
+    <string name="search_again">Search Again</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm&#8230;Your payment didn\'t go through. Please double check your payment details and try again.</string>
@@ -690,9 +690,11 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">We couldn\&apos;t determine your current location to find activities around you.</string> 
+    <string name="error_lx_current_location_search_message">We couldn\&apos;t determine your current location to find activities around you.</string>
+     
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">We couldn\&apos;t determine your current location to find transportation around you.</string> 
+    <string name="error_gt_current_location_search_message">We couldn\&apos;t determine your current location to find transportation around you.</string>
+     
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Error</string>
     <!-- Text for error toolbar-->
@@ -2901,6 +2903,7 @@
     <string name="booking_support">Booking Support</string>
     <!-- Label for "Luggage tag" button in info page -->
     <string name="luggage_tag">Expedia smart luggage tags</string>
+    <string name="luggage_tag_scanned">Scanned luggage tag</string>
     <!-- Label for "Luggage tag" button in info page -->
     <string name="scan_found_smart_tag">Scan a found smart tag</string>
     <!-- Subject for loyalty email on Itin -->
@@ -4095,9 +4098,9 @@
     <!--Rails content description for results card Railcard applied portion -->
     <string name="rail_railcard_applied_cont_desc">Railcard Applied</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
-   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
-   <!-- Rail selected outbound content description on the outbound results -->
-   <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
+    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
+    <!-- Rail selected outbound content description on the outbound results -->
+    <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Railcard Applied: {railcards}</string>
@@ -4106,11 +4109,11 @@
         Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
     <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Cost breakdown dialog. Button.</string>
 
-   <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
-   <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
-   <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
+    <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
 
-   <!-- New Hotel Search screen -->
+    <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Enter Destination</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Enter Destination. Button</string>
@@ -4593,5 +4596,8 @@
     <string name="no_camera_permission">No camera permission</string>
     <string name="no_barcode_captured">No barcode captured</string>
     <string name="scan_barcode_button">Scan Barcode</string>
+    <string name="tag_found_public_text">The tag you found belongs to the person below. The person has been notified that their tag has been found. Contact them to arrange giving them their luggage.</string>
+    <string name="tag_found_private_text">The tag you found has been marked as private. \n\nThe owner has been notified that their tag has been found, but has not chosen to make their information public yet. \n\nPlease try to scan again in sometime. </string>
+    <string name="tag_not_found_text">The tag you found has not been registered and does not have any contact information connected. </string>
 
 </resources>
