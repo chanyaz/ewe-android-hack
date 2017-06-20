@@ -158,7 +158,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
 
         if (UserStateManager(this).isUserAuthenticated()) {
-            saveUserAndReferIds(Db.getUser().username)
+            saveUserAndReferIds(this, Db.getUser().username)
         }
     }
 

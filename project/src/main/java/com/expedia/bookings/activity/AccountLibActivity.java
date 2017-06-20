@@ -185,7 +185,7 @@ public class AccountLibActivity extends AppCompatActivity
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 		if (userStateManager.isUserAuthenticated()) {
-			FireBaseRewardsUtil.Companion.saveUserAndReferIds(Db.getUser().getUsername());
+			FireBaseRewardsUtil.Companion.saveUserAndReferIds(this, Db.getUser().getUsername());
 			if (userLoggedInWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
 				Db.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
