@@ -37,6 +37,8 @@ import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
+import com.expedia.bookings.luggagetags.ExpediaLuggageTags
+import com.expedia.bookings.luggagetags.LuggageTagsNetwork
 import com.expedia.bookings.model.PointOfSaleStateModel
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
@@ -152,6 +154,16 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
+
+        val tag = ExpediaLuggageTags("11231233123", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
+        val tag2 = ExpediaLuggageTags("231231231", "12313", true, "Jane Funston", "123 1k2hbsd jk1b2", "123-123-1234")
+        val tag3 = ExpediaLuggageTags("6666666666", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
+        LuggageTagsNetwork().addTag("11231233123", tag)
+        LuggageTagsNetwork().addTag("231231231", tag2)
+        LuggageTagsNetwork().addTag("6666666666", tag3)
+        LuggageTagsNetwork().addUserTag("12312", "11231233123", tag)
+        LuggageTagsNetwork().addUserTag("12313", "231231231", tag2)
+        LuggageTagsNetwork().addUserTag("12312", "6666666666", tag3)
     }
 
     override fun onNewIntent(intent: Intent) {
