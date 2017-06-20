@@ -601,6 +601,9 @@ public class User implements JSONable {
 	}
 
 	public String getUsername() {
+		if (mPrimaryTraveler == null || mPrimaryTraveler.getEmail() == null) {
+			return "";
+		}
 		String email = mPrimaryTraveler.getEmail();
 		return email.substring(0, email.indexOf(EMAIL_USER_ID));
 	}
