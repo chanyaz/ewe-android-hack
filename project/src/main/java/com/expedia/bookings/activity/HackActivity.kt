@@ -32,7 +32,6 @@ import com.expedia.bookings.data.rail.responses.TranslateResponse
 import com.expedia.bookings.services.TranslateServices
 import com.expedia.hackathon.CarCrossSellAdapter
 import com.expedia.hackathon.DragLinearLayout
-import com.google.android.instantapps.InstantApps
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.uber.sdk.android.core.UberSdk
 import com.uber.sdk.android.rides.RideRequestButton
