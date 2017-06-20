@@ -99,7 +99,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     val viewPager: DisableableViewPager by lazy {
         findViewById(R.id.viewpager) as DisableableViewPager
     }
-    val toolBar: NewPhoneLaunchToolbar by  lazy {
+    val toolBar: NewPhoneLaunchToolbar by lazy {
         findViewById(R.id.launch_toolbar) as NewPhoneLaunchToolbar
     }
 
@@ -158,12 +158,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         val tag = ExpediaLuggageTags("11231233123", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
         val tag2 = ExpediaLuggageTags("231231231", "12313", true, "Jane Funston", "123 1k2hbsd jk1b2", "123-123-1234")
         val tag3 = ExpediaLuggageTags("6666666666", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
-        LuggageTagsNetwork().addTag("11231233123", tag)
-        LuggageTagsNetwork().addTag("231231231", tag2)
-        LuggageTagsNetwork().addTag("6666666666", tag3)
-        LuggageTagsNetwork().addUserTag("12312", "11231233123", tag)
-        LuggageTagsNetwork().addUserTag("12313", "231231231", tag2)
-        LuggageTagsNetwork().addUserTag("12312", "6666666666", tag3)
+        LuggageTagsNetwork().addTag("11231233123", "12312", tag)
+        LuggageTagsNetwork().addTag("231231231", "12313", tag2)
+        LuggageTagsNetwork().addTag("6666666666", "12312", tag3)
+        LuggageTagsNetwork().removeTag("6666666666", "12312")
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -212,21 +210,18 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             if (resultCode == RESULT_OK && data != null) {
                 showFlightItinCheckinDialog(data)
             }
-        }
-        else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
-        }
-        else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE) {
             if (resultCode == RESULT_OK && data != null && !ExpediaBookingApp.isAutomation()) {
                 val tripId = data.getStringExtra(Constants.ITIN_ROOM_UPGRADE_TRIP_ID)
                 itinListFragment?.showDeepRefreshLoadingView(true)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)
             }
-        }
-        else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
+        } else if (requestCode == Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val tripId = data.getStringExtra(Constants.ITIN_SOFT_CHANGE_TRIP_ID)
                 ItineraryManager.getInstance().deepRefreshTrip(tripId, true)

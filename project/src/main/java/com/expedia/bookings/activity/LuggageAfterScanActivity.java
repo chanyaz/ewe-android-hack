@@ -23,7 +23,11 @@ public class LuggageAfterScanActivity extends AppCompatActivity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.fragment_container_with_toolbar);
 
+		Bundle bundle = new Bundle();
+		bundle.putString("TAG_ID", getIntent().getStringExtra("TAG_ID"));
+
 		LuggageAfterScanFragment luggageAfterScanFragment = new LuggageAfterScanFragment();
+		luggageAfterScanFragment.setArguments(bundle);
 
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, luggageAfterScanFragment).commit();
 
