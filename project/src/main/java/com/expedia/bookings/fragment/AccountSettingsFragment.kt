@@ -3,7 +3,16 @@ package com.expedia.bookings.fragment
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.annotation.Dimension
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -27,6 +36,7 @@ import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.activity.WebViewActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.user.User
@@ -49,6 +59,11 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.github.jinatonic.confetti.CommonConfetti
+import com.github.jinatonic.confetti.ConfettiManager
+import com.github.jinatonic.confetti.ConfettiSource
+import com.github.jinatonic.confetti.ConfettoGenerator
+import com.github.jinatonic.confetti.confetto.BitmapConfetto
+import com.github.jinatonic.confetti.confetto.Confetto
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -59,9 +74,11 @@ import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 import java.text.NumberFormat
 import java.util.*
+import java.util.Calendar
+import java.util.Random
 import javax.inject.Inject
 
-class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
+class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener, ConfettoGenerator {
 
     private val TAG_SUPPORT = "TAG_SUPPORT"
     private val TAG_LEGAL = "TAG_LEGAL"
@@ -148,6 +165,22 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         DebugMenuFactory.newInstance(activity, ExpediaBookingPreferenceActivity::class.java)
     }
 
+    lateinit var hotelBitmap: Bitmap
+    lateinit var flightBitmap: Bitmap
+    lateinit var carBitmap: Bitmap
+    lateinit var starBitmap: Bitmap
+    lateinit var hotelDrawable: Drawable
+
+    var hotelBitmapColor: Int = 0
+    var flightBitmapColor: Int = 0
+    var carBitmapColor: Int = 0
+    var starBitmapColor: Int = 0
+    var size = 0
+    var numOfConfetto = -1
+    var totalNumOfConfetto = 0
+
+    private val PAINT = Paint()
+
     val debugAlertDialog: AlertDialog by lazy {
         val alertDialog = AlertDialog.Builder(context)
         val convertView = activity.layoutInflater.inflate(R.layout.alert_dialog_with_list, null)
@@ -179,6 +212,38 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        size = 100
+
+        PAINT.style = Paint.Style.FILL
+
+        hotelDrawable = ContextCompat.getDrawable(context, R.drawable.ic_lob_hotels) as BitmapDrawable
+
+        hotelBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.ic_lob_hotels),
+                size, size, false)
+        flightBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.ic_lob_flights),
+                size, size, false)
+        carBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.ic_lob_cars),
+                size, size, false)
+        starBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.detail_star),
+                size, size, false)
+
+        hotelBitmapColor = resources.getColor(R.color.new_launch_hotels_lob_color)
+        flightBitmapColor = resources.getColor(R.color.new_launch_flights_lob_color)
+        carBitmapColor = resources.getColor(R.color.new_launch_cars_lob_color)
+        starBitmapColor = Color.parseColor("#F1B906")
+
+//         val p = Paint()
+//    val filter = PorterDuffColorFilter(Color.parseColor("#F1B906"), PorterDuff.Mode.SRC_IN);
+//    p.setColorFilter(filter)
+//
+//    val canvas = Canvas()
+//    canvas.drawBitmap(hotelBitmap, 0f, 0f, p);
+//
+//
+
+//        hotelBitmap = hotelDrawable
+//                PorterDuffColorFilter(starColor, PorterDuff.Mode.SRC_IN)
+
         return inflater.inflate(R.layout.fragment_account_settings, null)
     }
 
@@ -189,7 +254,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         var builder: AboutSectionFragment.Builder
         val ft = childFragmentManager.beginTransaction()
         setGoogleAccountChangeVisibility(googleAccountChange)
@@ -444,6 +508,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     private fun adjustLoggedInViews() {
+        val viewGroup = activity.findViewById(R.id.account_layout_fetti) as ViewGroup
         if (userStateManager.isUserAuthenticated()) {
             toolbarShadow.alpha = 0f
             signInSection.visibility = View.GONE
@@ -491,9 +556,10 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                 memberTierView.setOnClickListener {
                     //activity.findViewById(R.id.account_layout_fetti) as ViewGroup
                     //TODO Make it rain in here
-
-                    //CommonConfetti.rainingConfetti(viewGroup, intArrayOf(Color.MAGENTA, Color.GREEN, Color.BLUE, Color.RED)).confettiManager.setNumInitialCount(50).setEmissionDuration(0).animate()
-                    //CommonConfetti.rainingConfetti(viewGroup, intArrayOf(Color.YELLOW)).confettiManager.setNumInitialCount(500).setEmissionDuration(0).animate()
+                    CommonConfetti.rainingConfetti(viewGroup, intArrayOf(Color.parseColor("#FFC300"), Color.parseColor("#668193"), Color.parseColor("#085BA5"))).confettiManager.setNumInitialCount(100).setEmissionDuration(0).animate()
+                    totalNumOfConfetto = travelerProfile.numFlight + travelerProfile.numHotel + travelerProfile.numCar
+                    getConfettiManager().setNumInitialCount(totalNumOfConfetto).animate()
+                    numOfConfetto = -1
                 }
 
 
@@ -558,7 +624,6 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             createAccountButton.text = Phrase.from(context, R.string.acct__Create_a_new_brand_account).put("brand", BuildConfig.brand).format()
         }
-        val viewGroup = activity.findViewById(R.id.account_layout_fetti) as ViewGroup
         CommonConfetti.explosion(viewGroup, viewGroup.width - memberTierView.width, memberTierView.height, intArrayOf(Color.parseColor("#FFC300"), Color.parseColor("#668193"), Color.parseColor("#085BA5"))).oneShot()
     }
 
@@ -739,5 +804,38 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         override fun onClick(view: View) {
             showCountrySelector()
         }
+    }
+
+    private fun getConfettiManager(): ConfettiManager {
+        val velocitySlow = resources.getDimensionPixelOffset(R.dimen.default_velocity_slow)
+        val velocityNormal = resources.getDimensionPixelOffset(R.dimen.default_velocity_normal)
+        val velocityFast = resources.getDimensionPixelOffset(R.dimen.default_velocity_fast)
+
+        val source = ConfettiSource(0, -size, (activity.findViewById(R.id.account_layout_fetti) as ViewGroup).width, -size)
+        return ConfettiManager(activity, this, source, activity.findViewById(R.id.account_layout_fetti) as ViewGroup)
+                .setVelocityX(0f, velocitySlow.toFloat())
+                .setVelocityY(velocityNormal.toFloat(), velocitySlow.toFloat())
+                .setRotationalVelocity(180f, 90f)
+                .setTouchEnabled(true)
+    }
+
+    override fun generateConfetto(random: Random): Confetto {
+        numOfConfetto += 1
+        if (numOfConfetto < travelerProfile.numHotel) {
+            PAINT.colorFilter = PorterDuffColorFilter(hotelBitmapColor, PorterDuff.Mode.SRC_IN)
+            val canvas = Canvas(hotelBitmap)
+            canvas.drawBitmap(hotelBitmap, 0f, 0f, PAINT)
+            return BitmapConfetto(hotelBitmap)
+        } else if (numOfConfetto >= travelerProfile.numHotel && numOfConfetto < travelerProfile.numHotel + travelerProfile.numFlight) {
+            PAINT.colorFilter = PorterDuffColorFilter(flightBitmapColor, PorterDuff.Mode.SRC_IN)
+            val canvas = Canvas(flightBitmap)
+            canvas.drawBitmap(flightBitmap, 0f, 0f, PAINT)
+            return BitmapConfetto(flightBitmap)
+        }
+
+        PAINT.colorFilter = PorterDuffColorFilter(carBitmapColor, PorterDuff.Mode.SRC_IN)
+        val canvas = Canvas(carBitmap)
+        canvas.drawBitmap(carBitmap, 0f, 0f, PAINT)
+        return BitmapConfetto(carBitmap)
     }
 }

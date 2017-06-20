@@ -25,6 +25,8 @@ repositories {
 }
 
 dependencies {
+    compile 'com.github.jinatonic.confetti:confetti:1.1.0'
+
     compile fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
             'ADMS_AppLibrary-3.2.7-Android.jar',
