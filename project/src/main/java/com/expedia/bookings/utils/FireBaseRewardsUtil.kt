@@ -6,16 +6,9 @@ import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 
 class FireBaseRewardsUtil {
@@ -85,9 +78,8 @@ class FireBaseRewardsUtil {
 
         fun shareRewards(context: Context, userId: String) {
             val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.type = "text/html"
-            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
-                    Html.fromHtml("Ready for a getaway? Use my link and get 20% off your first hotel booking on the Expedia App https://play.google.com/store/apps/details?id=com.expedia.bookings&hl=en&referrer=$userId"))
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Ready for a getaway? Use my link and get 20% off your first hotel booking on the Expedia App https://play.google.com/store/apps/details?id=com.expedia.bookings&hl=en&referrer=$userId")
             context.startActivity(Intent.createChooser(shareIntent, "Share using"))
         }
 
