@@ -330,11 +330,22 @@
                     <ImageView
                         android:id="@+id/blue_gift"
                         android:layout_width="wrap_content"
-                        android:layout_height="80dp"
+                        android:layout_height="100dp"
                         android:layout_alignParentLeft="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:tint="@color/exp_launch_secondary"
                         android:src="@drawable/blue_gift" />
+
+                    <ImageView
+                        android:id="@+id/onbording_right_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:tint="@color/exp_launch_secondary"
+                        android:src="@drawable/onboarding_right_arrow" />
 
                     <TextView
                         android:id="@+id/credit_section_text"
@@ -345,8 +356,9 @@
                         android:layout_toRightOf="@+id/blue_gift"
                         android:paddingTop="16dp"
                         android:text="Earn Travel Credit"
-                        android:textColor="@color/new_launch_toolbar_background_color"
-                        android:textSize="22sp" />
+                        android:textColor="@color/exp_launch_secondary"
+                        android:textStyle="bold"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/credit_section_subtitle"
@@ -355,7 +367,9 @@
                         android:layout_alignLeft="@+id/credit_section_text"
                         android:layout_below="@+id/credit_section_text"
                         android:paddingBottom="16dp"
-                        android:text="Share the Expedia App to receive 20% off of next Hotel Booking."
+                        android:paddingTop="4dp"
+                        android:paddingRight="50dp"
+                        android:text="Share the Expedia App to receive 20% off your next hotel booking."
                         android:textColor="@color/AboutRowTextColor" />
                 </RelativeLayout>
 

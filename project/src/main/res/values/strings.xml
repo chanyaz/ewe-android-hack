@@ -4578,7 +4578,7 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">Enter a number from {min_value} to {max_value}.</string>
     <string name="title_seek_bar_edit">Edit seek control level</string>
     <string name="value_seek_bar_dialog_percent">%</string>
-    <string name="congratulations">Congratulations!!</string>
-    <string name="referral_accepted">Someone just used your referral. Book now to avail your 20% discount!</string>
+    <string name="congratulations">Congratulations! </string>
+    <string name="referral_accepted">You have 20% off your next app hotel booking because your friend used your referral link. Shop now!</string>
 
 </resources>
