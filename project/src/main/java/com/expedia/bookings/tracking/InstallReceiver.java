@@ -9,10 +9,12 @@ import android.net.Uri;
 
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 
 public class InstallReceiver extends BroadcastReceiver {
 	private final static String RECEIVER_FORWARDED = "RECEIVER_FORWARDED";
 	private final static String MAT_DEEPLINK_PARAM = "mat_deeplink=";
+	public final static String REWARDS_USER_NAME = "REWARDS_USER_NAME";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -25,6 +27,7 @@ public class InstallReceiver extends BroadcastReceiver {
 			Log.d("Referrer value from install: " + referrer);
 			if (referrer != null) {
 				try {
+					SettingUtils.save(context, REWARDS_USER_NAME, referrer);
 					int deeplinkStart = referrer.indexOf(MAT_DEEPLINK_PARAM);
 					if (deeplinkStart != -1) {
 						deeplinkStart += MAT_DEEPLINK_PARAM.length();

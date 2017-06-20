@@ -72,7 +72,8 @@ class FireBaseRewardsUtil {
             return numberofRefers
         }
 
-        fun onReferClicked(context: Context) {
+        fun onReferClicked(context: Context, userName: String) {
+            userRefernce = database.child("users").child(userName)
             userRefernce.runTransaction(object : Transaction.Handler {
                 override fun doTransaction(mutableData: MutableData): Transaction.Result {
                     if (mutableData.value == null) {
