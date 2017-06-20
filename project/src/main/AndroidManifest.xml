@@ -113,6 +113,14 @@
             android:windowSoftInputMode="adjustPan"
             tools:ignore="UnusedAttribute" />
 
+        <activity
+            android:name=".luggagetags.AddLuggageTag"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Material.WebView.Theme"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="UnusedAttribute" />
         <!-- Phone New launch -->
 
         <activity
