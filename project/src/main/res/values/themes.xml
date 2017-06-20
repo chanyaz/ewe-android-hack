@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <style name="Theme" parent="@android:style/Theme.NoTitleBar">
         <item name="android:windowBackground">@color/window_background</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -189,6 +190,16 @@
         <item name="skin_tripsTabText">@string/trips</item>
     </style>
 
+    <style name="RewardsTheme" parent="AppTheme.Base">
+        <item name="android:windowBackground">@color/exp_itin_bg</item>
+        <item name="android:colorPrimaryDark">#04445e</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorButtonNormal">@color/new_launch_primary_color</item>
+        <item name="colorAccent">@color/new_launch_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/new_launch_primary_color</item>
+        <item name="primary_color">@color/new_launch_primary_color</item>
+
+    </style>
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
     <style name="NewLaunchTheme" parent="AppTheme.Base">
         <item name="android:windowBackground">@color/exp_itin_bg</item>
@@ -229,7 +240,8 @@
         <item name="itin_card_summary_left_action_button_flight_drawable">@drawable/ic_direction</item>
         <item name="itin_card_summary_left_action_button_hotel_drawable">@drawable/ic_direction</item>
         <item name="itin_card_summary_right_action_button_car_drawable">@drawable/ic_phone</item>
-        <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_light</item>
+        <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_light
+        </item>
         <item name="itin_card_summary_right_action_button_hotel_drawable">@drawable/ic_phone</item>
         <item name="itin_card_summary_left_action_button_activity_drawable">@drawable/ic_printer_redeem</item>
         <item name="itin_card_summary_right_action_button_activity_drawable">@drawable/ic_phone</item>
@@ -318,7 +330,8 @@
         <item name="itin_card_summary_left_action_button_flight_drawable">@drawable/ic_directions_crystal</item>
         <item name="itin_card_summary_left_action_button_hotel_drawable">@drawable/ic_directions_crystal</item>
         <item name="itin_card_summary_right_action_button_car_drawable">@drawable/ic_support_crystal</item>
-        <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_crystal</item>
+        <item name="itin_card_summary_right_action_button_flight_drawable">@drawable/ic_confirmation_checkmark_crystal
+        </item>
         <item name="itin_card_summary_right_action_button_hotel_drawable">@drawable/ic_support_crystal</item>
         <item name="itin_card_summary_left_action_button_activity_drawable">@drawable/ic_redeem_crystal</item>
         <item name="itin_card_summary_right_action_button_activity_drawable">@drawable/ic_support_crystal</item>
@@ -344,8 +357,12 @@
         <item name="itin_air_attach_banner_divider_color">@color/gray1</item>
         <item name="itin_air_attach_expires_in_text_color">@color/gray10</item>
         <item name="itin_air_attach_margin_left_right">8dp</item>
-        <item name="itin_air_attach_banner_divider_margin_left">@dimen/air_attach_banner_divider_margin_left_crystal_theme</item>
-        <item name="itin_air_attach_banner_divider_margin_right">@dimen/air_attach_banner_divider_margin_right_crystal_theme</item>
+        <item name="itin_air_attach_banner_divider_margin_left">
+            @dimen/air_attach_banner_divider_margin_left_crystal_theme
+        </item>
+        <item name="itin_air_attach_banner_divider_margin_right">
+            @dimen/air_attach_banner_divider_margin_right_crystal_theme
+        </item>
         <item name="itin_cross_sell_card_margin_left_right">4dp</item>
 
         <item name="itin_card_detail_title_bg">@android:color/white</item>
@@ -359,7 +376,8 @@
         <item name="itin_card_detail_section_text_size">16sp</item>
         <item name="itin_card_detail_section_text_color">@color/gray6</item>
         <item name="skin_itinCardTitleTextColor">@color/gray10</item>
-        <item name="itin_card_detail_section_text_capitalize_blue_style">@style/ItineraryCardActionItemTextView.Blue</item>
+        <item name="itin_card_detail_section_text_capitalize_blue_style">@style/ItineraryCardActionItemTextView.Blue
+        </item>
         <item name="itin_card_detail_cancel_left_drawable">@drawable/itin_cancel_icon</item>
         <item name="itin_card_detail_info_left_drawable">@drawable/itin_info_icon</item>
         <item name="itin_card_detail_refresh_left_drawable">@drawable/itin_refresh_icon</item>
@@ -406,7 +424,7 @@
         <item name="skin_acctSignInButtonTextColor">@drawable/ac_color_list</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">0dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">0dp</item>
-        
+
     </style>
 
     <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
