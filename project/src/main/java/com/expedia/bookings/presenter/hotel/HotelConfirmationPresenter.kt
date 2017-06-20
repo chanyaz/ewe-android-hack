@@ -22,8 +22,8 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelConfirmationViewModel
 import com.squareup.phrase.Phrase
 
@@ -43,6 +43,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
     val addLXBtn: TextView by bindView(R.id.add_lx_textView)
     val sendToEmailTextView: TextView by bindView(R.id.email_text)
     val toolbar: Toolbar by bindView(R.id.toolbar)
+    val shareAppTextView : TextView by bindView(R.id.app_share_textView)
 
     var hotelConfirmationViewModel: HotelConfirmationViewModel by notNullAndObservable {
         hotelConfirmationViewModel.showCarCrossSell.subscribeVisibility(addCarBtn)
@@ -103,6 +104,11 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         })
         val paddingTop = Ui.getStatusBarHeight(context) - (5 * resources.displayMetrics.density).toInt()
         toolbar.setPadding(0, paddingTop, 0, 0)
+
+        shareAppTextView.setOnClickListener {
+            NavUtils.goToRewards(context)
+            Events.post(Events.FinishActivity())
+        }
     }
 
     private fun dressAction(textView: TextView, drawableResId: Int) {

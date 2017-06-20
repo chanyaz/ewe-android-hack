@@ -4580,5 +4580,6 @@
     <string name="value_seek_bar_dialog_percent">%</string>
     <string name="congratulations">Congratulations! </string>
     <string name="referral_accepted">You have 20% off your next app hotel booking because your friend used your referral link. Shop now!</string>
+    <string name="share_app_text">Share the Expedia App to receive 20% off your next hotel booking</string>
 
 </resources>
