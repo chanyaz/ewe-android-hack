@@ -24,7 +24,7 @@
             android:orientation="vertical" >
 
             <Button
-                android:id="@+id/scan_a_found_smart_tag"
+                android:id="@+id/scan_my_QR_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/exp_launch_blue"
@@ -34,31 +34,57 @@
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 app:textStyle="medium"
-                android:text="@string/scan_a_found_smart_tag" />
+                android:text="@string/scan_my_QR_code" />
 
-            <TextView
-                android:id="@+id/my_luggage_tag_text_view"
+            <LinearLayout android:id="@+id/hint_container"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="8dp"
-                android:bufferType="spannable"
-                android:text="@string/my_luggage_tag_text_view"
-                android:textColor="@color/gray9"
-                android:textSize="15dp" />
+                android:layout_marginBottom="@dimen/card_view_container_margin"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="9dp"
+                    android:layout_weight="1"
+                    android:background="#979797" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/or"
+                    android:textColor="@color/defaultTextColor" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:layout_weight="1"
+                    android:background="#979797" />
+            </LinearLayout>
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/add_a_tag_to_my_account_button"
+                android:id="@+id/manually_enter_tag_ID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="?attr/selectableItemBackground"
                 android:padding="20dp"
-                android:text="@string/add_a_tag_to_my_account_button"
+                android:clickable="true"
+                android:text="@string/manually_enter_tag_ID"
                 android:textColor="@color/exp_launch_blue"
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>
