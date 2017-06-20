@@ -6,21 +6,21 @@
     android:layout_height="match_parent"
     tools:context="com.expedia.bookings.activity.ReferActivity">
 
-    <ImageButton
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:id="@+id/close"
         android:src="@drawable/sg_beach"
         android:tint="#6800355f"/>
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <ImageButton
+        android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        app:srcCompat="@drawable/ic_close_white_24dp" />
+        android:background="@color/transparent"
+        android:src="@drawable/ic_close_white_24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
