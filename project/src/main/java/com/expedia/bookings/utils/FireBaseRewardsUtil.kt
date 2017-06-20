@@ -1,15 +1,21 @@
 package com.expedia.bookings.utils
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.text.Html
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import android.support.v4.app.NotificationCompat
+import com.expedia.bookings.R
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
-import com.google.firebase.database.ValueEventListener
 
 
 class FireBaseRewardsUtil {
@@ -18,25 +24,43 @@ class FireBaseRewardsUtil {
         lateinit var userRefernce: DatabaseReference
         var numberofRefers = 0L
 
-        fun saveUserAndReferIds(userName: String) {
+        fun saveUserAndReferIds(context: Context, userName: String) {
             database.child("users").child(userName).setValue(0)
             userRefernce = database.child("users").child(userName)
-            userRefernce.addValueEventListener(responseListener)
-        }
+            userRefernce.addValueEventListener(object : ValueEventListener {
 
-        val responseListener: ValueEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.value as? Long ?: 0
-                if (dataSnapshot.exists()) {
-                    numberofRefers = value
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val value = dataSnapshot.value as? Long ?: 0
+                    if (dataSnapshot.exists()) {
+                        numberofRefers = value
+                    }
+                    issueNotification(context)
                 }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
+                override fun onCancelled(databaseError: DatabaseError) {
 
-            }
+                }
+            })
         }
 
+        private fun issueNotification(context: Context) {
+            val mBuilder = NotificationCompat.Builder(context)
+                    .setSmallIcon(R.drawable.ic_stat_expedia)
+                    .setContentTitle(context.getString(R.string.congratulations))
+                    .setContentText(context.getString(R.string.referral_accepted))
+
+            val resultIntent = Intent(context, NewPhoneLaunchActivity::class.java)
+            val resultPendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    resultIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            mBuilder.setContentIntent(resultPendingIntent);
+            val mNotifyMgr = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            mNotifyMgr.notify(1, mBuilder.build())
+        }
 
         fun getNumberOfRefers(): Long {
             return numberofRefers
@@ -69,7 +93,6 @@ class FireBaseRewardsUtil {
 
 
     }
-
 
 
 }
