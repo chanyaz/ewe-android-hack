@@ -131,6 +131,14 @@ public class NavUtils {
 		goToSignIn(context, true, false, 0);
 	}
 
+	public static void goToRewards(Context context) {
+		Intent intent = getLaunchIntent(context);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_ACCOUNT, true);
+		intent.putExtra(NewPhoneLaunchActivity.ARG_FORCE_SHOW_REWARDS, true);
+		context.startActivity(intent);
+	}
+
 	public static void goToSignIn(Context context, int flags) {
 		goToSignIn(context, true, false, flags);
 	}

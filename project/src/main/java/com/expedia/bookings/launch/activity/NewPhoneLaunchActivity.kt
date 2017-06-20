@@ -152,6 +152,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             val errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message).put("lob", lobName).format()
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         }
+        if (intent.getBooleanExtra(ARG_FORCE_SHOW_REWARDS, false)) {
+            showRewards = true
+        }
         AbacusHelperUtils.downloadBucket(this)
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
@@ -161,9 +164,13 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             saveUserAndReferIds(this, Db.getUser().username)
         }
     }
-
+    var showRewards = false
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+
+        if (intent.getBooleanExtra(ARG_FORCE_SHOW_REWARDS, false)) {
+            showRewards = true
+        }
 
         if (intent.hasExtra(ARG_ITIN_NUM)) {
             jumpToItinId = intent.getStringExtra(ARG_ITIN_NUM)
@@ -368,6 +375,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             accountFragment?.refreshUserInfo()
         }
         viewPager.currentItem = PAGER_POS_ACCOUNT
+        if(showRewards) {
+            accountFragment?.goToRewards()
+            showRewards = false
+        }
     }
 
     fun shouldShowOverFlowMenu(): Boolean {
@@ -606,6 +617,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         @JvmField val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         @JvmField val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
         @JvmField val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
+        @JvmField val ARG_FORCE_SHOW_REWARDS = "ARG_FORCE_SHOW_REWARDS"
         @JvmField val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
         @JvmField val ARG_ITIN_NUM = "ARG_ITIN_NUM"
 

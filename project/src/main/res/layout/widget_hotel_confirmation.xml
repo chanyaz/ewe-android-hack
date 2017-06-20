@@ -159,6 +159,17 @@
                         android:drawableLeft="@drawable/car_flights"
                         android:textColor="@color/cars_confirmation_action_text_color" />
 
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/app_share_textView"
+                        style="@style/CarsBookingButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginTop="1dp"
+                        android:text="@string/share_app_text"
+                        android:drawableLeft="@drawable/small_giftx"
+                        android:textColor="@color/cars_confirmation_action_text_color" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

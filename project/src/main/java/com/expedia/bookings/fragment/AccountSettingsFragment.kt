@@ -48,7 +48,6 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
-import com.mobiata.android.Log
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -367,6 +366,10 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     fun refreshUserInfo() {
         userAccountRefresher.forceAccountRefresh()
+    }
+
+    fun goToRewards() {
+        creditContainer.performClick()
     }
 
     val scrollListener = ViewTreeObserver.OnScrollChangedListener {
