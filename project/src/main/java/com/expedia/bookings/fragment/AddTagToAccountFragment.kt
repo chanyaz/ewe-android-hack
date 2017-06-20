@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.luggagetags.AddLuggageTag
 import com.expedia.bookings.utils.FontCache
 import com.mobiata.android.util.Ui
 
@@ -27,6 +29,10 @@ class AddTagToAccountFragment: Fragment() {
         mManuallyEnterTagId = Ui.findView<TextView>(view, R.id.manually_enter_tag_ID)
 
         FontCache.setTypeface(mScanQRCodeButton, FontCache.Font.ROBOTO_REGULAR)
+
+        mManuallyEnterTagId?.setOnClickListener {
+            startActivity(Intent(context, AddLuggageTag::class.java))
+        }
 
         return view
     }
