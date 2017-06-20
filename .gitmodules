@@ -1,15 +1,15 @@
 [submodule "common"]
 	path = common
-	url = git@github.com:/ExpediaInc/ewe-android-common.git
+	url = https://github.com/ExpediaInc/ewe-android-common.git
 [submodule "project/assets/ExpediaSharedData"]
 	path = project/src/main/assets/ExpediaSharedData
-	url = git@github.com:/ExpediaInc/ewe-nativeapps-shared-data.git
+	url = https://github.com/ExpediaInc/ewe-nativeapps-shared-data.git
 [submodule "project/assets/FlightStatsDb"]
 	path = project/src/main/assets/FlightStatsDb
-	url = git@github.com:/ExpediaInc/ewe-android-flight-stats-db.git
+	url = https://github.com/ExpediaInc/ewe-android-flight-stats-db.git
 [submodule "lib/AndroidTime"]
 	path = lib/AndroidTime
-	url = git@github.com:/ExpediaInc/ewe-android-time.git
+	url = https://github.com/ExpediaInc/ewe-android-time.git
 [submodule "lib/bug-reporter"]
 	path = lib/bug-reporter
-	url = git@github.com:/ExpediaInc/ewe-android-bug-reporter.git
+	url = https://github.com/ExpediaInc/ewe-android-bug-reporter.git

@@ -35,6 +35,7 @@ import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.UserReviewRatingDialog
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -55,6 +56,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
+import com.expedia.vm.UserReviewDialogViewModel
 import com.mobiata.android.Log
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -160,6 +162,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         if (UserStateManager(this).isUserAuthenticated()) {
             saveUserAndReferIds(this, Db.getUser().username)
         }
+
+        val  ratingDialog = UserReviewRatingDialog(this)
+        ratingDialog.viewModel = UserReviewDialogViewModel(this)
+        ratingDialog.show()
     }
 
     override fun onNewIntent(intent: Intent) {
