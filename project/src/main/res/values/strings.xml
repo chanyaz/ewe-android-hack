@@ -1024,6 +1024,12 @@
     <string name="scan_a_found_smart_tag">Scan a found smart tag</string>
     <!-- My smart luggage tags text view-->
     <string name="my_luggage_tag_text_view">My smart luggage tags</string>
+    <!-- Add a tag to my account -->
+    <string name="add_a_tag_to_my_account_button">Add a tag to my account</string>
+    <!-- Scan my QR code -->
+    <string name="scan_my_QR_code">Scan my QR code</string>
+    <!-- Manually enter tag ID -->
+    <string name="manually_enter_tag_ID">Manually enter a tag ID</string>
     <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->

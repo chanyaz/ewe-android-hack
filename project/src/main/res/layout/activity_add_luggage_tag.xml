@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/outer_container_add_luggage_tag"
+        style="@style/MarginPoint"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="50dp"
+        android:orientation="vertical" >
+
+        <Switch
+            android:id="@+id/public_private_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:text="Make my information public" />
+
+        <TextView
+            android:id="@+id/tag_id_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Tag Id" />
+
+        <EditText
+            android:id="@+id/tag_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+        <EditText
+            android:id="@+id/name_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/address_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Address" />
+
+        <EditText
+            android:id="@+id/address_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/zip_code_text_view_luggage_tag"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Zip Code" />
+
+        <EditText
+            android:id="@+id/zip_code_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/phone_number_text_view_luggage_tag"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone Number" />
+
+        <EditText
+            android:id="@+id/phone_number_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/add_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/exp_launch_blue"
+            android:gravity="center"
+            android:textColor="@color/btn_find_color"
+            android:textSize="16sp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            app:textStyle="medium"
+            android:text="Add Tag" />
+
+    </LinearLayout>
+
+</LinearLayout>

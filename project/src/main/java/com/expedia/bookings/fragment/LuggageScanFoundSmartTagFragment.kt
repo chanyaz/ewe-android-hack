@@ -18,10 +18,11 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 import com.mobiata.android.util.Ui
 
-class LuggageScanFoundSmartTagFragment : Fragment() {
+class LuggageScanFoundSmartTagFragment: Fragment() {
     private var mScanFoundSmartTagButton: Button? = null
     private var mOuterContainer: LinearLayout? = null
     private var mLuggageTagText: TextView? = null
+    private var mAddTagToAccount: TextView? = null
     private val BARCODE_CAPTURE_REQUEST: Int = 12345
     private var luggageAfterScanFragment: LuggageAfterScanFragment? = null
 
@@ -31,8 +32,9 @@ class LuggageScanFoundSmartTagFragment : Fragment() {
         luggageAfterScanFragment = LuggageAfterScanFragment()
 
         mOuterContainer = Ui.findView<LinearLayout>(view, R.id.outer_container)
-        mLuggageTagText = Ui.findView<TextView>(view, R.id.my_luggage_tag_text_view)
         mScanFoundSmartTagButton = Ui.findView<Button>(view, R.id.scan_a_found_smart_tag)
+        mLuggageTagText = Ui.findView<TextView>(view, R.id.my_luggage_tag_text_view)
+        mAddTagToAccount = Ui.findView<TextView>(view, R.id.add_a_tag_to_my_account_button)
 
         FontCache.setTypeface(mScanFoundSmartTagButton, FontCache.Font.ROBOTO_REGULAR)
 
@@ -41,6 +43,13 @@ class LuggageScanFoundSmartTagFragment : Fragment() {
             barcodeScanIntent.putExtra("FROM", "SCAN_FOUND_TAG")
             startActivityForResult(barcodeScanIntent, BARCODE_CAPTURE_REQUEST)
         }
+
+        mAddTagToAccount?.setOnClickListener {
+            val fragment = AddTagToAccountFragment()
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment).commit()
+        }
+
 
         return view
     }
