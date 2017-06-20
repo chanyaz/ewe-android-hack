@@ -4587,4 +4587,11 @@
     <string name="title_seek_bar_edit">Edit seek control level</string>
     <string name="value_seek_bar_dialog_percent">%</string>
 
+
+    <!--Luggage Tags-->
+    <string name="low_storage_error">Low storage</string>
+    <string name="no_camera_permission">No camera permission</string>
+    <string name="no_barcode_captured">No barcode captured</string>
+    <string name="scan_barcode_button">Scan Barcode</string>
+
 </resources>
