@@ -2901,6 +2901,8 @@
     <string name="booking_support">Booking Support</string>
     <!-- Label for "Luggage tag" button in info page -->
     <string name="luggage_tag">Expedia smart luggage tags</string>
+    <!-- Label for "Luggage tag" button in info page -->
+    <string name="scan_found_smart_tag">Scan a found smart tag</string>
     <!-- Subject for loyalty email on Itin -->
     <string name="support_request">Support Request</string>
     <!-- Title for different ways to connect to Expedia -->

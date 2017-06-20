@@ -11,7 +11,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.LuggageScanFoundSmartTagFragment;
 
 public class LuggageTagActivity extends AppCompatActivity {
-	private static final String TAG_SCAN_FOUND_SMART_TAG = "TAG_SCAN_FOUND_SMART_TAG";
 	private LuggageScanFoundSmartTagFragment mScanFoundSmartTag;
 
 	public static Intent createIntent(Context context) {
@@ -25,16 +24,14 @@ public class LuggageTagActivity extends AppCompatActivity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.fragment_container_with_toolbar);
 
+		mScanFoundSmartTag = new LuggageScanFoundSmartTagFragment();
+
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mScanFoundSmartTag).commit();
+    
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getResources().getString(R.string.luggage_tag));
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//
-//		mScanFoundSmartTag = Ui.findSupportFragment(this, TAG_SCAN_FOUND_SMART_TAG);
-//
-//  		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mScanFoundSmartTag).commit();
-
 	}
 
 	@Override

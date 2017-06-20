@@ -660,8 +660,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
 
             ROW_LUGGAGE_TAG -> {
-                //val intent = Intent(context, LuggageTagActivity::class.java)
-                val intent = Intent(context, BarCodeActivity::class.java)
+                val intent = Intent(context, LuggageTagActivity::class.java)
                 activity.startActivity(intent)
                 return true
             }
