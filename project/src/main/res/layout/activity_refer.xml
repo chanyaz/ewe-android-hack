@@ -10,26 +10,127 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/sg_beach" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-    </LinearLayout>
+        android:src="@drawable/sg_beach"
+        android:tint="#6800355f"/>
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
         app:srcCompat="@drawable/ic_close_white_24dp" />
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="48dp"
+            app:srcCompat="@drawable/gift" />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:text="Sharing is Rewarding"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:text="Share your unique link with your friends and when one of them books a hotel for the first time, they'll get 20% off and give you 20% off your next trip as well!"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/button_final"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/brand_secondary"
+            android:text="Share your link"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="[5]"
+            android:textColor="@color/white"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:text="available coupons"
+            android:textColor="@color/white"
+            android:paddingTop="8dp"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="[30]"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:paddingTop="24dp"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editText6"
+            android:layout_width="285dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="coupons used"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:paddingTop="8dp"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+        <EditText
+            android:id="@+id/editText7"
+            android:layout_width="285dp"
+            android:layout_height="wrap_content"
+            android:text="Legal jargon"
+            android:layout_gravity="bottom"
+            android:textColor="@color/white"
+            android:background="@android:color/transparent"
+            android:textSize="12dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:textStyle="bold" />
+
 
 </FrameLayout>
