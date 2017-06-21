@@ -27,7 +27,6 @@ class FireBaseRewardsUtil {
         val LAST_REFER_VALUE = "LAST_REFER_VALUE"
 
         fun saveUserAndReferIds(context: Context, userName: String) {
-            database.child("users").child(userName)
             userRefernce = database.child("users").child(userName)
             userRefernce.addValueEventListener(object : ValueEventListener {
 
@@ -40,6 +39,8 @@ class FireBaseRewardsUtil {
                         if (SettingUtils.get(context, LAST_REFER_VALUE, 0L) != value) {
                             issueNotification(context)
                         }
+                    } else {
+                        userRefernce.setValue(0)
                     }
                 }
 

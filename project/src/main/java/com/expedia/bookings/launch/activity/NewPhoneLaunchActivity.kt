@@ -35,6 +35,7 @@ import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.UserReferralDialog
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -42,18 +43,17 @@ import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
+import com.expedia.bookings.tracking.InstallReceiver
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.AbacusHelperUtils
-import com.expedia.bookings.utils.AboutUtils
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.DebugMenu
-import com.expedia.bookings.utils.DebugMenuFactory
-import com.expedia.bookings.utils.FireBaseRewardsUtil
+import com.expedia.bookings.utils.*
 import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.saveUserAndReferIds
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.shareRewards
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
+import com.expedia.vm.UserReferralDialogViewModel
+import com.expedia.vm.UserReviewDialogViewModel
 import com.mobiata.android.Log
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
@@ -161,6 +161,12 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
         if (UserStateManager(this).isUserAuthenticated()) {
             saveUserAndReferIds(this, Db.getUser().username)
+        }
+        if (SettingUtils.get(this, InstallReceiver.REWARDS_USER_NAME, null) != null) {
+            SettingUtils.save(this, InstallReceiver.REWARDS_USER_NAME, null)
+            val ratingDialog = UserReferralDialog(this)
+            ratingDialog.viewModel = UserReferralDialogViewModel(this)
+            ratingDialog.show()
         }
     }
     var showRewards = false

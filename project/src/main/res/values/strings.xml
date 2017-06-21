@@ -4462,17 +4462,17 @@
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Upgrade Available</string>
     <!-- Title for App Rating Dialog -->
-    <string name="dialog_app_rating_title">How was your experience?</string>
+    <string name="dialog_app_rating_title">You have 20% off!</string>
     <!-- Alt. Title for App Rating Dialog -->
     <string name="dialog_app_rating_title_alt">Love Our App?</string>
     <!-- Message for App Rating Dialog -->
-    <string name="dialog_app_rating_message">If you love using our app, please let us know with a review in the Play Store.</string>
+    <string name="dialog_app_rating_message">Your friend booked using your referral and gave you a discount on your next hotel booking.</string>
     <!-- Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button">Review</string>
+    <string name="dialog_app_rating_review_button">Shop for Hotels</string>
     <!-- Alt. Button for App Rating Dialog to go to play store and review app-->
-    <string name="dialog_app_rating_review_button_alt">Rate App</string>
+    <string name="dialog_app_rating_review_button_alt">Not Now</string>
     <!-- Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button">Send Feedback</string>
+    <string name="dialog_app_rating_feedback_button">Not Now</string>
     <!-- Alt. Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button_alt">Email App Support</string>
     <!-- Button for App Rating Dialog to decline review -->
