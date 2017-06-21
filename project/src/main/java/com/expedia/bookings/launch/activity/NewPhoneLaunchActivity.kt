@@ -155,10 +155,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
 
-        val tag = ExpediaLuggageTags("11231233123", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
+        val tag = ExpediaLuggageTags("111122223333", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
         val tag2 = ExpediaLuggageTags("231231231", "12313", true, "Jane Funston", "123 1k2hbsd jk1b2", "123-123-1234")
         val tag3 = ExpediaLuggageTags("6666666666", "12312", true, "Frank Funston", "123 1k2hbsd jk1b2", "123-123-1232")
-        LuggageTagsNetwork().addTag("11231233123", "12312", tag)
+        LuggageTagsNetwork().addTag("111122223333", "12312", tag)
         LuggageTagsNetwork().addTag("231231231", "12313", tag2)
         LuggageTagsNetwork().addTag("6666666666", "12312", tag3)
         LuggageTagsNetwork().removeTag("6666666666", "12312")

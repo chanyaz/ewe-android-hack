@@ -1,8 +1,7 @@
 package com.expedia.bookings.luggagetags
 
 import android.util.Log
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 
 class LuggageTagsNetwork {
@@ -49,13 +48,8 @@ class LuggageTagsNetwork {
 //            override fun onCancelled(p0: DatabaseError?) {
 //            }
 //        })
-        Log.d("SRINI: ", guId + " " + tagId)
         usersReference?.child(guId)?.child(tagId)?.removeValue()
         tagsReference?.child(tagId)?.removeValue()
-    }
-
-    fun retrieveTag(tagId: String): ExpediaLuggageTags {
-
     }
 
     fun pushExpediaLuggageTagToFirebase(luggageTag: ExpediaLuggageTags) {
