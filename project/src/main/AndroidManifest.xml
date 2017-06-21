@@ -440,6 +440,10 @@
                 <action android:name="android.intent.extra.CHOSEN_COMPONENT" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".luggagetags.LuggageTagInformationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Material.WebView.Theme" />
     </application>
 
 </manifest>

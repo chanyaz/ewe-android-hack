@@ -28,7 +28,7 @@ class AddLuggageTag : AppCompatActivity() {
     private var phoneNumberEditText: EditText? = null
     private var addTagButton: Button? = null
 
-    private var guid: String = ""
+    private var tuid: String = ""
     var publicOrPrivate = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +55,10 @@ class AddLuggageTag : AppCompatActivity() {
         phoneNumberEditText = findViewById(R.id.phone_number_edit_text) as? EditText
         addTagButton = findViewById(R.id.add_tag) as? Button
 
-        guid = Db.getAbacusGuid()
+        tuid = Db.getUser().tuidString
 
         addTagButton?.setOnClickListener {
-            if (!guid.isNullOrEmpty()) {
+            if (!tuid.isNullOrEmpty()) {
                 val tag = createTag()
                 //TODO: add tag to DB for both 'Tag' and 'User'
                 showAlert()
@@ -77,7 +77,7 @@ class AddLuggageTag : AppCompatActivity() {
     }
 
     fun createTag(): ExpediaLuggageTags {
-        return ExpediaLuggageTags(tagIdEditText?.text.toString(), guid, publicOrPrivate, nameEditText?.text.toString(), addressEditText?.text.toString(), phoneNumberEditText?.text.toString())
+        return ExpediaLuggageTags(tagIdEditText?.text.toString(), tuid, publicOrPrivate, nameEditText?.text.toString(), addressEditText?.text.toString(), phoneNumberEditText?.text.toString())
     }
 
     fun showAlert() {
