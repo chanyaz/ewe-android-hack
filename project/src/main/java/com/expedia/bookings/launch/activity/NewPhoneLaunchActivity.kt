@@ -159,8 +159,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         if (UserStateManager(this).isUserAuthenticated()) {
             saveUserAndReferIds(this, Db.getUser().username)
         }
-
-        SettingUtils.save(this, InstallReceiver.REFERRED_BY, "abhithaparian")
+//        Enable this for testing dialog.
+//        SettingUtils.save(this, InstallReceiver.REFERRED_BY, "abhithaparian")
 
         val referredBy = SettingUtils.get(this, InstallReceiver.REFERRED_BY, null)
         if (referredBy != null) {
