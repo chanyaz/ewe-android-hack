@@ -1,10 +1,9 @@
 package com.expedia.bookings.fragment
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +16,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.LuggageAfterScanActivity
 import com.expedia.bookings.luggagetags.BarCodeCaptureActivity
 import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TravelerTagsRecyclerView
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 import com.mobiata.android.util.Ui
@@ -28,6 +29,7 @@ class LuggageScanFoundSmartTagFragment : Fragment() {
     private var mAddTagToAccount: TextView? = null
     private val BARCODE_CAPTURE_REQUEST: Int = 12345
     private var luggageAfterScanFragment: LuggageAfterScanFragment? = null
+    val recyclerView: TravelerTagsRecyclerView by bindView(R.id.list_view)
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = LayoutInflater.from(context).inflate(R.layout.fragment_luggage_scan_found_smart_tag, container, false)
@@ -48,15 +50,27 @@ class LuggageScanFoundSmartTagFragment : Fragment() {
         }
 
         mAddTagToAccount?.setOnClickListener {
-            val fragment = AddTagToAccountFragment()
-            val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
-
             val toolbar = activity.findViewById(R.id.toolbar) as Toolbar
             toolbar.title = resources.getString(R.string.add_a_tag_to_my_account_button)
             toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+
+            val fragment = AddTagToAccountFragment()
+            val transaction = fragmentManager.beginTransaction()
+            transaction.add(R.id.fragment_container, fragment).addToBackStack(null).commit()
+
+            toolbar.setNavigationOnClickListener { view ->
+                val activity = context as AppCompatActivity
+                activity.onBackPressed()
+                toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp)
+                toolbar.setTitle(R.string.luggage_tag)
+            }
         }
+
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     fun onBackPressed() {

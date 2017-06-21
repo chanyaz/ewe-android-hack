@@ -36,6 +36,13 @@
                 app:textStyle="medium"
                 android:text="@string/scan_a_found_smart_tag" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/traveler_tag_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:overScrollMode="never" />
+
             <TextView
                 android:id="@+id/my_luggage_tag_text_view"
                 android:layout_width="match_parent"
