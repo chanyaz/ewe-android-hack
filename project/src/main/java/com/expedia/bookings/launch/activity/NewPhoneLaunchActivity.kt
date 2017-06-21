@@ -29,6 +29,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
@@ -163,8 +164,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 //        SettingUtils.save(this, InstallReceiver.REFERRED_BY, "abhithaparian")
 
         val referredBy = SettingUtils.get(this, InstallReceiver.REFERRED_BY, null)
-        if (referredBy != null) {
-            SettingUtils.save(this, InstallReceiver.REFERRED_BY, null)
+        if (referredBy != null && !User.isLoggedInOnDisk(this)) {
             val ratingDialog = UserReferredByDialog(this)
             ratingDialog.viewModel = UserReferralDialogViewModel(this)
             ratingDialog.viewModel.reviewSubject.subscribe{
