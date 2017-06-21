@@ -29,11 +29,11 @@ class UserReferralDialogViewModel(val context: Context) {
     val closeTextSubject = PublishSubject.create<String>()
 
     init {
-        reviewSubject.subscribe {
-            val packageName = context.packageName
-            reviewLinkSubject.onNext("market://details?id=" + packageName)
-            OmnitureTracking.trackItinAppRatingClickReview()
-        }
+//        reviewSubject.subscribe {
+//            val packageName = context.packageName
+//            reviewLinkSubject.onNext("market://details?id=" + packageName)
+//            OmnitureTracking.trackItinAppRatingClickReview()
+//        }
         feedbackSubject.subscribe {
             val scheme = BuildConfig.DEEPLINK_SCHEME
             feedbackLinkSubject.onNext(scheme + "://reviewFeedbackEmail")

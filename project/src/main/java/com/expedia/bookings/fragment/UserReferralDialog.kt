@@ -8,12 +8,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.UserReferralDialogViewModel
 
 class UserReferralDialog(context: Context) {
+
+    val nav = NavigationHelper(context)
 
     val dialog: Dialog by lazy {
         val dialog = AlertDialog.Builder(context).create()
@@ -40,6 +43,9 @@ class UserReferralDialog(context: Context) {
         feedbackBtn.subscribeOnClick(viewModel.feedbackSubject)
         noThanksBtn.subscribeOnClick(viewModel.noSubject)
 
+        viewModel.reviewSubject.subscribe{
+            nav.goToHotels(null)
+        }
         viewModel.titleTextSubject.subscribeText(title)
         viewModel.reviewTextSubject.subscribeText(reviewBtn)
         viewModel.feedbackTextSubject.subscribeText(feedbackBtn)

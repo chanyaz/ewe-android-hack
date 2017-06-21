@@ -162,6 +162,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         if (UserStateManager(this).isUserAuthenticated()) {
             saveUserAndReferIds(this, Db.getUser().username)
         }
+//        Enable this for testing dialog.
+//        SettingUtils.save(this, InstallReceiver.REWARDS_USER_NAME, "abhithaparian")
         if (SettingUtils.get(this, InstallReceiver.REWARDS_USER_NAME, null) != null) {
             SettingUtils.save(this, InstallReceiver.REWARDS_USER_NAME, null)
             val ratingDialog = UserReferralDialog(this)
