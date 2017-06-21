@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "50020615004",
+    "firebase_url": "https://couponrefer.firebaseio.com",
+    "project_id": "couponrefer",
+    "storage_bucket": "couponrefer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50020615004:android:3b05c35184eba178",
+        "android_client_info": {
+          "package_name": "com.expedia.bookings.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "50020615004-garcl38svfj0m7l0377rj5vm51rdl0lk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6loL8vKsI9Vnm6OAubzBs9ksu5mt4oDo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
