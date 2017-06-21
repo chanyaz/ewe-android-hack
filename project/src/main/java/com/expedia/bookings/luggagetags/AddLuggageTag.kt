@@ -77,7 +77,7 @@ class AddLuggageTag : AppCompatActivity() {
     }
 
     fun createTag(): ExpediaLuggageTags {
-        return ExpediaLuggageTags(tagIdEditText?.text.toString(), true, guid, publicOrPrivate, nameEditText?.text.toString(), addressEditText?.text.toString(), phoneNumberEditText?.text.toString())
+        return ExpediaLuggageTags(tagIdEditText?.text.toString(), guid, publicOrPrivate, nameEditText?.text.toString(), addressEditText?.text.toString(), phoneNumberEditText?.text.toString())
     }
 
     fun showAlert() {
