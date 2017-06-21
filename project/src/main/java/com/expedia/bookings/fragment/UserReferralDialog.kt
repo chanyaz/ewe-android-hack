@@ -30,7 +30,7 @@ class UserReferralDialog(context: Context) {
     }
 
     val ratingDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_rating_dialog, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_referral_dialog, null)
         val title = view.findViewById(R.id.title_text) as TextView
         val reviewBtn = view.findViewById(R.id.review_btn) as Button
         val feedbackBtn = view.findViewById(R.id.feedback_btn) as Button

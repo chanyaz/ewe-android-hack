@@ -32,7 +32,10 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
-import com.expedia.bookings.fragment.*
+import com.expedia.bookings.fragment.AccountSettingsFragment
+import com.expedia.bookings.fragment.ItinItemListFragment
+import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
+import com.expedia.bookings.fragment.UserReferralDialog
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -40,11 +43,12 @@ import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.tracking.AppStartupTimeClientLog
 import com.expedia.bookings.tracking.AppStartupTimeLogger
+import com.expedia.bookings.tracking.InstallReceiver
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.*
 import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.saveUserAndReferIds
-import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.shareRewards
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.FireBaseRewardsUtil.Companion.shareRewards
 import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.AbstractAppCompatActivity
@@ -158,8 +162,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         if (UserStateManager(this).isUserAuthenticated()) {
             saveUserAndReferIds(this, Db.getUser().username)
         }
-        if (SettingUtils.get(this, "referred", null) != null) {
-            val  ratingDialog = UserReferralDialog(this)
+        if (SettingUtils.get(this, InstallReceiver.REWARDS_USER_NAME, null) != null) {
+            SettingUtils.save(this, InstallReceiver.REWARDS_USER_NAME, null)
+            val ratingDialog = UserReferralDialog(this)
             ratingDialog.viewModel = UserReferralDialogViewModel(this)
             ratingDialog.show()
         }
