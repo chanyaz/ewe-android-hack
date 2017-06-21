@@ -66,8 +66,7 @@
         android:fontFamily="sans-serif"
         android:text="Not Now"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:visibility="gone"/>
+        android:textSize="16sp"/>
 
 
 </LinearLayout>
