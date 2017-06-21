@@ -32,10 +32,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
-import com.expedia.bookings.fragment.AccountSettingsFragment
-import com.expedia.bookings.fragment.ItinItemListFragment
-import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
-import com.expedia.bookings.fragment.UserReferralDialog
+import com.expedia.bookings.fragment.*
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.model.PointOfSaleStateModel
@@ -162,9 +159,23 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
         if (UserStateManager(this).isUserAuthenticated()) {
             saveUserAndReferIds(this, Db.getUser().username)
         }
+
+        SettingUtils.save(this, InstallReceiver.REFERRED_BY, "abhithaparian")
+
+        val referredBy = SettingUtils.get(this, InstallReceiver.REFERRED_BY, null)
+        if (referredBy != null) {
+            SettingUtils.save(this, InstallReceiver.REFERRED_BY, null)
+            val ratingDialog = UserReferredByDialog(this)
+            ratingDialog.viewModel = UserReferralDialogViewModel(this)
+            ratingDialog.viewModel.reviewSubject.subscribe{
+                gotoAccount()
+            }
+            ratingDialog.show()
+        }
+
 //        Enable this for testing dialog.
 //        SettingUtils.save(this, InstallReceiver.REWARDS_USER_NAME, "abhithaparian")
-        if (SettingUtils.get(this, InstallReceiver.REWARDS_USER_NAME, null) != null) {
+        else if (SettingUtils.get(this, InstallReceiver.REWARDS_USER_NAME, null) != null) {
             SettingUtils.save(this, InstallReceiver.REWARDS_USER_NAME, null)
             val ratingDialog = UserReferralDialog(this)
             ratingDialog.viewModel = UserReferralDialogViewModel(this)

@@ -22,7 +22,7 @@ import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.InstallReceiver.REWARDS_USER_NAME
+import com.expedia.bookings.tracking.InstallReceiver.REFERRED_BY
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.CarDataUtils
@@ -142,10 +142,11 @@ class HotelConfirmationViewModel(context: Context, isWebCheckout: Boolean = fals
                 ItineraryManager.getInstance().addGuestTrip(it.checkoutResponse.bookingResponse.email, itinNumber)
             } else if (PointOfSale.getPointOfSale().isPwPEnabledForHotels || PointOfSale.getPointOfSale().isSWPEnabledForHotels) {
                 // If user is logged in and if PWP or SWP is enabled for hotels, refresh user.
-                val userName = SettingUtils.get(context, REWARDS_USER_NAME, "")
+                val userName = SettingUtils.get(context, REFERRED_BY, "")
                 // Increment the refer number
                 if(userName.isNotEmpty()) {
                     FireBaseRewardsUtil.onReferClicked(context, userName)
+                    SettingUtils.remove(context, REFERRED_BY)
                 }
 
                 userAccountRefresher.forceAccountRefresh()

@@ -103,7 +103,6 @@ class FireBaseRewardsUtil {
             context.startActivity(Intent.createChooser(shareIntent, "Share using"))
         }
 
-
     }
 
 
