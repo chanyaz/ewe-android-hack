@@ -423,3 +423,140 @@ Feature: Flights Search
       | departureDate                         | 15                            |
       | numberOfAdultTravelers                | 2                             |
 
+  @Flights @FlightSearch @Prod
+  Scenario: Verify if the previous state is retained .
+    Given I launch the App
+    And I bucket the following tests
+      | FlightRetainSearchParams |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 3                                        |
+      | child               | 2                                        |
+    And I wait for results to load
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    Then Validate search form retains details of search for flights
+      | source              | SFO - San Francisco Intl.                |
+      | destination         | DEL - Indira Gandhi Intl.                |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | totalTravelers      | 5 Travelers                              |
+      | flightClass         | Economy                                  |
+
+  @Flights @FlightSearch @Prod
+  Scenario: Verify if the previous state is retained on changing parameters.
+    Given I launch the App
+    And I bucket the following tests
+      | FlightRetainSearchParams |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | adults              | 1                                        |
+      | child               | 1                                        |
+    And I wait for results to load
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    Then Validate search form retains details of search for flights
+      | source              | SFO - San Francisco Intl.                |
+      | destination         | DEL - Indira Gandhi Intl.                |
+      | start_date          | 5                                        |
+      | end_date            | 10                                       |
+      | totalTravelers      | 2 Travelers                              |
+      | flightClass         | Economy                                  |
+    When I enter source for flights
+      | source              | DEL                                      |
+      | source_suggest      | Delhi, India (DEL - Indira Gandhi Intl.) |
+    When I enter destination for flights
+      | destination         | SFO                                      |
+      | destination_suggest | San Francisco, CA                        |
+    And I click on calender widget
+    And I pick dates for flights
+      | start_date | 6  |
+      | end_date   | 11 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    And Validate Search button is enabled
+    Then I can trigger flights search
+    And I wait for results to load
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    Then Validate search form retains details of search for flights
+      | source              | DEL - Indira Gandhi Intl.                |
+      | destination         | SFO - San Francisco Intl.                |
+      | start_date          | 6                                        |
+      | end_date            | 11                                       |
+      | totalTravelers      | 5 Travelers                              |
+      | flightClass         | Premium Economy                          |
+
+  @Flights @FlightSearch
+  Scenario: Intercept Flight Search API call and validate request parameters for changed parameters
+    Given I launch the App
+    And I bucket the following tests
+      | FlightRetainSearchParams |
+    And I want to intercept these calls
+      | FlightSearch |
+    And I launch "Flights" LOB
+    When I make a flight search with following parameters
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+      | start_date          | 15                                       |
+      | end_date            | 20                                       |
+      | adults              | 1                                        |
+      | child               | 1                                        |
+    And I wait for results to load
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    When I enter source for flights
+      | source              | DEL                                      |
+      | source_suggest      | Delhi, India (DEL - Indira Gandhi Intl.) |
+    When I enter destination for flights
+      | destination         | SFO                                      |
+      | destination_suggest | San Francisco, CA                        |
+    And I click on calender widget
+    And I pick dates for flights
+      | start_date | 20 |
+      | end_date   | 25 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    And Validate Search button is enabled
+    Then I can trigger flights search
+    And I wait for results to load
+    Then Validate the flight Search API request query data for following parameters
+      | maxOfferCount                         | 1600                          |
+      | cabinClassPreference                  | PREMIUM_COACH                 |
+      | childTravelerAge                      | 10                            |
+      | lccAndMerchantFareCheckoutAllowed     | true                          |
+      | sourceType                            | mobileapp                     |
+    Then Validate the flight Search API request form data for following parameters
+      | infantSeatingInLap                    | false                         |
+      | departureAirport                      | DEL                           |
+      | arrivalAirport                        | SFO                           |
+      | departureDate                         | 20                            |
+      | returnDate                            | 25                            |
+      | numberOfAdultTravelers                | 3                             |
+    And on FSR the destination is "San Francisco"
+    And on FSR validate the date is as user selected
+      |start_date | 20 |
+    And on FSR Validate the total number of travelers
+      | totalTravelers      | 5 Travelers                                     |

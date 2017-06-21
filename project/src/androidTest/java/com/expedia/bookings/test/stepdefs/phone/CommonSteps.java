@@ -1,8 +1,13 @@
 package com.expedia.bookings.test.stepdefs.phone;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+
+import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusResponse;
@@ -14,7 +19,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.stepdefs.phone.model.ApiRequestData;
 
 import junit.framework.Assert;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
@@ -62,6 +66,10 @@ public class CommonSteps {
 			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRateDetailExpansion,
 					AbacusUtils.DefaultVariant.BUCKETED.ordinal());
 		}
+		if (list.contains("FlightRetainSearchParams")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightRetainSearchParams,
+				AbacusUtils.DefaultVariant.BUCKETED.ordinal());
+		}
 
 		Db.setAbacusResponse(abacusResponse);
 	}
@@ -75,5 +83,12 @@ public class CommonSteps {
 		for (Map.Entry<String, String> entry : expParameters.entrySet()) {
 			Assert.assertEquals(entry.getValue(), apiRequestData.getQueryParams().get(entry.getKey()).get(0));
 		}
+	}
+
+	public static String getDateInMMMdd(String days) {
+		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
+		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
+		String monthDate = dateFormatter.format(startDate.toDate()).toString();
+		return monthDate;
 	}
 }

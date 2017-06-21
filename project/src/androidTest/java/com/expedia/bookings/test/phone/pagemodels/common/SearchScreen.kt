@@ -45,6 +45,10 @@ object SearchScreen {
         return onView(withId(R.id.calendar)).inRoot(withDecorView(not<View>(`is`<View>(SpoonScreenshotUtils.getCurrentActivity().window.decorView))))
     }
 
+    @JvmStatic fun flightClass(): ViewInteraction {
+        return onView(withId(R.id.flight_cabin_class_widget))
+    }
+
     @JvmStatic fun selectDates(start: LocalDate, end: LocalDate?) {
         calendar().perform(CalendarPickerActions.clickDates(start, end))
         searchAlertDialogDone().perform(click())

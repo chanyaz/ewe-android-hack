@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.matcher.RootMatchers;
@@ -46,7 +47,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.airportDropDownEntryWithAirportCode;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static com.expedia.bookings.test.stepdefs.phone.CommonSteps.getDateInMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.flights.DatePickerSteps.pickDates;
+import static com.expedia.bookings.utils.DateFormatUtils.formatDateToShortDayAndDate;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -263,6 +266,19 @@ public class SearchScreenSteps {
 			.check(matches(withText(containsString(year))));
 	}
 
+	@And("on FSR Validate the total number of travelers")
+	public void validateTotalTravelerCountOnFSR(Map<String, String> expParameters) throws Throwable {
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Travelers"))))
+			.check(matches(withText(containsString(expParameters.get("totalTravelers")))));
+	}
+
+	@And("on FSR validate the date is as user selected")
+	public void validateDateOnFSR(Map<String, String> expParameters) throws Throwable {
+		DateTime startDateTime = DateTime.now().plusDays(Integer.parseInt(expParameters.get("start_date"))).withTimeAtStartOfDay();
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler")))).
+		check(matches(withText(containsString(formatDateToShortDayAndDate(startDateTime)))));
+	}
+
 	public static String getMonth(int month) {
 		switch (month) {
 		case 1:
@@ -356,6 +372,11 @@ public class SearchScreenSteps {
 		onView(withId(R.id.flight_cabin_class_widget)).perform(waitForViewToDisplay(), click());
 	}
 
+	@When("^I click on calender widget$")
+	public void clickPreferredCalenderWidget() throws Throwable {
+		onView(withId(R.id.calendar_card)).perform(waitForViewToDisplay(), click());
+	}
+
 	@Then("^Validate \"([^\"]*)\" class is selected by default$")
 	public void economyClassDefault(String economyClass) throws Throwable {
 		onView(withId(R.id.parentPanel)).check(matches(hasDescendant(allOf(withId(R.id.economy_class),
@@ -402,5 +423,31 @@ public class SearchScreenSteps {
 		for (Map.Entry<String, String> entry : modifiableExpParameters.entrySet()) {
 			Assert.assertEquals(entry.getValue(), apiRequestData.getFormData().get(entry.getKey()));
 		}
+	}
+
+	@Then("Validate search form retains details of search for flights")
+	public void validateSearchRetainSearch(Map<String, String> expParameters) throws Throwable {
+		String startDate = getDateInMMMdd(expParameters.get("start_date"));
+		String endDate = getDateInMMMdd(expParameters.get("end_date"));
+		String expectedCalendarDate = startDate + " - " + endDate ;
+		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
+		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
+		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));
+		SearchScreen.selectTravelerText().check(matches(withText(expParameters.get("totalTravelers"))));
+		SearchScreen.flightClass().check(matches(withText(expParameters.get("flightClass"))));
+	}
+
+	@When("^I enter source for flights$")
+	public void reEnterSource(Map<String, String> parameters) throws Throwable {
+		SearchScreen.origin().perform(click());
+		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
+		SearchScreen.selectLocation(parameters.get("source_suggest"));
+	}
+
+	@When("^I enter destination for flights$")
+	public void reEnterDestination(Map<String, String> parameters) throws Throwable {
+		SearchScreen.destination().perform(click());
+		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
+		SearchScreen.selectLocation(parameters.get("destination_suggest"));
 	}
 }
