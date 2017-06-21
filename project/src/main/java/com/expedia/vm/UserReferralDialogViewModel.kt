@@ -29,11 +29,11 @@ class UserReferralDialogViewModel(val context: Context) {
     val closeTextSubject = PublishSubject.create<String>()
 
     init {
-        reviewSubject.subscribe {
-            val packageName = context.packageName
-            reviewLinkSubject.onNext("market://details?id=" + packageName)
-            OmnitureTracking.trackItinAppRatingClickReview()
-        }
+//        reviewSubject.subscribe {
+//            val packageName = context.packageName
+//            reviewLinkSubject.onNext("market://details?id=" + packageName)
+//            OmnitureTracking.trackItinAppRatingClickReview()
+//        }
         feedbackSubject.subscribe {
             val scheme = BuildConfig.DEEPLINK_SCHEME
             feedbackLinkSubject.onNext(scheme + "://reviewFeedbackEmail")
@@ -55,17 +55,7 @@ class UserReferralDialogViewModel(val context: Context) {
     }
 
     fun bindText() {
-        if (isBucketedForTest()) {
-            titleTextSubject.onNext(context.getString(R.string.dialog_app_rating_title_alt))
-            reviewTextSubject.onNext(context.getString(R.string.dialog_app_rating_review_button_alt))
-            feedbackTextSubject.onNext(context.getString(R.string.dialog_app_rating_feedback_button_alt))
-            closeTextSubject.onNext(context.getString(R.string.dialog_app_rating_no_button_alt))
-        } else {
-            titleTextSubject.onNext(context.getString(R.string.dialog_app_rating_title))
-            reviewTextSubject.onNext(context.getString(R.string.dialog_app_rating_review_button))
-            feedbackTextSubject.onNext(context.getString(R.string.dialog_app_rating_feedback_button))
-            closeTextSubject.onNext(context.getString(R.string.dialog_app_rating_no_button))
-        }
+
     }
 
     private fun startIntent(link: String) {

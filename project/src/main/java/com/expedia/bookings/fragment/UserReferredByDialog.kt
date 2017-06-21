@@ -14,7 +14,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.UserReferralDialogViewModel
 
-class UserReferralDialog(context: Context) {
+class UserReferredByDialog(context: Context) {
 
     val nav = NavigationHelper(context)
 
@@ -33,7 +33,7 @@ class UserReferralDialog(context: Context) {
     }
 
     val ratingDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_referral_dialog, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_referred_by_dialog, null)
         val title = view.findViewById(R.id.title_text) as TextView
         val reviewBtn = view.findViewById(R.id.review_btn) as Button
         val feedbackBtn = view.findViewById(R.id.feedback_btn) as Button
@@ -43,9 +43,6 @@ class UserReferralDialog(context: Context) {
         feedbackBtn.subscribeOnClick(viewModel.feedbackSubject)
         noThanksBtn.subscribeOnClick(viewModel.noSubject)
 
-        viewModel.reviewSubject.subscribe{
-            nav.goToHotels(null)
-        }
         viewModel.titleTextSubject.subscribeText(title)
         viewModel.reviewTextSubject.subscribeText(reviewBtn)
         viewModel.feedbackTextSubject.subscribeText(feedbackBtn)

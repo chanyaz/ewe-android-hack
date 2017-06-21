@@ -15,6 +15,7 @@ public class InstallReceiver extends BroadcastReceiver {
 	private final static String RECEIVER_FORWARDED = "RECEIVER_FORWARDED";
 	private final static String MAT_DEEPLINK_PARAM = "mat_deeplink=";
 	public final static String REWARDS_USER_NAME = "REWARDS_USER_NAME";
+	public final static String REFERRED_BY = "REFERRED_BY";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -27,7 +28,7 @@ public class InstallReceiver extends BroadcastReceiver {
 			Log.d("Referrer value from install: " + referrer);
 			if (referrer != null) {
 				try {
-					SettingUtils.save(context, REWARDS_USER_NAME, referrer);
+					SettingUtils.save(context, REFERRED_BY, referrer);
 					int deeplinkStart = referrer.indexOf(MAT_DEEPLINK_PARAM);
 					if (deeplinkStart != -1) {
 						deeplinkStart += MAT_DEEPLINK_PARAM.length();

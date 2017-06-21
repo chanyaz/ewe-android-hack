@@ -1,5 +1,6 @@
 package com.expedia.vm
 
+import android.app.AlertDialog
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
@@ -15,6 +16,9 @@ import com.expedia.util.endlessObserver
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import android.content.DialogInterface
+
+
 
 class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
@@ -87,6 +91,15 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
 
         couponObservable.onNext(trip)
         paymentModel.couponChangeSubject.onNext(trip)
+
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Coupon Applied!")
+        builder.setMessage("We've applied your 20% off friend referral coupon.")
+        builder.setPositiveButton(R.string.ok) { dialog, id ->
+            dialog.dismiss()
+        }
+        builder.show()
+
     }
 
     private val couponErrorMap: Map<String, Int> = mapOf(
