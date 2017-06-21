@@ -32,12 +32,6 @@
             android:layout_height="wrap_content"
             android:text="Tag Id" />
 
-        <EditText
-            android:id="@+id/tag_id"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone" />
-
         <TextView
             android:id="@+id/name_text_view"
             android:layout_width="fill_parent"
@@ -59,18 +53,6 @@
             android:id="@+id/address_edit_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/zip_code_text_view_luggage_tag"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Zip Code" />
-
-        <EditText
-            android:id="@+id/zip_code_edit_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone" />
 
         <TextView
             android:id="@+id/phone_number_text_view_luggage_tag"

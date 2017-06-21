@@ -79,6 +79,7 @@ class LuggageScanFoundSmartTagFragment: Fragment() {
                 }
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data)        
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }
