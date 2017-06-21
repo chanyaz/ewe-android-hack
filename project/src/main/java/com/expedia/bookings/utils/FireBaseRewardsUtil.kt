@@ -7,7 +7,9 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
+import com.expedia.bookings.tracking.InstallReceiver
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,7 +42,7 @@ class FireBaseRewardsUtil {
                             issueNotification(context)
                         }
                     } else {
-                        userRefernce.setValue(0)
+                        userRefernce.setValue(0L)
                     }
                 }
 
@@ -51,6 +53,7 @@ class FireBaseRewardsUtil {
         }
 
         private fun issueNotification(context: Context) {
+            SettingUtils.save(context, InstallReceiver.REWARDS_USER_NAME, Db.getUser().username)
             val mBuilder = NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_stat_expedia)
                     .setContentTitle(context.getString(R.string.congratulations))
@@ -67,6 +70,7 @@ class FireBaseRewardsUtil {
             mBuilder.setContentIntent(resultPendingIntent);
             val mNotifyMgr = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             mNotifyMgr.notify(1, mBuilder.build())
+
         }
 
         fun getNumberOfRefers(): Long {
