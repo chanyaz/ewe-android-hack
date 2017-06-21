@@ -336,7 +336,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
         // For debug builds only and show only if overflow menu is disabled
         debugFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_DEBUG_SETTINGS)
-        if (debugFragment == null && BuildConfig.DEBUG &&
+        if (false && debugFragment == null && BuildConfig.DEBUG &&
                 !SettingUtils.get(context, context.getString(R.string.preference_launch_screen_overflow), false)) {
             builder = AboutSectionFragment.Builder(context)
             builder.setTitle(R.string.debug_settings)

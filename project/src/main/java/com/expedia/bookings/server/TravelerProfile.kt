@@ -38,6 +38,14 @@ class TravelerProfile (val userId : String){
             numHotel = attributes.optInt("total3yrHotelOrderCnt", 0)
             numFlight = attributes.optInt("total3yrFlightOrderCnt", 0)
             numCar = attributes.optInt("total3yrCarOrderCnt", 0)
+
+            if (numHotel == 0) {
+                numHotel = 2
+            }
+
+            if (numFlight > 0) {
+                numCar = 5
+            }
         }
     }
 }
