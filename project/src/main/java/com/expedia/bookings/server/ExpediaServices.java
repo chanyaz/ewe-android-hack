@@ -1209,6 +1209,9 @@ public class ExpediaServices implements DownloadListener {
 		if (traveler.hasTuid()) {
 			query.add(new BasicNameValuePair(prefix + "tuid", traveler.getTuid().toString()));
 		}
+		if (!TextUtils.isEmpty(traveler.getKnownTravelerNumber())) {
+			query.add(new BasicNameValuePair(prefix + "knownTravelerNumber", traveler.getKnownTravelerNumber()));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

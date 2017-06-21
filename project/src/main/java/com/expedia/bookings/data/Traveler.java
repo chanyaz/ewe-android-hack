@@ -708,6 +708,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return diff;
 		}
 
+		diff = Strings.compareTo(getKnownTravelerNumber(), another.getKnownTravelerNumber());
+		if (diff != 0) {
+			return diff;
+		}
+
 		// Passport countries
 		diff = compareBooleans(hasPassportCountry(), another.hasPassportCountry());
 		if (diff != 0) {
