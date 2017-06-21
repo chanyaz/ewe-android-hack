@@ -55,7 +55,7 @@ class AddLuggageTag : AppCompatActivity() {
             nameEditText?.setText(luggageTag.name, TextView.BufferType.EDITABLE)
             addressEditText?.setText(luggageTag.address, TextView.BufferType.EDITABLE)
             phoneNumberEditText?.setText(luggageTag.phoneNumber, TextView.BufferType.EDITABLE)
-            publicPrivateSwitch?.isChecked = luggageTag.isPublic
+            publicPrivateSwitch?.isChecked = luggageTag.public
         } else {
             // need tag id
             tagIdTextView?.text = intent.getStringExtra("TAG_ID")
