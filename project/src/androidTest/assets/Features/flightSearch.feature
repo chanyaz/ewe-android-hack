@@ -423,8 +423,8 @@ Feature: Flights Search
       | departureDate                         | 15                            |
       | numberOfAdultTravelers                | 2                             |
 
-  @Flights @FlightSearch @Prod
-  Scenario: Verify if the previous state is retained .
+  @Flights @FlightSearch
+  Scenario: Verify if the previous state is retained
     Given I launch the App
     And I bucket the following tests
       | FlightRetainSearchParams |
@@ -450,7 +450,37 @@ Feature: Flights Search
       | totalTravelers      | 5 Travelers                              |
       | flightClass         | Economy                                  |
 
-  @Flights @FlightSearch @Prod
+  @Flights @FlightSearch
+  Scenario: Validate flight params are retained on relaunching LOB for oneway
+    Given I launch the App
+    And I bucket the following tests
+      | FlightRetainSearchParams |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 10 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And I wait for results to load
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    Then Validate search form retains details of search for flights
+      | source              | SFO - San Francisco Intl.                |
+      | destination         | DEL - Indira Gandhi Intl.                |
+      | start_date          | 10                                       |
+      | totalTravelers      | 4 Travelers                              |
+      | flightClass         | Premium Economy                          |
+
+  @Flights @FlightSearch
   Scenario: Verify if the previous state is retained on changing parameters.
     Given I launch the App
     And I bucket the following tests
@@ -505,6 +535,69 @@ Feature: Flights Search
       | flightClass         | Premium Economy                          |
 
   @Flights @FlightSearch
+  Scenario: Validate previous flight params are retained on updating search params for oneway
+    Given I launch the App
+    And I bucket the following tests
+      | FlightRetainSearchParams |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 10 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And Validate FSR toolbar is consistent with search params
+      | destination                 | Delhi, India             |
+      | start_date                  | 10                       |
+      | totalTravelers              | 4 Travelers              |
+    And I wait for results to load
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    Then Validate search form retains details of search for flights
+      | source                      | SFO - San Francisco Intl.|
+      | destination                 | DEL - Indira Gandhi Intl.|
+      | start_date                  | 10                       |
+      | totalTravelers              | 4 Travelers              |
+      | flightClass                       | Premium Economy          |
+    Then I enter source for flights
+      | source              | DEL                                      |
+      | source_suggest      | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I enter destination for flights
+      | destination         | SFO                                      |
+      | destination_suggest | San Francisco, CA                        |
+    And I Click on Select Dates button for flights
+    And I pick departure date for flights
+      | start_date | 11 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "First Class" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And I wait for results to load
+    And Validate that flight search results are displayed
+    And Validate FSR toolbar is consistent with search params
+      | destination                 | San Francisco, CA        |
+      | start_date                  | 11                       |
+      | totalTravelers              | 6 Travelers              |
+    Then I press back
+    And I press back
+    And I launch "Flights" LOB
+    Then Validate search form retains details of search for flights
+      | destination                 | SFO - San Francisco Intl.|
+      | source                      | DEL - Indira Gandhi Intl.|
+      | start_date                  | 11                       |
+      | totalTravelers              | 6 Travelers              |
+      | flightClass                 | First Class              |
+
+  @Flights @FlightSearch
   Scenario: Intercept Flight Search API call and validate request parameters for changed parameters
     Given I launch the App
     And I bucket the following tests
@@ -545,9 +638,9 @@ Feature: Flights Search
     Then Validate the flight Search API request query data for following parameters
       | maxOfferCount                         | 1600                          |
       | cabinClassPreference                  | PREMIUM_COACH                 |
-      | childTravelerAge                      | 10                            |
       | lccAndMerchantFareCheckoutAllowed     | true                          |
       | sourceType                            | mobileapp                     |
+      | childTravelerAge                      | 10                            |
     Then Validate the flight Search API request form data for following parameters
       | infantSeatingInLap                    | false                         |
       | departureAirport                      | DEL                           |
@@ -557,6 +650,71 @@ Feature: Flights Search
       | numberOfAdultTravelers                | 3                             |
     And on FSR the destination is "San Francisco"
     And on FSR validate the date is as user selected
-      |start_date | 20 |
+      | start_date                            | 20                           |
     And on FSR Validate the total number of travelers
-      | totalTravelers      | 5 Travelers                                     |
+      | totalTravelers                       | 5 Travelers                   |
+
+  @Flight @FlightSearch
+  Scenario: Validate the flight search API call for retained flight params for oneway
+    Given I launch the App
+    And I bucket the following tests
+      | FlightRetainSearchParams |
+    And I want to intercept these calls
+      | FlightSearch |
+    And I launch "Flights" LOB
+    And I select one way trip
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick departure date for flights
+      | start_date | 10 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "Premium Economy" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And I wait for results to load
+    Then Validate the flight Search API request query data for following parameters
+      | maxOfferCount                         | 1600                          |
+      | cabinClassPreference                  | PREMIUM_COACH                 |
+      | lccAndMerchantFareCheckoutAllowed     | true                          |
+      | sourceType                            | mobileapp                     |
+      | childTravelerAge                      | 10                            |
+    Then Validate the flight Search API request form data for following parameters
+      | infantSeatingInLap                    | false                         |
+      | departureAirport                      | SFO                           |
+      | arrivalAirport                        | DEL                           |
+      | departureDate                         | 10                            |
+      | numberOfAdultTravelers                | 3                             |
+    And I press back
+    And I press back
+    And I launch "Flights" LOB
+    When I enter destination for flights
+      | destination         | SFO                                      |
+      | destination_suggest | San Francisco, CA                        |
+    When I enter source for flights
+      | source              | DEL                                      |
+      | source_suggest      | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I Click on Select Dates button for flights
+    And I pick departure date for flights
+      | start_date | 11 |
+    And I change travellers count and press done
+    And I click on class widget
+    And I click on "First Class" as preferred class
+    And I click on Done button
+    Then I can trigger flights search
+    And I wait for results to load
+    Then Validate the flight Search API request query data for following parameters
+      | maxOfferCount                         | 1600                          |
+      | cabinClassPreference                  | FIRST                         |
+      | childTravelerAge                      | 10                            |
+      | lccAndMerchantFareCheckoutAllowed     | true                          |
+      | sourceType                            | mobileapp                     |
+    Then Validate the flight Search API request form data for following parameters
+      | infantSeatingInLap                    | false                         |
+      | departureAirport                      | DEL                           |
+      | arrivalAirport                        | SFO                           |
+      | departureDate                         | 11                            |
+      | numberOfAdultTravelers                | 5                             |

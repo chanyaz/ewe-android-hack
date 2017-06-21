@@ -428,8 +428,11 @@ public class SearchScreenSteps {
 	@Then("Validate search form retains details of search for flights")
 	public void validateSearchRetainSearch(Map<String, String> expParameters) throws Throwable {
 		String startDate = getDateInMMMdd(expParameters.get("start_date"));
-		String endDate = getDateInMMMdd(expParameters.get("end_date"));
-		String expectedCalendarDate = startDate + " - " + endDate ;
+		String endDate = " (One Way)";
+		if (expParameters.get("end_date") != null) {
+			endDate = " - " + getDateInMMMdd(expParameters.get("end_date"));
+		}
+		String expectedCalendarDate = startDate + endDate ;
 		SearchScreen.origin().check(matches(withText(expParameters.get("source"))));
 		SearchScreen.destination().check(matches(withText(expParameters.get("destination"))));
 		SearchScreen.calendarCard().check(matches(withText(expectedCalendarDate)));
@@ -449,5 +452,16 @@ public class SearchScreenSteps {
 		SearchScreen.destination().perform(click());
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("destination")));
 		SearchScreen.selectLocation(parameters.get("destination_suggest"));
+	}
+
+	@Then("^Validate FSR toolbar is consistent with search params")
+	public void validateFSRToolBar(Map<String, String> searchFormParameters) throws Throwable {
+		String totalTravelers = searchFormParameters.get("totalTravelers");
+		DateTime startDate = DateTime.now().plusDays(Integer.parseInt(searchFormParameters.get("start_date")));
+		String checkString = formatDateToShortDayAndDate(startDate) + ", " + totalTravelers;
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
+			.check(matches(withText(checkString)));
+		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Select flight to"))))
+			.check(matches(withText("Select flight to " + searchFormParameters.get("destination"))));
 	}
 }
