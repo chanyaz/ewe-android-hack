@@ -27,8 +27,26 @@ class FireBaseRewardsUtil {
         lateinit var userRefernce: DatabaseReference
         var numberofRefers = 0L
         val LAST_REFER_VALUE = "LAST_REFER_VALUE"
+        var couponCode = ""
 
         fun saveUserAndReferIds(context: Context, userName: String) {
+            database.child("couponCode").addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if(dataSnapshot.value != null) {
+                        val value = dataSnapshot.value as String
+                        if (dataSnapshot.exists()) {
+                            couponCode = value
+                        }
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+
+                }
+            })
+
+
             userRefernce = database.child("users").child(userName)
             userRefernce.addValueEventListener(object : ValueEventListener {
 
@@ -101,6 +119,10 @@ class FireBaseRewardsUtil {
             shareIntent.type = "text/plain"
             shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Ready for a getaway? Use my link and get 20% off your first hotel booking on the Expedia App https://play.google.com/store/apps/details?id=com.expedia.bookings&hl=en&referrer=$userId")
             context.startActivity(Intent.createChooser(shareIntent, "Share using"))
+        }
+
+        fun getCoupon(): String {
+            return couponCode
         }
 
     }

@@ -23,6 +23,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.hotel.PageUsableData
+import com.expedia.bookings.utils.FireBaseRewardsUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -60,7 +61,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
         createTripViewmodel.couponApplyObservable.subscribe {
-            couponCardView.couponCode.setText("CL9ZBMR7CR71ZHQP")
+            couponCardView.couponCode.setText(FireBaseRewardsUtil.getCoupon())
             couponCardView.onCouponSubmitClicked.onNext(Unit)
         }
         createTripViewmodel.couponApplyObservable.onNext(Unit)
