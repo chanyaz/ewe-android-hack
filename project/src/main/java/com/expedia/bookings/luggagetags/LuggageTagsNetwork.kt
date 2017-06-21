@@ -3,11 +3,12 @@ package com.expedia.bookings.luggagetags
 import android.util.Log
 import com.google.firebase.database.*
 
-class LuggageTagsNetwork {
 
+class LuggageTagsNetwork {
     val dataBase = FirebaseDatabase.getInstance()
     var tagsReference: DatabaseReference? = null
     var usersReference: DatabaseReference? = null
+    var tags: List<ExpediaLuggageTags>? = null
 
     companion object {
         lateinit var instance: LuggageTagsNetwork
@@ -20,46 +21,35 @@ class LuggageTagsNetwork {
         usersReference = dataBase.getReference("users")
     }
 
-    fun addTag(tagId: String, luggageTag: ExpediaLuggageTags) {
+    //TO ADD/UPDATE
+    fun addTag(tagId: String, userGuid: String, luggageTag: ExpediaLuggageTags) {
         tagsReference?.child(tagId)?.setValue(luggageTag)
-    }
-
-    fun addUserTag(userGuid: String, tagId: String, luggageTag: ExpediaLuggageTags) {
         usersReference?.child(userGuid)?.child(tagId)?.setValue(luggageTag)
     }
 
-    //TODO
-    fun updateTag(tagId: String, luggageTag: ExpediaLuggageTags) {
-
-    }
-
-    //TODO
-    fun removeTag(tagId: String) {
-        /*val query: Query? = tagsReference?.orderByChild("tagID")?.equalTo(tagId)
-        query?.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot?) {
-                val snapshotIterator: Iterable<DataSnapshot>? = p0?.children
-                val iterator: Iterator<DataSnapshot>? = snapshotIterator?.iterator()
-                while (iterator?.hasNext()!!) {
-                    val snapshot: DataSnapshot = iterator.next()
-                    val luggageTag: ExpediaLuggageTags = snapshot.getValue(ExpediaLuggageTags::class.java)
-                    if (luggageTag.tagID == tagId) {
-                        val snapshotKey = snapshot.key
-                        tagsReference?.child(snapshotKey)?.removeValue()
-                    } else {
-                        Log.d("SRINI: ", "nothing to delete")
-                    }
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError?) {
-            }
-        })*/
-        if (tagsReference?.child(tagId) != null) {
-            Log.d("SRINI: ", "found")
-        } else {
-            Log.d("SRINI: ", "not found")
-        }
+    fun removeTag(tagId: String, guId: String) {
+//        val query: Query? = tagsReference?.orderByChild("tagID")?.equalTo(tagId)
+//        query?.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(p0: DataSnapshot?) {
+//                val snapshotIterator: Iterable<DataSnapshot>? = p0?.children
+//                val iterator: Iterator<DataSnapshot>? = snapshotIterator?.iterator()
+//                while (iterator?.hasNext()!!) {
+//                    val snapshot: DataSnapshot = iterator.next()
+//                    val luggageTag: ExpediaLuggageTags = snapshot.getValue(ExpediaLuggageTags::class.java)
+//                    if (luggageTag.tagID == tagId) {
+//                        val snapshotKey = snapshot.key
+//                        tagsReference?.child(snapshotKey)?.removeValue()
+//                    } else {
+//                        Log.d("SRINI: ", "nothing to delete")
+//                    }
+//                }
+//            }
+//
+//            override fun onCancelled(p0: DatabaseError?) {
+//            }
+//        })
+        usersReference?.child(guId)?.child(tagId)?.removeValue()
+        tagsReference?.child(tagId)?.removeValue()
     }
 
     fun pushExpediaLuggageTagToFirebase(luggageTag: ExpediaLuggageTags) {

@@ -21,7 +21,7 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 import com.mobiata.android.util.Ui
 
-class LuggageScanFoundSmartTagFragment: Fragment() {
+class LuggageScanFoundSmartTagFragment : Fragment() {
     private var mScanFoundSmartTagButton: Button? = null
     private var mOuterContainer: LinearLayout? = null
     private var mLuggageTagText: TextView? = null
@@ -65,7 +65,8 @@ class LuggageScanFoundSmartTagFragment: Fragment() {
         } else {
             activity.onBackPressed()
         }
-    }  
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == BARCODE_CAPTURE_REQUEST) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
@@ -73,6 +74,7 @@ class LuggageScanFoundSmartTagFragment: Fragment() {
                     val barcode: Barcode = data.getParcelableExtra(BarCodeCaptureActivity.BarcodeObject)
                     Toast.makeText(context, barcode.displayValue, Toast.LENGTH_SHORT).show()
                     val intent = Intent(context, LuggageAfterScanActivity::class.java)
+                    intent.putExtra("TAG_ID", barcode.displayValue)
                     startActivity(intent)
                 } else {
                     Toast.makeText(context, "No barcode captured", Toast.LENGTH_SHORT).show()
