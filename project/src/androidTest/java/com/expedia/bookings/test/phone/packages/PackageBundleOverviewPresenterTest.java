@@ -60,11 +60,10 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
-		Common.delay(1);
-		PackageScreen.selectThisFlight().perform(click());
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay(), click());
 
 		Common.pressBack(); // auto advance so need to back up.
-		Common.delay(1);
+		PackageScreen.inboundFlightInfo().perform(waitForViewToDisplay());
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Select flight to San Francisco")))));
 
@@ -72,8 +71,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		Common.delay(1);
 		PackageScreen.selectFlight(0);
-		Common.delay(1);
-		PackageScreen.selectThisFlight().perform(click());
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay(), click());
 
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			allOf(isDisplayed(), withText("Package Happy Path")))));
