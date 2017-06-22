@@ -77,12 +77,6 @@
             android:summary="Itinerary card detail view"
             android:title="Enable new itinerary detail view" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_share_button_remove_calendar"
-            android:layout="@layout/preference"
-            android:summary="Share Button Remove Calendar"
-            android:title="Enable Share Button Remove Calendar" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
