@@ -170,7 +170,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/NewLaunchTheme"
+            android:theme="@style/AddGuestItinTheme"
             tools:ignore="UnusedAttribute" />
 
         <!-- Hotels activities -->
