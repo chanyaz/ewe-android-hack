@@ -25,6 +25,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -236,7 +237,9 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
 			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
-			enterDetailsText.setText(traveler.getFullName());
+			String travelerFullName = traveler.getFullNameBasedOnPos(getContext());
+			travelerButton.updateSelectTravelerText(travelerFullName);
+			enterDetailsText.setText(travelerFullName);
 			travelerPhoneText.setText(traveler.getPhoneNumber());
 			travelerPhoneText.setVisibility(VISIBLE);
 		}
@@ -276,7 +279,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 		// Validate
 		boolean isValid = isFilled() && sectionTravelerInfo.performValidation();
-		enterDetailsText.setText(traveler.getFullName());
+		enterDetailsText.setText(traveler.getFullNameBasedOnPos(getContext()));
 		travelerPhoneText.setText(traveler.getPhoneNumber());
 		travelerPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
 		driverCheckoutStatusLeftImageView.setTraveler(traveler);
@@ -424,18 +427,26 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setLineOfBusiness(LineOfBusiness lob) {
 		lineOfBusiness = lob;
+		travelerButton.setLOB(lob);
 	}
 
 	public String getTravelerContentDescriptionString(Traveler traveler, Boolean isValid) {
 		String description;
+		String title;
 		if (isValid) {
+			title = traveler.getFullNameBasedOnPos(getContext());
 			description = Phrase.from(getContext(), R.string.traveler_details_complete_cont_desc_TEMPLATE)
-				.put("title", traveler.getFullName())
+				.put("title", title)
 				.put("subtitle", traveler.getPhoneNumber())
 				.format().toString();
 		}
 		else {
-			String title = Strings.isEmpty(traveler.getFirstName()) ? "" : traveler.getFirstName();
+			if (FeatureUtilKt.isReverseNameEnabled(getContext())) {
+				title = Strings.isEmpty(traveler.getLastName()) ? "" : traveler.getLastName();
+			}
+			else {
+				title = Strings.isEmpty(traveler.getFirstName()) ? "" : traveler.getFirstName();
+			}
 			description = Phrase.from(getContext(), R.string.traveler_details_incomplete_cont_desc_TEMPLATE)
 				.put("title", title).format().toString();
 		}

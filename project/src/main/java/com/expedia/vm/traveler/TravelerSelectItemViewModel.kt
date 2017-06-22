@@ -63,7 +63,7 @@ open class TravelerSelectItemViewModel(val context: Context, val index: Int, val
     }
     
     private fun getTitle(traveler : Traveler) : String {
-        return if (isNameEmpty(traveler)) emptyText else traveler.fullName
+        return if (isNameEmpty(traveler)) emptyText else traveler.getFullNameBasedOnPos(context)
     }
 
     private fun getErrorSubtitle() : String? {

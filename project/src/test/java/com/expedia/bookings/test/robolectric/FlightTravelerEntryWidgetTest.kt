@@ -2,11 +2,13 @@ package com.expedia.bookings.test.robolectric
 
 import android.support.v4.app.FragmentActivity
 import android.view.ViewStub
+import android.widget.Button
 import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -18,7 +20,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
@@ -33,7 +34,7 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.subjects.BehaviorSubject
-import kotlin.properties.Delegates
+import kotlin.properties.Delegates.notNull
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -42,11 +43,11 @@ import kotlin.test.assertTrue
 
 class FlightTravelerEntryWidgetTest {
 
-    private var widget: FlightTravelerEntryWidget by Delegates.notNull()
-    private var testVM: FlightTravelerEntryWidgetViewModel by Delegates.notNull()
-    private var activity: FragmentActivity by Delegates.notNull()
-    private var travelerPresenter: FlightTravelersPresenter by Delegates.notNull()
-    private var traveler: Traveler by Delegates.notNull()
+    private var widget: FlightTravelerEntryWidget by notNull()
+    private var testVM: FlightTravelerEntryWidgetViewModel by notNull()
+    private var activity: FragmentActivity by notNull()
+    private var travelerPresenter: FlightTravelersPresenter by notNull()
+    private var traveler: Traveler by notNull()
 
     @Before
     fun setUp() {
@@ -107,6 +108,7 @@ class FlightTravelerEntryWidgetTest {
     fun testNumberOfErrorsIsCorrectPrimaryTraveler() {
         givenMaterialForm(true)
         setupViewModel(0, true)
+        traveler = Traveler()
         widget.onTravelerChosen(traveler)
         widget.viewModel.validate()
 
@@ -140,6 +142,7 @@ class FlightTravelerEntryWidgetTest {
     fun testNumberOfErrorIsCorrectForNonPrimaryTraveler() {
         givenMaterialForm(true)
         setupViewModel(1, showPassport = false)
+        traveler = Traveler()
         widget.onTravelerChosen(traveler)
         assertEquals(4, widget.getNumberOfInvalidFields())
 
@@ -186,7 +189,7 @@ class FlightTravelerEntryWidgetTest {
     fun testMaterialOnAddNewTravelerValidation() {
         givenMaterialForm(true)
         setupViewModel(0, false)
-        widget.onTravelerChosen(traveler)
+        widget.onTravelerChosen(Traveler())
 
         widget.nameEntryView.viewModel.validate()
         widget.emailEntryView.viewModel.validate()
@@ -320,6 +323,31 @@ class FlightTravelerEntryWidgetTest {
         assertEquals(R.id.edit_birth_date_text_btn, widget.nameEntryView.firstName.nextFocusForwardId)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTravelerButtonHasReversedName() {
+        setPOS(PointOfSaleId.JAPAN)
+        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, true)
+        givenMaterialForm(true)
+        setupViewModel(0, false)
+        widget.resetStoredTravelerSelection()
+
+        val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById(R.id.select_traveler_button) as Button
+        assertEquals(traveler.reversedFullName, travelerButton.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testTravelerButtonHasDefaultNameOrder() {
+        setPOS(PointOfSaleId.UNITED_STATES)
+        givenMaterialForm(false)
+        setupViewModel(0, false)
+        widget.resetStoredTravelerSelection()
+
+        val travelerButton = travelerPresenter.travelerEntryWidget.travelerButton.findViewById(R.id.select_traveler_button) as Button
+        assertEquals(traveler.fullName, travelerButton.text.toString())
+    }
+
     private fun givenMaterialForm(isMaterialForm: Boolean) {
         if (isMaterialForm) {
             AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
@@ -329,6 +357,8 @@ class FlightTravelerEntryWidgetTest {
         travelerPresenter = viewStub.inflate() as FlightTravelersPresenter
         widget = travelerPresenter.travelerEntryWidget as FlightTravelerEntryWidget
         traveler = Traveler()
+        setTravelerName()
+        traveler.tuid = 12345
         Db.getTravelers().add(traveler)
         Db.getTravelers().add(traveler)
     }
@@ -346,5 +376,16 @@ class FlightTravelerEntryWidgetTest {
     private fun setPOS(pos: PointOfSaleId) {
         SettingUtils.save(activity, R.string.PointOfSaleKey, pos.id.toString())
         PointOfSale.onPointOfSaleChanged(activity)
+    }
+
+    private fun setTravelerName() : TravelerName {
+        val name = TravelerName()
+        traveler.firstName = "Oscar"
+        traveler.middleName = "The"
+        traveler.lastName = "Grouch"
+        name.firstName = traveler.firstName
+        name.middleName = traveler.middleName
+        name.lastName = traveler.lastName
+        return name
     }
 }

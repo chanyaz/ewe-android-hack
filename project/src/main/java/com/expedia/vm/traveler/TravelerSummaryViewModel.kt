@@ -22,12 +22,12 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
     }
 
     override fun getTitle(): String {
-        var traveler = getFirstTraveler()
+        val traveler = getFirstTraveler()
         if (traveler?.fullName.isNullOrEmpty()) {
             return resources.getString(if (isFeatureEnabledForTravelerInfoTest) R.string.enter_traveler_details
                                         else R.string.checkout_enter_traveler_details)
         } else {
-            return traveler!!.fullName
+            return traveler?.getFullNameBasedOnPos(context) ?: ""
         }
     }
 

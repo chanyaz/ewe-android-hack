@@ -168,8 +168,9 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
 
     fun resetStoredTravelerSelection() {
         val traveler = viewModel.getTraveler()
-        if (traveler.isStoredTraveler) {
-            travelerButton.updateSelectTravelerText(traveler.fullName)
+        if (traveler.isStoredTraveler || traveler.hasTuid()) {
+            val travelerFullName = traveler.getFullNameBasedOnPos(context)
+            travelerButton.updateSelectTravelerText(travelerFullName)
         } else {
             travelerButton.updateSelectTravelerText(resources.getString(R.string.traveler_saved_contacts_text))
         }

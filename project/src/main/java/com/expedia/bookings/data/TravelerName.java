@@ -43,6 +43,20 @@ public class TravelerName {
 		return fullName;
 	}
 
+	public String getReversedFullName() {
+		String fullName = "";
+		if (!TextUtils.isEmpty(lastName)) {
+			fullName += lastName;
+		}
+		if (!TextUtils.isEmpty(middleName)) {
+			fullName += " " + middleName;
+		}
+		if (!TextUtils.isEmpty(firstName)) {
+			fullName += " " +  firstName;
+		}
+		return fullName.trim();
+	}
+
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}

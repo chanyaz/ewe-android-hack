@@ -15,6 +15,7 @@ class MockTravelerProvider {
     val testLastName = "Grouch"
     val testEmail = "test@gmail.com"
     val testFullName = "Oscar The Grouch"
+    val testReversedFullName = "Grouch the Oscar"
     val testNumber = "773202LUNA"
     val testEmptyNumber = ""
     val testGender = Traveler.Gender.MALE
@@ -28,6 +29,7 @@ class MockTravelerProvider {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.reversedFullName).thenReturn(testReversedFullName)
         Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)

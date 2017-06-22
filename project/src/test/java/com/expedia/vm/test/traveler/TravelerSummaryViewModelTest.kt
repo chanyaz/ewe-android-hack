@@ -5,12 +5,17 @@ import android.content.res.Resources
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.traveler.TravelerSummaryViewModel
+import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
@@ -105,8 +110,7 @@ class TravelerSummaryViewModelTest {
     @Test
     fun updateToIncompleteOneTravelerWithName() {
         val mockTraveler = Mockito.mock(Traveler::class.java)
-        Mockito.`when`(mockTraveler.fullName).thenReturn(mockTravelerProvider.testFullName)
-        mockTravelerProvider.updateDBWithMockTravelers(1, mockTraveler)
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testFullName, 1)
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
@@ -116,7 +120,8 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun updateToCompleteOneTraveler() {
-        mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
+        val mockTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testFullName, 1)
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
@@ -146,7 +151,8 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun updateToIncompleteMultipleTravelersWithName() {
-        mockTravelerProvider.updateDBWithMockTravelers(2, mockTravelerProvider.getCompleteMockTraveler())
+        val mockTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testFullName, 2)
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
@@ -156,7 +162,8 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun updateToCompleteMultipleTraveler() {
-        mockTravelerProvider.updateDBWithMockTravelers(2, mockTravelerProvider.getCompleteMockTraveler())
+        val mockTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testFullName, 2)
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
@@ -166,7 +173,8 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun testPrepopulateSingleTraveler() {
-        mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
+        val mockTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testFullName, 1)
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
@@ -175,7 +183,8 @@ class TravelerSummaryViewModelTest {
 
     @Test
     fun testBirthdayNotDisplayedWhenDirty() {
-        mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTravelerExecptBirthday())
+        val mockTraveler = mockTravelerProvider.getCompleteMockTravelerExecptBirthday()
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testFullName, 1)
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
@@ -183,8 +192,32 @@ class TravelerSummaryViewModelTest {
         assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
     }
 
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testNameIsReversedBasedOnPos() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        SettingUtils.save(activity, R.string.PointOfSaleKey, PointOfSaleId.JAPAN.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
+
+        val mockTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        updateDbTravelers(mockTraveler, mockTravelerProvider.testReversedFullName, 1)
+        summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
+
+        assertEquals(mockTravelerProvider.testReversedFullName, summaryVM.titleObservable.value)
+    }
+
     private fun getAdditionalTravelersSubTitle(travelerCount: Int) : String {
         return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, travelerCount - 1))
                 .put("travelercount", travelerCount - 1).format().toString()
+    }
+
+    private fun updateDbTravelers(traveler: Traveler, name: String, numberOfTravelers: Int) {
+        setFullNameForTraveler(traveler, name )
+        mockTravelerProvider.updateDBWithMockTravelers(numberOfTravelers, traveler)
+    }
+
+    private fun setFullNameForTraveler(traveler: Traveler, name: String) {
+        Mockito.`when`(traveler.fullName).thenReturn(mockTravelerProvider.testFullName)
+        Mockito.`when`(traveler.getFullNameBasedOnPos(activity)).thenReturn(name)
     }
 }

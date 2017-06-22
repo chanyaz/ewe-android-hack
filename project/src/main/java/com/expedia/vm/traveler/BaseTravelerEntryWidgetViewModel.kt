@@ -19,8 +19,10 @@ abstract class BaseTravelerEntryWidgetViewModel(val context: Context, val travel
 
     init {
         showTravelerButtonObservable.subscribe {
-            if (getTraveler().isStoredTraveler) {
-                selectedTravelerSubject.onNext(getTraveler().fullName)
+            val traveler = getTraveler()
+            if (traveler.isStoredTraveler || traveler.hasTuid()) {
+                val travelerFullName = traveler.getFullNameBasedOnPos(context)
+                selectedTravelerSubject.onNext(travelerFullName)
             } else {
                 selectedTravelerSubject.onNext(context.getString(R.string.traveler_saved_contacts_text))
             }

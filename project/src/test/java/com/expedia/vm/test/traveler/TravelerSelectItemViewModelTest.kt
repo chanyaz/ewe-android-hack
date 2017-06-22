@@ -21,6 +21,7 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -186,6 +187,8 @@ class TravelerSelectItemViewModelTest {
         selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        Mockito.`when`((selectVM.testTraveler as Traveler).getFullNameBasedOnPos(activity))
+                .thenReturn(mockTravelerProvider.testFullName)
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -201,6 +204,8 @@ class TravelerSelectItemViewModelTest {
         val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
         selectVM.passportRequired.onNext(true) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        Mockito.`when`((selectVM.testTraveler as Traveler).getFullNameBasedOnPos(activity))
+                .thenReturn(mockTravelerProvider.testFullName)
         mockTravelerProvider.addPassportToTraveler(selectVM.testTraveler!!)
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -256,6 +261,8 @@ class TravelerSelectItemViewModelTest {
         val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
         selectVM.passportRequired.onNext(true) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
+        Mockito.`when`((selectVM.testTraveler as Traveler).getFullNameBasedOnPos(activity))
+                .thenReturn(mockTravelerProvider.testFullName)
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -271,6 +278,8 @@ class TravelerSelectItemViewModelTest {
         selectVM = TestTravelerSelectItemViewModel(activity, testAddTravelerIndex, -1)
         selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTravelerWithoutPhone()
+        Mockito.`when`((selectVM.testTraveler as Traveler).getFullNameBasedOnPos(activity))
+                .thenReturn(mockTravelerProvider.testFullName)
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
