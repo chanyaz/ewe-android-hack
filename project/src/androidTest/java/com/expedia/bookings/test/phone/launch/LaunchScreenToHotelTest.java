@@ -1,7 +1,11 @@
 package com.expedia.bookings.test.phone.launch;
 
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
+import com.expedia.bookings.utils.DateUtils;
 import java.util.concurrent.TimeUnit;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import com.expedia.bookings.R;
@@ -19,38 +23,38 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class LaunchScreenToHotelTest extends PhoneTestCase {
 
-// Disabled on April 28, 2017 for repeated flakiness - ScottW
-//	public void testPopularLocationSelection() {
-//		waitForLaunchScreenToDisplay();
-//
-//		CollectionLocation collectionLocation = new CollectionLocation();
-//		CollectionLocation.Location suggestion = new CollectionLocation.Location();
-//		String city = "San Francisco";
-//
-//		suggestion.displayName = city;
-//		suggestion.shortName = city;
-//		suggestion.type = HotelSearchParams.SearchType.CITY.toString();
-//
-//		CollectionLocation.LatLng latLng = new CollectionLocation.LatLng();
-//		latLng.lat = 0;
-//		latLng.lng = 0;
-//		suggestion.latLong = latLng;
-//
-//		collectionLocation.location = suggestion;
-//		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
-//		// Assert that the results screen is displayed
-//		HotelScreen.waitForResultsLoaded();
-//		Common.pressBack();
-//		// Assert that the search screen is displayed with the correct search params
-//		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
-//		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
-//		LocalDate checkIn = LocalDate.now().plusDays(1);
-//		LocalDate checkOut = LocalDate.now().plusDays(2);
-//		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
-//		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
-//		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (1 night)";
-//		EspressoUtils.assertViewWithTextIsDisplayed(expected);
-//	}
+	@Test
+	public void testPopularLocationSelection() {
+		waitForLaunchScreenToDisplay();
+
+		CollectionLocation collectionLocation = new CollectionLocation();
+		CollectionLocation.Location suggestion = new CollectionLocation.Location();
+		String city = "San Francisco";
+
+		suggestion.displayName = city;
+		suggestion.shortName = city;
+		suggestion.type = HotelSearchParams.SearchType.CITY.toString();
+
+		CollectionLocation.LatLng latLng = new CollectionLocation.LatLng();
+		latLng.lat = 0;
+		latLng.lng = 0;
+		suggestion.latLong = latLng;
+
+		collectionLocation.location = suggestion;
+		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
+		// Assert that the results screen is displayed
+		HotelScreen.waitForResultsLoaded();
+		Common.pressBack();
+		// Assert that the search screen is displayed with the correct search params
+		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
+		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
+		LocalDate checkIn = LocalDate.now().plusDays(1);
+		LocalDate checkOut = LocalDate.now().plusDays(2);
+		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
+		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
+		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (1 night)";
+		EspressoUtils.assertViewWithTextIsDisplayed(expected);
+	}
 
 	@Test
 	public void testSeeMore() throws Throwable {
