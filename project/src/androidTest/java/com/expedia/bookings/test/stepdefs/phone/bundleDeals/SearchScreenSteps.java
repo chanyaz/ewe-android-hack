@@ -184,7 +184,6 @@ public class SearchScreenSteps {
 	public void selectRoom() throws Throwable {
 		PackageScreen.selectFirstRoom();
 	}
-	//String ignore1=(outbound?|inbound), ignore2=(destination|source)
 	@Then("^I select (outbound?|inbound) flight to (destination|source) at position (\\d+)$")
 	public void clickFlights(String ignore1, String ignore2, int pos) throws Throwable {
 		PackageScreen.flightList().perform(RecyclerViewActions.actionOnItemAtPosition(pos, click()));
