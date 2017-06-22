@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.util.TypedValue
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Akeakamai
@@ -20,9 +21,13 @@ class FlightCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewVi
         params.subscribe { params ->
             val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
             val city = SuggestionStrUtils.formatCityName(HtmlCompat.stripHtml(params.arrivalAirport.regionNames.displayName)).trim()
-            val link = Akeakamai(Images.getFlightDestination(params?.arrivalAirport?.hierarchyInfo?.airport?.airportCode))
-                    .resizeExactly(width, height)
-                    .build()
+            val link = if (ExpediaBookingApp.ENABLE_THUMBOR) {
+                Images.getFlightDestination(params?.arrivalAirport?.hierarchyInfo?.airport?.airportCode)
+            } else {
+                Akeakamai(Images.getFlightDestination(params?.arrivalAirport?.hierarchyInfo?.airport?.airportCode))
+                        .resizeExactly(width, height)
+                        .build()
+            }
             val links = listOf<String>(link)
 
             cityTitle.onNext(city)

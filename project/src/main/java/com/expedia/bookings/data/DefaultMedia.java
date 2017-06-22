@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.widget.ViewExtensionsKt;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class DefaultMedia implements IMedia {
 	private final List<String> imageURLs;
@@ -27,13 +31,20 @@ public class DefaultMedia implements IMedia {
 	}
 
 	@Override
-	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
+	public void loadImage(final ImageView imageView, final PicassoTarget target, final int defaultResId) {
 		imageView.setContentDescription(imageCaption);
-		new PicassoHelper.Builder(imageView)
-			.setPlaceholder(defaultResId)
-			.setTarget(target)
-			.setError(getPlaceHolderId())
-			.build().load(imageURLs);
+		ViewExtensionsKt.runWhenSizeAvailable(imageView, new Function0<Unit>() {
+			@Override
+			public Unit invoke() {
+				new PicassoHelper.Builder(imageView)
+					.setPlaceholder(defaultResId)
+					.setTarget(target)
+					.setError(getPlaceHolderId())
+					.build()
+					.load(PicassoHelper.generateSizedSmartCroppedUrls(imageURLs, imageView.getWidth(), imageView.getHeight()));
+				return null;
+			}
+		});
 	}
 
 	@Override

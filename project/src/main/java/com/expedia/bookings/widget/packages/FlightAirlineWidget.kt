@@ -8,11 +8,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.runWhenSizeAvailable
 
 class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -54,10 +53,12 @@ class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout
                         .build()
                         .load(R.drawable.multi_carrier_icon)
             } else if (airline.airlineLogoUrl != null) {
-                PicassoHelper.Builder(airlineLogoImageView)
-                        .setPlaceholder(R.drawable.ic_airline_backup)
-                        .build()
-                        .load(airline.airlineLogoUrl)
+                airlineLogoImageView.runWhenSizeAvailable {
+                    PicassoHelper.Builder(airlineLogoImageView)
+                            .setPlaceholder(R.drawable.ic_airline_backup)
+                            .build()
+                            .load(PicassoHelper.generateSizedSmartCroppedUrl(airline.airlineLogoUrl, airlineLogoImageView.width, airlineLogoImageView.height))
+                }
             } else {
                 PicassoHelper.Builder(airlineLogoImageView)
                         .build()

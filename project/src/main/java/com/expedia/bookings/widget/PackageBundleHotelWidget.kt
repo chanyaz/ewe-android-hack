@@ -67,11 +67,11 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
 
         viewModel.hotelRoomImageUrlObservable.subscribe { imageUrl ->
             if (imageUrl.isNotBlank()) {
-                val hotelMedia = HotelMedia(imageUrl)
+                val imageHeight = (96 * resources.displayMetrics.density + 0.5f).toInt() / 2
                 PicassoHelper.Builder(hotelRoomImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(viewWidth))
+                        .load(HotelMedia(imageUrl).getBestSmartCroppedUrls(viewWidth, imageHeight))
             }
         }
 

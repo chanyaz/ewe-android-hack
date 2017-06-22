@@ -87,15 +87,17 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
 
             var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, theme.titleEN);
 
-            PicassoHelper
-                    .Builder(itemView.context)
-                    .setPlaceholder(R.drawable.results_list_placeholder)
-                    .setError(errorDrawable)
-                    .fade()
-                    .setTag("CATEGORY_ROW")
-                    .setTarget(target)
-                    .build()
-                    .load(imageURLs)
+            themeImage.runWhenSizeAvailable {
+                PicassoHelper
+                        .Builder(itemView.context)
+                        .setPlaceholder(R.drawable.results_list_placeholder)
+                        .setError(errorDrawable)
+                        .fade()
+                        .setTag("CATEGORY_ROW")
+                        .setTarget(target)
+                        .build()
+                        .load(PicassoHelper.generateSizedSmartCroppedUrl(imageURLs, themeImage.width, themeImage.height))
+            }
         }
 
         private val target = object : PicassoTarget() {

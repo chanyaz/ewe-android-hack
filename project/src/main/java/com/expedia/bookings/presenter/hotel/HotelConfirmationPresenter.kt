@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.runWhenSizeAvailable
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -52,13 +53,15 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         hotelConfirmationViewModel.showAddToCalendar.subscribeVisibility(addToCalendarBtn)
         hotelConfirmationViewModel.bigImageUrl.subscribe { value ->
             if (!Strings.isEmpty(value)) {
-                PicassoHelper.Builder(backgroundImageView)
-                        .setError(R.drawable.room_fallback)
-                        .fade()
-                        .fit()
-                        .centerCrop()
-                        .build()
-                        .load(value)
+                backgroundImageView.runWhenSizeAvailable {
+                    PicassoHelper.Builder(backgroundImageView)
+                            .setError(R.drawable.room_fallback)
+                            .fade()
+                            .fit()
+                            .centerCrop()
+                            .build()
+                            .load(PicassoHelper.generateSizedSmartCroppedUrl(value, backgroundImageView.width, backgroundImageView.height))
+                }
             } else {
                 backgroundImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }

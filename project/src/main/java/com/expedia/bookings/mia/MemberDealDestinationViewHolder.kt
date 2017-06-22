@@ -11,14 +11,18 @@ import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.mia.vm.MemberDealDestinationViewModel
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.ColorBuilder
+import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.runWhenSizeAvailable
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
@@ -42,7 +46,14 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
         discountView.text = vm.percentSavingsText
         strikePriceView.text = vm.strikeOutPriceText
         priceView.text = vm.priceText
-        Picasso.with(view.context).load(vm.backgroundUrl).error(vm.backgroundFallback).placeholder(vm.backgroundPlaceHolder).into(target)
+
+        bgImageView.runWhenSizeAvailable {
+            Picasso.with(view.context)
+                    .load(PicassoHelper.generateSizedSmartCroppedUrl(vm.backgroundUrl, bgImageView.width, bgImageView.height))
+                    .error(vm.backgroundFallback)
+                    .placeholder(vm.backgroundPlaceHolder)
+                    .into(target)
+        }
         searchParams = setSearchParams(vm)
         discountPercent = vm.discountPercent
         cardView.contentDescription = getMemberDealContentDesc()
@@ -92,23 +103,7 @@ class MemberDealDestinationViewHolder(private val view: View): RecyclerView.View
 
         override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             super.onBitmapLoaded(bitmap, from)
-            bgImageView.scaleType = ImageView.ScaleType.MATRIX
             bgImageView.setImageBitmap(bitmap)
-            bgImageView.viewTreeObserver.addOnPreDrawListener(object: ViewTreeObserver.OnPreDrawListener{
-                override fun onPreDraw(): Boolean {
-                    bgImageView.viewTreeObserver.removeOnPreDrawListener(this)
-                    val matrix = bgImageView.imageMatrix
-                    val imageViewWidth = bgImageView.width.toFloat()
-                    val bitmapWidth = bitmap.width.toFloat()
-                    val bitmapHeight = bitmap.height.toFloat()
-                    val scaleRatio = imageViewWidth / bitmapWidth
-                    matrix.setScale(scaleRatio, scaleRatio)
-                    val shift = bitmapHeight * scaleRatio * Constants.MOD_IMAGE_SHIFT
-                    matrix.postTranslate(0.5f, shift + 0.5f)
-                    bgImageView.imageMatrix = matrix
-                    return true
-                }
-            })
 
             Thread(Runnable {
                 val palette = Palette.Builder(bitmap).generate()

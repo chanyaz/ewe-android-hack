@@ -34,6 +34,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class LXConfirmationWidget extends android.widget.LinearLayout {
 
@@ -127,14 +129,20 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			lxState.activity.regionId, lxState.selectedTicketsCount(), lxState.selectedChildTicketsCount());
 
 		final Resources res = getResources();
-		List<String> imageURLs = Images
+		final List<String> imageURLs = Images
 			.getLXImageURLBasedOnWidth(lxState.activity.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
-		new PicassoHelper.Builder(confirmationImageView)
-			.fade()
-			.fit()
-			.centerCrop()
-			.build()
-			.load(imageURLs);
+		ViewExtensionsKt.runWhenSizeAvailable(confirmationImageView, new Function0<Unit>() {
+			@Override
+			public Unit invoke() {
+				new PicassoHelper.Builder(confirmationImageView)
+					.fade()
+					.fit()
+					.centerCrop()
+					.build()
+					.load(PicassoHelper.generateSizedSmartCroppedUrls(imageURLs, confirmationImageView.getWidth(), confirmationImageView.getHeight()));
+				return null;
+			}
+		});
 		title.setText(lxState.activity.title);
 		tickets.setText(lxState.selectedTicketsCountSummary(getContext()));
 		location.setText(lxState.activity.location);

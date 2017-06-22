@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
@@ -61,7 +62,8 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                 }
                 LineOfBusiness.TRANSPORT -> nav.goToTransport(null)
                 LineOfBusiness.LX -> nav.goToActivities(null)
-                LineOfBusiness.CARS -> nav.goToCars(null)
+//                LineOfBusiness.CARS -> nav.goToCars(null)
+                LineOfBusiness.CARS -> ExpediaBookingApp.resetImageContentLength()
                 LineOfBusiness.PACKAGES -> nav.goToPackages(null, null)
                 LineOfBusiness.RAILS -> nav.goToRail(null)
                 else -> {

@@ -63,6 +63,7 @@ dependencies {
     compile "com.google.android.gms:play-services-gcm:${rootProject.ext.googlePlayServicesVersion}"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup:pollexor:2.0.4'
     compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
     compile "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'

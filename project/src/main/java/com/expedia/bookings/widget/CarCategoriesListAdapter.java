@@ -32,6 +32,8 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -171,16 +173,22 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			listCardAnnounceButtonContDesc
 				.setVisibility(AccessibilityUtil.isTalkBackEnabled(itemView.getContext()) ? View.VISIBLE : View.GONE);
 
-			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
+			final String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
 				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
-			new PicassoHelper.Builder(itemView.getContext())
-				.setPlaceholder(R.drawable.results_list_placeholder)
-				.setError(R.drawable.cars_fallback)
-				.fade()
-				.setTag(ROW_PICASSO_TAG)
-				.setTarget(target)
-				.build()
-				.load(url);
+			ViewExtensionsKt.runWhenSizeAvailable(backgroundImageView, new Function0<Unit>() {
+				@Override
+				public Unit invoke() {
+					new PicassoHelper.Builder(itemView.getContext())
+						.setPlaceholder(R.drawable.results_list_placeholder)
+						.setError(R.drawable.cars_fallback)
+						.fade()
+						.setTag(ROW_PICASSO_TAG)
+						.setTarget(target)
+						.build()
+						.load(PicassoHelper.generateSizedSmartCroppedUrl(url, backgroundImageView.getWidth(), backgroundImageView.getHeight()));
+					return null;
+				}
+			});
 		}
 
 		@Override

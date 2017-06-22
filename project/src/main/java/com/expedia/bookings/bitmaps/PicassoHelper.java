@@ -1,5 +1,6 @@
 package com.expedia.bookings.bitmaps;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -17,6 +18,8 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
+import com.squareup.pollexor.Thumbor;
+import com.squareup.pollexor.ThumborUrlBuilder;
 
 import okhttp3.OkHttpClient;
 
@@ -290,6 +293,34 @@ public class PicassoHelper implements Target, Callback {
 
 	public void setDisableFallback(boolean disableFallback) {
 
+	}
+
+	public static String generateSizedSmartCroppedUrl(String originalUrl, int width, int height) {
+		if (ExpediaBookingApp.ENABLE_THUMBOR) {
+			Thumbor thumbor = Thumbor.create("https://thumbnails.prod-p.expedia.com",
+				"GiIbJiFjY+WhTgimrplhCycQddAAFS8s1aesWAHNFWAtsb1ZUIPo4QPz");
+			ThumborUrlBuilder thumborBuilder = thumbor.buildImage(originalUrl);
+			thumborBuilder.resize(width, height);
+			thumborBuilder.smart();
+			thumborBuilder.filter(ThumborUrlBuilder.format(ThumborUrlBuilder.ImageFormat.WEBP));
+			return thumborBuilder.toUrl();
+		}
+		else {
+			return originalUrl;
+		}
+	}
+
+	public static List<String> generateSizedSmartCroppedUrls(List<String> originalUrls, int width, int height) {
+		if (ExpediaBookingApp.ENABLE_THUMBOR) {
+			List<String> smartUrls = new ArrayList<>(originalUrls.size());
+			for (String originalUrl : originalUrls) {
+				smartUrls.add(generateSizedSmartCroppedUrl(originalUrl, width, height));
+			}
+			return smartUrls;
+		}
+		else {
+			return originalUrls;
+		}
 	}
 
 	public static class Builder {

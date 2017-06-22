@@ -15,9 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -51,6 +52,8 @@ import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
+
+import butterknife.ButterKnife;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -375,10 +378,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private String getMemberDealHomeScreenImageUrl() {
-		Akeakamai akeakamai = new Akeakamai(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl());
-		akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width),
-			context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
-		return akeakamai.build();
+		if (ExpediaBookingApp.ENABLE_THUMBOR) {
+			return PicassoHelper.generateSizedSmartCroppedUrl(
+				PointOfSale.getPointOfSale().getmMemberDealCardImageUrl(),
+				context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width),
+				context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
+		}
+		else {
+			Akeakamai akeakamai = new Akeakamai(PointOfSale.getPointOfSale().getmMemberDealCardImageUrl());
+			akeakamai.resizeExactly(context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_width),
+				context.getResources().getDimensionPixelSize(R.dimen.launch_mod_card_height));
+			return akeakamai.build();
+		}
 	}
 
 	private ActiveItinViewModel makeActiveItinViewModel() {

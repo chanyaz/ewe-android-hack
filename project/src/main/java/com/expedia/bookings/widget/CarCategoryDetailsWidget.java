@@ -21,6 +21,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import rx.subjects.PublishSubject;
 
 public class CarCategoryDetailsWidget extends FrameLayout {
@@ -107,12 +109,18 @@ public class CarCategoryDetailsWidget extends FrameLayout {
 		adapter.setCarOffers(bucket.offers);
 		adapter.notifyDataSetChanged();
 
-		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type, getResources().getDimension(R.dimen.car_image_width));
-		new PicassoHelper.Builder(headerImage)
-			.setError(R.drawable.cars_fallback)
-			.fade()
-			.build()
-			.load(url);
+		final String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type, getResources().getDimension(R.dimen.car_image_width));
+		ViewExtensionsKt.runWhenSizeAvailable(headerImage, new Function0<Unit>() {
+			@Override
+			public Unit invoke() {
+				new PicassoHelper.Builder(headerImage)
+					.setError(R.drawable.cars_fallback)
+					.fade()
+					.build()
+					.load(PicassoHelper.generateSizedSmartCroppedUrl(url, headerImage.getWidth(), headerImage.getHeight()));
+				return null;
+			}
+		});
 
 		OmnitureTracking.trackAppCarRateDetails(bucket.offers.get(0));
 	}

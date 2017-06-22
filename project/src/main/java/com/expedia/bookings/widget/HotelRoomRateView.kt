@@ -278,11 +278,12 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
             if (ExpediaBookingApp.isDeviceShitty()) {
                 //ignore dont load image
             } else if (imageUrl != null && imageUrl.isNotBlank()) {
-                val hotelMedia = HotelMedia(imageUrl)
-                PicassoHelper.Builder(roomHeaderImage)
-                        .setPlaceholder(R.drawable.room_fallback)
-                        .build()
-                        .load(hotelMedia.getBestUrls(width / 2))
+                roomHeaderImage.runWhenSizeAvailable {
+                    PicassoHelper.Builder(roomHeaderImage)
+                            .setPlaceholder(R.drawable.room_fallback)
+                            .build()
+                            .load(HotelMedia(imageUrl).getBestSmartCroppedUrls(roomHeaderImage.width / 2, roomHeaderImage.height / 2))
+                }
             } else {
                 roomHeaderImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }

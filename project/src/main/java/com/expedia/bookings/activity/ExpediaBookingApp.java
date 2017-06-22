@@ -74,6 +74,10 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -169,7 +173,20 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		FacebookSdk.sdkInitialize(this);
 		startupTimer.addSplit("FacebookSdk started.");
 
-		PicassoHelper.init(this, appComponent().okHttpClient());
+		OkHttpClient okHttpClient = appComponent().okHttpClient().newBuilder()
+			.addInterceptor(new Interceptor() {
+				@Override
+				public Response intercept(Chain chain) throws IOException {
+					Request request = chain.request();
+					Response response = chain.proceed(request);
+					if (response.cacheResponse() == null) {
+						addImageContentLength(response.body().contentLength());
+					}
+					return response;
+				}
+			})
+			.build();
+		PicassoHelper.init(this, okHttpClient);
 		startupTimer.addSplit("Picasso started.");
 
 		ActiveAndroid.initialize(this);
@@ -571,5 +588,18 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);
 		}
+	}
+
+	public static final boolean ENABLE_THUMBOR = true;
+
+	private static long imageContentLength = 0;
+
+	public static void addImageContentLength(long contentLength) {
+		imageContentLength += contentLength;
+		Log.i("Total Image Content Length: " + imageContentLength);
+	}
+
+	public static void resetImageContentLength() {
+		imageContentLength = 0;
 	}
 }

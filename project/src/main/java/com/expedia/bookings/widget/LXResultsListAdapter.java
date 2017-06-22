@@ -24,6 +24,8 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 
 public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
@@ -149,16 +151,22 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			LXDataUtils.bindOriginalPrice(itemView.getContext(), activity.originalPrice, activityOriginalPrice);
 			LXDataUtils.bindDuration(itemView.getContext(), activity.duration, activity.isMultiDuration, duration);
 
-			List<String> imageURLs = Images
+			final List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activity.getImages(), AndroidUtils.getDisplaySize(itemView.getContext()).x);
-			new PicassoHelper.Builder(itemView.getContext())
-				.setPlaceholder(R.drawable.results_list_placeholder)
-				.setError(R.drawable.itin_header_placeholder_activities)
-				.fade()
-				.setTag(ROW_PICASSO_TAG)
-				.setTarget(target)
-				.build()
-				.load(imageURLs);
+			ViewExtensionsKt.runWhenSizeAvailable(activityImage, new Function0<Unit>() {
+				@Override
+				public Unit invoke() {
+					new PicassoHelper.Builder(itemView.getContext())
+						.setPlaceholder(R.drawable.results_list_placeholder)
+						.setError(R.drawable.itin_header_placeholder_activities)
+						.fade()
+						.setTag(ROW_PICASSO_TAG)
+						.setTarget(target)
+						.build()
+						.load(PicassoHelper.generateSizedSmartCroppedUrls(imageURLs, activityImage.getWidth(), activityImage.getHeight()));
+					return null;
+				}
+			});
 
 		}
 

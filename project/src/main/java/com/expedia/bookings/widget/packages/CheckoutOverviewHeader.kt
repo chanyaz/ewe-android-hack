@@ -17,6 +17,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.runWhenSizeAvailable
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
@@ -40,13 +41,18 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
         vm.datesTitleContDesc.subscribeContentDescription(checkInOutDates)
         vm.travelersTitle.subscribeText(travelers)
         vm.url.subscribe { urls ->
-            PicassoHelper.Builder(context)
-                    .setPlaceholder(R.drawable.confirmation_background)
-                    .setError(R.drawable.confirmation_background)
-                    .setTarget(picassoTarget)
-                    .build()
-                    .load(urls)
-
+            checkoutHeaderImage?.runWhenSizeAvailable {
+                val width = checkoutHeaderImage?.width?.div(2) ?: 0
+                val height = checkoutHeaderImage?.height?.div(2) ?: 0
+                if (width > 0 && height > 0) {
+                    PicassoHelper.Builder(context)
+                            .setPlaceholder(R.drawable.confirmation_background)
+                            .setError(R.drawable.confirmation_background)
+                            .setTarget(picassoTarget)
+                            .build()
+                            .load(PicassoHelper.generateSizedSmartCroppedUrls(urls, width, height))
+                }
+            }
         }
         vm.placeHolderDrawable.subscribe { drawableID ->
             val drawable = HeaderBitmapDrawable()

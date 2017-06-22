@@ -110,12 +110,15 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
             AccessibilityUtil.appendRoleContDesc(costSummary, contentDescription, R.string.accessibility_cost_summary_cont_desc_role_button)
         }
         viewModel.roomHeaderImage.subscribe {
-            PicassoHelper.Builder(context)
-                    .setPlaceholder(R.drawable.room_fallback)
-                    .setError(R.drawable.room_fallback)
-                    .setTarget(picassoTarget).setTag(PICASSO_HOTEL_IMAGE)
-                    .build()
-                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width / 2))
+            hotelRoomImage.runWhenSizeAvailable {
+                PicassoHelper.Builder(context)
+                        .setPlaceholder(R.drawable.room_fallback)
+                        .setError(R.drawable.room_fallback)
+                        .setTarget(picassoTarget)
+                        .setTag(PICASSO_HOTEL_IMAGE)
+                        .build()
+                        .load(HotelMedia(Images.getMediaHost() + it).getBestSmartCroppedUrls(hotelRoomImage.width / 2, hotelRoomImage.height / 2))
+            }
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
 
@@ -136,7 +139,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
             drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
             drawable.setBitmap(bitmap)
 
-            var textColor: Int
+            val textColor: Int
             if (!mIsFallbackImage) {
                 // only apply gradient treatment to hotels with images #5647
                 val palette = Palette.Builder(bitmap).generate()

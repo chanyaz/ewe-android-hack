@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.HotelMedia;
@@ -67,9 +68,15 @@ public class Images {
 		final String categoryString = category.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
 		final String typeString = type.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
 		final String code = categoryString + "_" + typeString;
-		return new Akeakamai(getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg")
-			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
-			.build();
+		String imageUrl = getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg";
+		if (ExpediaBookingApp.ENABLE_THUMBOR) {
+			return imageUrl;
+		}
+		else {
+			return new Akeakamai(imageUrl)
+				.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
+				.build();
+		}
 	}
 
 	public static String forLxCategory(Context context, String categoryKeyEN, String imageCode,
@@ -80,9 +87,14 @@ public class Images {
 			: getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/" + LXUtils
 				.whitelistAlphanumericFromCategoryKey(
 					categoryKeyEN) + ".jpg";
-		return new Akeakamai(categoryImageURL)
-			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
-			.build();
+		if (ExpediaBookingApp.ENABLE_THUMBOR) {
+			return categoryImageURL;
+		}
+		else {
+			return new Akeakamai(categoryImageURL)
+				.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
+				.build();
+		}
 	}
 
 	/**
@@ -100,7 +112,13 @@ public class Images {
 		}
 
 		for (LXImage image : lxImages) {
-			imageURLs.add("https:" + image.imageURL);
+			int paramIndex = image.imageURL.indexOf("?");
+			String url = image.imageURL;
+			if (paramIndex > 0) {
+				url = url.substring(0, paramIndex);
+			}
+
+			imageURLs.add("https:" + url);
 		}
 		return imageURLs;
 	}

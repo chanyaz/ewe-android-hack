@@ -31,6 +31,7 @@ import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellNameStarAmeni
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellPriceTopAmenity
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellUrgencyMessage
 import com.expedia.bookings.widget.hotel.hotelCellModules.HotelCellVipMessage
+import com.expedia.bookings.widget.runWhenSizeAvailable
 import com.expedia.util.getGuestRatingBackground
 import com.expedia.util.getGuestRatingText
 import com.expedia.util.setInverseVisibility
@@ -108,13 +109,16 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
 
         val url = viewModel.getHotelLargeThumbnailUrl()
         if (url.isNotBlank()) {
-            PicassoHelper.Builder(itemView.context)
-                    .setPlaceholder(R.drawable.results_list_placeholder)
-                    .setError(R.drawable.room_fallback)
-                    .setCacheEnabled(false)
-                    .setTarget(target).setTag(PICASSO_TAG)
-                    .build()
-                    .load(HotelMedia(url).getBestUrls(width / 2))
+            imageView.runWhenSizeAvailable {
+                PicassoHelper.Builder(itemView.context)
+                        .setPlaceholder(R.drawable.results_list_placeholder)
+                        .setError(R.drawable.room_fallback)
+                        .setCacheEnabled(false)
+                        .setTarget(target)
+                        .setTag(PICASSO_TAG)
+                        .build()
+                        .load(HotelMedia(url).getBestSmartCroppedUrls(imageView.width / 2, imageView.height / 2))
+            }
         }
 
         cardView.contentDescription = viewModel.getHotelContentDesc()

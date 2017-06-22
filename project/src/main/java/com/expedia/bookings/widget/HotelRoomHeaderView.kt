@@ -9,10 +9,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelRoomHeaderViewModel
-import android.view.ViewTreeObserver
-import com.expedia.util.setInverseVisibility
 import rx.subjects.PublishSubject
 
 class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewModel): RelativeLayout(context) {
@@ -29,19 +28,15 @@ class HotelRoomHeaderView(context: Context, val viewModel: HotelRoomHeaderViewMo
 
         headerImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
 
-        headerImageView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                headerImageView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                val imageUrl: String? = viewModel.imageUrl
-                if (!imageUrl.isNullOrBlank()) {
-                    val hotelMedia = HotelMedia(imageUrl)
-                    PicassoHelper.Builder(headerImageView)
-                            .setPlaceholder(R.drawable.room_fallback)
-                            .build()
-                            .load(hotelMedia.getBestUrls(headerImageView.width / 2))
-                }
+        val imageUrl: String? = viewModel.imageUrl
+        if (!imageUrl.isNullOrBlank()) {
+            headerImageView.runWhenSizeAvailable {
+                PicassoHelper.Builder(headerImageView)
+                        .setPlaceholder(R.drawable.room_fallback)
+                        .build()
+                        .load(HotelMedia(imageUrl).getBestSmartCroppedUrls(headerImageView.width / 2, headerImageView.height / 2))
             }
-        })
+        }
 
         bindViewModel(viewModel)
     }

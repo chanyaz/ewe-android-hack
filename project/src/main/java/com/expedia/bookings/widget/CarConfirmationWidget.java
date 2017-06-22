@@ -46,6 +46,8 @@ import com.squareup.phrase.Phrase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class CarConfirmationWidget extends FrameLayout {
 
@@ -177,15 +179,21 @@ public class CarConfirmationWidget extends FrameLayout {
 		emailText.setText(builder.getEmailAddress());
 		itinText.setText(res.getString(R.string.successful_checkout_TEMPLATE, itineraryNumber));
 
-		String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type,
+		final String url = Images.getCarRental(bucket.category, bucket.getLowestTotalPriceOffer().vehicleInfo.type,
 			getResources().getDimension(R.dimen.car_image_width));
-		new PicassoHelper.Builder(backgroundImageView)
-			.setError(R.drawable.cars_fallback)
-			.fade()
-			.fit()
-			.centerCrop()
-			.build()
-			.load(url);
+		ViewExtensionsKt.runWhenSizeAvailable(backgroundImageView, new Function0<Unit>() {
+			@Override
+			public Unit invoke() {
+				new PicassoHelper.Builder(backgroundImageView)
+					.setError(R.drawable.cars_fallback)
+					.fade()
+					.fit()
+					.centerCrop()
+					.build()
+					.load(PicassoHelper.generateSizedSmartCroppedUrl(url, backgroundImageView.getWidth(), backgroundImageView.getHeight()));
+				return null;
+			}
+		});
 		offer = createTrip.carProduct;
 		vendorText.setText(offer.vendor.name);
 		pickupLocationText.setText(offer.pickUpLocation.locationDescription);

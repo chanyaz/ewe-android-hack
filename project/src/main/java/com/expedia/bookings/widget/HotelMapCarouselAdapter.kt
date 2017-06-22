@@ -119,10 +119,12 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
 
             val url = viewModel.getHotelLargeThumbnailUrl()
             if (url.isNotBlank()) {
-                PicassoHelper.Builder(hotelPreviewImage)
-                        .setError(R.drawable.room_fallback)
-                        .build()
-                        .load(url)
+                hotelPreviewImage.runWhenSizeAvailable {
+                    PicassoHelper.Builder(hotelPreviewImage)
+                            .setError(R.drawable.room_fallback)
+                            .build()
+                            .load(PicassoHelper.generateSizedSmartCroppedUrl(url, hotelPreviewImage.width, hotelPreviewImage.height))
+                }
             }
 
             hotelPreviewText.text = viewModel.hotelName

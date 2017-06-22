@@ -13,10 +13,8 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -174,6 +172,15 @@ public class HotelMedia implements JSONable, IMedia {
 		return getBestUrls(sMediaTypes.length, width);
 	}
 
+	public List<String> getBestSmartCroppedUrls(int width, int height) {
+		List<String> rawUrls = getBestUrls(width);
+		List<String> smartUrls = new ArrayList<>(rawUrls.size());
+		for (String rawUrl : rawUrls) {
+			smartUrls.add(PicassoHelper.generateSizedSmartCroppedUrl(rawUrl, width, height));
+		}
+		return smartUrls;
+	}
+
 	private List<String> getUrls(int count, int... indices) {
 		ArrayList<String> urls = new ArrayList<>(count);
 		for (int i : indices) {
@@ -308,68 +315,20 @@ public class HotelMedia implements JSONable, IMedia {
 			@Override
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth()/2, placeholderResId, target);
+				fillImageView(view, view.getWidth()/2, view.getHeight()/2, placeholderResId, target);
 				return true;
 			}
 		});
 	}
 
-	public void fillImageView(final ImageView view, final int placeholderResId,
-		final PaletteCallback callback, final String tag) {
-
-		// Do this OnPreDraw so that we are sure we have the imageView's width
-		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth()/2, placeholderResId, callback, tag);
-				return true;
-			}
-		});
-	}
-
-	/**
-	 * Creates a UrlBitmapDrawable with appropriately sized Media (falling back to lower resolutions
-	 * if necessary), and stuffs it into the passed ImageView. The Media will be
-	 * downloaded in the background.
-	 */
-	public void fillImageView(final ImageView view, final int width, final int placeholderResId) {
-		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).build()
-			.load(getBestUrls(width));
-	}
-
-	private void fillImageView(final ImageView view, final int width, final int placeholderResId,
+	private void fillImageView(final ImageView view, final int width, final int height, final int placeholderResId,
 		final PicassoTarget target) {
-		new PicassoHelper.Builder(view.getContext()).setCacheEnabled(false).setPlaceholder(placeholderResId).setTarget(target).build()
-			.load(getBestUrls(width));
-	}
-
-	private void fillImageView(final ImageView view, final int width, final int placeholderResId,
-		final PaletteCallback callback, final String tag) {
-		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).applyPaletteTransformation(
-			callback).setTag(tag).build().load(getBestUrls(width));
-	}
-	/**
-	 * This is a specialized variant on fillImageView, where the ImageView wants to
-	 * hold a HeaderBitmapDrawable.
-	 *
-	 * @see{fillImageView()}
-	 */
-	public void fillHeaderBitmapDrawable(final ImageView view, final HeaderBitmapDrawable drawable,
-		final int placeholderResId) {
-		view.setImageDrawable(drawable);
-
-		// Do this OnPreDraw so that we are sure we have the imageView's width
-		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				List<String> urls = getBestUrls(view.getWidth());
-				new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(
-					drawable.getPicassoTarget()).build().load(urls);
-				return true;
-			}
-		});
+		new PicassoHelper.Builder(view.getContext())
+			.setCacheEnabled(false)
+			.setPlaceholder(placeholderResId)
+			.setTarget(target)
+			.build()
+			.load(getBestSmartCroppedUrls(width, height));
 	}
 
 	@Override

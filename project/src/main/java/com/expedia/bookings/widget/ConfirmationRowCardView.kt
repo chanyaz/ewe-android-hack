@@ -35,10 +35,12 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
                 if (!url.isNullOrBlank()) {
                     val fallbackDrawable = context.obtainStyledAttributes(attrs, R.styleable.ConfirmationRow, 0, 0)
                             .getResourceId(R.styleable.ConfirmationRow_row_icon, R.drawable.packages_flight1_icon)
-                    PicassoHelper.Builder(icon)
-                            .setError(fallbackDrawable)
-                            .build()
-                            .load(url)
+                    icon.runWhenSizeAvailable {
+                        PicassoHelper.Builder(icon)
+                                .setError(fallbackDrawable)
+                                .build()
+                                .load(PicassoHelper.generateSizedSmartCroppedUrl(url, icon.width, icon.height))
+                    }
                 }
             }
         }
