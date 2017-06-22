@@ -49,6 +49,7 @@ public class NameEntryViewTest {
 	@Before
 	public void setUp() {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariant.CONTROL.ordinal());
+		SettingUtils.save(activityTestRule.getActivity(), R.string.preference_reverse_traveler_name, false);
 
 		nameView = (NameEntryView) activityTestRule.getRoot();
 		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
@@ -177,6 +178,7 @@ public class NameEntryViewTest {
 	public void testMaterialReversedNameLayout() throws Throwable {
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		SettingUtils.save(activityTestRule.getActivity(), R.string.PointOfSaleKey, Integer.toString(PointOfSaleId.HONG_KONG.getId()));
+		SettingUtils.save(activityTestRule.getActivity(), R.string.preference_reverse_traveler_name, true);
 		PointOfSale.onPointOfSaleChanged(activityTestRule.getActivity());
 
 		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
