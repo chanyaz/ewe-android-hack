@@ -227,7 +227,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		assertViewWithContentDescription(TripsScreen.addGuestItinButton(), "Enter a Guest Itinerary Button");
 		TripsScreen.addGuestItinButton().perform(click());
-		TripsScreen.enterItinDetailsView().perform(waitForViewToDisplay());
+		TripsScreen.enterItinToolbarText().perform(waitForViewToDisplay());
 	}
 
 	private boolean checkOutboundFlightArrivalAtStandardOffset() {

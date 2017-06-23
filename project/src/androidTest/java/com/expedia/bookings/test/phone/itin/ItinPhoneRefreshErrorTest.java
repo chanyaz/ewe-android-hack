@@ -26,7 +26,7 @@ public class ItinPhoneRefreshErrorTest extends PhoneTestCase {
 		LogInScreen.typeTextPasswordEditText("password");
 		LogInScreen.clickOnLoginButton();
 
-		TripsScreen.refreshTripsButton().check(matches(isDisplayed()));
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.no_upcoming_trips, "We were unable to fetch your itineraries at this time. Please try again.");
+		TripsScreen.refreshTripsButtonText().check(matches(isDisplayed()));
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.status_text, "Unable to connect at this time.");
 	}
 }

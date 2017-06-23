@@ -1022,8 +1022,6 @@
     <string name="unable_to_find_guest_itinerary">Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">This is not a guest itinerary. Please sign into the {brand} account associated with this itinerary.</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">Find Guest Itinerary</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Enter Itinerary Details</string>
     <!-- Expedia Itinerary -->
