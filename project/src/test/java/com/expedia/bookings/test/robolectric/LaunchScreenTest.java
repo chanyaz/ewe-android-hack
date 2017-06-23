@@ -74,7 +74,6 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysCollectionWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -98,7 +97,6 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysCollectionWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -122,7 +120,6 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysHotelsWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -145,7 +142,6 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysHotelsWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -165,7 +161,6 @@ public class LaunchScreenTest {
 	@Test
 	public void testZeroRatingWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -214,7 +209,6 @@ public class LaunchScreenTest {
 	@Test
 	public void testZeroRatingWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
