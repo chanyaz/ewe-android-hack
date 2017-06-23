@@ -1728,6 +1728,8 @@
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->

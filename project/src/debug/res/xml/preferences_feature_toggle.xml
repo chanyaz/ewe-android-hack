@@ -23,6 +23,12 @@
         android:layout="@layout/preference_category_title"
         android:title="Material Flight Features">
 
+        <CheckBoxPreference
+            android:key="@string/preference_flight_search_day_plus_date"
+            android:layout="@layout/preference"
+            android:summary="Show day along with date search form"
+            android:title="Enable Day with date search form" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
