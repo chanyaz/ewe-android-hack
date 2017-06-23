@@ -127,6 +127,6 @@
 
 
     <!-- New launch screen colors -->
-    <color name="launch_discount">#0e8264</color>
+    <color name="launch_discount">#02634a</color>
     <color name="launch_primary">#ffffff</color>
 </resources>
