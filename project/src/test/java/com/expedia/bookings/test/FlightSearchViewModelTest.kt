@@ -83,6 +83,7 @@ class FlightSearchViewModelTest {
     @Test
     fun testFlightSearchDayWithDateAbacusTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
+        SettingUtils.save(context, R.string.preference_flight_search_day_plus_date, true)
         givenMockServer()
         givenDefaultTravelerComponent()
         createSystemUnderTest()
@@ -94,7 +95,7 @@ class FlightSearchViewModelTest {
 
         sut.datesUpdated(startDate, endDate)
         assertEquals(null, sut.cachedEndDateObservable.value)
-        assertEquals("$expectedStartDate - $expectedEndDate", sut.dateTextObservable.value)
+        assertEquals("$expectedStartDate  -  $expectedEndDate", sut.dateTextObservable.value)
 
         sut.isRoundTripSearchObservable.onNext(false)
         assertEquals(endDate, sut.cachedEndDateObservable.value)
