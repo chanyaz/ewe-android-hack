@@ -80,7 +80,6 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			query.addExperiment(AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
-			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 			query.addExperiment(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 			query.addExperiment(PointOfSale.getPointOfSale().getCarsWebViewABTestID());
 			query.addExperiment(AbacusUtils.EBAndroidAppUserOnboarding);
