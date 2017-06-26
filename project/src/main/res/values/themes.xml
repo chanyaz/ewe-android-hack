@@ -399,6 +399,7 @@
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">6dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
+        <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
     </style>
 
     <!--

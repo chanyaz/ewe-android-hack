@@ -122,6 +122,7 @@
         <item name="skin_acctLogoTextDrawableMarginLeft">0dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+        <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
     </style>
 
     <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
