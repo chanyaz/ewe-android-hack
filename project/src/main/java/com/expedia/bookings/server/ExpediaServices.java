@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import com.crashlytics.android.Crashlytics;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieManager;
@@ -588,6 +589,7 @@ public class ExpediaServices implements DownloadListener {
 		addCommonFlightStatsParams(parameters);
 
 		String baseUrl;
+		FlightStatsFlightResponse response;
 
 		if (flight.mFlightHistoryId != -1) {
 			// get based on flight history id
@@ -606,8 +608,17 @@ public class ExpediaServices implements DownloadListener {
 			parameters.add(new BasicNameValuePair("airport", flight.getOriginWaypoint().mAirportCode));
 		}
 
-		FlightStatsFlightResponse response = doFlightStatsRequest(baseUrl, parameters,
-			new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
+		if (flight.getPrimaryFlightCode() != null) {
+			response = doFlightStatsRequest(baseUrl, parameters,
+				new FlightStatsFlightStatusResponseHandler(flight.getPrimaryFlightCode().mAirlineCode));
+		}
+		else {
+			Crashlytics.logException(
+				new Exception("See Flight segment details:" + flight));
+			response = doFlightStatsRequest(baseUrl, parameters,
+				new FlightStatsFlightStatusResponseHandler(null));
+		}
+
 		if (response == null) {
 			return null;
 		}
