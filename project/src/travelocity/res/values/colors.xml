@@ -76,7 +76,8 @@
     <color name="btn_sign_in_focused">#446801</color>
     <color name="btn_sign_in_disabled">#C5E38E</color>
     <color name="acct__btn_sign_in_text_tvly">@color/white</color>
-    <color name="acct__bg_input_text_error">@color/white</color>
+    <color name="acct__bg_input_text_error">#e99087</color>
+    <color name="acct__bg_input_text_hint">#97a7ca</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
 
     <!-- Checkout Colors -->
@@ -124,8 +125,8 @@
     <!-- Splash screen -->
     <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
 
-
     <!-- New launch screen colors -->
     <color name="launch_discount">#0e8264</color>
     <color name="launch_primary">#ffffff</color>
 </resources>
+
