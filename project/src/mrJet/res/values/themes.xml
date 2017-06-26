@@ -134,6 +134,7 @@
         <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">20dp</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+        <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
     </style>
 
 </resources>

@@ -210,5 +210,6 @@
     <attr name="skin_acctBrand" format="reference" />
     <attr name="skin_acctFlavorTextColor" format="reference|color" />
     <attr name="skin_acctInputTextDefaultColor" format="reference|color" />
+    <attr name="skin_acctInputTextHintColor" format="reference|color" />
 
 </resources>
