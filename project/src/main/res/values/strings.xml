@@ -1022,8 +1022,6 @@
     <string name="unable_to_find_guest_itinerary">Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">This is not a guest itinerary. Please sign into the {brand} account associated with this itinerary.</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">Find Guest Itinerary</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Enter Itinerary Details</string>
     <!-- Expedia Itinerary -->
@@ -1728,6 +1726,8 @@
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->

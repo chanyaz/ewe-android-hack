@@ -45,7 +45,6 @@ class FlightItinCardTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun shareButtonTest(){
-        SettingUtils.save(RuntimeEnvironment.application, R.string.preference_share_button_remove_calendar, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar)
         AbacusTestUtils.bucketTestWithVariant(14201, 0)
         createSystemUnderTest()

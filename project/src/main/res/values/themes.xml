@@ -299,6 +299,10 @@
         <item name="itin_card_detail_horizontal_divider_color">@color/itin_divider_color</item>
     </style>
 
+    <style name="AddGuestItinTheme" parent="NewLaunchTheme">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
     <style name="NewLaunchTheme.Light">
         <item name="itin_list_bg">@color/exp_itin_bg_crystal_theme</item>
         <item name="itin_card_bg">@android:color/white</item>
@@ -395,6 +399,7 @@
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
         <item name="skin_acctLogoTextDrawableMarginLeft">6dp</item>
         <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
+        <item name="skin_acctInputTextHintColor">?android:textColorHint</item>
     </style>
 
     <!--

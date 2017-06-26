@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
 
 fun isMaterialFormsEnabled(): Boolean {
     return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
@@ -18,4 +19,9 @@ fun isFlexEnabled(context: Context): Boolean {
 
 fun isSaveTravelerDialogEnabled(context: Context) : Boolean {
     return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_saved_traveler_behavior)
+}
+
+fun isReverseNameEnabled(context:Context): Boolean {
+    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_reverse_traveler_name)
+            && (PointOfSale.getPointOfSale().showLastNameFirst() || PointOfSale.getPointOfSale().hideMiddleName())
 }

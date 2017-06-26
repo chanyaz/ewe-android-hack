@@ -55,6 +55,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.getString;
 
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
+import static com.expedia.bookings.test.stepdefs.phone.CommonSteps.getDateInMMMdd;
 import static com.expedia.bookings.test.stepdefs.phone.CommonSteps.validateRequestParams;
 import static org.hamcrest.CoreMatchers.not;
 
@@ -352,12 +353,6 @@ public class SearchScreenSteps {
 		onView(allOf(withId(R.id.step_one_text), isDescendantOfA(withId(R.id.bundle_widget)))).perform(waitForViewToDisplay()).check(matches(withText("Step 1: Select Hotel")));
 	}
 
-	private String getDateInMMMdd(String days) {
-		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(days));
-		Format dateFormatter = new SimpleDateFormat("MMM d", Locale.US);
-		String monthDate = dateFormatter.format(startDate.toDate()).toString();
-		return monthDate;
-	}
 	@Then("^Validate search form retains details of search for packages")
 	public void validateSearchFormDetails(Map<String, String> expParameters) throws Throwable {
 

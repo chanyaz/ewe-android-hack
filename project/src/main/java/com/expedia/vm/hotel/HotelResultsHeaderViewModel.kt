@@ -43,8 +43,7 @@ class HotelResultsPricingStructureHeaderViewModel(private val resources: Resourc
             loyaltyAvailableObservable.onNext(doesSearchResultsHaveLoyaltyInformation)
 
             val faqUrl = PointOfSale.getPointOfSale().hotelsResultsSortFaqUrl
-            val userBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsSortFaq)
-            sortFaqLinkAvailableObservable.onNext(faqUrl.isNotEmpty() && userBucketed)
+            sortFaqLinkAvailableObservable.onNext(faqUrl.isNotEmpty())
         }
     }
 }

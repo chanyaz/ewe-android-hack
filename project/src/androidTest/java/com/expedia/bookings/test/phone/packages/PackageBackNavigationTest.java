@@ -33,8 +33,9 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		PackageScreen.selectFirstRoom();
 		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(click());
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay(), click());
 		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 
 		//back to inbound flight results
 		Common.pressBack();
@@ -105,6 +106,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travel_info_view_text), hasSibling(withText("Flight to Detroit")))).check(matches(isDisplayed()));
 		Common.pressBack();
+		SearchScreen.searchButton().perform(waitForViewToDisplay());
 		onView(withId(R.id.origin_card)).perform(click());
 		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW));
 		SearchScreen.selectLocation(TestValues.ORIGIN_LOCATION_DTW);

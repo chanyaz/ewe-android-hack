@@ -39,7 +39,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false
-    val showDaywithDate = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
+    val showDaywithDate = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm, R.string.preference_flight_search_day_plus_date)
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -297,7 +297,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
         if (forContentDescription) {
-            val formattedDate = if (showDaywithDate) getStartToEndDateString(start, end) else getStartToEndDateWithDayString(start, end)
+            val formattedDate = if (showDaywithDate) getStartToEndDateWithDayString(start, end) else getStartToEndDateString(start, end)
             return getDateAccessibilityText(context.getString(R.string.select_dates), formattedDate)
         }
         if (showDaywithDate) {
@@ -309,7 +309,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     fun getStartDashEndDateWithDayString(start: LocalDate, end: LocalDate) : String {
-        return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+        return Phrase.from(context, R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE)
                 .put("startdate", DateUtils.localDateToEEEMMMd(start))
                 .put("enddate", DateUtils.localDateToEEEMMMd(end))
                 .format().toString()

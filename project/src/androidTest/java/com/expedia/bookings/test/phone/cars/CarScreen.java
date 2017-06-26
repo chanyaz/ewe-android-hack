@@ -195,6 +195,7 @@ public final class CarScreen {
 		if (carOfferNum != 0) {
 			CarScreen.expandCarOffer(carOfferNum);
 		}
+		Common.delay(1);
 		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve")))
 			.perform(click());
 		Common.delay(1);

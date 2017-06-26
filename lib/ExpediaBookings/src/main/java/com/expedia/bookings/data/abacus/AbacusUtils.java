@@ -27,7 +27,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppTripsUserReviews = 13257;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightsConfirmationItinSharing = 14137;
-	public static final int EBAndroidAppTripsNewSignInPage = 13890;
 	public static final int EBAndroidAppDisabledSTPState = 13825;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppWebViewCheckout = 13741;
@@ -58,7 +57,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightSearchFormValidation = 13843;
 	public static final int EBAndroidAppFlightHideFSRInfographic = 13844;
 	public static final int EBAndroidAppFlightRetainSearchParams = 14297;
-	public static final int EBAndroidAppFlightDayPlusDateSearchForm = 14601;
+	public static final int EBAndroidAppFlightDayPlusDateSearchForm = 14742;
 
 
 	// Hotel Tests
@@ -67,7 +66,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
-	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelLPASEndpoint = 13929;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
@@ -140,7 +138,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing);
 		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
 		testIDs.add(EBAndroidAppHotelImageLoadLatency);
-		testIDs.add(EBAndroidAppTripsNewSignInPage);
 		testIDs.add(EBAndroidAppFlightByotSearch);
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
@@ -152,7 +149,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelUpgrade);
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
-		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);

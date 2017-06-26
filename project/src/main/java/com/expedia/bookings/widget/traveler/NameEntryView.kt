@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMaterialFormsEnabled
+import com.expedia.bookings.utils.isReverseNameEnabled
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerNameViewModel
@@ -37,7 +37,7 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
 
     init {
         val layout = if (materialFormTestEnabled) {
-            if (PointOfSale.getPointOfSale().showLastNameFirst() || PointOfSale.getPointOfSale().hideMiddleName()) {
+            if (isReverseNameEnabled(context)) {
                 R.layout.material_reversed_name_entry_view
             } else {
                 R.layout.material_name_entry_view

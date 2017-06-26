@@ -122,12 +122,6 @@
         <!-- Itineraries -->
 
         <activity
-            android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
-            android:resizeableActivity="false"
-            android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="UnusedAttribute" />
-        <activity
             android:name="com.expedia.bookings.activity.TerminalMapActivityV1"
             android:label="@string/Terminal_Map"
             android:resizeableActivity="false"
@@ -170,7 +164,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/NewLaunchTheme"
+            android:theme="@style/AddGuestItinTheme"
             tools:ignore="UnusedAttribute" />
 
         <!-- Hotels activities -->

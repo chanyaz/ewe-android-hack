@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.abacus.AbacusUtils;
@@ -256,46 +255,36 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	public void showAddGuestItinScreen() {
-		if (isNewSignInScreen()) {
-			Intent intent = new Intent(getActivity(), NewAddGuestItinActivity.class);
-			startActivity(intent);
-		}
-		else {
-			startAddGuestItinActivity(false);
-		}
+		Intent intent = new Intent(getActivity(), NewAddGuestItinActivity.class);
+		startActivity(intent);
 	}
 
 	private void setSignInView(View rootView) {
 		View mEmptyView;
-		if (isNewSignInScreen()) {
-			if (mSignInPresenter == null) {
-				ViewStub viewStub = Ui.findView(rootView, R.id.sign_in_presenter_stub);
-				mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
-				mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
-				mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
-					new Action1<Boolean>() {
-						@Override
-						public void call(Boolean show) {
-							toolBarVisibilitySubject.onNext(show);
-							Ui.hideKeyboard(getActivity());
-						}
-					});
-				mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
-					new Action1<Unit>() {
-						@Override
-						public void call(Unit unit) {
-							syncItinManager(true, true);
-						}
-					});
-			}
-			Collection<Trip> trips = ItineraryManager.getInstance().getTrips();
-			mSignInPresenter.getSignInWidget().getViewModel().newTripsUpdateState(trips);
+		if (mSignInPresenter == null) {
+			ViewStub viewStub = Ui.findView(rootView, R.id.sign_in_presenter_stub);
+			mSignInPresenter = (ItinSignInPresenter) viewStub.inflate();
+			mItinManager.addSyncListener(mSignInPresenter.getSyncListenerAdapter());
+			mSignInPresenter.getAddGuestItinWidget().getViewModel().getToolBarVisibilityObservable().subscribe(
+				new Action1<Boolean>() {
+					@Override
+					public void call(Boolean show) {
+						toolBarVisibilitySubject.onNext(show);
+						Ui.hideKeyboard(getActivity());
+					}
+				});
+			mSignInPresenter.getSignInWidget().getViewModel().getSyncItinManagerSubject().subscribe(
+				new Action1<Unit>() {
+					@Override
+					public void call(Unit unit) {
+						syncItinManager(true, true);
+					}
+				});
+		}
+		Collection<Trip> trips = ItineraryManager.getInstance().getTrips();
+		mSignInPresenter.getSignInWidget().getViewModel().newTripsUpdateState(trips);
 
-			mEmptyView = mSignInPresenter;
-		}
-		else {
-			mEmptyView = mOldEmptyView;
-		}
+		mEmptyView = mSignInPresenter;
 
 		if (mSignInPresenter != null) {
 			mSignInPresenter.setVisibility(View.GONE);
@@ -405,7 +394,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 		mEmptyListContent.setVisibility(isLoading ? View.GONE : View.VISIBLE);
 		invalidateOptionsMenu();
-		if (isNewSignInScreen() && isLoading && mSignInPresenter != null) {
+		if (isLoading && mSignInPresenter != null) {
 			mSignInPresenter.getAddGuestItinWidget().getViewModel().getShowItinFetchProgressObservable().onNext(Unit.INSTANCE);
 		}
 	}
@@ -432,28 +421,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void disableLoadItins() {
 		mAllowLoadItins = false;
-	}
-
-	private boolean isNewSignInScreen() {
-		return
-			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsNewSignInPage);
-	}
-
-	private synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
-		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
-		if (isFetchGuestItinFailure) {
-			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_GUEST_ITINERARY);
-		}
-		OmnitureTracking.trackFindItin();
-		startActivity(intent);
-	}
-
-	public synchronized void startAddRegisteredUserItinActivity() {
-
-		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
-		intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_REGISTERED_USER_ITINERARY);
-		OmnitureTracking.trackFindItin();
-		startActivity(intent);
 	}
 
 	public synchronized void startLoginActivity() {
@@ -646,17 +613,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	@Override
 	public void onTripFailedFetchingGuestItinerary() {
-		boolean isFetchGuestItinFailure = true;
-		if (!isNewSignInScreen()) {
-			startAddGuestItinActivity(isFetchGuestItinFailure);
-		}
 	}
 
 	@Override
 	public void onTripFailedFetchingRegisteredUserItinerary() {
-		if (!isNewSignInScreen()) {
-			startAddRegisteredUserItinActivity();
-		}
 	}
 
 	@Override

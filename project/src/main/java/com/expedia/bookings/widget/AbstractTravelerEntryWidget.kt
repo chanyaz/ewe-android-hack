@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.isMaterialFormsEnabled
+import com.expedia.bookings.utils.isReverseNameEnabled
 import com.expedia.bookings.widget.traveler.EmailEntryView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
@@ -46,8 +46,7 @@ abstract class AbstractTravelerEntryWidget(context: Context, attrs: AttributeSet
         vm.showEmailObservable.subscribeVisibility(emailEntryView)
         vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
         Observable.combineLatest(vm.showEmailObservable, vm.showPhoneNumberObservable, { showEmail, showPhoneNumber ->
-            val isLastNameFirstLayout = PointOfSale.getPointOfSale().hideMiddleName() || PointOfSale.getPointOfSale().showLastNameFirst()
-            val nameView = if (isLastNameFirstLayout) nameEntryView.firstName else nameEntryView.lastName
+            val nameView = if (isReverseNameEnabled(context)) nameEntryView.firstName else nameEntryView.lastName
             if (showEmail && showPhoneNumber) {
                 nameView.nextFocusForwardId = R.id.edit_email_address
                 emailEntryView.emailAddress.nextFocusForwardId = R.id.edit_phone_number

@@ -23,6 +23,12 @@
         android:layout="@layout/preference_category_title"
         android:title="Material Flight Features">
 
+        <CheckBoxPreference
+            android:key="@string/preference_flight_search_day_plus_date"
+            android:layout="@layout/preference"
+            android:summary="Show day along with date search form"
+            android:title="Enable Day with date search form" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -65,6 +71,12 @@
             android:summary="Enable behavior for saving/updating saved travelers"
             android:title="Enable new traveler saving behavior" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_reverse_traveler_name"
+            android:layout="@layout/preference"
+            android:summary="Enable reversed traveler names for certain APAC POS"
+            android:title="Enable reversed traveler names for certain APAC POS" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -76,12 +88,6 @@
             android:layout="@layout/preference"
             android:summary="Itinerary card detail view"
             android:title="Enable new itinerary detail view" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_share_button_remove_calendar"
-            android:layout="@layout/preference"
-            android:summary="Share Button Remove Calendar"
-            android:title="Enable Share Button Remove Calendar" />
 
     </PreferenceCategory>
 

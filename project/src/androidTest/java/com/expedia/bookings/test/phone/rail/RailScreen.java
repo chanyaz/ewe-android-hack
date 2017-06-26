@@ -113,6 +113,7 @@ public class RailScreen {
 	}
 
 	public static void fillInTraveler() {
+		onView(withId(R.id.rail_traveler_toolbar)).perform(waitForViewToDisplay());
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
 		enterEmail("noah@mobiata.com");
@@ -197,6 +198,7 @@ public class RailScreen {
 
 		clickTravelerCard();
 		fillInTraveler();
+		onView(withId(R.id.rail_traveler_card_view)).perform(waitForViewToDisplay());
 		onView(withId(R.id.rail_traveler_card_view)).check(matches(isDisplayed()));
 
 		CheckoutViewModel.waitForPaymentInfoDisplayed();

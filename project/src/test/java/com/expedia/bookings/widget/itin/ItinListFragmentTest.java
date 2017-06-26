@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.ExpediaSupportFragmentTestUtil;
 import com.expedia.bookings.fragment.ItinItemListFragment;
@@ -91,12 +90,6 @@ public class ItinListFragmentTest {
 	public void testShowCorrectAddGuestItinActivity() {
 		listFragment.showAddGuestItinScreen();
 		Intent startedIntent = Shadows.shadowOf(activity).getNextStartedActivity();
-		assertIntentForActivity(ItineraryGuestAddActivity.class, startedIntent);
-
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsNewSignInPage);
-
-		listFragment.showAddGuestItinScreen();
-		startedIntent = Shadows.shadowOf(activity).getNextStartedActivity();
 		assertIntentForActivity(NewAddGuestItinActivity.class, startedIntent);
 	}
 

@@ -474,7 +474,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelImageLoadLatency);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsSortFaq);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsCardReadability);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideSearch);
 		// Send the tracking data
@@ -2217,9 +2216,6 @@ public class OmnitureTracking {
 		else {
 			s.setEvents("event63");
 		}
-		if (!userStateManager.isUserAuthenticated() && getUsersTrips().isEmpty()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsNewSignInPage);
-		}
 		if (!getUsersTrips().isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
 		}
@@ -3265,7 +3261,8 @@ public class OmnitureTracking {
 		return null;
 	}
 
-	private static void addDeepLinkData(ADMS_Measurement s) {
+	@VisibleForTesting
+	protected static void addDeepLinkData(ADMS_Measurement s) {
 		// Yes this logic is ugly (but is as desired by marketing).
 		// See https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9353 for details
 
@@ -4710,7 +4707,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAATest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRetainSearchParams);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_flight_search_day_plus_date)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
+		}
 		s.track();
 	}
 

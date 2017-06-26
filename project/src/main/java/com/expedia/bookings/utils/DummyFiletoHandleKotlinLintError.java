@@ -32,6 +32,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_min_duration_template_cont_desc,
 		R.layout.activity_hotel,
 		R.layout.widget_hotel_detail,
+		R.layout.hotel_detail_content_view,
 		R.layout.add_guest_itin_activity,
 		R.string.hotel_results_map_view_cont_desc,
 		R.string.flights_tab_selection_accouncement_oneway,
@@ -1092,6 +1093,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.preference_flight_retain_search_params,
 		R.string.change_dates,
 		R.string.expand_advanced_button_cont_desc,
+		R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE,
 		R.string.collapse_advanced_button_cont_desc
 	};
 }

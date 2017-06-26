@@ -39,6 +39,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
@@ -339,6 +340,16 @@ class PackageCheckoutTest {
         checkout.travelersPresenter.doneClicked.onNext(Unit)
 
         assertSaveTravelerDialog()
+    }
+
+    @Test
+    fun testSaveTravelerDialogShowsForChangedKnownTravelerNumber() {
+        givenCompletedTravelerEntryWidget()
+        (checkout.travelersPresenter.travelerEntryWidget as FlightTravelerEntryWidget)
+                .advancedOptionsWidget.travelerNumber.viewModel.textSubject.onNext("123456")
+
+        checkout.travelersPresenter.doneClicked.onNext(Unit)
+        assertUpdateTravelerDialog()
     }
 
 

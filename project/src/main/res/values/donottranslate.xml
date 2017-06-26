@@ -95,7 +95,6 @@
     <string name="preference_abacus_setting_because_you_booked_a_flight">Because_you_booked_a_flight</string>
     <string name="preference_abacus_setting_share_button_icon">Share button icon</string>
     <string name="preference_abacus_setting_share_button_text">Share button text</string>
-    <string name="preference_share_button_remove_calendar">preference_share_button_remove_calendar</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_chuck_notification">preference_enable_chuck_notification</string>
     <string name="preference_chuck_show_ui">preference_chuck_show_ui</string>
@@ -115,6 +114,8 @@
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
     <string name="preference_new_saved_traveler_behavior">preference_enable_new_saved_traveler_behavior</string>
+    <string name="preference_reverse_traveler_name">preference_enable_reversed_traveler_name</string>
+    <string name="preference_flight_search_day_plus_date">preference_flight_search_day_plus_date</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
