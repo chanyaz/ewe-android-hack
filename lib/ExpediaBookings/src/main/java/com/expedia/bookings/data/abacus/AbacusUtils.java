@@ -67,7 +67,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
-	public static final int EBAndroidAppHotelResultsSortFaq = 13264;
 	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelLPASEndpoint = 13929;
 	public static final int EBAndroidAppHotelNoStickyETP = 13904;
@@ -152,7 +151,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelUpgrade);
 		testIDs.add(EBAndroidCheckoutPaymentTravelerInfo);
 		testIDs.add(EBAndroidAppHotelDetailsGalleryPeak);
-		testIDs.add(EBAndroidAppHotelResultsSortFaq);
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
