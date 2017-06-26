@@ -327,6 +327,7 @@
     <color name="acct__btn_sign_in_text">@color/black</color>
     <color name="acct__bg_input_text_default">#80ffffff</color>
     <color name="acct__bg_input_text_error">#db4437</color>
+    <color name="acct__bg_input_text_hint">#80849a</color>
     <color name="acct__bg_input_text_good">#4a90e2</color>
     <color name="acct__flavor_text">@color/white</color>
     <color name="acct__user_info_text_color">@color/white</color>

@@ -17,6 +17,7 @@
         android:fitsSystemWindows="true"
         app:acct__flavor_text_color="@color/acct__flavor_text"
         app:acct__input_text_error_color="@color/acct__bg_input_text_error"
+        app:acct__input_text_hint_color="@color/acct__bg_input_text_hint"
         app:acct__input_text_good_color="@color/acct__bg_input_text_good"
         app:acct__input_text_default_color="@color/acct__bg_input_text_default"
         app:acct__toolbar_icon_color="@color/toolbar_icon"
