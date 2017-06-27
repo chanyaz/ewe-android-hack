@@ -51,7 +51,6 @@
     <color name="btn_sign_in_focused">#BBDF84</color>
     <color name="btn_sign_in_disabled">#807abb00</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
-    <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="launch_actionbar_bg_color">#EDEDED</color>
     <color name="hotel_lob_btn">#70BB00</color>

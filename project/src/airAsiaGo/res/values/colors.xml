@@ -81,7 +81,6 @@
     <color name="btn_sign_in_focused">#C30A0E</color>
     <color name="btn_sign_in_disabled">#80E31F0E</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
-    <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="account_sign_in_button_background_color">@color/aag_primary_color</color>
     <color name="account_create_button_text_color">@color/aag_primary_color</color>

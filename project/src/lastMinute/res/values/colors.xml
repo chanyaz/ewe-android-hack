@@ -113,7 +113,6 @@
     <color name="btn_sign_in_focused">#F8159C</color>
     <color name="btn_sign_in_disabled">#80004C</color>
     <color name="acct__btn_sign_in_text_lm">@color/white</color>
-    <color name="acct__bg_input_text_error">@color/white</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
 

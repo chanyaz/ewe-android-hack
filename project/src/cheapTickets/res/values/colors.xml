@@ -112,7 +112,6 @@
     <color name="btn_sign_in_focused">#FC4545</color>
     <color name="btn_sign_in_disabled">#7F002A</color>
     <color name="acct__btn_sign_in_text">#FFFFFF</color>
-    <color name="acct__bg_input_text_error">#FFFFFF</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
 
     <!--Account Screen-->

@@ -119,7 +119,6 @@
     <color name="btn_sign_in_focused">#456F1E</color>
     <color name="btn_sign_in_disabled">#52970C</color>
     <color name="acct__btn_sign_in_text_wotif">@color/white</color>
-    <color name="acct__bg_input_text_error">@color/white</color>
     <color name="acct__bg_input_text_good">#EEEEEE</color>
     <color name="acct__welcome_text_color">@color/white</color>
     <color name="bg_air_attach_banner_default">#1972b2</color>
