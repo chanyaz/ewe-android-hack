@@ -5,6 +5,7 @@ import os.path
 
 def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath):
     testCaseReport = []
+    featureExecutionTime = 0
     for testcase in featureTestcasesJson:
         testcaseId = testcase['id']
         testcaseName = testcase['name']
@@ -18,6 +19,7 @@ def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath
         testCaseStepsBeforeHTML, testCaseStepsAfterHTML, testCaseStepsHTML, testExecutionTime, testcaseStatus = generateTestcaseStepsHTML(testcaseStepsJson, testcaseBefore, testcaseAfter, testcaseTags)
         testExecutionTime = testExecutionTime/1e9
         print "Total time for execution in seconds - {testExecutionTime}".format(testExecutionTime=testExecutionTime)
+        featureExecutionTime = featureExecutionTime + testExecutionTime
         print "Test case status - {testcaseStatus}".format(testcaseStatus=testcaseStatus)
         print "---------------------"
         if testcaseStatus=="failed":
@@ -57,8 +59,9 @@ def generateTestcasesHTML(featureTestcasesJson, failedTestcaseImageDirectoryPath
                 </div>
 			""".format(testcaseId=testcaseId, testcaseStatus=testcaseStatus,testcaseName=testcaseName, testExecutionTime=testExecutionTime, testCaseStepsBeforeHTML=testCaseStepsBeforeHTML, testCaseStepsAfterHTML=testCaseStepsAfterHTML, testCaseStepsHTML=testCaseStepsHTML, testcaseStatusFormatted=testcaseStatusFormatted))
 
+    print "Total execution time: {featureExecutionTime}".format(featureExecutionTime=featureExecutionTime)
     testCaseHTML=''.join(testCaseReport)
-    return testCaseHTML
+    return testCaseHTML, featureExecutionTime
 
 def generateTestcaseStepsHTML(testcaseStepsJson, testcaseBeforeJson, testcaseAfterJson, testcaseTags):
     testcaseStatus = "noresult"
@@ -288,14 +291,16 @@ def main():
                     jsonReport = json.load(reportJsonFile)
                 for features in jsonReport:
                     featureName = features['name']
+                    featureExecutionTime = 0
                     feature_testcases_json = features['elements']
                     allTestCases = []
                     print featureName
                     print "*************"
-                    allTestCases.append(generateTestcasesHTML(feature_testcases_json, failedTestcaseImageDirectoryPath))
+                    testCasesHtml, featureExecutionTime = generateTestcasesHTML(feature_testcases_json, failedTestcaseImageDirectoryPath)
+                    allTestCases.append(testCasesHtml)
                     allTestCasesHTML=''.join(allTestCases)
                     allFeatureResults.append("""\n<div class="cucumber-feature">
-                            <div class="feature-title feature-title-background"><span>Feature:{featureName} run on Device: {deviceIdentifier}</span></div>
+                            <div class="feature-title feature-title-background"><span>Feature:{featureName} run on Device: {deviceIdentifier} </span> <span style="float: right;"> Total execution time: {featureExecutionTimeinMin:.0f} minutes {featureExecutionTimeinSec:.0f} seconds</span></div>
                                 <div class="testcases">
                                     <div class="rTable">
                                         <div class="rTableHeading">
@@ -315,7 +320,7 @@ def main():
                                     </div>
                                 </div>
                         </div>
-                        """.format(deviceIdentifier=deviceIdentifier, featureName=featureName, allTestCasesHTML=allTestCasesHTML ))
+                        """.format(deviceIdentifier=deviceIdentifier, featureName=featureName, allTestCasesHTML=allTestCasesHTML, featureExecutionTimeinMin=featureExecutionTime/60, featureExecutionTimeinSec=featureExecutionTime%60 ))
             except Exception, e:
                 allFeatureResults.append("""\n
                     <div class="cucumber-feature">
