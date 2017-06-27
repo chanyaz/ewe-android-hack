@@ -339,6 +339,8 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		travelerPresenterBack();
 
 		EspressoUser.clickOnText(expectedFilledTravelerTwoText);
+		onView(withText("Please use the Roman alphabet")).check(matches(isDisplayed()));
+		onView(withText("OK")).perform(click());
 		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed(testEmptyPassport);

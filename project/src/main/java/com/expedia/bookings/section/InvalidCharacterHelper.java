@@ -14,10 +14,11 @@ import com.mobiata.android.Log;
 
 public class InvalidCharacterHelper {
 
-	//Matches only ascii characters (thus disallowing multibyte characters)
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ASCII = Pattern.compile("^(\\p{ASCII})*$");
 	//Matches ascii characters that are only letters, latin accents, apostrophe, dash(es), periods, commas or spaces.
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[a-zA-ZÀ-ÿ',. -]*$");
+	//Matches ascii characters that are only letters, numbers.
+	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ALPHANUMERIC = Pattern.compile("^[a-zA-Z0-9]*$");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
@@ -33,7 +34,8 @@ public class InvalidCharacterHelper {
 		ASCII,
 		NAME,
 		EMAIL,
-		ADDRESS
+		ADDRESS,
+		ALPHANUMERIC
 	}
 
 	//Don't instantiate this class
@@ -49,6 +51,9 @@ public class InvalidCharacterHelper {
 		switch (mode) {
 		case NAME: {
 			return SUPPORTED_CHARACTER_PATTERN_NAMES;
+		}
+		case ALPHANUMERIC: {
+			return SUPPORTED_CHARACTER_PATTERN_ALPHANUMERIC;
 		}
 		default: {
 			return SUPPORTED_CHARACTER_PATTERN_ASCII;

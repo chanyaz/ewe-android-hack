@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
+import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.notNullAndObservable
@@ -39,6 +41,10 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         viewModel.textSubject.subscribeEditText(this)
         subscribeToError(viewModel.errorSubject)
         addTextChangedSubscriber(viewModel.textSubject)
+        viewModel.addInvalidCharacterListener(InvalidCharacterHelper.InvalidCharacterListener { text, mode ->
+            val activity = context as AppCompatActivity
+            InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
+        })
     }
 
     init {
@@ -66,6 +72,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
             textChangedSubscription?.unsubscribe()
             textChangedSubscription = this.subscribeTextChange(observer)
         }
+        InvalidCharacterHelper.generateInvalidCharacterTextWatcher(this, viewModel, viewModel.invalidCharacterMode)
     }
 
     fun subscribeToError(errorSubject: BehaviorSubject<Boolean>?) {

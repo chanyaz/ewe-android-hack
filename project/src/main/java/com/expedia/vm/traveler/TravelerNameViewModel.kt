@@ -2,12 +2,11 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.data.TravelerName
-import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.AccessibilityUtil
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-open class TravelerNameViewModel(context: Context): InvalidCharacterHelper.InvalidCharacterListener {
+open class TravelerNameViewModel(context: Context) {
     private var travelerName: TravelerName by Delegates.notNull()
     val firstNameViewModel = FirstNameViewModel(context)
     val middleNameViewModel = MiddleNameViewModel(context)
@@ -52,10 +51,5 @@ open class TravelerNameViewModel(context: Context): InvalidCharacterHelper.Inval
 
         numberOfInvalidFields.onNext(AccessibilityUtil.getNumberOfInvalidFields(firstNameValid, middleNameValid,lastNameValid))
         return firstNameValid && middleNameValid && lastNameValid
-    }
-
-    override fun onInvalidCharacterEntered(text: CharSequence?, mode: InvalidCharacterHelper.Mode?) {
-        // TODO fix this to match old behavior
-        throw UnsupportedOperationException()
     }
 }

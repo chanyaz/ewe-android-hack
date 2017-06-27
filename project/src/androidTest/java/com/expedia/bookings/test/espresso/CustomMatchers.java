@@ -123,7 +123,7 @@ public class CustomMatchers {
 			Bitmap otherBitmap = ((BitmapDrawable) otherDrawable).getBitmap();
 			return bitmap.sameAs(otherBitmap);
 		}
-		if (drawable instanceof VectorDrawable) {
+		if (drawable instanceof VectorDrawable && otherDrawable instanceof VectorDrawable) {
 			VectorDrawable bitmap = ((VectorDrawable) drawable);
 			VectorDrawable otherBitmap = ((VectorDrawable) otherDrawable);
 			return bitmap.getConstantState().equals(otherBitmap.getConstantState());

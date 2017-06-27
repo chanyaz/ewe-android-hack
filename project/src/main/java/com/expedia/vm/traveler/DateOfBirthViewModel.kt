@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.PassengerCategory
+import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -21,6 +22,8 @@ class DateOfBirthViewModel(var traveler: Traveler, val context: Context) : BaseT
     val birthDateSubject = BehaviorSubject.create<LocalDate>()
     val defaultDateSubject = BehaviorSubject.create<LocalDate>(LocalDate(1970, 1, 1))
     val birthErrorTextSubject = BehaviorSubject.create<String>()
+
+    override val invalidCharacterMode = InvalidCharacterHelper.Mode.ASCII
 
     init {
         updateTravelerBirthDate(traveler)

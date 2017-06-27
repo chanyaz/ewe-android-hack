@@ -8,9 +8,7 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.InputType;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -429,7 +427,7 @@ public class SectionLocation extends LinearLayout
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> addrValidators = new MultiValidator<>();
-			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			if (isStateRequired()) {
 				addrValidators.addValidator(CommonSectionValidators.ADDRESS_STATE_VALIDATOR);
 			}
@@ -448,19 +446,6 @@ public class SectionLocation extends LinearLayout
 						getData().setStateCode(s.toString());
 					}
 					onChange(SectionLocation.this);
-				}
-			});
-			field.setFilters(new InputFilter[] { new InputFilter() {
-					public CharSequence filter(CharSequence src, int start,
-						int end, Spanned dst, int dstart, int dend) {
-						if (src.equals("")) { // for backspace
-							return src;
-						}
-						if (src.toString().matches("[a-zA-Z]+")) {
-							return src;
-						}
-						return "";
-					}
 				}
 			});
 			InvalidCharacterHelper.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);

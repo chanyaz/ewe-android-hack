@@ -413,9 +413,6 @@
     <string name="acct__google_account_change_message_TEMPLATE">@string/google_account_change_message_TEMPLATE</string>
     <string name="etp_pay_now_earn_text"></string>
 
-    <!-- EdiText allowed alpha numeric -->
-    <string name="alpha_numeric_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
-
     <string name="server_change_message">Changing the server requires a restart. By clicking OK, the app will close and relaunch</string>
     <string name="rails_u">fe627e29-3afb-4384-9fc0-a1d2a4dcd30c</string>
 </resources>
