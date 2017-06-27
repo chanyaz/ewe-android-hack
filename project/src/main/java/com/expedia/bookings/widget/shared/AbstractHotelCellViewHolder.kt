@@ -156,16 +156,11 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             super.onBitmapLoaded(bitmap, from)
             imageView.setImageBitmap(bitmap)
-
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelImageLoadLatency)) {
-                val listener = Palette.PaletteAsyncListener { palette ->
-                    mixColor(palette)
-                }
-                Palette.Builder(bitmap).generate(listener)
-            } else {
-                val palette = Palette.Builder(bitmap).generate()
+            val listener = Palette.PaletteAsyncListener { palette ->
                 mixColor(palette)
             }
+            Palette.Builder(bitmap).generate(listener)
+
         }
 
         private fun mixColor(palette: Palette) {

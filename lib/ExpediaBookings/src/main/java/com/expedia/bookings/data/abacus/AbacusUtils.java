@@ -62,7 +62,6 @@ public class AbacusUtils {
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
-	public static final int EBAndroidAppHotelImageLoadLatency = 12908;
 	public static final int EBAndroidAppHotelLoyaltyEarnMessage = 13179;
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppHotelDetailsGalleryPeak = 13415;
@@ -137,7 +136,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFreeCancellationTooltip);
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing);
 		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
-		testIDs.add(EBAndroidAppHotelImageLoadLatency);
 		testIDs.add(EBAndroidAppFlightByotSearch);
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);

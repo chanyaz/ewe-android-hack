@@ -17,9 +17,7 @@ class HotelListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVie
     val layoutManager = PreCachingLayoutManager(getContext())
 
     init {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelImageLoadLatency)) {
-            layoutManager.setExtraLayoutSpace(getScreenHeight())
-        }
+        layoutManager.setExtraLayoutSpace(getScreenHeight())
         setLayoutManager(layoutManager)
         addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
         addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.hotel_filter_height), false))
