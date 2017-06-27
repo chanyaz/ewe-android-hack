@@ -60,7 +60,10 @@ abstract class BaseSummaryViewModel(val context: Context) {
         iconStatusObservable.onNext(completenessStatus)
         if (ContactDetailsCompletenessStatus.INCOMPLETE == completenessStatus) {
             subtitleColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_incomplete_text_color))
-        } else {
+        } else if (ContactDetailsCompletenessStatus.COMPLETE == completenessStatus) {
+            subtitleColorObservable.onNext(ContextCompat.getColor(context, R.color.cost_summary_breakdown_savings_cost_color))
+        }
+        else {
             subtitleColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
         }
     }
