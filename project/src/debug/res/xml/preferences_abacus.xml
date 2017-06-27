@@ -512,9 +512,9 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="14655"
+            android:key="14741"
             android:layout="@layout/preference"
-            android:title="Flight Itin Trip Details - 14655" />
+            android:title="Hotel Itin Details Redesign - 14741" />
 
         <ListPreference
             android:entries="@array/abacus_itin_share_button_choices"

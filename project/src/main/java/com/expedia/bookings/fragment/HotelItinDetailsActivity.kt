@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 
-class FlightItinDetailsActivity : AppCompatActivity() {
+class HotelItinDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
