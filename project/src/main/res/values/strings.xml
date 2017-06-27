@@ -1655,6 +1655,8 @@
     <string name="error_try_again_warning">Whoops. Let\'s try that again.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Retry</string>
+    <!-- Start : Flights Search Screen Button-->
+    <string name="Start">Start</string>
 
     <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
     <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>

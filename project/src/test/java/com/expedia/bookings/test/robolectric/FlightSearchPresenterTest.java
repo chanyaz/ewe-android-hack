@@ -110,8 +110,7 @@ public class FlightSearchPresenterTest {
 		assertEquals(travelerCard.getText().toString(),
 			activity.getResources().getString(R.string.package_search_traveler_default_text));
 		Button searchBtn = (Button) widget.findViewById(R.id.search_btn);
-		assertEquals(searchBtn.getText().toString(), activity.getResources().getString(R.string.search));
-
+		assertEquals(activity.getResources().getString(R.string.Start), searchBtn.getText());
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,
 			null);
