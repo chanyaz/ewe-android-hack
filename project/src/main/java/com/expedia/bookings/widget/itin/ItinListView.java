@@ -59,7 +59,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	// PUBLIC CONSTANTS
+	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String STATE_DO_AUTOSCROLL = "STATE_DO_AUTOSCROLL";
@@ -71,6 +71,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	private static final int MODE_LIST = 0;
 	private static final int MODE_DETAIL = 1;
+
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE MEMBERS
@@ -882,7 +883,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
 			Intent i = new Intent(getContext(), HotelItinDetailsActivity.class);
-			i.putExtra("tripId", data.getTripId());
+			HotelItinDetailsActivity.IntentExtras.setId(i, data.getId());
 			getContext().startActivity(i);
 		}
 		else if (data.hasDetailData()) {

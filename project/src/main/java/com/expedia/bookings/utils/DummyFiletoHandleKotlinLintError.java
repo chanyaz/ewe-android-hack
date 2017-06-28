@@ -886,7 +886,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.date_of_birth_validation_error_message,
 		R.string.last_name_validation_error_message,
 		R.string.phone_validation_error_message,
-		R.layout.activity_itin_card_details,
+		R.layout.hotel_itin_card_details,
 		R.layout.widget_rating_dialog,
 		R.string.max_two_infants_seated_per_adult,
 		R.string.itinerary_number_hint,
