@@ -125,7 +125,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val searchThisArea: Button? = null
     var isMapReady = false
 
-    var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
+    var clusterManager: ClusterManager<MapItem>? = null
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -193,8 +193,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
-        clusterManager.clearItems()
-        clusterManager.addItems(mapItems)
+        if (clusterManager == null) {
+            return
+        }
+        clusterManager!!.clearItems()
+        clusterManager!!.addItems(mapItems)
         clearPreviousMarker()
         mapItem.isSelected = true
         val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
@@ -407,14 +410,20 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun clearMarkers(setUpMap: Boolean = true) {
+        if (clusterManager == null) {
+            return
+        }
         mapItems.clear()
-        clusterManager.clearItems()
+        clusterManager!!.clearItems()
         clusterMarkers()
         mapCarouselContainer.visibility = View.INVISIBLE
         if (setUpMap) setUpMap()
     }
 
     fun createMarkers() {
+        if (clusterManager == null) {
+            return
+        }
         clearMarkers()
         if (hotels.isEmpty()) {
             return
@@ -423,7 +432,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         hotels.forEach { hotel ->
             val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
             mapItems.add(mapItem)
-            clusterManager.addItem(mapItem)
+            clusterManager!!.addItem(mapItem)
         }
         clusterMarkers()
     }
@@ -453,7 +462,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun clusterMarkers() {
-        clusterManager.cluster()
+        clusterManager?.cluster()
     }
 
     fun updateMarkers() {
@@ -635,9 +644,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     private fun setUpMap() {
         clusterManager = ClusterManager(context, googleMap)
-        clusterManager.setAlgorithm(HotelMapClusterAlgorithm())
-        hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager, mapViewModel.clusterChangeSubject)
-        clusterManager.setRenderer(hotelMapClusterRenderer)
+        clusterManager!!.setAlgorithm(HotelMapClusterAlgorithm())
+        hotelMapClusterRenderer = HotelMapClusterRenderer(context, googleMap, clusterManager!!, mapViewModel.clusterChangeSubject)
+        clusterManager!!.setRenderer(hotelMapClusterRenderer)
         var currentZoom = -1f
 
         googleMap?.setOnCameraChangeListener() { position ->
@@ -653,16 +662,16 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             }
         }
-        googleMap?.setOnMarkerClickListener(clusterManager)
+        googleMap?.setOnMarkerClickListener(clusterManager!!)
 
-        clusterManager.setOnClusterItemClickListener {
+        clusterManager!!.setOnClusterItemClickListener {
             trackMapPinTap()
             selectMarker(it)
             updateCarouselItems()
             true
         }
 
-        clusterManager.setOnClusterClickListener {
+        clusterManager!!.setOnClusterClickListener {
             animateMapCarouselOut()
             clearPreviousMarker()
             val builder = LatLngBounds.builder()
