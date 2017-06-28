@@ -854,8 +854,6 @@
     <string name="room_rate_pay_now">지금 결제</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">지금 결제할 금액: {amount}</string>
-    <!-- Rooms and rates pay later deposit due now -->
-    <string name="old_room_rate_pay_later_due_now">지금 결제할 금액</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s개 이용 후기</string>
     <!-- Information for the review about who submitted it and when -->
@@ -1730,6 +1728,8 @@
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
@@ -2043,6 +2043,9 @@
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">추가 사항(선택 사항)</string>
     <string name="contact_airline_message">요청 사항을 확정하시려면 항공사에 문의해 주세요.</string>
+    <!--Content description for the Advanced button in traveler entry form used for Talkback-->
+    <string name="expand_advanced_button_cont_desc">선택 사항인 고급 옵션을 확대하는 버튼</string>
+    <string name="collapse_advanced_button_cont_desc">선택 사항인 고급 옵션을 축소하는 버튼</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2053,6 +2056,14 @@
     <string name="dont_save">저장 안 함</string>
     <!-- Overwrite -->
     <string name="overwrite">덮어쓰기</string>
+    <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
+    <string name="update_traveler_dialog_message_TEMPLATE">나중에 간편하게 결제하시도록 고객님의 {brand} 계정에서 여행객 정보를 업데이트할까요?</string>
+    <!-- Update traveler dialog title-->
+    <string name="update_traveler_dialog_title">저장된 여행객 업데이트</string>
+    <!-- Update -->
+    <string name="update">업데이트</string>
+    <!-- Dialog message for saving new travelers during checkout Eg. Save traveler information under your Orbitz account to speed up future purchases?  -->
+    <string name="save_traveler_dialog_message_TEMPLATE">나중에 간편하게 결제하시도록 고객님의 {brand} 계정에 여행객 정보를 저장할까요?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -2451,12 +2462,6 @@
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">수백 개 호텔 중에서 찾는 중이에요!</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable_tonight">오늘 밤 이용 가능한 호텔이 없습니다.</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">이용 가능한 호텔이 없습니다.</string>
-    <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">다른 지역이나 날짜를 선택해 보세요.</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">다른 객실 선택</string>
     <!-- Message displayed when room is sold out -->
@@ -2475,8 +2480,6 @@
     <string name="per_night">/1박</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">평점 없음</string>
-    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f%% 할인</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">필터링</string>
@@ -2706,14 +2709,6 @@
         <item quantity="other">숙박 총합계 • %d개 결과</item>
     </plurals>
 
-    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-    <plurals name="number_of_rooms_left">
-        <item quantity="zero">남은 객실이 없습니다!</item>
-        <item quantity="one">객실이 1개 남았습니다!</item>
-        <item quantity="two">객실이 %d개 남았습니다!</item>
-        <item quantity="many">객실이 %d개 남았습니다!</item>
-        <item quantity="other">객실이 %d개 남았습니다!</item>
-    </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% 예약됨</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -2729,8 +2724,6 @@
     <string name="free">무료!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
     <string name="delimiter_multiple_bed">" 또는 "</string>
-    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">포함 항목: %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">모든 객실에 포함된 항목: %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -2753,6 +2746,8 @@
     <string name="book_room_button_text">예약하기</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">객실 확인하기, {room}</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">포함 항목: %s</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">예약하기, {room}</string>
     <!-- Room description alert dialog title -->
@@ -4024,7 +4019,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4287,6 +4282,8 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">항공사 간단히 보기. 버튼</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">필터 지우기. 버튼</string>
+    <!--Content description for clear button alert in filter used for Talkback-->
+    <string name="search_filter_clear_button_alert_cont_desc">화면 끝에 제공되는 필터 지우기 버튼</string>
 
 
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
@@ -4307,7 +4304,9 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_name} 항공편 {filter_results}개 이용 가능.</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_name} 항공편 {filter_results}개 이용 가능.\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_name} 항공편 {filter_results}개 이용 가능. 선택 해제할 수 없으며, 모든 항공편 결과는 {filter_name}입니다.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">여행자 보험 추가 중…</string>
@@ -4381,6 +4380,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, 여행객 정보 완료. 버튼.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">버튼</string>
+    <!--Packages accessibility content description for purchase Button-->
+    <string name="accessibility_cont_desc_role_purchase_button">구매 버튼</string>
     <!--Packages accessibility content description for role - Button to expand -->
     <string name="accessibility_cont_desc_role_button_expand">확장하려면 버튼을 탭하세요</string>
     <!--Packages accessibility content description for role - Button to collapse -->

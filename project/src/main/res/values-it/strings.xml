@@ -7,9 +7,9 @@
     <!-- Package Calendar Strings -->
     <string name="select_departure_date">Seleziona la data di partenza</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
-    <string name="hotel_calendar_tooltip_bottom">Passaggio successivo: seleziona una data di partenza</string>
+    <string name="hotel_calendar_tooltip_bottom">Ora seleziona la data del check-out</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
-    <string name="select_checkout_date_TEMPLATE">%1$s - Seleziona una data di partenza</string>
+    <string name="select_checkout_date_TEMPLATE">%1$s - Seleziona la data del check-out</string>
 
     <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
     <string name="nights_count_TEMPLATE">(%1$s)</string>
@@ -854,8 +854,6 @@
     <string name="room_rate_pay_now">Paga ora</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} da pagare ora</string>
-    <!-- Rooms and rates pay later deposit due now -->
-    <string name="old_room_rate_pay_later_due_now">Da pagare ora</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s recensioni</string>
     <!-- Information for the review about who submitted it and when -->
@@ -957,7 +955,7 @@
     <!-- List loading header -->
     <string name="loading_header">Caricamento in corso…</string>
     <!-- Hotel launch list rating text -->
-    <string name="hotel_rating_text">di 5 - valutazione degli ospiti</string>
+    <string name="hotel_rating_text">di 5 - valutazione ospiti</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
     <string name="launch_mobile_exclusive">solo mobile!</string>
     <!-- Expedia Deal for a given property, tonight only -->
@@ -1730,6 +1728,8 @@
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
@@ -2043,6 +2043,9 @@
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Opzioni avanzate (facoltativo)</string>
     <string name="contact_airline_message">Contatta la compagnia aerea per confermare le tue richieste</string>
+    <!--Content description for the Advanced button in traveler entry form used for Talkback-->
+    <string name="expand_advanced_button_cont_desc">Pulsante per espandere le opzioni avanzate (facoltativo)</string>
+    <string name="collapse_advanced_button_cont_desc">Pulsante per ridurre le opzioni avanzate (facoltativo)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2053,6 +2056,14 @@
     <string name="dont_save">Non salvare</string>
     <!-- Overwrite -->
     <string name="overwrite">Sovrascrivi</string>
+    <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
+    <string name="update_traveler_dialog_message_TEMPLATE">Vuoi aggiornare i dati del viaggiatore salvati nel tuo account {brand} per prenotare più rapidamente?</string>
+    <!-- Update traveler dialog title-->
+    <string name="update_traveler_dialog_title">Aggiorna i dati del viaggiatore salvati</string>
+    <!-- Update -->
+    <string name="update">Aggiorna</string>
+    <!-- Dialog message for saving new travelers during checkout Eg. Save traveler information under your Orbitz account to speed up future purchases?  -->
+    <string name="save_traveler_dialog_message_TEMPLATE">Vuoi salvare i dati del viaggiatore nel tuo account {brand} per prenotare più rapidamente?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -2396,7 +2407,7 @@
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Solo per questa notte!</string>
     <!-- Expedia sponsored listing -->
-    <string name="sponsored">Sponsorizzati</string>
+    <string name="sponsored">Sponsorizzato</string>
     <!-- Expedia ETP book now/pay later search results -->
     <string name="book_now_pay_later">Prenota subito, paga in hotel</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
@@ -2406,7 +2417,7 @@
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
-    <string name="member_pricing">Tariffe per soli iscritti</string>
+    <string name="member_pricing">Tariffa per soli iscritti</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2451,12 +2462,6 @@
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Stiamo cercando centinaia di hotel solo per te!</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable_tonight">Nessun albergo disponibile per stasera</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Nessun albergo disponibile</string>
-    <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Scegliere una località o una data diverse.</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Seleziona un\&apos;altra camera</string>
     <!-- Message displayed when room is sold out -->
@@ -2475,8 +2480,6 @@
     <string name="per_night">/notte</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Nessun giudizio</string>
-    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f%% IN MENO</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filtra</string>
@@ -2525,7 +2528,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- new material Hotel results cell guest recommend-->
-    <string name="hotel_guest_recommend">su 5 - valutazione degli ospiti</string>
+    <string name="hotel_guest_recommend">su 5 - valutazione ospiti</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
     <string name="hotel_guest_recommend_good_superlative">su 5 - buono!</string>
     <string name="hotel_guest_recommend_very_good_superlative">su 5 - molto buono!</string>
@@ -2706,14 +2709,6 @@
         <item quantity="other">Prezzo totale per soggiorno • %d risultati</item>
     </plurals>
 
-    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-    <plurals name="number_of_rooms_left">
-        <item quantity="zero">Nessuna camera disponibile sulla nostra app!</item>
-        <item quantity="one">Solo 1 camera rimasta!</item>
-        <item quantity="two">Rimangono solo %d camere!</item>
-        <item quantity="many">Rimangono solo %d camere!</item>
-        <item quantity="other">Rimangono solo %d camere!</item>
-    </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% di camere prenotate</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -2729,8 +2724,6 @@
     <string name="free">GRATIS!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
     <string name="delimiter_multiple_bed">" o "</string>
-    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">Include %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Tutte le camere includono %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -2753,6 +2746,8 @@
     <string name="book_room_button_text">Prenota</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">Consulta i dettagli della camera, {room}</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">Include %s</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">Prenota, {room}</string>
     <!-- Room description alert dialog title -->
@@ -4287,6 +4282,8 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Mostra meno compagnie aeree. Pulsante</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Cancella filtri. Pulsante</string>
+    <!--Content description for clear button alert in filter used for Talkback-->
+    <string name="search_filter_clear_button_alert_cont_desc">Pulsante per cancellare i filtri disponibile in fondo alla schermata</string>
 
 
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
@@ -4307,7 +4304,9 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} voli {filter_name} disponibili.</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} voli {filter_name} disponibili.\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} voli {filter_name} disponibili. Non è possibile annullare la selezione. Tutti i voli risultano {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Aggiunta assicurazione di viaggio in corso…</string>
@@ -4381,6 +4380,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, dettagli viaggiatore completi. Pulsante.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Pulsante</string>
+    <!--Packages accessibility content description for purchase Button-->
+    <string name="accessibility_cont_desc_role_purchase_button">Pulsante per l\&apos;acquisto</string>
     <!--Packages accessibility content description for role - Button to expand -->
     <string name="accessibility_cont_desc_role_button_expand">Pulsante per espandere</string>
     <!--Packages accessibility content description for role - Button to collapse -->

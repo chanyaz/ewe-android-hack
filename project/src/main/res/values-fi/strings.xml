@@ -854,8 +854,6 @@
     <string name="room_rate_pay_now">Maksa nyt</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} maksettava nyt</string>
-    <!-- Rooms and rates pay later deposit due now -->
-    <string name="old_room_rate_pay_later_due_now">Maksettava nyt</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s arvostelua</string>
     <!-- Information for the review about who submitted it and when -->
@@ -1730,6 +1728,8 @@
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} – {enddate}</string>
+    <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
@@ -2043,6 +2043,9 @@
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Lisätiedot (valinnainen)</string>
     <string name="contact_airline_message">Ole hyvä ja ota lentoyhtiöön yhteyttä vahvistaaksesi pyyntösi</string>
+    <!--Content description for the Advanced button in traveler entry form used for Talkback-->
+    <string name="expand_advanced_button_cont_desc">Laajenna lisävalinnat (valinnainen) -painike</string>
+    <string name="collapse_advanced_button_cont_desc">Pienennä lisävalinnat (valinnainen) -painike</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2053,6 +2056,14 @@
     <string name="dont_save">Älä tallenna</string>
     <!-- Overwrite -->
     <string name="overwrite">Korvaa</string>
+    <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
+    <string name="update_traveler_dialog_message_TEMPLATE">Haluatko päivittää matkustajatiedot {brand}-tilillesi varausten nopeuttamiseksi?</string>
+    <!-- Update traveler dialog title-->
+    <string name="update_traveler_dialog_title">Päivitä tallennettu matkustaja</string>
+    <!-- Update -->
+    <string name="update">Päivitä</string>
+    <!-- Dialog message for saving new travelers during checkout Eg. Save traveler information under your Orbitz account to speed up future purchases?  -->
+    <string name="save_traveler_dialog_message_TEMPLATE">Haluatko tallenna matkustajatiedot {brand}-tilillesi varausten nopeuttamiseksi?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -2451,12 +2462,6 @@
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Etsitään tuhansia hotelleja!</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable_tonight">Hotelleja ei ole saatavilla täksi yöksi</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Hotelleja ei ole saatavilla</string>
-    <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Hae toisella paikalla tai toisilla päivillä.</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Valitse toinen huone</string>
     <!-- Message displayed when room is sold out -->
@@ -2475,8 +2480,6 @@
     <string name="per_night">/ yö</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ei arvosteltu</string>
-    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f %% ALENNUSTA</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Suodatin</string>
@@ -2706,14 +2709,6 @@
         <item quantity="other">Yöpymisen hinta • %d tulosta</item>
     </plurals>
 
-    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-    <plurals name="number_of_rooms_left">
-        <item quantity="zero">Ei huoneita jäljellä!</item>
-        <item quantity="one">Vain 1 huone jäljellä!</item>
-        <item quantity="two">Vain %d huonetta jäljellä!</item>
-        <item quantity="many">Vain %d huonetta jäljellä!</item>
-        <item quantity="other">Vain %d huonetta jäljellä!</item>
-    </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage} % varattu</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -2729,8 +2724,6 @@
     <string name="free">ILMAINEN!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
     <string name="delimiter_multiple_bed">" tai "</string>
-    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">Hintaan sisältyy: %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Kaikissa huoneissa on %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -2753,6 +2746,8 @@
     <string name="book_room_button_text">Varaa</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">Tarkastele huonetta {room}</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">Hintaan sisältyy: %s</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">Varaa {room}</string>
     <!-- Room description alert dialog title -->
@@ -4287,6 +4282,8 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Näytä vähemmän lentoyhtiöitä. Painike</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Poista suodattimet. Painike</string>
+    <!--Content description for clear button alert in filter used for Talkback-->
+    <string name="search_filter_clear_button_alert_cont_desc">Poista suodattimet -painike löytyy sivun alalaidasta</string>
 
 
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
@@ -4307,7 +4304,9 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa.</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa.\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} saatavilla olevaa lentoyhtiön {filter_name} lentoa. Et voi poistaa valintaa, jokainen lentohakutulos on {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Matkavakuutusta lisätään…</string>
@@ -4381,6 +4380,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, kaikki matkustajan tiedot annettu. Painike.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Painike</string>
+    <!--Packages accessibility content description for purchase Button-->
+    <string name="accessibility_cont_desc_role_purchase_button">Ostopainike</string>
     <!--Packages accessibility content description for role - Button to expand -->
     <string name="accessibility_cont_desc_role_button_expand">Painike laajentaaksesi</string>
     <!--Packages accessibility content description for role - Button to collapse -->

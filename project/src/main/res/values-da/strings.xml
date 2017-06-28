@@ -854,8 +854,6 @@
     <string name="room_rate_pay_now">Betal nu</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} til betaling nu</string>
-    <!-- Rooms and rates pay later deposit due now -->
-    <string name="old_room_rate_pay_later_due_now">Til betaling nu</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s anmeldelser</string>
     <!-- Information for the review about who submitted it and when -->
@@ -1730,6 +1728,8 @@
     <!-- Calendar instructions -->
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} til {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
@@ -2043,6 +2043,9 @@
     <!--Advanced flight traveler options, explicitly telling user they are optional -->
     <string name="advanced_optional">Avanceret (valgfrit)</string>
     <string name="contact_airline_message">Kontakt venligst flyselskabet for at bekræfte anmodninger</string>
+    <!--Content description for the Advanced button in traveler entry form used for Talkback-->
+    <string name="expand_advanced_button_cont_desc">Knap til at udvide Avanceret (valgfrit)</string>
+    <string name="collapse_advanced_button_cont_desc">Knap til at skjule Avanceret (valgfrit)</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2053,6 +2056,14 @@
     <string name="dont_save">Gem ikke</string>
     <!-- Overwrite -->
     <string name="overwrite">Overskriv</string>
+    <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
+    <string name="update_traveler_dialog_message_TEMPLATE">Vil du opdater oplysninger om rejsende på din {brand}-konto, så det bliver nemmere at reservere fremover?</string>
+    <!-- Update traveler dialog title-->
+    <string name="update_traveler_dialog_title">Opdater gemte rejsende</string>
+    <!-- Update -->
+    <string name="update">Opdater</string>
+    <!-- Dialog message for saving new travelers during checkout Eg. Save traveler information under your Orbitz account to speed up future purchases?  -->
+    <string name="save_traveler_dialog_message_TEMPLATE">Vil du gemme oplysninger om rejsende på din {brand}-konto, så det bliver nemmere at reservere fremover?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -2451,12 +2462,6 @@
     <!-- Progress messages -->
     <!-- Message displayed when app is searching a location for hotels -->
     <string name="progress_searching_hotels_hundreds">Søger blandt hundredvis af hoteller til dig…</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable_tonight">Ingen tilgængelige hoteller i aften</string>
-    <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Ingen tilgængelige hoteller</string>
-    <!-- Message displayed when user need to change input to correct search -->
-    <string name="please_try_a_different_location_or_date">Forsøg venligst med en anden beliggenhed eller dato.</string>
     <!-- Title displayed when room is sold out -->
     <string name="select_another_room">Vælg et andet værelse</string>
     <!-- Message displayed when room is sold out -->
@@ -2475,8 +2480,6 @@
     <string name="per_night">/nat</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ikke anmeldt</string>
-    <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">SPAR %2.0f%%</string>
 
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filtrer</string>
@@ -2706,14 +2709,6 @@
         <item quantity="other">Samlet pris for opholdet • %d resultater</item>
     </plurals>
 
-    <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
-    <plurals name="number_of_rooms_left">
-        <item quantity="zero">Ingen værelser tilbage!</item>
-        <item quantity="one">Kun 1 værelse tilbage!</item>
-        <item quantity="two">Kun %d værelser tilbage!</item>
-        <item quantity="many">Kun %d værelser tilbage!</item>
-        <item quantity="other">Kun %d værelser tilbage!</item>
-    </plurals>
     <!-- Urgency message describing the searched locations availability or lack thereof Ex. 50% booked-->
     <string name="urgency_percent_booked_TEMPLATE">{percentage}% reserveret</string>
     <!-- Explaination of urgency % booked messaging for a particular destination. Ex. Miami, FL is  a popular location on your dates-->
@@ -2729,8 +2724,6 @@
     <string name="free">GRATIS!</string>
     <!-- Delimiter for multiple bed types in hotel offer-->
     <string name="delimiter_multiple_bed">" eller "</string>
-    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">Inkluderer %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Alle værelser inkluderer %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -2753,6 +2746,8 @@
     <string name="book_room_button_text">Book</string>
     <!-- View Room button content description with room type, ex. View Room, Studio, 1 Queen Bed -->
     <string name="view_room_button_content_description_TEMPLATE">Se værelset {room}</string>
+    <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
+    <string name="value_add_template">Inkluderer %s</string>
     <!-- Book Room button content description with room type; verb; as in book a hotel room, ex. Book, Studio, 1 Queen Bed -->
     <string name="book_room_button_content_description_TEMPLATE">Book {room}</string>
     <!-- Room description alert dialog title -->
@@ -4287,6 +4282,8 @@
     <string name="packages_flight_search_filter_show_less_cont_desc">Vis færre flyselskaber. Knap</string>
     <!--Content description for clear button in filter used for Talkback-->
     <string name="search_filter_clear_button_cont_desc">Ryd filtre. Knap</string>
+    <!--Content description for clear button alert in filter used for Talkback-->
+    <string name="search_filter_clear_button_alert_cont_desc">Knap til at ryde filtre er tilgængelig i bunden af skærmen</string>
 
 
     <!--Content description for Flights price total widget. Example: Trip total is $153.20. Includes taxes and fees. $100.00 Saved-->
@@ -4307,7 +4304,9 @@
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
-    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} tilgængelige flyrejser - {filter_name}.</string>
+    <string name="packages_flight_filter_checkbox_cont_desc_TEMPLATE">{filter_results} tilgængelige flyrejser - {filter_name}.\u0020</string>
+    <!-- Content Description for diabled filter option on Sort Filter Page. Example: 3 available NonStop flights. Cannot be deselected, all flight results are NonStop. -->
+    <string name="packages_flight_filter_checkbox_disabled_cont_desc_TEMPLATE">{filter_results} tilgængelige flyrejser - {filter_name}. Kan ikke fjernes. Alle flyresultater er {filter_name}.\u0020</string>
 
     <!-- Status displayed in a modal dialog while insurance is being added -->
     <string name="insurance_adding">Tilføjer rejseforsikring…</string>
@@ -4381,6 +4380,8 @@
     <string name="traveler_details_complete_cont_desc_TEMPLATE">{title}, {subtitle}, oplysninger om rejsende er udfyldt. Knap.</string>
     <!--Packages accessibility content description for role Button-->
     <string name="accessibility_cont_desc_role_button">Knap</string>
+    <!--Packages accessibility content description for purchase Button-->
+    <string name="accessibility_cont_desc_role_purchase_button">Knap til at købe</string>
     <!--Packages accessibility content description for role - Button to expand -->
     <string name="accessibility_cont_desc_role_button_expand">Knap til at udvide</string>
     <!--Packages accessibility content description for role - Button to collapse -->
