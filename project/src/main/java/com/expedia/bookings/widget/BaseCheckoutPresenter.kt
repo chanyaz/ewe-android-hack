@@ -244,7 +244,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
                 }
             } else {
-                createTripDialog.dismiss()
+                if (createTripDialog.isShowing) {
+                    createTripDialog.dismiss()
+                }
             }
         }
         vm.createTripResponseObservable.safeSubscribe { response ->

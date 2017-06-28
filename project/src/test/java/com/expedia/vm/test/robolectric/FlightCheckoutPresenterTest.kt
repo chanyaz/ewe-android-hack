@@ -16,18 +16,20 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.traveler.FlightTravelersViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -77,6 +79,27 @@ class FlightCheckoutPresenterTest {
         assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.white))
         checkout.paymentWidget.back()
         assertEquals(checkout.scrollView.background, ContextCompat.getDrawable(activity.applicationContext, R.color.gray1))
+    }
+
+    @Test
+    fun testCreateTripDialogShows() {
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(true, shadowCreateTripDialog.isShowing)
+    }
+
+    @Test
+    fun testShowCreateTripDialogDoesNotCrashOnFalseValue() {
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(true)
+        val shadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertTrue(shadowCreateTripDialog.isShowing)
+
+        shadowCreateTripDialog.dismiss()
+        assertFalse(shadowCreateTripDialog.isShowing)
+
+        checkout.flightCreateTripViewModel.showCreateTripDialogObservable.onNext(false)
+        val newShadowCreateTripDialog = ShadowAlertDialog.getLatestAlertDialog()
+        assertEquals(newShadowCreateTripDialog, shadowCreateTripDialog)
     }
 
     private fun getPassportRequiredCreateTripResponse(passportRequired: Boolean): FlightCreateTripResponse? {
