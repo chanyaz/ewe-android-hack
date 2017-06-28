@@ -564,15 +564,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="13812"
-            android:layout="@layout/preference"
-            android:title="Trips Crystal Skin - 13812" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
             android:key="14741"
             android:layout="@layout/preference"
             android:title="Hotel Itin Details Redesign - 14741" />

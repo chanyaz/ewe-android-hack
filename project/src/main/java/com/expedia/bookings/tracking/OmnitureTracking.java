@@ -2210,9 +2210,6 @@ public class OmnitureTracking {
 		else {
 			s.setEvents("event63");
 		}
-		if (!getUsersTrips().isEmpty()) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppItinCrystalSkin);
-		}
 		if (pageLoadTimeData != null) {
 			addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 		}

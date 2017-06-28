@@ -10,7 +10,6 @@ import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
@@ -63,9 +62,6 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		onView(allOf(withId(R.id.summary_layout), hasDescendant(withText(containsString("Check in"))))).perform(click());
 
-		float hotelRating = 3.5f;
-		assertEquals(hotelRating, EspressoUtils.getRatingValue(onView(withId(R.id.hotel_rating_bar))));
-		assertViewWithContentDescription(onView(withId(R.id.hotel_rating_bar)), "3 stars");
 		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-415-362-8878");

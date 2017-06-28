@@ -149,8 +149,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_margin="4dp"
-                android:drawableLeft="@drawable/ic_hotel_attach"
-                android:drawablePadding="8dp"
                 android:padding="8dp"
                 android:text="@string/add_hotel_air_attach"
                 android:textAllCaps="true"

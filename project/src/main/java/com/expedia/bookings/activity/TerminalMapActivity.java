@@ -21,7 +21,7 @@ import com.mobiata.flightlib.data.AirportMap;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import java.util.ArrayList;
 
-public class TerminalMapActivityV2 extends AppCompatActivity implements ActionBar.OnNavigationListener {
+public class TerminalMapActivity extends AppCompatActivity implements ActionBar.OnNavigationListener {
 
 	public static final String ARG_AIRPORT_CODE = "ARG_AIRPORT_CODE";
 
@@ -35,7 +35,7 @@ public class TerminalMapActivityV2 extends AppCompatActivity implements ActionBa
 	private int mSpinnerPosition = 0;
 
 	public static Intent createIntent(Context context, String airportCode) {
-		Intent intent = new Intent(context, TerminalMapActivityV2.class);
+		Intent intent = new Intent(context, TerminalMapActivity.class);
 		intent.putExtra(ARG_AIRPORT_CODE, airportCode);
 		return intent;
 	}
