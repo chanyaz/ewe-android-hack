@@ -270,6 +270,16 @@
     "formattedPrice": "$696.00",
     "formattedWholePrice": "$696"
   },
+  "passengerDetails": [
+    {
+      "firstName": "Oscar",
+      "lastName": "Grouch",
+      "phone": "123456789",
+      "email": "test@yahoo.com",
+      "gender": "MALE",
+      "dateOfbirth": "1970-01-01"
+    }
+  ],
   "mobileAirAttachQualifier": {
     "airAttachQualified": true,
     "offerExpires": "2017-08-17T16:00:45.080-07:00",

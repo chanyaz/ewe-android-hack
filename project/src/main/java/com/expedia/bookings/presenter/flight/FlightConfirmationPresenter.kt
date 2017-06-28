@@ -101,7 +101,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         val outbound = response.getFirstFlightLeg()
         val inbound = response.getLastFlightLeg()
         val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city ?: ""
-        val numberOfGuests = response.getOffer().numberOfTickets.toInt()
+        val numberOfGuests = response.passengerDetails.size
 
         outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests, isNewConfirmationScreenEnabled)
         viewModel.destinationObservable.onNext(destinationCity)

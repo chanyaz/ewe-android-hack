@@ -154,6 +154,7 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
 
                                             response.getFirstFlightTripDetails().getLegs().forEach { leg ->
                                                 val airlines = ArrayList<Airline>()
+                                                leg.stopCount = leg.segments.size - 1
                                                 leg.segments.forEach { segment ->
                                                     setAirlineLogoUrl(segment)
                                                     airlines.add(Airline(segment.airlineName, segment.airlineLogoURL))

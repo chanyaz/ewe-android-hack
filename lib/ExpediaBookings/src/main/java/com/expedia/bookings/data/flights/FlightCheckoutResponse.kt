@@ -2,6 +2,7 @@ package com.expedia.bookings.data.flights
 
 import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.payment.Traveler
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
@@ -49,6 +50,8 @@ class FlightCheckoutResponse() : FlightTripResponse() {
             }
         }
     }
+
+    lateinit var passengerDetails: List<Traveler>
 
     /**
      * This method's been created because the aggregated response tag is missing in case of price change.

@@ -13,6 +13,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.presenter.flight.FlightConfirmationPresenter
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -40,6 +41,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertNotNull
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.repeat
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -76,8 +78,7 @@ class FlightConfirmationPresenterTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNewFlightConfirmationVisibility() {
         setupPresenter(isNewConfirmationEnabled = true)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse()
         val tripTotalText = presenter.flightSummary?.findViewById(R.id.trip_total_text) as TextView
 
         assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
@@ -107,8 +108,7 @@ class FlightConfirmationPresenterTest {
     @Test
     fun testOldFlightConfirmationVisibility() {
         setupPresenter(isNewConfirmationEnabled = false)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse()
 
         assertEquals(VISIBLE, presenter.inboundFlightCard.visibility)
         assertEquals(VISIBLE, presenter.outboundFlightCard.visibility)
@@ -126,8 +126,7 @@ class FlightConfirmationPresenterTest {
     @Test
     fun testNewConfirmationToolbarShowsNoMenuWhenControl() {
         setupPresenter(isNewConfirmationEnabled = true)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse()
 
         assertFalse(presenter.toolbar?.menuItem?.isVisible ?: false)
         assertNull(presenter.toolbar?.menuItem)
@@ -137,8 +136,7 @@ class FlightConfirmationPresenterTest {
     fun testNewConfirmationToolbarShowsIconWhenBucketedVariantOne() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
         setupPresenter(isNewConfirmationEnabled = true)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse()
 
         assertTrue(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
     }
@@ -147,8 +145,7 @@ class FlightConfirmationPresenterTest {
     fun testNewConfirmationToolbarShowsTextWhenBucketedVariantTwo() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 2)
         setupPresenter(isNewConfirmationEnabled = true)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse()
 
         assertEquals("Share", presenter.toolbar?.menuItem?.title)
         assertFalse(presenter.toolbar?.menuItem?.icon?.isVisible ?: false)
@@ -159,8 +156,7 @@ class FlightConfirmationPresenterTest {
     fun testNewConfirmationToolbarShareOneWay() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
         setupPresenter(isNewConfirmationEnabled = true)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = false)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse(isRoundTrip = false)
 
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(false)
 
@@ -180,8 +176,7 @@ class FlightConfirmationPresenterTest {
     fun testNewConfirmationToolbarShareRoundTrip() {
         AbacusTestUtils.bucketTestWithVariant(AbacusUtils.EBAndroidAppFlightsConfirmationItinSharing, 1)
         setupPresenter(isNewConfirmationEnabled = true)
-        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = true)
-        givenCheckoutResponse(checkoutResponse)
+        givenCheckoutResponse()
 
         val flightItinDetailsResponse = generateFlightItinDetailsResponse(true)
 
@@ -197,6 +192,14 @@ class FlightConfirmationPresenterTest {
         Locale.setDefault(Locale.US)
     }
 
+    @Test
+    fun testNumberOfTravelersText() {
+        setupPresenter(isNewConfirmationEnabled = true)
+        givenCheckoutResponse(numberOfTravelers = 3)
+
+        assertEquals("3 Travelers", presenter.flightSummary?.numberOfTravelers?.text)
+    }
+
     private fun setupPresenter(isNewConfirmationEnabled: Boolean) {
         SettingUtils.save(activity.applicationContext, R.string.preference_enable_additional_content_flight_confirmation, isNewConfirmationEnabled)
         presenter = LayoutInflater.from(activity).inflate(R.layout.flight_confirmation_stub, null) as FlightConfirmationPresenter
@@ -205,18 +208,19 @@ class FlightConfirmationPresenterTest {
         outboundSupplementaryText = presenter.outboundFlightCard.findViewById(R.id.confirmation_title_supplement) as TextView
     }
 
-    private fun givenCheckoutResponse(response: FlightCheckoutResponse) {
+    private fun givenCheckoutResponse(isRoundTrip: Boolean = true, numberOfTravelers: Int = 1) {
+        val checkoutResponse = getCheckoutResponse(DateTime.now().plusDays(5).toString(), hasAirAttach = true,  isRoundTrip = isRoundTrip, numberOfTravelers = numberOfTravelers)
         presenter.viewModel.inboundCardVisibility.onNext(true)
         presenter.viewModel.setRewardsPoints.onNext(rewardPoints)
-        presenter.showConfirmationInfo(response, "test@mail.com")
+        presenter.showConfirmationInfo(checkoutResponse, "test@mail.com")
     }
 
-    fun getCheckoutResponse(dateOfExpiration: String, hasAirAttach: Boolean = false, isRoundTrip: Boolean = false, numberOfTickets: String = "1") : FlightCheckoutResponse {
+    private fun getCheckoutResponse(dateOfExpiration: String, hasAirAttach: Boolean = false, isRoundTrip: Boolean = false, numberOfTravelers: Int = 1) : FlightCheckoutResponse {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         response.details = FlightTripDetails()
         response.details.offer = FlightTripDetails.FlightOffer()
-        response.details.offer.numberOfTickets = numberOfTickets
+        response.passengerDetails = getPassengerDetailsList(numberOfTravelers)
         val flightLegs = ArrayList<FlightLeg>()
         flightLegs.add(makeFlightLeg(firstLegDeparture, firstLegArrival))
 
@@ -324,4 +328,14 @@ class FlightConfirmationPresenterTest {
         response.responseData.flights = flights
         return response
     }
+
+    private fun getPassengerDetailsList(numberOfTravelers: Int): List<Traveler> {
+        val travelerList = ArrayList<Traveler>()
+        repeat(numberOfTravelers) {
+            val passengerDetails = Traveler("Test", "Traveler", "1", "1234567", "test@aol.com")
+            travelerList.add(passengerDetails)
+        }
+        return travelerList
+    }
+
 }
