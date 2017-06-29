@@ -1135,6 +1135,8 @@ public class OmnitureTracking {
 
 		s.setProp(72, hotelItinDetailsResponse.responseData.getOrderNumber().toString());
 		s.setProp(2, "hotels");
+
+		s.setEvents("purchase,event196");
 		s.setPurchaseID("onum" + hotelItinDetailsResponse.responseData.getOrderNumber().toString());
 
 		s.setEvar(2, "D=c2");
