@@ -17,6 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelDetailContentViewTest {
@@ -115,6 +116,7 @@ class HotelDetailContentViewTest {
 
         testVM.hotelSoldOut.onNext(true)
         assertVisible(contentView.detailsSoldOut)
+        assertEquals(activity.getString(R.string.trip_bucket_sold_out), contentView.detailsSoldOut.text)
         assertGone(contentView.price)
         assertGone(contentView.roomContainer)
     }

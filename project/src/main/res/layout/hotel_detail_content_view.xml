@@ -118,6 +118,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
+            android:text="@string/trip_bucket_sold_out"
             android:visibility="gone"/>
 
         <com.expedia.bookings.widget.TextView
