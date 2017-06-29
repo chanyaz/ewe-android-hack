@@ -83,7 +83,6 @@ class FlightSearchViewModelTest {
     @Test
     fun testFlightSearchDayWithDateAbacusTest() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
-        SettingUtils.save(context, R.string.preference_flight_search_day_plus_date, true)
         givenMockServer()
         givenDefaultTravelerComponent()
         createSystemUnderTest()
