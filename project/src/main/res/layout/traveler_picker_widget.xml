@@ -6,6 +6,16 @@
         style="@style/HeaderTextAboveCardviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:padding="7dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Please pick traveler" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/traveler_details_variate2" />
 
     <LinearLayout
