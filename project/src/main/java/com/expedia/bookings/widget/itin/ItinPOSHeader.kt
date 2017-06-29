@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -70,9 +71,11 @@ class ItinPOSHeader(context: Context, attrs: AttributeSet?) : FrameLayout(contex
 
     private fun setupCountryButtonListener() {
         pointOfSaleChangeButton.setOnClickListener {
-            val selectCountryDialog = AboutUtils.CountrySelectDialog()
-            val activity = context as AppCompatActivity
-            selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+            if (PointOfSale.getAllPointsOfSale(context).size > 1) {
+                val selectCountryDialog = AboutUtils.CountrySelectDialog()
+                val activity = context as AppCompatActivity
+                selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+            }
         }
     }
 }
