@@ -201,9 +201,6 @@
         <item quantity="other">{number} Hasil Difilter</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">Bar pencarian, harga minimal{min_price} hingga harga maksimal {max_price}</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s atau serupa</string>

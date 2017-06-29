@@ -19,19 +19,31 @@ class HotelPriceFilterView(context: Context, attrs: AttributeSet?) : LinearLayou
 
     var viewModel: BaseHotelFilterViewModel by notNullAndObservable { vm ->
         vm.newPriceRangeObservable.subscribe { priceRange ->
-            priceRangeBar.setPriceRange(priceRange)
+            priceRangeBar.currentA11yStartValue = priceRange.defaultMinPriceText
+            priceRangeBar.currentA11yEndValue = priceRange.defaultMaxPriceText
+
+            priceRangeBar.upperLimit = priceRange.notches
             priceRangeMinText.text = priceRange.defaultMinPriceText
             priceRangeMaxText.text = priceRange.defaultMaxPriceText
 
             priceRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
                 override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    priceRangeMinText.text = priceRange.formatValue(minValue)
-                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                    val minPrice = priceRange.formatValue(minValue)
+                    val maxPrice = priceRange.formatValue(maxValue)
+                    priceRangeMinText.text = minPrice
+                    priceRangeMaxText.text = maxPrice
+
+                    vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))
                 }
 
                 override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int, thumb: FilterRangeSeekBar.Thumb) {
-                    priceRangeMinText.text = priceRange.formatValue(minValue)
-                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                    val minPrice = priceRange.formatValue(minValue)
+                    val maxPrice = priceRange.formatValue(maxValue)
+                    priceRangeMinText.text = minPrice
+                    priceRangeMaxText.text = maxPrice
+                    priceRangeBar.currentA11yStartValue = minPrice
+                    priceRangeBar.currentA11yEndValue = maxPrice
+                    announceForAccessibility(priceRangeBar.getAccessibilityText(thumb))
                     vm.priceRangeChangedObserver.onNext(priceRange.getUpdatedPriceRange(minValue, maxValue))
                 }
             })

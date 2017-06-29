@@ -201,9 +201,6 @@
         <item quantity="other">結果 {number} 件を絞り込みました</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">絞り込みバー、料金の下限は {min_price}、上限は {max_price}</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s または同等のもの</string>

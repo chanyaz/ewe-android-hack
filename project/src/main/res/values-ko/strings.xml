@@ -201,9 +201,6 @@
         <item quantity="other">{number}개 결과 필터링됨</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">범위 설정 막대, 최저가 {min_price}부터 최대가 {max_price}까지</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s 또는 동급 차량</string>

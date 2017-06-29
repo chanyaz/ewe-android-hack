@@ -204,7 +204,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 
 	//MARK :- Accessibility
 
-	private void updateValueBy(int factor, Thumb thumb) {
+	protected void updateValueBy(int factor, Thumb thumb) {
 		switch (thumb) {
 		case MIN:
 			setMinValue(getMinValue() + factor);
@@ -248,7 +248,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 			.format().toString();
 	}
 
-	private class FilterRangeSeekBarTouchHelper extends ExploreByTouchHelper {
+	protected class FilterRangeSeekBarTouchHelper extends ExploreByTouchHelper {
 		private final Rect mTempRect = new Rect();
 		private final static int MIN_VALUE_THUMB_ID = 0;
 		private final static int MAX_VALUE_THUMB_ID = 1;
@@ -349,7 +349,7 @@ public class FilterRangeSeekBar extends CustomSeekBarView {
 			}
 		}
 
-		private Thumb getThumb() {
+		protected Thumb getThumb() {
 			return getAccessibilityFocusedVirtualViewId() == MIN_VALUE_THUMB_ID ? Thumb.MIN : Thumb.MAX;
 		}
 	}

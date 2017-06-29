@@ -201,9 +201,6 @@
         <item quantity="other">{number} risultati filtrati</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">Barra del filtro: da un prezzo minimo di {min_price} a un prezzo massimo di {max_price}</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s o simili</string>

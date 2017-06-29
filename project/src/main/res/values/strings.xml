@@ -201,9 +201,6 @@
         <item quantity="other">{number} Results Filtered</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">Seekbar, minimum price {min_price} to maximum price {max_price}</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s or similar</string>
@@ -3616,6 +3613,10 @@
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
     <string name="price_range">Price Range</string>
+    <!-- Price Range minimum filter label for accessibility -->
+    <string name="price_range_minimum">Price range minimum</string>
+    <!-- Price Range maximum filter label for accessibility -->
+    <string name="price_range_maximum">Price range maximum</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sort by {sort}</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->

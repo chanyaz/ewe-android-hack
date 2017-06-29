@@ -201,9 +201,6 @@
         <item quantity="other">Đã lọc {number} kết quả</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">Thanh tìm kiếm, giá tối thiểu {min_price} đến giá tối đa {max_price}</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s hoặc tương tự</string>

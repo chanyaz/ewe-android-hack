@@ -201,9 +201,6 @@
         <item quantity="other">已篩選 {number} 個結果</item>
     </plurals>
 
-    <!-- Accessibility text describing users filer preference for price on hotel/package hotel filter screen, ex. Seekbar, minimum price $40 to maximum price $100 -->
-    <string name="price_range_filter_cont_desc_TEMPLATE">拖曳條，價格下限 {min_price} 至價格上限 {max_price}</string>
-
     <!-- Checkout -->
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s 或類似車款</string>

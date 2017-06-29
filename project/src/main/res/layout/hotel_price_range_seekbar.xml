@@ -11,12 +11,15 @@
 
         <TextView
             android:id="@+id/price_range_min_text"
-            style="@style/FilterSortValueTheme" />
+            style="@style/FilterSortValueTheme"
+            android:importantForAccessibility="no" />
 
         <TextView
             android:id="@+id/price_range_max_text"
             style="@style/FilterSortValueTheme"
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:importantForAccessibility="no" />
+
     </FrameLayout>
 
     <com.expedia.bookings.widget.HotelPriceRangeSeekBar
