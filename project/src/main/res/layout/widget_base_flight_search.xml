@@ -104,36 +104,58 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
-                            <com.expedia.bookings.widget.shared.SearchInputTextView
-                                android:id="@+id/origin_card"
-                                style="@style/MaterialCardTextView"
+                            <LinearLayout
+                                android:id="@+id/search_location_container"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/default_search_card_height"
-                                android:contentDescription="@string/packages_search_flying_from_cont_desc"
-                                app:input_icon="@drawable/packages_search_departure"
-                                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                                app:input_text="@string/fly_from_hint" />
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                            <com.expedia.bookings.widget.shared.SearchInputTextView
-                                android:id="@+id/destination_card"
-                                style="@style/MaterialCardTextView"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/default_search_card_height"
-                                android:contentDescription="@string/packages_search_flying_to_cont_desc"
-                                app:input_icon="@drawable/packages_search_arrival"
-                                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                                app:input_text="@string/fly_to_hint" />
+                                <com.expedia.bookings.widget.shared.SearchInputTextView
+                                    android:id="@+id/origin_card"
+                                    style="@style/MaterialCardTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="58dp"
+                                    android:contentDescription="@string/packages_search_flying_from_cont_desc"
+                                    app:cardCornerRadius="0dp"
+                                    app:input_icon="@drawable/packages_search_departure"
+                                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                                    app:input_text="@string/fly_from_hint" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1px"
+                                    android:layout_marginLeft="40dp"
+                                    android:background="@color/rail_divider_bar_color" />
+
+                                <com.expedia.bookings.widget.shared.SearchInputTextView
+                                    android:id="@+id/destination_card"
+                                    style="@style/MaterialCardTextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="58dp"
+                                    android:contentDescription="@string/packages_search_flying_to_cont_desc"
+                                    app:cardCornerRadius="0dp"
+                                    app:input_icon="@drawable/packages_search_arrival"
+                                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                                    app:input_text="@string/fly_to_hint" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/swapFlightsLocationsButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="12dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:contentDescription="@string/rail_swap_locations_cont_desc"
+                                android:padding="13dp"
+                                android:src="@drawable/ic_search_swap"
+                                android:visibility="gone"/>
                         </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="57dp"
-                            android:layout_marginRight="16dp"
-                            android:background="@color/search_origin_dest_divider" />
 
                     </android.support.v7.widget.CardView>
 

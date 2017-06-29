@@ -22,9 +22,11 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.flights.FlightServiceClassType;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
@@ -44,6 +46,7 @@ import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -253,7 +256,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testFlightCabinClassValue() {
-		String cabinClassCoachName =  activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
+		String cabinClassCoachName = activity.getResources().getString(FlightServiceClassType.CabinCode.COACH.getResId());
 		String cabinClassBusinessName = activity.getResources().getString(FlightServiceClassType.CabinCode.BUSINESS.getResId());
 
 		Ui.getApplication(activity).defaultFlightComponents();
@@ -382,6 +385,64 @@ public class FlightSearchPresenterTest {
 		widget.getSearchViewModel().isRoundTripSearchObservable().subscribe(isRoundTripSearchSubscriber);
 
 		isRoundTripSearchSubscriber.assertValue(true);
+	}
+
+	@Test
+	public void testSwapToFromButtonWhenDisabled() {
+		SettingUtils.save(activity, R.string.preference_switch_to_from_flight_locations, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
+		ImageView swapBtn = (ImageView) widget.findViewById(R.id.swapFlightsLocationsButton);
+
+		assertEquals(swapBtn.getVisibility(), View.VISIBLE);
+		assertFalse(swapBtn.isEnabled());
+		initializeWidget();
+
+		SuggestionV4 origin = getSuggestion("SFO", "San Francisco");
+		SuggestionV4 destination = getSuggestion("DEL", "Delhi");
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(origin);
+		assertFalse(swapBtn.isEnabled());
+
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(destination);
+		assertTrue(swapBtn.isEnabled());
+	}
+
+	@Test
+	public void testSwapToFromButton() {
+		SettingUtils.save(activity, R.string.preference_switch_to_from_flight_locations, true);
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightSwitchFields);
+		Ui.getApplication(activity).defaultFlightComponents();
+		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter, null);
+		ImageView swapBtn = (ImageView) widget.findViewById(R.id.swapFlightsLocationsButton);
+		SearchInputTextView originFlight = widget.getOriginCardView();
+		SearchInputTextView destinationFlight = widget.getDestinationCardView();
+		initializeWidget();
+
+		SuggestionV4 origin = getSuggestion("SFO", "San Francisco");
+		SuggestionV4 destination = getSuggestion("DEL", "Delhi");
+
+		widget.getSearchViewModel().getOriginLocationObserver().onNext(origin);
+		widget.getSearchViewModel().getDestinationLocationObserver().onNext(destination);
+
+		swapBtn.performClick();
+		assertEquals(originFlight.getText(), destination.regionNames.displayName);
+		assertEquals(destinationFlight.getText(), origin.regionNames.displayName);
+
+		swapBtn.performClick();
+		assertEquals(destinationFlight.getText(), destination.regionNames.displayName);
+		assertEquals(originFlight.getText(), origin.regionNames.displayName);
+	}
+
+	private SuggestionV4 getSuggestion(String airportCode, String displayName) {
+		SuggestionV4 suggestion = new SuggestionV4();
+		SuggestionV4.Airport suggestionAirport = new SuggestionV4.Airport();
+		suggestionAirport.airportCode = airportCode;
+		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
+		suggestion.hierarchyInfo.airport = suggestionAirport;
+		suggestion.regionNames = new SuggestionV4.RegionNames();
+		suggestion.regionNames.displayName = displayName;
+		return suggestion;
 	}
 
 	@Test

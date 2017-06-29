@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewStub
+import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.FlightSearchPageAdapter
 import com.expedia.bookings.data.Db
@@ -31,7 +32,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
-import com.expedia.bookings.widget.TravelerPickerView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -71,6 +71,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
             Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
+    val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
+    val isSwitchToAndFromFieldsFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppFlightSwitchFields, R.string.preference_switch_to_from_flight_locations)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -90,6 +93,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         searchButton.setOnClickListener {
             searchTrackingBuilder.markSearchClicked()
             vm.performSearchObserver.onNext(Unit)
+        }
+        if (isSwitchToAndFromFieldsFeatureEnabled) {
+            swapFlightsLocationsButton.setOnClickListener {
+                if (!vm.toAndFromFlightFieldsSwitched)
+                    AnimUtils.rotate(swapFlightsLocationsButton)
+                else
+                    AnimUtils.reverseRotate(swapFlightsLocationsButton)
+                vm.toAndFromFlightFieldsSwitched = !(vm.toAndFromFlightFieldsSwitched)
+                vm.swapToFromFieldsObservable.onNext(Unit)
+            }
         }
         travelerWidgetV2.traveler.getViewModel().travelerSelectedObservable.subscribe(vm.abortTimerObservable)
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
@@ -176,12 +189,27 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             }
         }
 
+        if (isSwitchToAndFromFieldsFeatureEnabled) {
+            Observable.combineLatest(
+                    vm.formattedOriginObservable,
+                    vm.formattedDestinationObservable,
+                    { origin, destination ->
+                        if (origin.isNullOrBlank() || destination.isNullOrBlank()) {
+                            swapFlightsLocationsButton.isEnabled = false
+                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
+                        } else {
+                            swapFlightsLocationsButton.isEnabled = true
+                            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray7))
+                        }
+                    }).subscribe()
+        }
+
         if (isUserBucketedInSearchFormValidation) {
             Observable.combineLatest(vm.hasValidDatesObservable, vm.errorNoDatesObservable, { hasValidDates, invalidDates -> hasValidDates }).subscribe { hasValidDates ->
                 calendarWidgetV2.setEndDrawable(if (hasValidDates) null else errorDrawable)
             }
         }
-        
+
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
@@ -209,6 +237,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2
         showFlightOneWayRoundTripOptions = true
+
+        if (isSwitchToAndFromFieldsFeatureEnabled) {
+            swapFlightsLocationsButton.isEnabled = false
+            swapFlightsLocationsButton.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray2))
+            swapFlightsLocationsButton.visibility = View.VISIBLE
+        }
     }
 
     override fun inflate() {

@@ -4408,6 +4408,7 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
 	private static final String FLIGHTS_V2_ITIN_SHARE_CLICK = "App.Flight.CKO.Share.Start";
 	private static final String FLIGHTS_V2_SHARE = "App.Flight.CKO.Share";
+	private static final String FLIGHTS_V2_SWITCH_TO_FROM = "App.Flight.DS.SwitchFields.Clicked";
 
 	private static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -4742,6 +4743,14 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(link.toString(), FLIGHTS_V2_TRAVELER_LINK_NAME);
 	}
 
+	public static void trackFlightLocationSwapViewClicked() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_SWITCH_TO_FROM + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_SWITCH_TO_FROM);
+		s.setProp(16, FLIGHTS_V2_SWITCH_TO_FROM);
+		s.trackLink(null, "o", "Switched to-from fields", null, null);
+	}
+
 	public static void trackPageLoadFlightSearchV2() {
 		ADMS_Measurement s = getFreshTrackingObject();
 
@@ -4754,6 +4763,9 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRetainSearchParams);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_switch_to_from_flight_locations)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSwitchFields);
+		}
 		s.track();
 	}
 
