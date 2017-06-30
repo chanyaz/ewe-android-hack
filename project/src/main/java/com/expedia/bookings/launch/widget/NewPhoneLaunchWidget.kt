@@ -15,11 +15,9 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.HotelSearchResponse
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.collections.Collection
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.NearbyHotelParams
@@ -30,6 +28,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
@@ -59,7 +58,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     lateinit var hotelServices: HotelServices
         @Inject set
 
-    var searchParams: HotelSearchParams ? = null
+    var searchParams: HotelSearchParams? = null
     private var downloadSubscription: Subscription? = null
     private var wasHotelsDownloadEmpty = false
     private var launchDataTimeStamp: DateTime? = null
@@ -147,6 +146,11 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             NavUtils.goToHotels(context, searchParams, animOptions, 0)
         }
 
+        (launchListWidget.adapter as LaunchListAdapter).searchBarClickSubject.subscribe {
+            //TODO Handle animations - Mingle #3729
+            NavUtils.goToHotels(context, null, null, 0)
+        }
+
         adjustLobViewHeight()
 
         hasInternetConnection.subscribe { isOnline ->
@@ -161,16 +165,16 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
 
         currentLocationSubject.subscribe { currentLocation ->
-                launchListWidget.visibility = View.VISIBLE
-                launchError.visibility = View.GONE
-                if (isNearByHotelDataExpired() || isPOSChanged) {
-                    isPOSChanged = false
-                    val params = buildHotelSearchParams(currentLocation)
-                    searchParams = buildDeeplinkToHotelSearchParams(currentLocation)
-                    downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
-                    launchDataTimeStamp = DateTime.now()
-                    launchListWidget.showListLoadingAnimation()
-                }
+            launchListWidget.visibility = View.VISIBLE
+            launchError.visibility = View.GONE
+            if (isNearByHotelDataExpired() || isPOSChanged) {
+                isPOSChanged = false
+                val params = buildHotelSearchParams(currentLocation)
+                searchParams = buildDeeplinkToHotelSearchParams(currentLocation)
+                downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
+                launchDataTimeStamp = DateTime.now()
+                launchListWidget.showListLoadingAnimation()
+            }
         }
 
         locationNotAvailable.subscribe {
@@ -259,6 +263,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun showFabButton() {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+            return
+        }
+
         if (fab.visibility != VISIBLE) {
             fab.visibility = VISIBLE
         }
@@ -269,6 +277,10 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
     }
 
     private fun hideFabButton() {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+            return
+        }
+
         if ((fab.translationY <= 0f)
                 && !fabAnimOut.isRunning) {
             fabAnimOut.start()
@@ -331,7 +343,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return params
     }
 
-    private fun buildDeeplinkToHotelSearchParams(loc: Location) : HotelSearchParams {
+    private fun buildDeeplinkToHotelSearchParams(loc: Location): HotelSearchParams {
         val currentDate = LocalDate()
         val searchParams = HotelSearchParams()
         searchParams.checkInDate = currentDate

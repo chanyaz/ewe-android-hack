@@ -15,7 +15,6 @@ class ItinLaunchCard(itemView: View, context: Context) : RecyclerView.ViewHolder
     val firstLine: TextView by bindView(R.id.first_line)
     val secondLine: TextView by bindView(R.id.second_line)
 
-
     init {
         itemView.setOnClickListener {
             NavUtils.goToItin(context)

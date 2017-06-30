@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -38,6 +37,7 @@ import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Ui;
@@ -51,6 +51,8 @@ import com.expedia.vm.launch.ActiveItinViewModel;
 import com.expedia.vm.launch.LaunchScreenAirAttachViewModel;
 import com.expedia.vm.launch.SignInPlaceHolderViewModel;
 import com.squareup.phrase.Phrase;
+
+import butterknife.ButterKnife;
 import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -65,6 +67,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			|| itemViewKey == LaunchDataItem.MEMBER_ONLY_DEALS;
 	}
 
+	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
+	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
+	public PublishSubject<Unit> searchBarClickSubject = PublishSubject.create();
+
+	private BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
+	private BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
+	private PublishSubject<String> memberDealBackgroundUrlSubject = PublishSubject.create();
 	private List<LaunchDataItem> staticCards = new ArrayList<>();
 	private List<LaunchDataItem> dynamicCards = new ArrayList<>();
 	private ArrayList<LaunchDataItem> listData = new ArrayList<>();
@@ -74,14 +83,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private View headerView;
 	private TextView seeAllButton;
 	private TextView launchListTitle;
-	private LaunchLobHeaderViewHolder lobViewHolder;
-	private BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
-	private BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
-	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
-	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
-	private boolean showOnlyLOBView = false;
-	private PublishSubject<String> memberDealBackgroundUrlSubject = PublishSubject.create();
 
+	private boolean showOnlyLOBView = false;
 	private UserStateManager userStateManager;
 
 	public LaunchListAdapter(Context context, View header) {
@@ -103,13 +106,19 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		parentView = parent;
 
+		if (viewType == LaunchDataItem.SEARCH_BAR_VIEW) {
+			View view = LayoutInflater.from(context)
+				.inflate(R.layout.search_bar_view, parent, false);
+			return new LaunchSearchBarViewHolder(view);
+		}
+
 		if (viewType == LaunchDataItem.LOB_VIEW) {
 			NewLaunchLobWidget view = (NewLaunchLobWidget) LayoutInflater.from(context)
 				.inflate(R.layout.widget_new_launch_lob, parent, false);
-			lobViewHolder = new LaunchLobHeaderViewHolder(view);
-			return lobViewHolder;
+			return new LaunchLobHeaderViewHolder(view);
 		}
-		else if (viewType == LaunchDataItem.HEADER_VIEW) {
+
+		if (viewType == LaunchDataItem.HEADER_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.launch_header_root, parent, false);
 			FrameLayout layout = (FrameLayout) view.findViewById(R.id.parent_layout);
@@ -120,29 +129,35 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			layout.addView(headerView);
 			return new LaunchHeaderViewHolder(view);
 		}
-		else if (viewType == LaunchDataItem.LOADING_VIEW) {
+
+		if (viewType == LaunchDataItem.LOADING_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.launch_tile_loading_widget, parent, false);
 			return new LaunchLoadingViewHolder(view);
 		}
-		else if (viewType == LaunchDataItem.HOTEL_VIEW) {
+
+		if (viewType == LaunchDataItem.HOTEL_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_launch_list_card, parent, false);
 			return new HotelViewHolder(view);
 		}
-		else if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
+
+		if (viewType == LaunchDataItem.SIGN_IN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.feeds_prompt_card, parent, false);
 			return new SignInPlaceholderCard(view, context);
 		}
-		else if (viewType == LaunchDataItem.AIR_ATTACH_VIEW) {
+
+		if (viewType == LaunchDataItem.AIR_ATTACH_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.launch_screen_air_attach_card, parent, false);
 			return new LaunchScreenAirAttachCard(view);
 		}
-		else if (viewType == LaunchDataItem.ITIN_VIEW) {
+
+		if (viewType == LaunchDataItem.ITIN_VIEW) {
 			View view = LayoutInflater.from(context).inflate(R.layout.launch_active_itin, parent, false);
 			return new ItinLaunchCard(view, context);
 		}
-		else if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
+
+		if (viewType == LaunchDataItem.MEMBER_ONLY_DEALS) {
 			View view = LayoutInflater.from(context).inflate(R.layout.big_image_launch_card, parent, false);
 			view.setOnClickListener(new MemberDealClickListener());
 			BigImageLaunchViewModel vm = getMemberDealViewModel();
@@ -152,29 +167,27 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			holder.bind(vm);
 			return holder;
 		}
-		else if (viewType == LaunchDataItem.COLLECTION_VIEW) {
+
+		if (viewType == LaunchDataItem.COLLECTION_VIEW) {
 			View view = LayoutInflater.from(context)
 				.inflate(R.layout.section_collection_list_card, parent, false);
 			return new CollectionViewHolder(view);
 		}
-		else {
-			throw new RuntimeException("Could not find view type");
-		}
+
+		throw new RuntimeException("Could not find view type");
+
 	}
 
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
-		int itemViewType = holder.getItemViewType();
-		boolean isFullSpanView = itemViewType == LaunchDataItem.HEADER_VIEW ||
-			itemViewType == LaunchDataItem.LOB_VIEW || isStaticCard(itemViewType);
 
 		// NOTE: All the code below is for staggered views.
 		StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
 			.getLayoutParams();
 		int actualPosition = position - staticCards.size();
 
-		if (actualPosition % 5 == 0 || isFullSpanView) {
+		if (actualPosition % 5 == 0 || isFullSpanView(holder)) {
 			layoutParams.setFullSpan(true);
 			fullWidthTile = true;
 		}
@@ -184,11 +197,20 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth() / 2;
+
 		if (holder instanceof LaunchLobHeaderViewHolder) {
 			NewLaunchLobWidget lobWidget = ((LaunchLobHeaderViewHolder) holder).getLobWidget();
 			lobWidget
 				.setViewModel(
 					new NewLaunchLobViewModel(context, hasInternetConnectionChangeSubject, posSubject));
+		}
+		else if (holder instanceof LaunchSearchBarViewHolder) {
+			((LaunchSearchBarViewHolder) holder).getSearchBarView().setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					searchBarClickSubject.onNext(Unit.INSTANCE);
+				}
+			});
 		}
 		else if (holder instanceof SignInPlaceholderCard) {
 			((SignInPlaceholderCard) holder).bind(makeSignInPlaceholderViewModel());
@@ -248,6 +270,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public int getItemViewType(int position) {
 		if (showOnlyLOBView) {
+			if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+				return LaunchDataItem.SEARCH_BAR_VIEW;
+			}
 			return LaunchDataItem.LOB_VIEW;
 		}
 		LaunchDataItem item = listData.get(position);
@@ -270,7 +295,13 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	private ArrayList<LaunchDataItem> makeStaticCards() {
 		ArrayList<LaunchDataItem> items = new ArrayList<>();
-		items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
+		if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_new_launchscreen_nav)) {
+			items.add(new LaunchDataItem(LaunchDataItem.SEARCH_BAR_VIEW));
+		}
+		else {
+			items.add(new LaunchDataItem(LaunchDataItem.LOB_VIEW));
+		}
+
 		if (showSignInCard()) {
 			items.add(new LaunchDataItem(LaunchDataItem.SIGN_IN_VIEW));
 		}
@@ -333,6 +364,14 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@VisibleForTesting
 	protected List<Trip> getCustomerTrips() {
 		return new ArrayList<>(ItineraryManager.getInstance().getTrips());
+	}
+
+	private boolean isFullSpanView(RecyclerView.ViewHolder holder) {
+		int itemViewType = holder.getItemViewType();
+		return itemViewType == LaunchDataItem.HEADER_VIEW
+			|| itemViewType == LaunchDataItem.LOB_VIEW
+			|| itemViewType == LaunchDataItem.SEARCH_BAR_VIEW
+			|| isStaticCard(itemViewType);
 	}
 
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
@@ -403,7 +442,8 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 	@VisibleForTesting
 	public boolean isPOSAndBrandAirAttachEnabled() {
-		return PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance().shouldShowAirAttach();
+		return PointOfSale.getPointOfSale().showHotelCrossSell() && ProductFlavorFeatureConfiguration.getInstance()
+			.shouldShowAirAttach();
 	}
 
 	@VisibleForTesting

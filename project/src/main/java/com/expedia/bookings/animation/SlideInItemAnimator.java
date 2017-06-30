@@ -67,12 +67,13 @@ public class SlideInItemAnimator extends DefaultItemAnimator {
 		int height = 0;
 		for (int i = 0; i < recyclerView.getAdapter().getItemCount(); i++) {
 			RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
-			if (holder.getItemViewType() == LaunchDataItem.LOB_VIEW) {
+			final int itemViewType = holder.getItemViewType();
+			if (itemViewType == LaunchDataItem.LOB_VIEW || itemViewType == LaunchDataItem.SEARCH_BAR_VIEW) {
 				continue;
 			}
 			recyclerView.getLayoutManager().measureChild(holder.itemView, 0, 0);
 			height += holder.itemView.getMeasuredHeight();
-			if (holder.getItemViewType() == type) {
+			if (itemViewType == type) {
 				return -height;
 			}
 		}

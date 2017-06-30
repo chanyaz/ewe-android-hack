@@ -5,6 +5,11 @@
         android:layout="@layout/preference_category_title"
         android:title="Hotel Features">
 
+        <CheckBoxPreference
+            android:key="@string/preference_new_launchscreen_nav"
+            android:layout="@layout/preference"
+            android:summary="Enable new launch screen navigation."
+            android:title="Enable New Launch Screen Navigation" />
     </PreferenceCategory>
 
     <PreferenceCategory

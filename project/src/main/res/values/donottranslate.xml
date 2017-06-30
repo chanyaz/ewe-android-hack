@@ -120,6 +120,7 @@
     <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
     <string name="preference_advance_search_on_srp">preference_advance_search_on_srp</string>
     <string name="preference_single_page_sign_up">preference_single_page_sign_up</string>
+    <string name="preference_new_launchscreen_nav">preference_new_launchscreen_nav</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

@@ -15,5 +15,6 @@ open class LaunchDataItem(private val key: Int) {
         @JvmField val COLLECTION_VIEW = 7
         @JvmField val ITIN_VIEW = 8
         @JvmField val AIR_ATTACH_VIEW = 9
+        @JvmField val SEARCH_BAR_VIEW = 10
     }
 }

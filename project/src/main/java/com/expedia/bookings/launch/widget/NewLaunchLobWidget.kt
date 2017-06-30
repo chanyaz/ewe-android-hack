@@ -35,7 +35,6 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
     }
     val lobViewHeightChangeSubject = PublishSubject.create<Unit>()
 
-
     var adapter: NewLaunchLobAdapter by Delegates.notNull()
     val nav = NavigationHelper(context)
     var viewModel: NewLaunchLobViewModel by notNullAndObservable {
