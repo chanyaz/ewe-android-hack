@@ -82,9 +82,6 @@
     <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
-    <!-- Itin Colors -->
-    <color name="itin_unable_to_find_error_color">#FFB80000</color>
-
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#C4204B</color>
     <color name="btn_sign_in_pressed">#9D2D4B</color>
@@ -156,5 +153,15 @@
     <color name="flights_details_layover_color">@color/lob_btn_color</color>
     <color name="filter_number_text_color">@color/lob_btn_color</color>
     <color name="flights_error_message_infants">#b80000</color>
+
+    <!-- New Itin colors -->
+    <color name="itin_sign_in_toolbar_color">#0065A2</color>
+    <color name="itin_sign_in_button_background_color">#c4204b</color>
+    <color name="itin_sign_in_button_text_color">@color/white</color>
+    <color name="itin_refresh_warning_button_background_color">@color/app_primary</color>
+    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_find_button_color">@color/app_primary</color>
+    <color name="itin_find_toolbar_color">@color/action_bar_bg_color</color>
+    <color name="itin_unable_to_find_error_color">#B80000</color>
 
 </resources>

@@ -1094,6 +1094,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.change_dates,
 		R.string.expand_advanced_button_cont_desc,
 		R.string.calendar_instructions_date_range_flight_extra_spacing_TEMPLATE,
-		R.string.collapse_advanced_button_cont_desc
+		R.string.collapse_advanced_button_cont_desc,
+		R.color.itin_sign_in_button_background_color,
+		R.color.itin_sign_in_button_text_color,
+		R.color.itin_refresh_warning_button_background_color,
+		R.color.itin_warning_color
 	};
 }

@@ -143,18 +143,18 @@ open class ItinSignInViewModel(val context: Context) {
             statusImageSubject.onNext(ContextCompat.getDrawable(context, imageResId))
             updateButtonTextColorSubject.onNext(ContextCompat.getColor(context, R.color.white))
             updateButtonImageVisibilitySubject.onNext(false)
-            updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.exp_launch_blue))
+            updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.itin_refresh_warning_button_background_color))
         } else {
-            updateButtonTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray9))
+            updateButtonTextColorSubject.onNext(ContextCompat.getColor(context, R.color.itin_sign_in_button_text_color))
             updateButtonImageVisibilitySubject.onNext(true)
-            updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.brand_secondary))
+            updateButtonColorSubject.onNext(ContextCompat.getColor(context, R.color.itin_sign_in_button_background_color))
         }
     }
 
     private fun warningStatusAttributes(messageText: String) {
         if (messageText == context.getString(R.string.fetching_trips_error_connection)) {
-            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.exp_action_required_red))
-            val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.exp_action_required_red), PorterDuff.Mode.SRC_IN)
+            statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.itin_warning_color))
+            val colorMatrix = PorterDuffColorFilter(ContextCompat.getColor(context, R.color.itin_warning_color), PorterDuff.Mode.SRC_IN)
             statusImageColorSubject.onNext(colorMatrix)
         } else {
             statusTextColorSubject.onNext(ContextCompat.getColor(context, R.color.gray9))
