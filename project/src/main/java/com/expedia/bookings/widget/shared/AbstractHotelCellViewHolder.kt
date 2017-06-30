@@ -12,6 +12,7 @@ import android.support.annotation.CallSuper
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import com.mobiata.android.util.AndroidUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -77,6 +78,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
 
     val viewModel = createHotelViewModel(itemView.context)
 
+    private val calculatedCellWidth = AndroidUtils.getScreenSize(root.context).x - 2 * root.context.resources.getDimensionPixelOffset(R.dimen.card_view_container_margin)
+
     init {
         itemView.setOnClickListener(this)
 
@@ -108,13 +111,16 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
 
         val url = viewModel.getHotelLargeThumbnailUrl()
         if (url.isNotBlank()) {
+
+            val cellWidth = if (width <= 1) calculatedCellWidth else width
+
             PicassoHelper.Builder(itemView.context)
                     .setPlaceholder(R.drawable.results_list_placeholder)
                     .setError(R.drawable.room_fallback)
                     .setCacheEnabled(false)
                     .setTarget(target).setTag(PICASSO_TAG)
                     .build()
-                    .load(HotelMedia(url).getBestUrls(width / 2))
+                    .load(HotelMedia(url).getBestUrls(cellWidth / 2))
         }
 
         cardView.contentDescription = viewModel.getHotelContentDesc()

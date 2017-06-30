@@ -78,6 +78,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelAutoSuggestSameAsWeb = 14483;
 	public static final int EBAndroidAppHotelThrottleGalleryAnimation = 14785;
 	public static final int EBAndroidAppHotelSuperSearch = 14336;
+	public static final int EBAndroidAppHotelGreedySearch = 14670;
 
 	// Cars Web View Tests
 	public static final int EBAndroidAppCarsWebViewUK = 12913;
@@ -201,6 +202,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAPIMAuth);
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp);
 		testIDs.add(EBAndroidPopulateCardholderName);
+		testIDs.add(EBAndroidAppHotelGreedySearch);
 		return testIDs;
 	}
 

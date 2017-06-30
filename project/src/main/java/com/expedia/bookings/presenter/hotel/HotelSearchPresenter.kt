@@ -166,6 +166,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         advancedOptionsView.setOnClickListener {
             show(advancedOptionsDetails)
             HotelTracking.trackHotelSuperSearchFilter()
+            val searchPresenter: HotelSearchPresenter ?= null
+            searchPresenter?.searchViewModel?.notSuperSearch= false
+
         }
 
         advancedOptionsViewModel.doneClickedSubject.subscribe {

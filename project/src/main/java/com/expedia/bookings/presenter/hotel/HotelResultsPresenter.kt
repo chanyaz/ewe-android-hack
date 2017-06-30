@@ -360,7 +360,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
 
         setMapToInitialState(params.suggestion)
-        showLoading()
+        if(!params.isSameParameters()) {
+            showLoading()
+        }
         show(ResultsList())
 
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)

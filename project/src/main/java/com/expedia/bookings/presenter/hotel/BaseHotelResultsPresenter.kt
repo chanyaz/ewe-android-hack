@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import com.mobiata.android.util.AndroidUtils
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
@@ -132,9 +133,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     open val filterHeight by lazy { resources.getDimension(R.dimen.hotel_filter_height) }
 
-    var screenHeight: Int = 0
-    var screenWidth: Float = 0f
-
     var filterScreenShown = false
     var transitionRunning = false
     var hideFabAnimationRunning = false
@@ -156,9 +154,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val searchOverlaySubject = PublishSubject.create<Unit>()
 
     var hotelMapClusterRenderer: HotelMapClusterRenderer by Delegates.notNull()
-
-    var mapListSplitAnchor = 0
-    var snapToFullScreenMapThreshold = 0
 
     val hotelIconFactory = HotelMarkerIconGenerator(context)
 
@@ -277,6 +272,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private fun shouldBlockTransition(): Boolean {
         return (transitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
+
+    private var screenHeight = AndroidUtils.getScreenSize(context).y.toInt()
+    private var screenWidth = AndroidUtils.getScreenSize(context).x.toFloat()
+    private var mapListSplitAnchor = (screenHeight / 4.1).toInt()
+    private var snapToFullScreenMapThreshold = (screenHeight / 2.2).toInt()
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
         hideMapLoadingOverlay()
@@ -804,14 +804,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 fab.visibility = View.VISIBLE
                 val fabLp = fab.layoutParams as FrameLayout.LayoutParams
                 fabLp.bottomMargin += filterHeight.toInt()
-            } else {
-                screenHeight = height
-                screenWidth = width.toFloat()
             }
-
-            mapListSplitAnchor = (height / 4.1).toInt()
-            snapToFullScreenMapThreshold = (height / 2.2).toInt()
-
             resetListOffset()
         }
     }

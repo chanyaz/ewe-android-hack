@@ -111,7 +111,9 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
         this.isFilteredSearch = isFilteredSearch
         updateTitles(params)
         searchingForHotelsDateTime.onNext(Unit)
-        hotelSearchProvider.doSearch(params)
+        if (!params.isSameParameters()) {
+            hotelSearchProvider.doSearch(params)
+        }
     }
 
     private fun addFilterCriteria(searchBuilder: HotelSearchParams.Builder, filterParams: UserFilterChoices) {

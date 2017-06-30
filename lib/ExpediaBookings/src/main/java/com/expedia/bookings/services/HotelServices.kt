@@ -180,7 +180,6 @@ open class HotelServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
     private fun doPostSearchClientSideWork(params: HotelSearchParams, response: HotelSearchResponse) {
         if (response.hasErrors()) return
-
         response.userPriceType = getUserPriceType(response.hotelList)
         response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
         response.hotelList.map { hotel ->

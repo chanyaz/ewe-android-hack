@@ -3,25 +3,38 @@ package com.expedia.vm
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.R.id.search
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.provider.HotelSearchProvider
+import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import org.joda.time.LocalDate
+import rx.Observer
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 import javax.inject.Inject
 
 class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
+    var greedySearchOn = false
+    var hotelSearchParams: HotelSearchParams ?= null
     val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), true)
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
+    var notSuperSearch = true
 
     // Outputs
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
@@ -57,8 +70,17 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
             } else {
-                val hotelSearchParams = getParamsBuilder().build()
-                searchParamsObservable.onNext(hotelSearchParams)
+                val hotelSearchParamsChanged = getParamsBuilder().build()
+                if(isBucketedGreedySearch() && paramsCompare(hotelSearchParamsChanged) && notSuperSearch) {
+                    greedySearchOn = false
+                    hotelSearchParams!!.sameParameters = true
+                    searchParamsObservable.onNext(hotelSearchParams)
+                } else {
+                    greedySearchOn = false
+                    hotelSearchParamsChanged.sameParameters = false
+                    searchParamsObservable.onNext(hotelSearchParamsChanged)
+                    notSuperSearch=true
+                }
             }
         } else {
             if (!getParamsBuilder().hasDestinationLocation()) {
@@ -98,10 +120,16 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         calendarTooltipTextObservable.onNext(getToolTipText(start, end))
         calendarTooltipContDescObservable.onNext(getToolTipContentDescription(start, end))
 
+        if (start!=null && end != null && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)) {
+            hotelSearchParams = getParamsBuilder().build()
+            greedySearchOn = true
+            searchParamsObservable.onNext(hotelSearchParams)
+        }
         if (start != null && (end == null || start.equals(end))) {
             end = start.plusDays(1)
         }
         super.onDatesChanged(Pair(start, end))
+
     }
 
     override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
@@ -173,5 +201,15 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         dateNightBuilder.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
 
         return dateNightBuilder.build()
+    }
+
+    private fun isBucketedGreedySearch(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)
+    }
+
+    private fun paramsCompare(hotelSearchParamsChanged: HotelSearchParams): Boolean {
+        return hotelSearchParamsChanged.origin!=null && hotelSearchParams?.origin!=null && hotelSearchParamsChanged.origin == hotelSearchParams?.origin &&
+                hotelSearchParamsChanged.adults == hotelSearchParams?.adults && hotelSearchParamsChanged.children == hotelSearchParams?.children &&
+                hotelSearchParamsChanged.shopWithPoints == hotelSearchParams?.shopWithPoints
     }
 }

@@ -855,7 +855,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             geoCodeSearchModel.searchObserver.onNext(params)
         } else {
             // Hotel region search
-            show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+            if (!searchPresenter.searchViewModel.greedySearchOn || !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)) {
+                    show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+            }
             resultsPresenter.viewModel.paramsSubject.onNext(params)
         }
     }

@@ -1,12 +1,17 @@
 package com.expedia.bookings.hotel.provider
 
+import android.view.ViewStub
+import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.presenter.hotel.HotelSearchPresenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.bindView
+import com.expedia.vm.HotelSearchViewModel
 import rx.Observer
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
