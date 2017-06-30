@@ -25,7 +25,6 @@ import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
-import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -237,7 +236,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
 			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
-			String travelerFullName = traveler.getFullNameBasedOnPos(getContext());
+			String travelerFullName = traveler.getFullNameBasedOnPos();
 			travelerButton.updateSelectTravelerText(travelerFullName);
 			enterDetailsText.setText(travelerFullName);
 			travelerPhoneText.setText(traveler.getPhoneNumber());
@@ -279,7 +278,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 		// Validate
 		boolean isValid = isFilled() && sectionTravelerInfo.performValidation();
-		enterDetailsText.setText(traveler.getFullNameBasedOnPos(getContext()));
+		enterDetailsText.setText(traveler.getFullNameBasedOnPos());
 		travelerPhoneText.setText(traveler.getPhoneNumber());
 		travelerPhoneText.setVisibility(!TextUtils.isEmpty(traveler.getPhoneNumber()) ? VISIBLE : GONE);
 		driverCheckoutStatusLeftImageView.setTraveler(traveler);
@@ -434,14 +433,14 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		String description;
 		String title;
 		if (isValid) {
-			title = traveler.getFullNameBasedOnPos(getContext());
+			title = traveler.getFullNameBasedOnPos();
 			description = Phrase.from(getContext(), R.string.traveler_details_complete_cont_desc_TEMPLATE)
 				.put("title", title)
 				.put("subtitle", traveler.getPhoneNumber())
 				.format().toString();
 		}
 		else {
-			if (FeatureUtilKt.isReverseNameEnabled(getContext())) {
+			if (PointOfSale.getPointOfSale().showLastNameFirst()) {
 				title = Strings.isEmpty(traveler.getLastName()) ? "" : traveler.getLastName();
 			}
 			else {

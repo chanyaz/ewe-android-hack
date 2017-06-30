@@ -16,8 +16,3 @@ fun isDisabledSTPStateEnabled(): Boolean {
 fun isFlexEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_flex)
 }
-
-fun isReverseNameEnabled(context:Context): Boolean {
-    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_reverse_traveler_name)
-            && (PointOfSale.getPointOfSale().showLastNameFirst() || PointOfSale.getPointOfSale().hideMiddleName())
-}

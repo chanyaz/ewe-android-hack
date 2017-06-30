@@ -115,7 +115,6 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_payment_legal_message">preference_payment_legal_message</string>
     <string name="preference_flight_retain_search_params">preference_flight_retain_search_params</string>
-    <string name="preference_reverse_traveler_name">preference_enable_reversed_traveler_name</string>
     <string name="preference_advance_search_on_srp">preference_advance_search_on_srp</string>
     <string name="preference_single_page_sign_up">preference_single_page_sign_up</string>
 

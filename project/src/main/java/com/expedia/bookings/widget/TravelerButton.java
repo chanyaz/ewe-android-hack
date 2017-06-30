@@ -201,7 +201,7 @@ public class TravelerButton extends LinearLayout {
 				Traveler mainTraveler = results.getTraveler();
 				Db.getWorkingTravelerManager().shiftWorkingTraveler(mainTraveler);
 				String travelerFullName;
-				travelerFullName = mainTraveler.getFullNameBasedOnPos(getContext());
+				travelerFullName = mainTraveler.getFullNameBasedOnPos();
 				selectTraveler.setText(travelerFullName);
 				if (mTravelerButtonListener != null) {
 					mTravelerButtonListener.onTravelerChosen(mainTraveler);
