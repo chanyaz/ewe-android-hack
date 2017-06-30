@@ -2,6 +2,7 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Distance
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -53,11 +54,10 @@ class FlightConfirmationViewModel(val context: Context) {
                         offer?.selectedInsuranceProduct != null
 
                 showTripProtectionMessage.onNext(hasInsurance)
+                setDistanceTraveled(response)
             }
             crossSellWidgetVisibility.onNext(isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
-
-            traveledDistanceObservable.onNext(getTotalDistanceTraveled(response) + " " + response.getFirstFlightLeg().totalTravelDistanceUnits ?: "Miles")
         }
 
         numberOfTravelersSubject.subscribe { number ->
@@ -75,12 +75,17 @@ class FlightConfirmationViewModel(val context: Context) {
         }
     }
 
-    private fun getTotalDistanceTraveled(flight: FlightCheckoutResponse): String{
-        val leg1 = flight.getFirstFlightLeg().totalTravelDistance ?: "0"
-        if (flight.isRoundTrip()) {
-            val leg2  = flight.getLastFlightLeg().totalTravelDistance ?: "0"
-            return (leg1.toInt() + leg2.toInt()).toString()
-        }
-        return leg1
+    private fun setDistanceTraveled(response: FlightCheckoutResponse) {
+        val firstLegDistance = response.getFirstFlightLeg().totalTravelDistance
+        val secondLegDistance = if (response.isRoundTrip()) response.getLastFlightLeg().totalTravelDistance else "0"
+        val distanceUnits = response.getFirstFlightLeg().totalTravelDistanceUnits
+        val totalFormattedDistance = getTotalDistanceTraveled(firstLegDistance, secondLegDistance, distanceUnits)
+        traveledDistanceObservable.onNext(totalFormattedDistance)
+    }
+
+    private fun getTotalDistanceTraveled(firstLegDistance: String, secondLegDistance: String, distanceUnits: String) : String {
+        val firstLegInt = firstLegDistance.toInt()
+        val secondLegInt = secondLegDistance.toInt()
+        return "${firstLegInt + secondLegInt} $distanceUnits"
     }
 }

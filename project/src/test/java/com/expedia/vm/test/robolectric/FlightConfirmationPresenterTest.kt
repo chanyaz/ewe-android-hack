@@ -103,6 +103,7 @@ class FlightConfirmationPresenterTest {
         assertEquals("1 Traveler", presenter.flightSummary?.numberOfTravelers?.text)
         assertEquals("$100", presenter.flightSummary?.tripPrice?.text)
         assertEquals(VISIBLE, tripTotalText.visibility)
+        assertEquals("200 meters", presenter.flightSummary?.totalDistance?.text)
     }
 
     @Test
@@ -274,6 +275,8 @@ class FlightConfirmationPresenterTest {
         segment.arrivalTimeRaw = arrivalTime
         flight.segments.add(0, segment)
         flight.departureDateTimeISO = departureTime
+        flight.totalTravelDistance = "100"
+        flight.totalTravelDistanceUnits = "meters"
 
         return flight
     }
