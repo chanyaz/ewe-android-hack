@@ -56,6 +56,8 @@ class FlightConfirmationViewModel(val context: Context) {
             }
             crossSellWidgetVisibility.onNext(isQualified)
             SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+
+            traveledDistanceObservable.onNext(getTotalDistanceTraveled(response) + " " + response.getFirstFlightLeg().totalTravelDistanceUnits ?: "Miles")
         }
 
         numberOfTravelersSubject.subscribe { number ->
@@ -71,5 +73,14 @@ class FlightConfirmationViewModel(val context: Context) {
                     }
                 }
         }
+    }
+
+    private fun getTotalDistanceTraveled(flight: FlightCheckoutResponse): String{
+        val leg1 = flight.getFirstFlightLeg().totalTravelDistance ?: "0"
+        if (flight.isRoundTrip()) {
+            val leg2  = flight.getLastFlightLeg().totalTravelDistance ?: "0"
+            return (leg1.toInt() + leg2.toInt()).toString()
+        }
+        return leg1
     }
 }

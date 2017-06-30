@@ -56,8 +56,7 @@
                 android:id="@+id/total_travel_distance"
                 style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="500 Miles" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
