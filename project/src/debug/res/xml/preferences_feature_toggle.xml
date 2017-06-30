@@ -40,6 +40,11 @@
             android:summary="Single page sign up flow."
             android:title="Enable Single Page Sign Up Flow" />
 
+        <CheckBoxPreference
+            android:key="preference_flight_traveler_form_revamp"
+            android:layout="@layout/preference"
+            android:summary="Flight Traveler Form Revamp"
+            android:title="Flight Traveler Form Revamp" />
     </PreferenceCategory>
 
     <PreferenceCategory

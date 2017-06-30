@@ -1133,6 +1133,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.unable_to_find_registered_user_itinerary_template,
 		R.string.save_traveler,
 		R.string.error_hotel_no_longer_available,
-		R.string.save
+		R.string.save,
+		R.layout.widget_flight_traveler_picker,
+		R.layout.widget_flight_traveler_search,
+		R.plurals.number_of_infant,
+		R.string.preference_flight_traveler_form_revamp
 	};
 }

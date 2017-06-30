@@ -5000,14 +5000,26 @@ public class OmnitureTracking {
 		if (searchTrackingData.getInfantSeatingInLap()) {
 			for (int age : searchTrackingData.getChildren()) {
 				if (age < 2) {
-					childrenInLap++;
+					++childrenInLap;
 				}
 			}
 		}
-
-		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap;
-
+		int youthCount = 0;
 		str += searchTrackingData.getAdults();
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext,
+			AbacusUtils.EBAndroidAppFlightTravelerFormRevamp,
+			R.string.preference_flight_traveler_form_revamp)) {
+			for (int age : searchTrackingData.getChildren()) {
+				if (age > 12 && age < 18) {
+					++youthCount;
+				}
+			}
+			str += "|YTH";
+			str += youthCount;
+		}
+
+		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap - youthCount;
+
 		str += "|C";
 		str += childrenInSeat;
 		str += "|L";

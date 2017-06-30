@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
+import android.widget.RadioGroup
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
@@ -66,6 +67,11 @@ fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
     }
 }
 
+fun RadioGroup.subscribeOnCheckChanged(observer: Observer<Int>) {
+    this.setOnCheckedChangeListener { radioGroup: RadioGroup, isChecked: Int ->
+        observer.onNext(isChecked)
+    }
+}
 fun View.unsubscribeOnClick() {
     this.setOnClickListener(null)
 }

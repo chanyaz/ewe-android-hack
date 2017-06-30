@@ -32,6 +32,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.FlightAdvanceSearchWidget
 import com.expedia.bookings.widget.FlightCabinClassWidget
+import com.expedia.bookings.widget.FlightTravelerWidgetV2
+import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.AirportSuggestionViewModel
@@ -49,7 +51,6 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).flightComponent().suggestionsService()
     }
-
     val flightCabinClassStub: ViewStub by bindView(R.id.flight_cabin_class_stub)
     val flightCabinClassWidget by lazy {
         flightCabinClassStub.inflate().findViewById(R.id.flight_cabin_class_widget) as FlightCabinClassWidget
@@ -74,6 +75,16 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val swapFlightsLocationsButton: ImageView by bindView(R.id.swapFlightsLocationsButton)
     val isSwitchToAndFromFieldsFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppFlightSwitchFields, R.string.preference_switch_to_from_flight_locations)
+
+    val isFlightTravelerFormRevampEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightTravelerFormRevamp, R.string.preference_flight_traveler_form_revamp)
+
+    val travelerFlightCardViewStub: ViewStub by bindView(R.id.traveler_flight_stub)
+    override val travelerWidgetV2 by lazy {
+        if(isFlightTravelerFormRevampEnabled)
+            travelerFlightCardViewStub.inflate().findViewById(R.id.traveler_card) as FlightTravelerWidgetV2
+        else
+            travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+    }
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -184,8 +195,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
                 flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
             }
             travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(TravelerParams(params.adults, params.children, emptyList(), emptyList()))
-            if (params.children.contains(0) && !params.infantSeatingInLap) {
-                travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(Unit)
+            val infantCount = params.children.count { infantAge -> infantAge < 2 }
+            if (infantCount > 0) {
+                travelerWidgetV2.traveler.getViewModel().infantInSeatObservable.onNext(!params.infantSeatingInLap)
             }
         }
 

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources">
+
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/error_message_infants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/flights_error_message_infants"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp"
+                android:text="@string/max_one_infant_per_lap"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/adult_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/flight_adult_age_label"
+                    app:traveler_age_label_desc="@string/flight_adult_age_label"
+                    app:traveler_minus="@string/remove_adult_traveler_cont_desc"
+                    app:traveler_plus="@string/add_adult_traveler_cont_desc" />
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/youth_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/flight_youth_age_label"
+                    app:traveler_age_label_desc="@string/flight_youth_age_label_desc"
+                    app:traveler_minus="@string/rails_remove_youth_traveler_cont_desc"
+                    app:traveler_plus="@string/rails_add_youth_traveler_cont_desc" />
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/child_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/flight_children_age_label"
+                    app:traveler_age_label_desc="@string/flight_children_age_label_desc"
+                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                    app:traveler_plus="@string/add_child_traveler_cont_desc" />
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/infant_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/flight_infant_age_label"
+                    app:traveler_age_label_desc="@string/flight_infant_age_label"
+                    app:traveler_minus="@string/flight_remove_infant_traveler_cont_desc"
+                    app:traveler_plus="@string/flight_add_infant_traveler_cont_desc" />
+
+                <RelativeLayout
+                    android:id="@+id/infant_preference_seating"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <RadioGroup
+                        android:id="@+id/flight_traveler_radio_group"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="13dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/inLap"
+                            android:layout_width="72dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/infant_preference_button"
+                            android:button="@null"
+                            android:clickable="true"
+                            android:contentDescription="Press the button to select Infant preference In Lap"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="@string/flight_infant_InLap"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/hotel_pay_now_later_text"
+                            android:textSize="14dp"
+                            app:textStyle="normal" />
+
+                        <RadioButton
+                            android:id="@+id/inSeat"
+                            android:layout_width="72dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="8dp"
+                            android:background="@drawable/infant_preference_button"
+                            android:button="@null"
+                            android:clickable="true"
+                            android:contentDescription="Press the button to select Infant preference In Seat"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="@string/flight_infant_InSeat"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/hotel_pay_now_later_text"
+                            android:textSize="14dp"
+                            app:textStyle="normal" />
+                    </RadioGroup>
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/infant_type_text_label_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/flight_traveler_radio_group"
+                        android:contentDescription="@string/flight_infant_type_label"
+                        android:text="@string/flight_infant_type_label"
+                        android:textColor="@color/traveler_picker_main_text"
+                        android:textSize="14sp"
+                        app:textStyle="medium" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</merge>

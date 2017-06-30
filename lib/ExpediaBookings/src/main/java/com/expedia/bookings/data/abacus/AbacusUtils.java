@@ -66,6 +66,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightRetainSearchParams = 14297;
 	public static final int EBAndroidAppFlightDayPlusDateSearchForm = 14742;
 	public static final int EBAndroidAppFlightSwitchFields = 14918;
+	public static final int EBAndroidAppFlightTravelerFormRevamp = 14647;
 
 	// Hotel Tests
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
@@ -204,6 +205,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPackagesMidApi);
 		testIDs.add(EBAndroidAppFlightFlexEnabled);
 		testIDs.add(EBAndroidAppFlightSwitchFields);
+		testIDs.add(EBAndroidAppFlightTravelerFormRevamp);
 		return testIDs;
 	}
 

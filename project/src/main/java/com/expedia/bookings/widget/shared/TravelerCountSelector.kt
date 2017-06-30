@@ -33,6 +33,7 @@ class TravelerCountSelector(context: Context, attrs: AttributeSet?) : LinearLayo
                 travelerMinus.contentDescription = attrSet.getString(R.styleable.TravelerCountSelector_traveler_minus)
                 travelerPlus.contentDescription = attrSet.getString(R.styleable.TravelerCountSelector_traveler_plus)
                 travelerAgeLabel.text = attrSet.getString(R.styleable.TravelerCountSelector_traveler_age_label)
+                travelerAgeLabel.contentDescription = attrSet.getString(R.styleable.TravelerCountSelector_traveler_age_label_desc)
             } finally {
                 attrSet.recycle()
             }
@@ -49,7 +50,7 @@ class TravelerCountSelector(context: Context, attrs: AttributeSet?) : LinearLayo
             return disabledColor
     }
 
-    fun enablePuls(enabled: Boolean) {
+    fun enablePlus(enabled: Boolean) {
         travelerPlus.isEnabled = enabled
         travelerPlus.setColorFilter(getColorFilter(enabled), PorterDuff.Mode.SRC_IN)
     }
