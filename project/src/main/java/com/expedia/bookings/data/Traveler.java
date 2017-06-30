@@ -15,9 +15,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.user.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.json.JSONUtils;
@@ -139,8 +139,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mName.getReversedFullName();
 	}
 
-	public String getFullNameBasedOnPos(Context context) {
-		if (FeatureUtilKt.isReverseNameEnabled(context)) {
+	public String getFullNameBasedOnPos() {
+		if (PointOfSale.getPointOfSale().showLastNameFirst()) {
 			return getReversedFullName();
 		}
 		else {

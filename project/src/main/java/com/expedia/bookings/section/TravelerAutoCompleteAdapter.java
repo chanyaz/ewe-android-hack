@@ -125,7 +125,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				vh = (ViewHolder) retView.getTag();
 			}
 			String travelerFullName;
-			travelerFullName = traveler.getFullNameBasedOnPos(getContext());
+			travelerFullName = traveler.getFullNameBasedOnPos();
 			vh.tv.setText(travelerFullName);
 			vh.initials.setBackgroundResource(mTravelerBackgroundDrawable);
 			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(travelerFullName));

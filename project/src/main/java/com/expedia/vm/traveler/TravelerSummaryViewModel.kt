@@ -27,7 +27,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
             return resources.getString(if (isFeatureEnabledForTravelerInfoTest) R.string.enter_traveler_details
                                         else R.string.checkout_enter_traveler_details)
         } else {
-            return traveler?.getFullNameBasedOnPos(context) ?: ""
+            return traveler?.fullNameBasedOnPos ?: ""
         }
     }
 

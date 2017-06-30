@@ -218,6 +218,6 @@ class TravelerSummaryViewModelTest {
 
     private fun setFullNameForTraveler(traveler: Traveler, name: String) {
         Mockito.`when`(traveler.fullName).thenReturn(mockTravelerProvider.testFullName)
-        Mockito.`when`(traveler.getFullNameBasedOnPos(activity)).thenReturn(name)
+        Mockito.`when`(traveler.fullNameBasedOnPos).thenReturn(name)
     }
 }

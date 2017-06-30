@@ -57,7 +57,6 @@ class FlightTravelerEntryWidgetTest {
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.test_traveler_presenter)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, false)
     }
 
     @Test
@@ -274,7 +273,6 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowEmailAndPhoneReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, true)
         givenMaterialForm(true)
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(true)
@@ -288,7 +286,6 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardNoEmailShowPhonePhoneReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, true)
         givenMaterialForm(true)
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(false)
@@ -301,7 +298,6 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardShowEmailNoPhoneReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, true)
         givenMaterialForm(true)
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(true)
@@ -314,7 +310,6 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testNextFocusForwardNoPhoneNoEmailReversedLayout() {
         setPOS(PointOfSaleId.JAPAN)
-        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, true)
         givenMaterialForm(true)
         setupViewModel(0, false)
         widget.viewModel.showEmailObservable.onNext(false)
@@ -327,7 +322,6 @@ class FlightTravelerEntryWidgetTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testTravelerButtonHasReversedName() {
         setPOS(PointOfSaleId.JAPAN)
-        SettingUtils.save(activity, R.string.preference_reverse_traveler_name, true)
         givenMaterialForm(true)
         setupViewModel(0, false)
         widget.resetStoredTravelerSelection()
