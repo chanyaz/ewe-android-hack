@@ -24,6 +24,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+            <com.expedia.bookings.widget.TextView
+                style="@style/BundleOverviewWidgets.SecondaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance Traveled" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -45,6 +51,12 @@
                 style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <com.expedia.bookings.widget.TextView
+                style="@style/BundleOverviewWidgets.SecondaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500 Miles" />
 
         </LinearLayout>
 
