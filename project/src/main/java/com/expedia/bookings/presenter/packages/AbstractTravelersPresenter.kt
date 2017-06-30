@@ -18,7 +18,6 @@ import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.isSaveTravelerDialogEnabled
 import com.expedia.bookings.widget.AbstractTravelerEntryWidget
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.traveler.TravelerPickerWidget
@@ -250,8 +249,7 @@ abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet
     }
 
     fun shouldShowTravelerDialog() : Boolean {
-        return isSaveTravelerDialogEnabled(context) &&
-                currentState == FlightTravelerEntryWidget::class.java.name &&
+        return currentState == FlightTravelerEntryWidget::class.java.name &&
                 User.isLoggedInToAccountManager(context) &&
                 (travelerEntryWidget.viewModel.getTraveler().compareTo(Db.getWorkingTravelerManager().workingTraveler)) != 0 &&
                 travelerEntryWidget.getNumberOfInvalidFields() == 0

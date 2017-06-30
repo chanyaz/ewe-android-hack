@@ -44,7 +44,6 @@ import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.test.traveler.MockTravelerProvider
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
-import com.mobiata.android.util.SettingUtils
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -314,7 +313,6 @@ class PackageCheckoutTest {
         val testDialog = ShadowAlertDialog.getLatestAlertDialog()
 
         assertNull(testDialog)
-        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
     }
 
     @Test
@@ -324,7 +322,6 @@ class PackageCheckoutTest {
         val testDialog = ShadowAlertDialog.getLatestAlertDialog()
 
         assertNull(testDialog)
-        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
     }
 
     @Test
@@ -496,7 +493,6 @@ class PackageCheckoutTest {
     }
 
     private fun givenCompletedTravelerEntryWidget(numOfTravelers: Int = 1) {
-        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, true)
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
@@ -515,7 +511,6 @@ class PackageCheckoutTest {
         assertNotNull(testDialog)
         assertEquals("Update Saved Traveler", testDialog.title)
         assertEquals("Update traveler information under your ${BuildConfig.brand} account to speed up future purchases?", testDialog.message)
-        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
     }
 
     private fun assertSaveTravelerDialog() {
@@ -523,6 +518,5 @@ class PackageCheckoutTest {
         assertNotNull(testDialog)
         assertEquals("Save Traveler", testDialog.title)
         assertEquals("Save traveler information under your ${BuildConfig.brand} account to speed up future purchases?", testDialog.message)
-        SettingUtils.save(activity, R.string.preference_new_saved_traveler_behavior, false)
     }
 }

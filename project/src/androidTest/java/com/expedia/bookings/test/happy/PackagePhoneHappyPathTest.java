@@ -170,6 +170,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Espresso.closeSoftKeyboard();
 		PackageScreen.clickTravelerDone();
 
+		onView(withText(R.string.no_thanks)).perform(click());
+
 		CheckoutViewModel.performSlideToPurchase(true);
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
 	}
