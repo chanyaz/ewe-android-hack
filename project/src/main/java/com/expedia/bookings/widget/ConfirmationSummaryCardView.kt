@@ -13,6 +13,7 @@ class ConfirmationSummaryCardView (context: Context, attrs: AttributeSet?) : Rel
     val numberOfTravelers : TextView by bindView(R.id.trip_number_of_travelers)
     val pointsEarned: TextView by bindView(R.id.trip_points_earned)
     val tripPrice: TextView by bindView(R.id.trip_total_cost)
+    val totalDistance: TextView by bindView(R.id.total_travel_distance)
 
     init {
         View.inflate(context, R.layout.flight_confirmation_summary_card, this)

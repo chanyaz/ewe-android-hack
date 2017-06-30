@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content" />
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/total_travel_distance"
                 style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

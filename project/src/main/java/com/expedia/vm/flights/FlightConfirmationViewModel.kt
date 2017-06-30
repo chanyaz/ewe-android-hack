@@ -29,6 +29,7 @@ class FlightConfirmationViewModel(val context: Context) {
     val formattedTravelersStringSubject = PublishSubject.create<String>()
     val showTripProtectionMessage = BehaviorSubject.create<Boolean>(false)
     val isNewConfirmationScreenEnabled = BehaviorSubject.create<Boolean>(false)
+    val traveledDistanceObservable = BehaviorSubject.create<String>()
 
     private val userStateManager = Ui.getApplication(context).appComponent().userStateManager()
 

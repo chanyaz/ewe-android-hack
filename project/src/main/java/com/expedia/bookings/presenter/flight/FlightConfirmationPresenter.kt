@@ -55,6 +55,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         if (isNewConfirmationScreenEnabled) {
             vm.formattedTravelersStringSubject.subscribeText(flightSummary?.numberOfTravelers)
             vm.tripTotalPriceSubject.subscribeText(flightSummary?.tripPrice)
+            vm.traveledDistanceObservable.subscribeText(flightSummary?.totalDistance)
             val tripProtectionLabel = findViewById(R.id.trip_protection) as TextView
             val tripProtectionDivider = findViewById(R.id.trip_protection_divider)
             vm.showTripProtectionMessage.subscribe { isVisible ->
