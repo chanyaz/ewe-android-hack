@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
+
 import java.io.File;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.HttpCookie;
 import java.net.URI;
@@ -17,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
@@ -126,6 +129,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	}
 
 	private void load() {
+		BufferedReader reader = null;
 		try {
 			if (!storage.exists()) {
 				return;
@@ -133,7 +137,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 
 			TypeToken token = new TypeToken<HashMap<String, HashMap<String, Cookie>>>() {
 			};
-			BufferedReader reader = new BufferedReader(new FileReader(storage));
+			reader = new BufferedReader(new FileReader(storage));
 			HashMap<String, HashMap<String, Cookie>> savedCookies = gson.fromJson(reader, token.getType());
 			reader.close();
 
@@ -147,9 +151,20 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 			storage.delete();
 			throw new RuntimeException(e);
 		}
+		finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void loadAndDelete(File file) {
+		BufferedReader reader = null;
 		try {
 			if (file == null || !file.exists()) {
 				return;
@@ -157,7 +172,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 
 			TypeToken token = new TypeToken<List<UriCookiePair>>() {
 			};
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			reader = new BufferedReader(new FileReader(file));
 			List<UriCookiePair> pairs = gson.fromJson(reader, token.getType());
 			reader.close();
 
@@ -181,8 +196,16 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 			throw new RuntimeException(e);
 		}
 		finally {
-			if (file != null && file.exists()) {
-				file.delete();
+			try {
+				if (file != null && file.exists()) {
+					file.delete();
+				}
+				if (reader != null) {
+					reader.close();
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -190,17 +213,27 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 	private void save() {
 		// Generate json
 		String json = gson.toJson(cookieStore);
-
+		FileWriter writer = null;
 		try {
 			storage.getParentFile().mkdirs();
 			storage.createNewFile();
-			FileWriter writer = new FileWriter(storage);
+			writer = new FileWriter(storage);
 			writer.write(json, 0, json.length());
 			writer.close();
 		}
 		catch (Exception e) {
 			storage.delete();
 			throw new RuntimeException(e);
+		}
+		finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -224,7 +257,7 @@ public class PersistentCookieManager implements PersistentCookiesCookieJar {
 
 	private Cookie generateMC1Cookie(String guid, String posUrl) {
 		Cookie.Builder cookieBuilder = new Cookie.Builder();
-		posUrl = posUrl.replace("www.","");
+		posUrl = posUrl.replace("www.", "");
 		cookieBuilder.domain(posUrl);
 		cookieBuilder.expiresAt(fiveYearsFromNowInMilliseconds());
 		cookieBuilder.name("MC1");

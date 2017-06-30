@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 
@@ -193,6 +195,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 	}
 
 	private void loadAndDelete() {
+		BufferedReader reader = null;
 		try {
 			if (!storage.exists()) {
 				return;
@@ -200,7 +203,7 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 
 			TypeToken token = new TypeToken<HashMap<String, HashMap<String, Cookie>>>() {
 			};
-			BufferedReader reader = new BufferedReader(new FileReader(storage));
+			reader = new BufferedReader(new FileReader(storage));
 			HashMap<String, HashMap<String, Cookie>> savedCookies = gson.fromJson(reader, token.getType());
 			reader.close();
 
@@ -208,13 +211,13 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 				return;
 			}
 			Set<String> savedCookieIterator = savedCookies.keySet();
-			for (String cookieKey: savedCookieIterator) {
+			for (String cookieKey : savedCookieIterator) {
 				HashMap<String, Cookie> cookieMap = savedCookies.get(cookieKey);
 				Set<String> iterator = cookieMap.keySet();
 				List<String> headers = new ArrayList<>();
 				Map<String, List<String>> value = new HashMap<>();
 
-				for (String key:iterator) {
+				for (String key : iterator) {
 					Cookie cookie = cookieMap.get(key);
 					headers.add(cookie.toString());
 				}
@@ -226,13 +229,21 @@ public class PersistentCookieManagerV2 extends CookieManager implements Persiste
 					Log.e("Error adding cookies through okhttp" + e.toString());
 				}
 			}
-
 		}
 		catch (Exception e) {
+			storage.delete();
 			throw new RuntimeException(e);
 		}
-		storage.delete();
-
+		finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private long fiveYearsFromNowInMilliseconds() {
