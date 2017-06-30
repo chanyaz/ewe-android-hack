@@ -9,15 +9,18 @@ import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.HotelItinImage
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
+import com.expedia.bookings.widget.itin.HotelItinToolbar
 
-class HotelItinDetailsActivity : AppCompatActivity() {
+class HotelItinDetailsActivity() : AppCompatActivity() {
 
     val roomDetailsView: HotelItinRoomDetails by lazy {
         findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
     }
-
     val hotelImageView: HotelItinImage by lazy {
         findViewById(R.id.hotel_itin_image) as HotelItinImage
+    }
+    val toolbar: HotelItinToolbar by lazy {
+        findViewById(R.id.widget_hotel_itin_toolbar) as HotelItinToolbar
     }
 
     companion object IntentExtras {
@@ -38,8 +41,14 @@ class HotelItinDetailsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+
         val itinCardDataHotel: ItinCardDataHotel = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.id) as ItinCardDataHotel
         roomDetailsView.setUpWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
+        toolbar.setUpWidget(itinCardDataHotel)
+        toolbar.setNavigationOnClickListener {
+            super.finish()
+        }
     }
+
 }

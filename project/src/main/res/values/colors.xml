@@ -42,6 +42,7 @@
     <color name="splash_screen_bg">@color/exp_yellow</color>
 
     <!-- Itinerary colors -->
+    <color name="itin_toolbar_text">#F3F3F3</color>
     <color name="itin_white_text">#F3F3F3</color>
     <color name="itin_gray_text">#90F3F3F3</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
