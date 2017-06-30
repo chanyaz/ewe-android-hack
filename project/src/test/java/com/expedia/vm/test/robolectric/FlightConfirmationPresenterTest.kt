@@ -101,7 +101,7 @@ class FlightConfirmationPresenterTest {
         assertEquals(VISIBLE, presenter.flightSummary?.visibility)
         assertEquals("$rewardPoints points earned", presenter.flightSummary?.pointsEarned?.text)
         assertEquals("1 Traveler", presenter.flightSummary?.numberOfTravelers?.text)
-        assertEquals("$100", presenter.flightSummary?.tripPrice?.text)
+        assertEquals("$100.95", presenter.flightSummary?.tripPrice?.text)
         assertEquals(VISIBLE, tripTotalText.visibility)
     }
 
@@ -248,7 +248,7 @@ class FlightConfirmationPresenterTest {
         boolField.set(qualifierObject, hasAirAttach)
         timeRemainingField.set(qualifierObject, offerTimeField )
 
-        val totalPrice = Money("100", "USD")
+        val totalPrice = Money("100.95", "USD")
         val priceField = response.javaClass.getDeclaredField("totalChargesPrice")
         priceField.isAccessible = true
         priceField.set(response, totalPrice)

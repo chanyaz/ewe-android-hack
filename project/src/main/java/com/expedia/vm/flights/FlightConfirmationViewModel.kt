@@ -47,7 +47,7 @@ class FlightConfirmationViewModel(val context: Context) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
             if (isNewConfirmationScreenEnabled.value) {
-                tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoney)
+                tripTotalPriceSubject.onNext(response.totalChargesPrice?.formattedMoneyFromAmountAndCurrencyCode)
                 val hasInsurance = response.flightAggregatedResponse?.flightsDetailResponse?.first()?.
                         offer?.selectedInsuranceProduct != null
 
