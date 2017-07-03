@@ -6,25 +6,33 @@ import android.support.v7.widget.ActionMenuView
 import android.view.LayoutInflater
 import android.view.accessibility.AccessibilityManager
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.vm.CheckoutToolbarViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
+import rx.observers.TestSubscriber
+import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class CheckoutToolbarTest {
 
+    private var activity: Activity by Delegates.notNull()
+    private lateinit var toolbar: CheckoutToolbar
+
     @Test
     fun testToolbarMenuItem() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Rail)
-        val toolbar = LayoutInflater.from(activity).inflate(R.layout.test_checkout_toolbar, null) as CheckoutToolbar
-        toolbar.viewModel = CheckoutToolbarViewModel(activity)
+        setUpActivity()
+        getToolbar()
         val actionMenuView = toolbar.getChildAt(0) as ActionMenuView
         assertNull(actionMenuView.getChildAt(0))
 
@@ -40,8 +48,7 @@ class CheckoutToolbarTest {
 
     @Test
     fun testToolbarMenuItemWithAccessibility() {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.Theme_Rail)
+        setUpActivity()
         val spyContext = Mockito.spy(activity)
         val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
 
@@ -64,5 +71,33 @@ class CheckoutToolbarTest {
 
         toolbar.viewModel.formFilledIn.onNext(true)
         assertEquals("Done button", actionMenuView.getChildAt(0).contentDescription)
+    }
+
+    @Test
+    fun testCustomToolbar() {
+        setUpActivity()
+        setSecureIconAbacusAndFeatureToggle()
+        getToolbar()
+        val toolbarCustomTitleTestSubscriber = TestSubscriber.create<String>()
+        toolbar.viewModel.toolbarCustomTitle.subscribe(toolbarCustomTitleTestSubscriber)
+
+        toolbar.viewModel.toolbarTitle.onNext("asdf")
+        assertEquals("asdf", toolbarCustomTitleTestSubscriber.onNextEvents[0])
+    }
+
+    private fun setSecureIconAbacusAndFeatureToggle() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
+        SettingUtils.save(activity.applicationContext, R.string.preference_enable_secure_icon, true)
+        assertTrue(FeatureToggleUtil.isUserBucketedAndFeatureEnabled(activity.applicationContext, AbacusUtils.EBAndroidAppSecureCheckoutIcon, R.string.preference_enable_secure_icon))
+    }
+
+    private fun setUpActivity() {
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.Theme_Rail)
+    }
+
+    private fun getToolbar() {
+        toolbar = LayoutInflater.from(activity).inflate(R.layout.test_checkout_toolbar, null) as CheckoutToolbar
+        toolbar.viewModel = CheckoutToolbarViewModel(activity)
     }
 }

@@ -69,7 +69,7 @@
             android:layout="@layout/preference"
             android:summary="Enable secure icon for Flight and Bundle Checkout pages"
             android:title="Enable secure icon for Flight and Bundle Checkout pages" />
-        
+
     </PreferenceCategory>
 
     <PreferenceCategory

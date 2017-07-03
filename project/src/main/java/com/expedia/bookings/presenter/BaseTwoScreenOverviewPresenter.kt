@@ -14,6 +14,7 @@ import com.crashlytics.android.Crashlytics
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.utils.isDisabledSTPStateEnabled
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -31,7 +32,6 @@ import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.AbstractUniversalCKOTotalPriceViewModel
-import com.squareup.phrase.Phrase
 import rx.Subscription
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener{
@@ -166,6 +166,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutPresenter.toolbarDropShadow.visibility = View.GONE
                 resetScrollSpaceHeight()
                 scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
+                if (isSecureIconEnabled(context)) {
+                    bundleOverviewHeader.secureIcon.visibility = View.GONE
+                    bundleOverviewHeader.customTitle?.visibility = View.GONE
+                }
             } else {
                 scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
             }
@@ -199,6 +203,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             super.endTransition(forward)
             if (forward) {
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.CHECKOUT)
+                if(isSecureIconEnabled(context)) {
+                    bundleOverviewHeader.secureIcon.visibility = View.VISIBLE
+                    bundleOverviewHeader.customTitle?.visibility = View.VISIBLE
+                }
             } else {
                 checkoutPresenter.getCheckoutViewModel().bottomCheckoutContainerStateObservable.onNext(TwoScreenOverviewState.BUNDLE)
             }

@@ -3,16 +3,16 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v7.view.menu.ActionMenuItemView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.isSecureIconEnabled
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
@@ -26,7 +26,11 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
 
     var viewModel: CheckoutToolbarViewModel by notNullAndObservable { vm ->
         vm.toolbarTitle.subscribe {
-            title = it
+            if (isSecureIconEnabled(context)) {
+                vm.toolbarCustomTitle.onNext(it)
+            } else {
+                title = it
+            }
         }
         vm.toolbarSubtitle.subscribe {
             subtitle = it
@@ -38,10 +42,9 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
             menuItem.isVisible = it
         }
         vm.enableMenuItem.subscribe { enable ->
-            val view = findViewById(R.id.menu_done)
+            val view = findViewById(R.id.menu_done) as? ActionMenuItemView
             if (view != null) {
-                val textView = view as TextView
-                textView.alpha = if (enable) 1f else 0.15f
+                view.alpha = if (enable) 1f else 0.15f
             }
             menuItem.isVisible = true
             menuItem.isEnabled = enable

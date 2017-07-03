@@ -34,8 +34,26 @@
                 app:layout_collapseMode="pin"
                 app:contentInsetEnd = "16dp"
                 app:contentInsetRight= "16dp"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-                app:titleTextAppearance="@style/ToolbarTitleTextAppearance">
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.larvalabs.svgandroid.widget.SVGView
+                        android:layout_width="13dp"
+                        android:layout_height="22dp"
+                        android:id="@+id/secure_lock_icon"
+                        android:visibility="gone"
+                        android:layout_marginRight="10dp" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/checkout_custom_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/ToolbarTitleTextAppearance"/>
+                </LinearLayout>
 
                 <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
                     android:id="@+id/checkout_overview_header_toolbar"
@@ -43,8 +61,7 @@
                     android:layout_height="@dimen/overview_height"
                     android:gravity="left|center_horizontal" />
 
-            </com.expedia.bookings.widget.CheckoutToolbar>
-
+                </com.expedia.bookings.widget.CheckoutToolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
