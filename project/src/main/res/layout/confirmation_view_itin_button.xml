@@ -20,12 +20,21 @@
         android:textColor="@color/itin_white_text"
         android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/view_itin_button"
-        style="@style/MaterialFooterButtonText"
+    <FrameLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?attr/hotel_select_room_ripple_drawable"
-        android:text="@string/itin_action_view" />
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/view_itin_button"
+            style="@style/MaterialFooterRoundButtonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:minHeight="48dp"
+            android:text="@string/itin_action_view" />
+    </FrameLayout>
 
 </LinearLayout>
