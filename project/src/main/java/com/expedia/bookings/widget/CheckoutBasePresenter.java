@@ -35,6 +35,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
+import com.expedia.bookings.utils.FeatureUtilKt;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
@@ -703,7 +704,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				resetMenuButton();
-
+			}
+			else {
+				if (FeatureUtilKt.isPopulateCardholderNameEnabled(getContext())) {
+					paymentInfoCardView.getViewmodel().getTravelerFirstName().onNext(mainContactInfoCardView.firstName);
+					paymentInfoCardView.getViewmodel().getTravelerLastName().onNext(mainContactInfoCardView.lastName);
+				}
 			}
 		}
 
@@ -891,5 +897,4 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		}
 	}
-
 }

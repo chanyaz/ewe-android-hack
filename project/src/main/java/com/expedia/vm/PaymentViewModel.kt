@@ -19,8 +19,10 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
+import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -55,6 +57,9 @@ open class PaymentViewModel(val context: Context) {
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
     val selectCorrectCardObservable = PublishSubject.create<Boolean>()
     val clearTemporaryCardObservable = PublishSubject.create<Unit>()
+    val travelerFirstName = BehaviorSubject.create<AccessibleEditText>()
+    val travelerLastName = BehaviorSubject.create<AccessibleEditText>()
+    val populateCardholderNameObservable = BehaviorSubject.create<String>("")
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()
@@ -119,6 +124,17 @@ open class PaymentViewModel(val context: Context) {
             }
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
         }
+
+        Observable.combineLatest(travelerFirstName, travelerLastName, { firstName, lastName ->
+            if (firstName.valid && lastName.valid) {
+                if (firstName.text.isEmpty() && lastName.text.isEmpty()) {
+                    populateCardholderNameObservable.onNext("")
+                }
+                else if (firstName.text.isNotEmpty() && lastName.text.isNotEmpty()) {
+                    populateCardholderNameObservable.onNext(TravelerUtils.getFullName(firstName, lastName))
+                }
+            }
+        }).subscribe()
 
         storedCardRemoved.subscribe { card ->
             val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()

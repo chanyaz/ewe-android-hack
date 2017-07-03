@@ -1431,7 +1431,16 @@ public class OmnitureTracking {
 	}
 
 	private static void trackPageLoadFlightCheckoutPaymentEditCard() {
-		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD);
+		String pageName = FLIGHT_CHECKOUT_PAYMENT_EDIT_CARD;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		// set the pageName
+		s.setAppState(pageName);
+		s.setEvar(18, pageName);
+		trackAbacusTest(s, AbacusUtils.EBAndroidPopulateCardholderName);
+
+		s.track();
 	}
 
 	public static void trackPageLoadFlightCheckoutWarsaw() {

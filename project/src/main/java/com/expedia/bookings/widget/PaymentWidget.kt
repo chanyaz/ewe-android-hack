@@ -23,7 +23,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.extensions.isMaterialFormEnabled
-import com.expedia.bookings.data.trips.TripBucketItem
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
@@ -34,14 +33,15 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.HotelTracking
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.BookingInfoUtils
-import com.expedia.bookings.utils.isMaterialFormsEnabled
-import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.isMaterialFormsEnabled
+import com.expedia.bookings.utils.isPopulateCardholderNameEnabled
+import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.bindOptionalView
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleEditTextForSpinner
@@ -90,6 +90,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val doneClicked = PublishSubject.create<Unit>()
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
+    val populateCardholderNameTestEnabled = isPopulateCardholderNameEnabled(context)
 
     private val userStateManager: UserStateManager = Ui.getApplication(context).appComponent().userStateManager()
 
@@ -587,6 +588,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) validateAndBind()
             if (forward) {
+                if (populateCardholderNameTestEnabled) {
+                    populateCardholderName()
+                }
                 showMaskedCreditCardNumber()
                 filledIn.onNext(isCompletelyFilled())
             }
@@ -607,6 +611,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             creditCardNumber.requestFocus()
             onFocusChange(creditCardNumber, true)
             if (forward) {
+                if (populateCardholderNameTestEnabled) {
+                    populateCardholderName()
+                }
                 showMaskedCreditCardNumber()
                 removeStoredCard()
                 temporarilySavedCardIsSelected(false, Db.getTemporarilySavedCard())
@@ -629,6 +636,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         if (Db.getBillingInfo().hasStoredCard()) {
             val card = Db.getBillingInfo().storedCard
             viewmodel.storedCardRemoved.onNext(card)
+            if (populateCardholderNameTestEnabled) {
+                populateCardholderName()
+            }
         }
     }
 
@@ -737,6 +747,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun clearPaymentInfo() {
         reset()
         clearCCAndCVV()
+    }
+
+    fun populateCardholderName() {
+        if (creditCardName.text.isEmpty()) {
+            creditCardName.setText(viewmodel.populateCardholderNameObservable.value)
+        }
     }
 
     private fun goToFirstInvalidField() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 
 public class TravelerUtils {
 
@@ -31,6 +33,17 @@ public class TravelerUtils {
 
 	public static Boolean isMainTraveler(int index) {
 		return index == 0;
+	}
+
+	public static String getFullName(AccessibleEditText firstName, AccessibleEditText lastName) {
+		String fullname = "";
+		if (PointOfSale.getPointOfSale().showLastNameFirst()) {
+			fullname = lastName.getText().toString() + " " + firstName.getText().toString();
+		}
+		else {
+			fullname = firstName.getText().toString() + " " + lastName.getText().toString();
+		}
+		return fullname;
 	}
 }
 

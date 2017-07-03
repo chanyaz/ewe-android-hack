@@ -17,6 +17,8 @@ import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
@@ -30,11 +32,13 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.model.UserLoginStateChangedModel
 import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PaymentWidgetViewModel
 import com.expedia.vm.ShopWithPointsViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +47,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -61,6 +66,10 @@ class PaymentWidgetV2Test {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
+    private val travelerFirstNameTestSubscriber = TestSubscriber<AccessibleEditText>()
+    private val travelerLastNameTestSubscriber = TestSubscriber<AccessibleEditText>()
+    private val populateCardholderTestSubscriber = TestSubscriber<String>()
+
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     private var shopWithPointsViewModel: ShopWithPointsViewModel by Delegates.notNull()
     private var sut: PaymentWidgetV2 by Delegates.notNull()
@@ -71,6 +80,8 @@ class PaymentWidgetV2Test {
     lateinit var paymentTileIcon: ImageView
     lateinit var pwpSmallIcon: ImageView
     lateinit var storedCardList: StoredCreditCardList
+    lateinit var firstNameEditText: AccessibleEditText
+    lateinit var lastNameEditText: AccessibleEditText
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -83,7 +94,7 @@ class PaymentWidgetV2Test {
         Ui.getApplication(activity).defaultHotelComponents()
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
-        sut.viewmodel = viewModel;
+        sut.viewmodel = viewModel
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(activity.applicationContext, paymentModel, UserLoginStateChangedModel())
         val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, shopWithPointsViewModel, activity.applicationContext)
@@ -151,6 +162,96 @@ class PaymentWidgetV2Test {
         assertFalse(sut.isSecureToolbarBucketed())
     }
 
+    @Test
+    fun testEmptyPopulateCardholderName() {
+        setupCardholderNameSubscriptions()
+
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        assertEquals("", populateCardholderTestSubscriber.onNextEvents[0])
+        sut.populateCardholderName()
+        assertEquals("", sut.creditCardName.text.toString())
+    }
+
+    @Test
+    fun testInvalidPopulateCardholderName() {
+        setupCardholderNameSubscriptions()
+
+        firstNameEditText.setText("")
+        lastNameEditText.setText("Lee")
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        assertEquals("", populateCardholderTestSubscriber.onNextEvents[0])
+        sut.populateCardholderName()
+        assertEquals("", sut.creditCardName.text.toString())
+    }
+
+    @Test
+    fun testPopulateAndDontRewriteCardholderName() {
+        setupCardholderNameSubscriptions()
+
+        firstNameEditText.setText("Bob")
+        lastNameEditText.setText("Lee")
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 2)
+        assertEquals("Bob Lee", populateCardholderTestSubscriber.onNextEvents[1])
+        sut.populateCardholderName()
+        assertEquals("Bob Lee", sut.creditCardName.text.toString())
+
+        firstNameEditText.setText("John")
+        lastNameEditText.setText("Lee")
+        sut.creditCardName.setText("Bob Leee")
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        sut.populateCardholderName()
+        assertEquals("Bob Leee", sut.creditCardName.text.toString())
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testPopulateReversedCardholderName() {
+        setupCardholderNameSubscriptions()
+        setPOSWithReversedName(true)
+
+        firstNameEditText.setText("Bob")
+        lastNameEditText.setText("Lee")
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 2)
+        assertEquals("Lee Bob", populateCardholderTestSubscriber.onNextEvents[1])
+        sut.populateCardholderName()
+        assertEquals("Lee Bob", sut.creditCardName.text.toString())
+        setPOSWithReversedName(false)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testLoginPopulateCardholderName() {
+        setupCardholderNameSubscriptions()
+
+        firstNameEditText.setText("Lee")
+        lastNameEditText.setText("Bob")
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 2)
+        assertEquals("Lee Bob", populateCardholderTestSubscriber.onNextEvents[1])
+        sut.populateCardholderName()
+        assertEquals("Lee Bob", sut.creditCardName.text.toString())
+
+        viewModel.userLogin.onNext(true)
+        assertEquals("", sut.creditCardName.text.toString())
+
+        firstNameEditText.setText("Joe")
+        lastNameEditText.setText("Shmo")
+        viewModel.travelerFirstName.onNext(firstNameEditText)
+        viewModel.travelerLastName.onNext(lastNameEditText)
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 4)
+        assertEquals("Joe Shmo", populateCardholderTestSubscriber.onNextEvents[2])
+        sut.populateCardholderName()
+        assertEquals("Joe Shmo", sut.creditCardName.text.toString())
+    }
+
     private fun updateABTest(key: Int, value: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(key, value)
@@ -203,5 +304,23 @@ class PaymentWidgetV2Test {
         card.description = "Visa 4111"
         card.setIsGoogleWallet(false)
         return card
+    }
+
+    private fun setupCardholderNameSubscriptions() {
+        viewModel.travelerFirstName.subscribe(travelerFirstNameTestSubscriber)
+        viewModel.travelerLastName.subscribe(travelerLastNameTestSubscriber)
+        viewModel.populateCardholderNameObservable.subscribe(populateCardholderTestSubscriber)
+
+        firstNameEditText = AccessibleEditText(activity.applicationContext, attributeSet = null)
+        lastNameEditText = AccessibleEditText(activity.applicationContext, attributeSet = null)
+
+        assertTrue(populateCardholderTestSubscriber.onNextEvents.size == 1)
+        assertEquals("", populateCardholderTestSubscriber.onNextEvents[0])
+    }
+
+    private fun setPOSWithReversedName(enable: Boolean) {
+        val pointOfSale = if (enable) PointOfSaleId.JAPAN else PointOfSaleId.UNITED_STATES
+        SettingUtils.save(activity, "point_of_sale_key", pointOfSale.id.toString())
+        PointOfSale.onPointOfSaleChanged(activity)
     }
 }
