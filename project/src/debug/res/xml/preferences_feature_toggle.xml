@@ -75,6 +75,13 @@
             android:layout="@layout/preference"
             android:summary="Enable populate cardholder name"
             android:title="Enable populate cardholder name" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_secure_icon"
+            android:layout="@layout/preference"
+            android:summary="Enable secure icon for Flight and Bundle Checkout pages"
+            android:title="Enable secure icon for Flight and Bundle Checkout pages" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory
