@@ -75,7 +75,7 @@ Feature: Flights Search Results
 
 
 
-  @Flights @FlightSearchResults @CALocale @Prod
+  @Flights @CALocale @Prod @EBOnly
   Scenario: POS and locale combination
     Given I launch the App
     And I set the POS to "Canada"
@@ -195,7 +195,7 @@ Feature: Flights Search Results
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @FlightSearchResults
+  @Flights  @EBOnly
   Scenario: Validate legal compliance messaging FSR for AU POS
     Given I launch the App
     And I set the POS to "Australia"
@@ -281,7 +281,7 @@ Feature: Flights Search Results
     And I press back
     Then Validate that XSell Package Banner is displayed with title "Flight + Hotel" and description "Save when you book your flights and hotels together"
 
-  @Flights @FlightSearchResults
+  @Flights  @EBOnly
   Scenario: Validate that XSell Package Banner is not displayed for POS other than UK/US POS
     Given I launch the App
     And I set the POS to "Australia"

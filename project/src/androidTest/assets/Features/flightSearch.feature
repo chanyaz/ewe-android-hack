@@ -37,7 +37,7 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @FlightSearch @Prod @EBOnly
+  @Flights @Prod @EBOnly
   Scenario: Verifying if round trip International search works for Indonesia
 
     Given I launch the App
@@ -53,7 +53,7 @@ Feature: Flights Search
     And I wait for results to load
     And Validate that flight search results are displayed
 
-  @Flights @FlightSearch @Prod @EBOnly
+  @Flights @Prod @EBOnly
   Scenario: Verifying if one-way trip International search works for Indonesia
 
     Given I launch the App
