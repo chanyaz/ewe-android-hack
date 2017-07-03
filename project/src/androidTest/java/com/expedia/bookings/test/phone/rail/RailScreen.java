@@ -159,7 +159,7 @@ public class RailScreen {
 		RailScreen.dialogDoneButton().perform(click());
 
 		SearchScreen.searchButton().perform(click());
-		onView(withId(R.id.rail_outbound_list)).perform(scrollToPosition(5));
+		onView(withId(R.id.rail_outbound_list)).perform(waitForViewToDisplay(), scrollToPosition(5));
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 5, R.id.timesView,
 			"12:55 PM – 4:16 PM");
 		onView(withId(R.id.rail_outbound_list)).perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
