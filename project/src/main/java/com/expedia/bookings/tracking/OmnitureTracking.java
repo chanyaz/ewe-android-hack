@@ -4386,6 +4386,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
 	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
 	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
+	private static final String FLIGHTS_V2_SEARCH_FORM_INTERACTED = "App.Flight.DS.Form.Interacted";
 	private static final String FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX = "App.Flight.DS.";
 	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
 	private static final String FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME = "Package Xsell Banner";
@@ -4573,6 +4574,15 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
 		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
+	}
+
+	public static void trackFlightSearchFormInteracted() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_SEARCH_FORM_INTERACTED + "\" interaction...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_SEARCH_FORM_INTERACTED);
+		s.setProp(16, FLIGHTS_V2_SEARCH_FORM_INTERACTED);
+		s.trackLink(null, "o", "Form Interaction", null, null);
 	}
 
 	public static void trackFlightCheckoutConfirmationPageLoad(PageUsableData pageUsableData) {

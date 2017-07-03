@@ -433,6 +433,21 @@ class FlightSearchViewModelTest {
         sut.performSearchObserver.onNext(Unit)
     }
 
+    @Test
+    fun testReadyForInteractionTracking() {
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        givenValidStartAndEndDates()
+        val params = sut.getParamsBuilder().build()
+
+        val testSubscriber = TestSubscriber<Unit>()
+        sut.isReadyForInteractionTracking.subscribe(testSubscriber)
+        sut.previousSearchParamsObservable.onNext(params)
+        testSubscriber.assertValueCount(1)
+    }
+
     private fun givenByotOutboundSearch() {
         sut.getParamsBuilder()
                 .legNo(0)
