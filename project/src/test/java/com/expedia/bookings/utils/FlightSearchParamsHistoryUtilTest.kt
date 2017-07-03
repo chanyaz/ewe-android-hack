@@ -7,7 +7,10 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.observers.TestSubscriber
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightSearchParamsHistoryUtilTest {
@@ -23,6 +26,18 @@ class FlightSearchParamsHistoryUtilTest {
             })
         })
     }
+
+    @Test
+    fun testParamsLoadFailure() {
+        FlightSearchParamsHistoryUtil.deleteCachedFlightSearchParams(RuntimeEnvironment.application)
+        val failure = TestSubscriber<Unit>()
+        FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(RuntimeEnvironment.application, {}, {
+            failure.onNext(Unit)
+        })
+        failure.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        failure.assertValueCount(1)
+    }
+
 
     private fun getDummySearchParams(): FlightSearchParams {
         val origin = SuggestionV4()
