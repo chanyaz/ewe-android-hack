@@ -121,18 +121,21 @@ class FlightListAdapterTest {
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
         assertEquals("•  Nonstop  •", headerViewHolder.advanceSearchFilterHeader.text)
+        assertEquals("Showing NonStop flights only", headerViewHolder.advanceSearchFilterHeader.contentDescription)
 
         //When User searches with Refundable and Non Stop filter
         isRefundableSubject.onNext(true)
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
         assertEquals("•  Nonstop  •  Refundable  •", headerViewHolder.advanceSearchFilterHeader.text)
+        assertEquals("Showing NonStop Refundable flights only", headerViewHolder.advanceSearchFilterHeader.contentDescription)
 
         //When User searches with Refundable filter
         isNonStopSubject.onNext(false)
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
         assertEquals("•  Refundable  •", headerViewHolder.advanceSearchFilterHeader.text)
+        assertEquals("Showing Refundable flights only", headerViewHolder.advanceSearchFilterHeader.contentDescription)
     }
 
     @Test

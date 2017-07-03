@@ -287,6 +287,16 @@ object FlightV2Utils {
         } else return null
     }
 
+    @JvmStatic fun getAdvanceSearchFilterHeaderContDesc(context: Context, isNonStopFilterSelected: Boolean, isRefundableFilterSelected: Boolean): String? {
+        if (isNonStopFilterSelected && isRefundableFilterSelected) {
+            return context.getString(R.string.advancedSearch_header_nonStop_refundable_contDesc)
+        } else if (isNonStopFilterSelected) {
+            return context.getString(R.string.advancedSearch_header_nonStop_contDesc)
+        } else if (isRefundableFilterSelected) {
+            return context.getString(R.string.advancedSearch_header_refundable_contDesc)
+        } else return null
+    }
+
     private fun isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): Boolean {
         val previousCabinVal = seatClassAndBookingCodeList[0].seatClass
         for (seatClassAndBookingCode in seatClassAndBookingCodeList) {

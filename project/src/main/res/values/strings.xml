@@ -3820,8 +3820,12 @@
     <string name="flight_nonstop_search_header">• \u0020Nonstop\u0020 •</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
     <string name="flight_refundable_search_header">• \u0020Refundable\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearchFilterHeaderContDesc">Showing {filterapplied} flights only</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
+    <string name="advancedSearch_header_refundable_contDesc">Showing Refundable flights only</string>
+    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
+    <string name="advancedSearch_header_nonStop_contDesc">Showing NonStop flights only</string>
+    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearch_header_nonStop_refundable_contDesc">Showing NonStop Refundable flights only</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Searching for flights. Please wait.</string>

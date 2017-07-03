@@ -197,6 +197,14 @@ class FlightV2UtilsTest {
         assertEquals("•  Refundable  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, true))
     }
 
+    @Test
+    fun testGetAdvanceSearchFilterHeaderContDesc() {
+        assertNull(FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, false, false))
+        assertEquals("Showing NonStop Refundable flights only", FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, true, true))
+        assertEquals("Showing NonStop flights only", FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, true, false))
+        assertEquals("Showing Refundable flights only", FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, false, true))
+    }
+
     fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {
         val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()
         when (numberOfObjects) {

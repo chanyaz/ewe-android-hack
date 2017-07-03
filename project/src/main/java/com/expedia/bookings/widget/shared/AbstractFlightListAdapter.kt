@@ -182,8 +182,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 advanceSearchFilterHeader.visibility = View.VISIBLE
                 headerDivider.visibility = View.VISIBLE
                 advanceSearchFilterHeader.text = advanceSearchFilterHeaderText
-                advanceSearchFilterHeader.contentDescription = Phrase.from(context, R.string.advancedSearchFilterHeaderContDesc)
-                        .put("filterapplied", advanceSearchFilterHeaderText).format().toString()
+                advanceSearchFilterHeader.contentDescription = FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch())
             } else {
                 advanceSearchFilterHeader.visibility = View.GONE
                 headerDivider.visibility = View.GONE
