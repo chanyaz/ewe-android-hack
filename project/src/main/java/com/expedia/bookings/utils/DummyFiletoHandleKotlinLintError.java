@@ -1110,6 +1110,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.change_dates,
 		R.string.share_msg_template_roundtrip_flight,
 		R.string.rails_k,
-		R.string.rails_u
+		R.string.rails_u,
+		R.color.itin_sign_in_button_background_color,
+		R.color.itin_sign_in_button_text_color,
+		R.color.itin_refresh_warning_button_background_color,
+		R.color.itin_warning_color
 	};
 }

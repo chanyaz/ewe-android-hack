@@ -57,10 +57,17 @@
     <color name="itin_flight_on_time_color_crystal_theme">#409100</color>
     <color name="itin_checkin_now_color">#4CA0FF</color>
     <color name="itin_summary_divider_color">#4D555D</color>
-    <color name="itin_unable_to_find_error_color">#FF642121</color>
+    <color name="itin_unable_to_find_error_color">@color/exp_action_required_red</color>
     <color name="itin_bg_dark_transparent">@color/black_40</color>
     <color name="itin_no_button">@color/gray4</color>
     <color name="itin_yes_ok_button">#4CA0FF</color>
+    <color name="itin_sign_in_toolbar_color">@color/exp_launch_secondary_blue</color>
+    <color name="itin_sign_in_button_background_color">@color/brand_secondary</color>
+    <color name="itin_sign_in_button_text_color">@color/gray9</color>
+    <color name="itin_refresh_warning_button_background_color">@color/exp_launch_blue</color>
+    <color name="itin_warning_color">@color/exp_action_required_red</color>
+    <color name="itin_find_button_color">@color/exp_launch_blue</color>
+    <color name="itin_find_toolbar_color">@color/exp_launch_blue</color>
 
     <!-- Old Flights colors -->
     <color name="flight_trip">#0D6599</color>
