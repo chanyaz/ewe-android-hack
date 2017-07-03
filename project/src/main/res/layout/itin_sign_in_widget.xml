@@ -64,7 +64,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/login_text_view"
                 android:scaleType="center"
-                android:src="@drawable/checkout_logout_logo"
+                android:src="@drawable/itin_sign_in_logo"
                 android:visibility="gone" />
 
             <com.expedia.bookings.widget.TextView

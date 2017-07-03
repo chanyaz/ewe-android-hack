@@ -129,5 +129,16 @@
     <!-- New launch screen colors -->
     <color name="launch_discount">#02634a</color>
     <color name="launch_primary">#ffffff</color>
+
+    <!-- New Itin colors -->
+    <color name="itin_sign_in_toolbar_color">#002f57</color>
+    <color name="itin_sign_in_button_background_color">#ff8526</color>
+    <color name="itin_sign_in_button_text_color">#00192e</color>
+    <color name="itin_refresh_warning_button_background_color"> #003E74</color>
+    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_find_button_color">#003E74</color>
+    <color name="itin_find_toolbar_color">#003E74</color>
+    <color name="itin_unable_to_find_error_color">#B80000</color>
+
 </resources>
 

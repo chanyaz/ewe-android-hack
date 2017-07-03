@@ -104,7 +104,14 @@
     <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Itin Colors -->
-    <color name="itin_unable_to_find_error_color">#FFB80000</color>
+    <color name="itin_unable_to_find_error_color">#B80000</color>
+    <color name="itin_sign_in_toolbar_color">#0d5785</color>
+    <color name="itin_sign_in_button_background_color">#d00000</color>
+    <color name="itin_sign_in_button_text_color">@color/white</color>
+    <color name="itin_refresh_warning_button_background_color">#116faa</color>
+    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_find_button_color">#116faa</color>
+    <color name="itin_find_toolbar_color">#116faa</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#D00000</color>
