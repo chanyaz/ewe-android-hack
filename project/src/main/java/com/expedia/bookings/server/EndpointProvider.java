@@ -161,6 +161,26 @@ public class EndpointProvider {
 		return endpoint;
 	}
 
+    	public String getRailWebViewEndpointUrlForDE() {
+        	String railWebViewUrlForDE;
+        	EndPoint endPoint = getEndPoint();
+        	switch (endPoint) {
+            	case MOCK_MODE:
+                	railWebViewUrlForDE = "https://wwwexpediade.trunk.sb.karmalab.net/bahn?mcicid=App.Rails.WebView";
+                	break;
+            	case INTEGRATION:
+                	railWebViewUrlForDE = "https://wwwexpediade.integration.sb.karmalab.net/bahn?mcicid=App.Rails.WebView";
+                	break;
+            	case PRODUCTION:
+                	railWebViewUrlForDE = "https://www.expedia.de/bahn?mcicid=App.Rails.WebView";
+                	break;
+            	default:
+                	railWebViewUrlForDE = "https://wwwexpediade.integration.sb.karmalab.net/bahn?mcicid=App.Rails.WebView";
+
+        	}
+        	return railWebViewUrlForDE;
+    	}
+
 	/**
 	 * Returns the base suggestion server url, based on dev settings
 	 */

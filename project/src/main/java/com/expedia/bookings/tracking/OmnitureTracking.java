@@ -3506,6 +3506,11 @@ public class OmnitureTracking {
 	private static final String CAR_WEBVIEW_CLOSE = "App.Cars.WebView.Close";
 	private static final String CAR_WEBVIEW_BACK = "App.Cars.WebView.Back";
 	private static final String CAR_WEBVIEW_SIGNIN = "App.Cars.WebView.SignIn";
+	private static final String RAIL_WEBVIEW_RETRY = "App.Rails.WebView.Retry";
+	private static final String RAIL_WEBVIEW_LOGOUT = "App.Rails.WebView.Logout";
+	private static final String RAIL_WEBVIEW_CLOSE = "App.Rails.WebView.Close";
+	private static final String RAIL_WEBVIEW_BACK = "App.Rails.WebView.Back";
+	private static final String RAIL_WEBVIEW_SIGNIN = "App.Rails.WebView.SignIn";
 
 	public static void trackAppCarSearchBox() {
 		Log.d(TAG, "Tracking \"" + CAR_DEST_SEARCH + "\" pageLoad...");
@@ -3710,6 +3715,32 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarsFlexView);
 		s.trackLink(null, "o", "Car Flexview", null, null);
+	}
+
+	public static void trackAppRailWebViewRetry() {
+		createAndtrackLinkEvent(RAIL_WEBVIEW_RETRY, "Rail Webview");
+	}
+
+	public static void trackAppRailWebViewBack() {
+		createAndtrackLinkEvent(RAIL_WEBVIEW_BACK, "Rail Webview");
+	}
+
+	public static void trackAppRailWebViewSignIn() {
+		createAndtrackLinkEvent(RAIL_WEBVIEW_SIGNIN, "Rail Webview");
+ 	}
+
+	public static void trackAppRailWebViewLogOut() {
+		createAndtrackLinkEvent(RAIL_WEBVIEW_LOGOUT, "Rail Webview");
+	}
+
+	public static void trackAppRailWebViewClose() {
+		createAndtrackLinkEvent(RAIL_WEBVIEW_CLOSE, "Rail Webview");
+	}
+
+ 	public static void trackAppRailWebViewABTest() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidRailHybridAppForDEEnabled);
+		s.trackLink(null, "o", "Rail Webview", null, null);
 	}
 
 	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {

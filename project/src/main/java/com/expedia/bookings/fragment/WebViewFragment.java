@@ -27,6 +27,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.services.PersistentCookiesCookieJar;
 import com.expedia.bookings.tracking.CarWebViewTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.RailWebViewTracking;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.webview.BaseWebViewClient;
@@ -44,6 +45,7 @@ public class WebViewFragment extends DialogFragment {
 		BaggageFeeInbound,
 		CarWebView,
 		Default,
+		RailWebView,
 	}
 
 	public static final String TAG = WebViewFragment.class.toString();
@@ -519,12 +521,18 @@ public class WebViewFragment extends DialogFragment {
 		if (mTrackingName == TrackingName.CarWebView) {
 			new CarWebViewTracking().trackAppCarWebViewSignIn();
 		}
+        	if (mTrackingName == TrackingName.RailWebView) {
+            		RailWebViewTracking.trackAppRailWebViewSignIn();
+        	}
 	}
 
 	private void trackRetryClick() {
 		if (mTrackingName == TrackingName.CarWebView) {
 			new CarWebViewTracking().trackAppCarWebViewRetry();
 		}
+        	if (mTrackingName == TrackingName.RailWebView) {
+            		RailWebViewTracking.trackAppRailWebViewRetry();
+        	}
 	}
 
 }

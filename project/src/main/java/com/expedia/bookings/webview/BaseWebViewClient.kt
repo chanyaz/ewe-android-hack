@@ -7,6 +7,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.expedia.bookings.fragment.WebViewFragment
 import com.expedia.bookings.tracking.CarWebViewTracking
+import com.expedia.bookings.tracking.RailWebViewTracking
 import com.expedia.bookings.utils.DebugInfoUtils
 import com.mobiata.android.SocialUtils
 
@@ -62,6 +63,9 @@ open class BaseWebViewClient(val activity: Activity, val loadCookies: Boolean,
     private fun trackLogOutClick() {
         if (mTrackingName == WebViewFragment.TrackingName.CarWebView) {
             CarWebViewTracking().trackAppCarWebViewLogOut()
+        }
+        if (mTrackingName == WebViewFragment.TrackingName.RailWebView) {
+            RailWebViewTracking.trackAppRailWebViewLogOut()
         }
     }
 

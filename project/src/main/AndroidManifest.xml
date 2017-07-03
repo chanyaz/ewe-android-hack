@@ -195,6 +195,11 @@
             android:theme="@style/Theme.Rail"
             tools:ignore="UnusedAttribute"/>
 
+        <activity
+            android:name="com.expedia.ui.RailWebViewActivity"
+            android:resizeableActivity="false"
+            tools:ignore="UnusedAttribute" />
+
         <!-- Cars activity -->
 
         <activity

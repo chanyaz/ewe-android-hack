@@ -144,6 +144,9 @@ public class PointOfSale {
 	// Whether to show Cars WebView on this POS
 	private boolean mSupportsCarsWebView;
 
+	// Whether to show Rails WebView on this POS
+	private boolean mSupportsRailsWebView;
+
 	// AB test ID for Cars Web View
 	private int mCarsWebViewABTestID;
 
@@ -688,6 +691,10 @@ public class PointOfSale {
 
 	public boolean supportsCarsWebView() {
 		return mSupportsCarsWebView;
+	}
+
+	public boolean supportsRailsWebView() {
+		return mSupportsRailsWebView;
 	}
 
 	public int getCarsWebViewABTestID() {
@@ -1336,6 +1343,7 @@ public class PointOfSale {
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mSupportsCarsWebView = data.optBoolean("carsWebViewEnabled", false);
+		pos.mSupportsRailsWebView = data.optBoolean("railsWebViewEnabled", false);
 		pos.mCarsWebViewABTestID = data.optInt("carsWebViewABTestID");
 		pos.mSupportPropertyFee = data.optBoolean("propertyFeeEnabledInHotelCostSummary", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");

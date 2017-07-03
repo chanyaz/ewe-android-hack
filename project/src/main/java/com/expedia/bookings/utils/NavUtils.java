@@ -30,14 +30,17 @@ import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.mia.activity.MemberDealActivity;
 import com.expedia.bookings.rail.activity.RailActivity;
+import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.tracking.CarWebViewTracking;
+import com.expedia.bookings.tracking.RailWebViewTracking;
 import com.expedia.bookings.widget.ItinerarySyncLoginExtender;
 import com.expedia.ui.CarActivity;
 import com.expedia.ui.CarWebViewActivity;
 import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.ui.PackageActivity;
+import com.expedia.ui.RailWebViewActivity;
 import com.google.gson.Gson;
 
 /**
@@ -256,8 +259,25 @@ public class NavUtils {
 
 	public static void goToRail(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
-		Intent intent = new Intent(context, RailActivity.class);
-		startActivity(context, intent, animOptions);
+		RailWebViewTracking.trackAppRailWebViewABTest();
+		if (PointOfSale.getPointOfSale().supportsRailsWebView() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled)) {
+			RailWebViewActivity.IntentBuilder builder = new RailWebViewActivity.IntentBuilder(context);
+			EndpointProvider endpointProvider = Ui.getApplication(context).appComponent().endpointProvider();
+			builder.setUrl(endpointProvider.getRailWebViewEndpointUrlForDE());
+			builder.setInjectExpediaCookies(true);
+			builder.setAllowMobileRedirects(true);
+			builder.setAttemptForceMobileSite(true);
+			builder.setLoginEnabled(true);
+			builder.setHandleBack(true);
+			builder.setRetryOnFailure(true);
+			builder.setTitle(context.getString(R.string.nav_rail));
+			builder.setTrackingName("RailWebView");
+			startActivity(context, builder.getIntent(), null);
+		}
+		else {
+			Intent intent = new Intent(context, RailActivity.class);
+			startActivity(context, intent, animOptions);
+		}
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams) {

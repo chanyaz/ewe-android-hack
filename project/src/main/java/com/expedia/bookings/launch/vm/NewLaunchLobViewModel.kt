@@ -2,8 +2,10 @@ package com.expedia.bookings.launch.vm
 
 import android.content.Context
 import android.view.View
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.util.endlessObserver
@@ -50,7 +52,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (pos.supports(LineOfBusiness.RAILS)) {
+        if (pos.supports(LineOfBusiness.RAILS) || (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidRailHybridAppForDEEnabled))) {
             lobs.add(LobInfo.RAILS)
         }
 
