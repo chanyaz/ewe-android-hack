@@ -448,6 +448,15 @@
             android:summary="%s"
             android:title="Checkout disabled STP state AB test - 13825" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14525"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Checkout populate cardholder name AB test - 14525" />
+
     </PreferenceCategory>
 
 

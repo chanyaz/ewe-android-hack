@@ -16,3 +16,8 @@ fun isDisabledSTPStateEnabled(): Boolean {
 fun isFlexEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_flex)
 }
+
+fun isPopulateCardholderNameEnabled(context: Context): Boolean {
+    return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_populate_cardholder_name)
+        && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
+}

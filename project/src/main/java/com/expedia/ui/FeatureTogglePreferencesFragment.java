@@ -32,6 +32,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_flex);
 		initializeFeatureCheck(R.string.preference_payment_legal_message);
 		//hotel features
+		initializeFeatureCheck(R.string.preference_populate_cardholder_name);
 		//Flight features
 	}
 
