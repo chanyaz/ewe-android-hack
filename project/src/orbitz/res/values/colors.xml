@@ -55,6 +55,8 @@
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
     <color name="pay_with_reward_text_color">@color/loyalty_earn_color</color>
     <color name="points_available_text_color">@color/loyalty_earn_color</color>
+    <color name="hotel_map_earn_message_text_color">@color/earn_message_text_color</color>
+
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#477A00</color>

@@ -57,6 +57,8 @@
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="hotel_map_earn_message_text_color">@color/earn_message_text_color</color>
+
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>

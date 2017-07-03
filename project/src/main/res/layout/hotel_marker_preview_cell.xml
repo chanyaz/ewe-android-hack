@@ -182,7 +182,7 @@
                     android:gravity="right"
                     android:layout_marginLeft="4dp"
                     android:layout_weight="1"
-                    android:textColor="@color/gray4"
+                    android:textColor="@color/hotel_map_earn_message_text_color"
                     android:textSize="11sp" />
 
             </LinearLayout>

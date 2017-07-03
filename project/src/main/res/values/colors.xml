@@ -93,6 +93,7 @@
     <color name="cardview_divider_lines_gray">@color/gray2</color>
     <color name="flights_details_layover_color">@color/yellow_layover</color>
     <color name="flight_seats_left_urgency_message_color">#FF5747</color>
+    <color name="hotel_map_earn_message_text_color">@color/gray4</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/app_primary</color>

@@ -53,6 +53,7 @@
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_member_pricing_bg_color">#1f2a40</color>
     <color name="hotel_member_pricing_text_color">#FFFFFF</color>
+    <color name="hotel_map_earn_message_text_color">@color/earn_message_text_color</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
