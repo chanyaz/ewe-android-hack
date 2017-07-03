@@ -1,12 +1,11 @@
 package com.expedia.bookings.widget.itin
 
-import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.Property
-import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.AbacusTestUtils

@@ -14,9 +14,8 @@ import com.expedia.bookings.data.RoomUpgradeOffersResponse
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.services.RoomUpgradeOffersService
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery

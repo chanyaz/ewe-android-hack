@@ -35,7 +35,7 @@ import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.notification.Notification;

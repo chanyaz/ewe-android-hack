@@ -2,6 +2,8 @@ package com.expedia.bookings.data.trips;
 
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 import com.expedia.bookings.tracking.ItinPageUsableTrackingData;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;

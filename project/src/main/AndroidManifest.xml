@@ -153,7 +153,7 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
-            android:name="com.expedia.bookings.fragment.HotelItinDetailsActivity"
+            android:name="com.expedia.bookings.itin.activity.HotelItinDetailsActivity"
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:theme="@style/ItinTheme"

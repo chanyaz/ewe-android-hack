@@ -26,7 +26,7 @@ import rx.Subscription
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-@VisibleForTesting
+// Open for testing
 open class ItinSignInViewModel(val context: Context) {
 
     lateinit var itinPageUsablePerformanceModel: ItinPageUsableTrackingData

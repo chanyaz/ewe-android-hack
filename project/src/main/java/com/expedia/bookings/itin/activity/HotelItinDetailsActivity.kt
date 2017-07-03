@@ -1,10 +1,10 @@
-package com.expedia.bookings.fragment
+package com.expedia.bookings.itin.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.utils.Ui
 

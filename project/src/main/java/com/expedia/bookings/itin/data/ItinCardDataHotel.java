@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.trips;
+package com.expedia.bookings.itin.data;
 
 import java.util.List;
 import java.util.Set;
@@ -11,7 +11,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.gms.maps.model.LatLng;
 

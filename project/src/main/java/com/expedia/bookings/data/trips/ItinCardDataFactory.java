@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.itin.data.ItinCardDataHotel;
 
 /**
  * Factory for converting TripComponent objects to (Multiple) ItinCardData Objects

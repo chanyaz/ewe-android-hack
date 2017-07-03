@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -35,14 +36,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.data.user.UserStateManager;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.Notification;
@@ -50,7 +50,6 @@ import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Ui;
@@ -116,12 +115,12 @@ public class ItineraryManager implements JSONable {
 	// each time a sync occurs.
 	//
 	// It can be assumed that it is sorted at all times.
-	private List<ItinCardData> mItinCardDatas = new ArrayList<ItinCardData>();
+	private final List<ItinCardData> mItinCardDatas = new ArrayList<>();
 
 	// These are lists of all trip start and end times; unlike mTrips, they will be loaded at app startup, so you can use them to
 	// determine whether you should launch in itin or not.
-	private List<DateTime> mStartTimes = new ArrayList<DateTime>();
-	private List<DateTime> mEndTimes = new ArrayList<DateTime>();
+	private List<DateTime> mStartTimes = new ArrayList<>();
+	private List<DateTime> mEndTimes = new ArrayList<>();
 
 	/**
 	 * Adds a guest trip to the itinerary list.
@@ -135,7 +134,7 @@ public class ItineraryManager implements JSONable {
 
 		if (mTrips == null) {
 			Log.w(LOGGING_TAG, "ItineraryManager - Attempt to add guest trip, mTrips == null. Init");
-			mTrips = new HashMap<String, Trip>();
+			mTrips = new HashMap<>();
 		}
 
 		Trip trip = new Trip(email, tripNumber);
@@ -148,30 +147,6 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		startSyncIfNotInProgress();
-	}
-
-	public void removeGuestTrip(String tripNumber) {
-		Trip trip = mTrips.get(tripNumber);
-
-		if (trip == null) {
-			Log.w(LOGGING_TAG, "Tried to remove a guest tripNumber that doesn't exist: " + tripNumber);
-		}
-		else if (!trip.isGuest()) {
-			Log.w(LOGGING_TAG,
-				"Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
-					+ tripNumber);
-		}
-		else {
-			Log.i(LOGGING_TAG, "Removing guest trip, tripNum=" + tripNumber);
-
-			mTrips.remove(tripNumber);
-
-			// Do not inform of removal if it was never valid (since we never informed of adding in the first place)
-			if (trip.getLevelOfDetail() != LevelOfDetail.NONE) {
-				onTripRemoved(trip);
-				deletePendingNotification(trip);
-			}
-		}
 	}
 
 	/**
@@ -272,7 +247,6 @@ public class ItineraryManager implements JSONable {
 	/**
 	 * Get an ItinCardData object from all known itins given a known data.getId()
 	 *
-	 * @param itinId
 	 * @return first ItinCardData found matching the passed id or null
 	 */
 	public ItinCardData getItinCardDataFromItinId(String itinId) {
@@ -297,8 +271,8 @@ public class ItineraryManager implements JSONable {
 	 * @param shared - if true, we return a list of shared itin flights, if false we return a list of normal itin flights
 	 * @return a list of Flight instances
 	 */
-	public List<Flight> getItinFlights(boolean shared) {
-		List<Flight> retFlights = new ArrayList<Flight>();
+	private List<Flight> getItinFlights(boolean shared) {
+		List<Flight> retFlights = new ArrayList<>();
 
 		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
@@ -342,6 +316,7 @@ public class ItineraryManager implements JSONable {
 		// Delete the file, so it can't be reloaded later
 		File file = mContext.getFileStreamPath(MANAGER_PATH);
 		if (file.exists()) {
+			//noinspection ResultOfMethodCallIgnored
 			file.delete();
 		}
 
@@ -424,13 +399,14 @@ public class ItineraryManager implements JSONable {
 				}
 				catch (Exception e) {
 					Log.w(LOGGING_TAG, "Could not load ItineraryManager data, starting from scratch again...", e);
+					//noinspection ResultOfMethodCallIgnored
 					file.delete();
 				}
 			}
 		}
 
 		if (mTrips == null) {
-			mTrips = new HashMap<String, Trip>();
+			mTrips = new HashMap<>();
 
 			Log.i(LOGGING_TAG, "Starting a fresh set of itineraries.");
 		}
@@ -439,11 +415,11 @@ public class ItineraryManager implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Start times data
 
-	public List<DateTime> getStartTimes() {
+	private List<DateTime> getStartTimes() {
 		return mStartTimes;
 	}
 
-	public List<DateTime> getEndTimes() {
+	private List<DateTime> getEndTimes() {
 		return mEndTimes;
 	}
 
@@ -496,6 +472,7 @@ public class ItineraryManager implements JSONable {
 			}
 			catch (Exception e) {
 				Log.w(LOGGING_TAG, "Could not load start times", e);
+				//noinspection ResultOfMethodCallIgnored
 				file.delete();
 			}
 		}
@@ -504,6 +481,7 @@ public class ItineraryManager implements JSONable {
 	private void deleteStartAndEndTimes() {
 		File file = mContext.getFileStreamPath(MANAGER_START_END_TIMES_PATH);
 		if (file.exists()) {
+			//noinspection ResultOfMethodCallIgnored
 			file.delete();
 		}
 	}
@@ -708,7 +686,7 @@ public class ItineraryManager implements JSONable {
 		}
 	}
 
-	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<ItineraryManager.ItinerarySyncListener>();
+	private Set<ItinerarySyncListener> mSyncListeners = new HashSet<>();
 
 	public void addSyncListener(ItinerarySyncListener listener) {
 		mSyncListeners.add(listener);
@@ -719,21 +697,21 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private void onTripAdded(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripAdded(trip);
 		}
 	}
 
 	private void onTripUpdated(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpdated(trip);
 		}
 	}
 
 	private void onTripUpdateFailed(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpdateFailed(trip);
 		}
@@ -741,7 +719,7 @@ public class ItineraryManager implements JSONable {
 
 	@VisibleForTesting
 	public void onTripFailedFetchingGuestItinerary() {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingGuestItinerary();
 		}
@@ -749,35 +727,35 @@ public class ItineraryManager implements JSONable {
 
 	@VisibleForTesting
 	public void onTripFailedFetchingRegisteredUserItinerary() {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingRegisteredUserItinerary();
 		}
 	}
 
 	private void onTripRemoved(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripRemoved(trip);
 		}
 	}
 
 	private void onCompletedTripAdded(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onCompletedTripAdded(trip);
 		}
 	}
 
 	private void onCancelledTripAdded(Trip trip) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onCancelledTripAdded(trip);
 		}
 	}
 
 	private void onSyncFailed(SyncError error) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFailure(error);
 		}
@@ -785,7 +763,7 @@ public class ItineraryManager implements JSONable {
 
 	@VisibleForTesting
 	public void onSyncFinished(Collection<Trip> trips) {
-		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		Set<ItinerarySyncListener> listeners = new HashSet<>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}
@@ -876,26 +854,26 @@ public class ItineraryManager implements JSONable {
 
 		String mTripNumber;
 
-		public Task(Operation op) {
+		Task(Operation op) {
 			this(op, null, null);
 		}
 
-		public Task(Operation op, Trip trip) {
+		Task(Operation op, Trip trip) {
 			this(op, trip, null);
 		}
 
-		public Task(Operation op, String tripNumber) {
+		Task(Operation op, String tripNumber) {
 			this(op, null, tripNumber);
 		}
 
-		public Task(Operation op, Trip trip, String tripNumber) {
+		Task(Operation op, Trip trip, String tripNumber) {
 			mOp = op;
 			mTrip = trip;
 			mTripNumber = tripNumber;
 		}
 
 		@Override
-		public int compareTo(Task another) {
+		public int compareTo(@NonNull Task another) {
 			if (mOp != another.mOp) {
 				return mOp.ordinal() - another.mOp.ordinal();
 			}
@@ -1107,7 +1085,7 @@ public class ItineraryManager implements JSONable {
 		private ExpediaServices mServices;
 
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
-		private Set<String> mGuestTripsNotYetLoaded = new HashSet<String>();
+		private Set<String> mGuestTripsNotYetLoaded = new HashSet<>();
 
 		// Earlier versions of AsyncTask do not tell you when they are cancelled correctly.
 		// This will let us know when the AsyncTask has fully completed its mission (even
@@ -1115,14 +1093,14 @@ public class ItineraryManager implements JSONable {
 		private boolean mFinished = false;
 
 		// These variables are used for stat tracking
-		private Map<Operation, Integer> mOpCount = new HashMap<ItineraryManager.Operation, Integer>();
+		private Map<Operation, Integer> mOpCount = new HashMap<>();
 		private int mTripsRefreshed = 0;
 		private int mTripRefreshFailures = 0;
 		private int mTripsAdded = 0;
 		private int mTripsRemoved = 0;
 		private int mFlightsUpdated = 0;
 
-		public SyncTask() {
+		SyncTask() {
 			mServices = new ExpediaServices(mContext);
 
 			for (Operation op : Operation.values()) {
@@ -1303,11 +1281,11 @@ public class ItineraryManager implements JSONable {
 
 		// Should be called in addition to cancel(boolean), in order
 		// to cancel the update mid-download
-		public void cancelDownloads() {
+		void cancelDownloads() {
 			mServices.onCancel();
 		}
 
-		public boolean finished() {
+		boolean finished() {
 			return mFinished;
 		}
 
@@ -1438,7 +1416,7 @@ public class ItineraryManager implements JSONable {
 					deepRefresh = false;
 				}
 
-				TripDetailsResponse response = null;
+				TripDetailsResponse response;
 				if (trip.isShared()) {
 					if (trip.hasExpired(CUTOFF_HOURS)) {
 						Log.w(LOGGING_TAG,
@@ -1581,7 +1559,7 @@ public class ItineraryManager implements JSONable {
 					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
 				}
 				else {
-					Set<String> currentTrips = new HashSet<String>(mTrips.keySet());
+					Set<String> currentTrips = new HashSet<>(mTrips.keySet());
 
 					for (Trip trip : response.getTrips()) {
 						if (BookingStatus.filterOut(trip.getBookingStatus())) {
@@ -1646,8 +1624,8 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void deduplicateTrips() {
-			Map<String, String> sharedTripsMap = new HashMap<String, String>();
-			Set<String> sharedTripsToRemove = new HashSet<String>();
+			Map<String, String> sharedTripsMap = new HashMap<>();
+			Set<String> sharedTripsToRemove = new HashSet<>();
 
 			// Collect all of the shared trips
 			for (Trip trip : mTrips.values()) {
@@ -1832,7 +1810,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private static class ProgressUpdate {
-		public enum Type {
+		enum Type {
 			ADDED,
 			UPDATED,
 			UPDATE_FAILED,
@@ -1845,52 +1823,19 @@ public class ItineraryManager implements JSONable {
 		}
 
 		public Type mType;
-		public Trip mTrip;
+		Trip mTrip;
 
-		public SyncError mError;
+		SyncError mError;
 
-		public ProgressUpdate(Type type, Trip trip) {
+		ProgressUpdate(Type type, Trip trip) {
 			mType = type;
 			mTrip = trip;
 		}
 
-		public ProgressUpdate(SyncError error) {
+		ProgressUpdate(SyncError error) {
 			mType = Type.SYNC_ERROR;
 			mError = error;
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Air Attach
-	//
-	// Note: This code was ripped from ItinCardDataAdapter.addAttachData
-	// TODO consolidate implementations, write unit tests
-
-	public HotelSearchParams getHotelSearchParamsForAirAttach() {
-		List<ItinCardData> itinCardDatas = mItinCardDatas;
-
-		// Nothing to do if there are no itineraries
-		int len = itinCardDatas.size();
-		if (len == 0) {
-			return null;
-		}
-		boolean isUserAirAttachQualified = Db.getTripBucket() != null &&
-			Db.getTripBucket().isUserAirAttachQualified();
-
-		for (int i = 0; i < len; i++) {
-			ItinCardData data = itinCardDatas.get(i);
-			if (data instanceof ItinCardDataFlight) {
-				ItinCardDataFlight itinCardDataFlight = (ItinCardDataFlight) data;
-				boolean showAirAttach = itinCardDataFlight.showAirAttach();
-				// Check if user qualifies for air attach
-				if (isUserAirAttachQualified && showAirAttach) {
-					return HotelCrossSellUtils
-						.generateHotelSearchParamsFromItinData((TripFlight) itinCardDataFlight.getTripComponent(),
-							itinCardDataFlight.getFlightLeg(), itinCardDataFlight.getNextFlightLeg());
-				}
-			}
-		}
-		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1959,8 +1904,8 @@ public class ItineraryManager implements JSONable {
 
 				for (Notification notification : notifications) {
 					// If we already have this notification, don't notify again.
-					if (Notification.hasExisting(notification)) {
-						Notification existing = Notification.findExisting(notification);
+					Notification existing = Notification.findExisting(notification);
+					if (existing != null) {
 						// These things could possibly change on a new build.
 						existing.setItinId(notification.getItinId());
 						existing.setTriggerTimeMillis(notification.getTriggerTimeMillis());
@@ -2056,7 +2001,7 @@ public class ItineraryManager implements JSONable {
 	}
 
 	@VisibleForTesting
-	public static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
+	static boolean hasUpcomingOrInProgressTrip(List<DateTime> startTimes, List<DateTime> endTimes) {
 		if (startTimes != null && endTimes != null && startTimes.size() == endTimes.size()) {
 			DateTime now = DateTime.now();
 			DateTime oneWeekFromNow = now.plusWeeks(1);
