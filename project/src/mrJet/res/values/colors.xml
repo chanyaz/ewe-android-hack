@@ -21,6 +21,7 @@
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">#9E0089</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="hotel_detail_earn_message_text_color">@color/earn_message_text_color</color>
 
     <!--Flight-->
     <color name="action_bar_text_color">@color/white</color>

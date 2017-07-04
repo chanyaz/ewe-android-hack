@@ -193,7 +193,7 @@
             android:layout_below="@+id/price_per_night_strikethrough_anchor"
             android:drawableLeft="@drawable/earn_message_icon"
             android:drawablePadding="@dimen/earn_message_icon_dimen"
-            android:textColor="@color/gray5"/>
+            android:textColor="@color/hotel_detail_earn_message_text_color"/>
 
     </RelativeLayout>
 

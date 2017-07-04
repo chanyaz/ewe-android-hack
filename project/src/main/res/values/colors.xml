@@ -119,6 +119,7 @@
     <color name="hotel_sold_out_color">@color/gray6</color>
     <color name="hotel_coupon_code_error_message_color">#FFDD2C00</color>
     <color name="hotel_earn_message_text_color">@color/gray6</color>
+    <color name="hotel_detail_earn_message_text_color">@color/gray5</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_reviewer_color">#A5A5A5</color>

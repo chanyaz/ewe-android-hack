@@ -53,6 +53,7 @@
     <color name="hotel_tonight_only_color">#C4204B</color>
     <color name="hotel_mobile_exclusive_color">#00253C</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="hotel_detail_earn_message_text_color">@color/earn_message_text_color</color>
     <color name="pay_with_reward_text_color">@color/loyalty_earn_color</color>
     <color name="points_available_text_color">@color/loyalty_earn_color</color>
     <color name="hotel_map_earn_message_text_color">@color/earn_message_text_color</color>

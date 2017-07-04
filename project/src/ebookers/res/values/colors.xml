@@ -58,6 +58,7 @@
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
     <color name="hotel_earn_message_text_color">@color/earn_message_text_color</color>
     <color name="hotel_map_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="hotel_detail_earn_message_text_color">@color/earn_message_text_color</color>
 
 
     <!-- Checkout Colors -->
