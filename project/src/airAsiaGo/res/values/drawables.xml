@@ -5,6 +5,7 @@
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
     <item name="old_checkout_account_logo" type="drawable">@drawable/ic_aag_logo</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/ic_aag_logo</item>
+    <item name="itin_sign_in_logo" type="drawable">@drawable/brand_logo</item>
     <item name="tablet_checkout_login_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="material_checkout_account_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/bg_breakdown_candycane</item>

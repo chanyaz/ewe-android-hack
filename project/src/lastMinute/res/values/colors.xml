@@ -153,4 +153,14 @@
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
     <color name="flight_primary_color">@color/packages_primary_color</color>
     <color name="flights_error_message_infants">#b80000</color>
+
+    <!-- New Itin colors -->
+    <color name="itin_sign_in_toolbar_color">#a30f67</color>
+    <color name="itin_sign_in_button_background_color">@color/app_primary</color>
+    <color name="itin_sign_in_button_text_color">@color/white</color>
+    <color name="itin_refresh_warning_button_background_color">#006e8c</color>
+    <color name="itin_warning_color">#B80000</color>
+    <color name="itin_find_button_color">#006e8c</color>
+    <color name="itin_find_toolbar_color">@color/app_primary</color>
+    <color name="itin_unable_to_find_error_color">#B80000</color>
 </resources>
