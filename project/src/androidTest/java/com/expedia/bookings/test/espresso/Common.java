@@ -36,25 +36,6 @@ public class Common {
 		}
 	}
 
-	public static void pressBackOutOfApp() {
-		try {
-			for (int i = 0; i < 30; i++) {
-				if (!SpoonScreenshotUtils.hasActiveActivity()) {
-					Log.v("No activity to back out of");
-					return;
-				}
-
-				Espresso.pressBack();
-				delay(1);
-			}
-
-			throw new RuntimeException("Backed out 30 times but app didn't close!");
-		}
-		catch (Throwable e) {
-			Log.v("Pressed back a bunch of times: ", e);
-		}
-	}
-
 	public static void setPOS(PointOfSaleId pos) {
 		Context context = InstrumentationRegistry.getTargetContext();
 		SettingUtils.save(context, R.string.PointOfSaleKey, String.valueOf(pos.getId()));
