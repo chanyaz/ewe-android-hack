@@ -22,8 +22,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getAppSupportUrl(Context context);
 
-	boolean shouldShowEmailUsOnAppSupportWebview();
-
 	boolean isAppCrossSellInActivityShareContentEnabled();
 
 	boolean isAppCrossSellInCarShareContentEnabled();

@@ -21,5 +21,5 @@
     <string name="hotel_receipt_cancellation_policy_date_format_vsc">"k'h'mm, MMM dd"</string>
 
     <!-- Email addresses -->
-    <string name="email_app_support">vsc-android@mobiata.com</string>
+    <string name="email_app_support">serviceclient@serviceclient.voyages-sncf.com</string>
 </resources>

@@ -44,11 +44,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean shouldShowEmailUsOnAppSupportWebview() {
-		return false;
-	}
-
-	@Override
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return false;
 	}
@@ -100,7 +95,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public void contactUsViaWeb(Context context) {
-		AboutUtils.openWebsite(context, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
+		AboutUtils.openWebsite(context, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false);
 	}
 
 	@Override
