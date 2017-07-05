@@ -482,8 +482,8 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
+            android:entries="@array/abacus_signup_string_choices"
+            android:entryValues="@array/abacus_signup_string_choice_values"
             android:key="14215"
             android:layout="@layout/preference"
             android:summary="%s"
@@ -491,8 +491,8 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
+            android:entries="@array/abacus_signup_string_choices"
+            android:entryValues="@array/abacus_signup_string_choice_values"
             android:key="14218"
             android:layout="@layout/preference"
             android:summary="%s"
