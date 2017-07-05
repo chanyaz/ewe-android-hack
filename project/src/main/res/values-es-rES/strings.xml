@@ -1019,8 +1019,6 @@
     <string name="unable_to_find_guest_itinerary">No se ha podido encontrar el itinerario. Consulta la página con información sobre tu cuenta para confirmar que los ajustes del país son los mismos que los de la dirección del sitio web donde realizaste la reserva.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Este itinerario se ha reservado con una cuenta de usuario. Tienes que iniciar sesión en la cuenta de {brand} asociada a este itinerario.</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">Encontrar itinerario con cuenta de invitado</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Introduce los datos del itinerario</string>
     <!-- Expedia Itinerary -->
@@ -1523,6 +1521,8 @@
     <string name="share_msg_template_short_flight">Voy a volar a %1$s el %2$s\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">¡%1$s va a volar a %2$s el %3$s!\n%4$s</string>
+    <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
+    <string name="share_msg_template_roundtrip_flight">¡Tengo un vuelo de %1$s a %2$s el %3$s, con vuelta el %4$s!\nIda: %5$s\nVuelta: %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mi alquiler de coche (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -2387,6 +2387,18 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Buscar…</string>
+    <!-- Label for "advanced search" view -->
+    <string name="advanced_search">Búsqueda avanzada</string>
+    <!-- Title for "flight type" view -->
+    <string name="flight_type">Tipo de vuelo</string>
+    <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
+    <string name= "advance_search_cont_desc_TEMPLATE">Búsqueda avanzada {expandstate}</string>
+    <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
+    <string name="row_collapse_button_description">Botón para ampliar. Da dos toques para contraer.</string>
+    <!-- Title for non stop filter on advance search view -->
+    <string name="nonstop_flight_filter_label">Solo vuelos directos</string>
+    <!-- Title for refundable filter on advance search view -->
+    <string name="refundable_flight_filter_label">Solo vuelos reembolsables</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">De %1$s a %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -3613,6 +3625,10 @@
     <string name="show_more">VER MÁS</string>
     <string name="show_less">VER MENOS</string>
     <string name="price_range">Intervalo de precios</string>
+    <!-- Price Range minimum filter label for accessibility -->
+    <string name="price_range_minimum">Precio mínimo</string>
+    <!-- Price Range maximum filter label for accessibility -->
+    <string name="price_range_maximum">Precio máximo</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">Ordenar por {sort}</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
@@ -3798,6 +3814,18 @@
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Operado por {operatingairlinename} ({operatingairlinecode})</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Operado por {operatingairlinename}</string>
+    <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
+    <string name="flight_nonstop_refundable_search_header">• \u0020Directo\u0020 • \u0020Reembolsable\u0020 •</string>
+    <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
+    <string name="flight_nonstop_search_header">• \u0020Directo\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search -->
+    <string name="flight_refundable_search_header">• \u0020Reembolsable\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
+    <string name="advancedSearch_header_refundable_contDesc">Se muestran solo los vuelos reembolsables</string>
+    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
+    <string name="advancedSearch_header_nonStop_contDesc">Se muestran solo los vuelos directos</string>
+    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearch_header_nonStop_refundable_contDesc">Se muestran solo los vuelos directos y reembolsables</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Buscando vuelos. Un momento, por favor.</string>
@@ -4577,5 +4605,14 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">Introduce un número de {min_value} a {max_value}.</string>
     <string name="title_seek_bar_edit">Cambiar nivel del control de búsqueda</string>
     <string name="value_seek_bar_dialog_percent">%</string>
+
+    <!--Account Sign Up String Varaint 1-->
+    <string name="signup_variant_1">Crear una cuenta</string>
+    <!--Account Sign Up String Varaint 2-->
+    <string name="signup_variant_2">Crear una cuenta gratis</string>
+    <!--Create Your Expedia Account-->
+    <string name="signup_variant_3_TEMPLATE">Crear una cuenta de {brand}</string>
+    <!--Create a new Expedia account-->
+    <string name="signup_variant_control_TEMPLATE">Crear una nueva cuenta de {brand}</string>
 
 </resources>

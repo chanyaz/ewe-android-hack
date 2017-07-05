@@ -76,7 +76,7 @@
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">1 週間 :</string>
     <!-- Cars weekly price templates-->
-    <string name="cars_monthly_text">1 か月 :</string>
+    <string name="cars_monthly_text">1 カ月 :</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">合計 : %s</string>
     <!-- Slide to reserve -->
@@ -198,7 +198,7 @@
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">{number} 件に絞込みました</item>
-        <item quantity="other">結果 {number} 件を絞り込みました</item>
+        <item quantity="other">結果 {number}件を絞り込みました</item>
     </plurals>
 
     <!-- Checkout -->
@@ -263,7 +263,7 @@
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">保存済み {cardtype} (カード番号 {cardno})</string>
     <!--Text for stored card -->
-    <string name="stored_card_TEMPLATE">保存済み{cardtype}</string>
+    <string name="stored_card_TEMPLATE">保存済み {cardtype}</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">料金の概要情報ボタン</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
@@ -495,8 +495,8 @@
         <item quantity="other">タウンカー %1$s 台</item>
     </plurals>
     <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
-        <item quantity="one">駐車場 %1$s か所</item>
-        <item quantity="other">駐車場 %1$s か所</item>
+        <item quantity="one">駐車場 %1$s カ所</item>
+        <item quantity="other">駐車場 %1$s カ所</item>
     </plurals>
     <plurals name="ticket_type_book_TEMPLATE">
         <item quantity="one">本 %1$s 冊</item>
@@ -705,7 +705,7 @@
     <!-- Text for traveler age dialog box when age is invalid-->
     <string name="traveler_age_title">旅行者の年齢</string>
     <!-- Text for traveler infant error-->
-    <string name="traveler_infant_error">乳幼児とみなされるには、旅行期間中に年齢が 24 か月未満である必要があります</string>
+    <string name="traveler_infant_error">乳幼児とみなされるには、旅行期間中に年齢が 24 カ月未満である必要があります</string>
     <!-- Text for traveler child error-->
     <string name="traveler_child_error">お子様とみなされるには、旅行期間中に年齢が 12 歳未満である必要があります</string>
     <!-- Text for traveler adult child error-->
@@ -1018,9 +1018,7 @@
     <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">旅程が見つかりません。アカウント画面で、該当のご予約に関する国の設定がウェブサイトのアドレスと一致していることをご確認ください。</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
-    <string name="unable_to_find_registered_user_itinerary_template">これはゲスト旅程ではありません。この旅程に関連する{brand} アカウントにサインインしてください。</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">ゲスト旅程の検索</string>
+    <string name="unable_to_find_registered_user_itinerary_template">これはゲスト旅程ではありません。この旅程に関連する {brand} アカウントにサインインしてください。</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">旅程情報を入力してください</string>
     <!-- Expedia Itinerary -->
@@ -1523,6 +1521,8 @@
     <string name="share_msg_template_short_flight">%2$s に%1$sへ行きます ! \n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$sは %3$s に%2$sへ行きます ! \n%4$s</string>
+    <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
+    <string name="share_msg_template_roundtrip_flight">%1$s ～ %2$s間の往復フライト (%3$s ～ %4$s) を利用します !\n往路便 (行き) : %5$s\n復路便 (帰り) : %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">レンタカー (%1$s～ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -2387,6 +2387,18 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">検索</string>
+    <!-- Label for "advanced search" view -->
+    <string name="advanced_search">詳細検索</string>
+    <!-- Title for "flight type" view -->
+    <string name="flight_type">旅行形態 :</string>
+    <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
+    <string name= "advance_search_cont_desc_TEMPLATE">詳細検索 {expandstate}</string>
+    <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
+    <string name="row_collapse_button_description">展開ボタン。ダブルタップして非表示にする。</string>
+    <!-- Title for non stop filter on advance search view -->
+    <string name="nonstop_flight_filter_label">直行便のみ</string>
+    <!-- Title for refundable filter on advance search view -->
+    <string name="refundable_flight_filter_label">返金可能なフライトのみ</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s → %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -3613,6 +3625,10 @@
     <string name="show_more">すべて表示</string>
     <string name="show_less">一部のみ表示</string>
     <string name="price_range">価格帯</string>
+    <!-- Price Range minimum filter label for accessibility -->
+    <string name="price_range_minimum">価格帯の下限</string>
+    <!-- Price Range maximum filter label for accessibility -->
+    <string name="price_range_maximum">価格帯の上限</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">{sort}で並べ替え</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
@@ -3798,6 +3814,18 @@
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">運航会社 {operatingairlinename}({operatingairlinecode})</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">運航会社 : {operatingairlinename}</string>
+    <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
+    <string name="flight_nonstop_refundable_search_header">• \u0020Nonstop\u0020 • \u0020Refundable\u0020 •</string>
+    <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
+    <string name="flight_nonstop_search_header">• \u0020Nonstop\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search -->
+    <string name="flight_refundable_search_header">• \u0020Refundable\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
+    <string name="advancedSearch_header_refundable_contDesc">返金可能なフライトのみ表示中</string>
+    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
+    <string name="advancedSearch_header_nonStop_contDesc">直行便のみ表示中</string>
+    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearch_header_nonStop_refundable_contDesc">返金可能な直行便のみ表示中</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">フライトを検索中です。お待ちください。</string>
@@ -3986,7 +4014,7 @@
     <string name="rail_checkout_inbound_TEMPLATE">復路 (帰り) - {date}</string>
 
     <!-- rail checkout overview label indicating the user selected an open return journey.-->
-    <string name="rail_open_return_messaging">出発日から 1 か月以内の有効な列車をご利用ください</string>
+    <string name="rail_open_return_messaging">出発日から 1 カ月以内の有効な列車をご利用ください</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">旅程</string>
@@ -4310,9 +4338,9 @@
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">申し訳ありません。旅行保険を追加することができませんでした。もう一度やり直すか、旅行保険を追加せずに予約をお続けください。</string>
     <!-- Benefits of purchasing insurance for domestic flights -->
-    <string name="insurance_benefits_domestic">1. チケットが返金不可で、病気により渡航できない場合。<br/><br/>2. 負傷により、帰国便のフライトに搭乗できない場合。<br/><br/>3. 同伴者が医療に関する緊急事態のため、渡航できない場合。</string>
+    <string name="insurance_benefits_domestic">1. チケットが返金不可で、病気により渡航できない場合。&lt;br/&gt;&lt;br/&gt;2.疾患により、帰国便のフライトに搭乗できない場合。&lt;br/&gt;&lt;br/&gt;3.同伴者が医療に関する緊急事態のため、渡航できない場合。</string>
     <!-- Benefits of purchasing insurance for international flights -->
-    <string name="insurance_benefits_international">1. チケットが返金不可で、病気により渡航できない場合。<br/><br/>2. ノート型コンピュータ、携帯電話またはカメラを含む紛失手荷物の代用を揃える必要がある場合。<br/><br/>3. 既に加入している保険で旅行中の医療費を補償できない場合。</string>
+    <string name="insurance_benefits_international">1. チケットが返金不可で、病気により渡航できない場合。&lt;br/&gt;&lt;br/&gt;2.ノート型コンピュータ、携帯電話またはカメラを含む紛失手荷物の代用を揃える必要がある場合。&lt;br/&gt;&lt;br/&gt;3.既に加入している保険で旅行中の医療費を補償できない場合。</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">旅行保険が必要な 3 つの理由</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
@@ -4577,5 +4605,14 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">{min_value} から {max_value} までの数字を入力してください。</string>
     <string name="title_seek_bar_edit">スライダのレベルを編集</string>
     <string name="value_seek_bar_dialog_percent">%</string>
+
+    <!--Account Sign Up String Varaint 1-->
+    <string name="signup_variant_1">サインアップ</string>
+    <!--Account Sign Up String Varaint 2-->
+    <string name="signup_variant_2">アカウントを作成 (無料)</string>
+    <!--Create Your Expedia Account-->
+    <string name="signup_variant_3_TEMPLATE">{brand} アカウントを作成</string>
+    <!--Create a new Expedia account-->
+    <string name="signup_variant_control_TEMPLATE">新しい {brand} アカウントを作成</string>
 
 </resources>
