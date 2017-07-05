@@ -1019,8 +1019,6 @@
     <string name="unable_to_find_guest_itinerary">Resplanen hittades inte. Bekräfta på kontoskärmen att landsinställningarna stämmer överens med webbadressen för din bokning.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">Detta är inte en gästresplan. Logga in på {brand}-kontot som är kopplat till resplanen.</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">Hitta gästresplan</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Ange resplansuppgifter</string>
     <!-- Expedia Itinerary -->
@@ -1523,6 +1521,8 @@
     <string name="share_msg_template_short_flight">Jag flyger till %1$s %2$s!\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$s flyger till %2$s %3$s!\n%4$s</string>
+    <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
+    <string name="share_msg_template_roundtrip_flight">Jag flyger tur-och-retur från %1$s till %2$s %3$s - %4$s!\nAvresa: %5$s\nÅterresa: %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min hyrbil (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -2387,6 +2387,18 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Sök</string>
+    <!-- Label for "advanced search" view -->
+    <string name="advanced_search">Avancerad sökning</string>
+    <!-- Title for "flight type" view -->
+    <string name="flight_type">Flygtyp</string>
+    <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
+    <string name= "advance_search_cont_desc_TEMPLATE">Avancerad sökning {expandstate}</string>
+    <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
+    <string name="row_collapse_button_description">Knapp för att visa. Dubbelklicka för att dölja.</string>
+    <!-- Title for non stop filter on advance search view -->
+    <string name="nonstop_flight_filter_label">Endast direktflyg</string>
+    <!-- Title for refundable filter on advance search view -->
+    <string name="refundable_flight_filter_label">Endast återbetalningsbara flyg</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s till %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -3613,6 +3625,10 @@
     <string name="show_more">VISA MER</string>
     <string name="show_less">VISA MINDRE</string>
     <string name="price_range">Prisintervall</string>
+    <!-- Price Range minimum filter label for accessibility -->
+    <string name="price_range_minimum">Prisintervall minimum</string>
+    <!-- Price Range maximum filter label for accessibility -->
+    <string name="price_range_maximum">Prisintervall maximum</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sortera efter {sort}</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
@@ -3798,6 +3814,18 @@
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Trafikeras av {operatingairlinename} ({operatingairlinecode})</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Trafikeras av {operatingairlinename}</string>
+    <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
+    <string name="flight_nonstop_refundable_search_header">• \u0020Direkt\u0020 • \u0020Återbetalningsbar\u0020 •</string>
+    <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
+    <string name="flight_nonstop_search_header">• \u0020Direkt\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search -->
+    <string name="flight_refundable_search_header">• \u0020Återbetalningsbar\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
+    <string name="advancedSearch_header_refundable_contDesc">Visar endast återbetalningsbara flyg</string>
+    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
+    <string name="advancedSearch_header_nonStop_contDesc">Visar endast direktflyg</string>
+    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearch_header_nonStop_refundable_contDesc">Visar endast återbetalningsbara direktflyg</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Söker efter flyg. Vänta.</string>
@@ -4577,5 +4605,14 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">Ange ett heltal från {min_value} till {max_value}.</string>
     <string name="title_seek_bar_edit">Ändra sökreglagenivå</string>
     <string name="value_seek_bar_dialog_percent">%</string>
+
+    <!--Account Sign Up String Varaint 1-->
+    <string name="signup_variant_1">Bli medlem</string>
+    <!--Account Sign Up String Varaint 2-->
+    <string name="signup_variant_2">Skapa ditt konto gratis</string>
+    <!--Create Your Expedia Account-->
+    <string name="signup_variant_3_TEMPLATE">Skapa ditt {brand}konto</string>
+    <!--Create a new Expedia account-->
+    <string name="signup_variant_control_TEMPLATE">Skapa ett nytt {brand}konto</string>
 
 </resources>

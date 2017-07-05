@@ -153,7 +153,7 @@
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
     <string name="date_time_range_TEMPLATE">%1$s– %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
-    <string name="select_return_date_TEMPLATE">{startdate} - 选择返回日期</string>
+    <string name="select_return_date_TEMPLATE">{startdate} - 选择回程日期</string>
     <!-- Car Calendar Strings -->
     <string name="select_pickup_date">选择取车日期</string>
     <!-- Label for pick-up time picker -->
@@ -198,7 +198,7 @@
     <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
     <plurals name="number_results_announcement_text_TEMPLATE">
         <item quantity="one">筛选出 {number} 个结果</item>
-        <item quantity="other">筛选出 {number} 个结果</item>
+        <item quantity="other">筛选出 {number}个结果</item>
     </plurals>
 
     <!-- Checkout -->
@@ -312,7 +312,7 @@
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">选择日期</string>
     <!-- Select Start date - used for the LX Calendar. -->
-    <string name="select_start_date">选择开始日期</string>
+    <string name="select_start_date">选择出发日期</string>
 
     <!-- LX -->
     <!-- LX Toolbar Date Range e.g. May 05 - May 10 -->
@@ -328,7 +328,7 @@
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">选择日期</string>
     <!-- Activity details highlights heading -->
-    <string name="highlights_activity_details">特色</string>
+    <string name="highlights_activity_details">特色亮点</string>
     <!-- Activity details description heading -->
     <string name="description_activity_details">介绍</string>
     <!-- Activity details location heading -->
@@ -383,7 +383,7 @@
     <string name="ticket_type_military">军人</string>
     <string name="ticket_type_student">学生</string>
     <string name="ticket_type_sedan">轿车</string>
-    <string name="ticket_type_minivan">商务车</string>
+    <string name="ticket_type_minivan">小型商务车</string>
     <string name="ticket_type_water_taxi">水上出租车</string>
     <string name="ticket_type_suv">SUV</string>
     <string name="ticket_type_executive_car">行政级轿车</string>
@@ -467,8 +467,8 @@
         <item quantity="other">%1$s 辆四门轿车</item>
     </plurals>
     <plurals name="ticket_type_minivan_TEMPLATE">
-        <item quantity="one">%1$s 辆商务车</item>
-        <item quantity="other">%1$s 辆商务车</item>
+        <item quantity="one">%1$s 辆小型商务车</item>
+        <item quantity="other">%1$s 辆小型商务车</item>
     </plurals>
     <plurals name="ticket_type_water_taxi_TEMPLATE">
         <item quantity="one">%1$s 辆水上出租车</item>
@@ -620,7 +620,7 @@
     <string name="per_ticket_type_military">每位军人</string>
     <string name="per_ticket_type_student">每名学生</string>
     <string name="per_ticket_type_sedan">每辆轿车</string>
-    <string name="per_ticket_type_minivan">每辆商务车</string>
+    <string name="per_ticket_type_minivan">每辆小型商务车</string>
     <string name="per_ticket_type_water_taxi">每辆水上出租车</string>
     <string name="per_ticket_type_suv">每辆 SUV</string>
     <string name="per_ticket_type_executive_car">每辆行政级轿车</string>
@@ -837,7 +837,7 @@
 
     <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
     <plurals name="x_Stops_TEMPLATE">
-        <item quantity="zero">直达</item>
+        <item quantity="zero">不经停</item>
         <item quantity="one">%s 次经停</item>
         <item quantity="two">%s 次经停</item>
         <item quantity="few">%s 次经停</item>
@@ -983,7 +983,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="Your_Trips">您的旅行</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">此应用程序要求 Google Play 服务。请安装最新版 Google Play 服务。</string>
+    <string name="google_play_services_unrecoverable_error">此 App 要求 Google Play 服务。请安装最新版 Google Play 服务。</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -1019,8 +1019,6 @@
     <string name="unable_to_find_guest_itinerary">找不到行程。请在帐户页面上确定国家/地区设置是否与您预订时所使用的网址相符。</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">这不是个访客行程单。请登录此行程单所关联的 {brand} 帐户。</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">查找以访客身份预订的行程</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">输入行程单信息</string>
     <!-- Expedia Itinerary -->
@@ -1097,11 +1095,11 @@
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s入住%2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
-    <string name="Flight">航班</string>
+    <string name="Flight">机票</string>
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">酒店</string>
     <!-- Default (fallback) itin card title for CAR -->
-    <string name="Car">轿车</string>
+    <string name="Car">租车</string>
     <!-- Default (fallback) itin card title for CRUISE -->
     <string name="Cruise">游轮</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
@@ -1361,7 +1359,7 @@
     <string name="car_type_two_door">双门轿车</string>
     <string name="car_type_three_door">三门轿车</string>
     <string name="car_type_four_door">四门轿车</string>
-    <string name="car_type_van">厢式货车</string>
+    <string name="car_type_van">商务车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
     <string name="car_type_recreational_vehicle">露营车</string>
@@ -1523,6 +1521,8 @@
     <string name="share_msg_template_short_flight">我 %2$s飞往%1$s！\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$s%3$s飞往%2$s！\n%4$s</string>
+    <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
+    <string name="share_msg_template_roundtrip_flight">我 %3$s 至 %4$s 搭乘 %1$s 到 %2$s 的往返航班！\n出发：%5$s\n返程：%6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">租车（%1$s– %2$s）</string>
     <!-- Car rental share subject (no dates) -->
@@ -1726,9 +1726,9 @@
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instruction text flight date range template with extra spacing. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12  -  May 15 -->
-    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} 到 {enddate}</string>
+    <string name="calendar_instructions_date_range_flight_extra_spacing_TEMPLATE">{startdate} \u0020-\u0020 {enddate}</string>
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
-    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} - {enddate}</string>
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} 到 {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate}（单程）</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1780,9 +1780,9 @@
     <!-- Message to user indicating how many points will be earned for this booking; parameter is the number of points; e.g. "Earn 478 points" -->
     <string name="earn_points_TEMPLATE">累积 {points} 分</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5" -->
-    <string name="earn_amount_TEMPLATE">赚取 {price}</string>
+    <string name="earn_amount_TEMPLATE">累积 {price}</string>
     <!-- Message to user indicating how much currency will be earned for this booking; parameter is the currency amount; e.g. "Earn $5 in Orbucks" -->
-    <string name="earn_amount_flight_TEMPLATE">赚取 {price} {currency}</string>
+    <string name="earn_amount_flight_TEMPLATE">累积 {price} {currency}</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">随身行李需付费</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -1794,7 +1794,7 @@
     <!-- Label to view baggage fees information -->
     <string name="baggage_fees">行李费用</string>
     <!-- Label to view payment processing fees information -->
-    <string name="payment_processing_fees">付款处理费用</string>
+    <string name="payment_processing_fees">付款手续费</string>
 
     <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">新的借记卡或信用卡</string>
@@ -2264,11 +2264,11 @@
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">我们刚刚发现，您预订的航班正在促销，票价降低了%1$s。您是否同意我们按新的总价 %2$s收款？</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">似乎该航空公司收取%1$s的付款处理费用。您是否乐意支付新的总价 %2$s？</string>
+    <string name="error_flight_added_processing_fee">似乎该航空公司收取%1$s的手续费。您是否乐意支付新的总价 %2$s？</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">似乎该航空公司收取 %1$s的付款处理费用，并且刚刚将您的票价调高了%2$s。您是否乐意支付新的总价 %3$s？</string>
+    <string name="error_flight_price_increased_with_fee">似乎该航空公司收取 %1$s的手续费，并且刚刚将您的票价调高了%2$s。您是否乐意支付新的总价 %3$s？</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">似乎该航空公司收取 %1$s的付款处理费用，但我们刚发现您申请的航班降价了%2$s。您是否乐意支付新的总价 %3$s？</string>
+    <string name="error_flight_price_decreased_with_fee">似乎该航空公司收取 %1$s的手续费，但我们刚发现您申请的航班降价了%2$s。您是否乐意支付新的总价 %3$s？</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">您输入的持卡人姓名与信用卡不符。请再试一次。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
@@ -2323,7 +2323,7 @@
     <string name="Preferred_Customer">优先客户</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">输入安全码</string>
-    <string name="cvv_enter_security_code_v2">CVV</string>
+    <string name="cvv_enter_security_code_v2">安全码</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2387,6 +2387,18 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">搜索</string>
+    <!-- Label for "advanced search" view -->
+    <string name="advanced_search">高级搜索</string>
+    <!-- Title for "flight type" view -->
+    <string name="flight_type">航班类型</string>
+    <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
+    <string name= "advance_search_cont_desc_TEMPLATE">高级搜索{expandstate}</string>
+    <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
+    <string name="row_collapse_button_description">展开按钮。连按两次，可以折叠。</string>
+    <!-- Title for non stop filter on advance search view -->
+    <string name="nonstop_flight_filter_label">只搜不经停航班</string>
+    <!-- Title for refundable filter on advance search view -->
+    <string name="refundable_flight_filter_label">只搜可退款的航班</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s- %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -2573,13 +2585,13 @@
     <!-- Parking amenity -->
     <string name="AmenityParking">停车处</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">客房服务</string>
+    <string name="AmenityRoomService">送餐服务</string>
     <!-- Accessible path of travel amenity -->
     <string name="AmenityAccessiblePaths">无障碍走道</string>
     <!-- Accessible bathroom amenity -->
     <string name="AmenityAccessibleBathroom">无障碍浴室</string>
     <!-- Roll-in shower amenity -->
-    <string name="AmenityRollInShower">无障碍淋浴间</string>
+    <string name="AmenityRollInShower">残疾人专用淋浴</string>
     <!-- Handicapped parking amenity -->
     <string name="AmenityHandicappedParking">残疾人专用停车位</string>
     <!-- In-room accessibility amenity -->
@@ -2780,7 +2792,7 @@
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">正在预订…</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
-    <string name="error_unable_to_send_email">我们无法发送确认电子邮件。</string>
+    <string name="error_unable_to_send_email">我们无法发送确认邮件。</string>
 
     <!-- Confirmation activity -->
     <!-- Confirmation number label -->
@@ -2979,7 +2991,7 @@
     <string name="country_pos_cont_desc_TEMPLATE">{countrycode}，国家/地区按钮</string>
 
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">手机没有安装执行此操作的应用，或者禁止使用该应用。</string>
+    <string name="app_not_available">手机没有安装执行此操作的 App，或者禁止使用该 App。</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d 位成人</item>
@@ -3381,9 +3393,9 @@
     <!-- China Union Pay -->
     <string name="cc_china_union_pay">中国银联</string>
     <!-- Diners Club -->
-    <string name="cc_diners_club">Diners Club</string>
+    <string name="cc_diners_club">大来卡</string>
     <!-- Discover -->
-    <string name="cc_discover">Discover</string>
+    <string name="cc_discover">发现卡</string>
     <!-- Japan Credit Bureau -->
     <string name="cc_japan_credit_bureau">Japan Credit Bureau</string>
     <!-- Maestro -->
@@ -3483,9 +3495,9 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">您的行李将送到第 %1$s 号行李提取处。</string>
     <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
-    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s，您的预订已经确认了！在应用中查看详细信息。</string>
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s，您的预订已经确认了！在 App 中查看详细信息。</string>
     <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
-    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">您的预订已经确认了！在应用中查看详细信息。</string>
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">您的预订已经确认了！在 App 中查看详细信息。</string>
 
     <!-- Content description for action: Press to refresh trips list -->
     <string name="trips_refresh_trips_list_cont_desc">按这里可以刷新行程列表</string>
@@ -3613,6 +3625,10 @@
     <string name="show_more">显示更多</string>
     <string name="show_less">隐藏信息</string>
     <string name="price_range">价格范围</string>
+    <!-- Price Range minimum filter label for accessibility -->
+    <string name="price_range_minimum">价格范围下限</string>
+    <!-- Price Range maximum filter label for accessibility -->
+    <string name="price_range_maximum">价格范围上限</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">排序方式：{sort}</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
@@ -3666,7 +3682,7 @@
     <string name="package_toolbar_close_cont_desc">关闭搜索屏幕</string>
     <!-- Accessibility - Content Description for toolbar back button when entering destination/arrival -->
     <string name="package_toolbar_back_to_search_cont_desc">返回搜索屏幕</string>
-    <string name="package_toolbar_title">机 + 酒</string>
+    <string name="package_toolbar_title">酒店 + 机票</string>
     <!-- Accessibility - Content Description for Expiration date: increase month -->
     <string name="increase_month_cont_desc">增加月份值</string>
     <!-- Accessibility - Content Description for Expiration date: decrease month -->
@@ -3798,6 +3814,18 @@
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">由 {operatingairlinename} ({operatingairlinecode}) 运营</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">由 {operatingairlinename}运营</string>
+    <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
+    <string name="flight_nonstop_refundable_search_header">• \u0020不经停\u0020 • \u0020可退款\u0020 •</string>
+    <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
+    <string name="flight_nonstop_search_header">• \u0020不经停\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search -->
+    <string name="flight_refundable_search_header">• \u0020可退款\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
+    <string name="advancedSearch_header_refundable_contDesc">只显示可退款的航班</string>
+    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
+    <string name="advancedSearch_header_nonStop_contDesc">只显示不经停的航班</string>
+    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearch_header_nonStop_refundable_contDesc">只显示不经停并且可退款的航班</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">正在搜索航班。请稍候。</string>
@@ -3883,8 +3911,8 @@
     <string name="package_change_flight">变更机票</string>
 
     <!-- Pay with points widget -->
-    <string name="paying_with_rewards">使用 Expedia+ 积分支付</string>
-    <string name="pay_with_rewards">使用 Expedia+ 积分支付</string>
+    <string name="paying_with_rewards">使用 Expedia+ 积分付款</string>
+    <string name="pay_with_rewards">使用 Expedia+ 积分付款</string>
     <string name="pay_with_point_total_available_TEMPLATE">有 {money} 可以使用（{points} Expedia+ 积分）</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">积分价值超出您现有的余额。\n请输入 {money} 或以下。</string>
     <string name="user_enters_more_than_trip">积分价值不能超出今天应付的款额。</string>
@@ -4064,7 +4092,7 @@
 
     <string name="rail_error_title">出错了</string>
     <string name="rail_unknown_error_message">请编辑您的搜索标准，然后再试一次。</string>
-    <string name="rail_cko_retry_error_message">请检查您的付款信息，然后再试一次；或者编辑所使用的搜索条件。</string>
+    <string name="rail_cko_retry_error_message">请检查您的帐单信息，然后再试一次；或者编辑所使用的搜索条件。</string>
 
     <!-- Rails content description for add railcard button on Railcards screen -->
     <string name="rail_add_railcard_cont_desc">添加铁路卡</string>
@@ -4473,7 +4501,7 @@
     <!-- Button for App Rating Dialog to email feedback -->
     <string name="dialog_app_rating_feedback_button">反馈</string>
     <!-- Alt. Button for App Rating Dialog to email feedback -->
-    <string name="dialog_app_rating_feedback_button_alt">发送电子邮件至应用技术支持</string>
+    <string name="dialog_app_rating_feedback_button_alt">发送电子邮件至 App 技术支持</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">不用了，谢谢</string>
     <!-- Alt. Button for App Rating Dialog to decline review -->
@@ -4531,7 +4559,7 @@
     <!-- Checkout validation error message for billing address zip code-->
     <string name="error_enter_a_zip_code">请输入有效的邮政编码</string>
     <!-- Checkout validation error message for billing address state-->
-    <string name="error_enter_a_valid_state">请输入有效的州/省</string>
+    <string name="error_enter_a_valid_state">请输入有效的省/市/自治区</string>
     <!-- Checkout validation error message for billing address city-->
     <string name="error_enter_a_valid_city">请输入有效的城市</string>
     <!-- Checkout validation error message for billing address postal code-->
@@ -4577,5 +4605,14 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">请输入 {min_value} 到 {max_value} 的值。</string>
     <string name="title_seek_bar_edit">编辑进度滑块控件等级</string>
     <string name="value_seek_bar_dialog_percent">%</string>
+
+    <!--Account Sign Up String Varaint 1-->
+    <string name="signup_variant_1">注册</string>
+    <!--Account Sign Up String Varaint 2-->
+    <string name="signup_variant_2">创建您的免费帐户</string>
+    <!--Create Your Expedia Account-->
+    <string name="signup_variant_3_TEMPLATE">创建您的 {brand} 帐户</string>
+    <!--Create a new Expedia account-->
+    <string name="signup_variant_control_TEMPLATE">创建新的 {brand} 帐户</string>
 
 </resources>

@@ -1019,8 +1019,6 @@
     <string name="unable_to_find_guest_itinerary">일정을 찾을 수 없습니다. 국가 설정이 예약을 위한 웹사이트 주소와 일치하는지 계정 화면에서 확인해 주세요.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">이는 등록된 고객의 일정이 아닙니다. 이 일정과 연결된 {brand} 계정으로 로그인해 주세요.</string>
-    <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">비회원 일정 찾기</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">일정 정보 입력</string>
     <!-- Expedia Itinerary -->
@@ -1523,6 +1521,8 @@
     <string name="share_msg_template_short_flight">항공편으로 %1$s에 가요!(%2$s)\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$s 님이 항공편으로 %2$s에 가요!(%3$s)\n%4$s</string>
+    <!-- 1: departure city 2: arrival city 3: departure date(mm/dd/yyyy) 4: arrival date 5: outboundSharableURL 6: InboundSharableURL -->
+    <string name="share_msg_template_roundtrip_flight">왕복 항공편으로 %3$s ~ %4$s에 %1$s에서 %2$s에 가요!\n갈 때: %5$s\n올 때: %6$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">내가 예약한 렌터카(%1$s ~ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -2387,6 +2387,18 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">검색</string>
+    <!-- Label for "advanced search" view -->
+    <string name="advanced_search">고급 검색</string>
+    <!-- Title for "flight type" view -->
+    <string name="flight_type">항공편 유형</string>
+    <!-- Advance Search Cont Description Template. Example: Advanced Search Button to expand filter options -->
+    <string name= "advance_search_cont_desc_TEMPLATE">고급 검색 {expandstate}</string>
+    <!-- Cont Description to . Example: Advanced Search Button to expand filter options -->
+    <string name="row_collapse_button_description">확장 버튼. 축소하려면 두 번 탭하세요.</string>
+    <!-- Title for non stop filter on advance search view -->
+    <string name="nonstop_flight_filter_label">직항 항공편만</string>
+    <!-- Title for refundable filter on advance search view -->
+    <string name="refundable_flight_filter_label">환불 가능 항공편만</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s - %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -3613,6 +3625,10 @@
     <string name="show_more">자세히 보기</string>
     <string name="show_less">간단히 보기</string>
     <string name="price_range">가격대</string>
+    <!-- Price Range minimum filter label for accessibility -->
+    <string name="price_range_minimum">가격대 최소</string>
+    <!-- Price Range maximum filter label for accessibility -->
+    <string name="price_range_maximum">가격대 최대</string>
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">정렬 기준 {sort}</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
@@ -3798,6 +3814,18 @@
     <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">{operatingairlinename}({operatingairlinecode})에서 운항</string>
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">{operatingairlinename}에서 운항</string>
+    <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
+    <string name="flight_nonstop_refundable_search_header">• \u0020직항\u0020 • \u0020환불 가능\u0020 •</string>
+    <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
+    <string name="flight_nonstop_search_header">• \u0020직항\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search -->
+    <string name="flight_refundable_search_header">• \u0020환불 가능\u0020 •</string>
+    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
+    <string name="advancedSearch_header_refundable_contDesc">환불 가능 항공편만 표시 중</string>
+    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
+    <string name="advancedSearch_header_nonStop_contDesc">직항 항공편만 표시 중</string>
+    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
+    <string name="advancedSearch_header_nonStop_refundable_contDesc">환불 가능한 직항 항공편만 표시 중</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">항공편을 검색하는 중입니다. 잠시 기다려 주세요.</string>
@@ -4016,7 +4044,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} 출발 {arrival} 도착</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4577,5 +4605,14 @@
     <string name="value_seek_bar_dialog_instructions_TEMPLATE">{min_value}에서 {max_value}까지의 숫자를 입력해 주세요.</string>
     <string name="title_seek_bar_edit">찾기 컨트롤 수준 수정</string>
     <string name="value_seek_bar_dialog_percent">%</string>
+
+    <!--Account Sign Up String Varaint 1-->
+    <string name="signup_variant_1">회원가입</string>
+    <!--Account Sign Up String Varaint 2-->
+    <string name="signup_variant_2">무료 회원가입</string>
+    <!--Create Your Expedia Account-->
+    <string name="signup_variant_3_TEMPLATE">{brand}에 회원가입</string>
+    <!--Create a new Expedia account-->
+    <string name="signup_variant_control_TEMPLATE">새로 {brand}에 회원가입</string>
 
 </resources>
