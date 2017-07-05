@@ -20,12 +20,13 @@ module Fastlane
         data = {
           'required_status_checks' => {
             'include_admins' => true,
-            'strict' => true,
+            'strict' => false,
             'contexts' => params[:required_checks].split(',')
           },
           'required_pull_request_reviews' => {
             'include_admins' => true
           },
+          'enforce_admins' => true,
           'restrictions' => nil
         }
 
