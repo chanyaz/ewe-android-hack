@@ -8,11 +8,13 @@ from pr_utils import pingPRAuthors, prUrl
 
 def scanAndProcessLintTestRunOutputXmlData(lintTestRunOutputXmlData):
     lintErrorMessage = ""
+    linterrorIssueSeverity = lintTestRunOutputXmlData.xpath('//issue/@severity')
     linterrorIssueMessages = lintTestRunOutputXmlData.xpath('//issue/@message')
     linterrorIssueExplanations = lintTestRunOutputXmlData.xpath('//issue/@explanation')
     for linterrorCount in range(0,len(linterrorIssueMessages)):
-        lintIssueLocation = lintTestRunOutputXmlData.xpath('//issue['+str(linterrorCount+1)+']/location/@file')
-        lintErrorMessage = lintErrorMessage + "**ERROR" + str(linterrorCount+1) + "**\n\n" + "Lint Error: " +  linterrorIssueMessages[linterrorCount] + "\nExplanation: " + linterrorIssueExplanations[linterrorCount]+ "\nLocation: "+ ','.join(lintIssueLocation) + "\n\n"
+        if linterrorIssueSeverity == "Error":
+            lintIssueLocation = lintTestRunOutputXmlData.xpath('//issue['+str(linterrorCount+1)+']/location/@file')
+            lintErrorMessage = lintErrorMessage + "**ERROR" + str(linterrorCount+1) + "**\n\n" + "Lint Error: " +  linterrorIssueMessages[linterrorCount] + "\nExplanation: " + linterrorIssueExplanations[linterrorCount]+ "\nLocation: "+ ','.join(lintIssueLocation) + "\n\n"
     return lintErrorMessage
 
 def extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileNameList):

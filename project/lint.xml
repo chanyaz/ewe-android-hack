@@ -103,7 +103,7 @@
     <issue id="MultipleUsesSdk" severity="error" />
     <!-- <issue id="NewApi" severity="error" /> -->
     <issue id="NotSibling" severity="error" />
-    <issue id="OldTargetApi" severity="error" />
+    <issue id="OldTargetApi" severity="informational" />
     <issue id="Override" severity="error" />
     <issue id="OverrideAbstract" severity="error" />
     <issue id="PropertyEscape" severity="error" />
