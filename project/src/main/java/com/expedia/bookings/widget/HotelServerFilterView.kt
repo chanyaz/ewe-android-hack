@@ -32,7 +32,6 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
 
         vm.filterCountObservable.subscribe { count ->
             if (count <= 0) {
-                staticClearFilterButton.visibility = GONE
             } else {
                 staticClearFilterButton.visibility = VISIBLE
             }
