@@ -82,6 +82,16 @@ public class CommonSteps {
 		Db.setAbacusResponse(abacusResponse);
 	}
 
+	@And("^I control the following tests$")
+	public void controlABTest(List<String> list) throws Throwable {
+		AbacusResponse abacusResponse = new AbacusResponse();
+		if (list.contains("FlightXSellPackage")) {
+			abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR,
+				AbacusUtils.DefaultVariant.CONTROL.ordinal());
+		}
+		Db.setAbacusResponse(abacusResponse);
+	}
+
 	@And("^I press back$")
 	public void hitBack() {
 		Common.pressBack();

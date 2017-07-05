@@ -12,6 +12,8 @@ import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.activity.RouterActivity;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.espresso.Common;
@@ -40,6 +42,9 @@ public class TestBootstrap extends ActivityInstrumentationTestCase2<RouterActivi
 	@Before("@Prod")
 	public void setupForTestsOnProduction() throws Exception {
 		Settings.setServer("Production");
+		AbacusResponse abacusResponse = new AbacusResponse();
+		abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppFlightsCrossSellPackageOnFSR,
+			AbacusUtils.DefaultVariant.CONTROL.ordinal());
 	}
 
 	@Before("@CALocale")
