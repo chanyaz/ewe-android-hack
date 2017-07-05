@@ -724,7 +724,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         copyBuilder.setCopyright(getCopyrightString())
         copyBuilder.setLogo(ProductFlavorFeatureConfiguration.getInstance().posSpecificBrandLogo)
         copyrightFragment = copyBuilder.build()
-        childFragmentManager.beginTransaction().replace(R.id.section_copyright, copyrightFragment, TAG_APP_SETTINGS).commit()
+        childFragmentManager.beginTransaction().replace(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT).commit()
     }
 
     private inner class CountryChangeListener : View.OnClickListener {
