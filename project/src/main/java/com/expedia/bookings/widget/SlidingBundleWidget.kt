@@ -242,7 +242,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     private fun updateBundlePricing() {
-        val currentOffer: PackageOfferModel = Db.getPackageResponse().packageResult.currentSelectedOffer
+        val currentOffer: PackageOfferModel = Db.getPackageResponse().getCurrentOfferModel()
         val packagePrice: PackageOfferModel.PackagePrice = currentOffer.price
         bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
         val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),

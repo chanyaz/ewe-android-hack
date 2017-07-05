@@ -18,8 +18,8 @@ import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.data.user.User;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
@@ -113,7 +113,7 @@ public class Db {
 
 	private PackageSearchParams mPackageParams;
 	private com.expedia.bookings.data.flights.FlightSearchParams mFlightSearchParams;
-	private PackageSearchResponse mPackageResponse;
+	private BundleSearchResponse mPackageResponse;
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
 	private FlightLeg mPackageSelectedOutboundFlight;
@@ -208,11 +208,11 @@ public class Db {
 		sDb.mFlightSearchParams = flightSearchParams;
 	}
 
-	public static PackageSearchResponse getPackageResponse() {
+	public static BundleSearchResponse getPackageResponse() {
 		return sDb.mPackageResponse;
 	}
 
-	public static void setPackageResponse(PackageSearchResponse hotelPackage) {
+	public static void setPackageResponse(BundleSearchResponse hotelPackage) {
 		sDb.mPackageResponse = hotelPackage;
 	}
 

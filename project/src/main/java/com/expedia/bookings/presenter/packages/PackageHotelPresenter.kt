@@ -22,6 +22,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -76,7 +77,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
 
-    val dataAvailableSubject = PublishSubject.create<PackageSearchResponse>()
+    val dataAvailableSubject = PublishSubject.create<BundleSearchResponse>()
     val trackEventSubject = PublishSubject.create<Unit>()
 
     val slideDownAnimation by lazy {
@@ -218,7 +219,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private fun bindData() {
         dataAvailableSubject.onNext(Db.getPackageResponse())
-        val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
+        val currencyCode = Db.getPackageResponse().getCurrencyCode()
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
         val zero = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
@@ -428,7 +429,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         currentOffer.price = PackageOfferModel.PackagePrice()
         currentOffer.price.packageTotalPrice = offer.rateInfo.chargeableRateInfo.packageTotalPrice
         currentOffer.price.tripSavings = offer.rateInfo.chargeableRateInfo.packageSavings
-        response.packageResult.currentSelectedOffer = currentOffer
+        response.setCurrentOfferModel(currentOffer)
     }
 
     val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {
@@ -460,7 +461,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         return super.back()
     }
 
-    private fun trackSearchResult(response: PackageSearchResponse) {
+    private fun trackSearchResult(response: BundleSearchResponse) {
         PackagesTracking().trackHotelSearchResultLoad(response)
     }
 

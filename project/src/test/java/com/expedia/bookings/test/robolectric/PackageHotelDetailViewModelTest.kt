@@ -69,8 +69,8 @@ class PackageHotelDetailViewModelTest {
         testViewModel.paramsSubject.onNext(searchParams)
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-        val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)) + " - " +
-                DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))
+        val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())) + " - " +
+                DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))
         assertEquals(dates, testViewModel.searchDatesObservable.value)
         assertEquals("$dates, ${searchParams.guests} Guests", testViewModel.searchInfoObservable.value)
     }

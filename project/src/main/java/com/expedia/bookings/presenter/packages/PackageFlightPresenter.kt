@@ -63,7 +63,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         params.packagePIID = flight.packageOfferModel.piid
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
         val response = Db.getPackageResponse()
-        response.packageResult.currentSelectedOffer = flight.packageOfferModel
+        response.setCurrentOfferModel(flight.packageOfferModel)
 
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
@@ -89,13 +89,15 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
-        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
+        val bestPlusAllFlights = Db.getPackageResponse().getFlightLegs().filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
 
         // move bestFlight to the first place of the list
         val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
         val allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
 
-        allFlights.add(0, bestFlight)
+        if (bestFlight != null) {
+            allFlights.add(0, bestFlight)
+        }
         val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
         resultsPresenter.setAdapter(flightListAdapter)
         resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)

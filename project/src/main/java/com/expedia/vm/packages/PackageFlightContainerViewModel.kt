@@ -50,7 +50,7 @@ class PackageFlightContainerViewModel(private val context: Context, private val 
             override fun onNext(response: PackageSearchResponse) {
                 if (response.hasErrors()) {
                     onResponseError(response.firstError)
-                } else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                } else if (response.getHotels().isEmpty()) {
                     onResponseError(PackageApiError.Code.search_response_null)
                 } else {
                     Db.setPackageResponse(response)

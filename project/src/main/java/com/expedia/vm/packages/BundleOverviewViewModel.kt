@@ -131,7 +131,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     Db.setPackageResponse(response)
                     if (type == PackageSearchType.HOTEL) {
                         hotelResultsObservable.onNext(Unit)
-                        val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
+                        val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
                         Db.getPackageParams().currentFlights = currentFlights
                         Db.getPackageParams().defaultFlights = currentFlights.copyOf()
                         PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)
@@ -144,7 +144,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                         flightResultsObservable.onNext(type)
                     }
                     autoAdvanceObservable.onNext(type)
-                    if (response.packageResult.currentSelectedOffer != null) {
+                    if (response.getCurrentOfferModel() != null) {
                         showBundleTotalObservable.onNext(true)
                     }
                 }

@@ -87,7 +87,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             pageUsableData.markPageLoadStarted(startTime)
         }
         presenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
-            val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
+            val packagePrice = Db.getPackageResponse().getCurrentOfferModel().price
 
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                     packagePrice.tripSavings.currencyCode)

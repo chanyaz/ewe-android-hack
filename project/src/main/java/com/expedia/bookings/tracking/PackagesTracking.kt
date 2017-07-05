@@ -2,6 +2,7 @@ package com.expedia.bookings.tracking
 
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchResponse
@@ -18,7 +19,7 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesDestinationSearchInit()
     }
 
-    fun trackHotelSearchResultLoad(response:PackageSearchResponse) {
+    fun trackHotelSearchResultLoad(response: BundleSearchResponse) {
         OmnitureTracking.trackPackagesHSRLoad(response)
     }
 

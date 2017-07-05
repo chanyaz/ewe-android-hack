@@ -60,11 +60,11 @@ class PackageHotelResultsViewModel(context: Context, private val packageServices
             override fun onNext(response: PackageSearchResponse) {
                 if (response.hasErrors()) {
                     onResponseError(response.firstError)
-                } else if (response.packageResult.hotelsPackage.hotels.isEmpty()) {
+                } else if (response.getHotels().isEmpty()) {
                     onResponseError(PackageApiError.Code.search_response_null)
                 } else {
                     Db.setPackageResponse(response)
-                    val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
+                    val currentFlights = arrayOf(response.getFlightLegs()[0].legId, response.getFlightLegs()[1].legId)
                     Db.getPackageParams().currentFlights = currentFlights
                     Db.getPackageParams().defaultFlights = currentFlights.copyOf()
                     PackageResponseUtils.savePackageResponse(context, response, PackageResponseUtils.RECENT_PACKAGE_HOTELS_FILE)

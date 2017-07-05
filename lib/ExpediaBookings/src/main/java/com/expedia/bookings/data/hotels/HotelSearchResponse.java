@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.expedia.bookings.data.BaseApiResponse;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
+import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class HotelSearchResponse extends BaseApiResponse {
@@ -65,9 +65,9 @@ public class HotelSearchResponse extends BaseApiResponse {
 		public Integer maxPrice;
 	}
 
-	public static HotelSearchResponse convertPackageToSearchResponse(PackageSearchResponse packageSearchResponse) {
+	public static HotelSearchResponse convertPackageToSearchResponse(BundleSearchResponse packageSearchResponse) {
 		HotelSearchResponse response = new HotelSearchResponse();
-		response.hotelList = packageSearchResponse.packageResult.hotelsPackage.hotels;
+		response.hotelList = packageSearchResponse.getHotels();
 		response.userPriceType = HotelRate.UserPriceType.PACKAGES;
 		return response;
 	}

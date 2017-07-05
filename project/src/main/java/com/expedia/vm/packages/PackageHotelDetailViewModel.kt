@@ -27,14 +27,14 @@ class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(c
     init {
         paramsSubject.subscribe { params ->
             val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
-            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
-                    DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate))).put("enddate",
-                    DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))).put("guests", StrUtils.formatGuestString(context, params.guests))
+            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                    .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
+                    .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate()))).put("guests", StrUtils.formatGuestString(context, params.guests))
                     .format()
                     .toString())
             val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                    .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
-                    .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
+                    .put("startdate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckInDate())))
+                    .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().getHotelCheckOutDate())))
                     .format().toString()
             searchDatesObservable.onNext(dates)
 

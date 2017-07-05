@@ -66,9 +66,9 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.rail.requests.RailSearchRequest;
@@ -4039,17 +4039,17 @@ public class OmnitureTracking {
 		trackPackagePageLoadEventStandard(PACKAGES_HOTEL_SEARCH_MAP_LOAD);
 	}
 
-	public static void trackPackagesHSRLoad(PackageSearchResponse response) {
+	public static void trackPackagesHSRLoad(BundleSearchResponse response) {
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		if (PackageSearchResponse.getHotelResultsCount(response) > 0) {
+		if (response.getHotelResultsCount() > 0) {
 			Log.d(TAG, "Tracking \"" + PACKAGES_HOTEL_SEARCH_RESULT_LOAD + "\"");
 			s.setAppState(PACKAGES_HOTEL_SEARCH_RESULT_LOAD);
 			addPackagesCommonFields(s);
 			s.setEvents("event12,event53");
-			s.setProp(1, String.valueOf(PackageSearchResponse.getHotelResultsCount(response)));
+			s.setProp(1, String.valueOf(response.getHotelResultsCount()));
 
-			if (PackageSearchResponse.hasSponsoredHotelListing(response)) {
+			if (response.hasSponsoredHotelListing()) {
 				s.setEvar(28, PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT);
 				s.setProp(16, PACKAGES_HOTEL_SEARCH_SPONSORED_PRESENT);
 			}
