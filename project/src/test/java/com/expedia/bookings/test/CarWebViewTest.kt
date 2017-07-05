@@ -259,4 +259,29 @@ class CarWebViewTest {
         assertEquals(CarActivity::class.java.name, intent.component.className)
     }
 
+    private fun verifyCarsFlexViewIsLaunched() {
+        goToCars()
+        val intent = shadowApplication!!.nextStartedActivity
+        val intentUrl = intent.getStringExtra("ARG_URL")
+        assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
+        assertEquals(getCarUrlWithVisitorId("https://www." + PointOfSale.getPointOfSale().getUrl() + "/carshomepage?mcicid=App.Cars.WebView"), intentUrl)
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensFlexViewUS() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_STATES.id.toString())
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewUS, AbacusUtils.EBAndroidAppCarsFlexView)
+        verifyCarsFlexViewIsLaunched()
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun carsLaunchButtonOpensWebViewAbTestOffUS() {
+        setPOSWithCarWebViewEnabled(PointOfSaleId.UNITED_STATES.id.toString())
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppCarsFlexView)
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppCarsWebViewUS)
+        verifyCarsWebViewIsLaunched()
+    }
+
 }

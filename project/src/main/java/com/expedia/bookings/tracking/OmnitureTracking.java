@@ -3676,6 +3676,12 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Car Webview", null, null);
 	}
 
+	public static void trackAppCarFlexViewABTest() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarsFlexView);
+		s.trackLink(null, "o", "Car Flexview", null, null);
+	}
+
 	private static void addProducts(ADMS_Measurement s, CreateTripCarOffer carOffer, CarTrackingData carTrackingData) {
 		String duration = Integer
 			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);

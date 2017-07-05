@@ -308,7 +308,13 @@ public class NavUtils {
 		if (PointOfSale.getPointOfSale().supportsCarsWebView()
 			&& Db.getAbacusResponse().isUserBucketedForTest(PointOfSale.getPointOfSale().getCarsWebViewABTestID())) {
 			CarWebViewActivity.IntentBuilder builder = new CarWebViewActivity.IntentBuilder(context);
-			builder.setUrl(PointOfSale.getPointOfSale().getCarsTabWebViewURL());
+			new CarWebViewTracking().trackAppCarFlexViewABTest();
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppCarsFlexView)) {
+				builder.setUrl("https://www." + PointOfSale.getPointOfSale().getUrl() + "/carshomepage?mcicid=App.Cars.WebView");
+			}
+			else {
+				builder.setUrl(PointOfSale.getPointOfSale().getCarsTabWebViewURL());
+			}
 			builder.setInjectExpediaCookies(true);
 			builder.setAllowMobileRedirects(true);
 			builder.setAttemptForceMobileSite(true);

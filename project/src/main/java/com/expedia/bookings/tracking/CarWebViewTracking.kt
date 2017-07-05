@@ -26,4 +26,8 @@ class CarWebViewTracking {
         OmnitureTracking.trackAppCarWebViewABTest()
     }
 
+    fun trackAppCarFlexViewABTest() {
+        OmnitureTracking.trackAppCarFlexViewABTest()
+    }
+
 }
