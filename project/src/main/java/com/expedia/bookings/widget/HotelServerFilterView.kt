@@ -5,7 +5,6 @@ import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
-import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.hotel.widget.BaseNeighborhoodFilterView
@@ -35,9 +34,6 @@ class HotelServerFilterView(context: Context, attrs: AttributeSet?) : BaseHotelF
             if (count <= 0) {
                 staticClearFilterButton.visibility = GONE
             } else {
-                val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-                event?.contentDescription = context.resources.getString(R.string.search_filter_clear_button_alert_cont_desc)
-                staticClearFilterButton.requestSendAccessibilityEvent(staticClearFilterButton, event)
                 staticClearFilterButton.visibility = VISIBLE
             }
         }
