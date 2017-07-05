@@ -2081,6 +2081,7 @@ public class OmnitureTracking {
 		pageName += "Start";
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsDetailRemoveCalendar);
 		s.trackLink(null, "o", "Itinerary Sharing", null, null);
 	}
 
