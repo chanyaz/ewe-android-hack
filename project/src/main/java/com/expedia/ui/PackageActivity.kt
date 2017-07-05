@@ -45,6 +45,9 @@ class PackageActivity : AbstractAppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        if (resultCode == Constants.PACKAGE_PARAMS_NULL_RESTORE) {
+            return
+        }
         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.collapseSelectedHotel()
         packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.collapseFlightDetails()
         packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.collapseFlightDetails()
