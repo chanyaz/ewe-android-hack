@@ -177,10 +177,10 @@ class LaunchListAdapterTest {
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
-        val secondPosition = sut.getItemViewType(2)
+        val secondPosition = sut.getItemViewType(1)
         assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
-        val thirdPosition = sut.getItemViewType(3)
+        val thirdPosition = sut.getItemViewType(2)
         assertEquals(LaunchDataItem.COLLECTION_VIEW, thirdPosition)
     }
 
@@ -212,10 +212,10 @@ class LaunchListAdapterTest {
         val firstPosition = sut.getItemViewType(0)
         assertEquals(LaunchDataItem.LOB_VIEW, firstPosition)
 
-        val secondPosition = sut.getItemViewType(2)
+        val secondPosition = sut.getItemViewType(1)
         assertEquals(LaunchDataItem.HEADER_VIEW, secondPosition)
 
-        val thirdPosition = sut.getItemViewType(3)
+        val thirdPosition = sut.getItemViewType(2)
         assertEquals(LaunchDataItem.HOTEL_VIEW, thirdPosition)
     }
 

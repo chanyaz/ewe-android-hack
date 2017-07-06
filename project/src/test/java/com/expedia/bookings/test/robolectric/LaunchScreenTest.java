@@ -115,8 +115,8 @@ public class LaunchScreenTest {
 		launchListWidget.measure(0, 0);
 		launchListWidget.layout(0, 0, 100, 10000);
 
-		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
-		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(3).getClass());
+		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
+		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
 	}
 
 	@Test
@@ -158,8 +158,8 @@ public class LaunchScreenTest {
 		launchListWidget.measure(0, 0);
 		launchListWidget.layout(0, 0, 100, 10000);
 
-		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
-		assertEquals(HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(3).getClass());
+		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
+		assertEquals(HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
 	}
 
 	@Test
@@ -233,12 +233,12 @@ public class LaunchScreenTest {
 		launchListWidget.layout(0, 0, 100, 10000);
 
 
-		HotelViewHolder h1 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
-		HotelViewHolder h2 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
-		HotelViewHolder h3 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
-		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
-		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(7);
-		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(8);
+		HotelViewHolder h1 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(2);
+		HotelViewHolder h2 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
+		HotelViewHolder h3 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
+		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
+		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
+		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(7);
 
 		assertEquals("5.0", h1.getRating().getText());
 		assertEquals(View.VISIBLE, h1.getRatingText().getVisibility());
