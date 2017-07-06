@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 
 class HotelItinDetailsActivity : AppCompatActivity() {
 
-    private var itinCardDataHotel: ItinCardDataHotel? = null
+    val roomDetailsView: HotelItinRoomDetails by lazy {
+        findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
+    }
 
     companion object IntentExtras {
         private const val ITIN_ID_EXTRA = "ITIN_ID"
@@ -30,6 +33,7 @@ class HotelItinDetailsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        itinCardDataHotel = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.id) as ItinCardDataHotel
+        val itinCardDataHotel: ItinCardDataHotel = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.id) as ItinCardDataHotel
+        roomDetailsView.setUpWidget(itinCardDataHotel)
     }
 }
