@@ -1,8 +1,6 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.services.ClientLogServices
-
 import android.net.Uri
 import com.expedia.bookings.tracking.OmnitureTracking
 import java.util.*
@@ -34,6 +32,7 @@ object DeepLinkUtils {
             add("icmcid")
             add("icmdtl")
             add("gclid")
+            add("semdtl")
         }
     }
 

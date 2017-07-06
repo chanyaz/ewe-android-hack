@@ -3358,6 +3358,11 @@ public class OmnitureTracking {
 				s.setEvar(26, deepLinkValue);
 			}
 
+			// eVar36
+			if ((deepLinkValue = deepLinkArgs.get("semdtl")) != null) {
+				s.setEvar(36, deepLinkValue);
+			}
+
 			deepLinkArgs.clear();
 		}
 	}
