@@ -1,9 +1,19 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -11,14 +21,9 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 
 import static org.junit.Assert.assertEquals;
 
@@ -69,6 +74,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysCollectionWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -92,6 +98,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysCollectionWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -115,6 +122,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysHotelsWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -137,6 +145,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysHotelsWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -156,6 +165,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testZeroRatingWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -204,6 +214,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testZeroRatingWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);

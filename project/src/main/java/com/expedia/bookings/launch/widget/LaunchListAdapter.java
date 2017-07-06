@@ -388,7 +388,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	}
 
 	private boolean showSignInCard() {
-		return !userStateManager.isUserAuthenticated();
+		return userBucketedForSignIn() && !userStateManager.isUserAuthenticated();
 	}
 
 	private boolean showAirAttachMessage() {
@@ -411,13 +411,20 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		return ItinLaunchScreenHelper.showActiveItinLaunchScreenCard(userStateManager);
 	}
 
+
 	private boolean showItinCard() {
 		return showActiveItinLaunchScreenCard();
+	}
+
+
+	private boolean userBucketedForSignIn() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 	}
 
 	private boolean userBucketedForAirAttach() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 	}
+
 
 	private boolean showMemberDeal() {
 		return userStateManager.isUserAuthenticated() &&
