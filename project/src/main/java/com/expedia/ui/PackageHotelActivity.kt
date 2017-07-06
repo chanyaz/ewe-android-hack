@@ -25,9 +25,16 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
     val detailsMapView: MapView by lazy {
         hotelsPresenter.findViewById(R.id.details_map_view) as MapView
     }
+    var restorePackageActivityForNullParams = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Db.getPackageParams() == null) {
+            setResult(Constants.PACKAGE_PARAMS_NULL_RESTORE)
+            restorePackageActivityForNullParams = true
+            finish()
+            return
+        }
         setContentView(R.layout.package_hotel_activity)
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
@@ -68,8 +75,10 @@ class PackageHotelActivity : AbstractAppCompatActivity() {
     }
 
     override fun onDestroy() {
-        resultsMapView.onDestroy()
-        detailsMapView.onDestroy()
+        if (!restorePackageActivityForNullParams) {
+            resultsMapView.onDestroy()
+            detailsMapView.onDestroy()
+        }
         super.onDestroy()
     }
 
