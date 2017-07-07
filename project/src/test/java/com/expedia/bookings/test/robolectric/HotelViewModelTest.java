@@ -74,7 +74,6 @@ public class HotelViewModelTest {
 		hotel.lowRateInfo = new HotelRate();
 		hotel.distanceUnit = "Miles";
 		hotel.lowRateInfo.currencyCode = "USD";
-		hotel.percentRecommended = 2;
 		hotel.hotelStarRating = 2.0f;
 		hotel.localizedName = "Test Hotel";
 		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null,

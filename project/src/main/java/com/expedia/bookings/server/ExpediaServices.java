@@ -37,25 +37,17 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ChildTraveler;
-import com.expedia.bookings.data.CreateItineraryResponse;
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
-import com.expedia.bookings.data.HotelBookingResponse;
-import com.expedia.bookings.data.HotelOffersResponse;
-import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
@@ -73,7 +65,6 @@ import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
@@ -299,10 +290,6 @@ public class ExpediaServices implements DownloadListener {
 		return suggestionsGaiaNearby(latitude, longitude, sort, "flights");
 	}
 
-	public SuggestionResponse suggestionsCityNearby(double latitude, double longitude) {
-		return suggestionsGaiaNearby(latitude, longitude, SuggestionSort.DISTANCE, "hotels");
-	}
-
 	private SuggestionResponse suggestionsGaiaNearby(double latitude, double longitude, SuggestionSort sort,
 		String lob) {
 		String url = NetUtils.formatUrl(getGaiaNearbySuggestUrl());
@@ -470,26 +457,6 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	public CreateItineraryResponse createItinerary(String productKey, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("productKey", productKey));
-
-		addCommonParams(query);
-
-		return doFlightsRequest("api/flight/trip/create", query, new CreateItineraryResponseHandler(mContext), flags);
-	}
-
-	public FlightCheckoutResponse flightCheckout(TripBucketItemFlight flightItem, BillingInfo billingInfo,
-		List<Traveler> travelers, int flags) {
-		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightItem, billingInfo, travelers);
-
-		Itinerary itinerary = flightItem.getItinerary();
-		Log.v("tealeafTransactionId for flight: " + itinerary.getTealeafId());
-		addTealeafId(query, itinerary.getTealeafId());
-
-		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags);
-	}
-
 	public List<BasicNameValuePair> generateFlightCheckoutParams(TripBucketItemFlight flightItem,
 		BillingInfo billingInfo, List<Traveler> travelers) {
 		FlightTrip flightTrip = flightItem.getFlightTrip();
@@ -549,11 +516,6 @@ public class ExpediaServices implements DownloadListener {
 		return BookingSuppressionUtils
 			.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings);
 	}
-
-	private static boolean suppressFinalHotelBooking(Context context) {
-		return BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings);
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	// Ancillary flight data
@@ -658,231 +620,6 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
-	public HotelSearchResponse search(HotelSearchParams params, int flags) {
-		List<BasicNameValuePair> query = generateHotelSearchParams(params, flags);
-
-		HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
-		if (params.hasSearchLatLon()) {
-			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
-		}
-		rh.setNumNights(params.getStayDuration());
-
-		return doE3Request("m/api/hotel/search", query, rh, 0);
-	}
-
-	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<>();
-
-		query.add(new BasicNameValuePair("sortOrder", "ExpertPicks"));
-		addCommonParams(query);
-
-		if (params.hasRegionId()) {
-			Log.d("Searching by regionId...");
-			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
-		}
-		else if (params.hasSearchLatLon()) {
-			Log.d("Searching by latitude/longitude...");
-			query.add(new BasicNameValuePair("latitude", params.getSearchLatitude() + ""));
-			query.add(new BasicNameValuePair("longitude", params.getSearchLongitude() + ""));
-		}
-		else if (params.hasQuery()) {
-			Log.d("Searching by city...");
-			query.add(new BasicNameValuePair("city", params.getQuery()));
-		}
-
-		addHotelSearchParams(query, params);
-
-		if ((flags & F_FROM_WIDGET) != 0) {
-			query.add(new BasicNameValuePair("fromWidget", "true"));
-		}
-
-		// These values are always the same (for now)
-		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
-		query.add(new BasicNameValuePair("pageIndex", "0"));
-		query.add(new BasicNameValuePair("filterUnavailable", "true"));
-		query.add(new BasicNameValuePair("enableSponsoredListings", "true"));
-		query.add(new BasicNameValuePair("forceV2Search", "true"));
-
-		return query;
-	}
-
-	public HotelOffersResponse availability(HotelSearchParams params, Property property) {
-		List<BasicNameValuePair> query = generateHotelAvailabilityParams(params, property);
-
-		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params);
-
-		return doE3Request("m/api/hotel/offers", query, responseHandler, 0);
-	}
-
-	public List<BasicNameValuePair> generateHotelAvailabilityParams(HotelSearchParams params, Property property) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		//If we have a valid property/propertyId we add it, otherwise we leave it off and let the api respond accordingly
-		if (property != null && !TextUtils.isEmpty(property.getPropertyId())) {
-			query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
-		}
-
-		// Note: this may stress the mobile API, but the whole point of this flag is so that we can take advantage of
-		// discounted room rates for our mobile use-case.
-		query.add(new BasicNameValuePair("useCacheForAirAttach", "true"));
-
-		if (params != null) {
-			addHotelSearchParams(query, params);
-		}
-
-		return query;
-	}
-
-	/**
-	 * This leverages the same classes as hotel offers, but simply returns less data (since
-	 * it won't have any actual rates).
-	 */
-	public HotelOffersResponse hotelInformation(Property property) {
-		List<BasicNameValuePair> query = generateHotelAvailabilityParams(null, property);
-
-		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null);
-
-		return doE3Request("m/api/hotel/info", query, responseHandler, 0);
-	}
-
-	public CreateTripResponse createTrip(HotelSearchParams params, Property property, Rate rate,
-		boolean qualifyAirAttach) {
-		List<BasicNameValuePair> query = generateCreateTripParams(rate, params, qualifyAirAttach);
-		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("m/api/hotel/trip/create", query, responseHandler);
-	}
-
-	private List<BasicNameValuePair> generateCreateTripParams(Rate rate, HotelSearchParams params,
-		boolean qualifyAirAttach) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-
-		String guests = generateHotelGuestString(params);
-		query.add(new BasicNameValuePair("roomInfoFields[0].room", guests));
-
-		query.add(new BasicNameValuePair("qualifyAirAttach", Boolean.toString(qualifyAirAttach)));
-		addCommonParams(query);
-
-		return query;
-	}
-
-	public CreateTripResponse applyCoupon(String couponCode, TripBucketItemHotel hotel) {
-		List<BasicNameValuePair> query = generateApplyCouponParams(couponCode, hotel);
-		Property property = hotel.getProperty();
-		HotelSearchParams params = hotel.getHotelSearchParams();
-		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("api/m/trip/coupon", query, responseHandler);
-	}
-
-	public List<BasicNameValuePair> generateApplyCouponParams(String couponCode, TripBucketItemHotel hotel) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("tripId", hotel.getCreateTripResponse().getTripId()));
-		query.add(new BasicNameValuePair("coupon.code", couponCode));
-
-		return query;
-	}
-
-	public CreateTripResponse removeCoupon(TripBucketItemHotel hotel) {
-		List<BasicNameValuePair> query = generateRemoveCouponParams(hotel);
-		Property property = hotel.getProperty();
-		HotelSearchParams params = hotel.getHotelSearchParams();
-		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("api/m/trip/remove/coupon", query, responseHandler);
-	}
-
-	public List<BasicNameValuePair> generateRemoveCouponParams(TripBucketItemHotel hotel) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		addCommonParams(query);
-		query.add(new BasicNameValuePair("tripId", hotel.getCreateTripResponse().getTripId()));
-		return query;
-	}
-
-	public HotelBookingResponse reservation(HotelSearchParams params, Rate rate,
-		BillingInfo billingInfo,
-		String tripId, String userId, Long tuid, String tealeafId, boolean isMerEmailOptIn) {
-		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId, userId,
-			tuid);
-
-		Log.v("tealeafTransactionId for hotel: " + tealeafId);
-		addTealeafId(query, tealeafId);
-
-		// #4762. Adding MER email opt in choice
-		query.add(new BasicNameValuePair("emailOptIn", String.valueOf(isMerEmailOptIn)));
-
-		return doE3Request("m/api/hotel/trip/checkout", query, new BookingResponseHandler(mContext));
-	}
-
-	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
-		BillingInfo billingInfo, String tripId, String userId, Long tuid) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("expectedTotalFare", "" + rate.getTotalPriceWithMandatoryFees().getAmount()));
-		query.add(
-			new BasicNameValuePair("expectedFareCurrencyCode", rate.getTotalPriceWithMandatoryFees().getCurrency()));
-
-		addHotelSearchParams(query, params);
-
-		addBillingInfo(query, billingInfo, F_HOTELS);
-
-		query.add(new BasicNameValuePair("sendEmailConfirmation", "true"));
-
-		if (!TextUtils.isEmpty(tripId)) {
-			query.add(new BasicNameValuePair("tripId", tripId));
-		}
-
-		// Response with user id. Get it from the sign in response first.
-		if (tuid != null) {
-			query.add(new BasicNameValuePair("userId", String.valueOf(tuid)));
-		}
-		else if (!TextUtils.isEmpty(userId)) {
-			query.add(new BasicNameValuePair("userId", userId));
-		}
-
-		if (userStateManager.isUserAuthenticated()) {
-			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
-			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
-				billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
-		}
-
-		// Checkout calls without this flag can make ACTUAL bookings!
-		if (suppressFinalHotelBooking(mContext)) {
-			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
-		}
-
-		return query;
-	}
-
-	private void addHotelSearchParams(List<BasicNameValuePair> query, HotelSearchParams params) {
-		DateTimeFormatter dtf = ISODateTimeFormat.date();
-		query.add(new BasicNameValuePair("checkInDate", dtf.print(params.getCheckInDate())));
-		query.add(new BasicNameValuePair("checkOutDate", dtf.print(params.getCheckOutDate())));
-
-		addHotelGuestParamater(query, params);
-	}
-
-	private void addHotelGuestParamater(List<BasicNameValuePair> query, HotelSearchParams params) {
-		query.add(new BasicNameValuePair("room1", generateHotelGuestString(params)));
-	}
-
-	private String generateHotelGuestString(HotelSearchParams params) {
-		StringBuilder guests = new StringBuilder();
-		guests.append(params.getNumAdults());
-		List<ChildTraveler> children = params.getChildren();
-		if (children != null) {
-			for (ChildTraveler child : children) {
-				guests.append("," + child.getAge());
-			}
-		}
-
-		return guests.toString();
-	}
 
 	private void addTealeafId(List<BasicNameValuePair> query, String tealeafId) {
 		if (!TextUtils.isEmpty(tealeafId)) {

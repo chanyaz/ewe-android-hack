@@ -67,7 +67,6 @@ public class HotelResultsCarouselTest {
 		hotel.distanceUnit = "Miles";
 		hotel.lowRateInfo.currencyCode = "USD";
 		hotel.hotelStarRating = index % 5;
-		hotel.percentRecommended = 2;
 		hotel.hotelGuestRating = index % 5;
 		return hotel;
 	}

@@ -19,10 +19,6 @@ public class Hotel {
 	public float hotelStarRating;
 	public String hotelStarRatingCssClassName;
 	public float hotelGuestRating;
-	public int totalRecommendations;
-	public int percentRecommended;
-	public int totalReviews;
-	public String shortDescription;
 	public String locationDescription;
 	public String locationId;
 	public HotelRate lowRateInfo;
@@ -41,7 +37,6 @@ public class Hotel {
 	public boolean isSponsoredListing;
 	public transient boolean hasShownImpression;
 	public String clickTrackingUrl;
-	public String drrMessage;
 	public String impressionTrackingUrl;
 	public boolean hasFreeCancellation;
 	public List<HotelAmenity> amenities;
@@ -74,9 +69,6 @@ public class Hotel {
 		hotel.postalCode = packageHotel.hotelAddress.postalCode;
 		hotel.hotelStarRating = Float.valueOf(packageHotel.hotelStarRating);
 		hotel.hotelGuestRating = packageHotel.overallReview;
-		hotel.totalRecommendations = packageHotel.recommendationTotal;
-		hotel.totalReviews = packageHotel.reviewTotal;
-		hotel.shortDescription = packageHotel.hotelDescription;
 		hotel.locationDescription = packageHotel.hotelDescription;
 		hotel.latitude = packageHotel.latitude;
 		hotel.longitude = packageHotel.longitude;
@@ -84,7 +76,6 @@ public class Hotel {
 		hotel.thumbnailUrl = packageHotel.thumbnailURL;
 		hotel.isVipAccess = packageHotel.vip;
 		hotel.packageOfferModel = packageHotel.packageOfferModel;
-		hotel.drrMessage = packageHotel.drrMessage;
 		hotel.isPackage = true;
 		return hotel;
 	}

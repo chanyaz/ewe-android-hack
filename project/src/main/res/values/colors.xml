@@ -162,7 +162,6 @@
     <color name="bg_signin_dialog_button_focused">#18000000</color>
     <color name="bg_signin_dialog_button_pressed">#30000000</color>
     <color name="bg_signin_dialog_button_disabled">@android:color/transparent</color>
-    <color name="row_background_review">@color/white</color>
     <color name="hotel_details_separator">#d1d1d1</color>
     <color name="legal_info_blue">#235285</color>
     <color name="header_text">#777</color>

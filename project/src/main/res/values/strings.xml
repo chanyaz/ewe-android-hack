@@ -853,8 +853,6 @@
     <string name="room_rate_pay_later_due_now">{amount} Due Now</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s reviews</string>
-    <!-- Information for the review about who submitted it and when -->
-    <string name="submitted_by_on_date_TEMPLATE">%1$s on %2$s</string>
 
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total with Tax</string>
@@ -2516,8 +2514,6 @@
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Loading hotels…</string>
-    <!-- Error string for widget when internet connection is unavailable -->
-    <string name="widget_error_no_internet">No Internet Connectivity</string>
     <!-- The label for deposit terms button -->
     <string name="deposit_terms">Deposit Terms</string>
 
@@ -2626,26 +2622,14 @@
 
 
     <!-- User Reviews list strings -->
-    <!-- Loading text prompt -->
-    <string name="user_review_loading_text">Loading user reviews…</string>
-    <!-- Header for reviews of the non-native language -->
-    <string name="user_review_other_languages_title">Reviews in other languages</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_recent">Recent</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_favorable">Favorable</string>
     <!-- The text for the sort button, recent -->
     <string name="user_review_sort_button_critical">Critical</string>
-    <!-- Loading more reviews -->
-    <string name="user_review_loading_more_reviews">Loading more reviews…</string>
     <!-- Read more of the review -->
     <string name="more">more</string>
-    <!--
-         User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
-        1$ represents the number of guests that recommend this hotel
-        2$ represents the total number of guests
-    -->
-    <string name="user_review_recommendation_tag_text">&lt;b&gt;%1$d&lt;/b&gt; out of &lt;b&gt;%2$d&lt;/b&gt; guests recommend this hotel.</string>
     <!-- Special case for 0 reviews -->
     <string name="no_reviews">No Reviews</string>
 
@@ -2671,9 +2655,6 @@
     <string name="user_review_no_favorable_reviews">There are no favorable reviews for this hotel.</string>
     <!-- User review no recent reviews -->
     <string name="user_review_no_recent_reviews">There are no recent reviews for this hotel.</string>
-
-    <!-- User reviews server/parsing error -->
-    <string name="user_review_unavailable">Reviews are temporarily unavailable</string>
 
     <!-- ETP pay later info message -->
     <string name="pay_later_info_text">Book Now, Pay Later</string>

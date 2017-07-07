@@ -1125,6 +1125,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.itin_sign_in_button_background_color,
 		R.color.itin_sign_in_button_text_color,
 		R.color.itin_refresh_warning_button_background_color,
-		R.color.itin_warning_color
+		R.color.itin_warning_color,
+		R.string.user_review_name_and_location_signature
 	};
 }
