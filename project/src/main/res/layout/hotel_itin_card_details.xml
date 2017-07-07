@@ -15,6 +15,10 @@
             android:orientation="vertical">
 
             <!--Hotel thumbnail-->
+            <com.expedia.bookings.widget.itin.HotelItinImage
+                android:id="@+id/hotel_itin_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <!--Check in/out info-->
 
@@ -29,5 +33,7 @@
             <!--Booking details-->
 
         </LinearLayout>
+
     </com.expedia.bookings.widget.ScrollView>
+
 </FrameLayout>

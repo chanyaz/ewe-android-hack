@@ -7,12 +7,17 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.itin.HotelItinImage
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 
 class HotelItinDetailsActivity : AppCompatActivity() {
 
     val roomDetailsView: HotelItinRoomDetails by lazy {
         findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
+    }
+
+    val hotelImageView: HotelItinImage by lazy {
+        findViewById(R.id.hotel_itin_image) as HotelItinImage
     }
 
     companion object IntentExtras {
@@ -35,5 +40,6 @@ class HotelItinDetailsActivity : AppCompatActivity() {
 
         val itinCardDataHotel: ItinCardDataHotel = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.id) as ItinCardDataHotel
         roomDetailsView.setUpWidget(itinCardDataHotel)
+        hotelImageView.setUpWidget(itinCardDataHotel)
     }
 }

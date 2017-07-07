@@ -27,4 +27,12 @@ class HotelItinDetailsActivityTest {
         roomDetailsView.setUpWidget(itinCardDataHotel)
         assertEquals(roomDetailsView.roomDetailsText.text, itinCardDataHotel.property.itinRoomType + ", " + itinCardDataHotel.property.itinBedType)
     }
+
+    @Test
+    fun testHotelItinImage() {
+        val hotelImageView: HotelItinImage = activity.hotelImageView
+        hotelImageView.setUpWidget(itinCardDataHotel)
+        assertEquals(hotelImageView.hotelNameTextView.text, itinCardDataHotel.propertyName)
+
+    }
 }
