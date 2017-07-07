@@ -1129,6 +1129,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.itin_warning_color,
 		R.string.user_review_name_and_location_signature,
 		R.raw.lock_icon,
+		R.layout.widget_lob_toolbar,
+		R.layout.lob_toolbar_item,
 		R.string.unable_to_find_guest_itinerary,
 		R.string.unable_to_find_registered_user_itinerary_template,
 		R.string.save_traveler,
