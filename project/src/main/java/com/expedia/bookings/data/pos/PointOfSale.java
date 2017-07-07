@@ -204,6 +204,9 @@ public class PointOfSale {
 	// Should Cross Sell Package on FSR
 	private boolean isCrossSellPackageOnFSR;
 
+	//Do not show advanced search on flights
+	private boolean hideAdvancedSearchOnFlights;
+
 	private String businessRegion;
 
 	private static boolean sIsTablet;
@@ -887,6 +890,10 @@ public class PointOfSale {
 		return isCrossSellPackageOnFSR;
 	}
 
+	public boolean hideAdvancedSearchOnFlights() {
+		return hideAdvancedSearchOnFlights;
+	}
+
 	public boolean airlineMayChargePaymentMethodFee() {
 		return airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.MIGHT_CHARGE);
 	}
@@ -1368,6 +1375,7 @@ public class PointOfSale {
 		pos.showAirlinePaymentMethodFeeLegalMessage = data.optBoolean("showAirlinePaymentMethodFeeLegalMessage", false);
 		pos.isCrossSellPackageOnFSR = data.optBoolean("crossSellPackageOnFSR", false);
 		pos.businessRegion = data.optString("businessRegion");
+		pos.hideAdvancedSearchOnFlights = data.optBoolean("hideAdvanceSearchOnFlights", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

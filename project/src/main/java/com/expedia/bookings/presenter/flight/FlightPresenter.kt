@@ -599,7 +599,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)) {
+                if (!PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
+                        FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)) {
                     searchPresenter.flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
                 }
             }

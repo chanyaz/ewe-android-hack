@@ -4,6 +4,7 @@
     style="@style/MaterialCardTextView"
     android:layout_width="match_parent"
     android:layout_height="@dimen/default_search_card_height"
+    android:paddingRight = "10dp"
     app:input_icon="@drawable/search_form_icon_flight_cabin_class"
     app:input_icon_tint_color="@color/search_screen_icon_color_v2"
     app:input_text="@string/cabin_code_coach"

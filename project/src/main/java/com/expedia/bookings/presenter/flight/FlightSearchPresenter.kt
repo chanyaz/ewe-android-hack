@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
@@ -16,6 +17,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
@@ -67,7 +69,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     val errorDrawable = ContextCompat.getDrawable(context,
             Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
 
-    val isFlightAdvanceSearchTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)
+    val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
+            FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -158,12 +161,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             if (!params.isRoundTrip()) {
                 viewpager.currentItem = 1
             }
-            if (params.nonStopFlight != null && params.nonStopFlight as Boolean) {
+            if (isFlightAdvanceSearchTestEnabled && params.nonStopFlight != null && params.nonStopFlight as Boolean) {
                 flightAdvanceSearchWidget.viewModel.applySelectedFilter.onNext(AdvanceSearchFilter.NonStop.ordinal)
                 flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
             }
 
-            if (params.showRefundableFlight != null && params.showRefundableFlight as Boolean) {
+            if (isFlightAdvanceSearchTestEnabled && params.showRefundableFlight != null && params.showRefundableFlight as Boolean) {
                 flightAdvanceSearchWidget.viewModel.applySelectedFilter.onNext(AdvanceSearchFilter.Refundable.ordinal)
                 flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
             }
@@ -200,6 +203,9 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             widgetTravelerAndCabinClassStub.layoutResource = R.layout.widget_traveler_cabin_class_vertical
         }
         widgetTravelerAndCabinClassStub.inflate()
+        if (isFlightAdvanceSearchTestEnabled) {
+            flightCabinClassWidget.compoundDrawablePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt()
+        }
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
         travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2
         showFlightOneWayRoundTripOptions = true

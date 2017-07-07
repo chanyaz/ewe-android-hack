@@ -18,7 +18,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightCellWidget
 import com.expedia.bookings.widget.packages.PackageBannerWidget
 import com.expedia.vm.AbstractFlightViewModel
-import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -40,7 +39,6 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         LOADING_FLIGHTS_VIEW,
         LOADING_FLIGHTS_HEADER_VIEW,
         PACKAGE_BANNER_VIEW,
-        ALL_FLIGHTS_PRICING_HEADER_VIEW,
         BEST_FLIGHT_VIEW,
         FLIGHT_CELL_VIEW
     }
@@ -142,10 +140,6 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 val view = PackageBannerWidget(context)
                 return PackageBannerHeaderViewHolder(view)
             }
-            ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.all_flights_pricing_header_cell, parent, false)
-                return AllFlightsPricingHeaderViewHolder(view as ViewGroup)
-            }
             ViewTypes.FLIGHT_CELL_VIEW.ordinal -> {
                 val view = FlightCellWidget(parent.context)
                 return FlightViewHolder(view)
@@ -162,8 +156,8 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
 
         return when (position) {
-            0 -> (if (isCrossSellPackageOnFSR) ViewTypes.PACKAGE_BANNER_VIEW.ordinal else ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal)
-            1 -> (if (isCrossSellPackageOnFSR) ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal else ViewTypes.FLIGHT_CELL_VIEW.ordinal)
+            0 -> ViewTypes.PRICING_STRUCTURE_HEADER_VIEW.ordinal
+            1 -> (if (isCrossSellPackageOnFSR) ViewTypes.PACKAGE_BANNER_VIEW.ordinal else ViewTypes.FLIGHT_CELL_VIEW.ordinal)
             else -> ViewTypes.FLIGHT_CELL_VIEW.ordinal
         }
     }
@@ -171,28 +165,26 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
     inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
         val priceHeader: TextView by bindView(R.id.flight_results_price_header)
         val advanceSearchFilterHeader: TextView by bindView(R.id.flight_results_advance_search_filter_header)
-        val headerDivider: View by bindView(R.id.header_divider_shadow)
 
         fun bind(isRoundTripSearch: Boolean) {
             val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
             val oneWayStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
-            priceHeader.text = context.resources.getText(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
-            val advanceSearchFilterHeaderText = FlightV2Utils.getAdvanceSearchFilterHeaderString(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch())
+            val priceHeaderText= context.resources.getString(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
+            val advanceSearchFilterHeaderText = FlightV2Utils.getAdvanceSearchFilterHeaderString(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch(), priceHeaderText)
             if (showAdvanceSearchFilterHeader() && Strings.isNotEmpty(advanceSearchFilterHeaderText)) {
                 advanceSearchFilterHeader.visibility = View.VISIBLE
-                headerDivider.visibility = View.VISIBLE
                 advanceSearchFilterHeader.text = advanceSearchFilterHeaderText
-                advanceSearchFilterHeader.contentDescription = FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(context, isShowOnlyNonStopSearch(), isShowOnlyRefundableSearch())
+                advanceSearchFilterHeader.contentDescription = advanceSearchFilterHeaderText
+                priceHeader.visibility = View.GONE
             } else {
                 advanceSearchFilterHeader.visibility = View.GONE
-                headerDivider.visibility = View.GONE
+                priceHeader.text = priceHeaderText
+                priceHeader.visibility = View.VISIBLE
             }
         }
     }
 
     inner class AllFlightsHeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root)
-
-    inner class AllFlightsPricingHeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root)
 
     inner class PackageBannerHeaderViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
         var packageBannerWidget = root as PackageBannerWidget

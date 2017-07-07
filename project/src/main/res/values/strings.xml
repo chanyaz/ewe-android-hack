@@ -781,9 +781,9 @@
     <string name="total_from">Total from</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">Prices roundtrip per person</string>
+    <string name="prices_roundtrip_label">Prices roundtrip, per person.</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">Prices one-way per person</string>
+    <string name="prices_oneway_label">Prices one-way, per person.</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Prices roundtrip, per person, from</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -3801,17 +3801,11 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Operated by {operatingairlinename}</string>
     <!-- Header text on flight srp when nonstop and refundable both filters are selected in advance search -->
-    <string name="flight_nonstop_refundable_search_header">• \u0020Nonstop\u0020 • \u0020Refundable\u0020 •</string>
+    <string name="flight_nonstop_refundable_search_header">Showing &lt;b&gt;nonstop&lt;/b&gt; and &lt;b&gt;refundable&lt;/b&gt; flights.\u0020</string>
     <!-- Header text on flight srp when only nonstop filter is selected in advance search -->
-    <string name="flight_nonstop_search_header">• \u0020Nonstop\u0020 •</string>
+    <string name="flight_nonstop_search_header">Showing &lt;b&gt;nonstop&lt;/b&gt; flights.\u0020</string>
     <!-- Header text on flight srp when only refundable filter is selected in advance search -->
-    <string name="flight_refundable_search_header">• \u0020Refundable\u0020 •</string>
-    <!-- Header text on flight srp when only refundable filter is selected in advance search Example: Showing Refundable flights only-->
-    <string name="advancedSearch_header_refundable_contDesc">Showing Refundable flights only</string>
-    <!-- Header text on flight srp when only non stop filter is selected in advance search Example: Showing NonStop flights only-->
-    <string name="advancedSearch_header_nonStop_contDesc">Showing NonStop flights only</string>
-    <!-- Header text on flight srp when both nonstop and refundable filter are selected in advance search Example: Showing NonStop Refundable flights only-->
-    <string name="advancedSearch_header_nonStop_refundable_contDesc">Showing NonStop Refundable flights only</string>
+    <string name="flight_refundable_search_header">Showing &lt;b&gt;refundable&lt;/b&gt; flights.\u0020</string>
 
     <!-- Accessibility announcement when showing searching/loading screen -->
     <string name="accessibility_announcement_searching_flights">Searching for flights. Please wait.</string>
