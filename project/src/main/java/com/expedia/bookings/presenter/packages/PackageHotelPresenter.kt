@@ -205,8 +205,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_HOTEL)
-
+        
         resultsPresenter.viewModel.hotelResultsObservable.subscribe {
+            bundleSlidingWidget.bundleOverViewWidget.viewModel.hotelResultsObservable.onNext(Unit)
             bindData()
         }
 
