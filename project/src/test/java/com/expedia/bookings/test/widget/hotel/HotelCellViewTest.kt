@@ -15,6 +15,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -137,7 +138,6 @@ class HotelCellViewTest {
     }
 
     @Test fun testEarnMessaging() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
 
         val hotel = makeHotel()
         givenHotelWithFreeCancellation(hotel)
@@ -146,7 +146,9 @@ class HotelCellViewTest {
 
         hotelViewHolder.bindHotelData(hotel)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.hotelPriceTopAmenity.topAmenityTextView.visibility)
-        Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
+        }
     }
 
     private fun makeHotel(): Hotel {

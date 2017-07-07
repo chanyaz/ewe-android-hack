@@ -323,39 +323,41 @@ class HotelDetailViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessagePriceIsShownWithDecimalPoints() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320.56")
         vm.hotelOffersSubject.onNext(offer1)
-        assertTrue(vm.earnMessageVisibilityObservable.value)
-        assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(vm.earnMessageVisibilityObservable.value)
+            assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
+        }
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessagePriceIsShownWithoutDecimalPoints() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         loyaltyPriceInfo("320")
         vm.hotelOffersSubject.onNext(offer1)
-        assertTrue(vm.earnMessageVisibilityObservable.value)
-        assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(vm.earnMessageVisibilityObservable.value)
+            assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
+        }
     }
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY, MultiBrand.AIRASIAGO,
             MultiBrand.VOYAGES, MultiBrand.WOTIF, MultiBrand.LASTMINUTE, MultiBrand.EBOOKERS))
     fun earnMessagePointsIsShown() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 1000, 1320), null), true)
         chargeableRateInfo.loyaltyInfo = loyaltyInfo
         vm.hotelOffersSubject.onNext(offer1)
-        assertTrue(vm.earnMessageVisibilityObservable.value)
-        assertEquals("Earn 1,320 points", vm.earnMessageObservable.value.toString())
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(vm.earnMessageVisibilityObservable.value)
+            assertEquals("Earn 1,320 points", vm.earnMessageObservable.value.toString())
+        }
     }
 
     @Test fun earnMessagePointsIsNotShown() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 100, 420), null), true)

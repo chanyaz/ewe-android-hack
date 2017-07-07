@@ -9,6 +9,7 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
@@ -185,21 +186,19 @@ class HotelRoomRateViewModelTest {
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ, MultiBrand.CHEAPTICKETS, MultiBrand.TRAVELOCITY))
     fun earnMessageIsShown() {
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_enabled.json")
         UserLoginTestUtil.setupUserAndMockLogin(UserLoginTestUtil.mockUser())
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(null, PriceEarnInfo(Money("320", "USD"), Money("0", "USD"), Money("320", "USD"))), true)
         hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo
         setupNonSoldOutRoomUnderTest()
-
-
-        assertTrue(sut.collapsedEarnMessageVisibilityObservable.value)
-        assertEquals("Earn $320", sut.collapsedEarnMessageObservable.value.toString())
+        if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+            assertTrue(sut.collapsedEarnMessageVisibilityObservable.value)
+            assertEquals("Earn $320", sut.collapsedEarnMessageObservable.value.toString())
+        }
     }
 
     @Test
     fun earnMessageIsNotShown() {
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_with_hotel_earn_messaging_disabled.json")
         val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), true)
         hotelRoomResponse.rateInfo.chargeableRateInfo.loyaltyInfo = loyaltyInfo

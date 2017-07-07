@@ -19,7 +19,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.user.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -41,7 +40,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.testrule.ServicesRule;
 import com.expedia.bookings.text.HtmlCompat;
-import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
@@ -463,14 +461,13 @@ public class HotelViewModelTest {
 		givenIsSponsoredListing(true);
 		setupSystemUnderTest();
 
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage);
-
 		PointOfSaleTestConfiguration
 			.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json", false);
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		assertTrue(pos.isEarnMessageEnabledForHotels());
-
-		assertTrue(vm.getShowEarnMessage());
+		if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
+			assertTrue(vm.getShowEarnMessage());
+		}
 		assertTrue(!vm.getTopAmenityTitle().isEmpty());
 	}
 

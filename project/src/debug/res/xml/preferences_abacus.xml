@@ -17,15 +17,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="13179"
-            android:layout="@layout/preference"
-            android:title="Hotel Loyalty Earn Message - 13179" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="13277"
             android:layout="@layout/preference"
             android:title="HSR Urgency Message - 13277" />

@@ -185,7 +185,7 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean shouldShowPackageIncludesView();
 
-	boolean forceShowHotelLoyaltyEarnMessage();
+	boolean showHotelLoyaltyEarnMessage();
 
 	boolean shouldShowUserReview();
 

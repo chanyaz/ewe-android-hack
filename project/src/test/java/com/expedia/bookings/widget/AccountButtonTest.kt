@@ -135,22 +135,6 @@ class AccountButtonTest {
 
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun testSetLoginTextAndContentDescriptionNoEarnMessageNotInBucket() {
-        val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
-
-        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
-        val rewardsInfo = accountButton.getRewardsForLOB(LineOfBusiness.HOTELS)
-        rewardsInfo.totalAmountToEarn = null
-        rewardsInfo.totalPointsToEarn = 12f
-        val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
-        accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
-        val rewardsText = accountButton.mLoginTextView.text.toString()
-        assertEquals(expectedText, rewardsText)
-    }
-
-    @Test
-    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSetLoginTextAndContentDescriptionWhenPointsAndAmountZero() {
         val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
 
@@ -159,7 +143,6 @@ class AccountButtonTest {
         rewardsInfo.totalAmountToEarn = Money("0", "USD")
         rewardsInfo.totalPointsToEarn = 0f
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
@@ -175,7 +158,6 @@ class AccountButtonTest {
         rewardsInfo.totalAmountToEarn = null
         rewardsInfo.totalPointsToEarn = 12f
         val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_TEMPLATE).put("reward", "12" ).format().toString()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
@@ -191,7 +173,6 @@ class AccountButtonTest {
         rewardsInfo.totalAmountToEarn = Money("12", "USD")
         rewardsInfo.totalPointsToEarn = 0f
         val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_TEMPLATE).put("reward", "$12" ).format().toString()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
@@ -207,7 +188,6 @@ class AccountButtonTest {
         rewardsInfo.totalAmountToEarn = null
         rewardsInfo.totalPointsToEarn = 0f
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
@@ -220,7 +200,6 @@ class AccountButtonTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         val rewardsInfo = null
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
@@ -230,7 +209,6 @@ class AccountButtonTest {
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testShowLoginButtonTextNoEarnMessage() {
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.showLoginButtonText(LineOfBusiness.CARS)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         assertEquals(expectedText, rewardsText)
@@ -244,7 +222,6 @@ class AccountButtonTest {
         val rewardsInfo = accountButton.getRewardsForLOB(LineOfBusiness.HOTELS)
         rewardsInfo.totalPointsToEarn = 0f
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.setLoginTextAndContentDescription(LineOfBusiness.HOTELS, rewardsInfo)
         val rewardsText = accountButton.mLoginTextView.text.toString()
         accountButton.showLoginButtonText(LineOfBusiness.HOTELS)
@@ -319,7 +296,6 @@ class AccountButtonTest {
     fun testSignInBackgroundWithNoRewards() {
         Mockito.`when`(context.getResources().getBoolean(R.bool.tablet)).thenReturn(false)
         Db.getTripBucket().clear()
-        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelLoyaltyEarnMessage)
         accountButton.bind(false, false, null, LineOfBusiness.HOTELS)
         val loginContainer = accountButton.findViewById(R.id.account_login_container);
         val shadowDrawable = Shadows.shadowOf(loginContainer.background);

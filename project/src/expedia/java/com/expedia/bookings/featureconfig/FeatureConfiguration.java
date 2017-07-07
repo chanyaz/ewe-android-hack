@@ -410,8 +410,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean forceShowHotelLoyaltyEarnMessage() {
-		return false;
+	public boolean showHotelLoyaltyEarnMessage() {
+		return true;
 	}
 
 	@Override
