@@ -12,12 +12,18 @@ import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.pagemodels.hotels.HotelScreen;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
 public class HotelResultsPresenterTest extends HotelTestCase {
@@ -68,6 +74,24 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewWithTextIsDisplayedAtPosition(10, R.id.urgency_message, "Sold Out");
 	}
 
+	@Test
+	public void testFilterBtn() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+
+		SearchScreen.searchEditText().perform(typeText("SFO"));
+		SearchScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		SearchScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		SearchScreen.searchButton().perform(click());
+		HotelScreen.mapFab().perform(click());
+		onView(withId(R.id.filter_btn)).perform(click());
+		onView(allOf(withId(R.id.hotel_filter_rating_four), isDescendantOfA(withId(R.id.hotel_filter_view)))).perform(click());
+		onView(allOf(withId(R.id.hotel_filter_rating_two), isDescendantOfA(withId(R.id.hotel_filter_view)))).perform(click());
+		pressBack();
+		assertViewWithTextIsDisplayed(R.id.filter_count_text, "2");
+		onView(allOf(withId(R.id.filter_text), isDescendantOfA(withId(R.id.filter_btn)))).check(matches(isDisplayed()));
+	}
+
 	private void assertViewNotDisplayedAtPosition(int position, int id) {
 		HotelScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
@@ -84,11 +108,5 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		HotelScreen.hotelResultsList().check(
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
-	}
-
-	private void assertViewWithTextIsNotDisplayedAtPosition(int position, int id, String text) {
-		HotelScreen.hotelResultsList().check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), not(isDisplayed()), withText(text)))));
 	}
 }

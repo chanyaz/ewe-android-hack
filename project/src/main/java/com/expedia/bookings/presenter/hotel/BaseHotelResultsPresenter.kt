@@ -281,7 +281,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val listResultsObserver = endlessObserver<HotelSearchResponse> { response ->
         hideMapLoadingOverlay()
         adapter.resultsSubject.onNext(response)
-        filterMenuItem.isVisible = getLineOfBusiness() == LineOfBusiness.PACKAGES
+        filterMenuItem.isVisible = getLineOfBusiness() == LineOfBusiness.PACKAGES || getLineOfBusiness() == LineOfBusiness.HOTELS
         // show fab button always in case of AB test or shitty device
         if (ExpediaBookingApp.isDeviceShitty()) {
             fab.visibility = View.VISIBLE
