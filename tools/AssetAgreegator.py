@@ -40,7 +40,7 @@ else:
     if not os.path.exists(destination):
         os.makedirs(destination)
 
-    fileExtensions = ("png", "jpg", "jpeg", "xml", "9.png")
+    fileExtensions = ("png", "jpg", "jpeg", "xml", "9.png", "webp")
     postfixes = ("", "xxxhdpi", "xxhdpi", "xhdpi", "hdpi", "mdpi", "ldpi", "xxxhdpi-v21", "xxhdpi-v21", "xhdpi-v21", "hdpi-v21", "mdpi-v21", "ldpi-v21", "sw600dp-xhdpi", "sw600dp-xxhdpi")
 
     for dpi in postfixes:

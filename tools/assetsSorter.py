@@ -27,7 +27,7 @@ print("")
 if os.path.exists(destPath):
     shutil.rmtree(destPath)
 postfixes=["","xxxhdpi","xxhdpi","xhdpi","hdpi","mdpi","ldpi","xxxhdpi-v21","xxhdpi-v21","xhdpi-v21","hdpi-v21","mdpi-v21","ldpi-v21","sw600dp-xhdpi","sw600dp-xxhdpi"]
-fileExtensions = ("png", "jpg", "jpeg", "xml", "9.png")
+fileExtensions = ("png", "jpg", "jpeg", "xml", "9.png", "webp")
 delim="["
 
 files = [ f for f in os.listdir(sourcePath) if os.path.isfile(os.path.join(sourcePath,f)) ]
