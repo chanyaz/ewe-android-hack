@@ -4759,9 +4759,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightSearchFormValidation);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRetainSearchParams);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm);
-		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_advance_search_on_srp)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		s.track();
 	}
 
@@ -5012,8 +5010,7 @@ public class OmnitureTracking {
 		if (searchTrackingData.getFlightCabinClass() != null) {
 			str += '|' + FlightServiceClassType.getCabinClassTrackCode(searchTrackingData.getFlightCabinClass());
 		}
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppFlightAdvanceSearch,
-			R.string.preference_advance_search_on_srp)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)) {
 			if (searchTrackingData.getNonStopFlight() != null && searchTrackingData.getNonStopFlight()) {
 				str += "|Dir";
 			}

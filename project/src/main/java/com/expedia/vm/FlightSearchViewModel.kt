@@ -91,7 +91,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
 
         if (!((FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) ||
-                (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)))) {
+                (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)))) {
             Observable.combineLatest(formattedOriginObservable, formattedDestinationObservable, dateSetObservable, {flyFrom, flyTo, date ->
                 object {
                     val flyingFrom = flyFrom

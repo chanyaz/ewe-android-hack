@@ -39,7 +39,6 @@ class FlightAdvanceSearchViewModelTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Packages)
-        SettingUtils.save(activity, R.string.preference_advance_search_on_srp, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
         Ui.getApplication(activity).defaultFlightComponents()
         widget = LayoutInflater.from(activity).inflate(R.layout.flight_advanced_search_widget,

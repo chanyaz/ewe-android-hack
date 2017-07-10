@@ -50,7 +50,7 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
 
     override fun showAdvanceSearchFilterHeader(): Boolean {
         return !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-                FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)
+                Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
     }
 
     override fun isShowOnlyNonStopSearch(): Boolean {

@@ -44,7 +44,6 @@ import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
 import com.expedia.vm.flights.FlightAdvanceSearchViewModel;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
@@ -74,6 +73,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void checkViewDefaultState() {
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		Toolbar toolbar = (Toolbar) widget.findViewById(R.id.search_toolbar);
 		assertEquals(toolbar.getVisibility(), View.VISIBLE);
 		TabLayout tab = (TabLayout) widget.findViewById(R.id.tabs);
@@ -99,6 +99,7 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testWidgetsDefaultText() {
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		ViewPager viewpager = (ViewPager) widget.findViewById(R.id.viewpager);
 		String tabText = viewpager.getAdapter().getPageTitle(0).toString();
 		assertEquals(tabText, activity.getResources().getString(R.string.flights_round_trip_label));
@@ -289,7 +290,6 @@ public class FlightSearchPresenterTest {
 
 	@Test
 	public void testFlightAdvanceSearchWidget() {
-		SettingUtils.save(activity, R.string.preference_advance_search_on_srp, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch);
 		Ui.getApplication(activity).defaultFlightComponents();
 		widget = (FlightSearchPresenter) LayoutInflater.from(activity).inflate(R.layout.test_flight_search_presenter,

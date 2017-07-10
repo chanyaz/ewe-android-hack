@@ -111,7 +111,6 @@ class FlightListAdapterTest {
     @Test
     fun flightResultsAdvanceSearchFilterHeader() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
-        SettingUtils.save(activity, R.string.preference_advance_search_on_srp, true)
         isRoundTripSubject.onNext(true)
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()

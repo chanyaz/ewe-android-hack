@@ -70,7 +70,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
 
     val isFlightAdvanceSearchTestEnabled = !PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
-            FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)
+            Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
