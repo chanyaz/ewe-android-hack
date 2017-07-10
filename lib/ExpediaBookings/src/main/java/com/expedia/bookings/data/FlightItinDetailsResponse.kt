@@ -27,27 +27,27 @@ class FlightItinDetailsResponse: AbstractItinDetailsResponse() {
     }
 
     fun getOutboundSharableDetailsURL(): String? {
-        return getOutboundLeg()?.sharableFlightLegURL.replace("/api/", "/m/")
+        return getOutboundLeg()?.sharableFlightLegURL?.replace("/api/", "/m/")
     }
 
     fun getInboundSharableDetailsURL(): String? {
-        return getInboundLeg()?.sharableFlightLegURL.replace("/api/", "/m/")
+        return getInboundLeg()?.sharableFlightLegURL?.replace("/api/", "/m/")
     }
 
     fun getOutboundDepartureDate(): String? {
-        return getOutboundLeg()?.segments?.get(0)?.departureTime?.localizedShortDate
+        return getOutboundLeg()?.segments?.firstOrNull()?.departureTime?.localizedShortDate
     }
 
     fun getInboundArrivalDate(): String? {
-        val size = getInboundLeg()?.segments?.size
-        return getInboundLeg()?.segments?.get(size - 1)?.arrivalTime?.localizedShortDate
+        val size = getInboundLeg()?.segments?.size ?: 1
+        return getInboundLeg()?.segments?.getOrNull(size - 1)?.arrivalTime?.localizedShortDate
     }
 
-    private fun getOutboundLeg(): Flight.Leg {
-        return responseData?.flights?.get(0)?.legs?.get(0)
+    private fun getOutboundLeg(): Flight.Leg? {
+        return responseData.flights.firstOrNull()?.legs?.firstOrNull()
     }
 
-    private fun getInboundLeg(): Flight.Leg {
-        return responseData?.flights?.get(0)?.legs?.get(1)
+    private fun getInboundLeg(): Flight.Leg? {
+        return responseData.flights.firstOrNull()?.legs?.getOrNull(1)
     }
 }
