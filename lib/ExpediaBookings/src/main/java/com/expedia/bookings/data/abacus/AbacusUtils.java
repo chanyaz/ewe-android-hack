@@ -94,6 +94,7 @@ public class AbacusUtils {
 
 	// Packages Tests
 	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
+	public static final int EBAndroidAppPackagesMidApi = 14856;
 
 	// Account
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
@@ -204,6 +205,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp);
 		testIDs.add(EBAndroidPopulateCardholderName);
 		testIDs.add(EBAndroidAppSecureCheckoutIcon);
+		testIDs.add(EBAndroidAppPackagesMidApi);
 		return testIDs;
 	}
 

@@ -123,6 +123,7 @@
     <string name="preference_new_launchscreen_nav">preference_new_launchscreen_nav</string>
     <string name="preference_populate_cardholder_name">preference_populate_cardholder_name</string>
     <string name="preference_enable_secure_icon">preference_enable_secure_icon</string>
+    <string name="preference_packages_mid_api">preference_packages_mid_api</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
