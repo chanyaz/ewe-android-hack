@@ -48,8 +48,6 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
     lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
 
-    var memberDealsSearch: Boolean = false
-
     val params = HotelSearchParams()
 
     private val lobToolbar: LobToolbarWidget by bindView(R.id.lob_toolbar)

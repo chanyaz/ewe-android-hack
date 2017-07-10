@@ -6,7 +6,7 @@ import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.vm.hotel.HotelViewModel
 
 
-class HotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCellViewHolder(root, width) {
+class HotelCellViewHolder(root: ViewGroup) : AbstractHotelCellViewHolder(root) {
 
     override fun createHotelViewModel(context: Context): HotelViewModel {
         return HotelViewModel(context)

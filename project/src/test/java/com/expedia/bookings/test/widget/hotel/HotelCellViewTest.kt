@@ -50,7 +50,7 @@ class HotelCellViewTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.Theme_Hotels_Default)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
-        hotelViewHolder = HotelCellViewHolder(hotelCellView, 200)
+        hotelViewHolder = HotelCellViewHolder(hotelCellView)
         pref = PreferenceManager.getDefaultSharedPreferences(getContext())
     }
 

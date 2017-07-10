@@ -14,6 +14,8 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -41,7 +43,7 @@ import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) :
+abstract class AbstractHotelCellViewHolder(val root: ViewGroup) :
         RecyclerView.ViewHolder(root), View.OnClickListener {
 
     abstract fun createHotelViewModel(context: Context): HotelViewModel
@@ -108,13 +110,20 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
 
         val url = viewModel.getHotelLargeThumbnailUrl()
         if (url.isNotBlank()) {
-            PicassoHelper.Builder(itemView.context)
-                    .setPlaceholder(R.drawable.results_list_placeholder)
-                    .setError(R.drawable.room_fallback)
-                    .setCacheEnabled(false)
-                    .setTarget(target).setTag(PICASSO_TAG)
-                    .build()
-                    .load(HotelMedia(url).getBestUrls(width / 2))
+
+            var onLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+            onLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+                PicassoHelper.Builder(itemView.context)
+                        .setPlaceholder(R.drawable.results_list_placeholder)
+                        .setError(R.drawable.room_fallback)
+                        .setCacheEnabled(false)
+                        .setTarget(target).setTag(PICASSO_TAG)
+                        .build()
+                        .load(HotelMedia(url).getBestUrls(root.width / 2))
+                root.viewTreeObserver.removeOnGlobalLayoutListener(onLayoutListener)
+            }
+
+            root.viewTreeObserver.addOnGlobalLayoutListener(onLayoutListener)
         }
 
         cardView.contentDescription = viewModel.getHotelContentDesc()

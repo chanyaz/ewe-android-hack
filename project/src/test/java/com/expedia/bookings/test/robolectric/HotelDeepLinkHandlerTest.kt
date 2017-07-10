@@ -1,162 +1,112 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.presenter.hotel.HotelPresenter
-import com.expedia.ui.HotelActivity
-import com.expedia.vm.HotelDeepLinkHandler
+import com.expedia.bookings.data.HotelSearchParams.SearchType
+import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
+import com.expedia.bookings.hotel.util.HotelSuggestionManager
+import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.testutils.builder.TestSuggestionV4Builder
 import org.joda.time.LocalDate
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import rx.Observer
-import rx.observers.TestObserver
+import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class HotelDeepLinkHandlerTest {
+    val testGenericSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
+    val testHotelIdSearchSubscriber = TestSubscriber.create<HotelSearchParams>()
+    val testErrorSearchSubscriber = TestSubscriber.create<Unit>()
 
-    lateinit var testDeepLinkSearchObserver: TestObserver<HotelSearchParams?>
-    lateinit var testSuggestionLookupObserver: TestObserver<Pair<String, Observer<List<SuggestionV4>>>>
-    lateinit var testCurrentLocationSearchObserver: TestObserver<HotelSearchParams?>
-    lateinit var testSearchSuggestionObserver: TestObserver<SuggestionV4>
-    val hotelPresenter = Mockito.mock(HotelPresenter::class.java)
+    lateinit var handlerUnderTest: HotelDeepLinkHandler
+    private val testSuggestionManager = TestHotelSuggestionManager(Mockito.mock(SuggestionV4Services::class.java))
+
+    private val expectedCurrentLocationText = RuntimeEnvironment.application.getString(R.string.current_location)
 
     @Before fun setup() {
-        testDeepLinkSearchObserver = TestObserver<HotelSearchParams?>()
-        testSuggestionLookupObserver = TestObserver<Pair<String, Observer<List<SuggestionV4>>>>()
-        testCurrentLocationSearchObserver = TestObserver<HotelSearchParams?>()
-        testSearchSuggestionObserver = TestObserver<SuggestionV4>()
+        handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testSuggestionManager)
+        handlerUnderTest.hotelSearchDeepLinkSubject.subscribe(testGenericSearchSubscriber)
+        handlerUnderTest.hotelIdDeepLinkSubject.subscribe(testHotelIdSearchSubscriber)
+        handlerUnderTest.deepLinkInvalidSubject.subscribe(testErrorSearchSubscriber)
     }
 
     @Test fun handleCurrentLocationDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
+        val suggestion = TestSuggestionV4Builder().type(SearchType.MY_LOCATION.name)
+                .coordinates(42.0, -81.0).build()
 
-        // 1) create suggestionv4 with type MY_LOCATION, lat/lon populated to something other than 0/0
-        val suggestion = SuggestionV4()
-        suggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.MY_LOCATION.name
-        suggestion.coordinates = SuggestionV4.LatLng()
-        suggestion.coordinates.lat = 42.0
-        suggestion.coordinates.lng = -81.0
-
-        // 2) create HotelSearchParams from suggestionv4 + dates
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
-
-        // 3) call handleNavigationViaDeepLink with hotelSearchParams
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
-        // 4) verify
-        testCurrentLocationSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
-        Assert.assertEquals(0, testDeepLinkSearchObserver.onNextEvents.size)
-        Assert.assertEquals(0, testSearchSuggestionObserver.onNextEvents.size)
+
+        assertNotNull(testGenericSearchSubscriber.onNextEvents[0])
+        val returnedSuggestion = testGenericSearchSubscriber.onNextEvents[0].suggestion
+
+        assertEquals(expectedCurrentLocationText, returnedSuggestion.regionNames.displayName)
+        assertEquals(expectedCurrentLocationText, returnedSuggestion.regionNames.shortName)
+
+        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
+        assertEquals(0, testErrorSearchSubscriber.onNextEvents.size)
     }
 
 	@Test fun handleSpecificHotelDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
-
-        // 1) create suggestionv4 with specific hotel
-        val suggestion = SuggestionV4()
-        suggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.HOTEL.name
-        suggestion.hotelId = "1234"
-        suggestion.gaiaId = "1234"
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "Hotel 1234"
-        suggestion.regionNames.shortName = "Hotel 1234"
-
-        // 2) create HotelSearchParams from suggestionv4 + dates
+        val suggestion = TestSuggestionV4Builder().type(SearchType.HOTEL.name)
+                .hotelId("1234").gaiaId("1234")
+                .regionDisplayName("Hotel 1234").regionShortName("Hotel 1234").build()
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        // 3) call handleNavigateionDeepLink
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
-        // 4) verify
-        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.DETAILS)
-        Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
-        Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
-        testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
+        assertEquals(0, testGenericSearchSubscriber.onNextEvents.size)
+        assertEquals(0, testErrorSearchSubscriber.onNextEvents.size)
+        testHotelIdSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
 	}
 
 	@Test fun handleLocationDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
+        val suggestion = TestSuggestionV4Builder().type(SearchType.CITY.name)
+                .regionDisplayName("Portland, ME").regionShortName("Portland, ME")
+                .coordinates(0.0, 0.0).build()
 
-        // 1) create suggestionv4 with regionName
-        val suggestion = SuggestionV4()
-        suggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "Portland, ME"
-        suggestion.regionNames.shortName = "Portland, ME"
-        suggestion.coordinates = SuggestionV4.LatLng()
-        suggestion.coordinates.lat = 0.0
-        suggestion.coordinates.lng = 0.0
-
-        // 2) create HotelSearchParams from suggestionv4 + dates
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        // 3) call handleNavigationDeepLink
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        testSuggestionManager.suggestionReturnSubject.onNext(suggestion)
 
-        // 4) verify
-        Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
-        Assert.assertEquals(1, testSuggestionLookupObserver.onNextEvents.size)
-        Assert.assertEquals("Portland, ME", testSuggestionLookupObserver.onNextEvents[0].first)
-        Assert.assertEquals(0, testDeepLinkSearchObserver.onNextEvents.size)
-        testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
+        assertEquals(1, testGenericSearchSubscriber.onNextEvents.size)
+        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
 	}
 
 	@Test fun handleLatLonDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
+        val suggestion = TestSuggestionV4Builder().type(SearchType.ADDRESS.name)
+                .regionDisplayName("(44.761827,-85.600372)")
+                .regionShortName("(44.761827,-85.600372)")
+                .coordinates(44.761827, -85.600372).build()
 
-        // 1) create suggestionv4 with regionName
-        val suggestion = SuggestionV4()
-        suggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.ADDRESS.name
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "(44.761827,-85.600372)"
-        suggestion.regionNames.shortName = "(44.761827,-85.600372)"
-        suggestion.coordinates = SuggestionV4.LatLng()
-        suggestion.coordinates.lat = 44.761827
-        suggestion.coordinates.lng = -85.600372
-
-        // 2) create HotelSearchParams from suggestionv4 + dates
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
 
-        // 3) call handleNavigateionDeepLink
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
-        // 4) verify
-        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.RESULTS)
-        Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
-        Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
-        testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
+        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
+        testGenericSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
 	}
 
 	@Test fun handleAirAttachDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
+        val suggestion = TestSuggestionV4Builder().type(SearchType.FREEFORM.name)
+                .regionShortName("La Paz").regionDisplayName("La Paz")
+                .gaiaId("5678").build()
 
-        // 1) create suggestionv4 with regionName and gaiaId
-        val suggestion = SuggestionV4()
-        suggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.FREEFORM.name
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "La Paz"
-        suggestion.regionNames.shortName = "La Paz"
-        suggestion.gaiaId = "5678"
-
-        // 2) create HotelSearchParams from suggestionv4 + dates
         val hotelSearchParams = createHotelSearchParamsForSuggestion(suggestion)
-
-        // 3) call handleNavigateionDeepLink
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
+        testSuggestionManager.suggestionReturnSubject.onNext(suggestion)
 
-        // 4) verify
-        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.RESULTS)
-        Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
-        Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
-        testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
+        assertEquals(0, testHotelIdSearchSubscriber.onNextEvents.size)
+        testGenericSearchSubscriber.assertReceivedOnNext(listOf(hotelSearchParams))
 	}
 
     private fun createHotelSearchParamsForSuggestion(suggestion: SuggestionV4): HotelSearchParams {
@@ -167,5 +117,11 @@ class HotelDeepLinkHandlerTest {
                 .adults(1)
                 .startDate(checkInDate)
                 .endDate(checkOutDate).build() as HotelSearchParams
+    }
+
+    private class TestHotelSuggestionManager(service: SuggestionV4Services) : HotelSuggestionManager(service) {
+        override fun fetchHotelSuggestions(context: Context, regionName: String) {
+            //do nothing for test
+        }
     }
 }

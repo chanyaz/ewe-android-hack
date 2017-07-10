@@ -13,7 +13,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.vm.packages.PackageHotelViewModel
 
-class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCellViewHolder(root, width) {
+class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCellViewHolder(root) {
     val unrealDealMessageContainer: LinearLayout by root.bindView(R.id.unreal_deal_container)
     val unrealDealMessage: TextView by root.bindView(R.id.unreal_deal_message)
     val priceIncludesFlightsDivider: View by root.bindView(R.id.price_includes_flights_divider)

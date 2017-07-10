@@ -6,7 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.hotel.provider.HotelSearchProvider
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.testutils.JSONResourceReader
@@ -26,7 +26,7 @@ class HotelResultsViewModelTest {
     val context = RuntimeEnvironment.application
 
     lateinit var sut: HotelResultsViewModel
-    val mockSearchProvider = HotelSearchProvider(null)
+    val mockSearchProvider = HotelSearchManager(null)
 
     val happyParams = makeHappyParams()
     val filterParams = makeFilterParams()

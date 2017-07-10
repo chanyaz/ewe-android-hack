@@ -22,6 +22,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelItinDetailsResponse
+import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -30,7 +31,9 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.hotel.provider.HotelSearchProvider
+import com.expedia.bookings.hotel.deeplink.HotelDeepLinkHandler
+import com.expedia.bookings.hotel.util.HotelSearchManager
+import com.expedia.bookings.hotel.util.HotelSuggestionManager
 import com.expedia.bookings.hotel.vm.HotelResultsViewModel
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -100,6 +103,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     lateinit var itinTripServices: ItinTripServices
         @Inject set
 
+    lateinit var hotelSearchManager: HotelSearchManager
+        @Inject set
+
     val eventName = ClientLogConstants.REGULAR_SEARCH_RESULTS
 
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
@@ -122,8 +128,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val searchStub: ViewStub by bindView(R.id.search_stub)
     val searchPresenter: HotelSearchPresenter by lazy {
         val presenter = searchStub.inflate() as HotelSearchPresenter
-        presenter.searchViewModel = HotelSearchViewModel(context)
-        presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        val searchViewModel = HotelSearchViewModel(context, hotelSearchManager)
+        presenter.searchViewModel = searchViewModel
+
+        searchViewModel.genericSearchSubject.subscribe { params -> handleGenericSearch(params) }
+        searchViewModel.hotelIdSearchSubject.subscribe { params -> handleHotelIdSearch(params) }
+        searchViewModel.rawTextSearchSubject.subscribe { params -> handleGeoSearch(params) }
+
         presenter
     }
 
@@ -156,7 +167,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewModel = HotelResultsViewModel(getContext(), HotelSearchProvider(hotelServices))
+        presenter.viewModel = HotelResultsViewModel(getContext(), hotelSearchManager)
 
         presenter.viewModel.searchingForHotelsDateTime.subscribe {
             searchTrackingBuilder.markSearchApiCallMade()
@@ -384,7 +395,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
                 newHotelSearchParams.suggestion.type = "GOOGLE_SUGGESTION_SEARCH"
                 // trigger search with selected geoLocation
-                searchObserver.onNext(newHotelSearchParams)
+                handleGenericSearch(newHotelSearchParams)
             }
 
             if (geoResults.count() > 0) {
@@ -425,6 +436,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         if (screen != Screen.DETAILS && screen != Screen.RESULTS) {
             show(searchPresenter)
         }
+    }
+
+    fun handleDeepLink(params: HotelSearchParams?) {
+        deepLinkHandler.handleNavigationViaDeepLink(params)
     }
 
     override fun onFinishInflate() {
@@ -834,32 +849,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
-        hotelSearchParams = params
-        if (searchPresenter.memberDealsSearch) {
-            hotelSearchParams.sortType = "Discounts"
-            hotelSearchParams.shopWithPoints = false
-            resultsPresenter.shopWithPointsViewModel.isShopWithPointsAvailableObservable.onNext(false)
-        }
-        errorPresenter.getViewModel().paramsSubject.onNext(params)
-        if (params.suggestion.hotelId != null) {
-            HotelTracking.trackPinnedSearch()
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
-                show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
-                resultsPresenter.viewModel.paramsSubject.onNext(params)
-            } else {
-                showDetails(params.suggestion.hotelId, true)
-            }
-        } else if (params.suggestion.type.equals("RAW_TEXT_SEARCH")) {
-            // fire off geo search to resolve raw text into lat/long
-            geoCodeSearchModel.searchObserver.onNext(params)
-        } else {
-            // Hotel region search
-            show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
-            resultsPresenter.viewModel.paramsSubject.onNext(params)
-        }
-    }
-
     val goToSearchScreen: Observer<Unit> = endlessObserver {
         show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
     }
@@ -903,6 +892,36 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
 
+    fun handleGenericSearch(params: HotelSearchParams) {
+        updateSearchParams(params)
+
+        resultsPresenter.shopWithPointsViewModel.isShopWithPointsAvailableObservable.onNext(params.shopWithPoints)
+        show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+        resultsPresenter.viewModel.paramsSubject.onNext(params)
+    }
+
+    private fun handleHotelIdSearch(params: HotelSearchParams) {
+        updateSearchParams(params)
+
+        HotelTracking.trackPinnedSearch()
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPinnedSearch)) {
+            show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
+            resultsPresenter.viewModel.paramsSubject.onNext(params)
+        } else {
+            showDetails(params.suggestion.hotelId, true)
+        }
+    }
+
+    private fun handleGeoSearch(params: HotelSearchParams) {
+        updateSearchParams(params)
+        geoCodeSearchModel.searchObserver.onNext(params)
+    }
+
+    private fun updateSearchParams(params: HotelSearchParams) {
+        hotelSearchParams = params
+        errorPresenter.getViewModel().paramsSubject.onNext(params)
+    }
+
     private fun showDetails(hotelId: String, fetchOffers: Boolean) {
         if (fetchOffers) {
             loadingOverlay.visibility = View.VISIBLE
@@ -938,6 +957,34 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         } else {
             hotelServices.info(hotelSearchParams, hotelId, subject)
         }
+    }
+
+    private val deepLinkHandler: HotelDeepLinkHandler by lazy {
+        val manager = HotelSuggestionManager(Ui.getApplication(context).hotelComponent().suggestionsService())
+
+        val handler = HotelDeepLinkHandler(context, manager)
+        handler.hotelSearchDeepLinkSubject.subscribe { params ->
+            updateSearchForDeepLink(params)
+            setDefaultTransition(Screen.RESULTS)
+            handleGenericSearch(params)
+        }
+        handler.hotelIdDeepLinkSubject.subscribe { params ->
+            updateSearchForDeepLink(params)
+            setDefaultTransition(Screen.DETAILS)
+            handleHotelIdSearch(params)
+        }
+
+        handler.deepLinkInvalidSubject.subscribe {
+            setDefaultTransition(Screen.SEARCH)
+        }
+        handler
+    }
+
+    private fun updateSearchForDeepLink(params: HotelSearchParams) {
+        searchPresenter.searchViewModel.destinationLocationObserver.onNext(params.suggestion)
+        searchPresenter.selectTravelers(TravelerParams(params?.adults ?: 1, params?.children ?: emptyList(), emptyList(), emptyList()))
+        searchPresenter.searchViewModel.datesUpdated(params?.checkIn, params?.checkOut)
+        searchPresenter.selectDates(params?.checkIn, params?.checkOut)
     }
 
     override fun back(): Boolean {

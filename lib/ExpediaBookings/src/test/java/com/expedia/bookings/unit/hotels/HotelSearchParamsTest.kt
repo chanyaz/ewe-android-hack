@@ -6,14 +6,21 @@ import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class HotelSearchParamsTest {
     val maxStay = 26
     val maxRange = 329
-    val tomorrow = LocalDate.now().plusDays(1)
-    val checkoutDate = tomorrow.plusDays(2)
     val testParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
+
+    private val firstParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
+    private val secondParamBuilder = HotelSearchParams.Builder(maxStay, maxRange)
+    private val dummySuggestion = getDummySuggestion("chicago", "Chi")
+
+    private val today = LocalDate.now()
+    private val tomorrow = LocalDate.now().plusDays(1)
+    private val checkoutDate = tomorrow.plusDays(2)
 
     @Before
     fun setup() {
@@ -107,9 +114,108 @@ class HotelSearchParamsTest {
         assertTrue(newBuilder.build().isPinnedSearch())
     }
 
-    private fun getDummySuggestion(city: String, airport: String): SuggestionV4 {
+    @Test
+    fun testPrefetchNotEqual_Suggestion() {
+        val builder = HotelSearchParams.Builder(maxStay, maxRange)
+        val firstParams = builder.destination(getDummySuggestion("chicago", "Chi", "gaia1"))
+                .startDate(today).endDate(today.plusDays(1))
+                .build() as HotelSearchParams
+        val params2 = builder.destination(getDummySuggestion("chicago", "Chi", "gaia2"))
+                .startDate(today).endDate(today.plusDays(1))
+                .build() as HotelSearchParams
+
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(params2), "Error: Different suggestions expected not equal for greedy searches")
+    }
+
+    @Test
+    fun testPrefetchNotEqual_StartDates() {
+        val tomorrow = today.plusDays(1)
+
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.destination(dummySuggestion).startDate(today.plusDays(1)).endDate(today)
+
+        val firstParams = firstParamBuilder.build()
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: Different startDate expected not equal for greedy searches")
+    }
+
+    @Test
+    fun testPrefetchNotEqual_EndDates() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today.plusDays(1))
+        secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today.plusDays(2))
+
+        val firstParams = firstParamBuilder.build()
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: Different endDate expected not equal for greedy searches")
+    }
+
+    @Test
+    fun testPrefetchNotEqual_Adults() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1)
+        secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(2)
+
+        val firstParams = firstParamBuilder.build()
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: Different adult counts expected not equal for greedy searches")
+    }
+
+    @Test
+    fun testPrefetchNotEqual_Children() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .children(listOf(1))
+        secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .children(listOf(1, 1))
+
+        val firstParams = firstParamBuilder.build()
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: Different child counts expected not equal for greedy searches")
+    }
+
+    @Test
+    fun testPrefetchNotEqual_swp() {
+        firstParamBuilder.shopWithPoints(false).destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.shopWithPoints(true).destination(dummySuggestion).startDate(today).endDate(today)
+
+        val firstParams = firstParamBuilder.build()
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: SWP difference expected not equal for greedy searches")
+    }
+    
+    @Test
+    fun testPrefetchNotEqual_filterOptions() {
+        firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+        secondParamBuilder.hotelName("ADVANCED_OPTION").destination(dummySuggestion).startDate(today).endDate(today)
+
+        val firstParams = firstParamBuilder.build()
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertFalse(firstParams.equalForPrefetch(secondParamBuilder.build()), "Error: If either param has any filter value not equal for greedy")
+
+        val newfirstParams = firstParamBuilder.hotelName("ADVANCED_OPTION").build()
+        val newSecondParams = HotelSearchParams.Builder(maxStay, maxRange)
+                .destination(dummySuggestion).startDate(today).endDate(today)
+                .build() as HotelSearchParams
+        assertTrue(newSecondParams.equalForPrefetch(newSecondParams)) //sanity check
+        assertFalse(newfirstParams.equalForPrefetch(newSecondParams), "Error: If either param has any filter value not equal for greedy")
+    }
+
+    @Test
+    fun testPrefetchEqual() {
+        val firstParams = firstParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+        val secondParams = secondParamBuilder.destination(dummySuggestion).startDate(today).endDate(today)
+                .adults(1).children(listOf(1)).build() as HotelSearchParams
+
+        assertTrue(firstParams.equalForPrefetch(firstParams)) //sanity check
+        assertTrue(firstParams.equalForPrefetch(secondParams))
+
+    }
+
+    private fun getDummySuggestion(city: String, airport: String, gaiaId: String = "123"): SuggestionV4 {
         val suggestion = SuggestionV4()
-        suggestion.gaiaId = "123"
+        suggestion.gaiaId = gaiaId
         suggestion.regionNames = SuggestionV4.RegionNames()
         suggestion.regionNames.displayName = city
         suggestion.regionNames.fullName = city

@@ -128,6 +128,10 @@ public class SuggestionV4 {
 		return hotelId != null;
 	}
 
+	public boolean isRawTextSearch() {
+		return Strings.isNotEmpty(type) && type.equals("RAW_TEXT_SEARCH");
+	}
+
 	@Override
 	public int hashCode() {
 		int result = 17;

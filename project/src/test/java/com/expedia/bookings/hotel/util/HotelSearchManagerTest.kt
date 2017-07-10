@@ -1,4 +1,4 @@
-package com.expedia.bookings.hotel.provider
+package com.expedia.bookings.hotel.util
 
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
@@ -15,25 +15,25 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
-class HotelSearchProviderTest {
+class HotelSearchManagerTest {
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
-    lateinit var testProvider : HotelSearchProvider
+    lateinit var testManager: HotelSearchManager
 
     val checkInDate = LocalDate.now()
     val checkOutDate = checkInDate.plusDays(3)
 
     @Before
     fun setUp() {
-        testProvider = HotelSearchProvider(mockHotelServiceTestRule.services!!)
+        testManager = HotelSearchManager(mockHotelServiceTestRule.services!!)
     }
 
     @Test
     fun testHappy() {
         val testSuccessSub = TestSubscriber<HotelSearchResponse>()
-        testProvider.successSubject.subscribe(testSuccessSub)
+        testManager.successSubject.subscribe(testSuccessSub)
 
-        testProvider.doSearch(makeParams())
+        testManager.doSearch(makeParams())
 
         testSuccessSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testSuccessSub.assertNoTerminalEvent()
@@ -44,12 +44,12 @@ class HotelSearchProviderTest {
     @Test
     fun testError() {
         val testSuccessSub = TestSubscriber<HotelSearchResponse>()
-        testProvider.successSubject.subscribe(testSuccessSub)
+        testManager.successSubject.subscribe(testSuccessSub)
 
         val testErrorSub = TestSubscriber<ApiError>()
-        testProvider.errorSubject.subscribe(testErrorSub)
+        testManager.errorSubject.subscribe(testErrorSub)
 
-        testProvider.doSearch(makeParams("mock_error"))
+        testManager.doSearch(makeParams("mock_error"))
 
         testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testErrorSub.assertNoTerminalEvent()
@@ -62,12 +62,12 @@ class HotelSearchProviderTest {
     @Test
     fun testNoResults() {
         val testSuccessSub = TestSubscriber<HotelSearchResponse>()
-        testProvider.successSubject.subscribe(testSuccessSub)
+        testManager.successSubject.subscribe(testSuccessSub)
 
         val testErrorSub = TestSubscriber<Unit>()
-        testProvider.noResultsSubject.subscribe(testErrorSub)
+        testManager.noResultsSubject.subscribe(testErrorSub)
 
-        testProvider.doSearch(makeParams("noresults"))
+        testManager.doSearch(makeParams("noresults"))
 
         testErrorSub.awaitValueCount(1, 1, TimeUnit.SECONDS)
         testErrorSub.assertNoTerminalEvent()

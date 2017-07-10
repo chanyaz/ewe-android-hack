@@ -789,7 +789,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.visibility = View.GONE
 
             sortFaqWebView.visibility = View.GONE
-
             postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
     }

@@ -8,14 +8,14 @@ import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.hotel.provider.HotelSearchProvider
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
-class HotelResultsViewModel(context: Context, private val hotelSearchProvider: HotelSearchProvider) :
+class HotelResultsViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) :
         BaseHotelResultsViewModel(context) {
 
     // inputs
@@ -23,6 +23,8 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // outputs
+    val searchInProgressSubject = PublishSubject.create<Unit>()
+
     val filterResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
 
@@ -52,13 +54,13 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
             doSearch(newParams, true)
         })
 
-        hotelSearchProvider.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
-        hotelSearchProvider.successSubject.subscribe { response ->
+        hotelSearchManager.apiCompleteSubject.subscribe(resultsReceivedDateTimeObservable)
+        hotelSearchManager.successSubject.subscribe { response ->
             onSearchResponseSuccess(response)
         }
 
-        hotelSearchProvider.errorSubject.subscribe(errorObservable)
-        hotelSearchProvider.noResultsSubject.subscribe {
+        hotelSearchManager.errorSubject.subscribe(errorObservable)
+        hotelSearchManager.noResultsSubject.subscribe {
             var error: ApiError
             if (isFilteredSearch) {
                 error = ApiError(ApiError.Code.HOTEL_FILTER_NO_RESULTS)
@@ -72,7 +74,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
             errorObservable.onNext(error)
         }
 
-        hotelSearchProvider.noInternetSubject.subscribe {
+        hotelSearchManager.noInternetSubject.subscribe {
             val cancelFun = fun() {
                 showHotelSearchViewObservable.onNext(Unit)
             }
@@ -88,7 +90,7 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
     }
 
     fun unsubscribeSearchResponse() {
-        hotelSearchProvider.unsubscribe()
+        hotelSearchManager.unsubscribe()
     }
 
     fun getSearchParams() : HotelSearchParams? {
@@ -111,7 +113,20 @@ class HotelResultsViewModel(context: Context, private val hotelSearchProvider: H
         this.isFilteredSearch = isFilteredSearch
         updateTitles(params)
         searchingForHotelsDateTime.onNext(Unit)
-        hotelSearchProvider.doSearch(params)
+        if (isFilteredSearch && !hotelSearchManager.fetchingResults) {
+            searchInProgressSubject.onNext(Unit)
+            hotelSearchManager.doSearch(params)
+        } else {
+            val response = hotelSearchManager.fetchResponse()
+            if (response != null) {
+                onSearchResponseSuccess(response)
+            } else {
+                searchInProgressSubject.onNext(Unit)
+                if (!hotelSearchManager.fetchingResults) {
+                    hotelSearchManager.doSearch(params)
+                }
+            }
+        }
     }
 
     private fun addFilterCriteria(searchBuilder: HotelSearchParams.Builder, filterParams: UserFilterChoices) {

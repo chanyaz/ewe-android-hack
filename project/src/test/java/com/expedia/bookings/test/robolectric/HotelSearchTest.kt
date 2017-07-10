@@ -10,7 +10,9 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.user.User
 import com.expedia.bookings.data.user.UserLoyaltyMembershipInformation
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -38,17 +40,22 @@ class HotelSearchTest {
     var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
+    val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+        @Rule get
+
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     var vm: HotelSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()
 
+    lateinit var hotelSearchManager: HotelSearchManager
+
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultHotelComponents()
+        hotelSearchManager = HotelSearchManager(mockHotelServiceTestRule.services)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-
     }
 
     @Test
@@ -58,8 +65,8 @@ class HotelSearchTest {
         val expected = arrayListOf<HotelSearchParams>()
         val suggestion = getDummySuggestion()
 
-        vm = HotelSearchViewModel(activity)
-        vm.searchParamsObservable.subscribe(testSubscriber)
+        vm = HotelSearchViewModel(activity, hotelSearchManager)
+        vm.genericSearchSubject.subscribe(testSubscriber)
         vm.errorMaxRangeObservable.subscribe(errorSubscriber)
 
         // Selecting a location suggestion for search, as it is a necessary parameter for search
@@ -110,8 +117,8 @@ class HotelSearchTest {
         val suggestion = getDummySuggestion()
 
         UserLoginTestUtil.setupUserAndMockLogin(getUserWithSWPEnabled())
-        vm = HotelSearchViewModel(activity)
-        vm.searchParamsObservable.subscribe(testSubscriber)
+        vm = HotelSearchViewModel(activity, hotelSearchManager)
+        vm.genericSearchSubject.subscribe(testSubscriber)
 
         vm.shopWithPointsViewModel = ShopWithPointsViewModel(activity, paymentModel, UserLoginStateChangedModel())
         vm.destinationLocationObserver.onNext(suggestion)

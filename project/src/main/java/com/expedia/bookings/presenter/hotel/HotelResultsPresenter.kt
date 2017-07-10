@@ -88,6 +88,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         filterView.viewModel.filterByParamsObservable.subscribe { params ->
             viewModel.filterParamsSubject.onNext(params)
         }
+
+        recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
     }
 
     var viewModel: HotelResultsViewModel by notNullAndObservable { vm ->
@@ -140,7 +142,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             toolbarSubtitle.text = it
         }
 
-        vm.paramsSubject.subscribe { params -> resetForNewSearch(params) }
+        vm.paramsSubject.subscribe { newParams(it) }
+        vm.searchInProgressSubject.subscribe {  resetForNewSearch() }
+        vm.hotelResultsObservable.subscribe { show(ResultsList()) }
 
         vm.locationParamsSubject.subscribe { params ->
             showMapLoadingOverlay()
@@ -363,14 +367,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
     }
 
-    private fun resetForNewSearch(params: HotelSearchParams) {
+    private fun newParams(params: HotelSearchParams) {
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).shopWithPoints = params.shopWithPoints
-
         setMapToInitialState(params.suggestion)
-        showLoading()
-        show(ResultsList())
-
         filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
+
         filterView.viewModel.clearObservable.onNext(Unit)
         if (params.suggestion.gaiaId != null) {
             filterView.viewModel.setSearchLocationId(params.suggestion.gaiaId)
@@ -381,6 +382,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         swpEnabled = params.shopWithPoints
+    }
+
+    private fun resetForNewSearch() {
+        showLoading()
+        show(ResultsList())
     }
 
     private class UrgencyAnimation(urgencyContainer: LinearLayout, toolbarShadow: View) {

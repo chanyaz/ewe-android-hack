@@ -286,6 +286,7 @@ public class OmnitureTracking {
 			s.setEvents("event118");
 		}
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGreedySearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSuperSearch);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelAutoSuggestSameAsWeb);
 		// Send the tracking data

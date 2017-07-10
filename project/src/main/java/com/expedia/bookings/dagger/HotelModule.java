@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import com.expedia.bookings.hotel.util.HotelSearchManager;
 import com.expedia.bookings.services.ItinTripServices;
 import javax.inject.Named;
 import android.content.Context;
@@ -121,5 +122,11 @@ public final class HotelModule {
 	@HotelScope
 	HotelSearchTrackingDataBuilder provideHotelTrackingBuilder() {
 		return new HotelSearchTrackingDataBuilder();
+	}
+
+	@Provides
+	@HotelScope
+	HotelSearchManager provideHotelSearchManager(HotelServices hotelServices) {
+		return new HotelSearchManager(hotelServices);
 	}
 }

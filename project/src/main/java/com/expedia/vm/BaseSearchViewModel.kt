@@ -96,6 +96,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
             getParamsBuilder().children(update.childrenAges)
+            requiredSearchParamsObserver.onNext(Unit)
         }
     }
 

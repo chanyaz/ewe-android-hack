@@ -3,10 +3,13 @@ package com.expedia.vm
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotel.UserFilterChoices
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.hotel.util.HotelSearchManager
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.JodaUtils
@@ -18,12 +21,13 @@ import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+class HotelSearchViewModel(context: Context, private val hotelSearchManager: HotelSearchManager) : BaseSearchViewModel(context) {
 
-    val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), true)
-    val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
+    // outputs
+    val hotelIdSearchSubject = PublishSubject.create<HotelSearchParams>()
+    val rawTextSearchSubject = PublishSubject.create<HotelSearchParams>()
+    val genericSearchSubject = PublishSubject.create<HotelSearchParams>()
 
-    // Outputs
     var shopWithPointsViewModel: ShopWithPointsViewModel by notNullAndObservable {
         it.swpEffectiveAvailability.subscribe {
             getParamsBuilder().shopWithPoints(it)
@@ -31,9 +35,16 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
         @Inject set
 
+    private val hotelParamsBuilder = HotelSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange(), true)
+    private var prefetchParams: HotelSearchParams? = null
+
     // Inputs
     override var requiredSearchParamsObserver = endlessObserver<Unit> {
-        searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
+        val requiredParamsFilled = getParamsBuilder().areRequiredParamsFilled()
+        if (shouldPrefetchSearch()) {
+            prefetchSearch(getParamsBuilder().build())
+        }
+        searchButtonObservable.onNext(requiredParamsFilled)
     }
 
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
@@ -52,20 +63,9 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val searchObserver = endlessObserver<Unit> {
         if (getParamsBuilder().areRequiredParamsFilled()) {
-            if (!getParamsBuilder().hasValidDateDuration()) {
-                errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
-            } else if (!getParamsBuilder().isWithinDateRange()) {
-                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
-            } else {
-                val hotelSearchParams = getParamsBuilder().build()
-                searchParamsObservable.onNext(hotelSearchParams)
-            }
+            validateAndSearch()
         } else {
-            if (!getParamsBuilder().hasDestinationLocation()) {
-                errorNoDestinationObservable.onNext(Unit)
-            } else if (!getParamsBuilder().hasStartAndEndDates()) {
-                errorNoDatesObservable.onNext(Unit)
-            }
+            handleIncompleteParams()
         }
     }
 
@@ -142,6 +142,61 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             return getDateAccessibilityText(context.getString(R.string.select_dates), dateNightText.toString())
         }
         return dateNightText.toString()
+    }
+
+    private fun validateAndSearch() {
+        if (!getParamsBuilder().hasValidDateDuration()) {
+            errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
+        } else if (!getParamsBuilder().isWithinDateRange()) {
+            errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
+        } else {
+            handleSearch(getParamsBuilder().build())
+        }
+    }
+
+    private fun handleSearch(params: HotelSearchParams) {
+        if (params.suggestion.hotelId != null) {
+            hotelIdSearchSubject.onNext(params)
+        } else if (params.suggestion.isRawTextSearch) {
+            rawTextSearchSubject.onNext(params)
+        } else {
+            if (!params.equalForPrefetch(prefetchParams)) {
+                hotelSearchManager.doSearch(params)
+            }
+            genericSearchSubject.onNext(params)
+        }
+        prefetchParams = null
+    }
+
+    private fun handleIncompleteParams() {
+        if (!getParamsBuilder().hasDestinationLocation()) {
+            errorNoDestinationObservable.onNext(Unit)
+        } else if (!getParamsBuilder().hasStartAndEndDates()) {
+            errorNoDatesObservable.onNext(Unit)
+        }
+    }
+
+    private fun shouldPrefetchSearch() : Boolean {
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelGreedySearch)
+                && builderHasValidParams()) {
+            val params = hotelParamsBuilder.build()
+            val suggestion = params.suggestion
+
+            return !suggestion.isPinnedHotelSearch && !suggestion.isRawTextSearch
+                    && params.filterOptions?.isEmpty() ?: true
+        }
+        return false
+    }
+
+    private fun builderHasValidParams() : Boolean {
+        return  hotelParamsBuilder.areRequiredParamsFilled()
+                && hotelParamsBuilder.hasValidDateDuration()
+                && hotelParamsBuilder.isWithinDateRange()
+    }
+
+    private fun prefetchSearch(params: HotelSearchParams) {
+        prefetchParams = params
+        hotelSearchManager.doSearch(params)
     }
 
     private fun updateAdvancedSearchOptions(searchOptions: UserFilterChoices) {

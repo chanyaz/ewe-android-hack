@@ -45,6 +45,15 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
         return SortType.EXPERT_PICKS
     }
 
+    fun equalForPrefetch(other: HotelSearchParams?) : Boolean {
+        return other!= null && suggestion.equals(other.suggestion)
+                && checkIn == other.checkIn && checkOut == other.checkOut
+                && adults == other.adults && children.size == other.children.size
+                && shopWithPoints == other.shopWithPoints
+                && filterOptions?.let { options -> options.isEmpty() } ?: true
+                && other.filterOptions?.let { options -> options.isEmpty() } ?: true
+    }
+
     private fun getSortTypeFromString(sortString: String?): SortType? {
         if (Strings.isEmpty(sortString)) {
             return null
@@ -184,12 +193,16 @@ open class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDat
             return params
         }
 
+        fun isEmpty() : Boolean {
+            return filterHotelName.isNullOrEmpty()
+                    && filterStarRatings.isEmpty()
+                    && (filterPrice == null || !filterPrice!!.isValid())
+                    && !filterVipOnly
+                    && userSort == null
+        }
+
         fun isNotEmpty() :Boolean {
-            return !filterHotelName.isNullOrEmpty()
-                    || filterStarRatings.isNotEmpty()
-                    || (filterPrice != null && filterPrice!!.isValid())
-                    || filterVipOnly
-                    || userSort != null
+            return !isEmpty()
       }
     }
 
