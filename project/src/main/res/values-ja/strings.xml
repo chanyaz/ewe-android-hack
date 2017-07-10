@@ -1437,6 +1437,11 @@
     <string name="itin_card_details_reload_cruise">クルーズ情報をリロード</string>
     <string name="itin_card_details_remove_itin">旅程から削除</string>
 
+    <!--Hotel itin card details-->
+    <string name="itin_hotel_details_room_details_title_text">客室詳細</string>
+    <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
+    <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">チェックイン — 3 日後</string>
     <!-- Message to users that they can check into their hotel in two days. -->

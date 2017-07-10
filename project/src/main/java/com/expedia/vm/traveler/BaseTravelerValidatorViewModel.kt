@@ -1,14 +1,29 @@
 package com.expedia.vm.traveler
 
 import com.expedia.bookings.section.CommonSectionValidators
+import com.expedia.bookings.section.InvalidCharacterHelper
 import com.mobiata.android.validation.ValidationError
 import rx.subjects.BehaviorSubject
+import java.util.ArrayList
 
-abstract class BaseTravelerValidatorViewModel() {
+abstract class BaseTravelerValidatorViewModel(): InvalidCharacterHelper.InvalidCharacterListener {
     abstract fun isValid(): Boolean
 
     val textSubject = BehaviorSubject.create<String>()
     val errorSubject = BehaviorSubject.create<Boolean>()
+    open val invalidCharacterMode = InvalidCharacterHelper.Mode.NAME
+
+    internal val invalidCharacterListeners = ArrayList<InvalidCharacterHelper.InvalidCharacterListener>()
+
+    override fun onInvalidCharacterEntered(text: CharSequence?, mode: InvalidCharacterHelper.Mode?) {
+        for (listener in invalidCharacterListeners) {
+            listener.onInvalidCharacterEntered(text, mode)
+        }
+    }
+
+    fun addInvalidCharacterListener(listener: InvalidCharacterHelper.InvalidCharacterListener) {
+        invalidCharacterListeners.add(listener)
+    }
 
     fun validate(): Boolean {
         val valid = isValid()
@@ -31,5 +46,4 @@ abstract class BaseTravelerValidatorViewModel() {
         }
         return CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES_STRING.validate(name) == ValidationError.NO_ERROR
     }
-
 }

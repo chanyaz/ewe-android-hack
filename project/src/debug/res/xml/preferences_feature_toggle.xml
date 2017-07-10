@@ -75,6 +75,13 @@
             android:layout="@layout/preference"
             android:summary="Enable populate cardholder name"
             android:title="Enable populate cardholder name" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_secure_icon"
+            android:layout="@layout/preference"
+            android:summary="Enable secure icon for Flight and Bundle Checkout pages"
+            android:title="Enable secure icon for Flight and Bundle Checkout pages" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -98,6 +105,17 @@
             android:layout="@layout/preference"
             android:summary="Payment Legal Message"
             android:title="Payment Legal Message" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Packages Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_packages_mid_api"
+            android:layout="@layout/preference"
+            android:summary="Packages MID API"
+            android:title="Packages MID API" />
     </PreferenceCategory>
 
 </PreferenceScreen>

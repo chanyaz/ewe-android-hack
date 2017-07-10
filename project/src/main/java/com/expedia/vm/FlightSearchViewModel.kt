@@ -7,6 +7,7 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightServiceClassType
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.tracking.hotel.ControlPageUsableData
 import com.expedia.bookings.utils.DateUtils
@@ -41,6 +42,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val previousSearchParamsObservable = PublishSubject.create<FlightSearchParams>()
     var hasPreviousSearchParams = false
     val showDaywithDate = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightDayPlusDateSearchForm)
+    val isReadyForInteractionTracking = PublishSubject.create<Unit>()
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -119,6 +121,12 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                     controlPageUsableData.markAllViewsLoaded(System.currentTimeMillis())
                     FlightsV2Tracking.trackFlightsTimeToClick(controlPageUsableData.getLoadTimeInSeconds())
                 }
+            }
+        }
+
+        isReadyForInteractionTracking.subscribe {
+            Observable.merge(formattedOriginObservable, formattedDestinationObservable, dateSetObservable).take(1).subscribe {
+                OmnitureTracking.trackFlightSearchFormInteracted()
             }
         }
 
@@ -214,6 +222,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         originLocationObserver.onNext(pastSearchParams.departureAirport)
         destinationLocationObserver.onNext(pastSearchParams.arrivalAirport)
+        isReadyForInteractionTracking.onNext(Unit)
     }
 
     fun clearDestinationLocation() {

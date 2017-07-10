@@ -78,10 +78,6 @@
     <dimen name="min_height_rating_bar_small">16dp</dimen>
     <dimen name="max_height_rating_bar_small">16dp</dimen>
 
-    <!-- User review dimens -->
-    <dimen name="user_review_text_padding_right">0dp</dimen>
-    <dimen name="row_user_review_horizontal_padding">16dp</dimen>
-
     <!-- Hotel Checkout -->
     <!-- This is overridden for tablets in landscape -->
     <dimen name="checkout_login_padding_top">10dp</dimen>

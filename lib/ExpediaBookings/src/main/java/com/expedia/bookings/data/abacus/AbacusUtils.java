@@ -28,6 +28,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppFlightsConfirmationItinSharing = 14137;
 	public static final int EBAndroidAppDisabledSTPState = 13825;
+	public static final int EBAndroidAppShowSignInCardOnLaunchScreen = 13191;
 	public static final int EBAndroidAppLXNavigateToSRP = 13152;
 	public static final int EBAndroidAppWebViewCheckout = 13741;
 	public static final int EBAndroidAppCheckoutButtonText = 13480;
@@ -45,7 +46,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppSignUpStringAPAC = 14218;
 	public static final int EBAndroidAppAPIMAuth = 14654;
 	public static final int EBAndroidPopulateCardholderName = 14525;
-
+	public static final int EBAndroidAppSecureCheckoutIcon = 14202;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Flight tests
@@ -94,6 +95,7 @@ public class AbacusUtils {
 
 	// Packages Tests
 	public static final int EBAndroidAppPackagesRemoveBundleOverview = 13655;
+	public static final int EBAndroidAppPackagesMidApi = 14856;
 
 	// Account
 	public static final int EBAndroidAppAccountSinglePageSignUp = 13923;
@@ -153,6 +155,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsConfirmationItinSharing);
 		testIDs.add(EBAndroidAppHotelRoomRateExpanded);
 		testIDs.add(EBAndroidAppFlightByotSearch);
+		testIDs.add(EBAndroidAppShowSignInCardOnLaunchScreen);
 		testIDs.add(EBAndroidAppShowAirAttachMessageOnLaunchScreen);
 		testIDs.add(EBAndroidAppHotelLoyaltyEarnMessage);
 		testIDs.add(EBAndroidAppHotelUrgencyMessage);
@@ -203,6 +206,8 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppAccountSinglePageSignUp);
 		testIDs.add(EBAndroidPopulateCardholderName);
 		testIDs.add(EBAndroidAppHotelGreedySearch);
+		testIDs.add(EBAndroidAppSecureCheckoutIcon);
+		testIDs.add(EBAndroidAppPackagesMidApi);
 		return testIDs;
 	}
 

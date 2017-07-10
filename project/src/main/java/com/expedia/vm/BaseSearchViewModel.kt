@@ -36,7 +36,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val errorOriginSameAsDestinationObservable = PublishSubject.create<String>()
     val hasValidDatesObservable = PublishSubject.create<Boolean>()
 
-    val formattedOriginObservable = BehaviorSubject.create<String>()
+    val formattedOriginObservable = PublishSubject.create<String>()
     val formattedDestinationObservable = PublishSubject.create<String>()
 
     var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()

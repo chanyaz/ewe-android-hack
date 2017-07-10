@@ -154,7 +154,6 @@ class PackageHotelCellTest {
         hotel.lowRateInfo = HotelRate()
         hotel.distanceUnit = "Miles"
         hotel.lowRateInfo.currencyCode = "USD"
-        hotel.percentRecommended = 2
         hotel.lowRateInfo.loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(PointsEarnInfo(320, 0, 320), null), false)
         return hotel
     }

@@ -9,6 +9,7 @@ import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.RunForBrands
@@ -73,7 +74,7 @@ class FlightListAdapterTest {
         givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices roundtrip per person", headerViewHolder.priceHeader.text)
+        assertEquals("Prices roundtrip, per person.", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -83,7 +84,7 @@ class FlightListAdapterTest {
         givenOneWayFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
-        assertEquals("Prices one-way per person", headerViewHolder.priceHeader.text)
+        assertEquals("Prices one-way, per person.", headerViewHolder.priceHeader.text)
     }
 
     @Test
@@ -111,7 +112,7 @@ class FlightListAdapterTest {
     fun flightResultsAdvanceSearchFilterHeader() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightAdvanceSearch)
         SettingUtils.save(activity, R.string.preference_advance_search_on_srp, true)
-        configurePointOfSale()
+        isRoundTripSubject.onNext(true)
         createSystemUnderTest()
         val headerViewHolder = createHeaderViewHolder()
         //When Non Stop and Refundable both are not chosen
@@ -120,22 +121,39 @@ class FlightListAdapterTest {
         isNonStopSubject.onNext(true)
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
-        assertEquals("•  Nonstop  •", headerViewHolder.advanceSearchFilterHeader.text)
-        assertEquals("Showing NonStop flights only", headerViewHolder.advanceSearchFilterHeader.contentDescription)
+        val shouldAdjustPricing = PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
+        var expectedHeader: String
+        if (shouldAdjustPricing) {
+            expectedHeader = "Showing nonstop flights. Prices roundtrip, per person, from"
+        } else {
+            expectedHeader = "Showing nonstop flights. Prices roundtrip, per person."
+        }
+        assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.text.toString())
+        assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.contentDescription.toString())
 
         //When User searches with Refundable and Non Stop filter
+        if (shouldAdjustPricing) {
+            expectedHeader = "Showing nonstop and refundable flights. Prices roundtrip, per person, from"
+        } else {
+            expectedHeader = "Showing nonstop and refundable flights. Prices roundtrip, per person."
+        }
         isRefundableSubject.onNext(true)
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
-        assertEquals("•  Nonstop  •  Refundable  •", headerViewHolder.advanceSearchFilterHeader.text)
-        assertEquals("Showing NonStop Refundable flights only", headerViewHolder.advanceSearchFilterHeader.contentDescription)
+        assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.text.toString())
+        assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.contentDescription.toString())
 
         //When User searches with Refundable filter
+        if (shouldAdjustPricing) {
+            expectedHeader = "Showing refundable flights. Prices roundtrip, per person, from"
+        } else {
+            expectedHeader = "Showing refundable flights. Prices roundtrip, per person."
+        }
         isNonStopSubject.onNext(false)
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals(View.VISIBLE, headerViewHolder.advanceSearchFilterHeader.visibility)
-        assertEquals("•  Refundable  •", headerViewHolder.advanceSearchFilterHeader.text)
-        assertEquals("Showing Refundable flights only", headerViewHolder.advanceSearchFilterHeader.contentDescription)
+        assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.text.toString())
+        assertEquals(expectedHeader, headerViewHolder.advanceSearchFilterHeader.contentDescription.toString())
     }
 
     @Test

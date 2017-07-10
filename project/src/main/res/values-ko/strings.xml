@@ -1437,6 +1437,11 @@
     <string name="itin_card_details_reload_cruise">크루즈 정보 다시 로드하기</string>
     <string name="itin_card_details_remove_itin">일정에서 삭제</string>
 
+    <!--Hotel itin card details-->
+    <string name="itin_hotel_details_room_details_title_text">객실 세부 정보</string>
+    <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
+    <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
     <!-- Message to users that they can check into their hotel in two days. -->
@@ -3078,9 +3083,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>

@@ -18,6 +18,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.TwoScreenOverviewState
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
@@ -407,13 +408,22 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
         addTransition(errorToConfirmation)
         addTransition(inboundToError)
+
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRetainSearchParams)) {
-            FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, { params ->
-                (context as Activity).runOnUiThread {
-                    searchViewModel.previousSearchParamsObservable.onNext(params)
-                }
-            })
+            FlightSearchParamsHistoryUtil.loadPreviousFlightSearchParams(context, loadSuccess, loadFailed)
+        } else {
+            searchViewModel.isReadyForInteractionTracking.onNext(Unit)
         }
+    }
+
+    private val loadSuccess: (FlightSearchParams) -> Unit = { params ->
+        (context as Activity).runOnUiThread {
+            searchViewModel.previousSearchParamsObservable.onNext(params)
+        }
+    }
+
+    private val loadFailed: () -> Unit = {
+        searchViewModel.isReadyForInteractionTracking.onNext(Unit)
     }
 
     private fun flightListToOverviewTransition() {
@@ -589,7 +599,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)) {
+                if (!PointOfSale.getPointOfSale().hideAdvancedSearchOnFlights() &&
+                        FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightAdvanceSearch, R.string.preference_advance_search_on_srp)) {
                     searchPresenter.flightAdvanceSearchWidget.toggleAdvanceSearchWidget()
                 }
             }

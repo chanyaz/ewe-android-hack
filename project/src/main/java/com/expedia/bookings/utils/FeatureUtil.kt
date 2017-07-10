@@ -19,5 +19,10 @@ fun isFlexEnabled(context: Context): Boolean {
 
 fun isPopulateCardholderNameEnabled(context: Context): Boolean {
     return FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_populate_cardholder_name)
-        && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
+            && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidPopulateCardholderName)
+}
+
+fun isSecureIconEnabled(context: Context): Boolean {
+    return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSecureCheckoutIcon)
+            && FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_secure_icon)
 }

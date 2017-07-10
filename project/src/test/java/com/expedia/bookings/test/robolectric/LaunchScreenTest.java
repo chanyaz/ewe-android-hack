@@ -1,9 +1,19 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.Collection;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -11,14 +21,9 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.AbacusTestUtils;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 
 import static org.junit.Assert.assertEquals;
 
@@ -69,6 +74,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysCollectionWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -92,6 +98,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysCollectionWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -108,13 +115,14 @@ public class LaunchScreenTest {
 		launchListWidget.measure(0, 0);
 		launchListWidget.layout(0, 0, 100, 10000);
 
-		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
-		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(3).getClass());
+		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
+		assertEquals(CollectionViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
 	}
 
 	@Test
 	public void testListDisplaysHotelsWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -137,6 +145,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testListDisplaysHotelsWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -149,13 +158,14 @@ public class LaunchScreenTest {
 		launchListWidget.measure(0, 0);
 		launchListWidget.layout(0, 0, 100, 10000);
 
-		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
-		assertEquals(HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(3).getClass());
+		assertEquals(LaunchHeaderViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(1).getClass());
+		assertEquals(HotelViewHolder.class, launchListWidget.findViewHolderForAdapterPosition(2).getClass());
 	}
 
 	@Test
 	public void testZeroRatingWithTestOn() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -204,6 +214,7 @@ public class LaunchScreenTest {
 	@Test
 	public void testZeroRatingWithTestOff() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
 		launchListWidget.setHeaderPaddingTop(10);
@@ -222,12 +233,12 @@ public class LaunchScreenTest {
 		launchListWidget.layout(0, 0, 100, 10000);
 
 
-		HotelViewHolder h1 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
-		HotelViewHolder h2 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
-		HotelViewHolder h3 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
-		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
-		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(7);
-		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(8);
+		HotelViewHolder h1 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(2);
+		HotelViewHolder h2 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(3);
+		HotelViewHolder h3 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(4);
+		HotelViewHolder h4 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(5);
+		HotelViewHolder h5 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(6);
+		HotelViewHolder h6 = (HotelViewHolder) launchListWidget.findViewHolderForAdapterPosition(7);
 
 		assertEquals("5.0", h1.getRating().getText());
 		assertEquals(View.VISIBLE, h1.getRatingText().getVisibility());

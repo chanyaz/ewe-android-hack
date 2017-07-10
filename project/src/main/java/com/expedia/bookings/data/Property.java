@@ -120,8 +120,6 @@ public class Property implements JSONable {
 	private double mHotelRating;
 
 	// Expedia user reviews
-	private int mTotalReviews;
-	private int mTotalRecommendations;
 	private double mAverageExpediaRating;
 
 	// Convenient hotel search by name data
@@ -189,43 +187,6 @@ public class Property implements JSONable {
 		return mRoomUpgradeOffersApiUrl;
 	}
 
-	public boolean isETPHotel() {
-		return mIsETPHotel;
-	}
-	public void setIsETPHotel(boolean mIsETPHotel) {
-		this.mIsETPHotel = mIsETPHotel;
-	}
-	public void setHasShownImpression(Boolean value) {
-		this.mHasShownImpression = value;
-	}
-	public void setClickTrackingUrl(String url) {
-		this.mClickTrackingUrl = makeValidUrl(url);
-	}
-	public void setImpressionTrackingUrl(String url) {
-		this.mImpressionTrackingUrl = url;
-	}
-	public void setOmnitureAdDisplayedUrl(String url) {
-		this.mOmnitureAdDisplayedUrl = url;
-	}
-	public void setOmnitureAdClickedUrl(String url) {
-		this.mOmnitureAdClickedUrl = url;
-	}
-	public boolean hasShownImpression() {
-		return this.mHasShownImpression;
-	}
-	public String getClickTrackingUrl() {
-		return this.mClickTrackingUrl;
-	}
-	public String getImpressionTrackingUrl() {
-		return this.mImpressionTrackingUrl;
-	}
-	public String getOmnitureAdDisplayedUrl() {
-		return this.mOmnitureAdDisplayedUrl;
-	}
-	public String getOmnitureAdClickedUrl() {
-		return this.mOmnitureAdClickedUrl;
-	}
-
 	public String getName() {
 		return mName;
 	}
@@ -248,14 +209,6 @@ public class Property implements JSONable {
 
 	public void setLocation(Location location) {
 		this.mLocation = location;
-	}
-
-	public boolean isFromSearchByHotel() {
-		return mIsFromSearchByHotel;
-	}
-
-	public void setIsFromSearchByHotel(boolean isFromSearchByHotel) {
-		mIsFromSearchByHotel = isFromSearchByHotel;
 	}
 
 	public void setItinBedType(String bedType) {
@@ -301,21 +254,6 @@ public class Property implements JSONable {
 
 	public boolean hasAmenity(Amenity amenity) {
 		return amenity.inMask(mAmenityMask);
-	}
-
-	public boolean hasAnyAmenity(Amenity[] amenities) {
-		if (amenities != null) {
-			for (Amenity amenity : amenities) {
-				if (hasAmenity(amenity)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean hasAmenities() {
-		return mAmenityMask != 0;
 	}
 
 	public boolean hasAmenitiesSet() {
@@ -377,73 +315,6 @@ public class Property implements JSONable {
 		return mLocalPhone;
 	}
 
-	public List<HotelTextSection> getOverviewText() {
-		return mOverviewText;
-	}
-
-	public void addOverviewText(HotelTextSection overviewText) {
-		if (mOverviewText == null) {
-			mOverviewText = new ArrayList<HotelTextSection>();
-		}
-		mOverviewText.add(overviewText);
-	}
-
-	public HotelTextSection getAmenitiesText() {
-		return mAmenitiesText;
-	}
-
-	public void setAmenitiesText(HotelTextSection amenitiesText) {
-		mAmenitiesText = amenitiesText;
-	}
-
-	public HotelTextSection getPoliciesText() {
-		return mPoliciesText;
-	}
-
-	public void setPoliciesText(HotelTextSection policiesText) {
-		mPoliciesText = policiesText;
-	}
-
-	public HotelTextSection getFeesText() {
-		return mFeesText;
-	}
-
-	public void setFeesText(HotelTextSection feesText) {
-		mFeesText = feesText;
-	}
-
-	public HotelTextSection getMandatoryFeesText() {
-		return mMandatoryFeesText;
-	}
-
-	public void setMandatoryFeesText(HotelTextSection mandatoryFeesText) {
-		mMandatoryFeesText = mandatoryFeesText;
-	}
-
-	public HotelTextSection getRenovationText() {
-		return mRenovationText;
-	}
-
-	public void setRenovationText(HotelTextSection renovationText) {
-		mRenovationText = renovationText;
-	}
-
-	public List<HotelTextSection> getAllHotelText() {
-		List<HotelTextSection> sections = new ArrayList<HotelTextSection>();
-
-		if (mOverviewText != null) {
-			sections.addAll(mOverviewText);
-		}
-
-		addTextSection(sections, mAmenitiesText);
-		addTextSection(sections, mPoliciesText);
-		addTextSection(sections, mFeesText);
-		addTextSection(sections, mMandatoryFeesText);
-		addTextSection(sections, mRenovationText);
-
-		return sections;
-	}
-
 	private void addTextSection(List<HotelTextSection> sections, HotelTextSection section) {
 		if (section != null) {
 			sections.add(section);
@@ -462,10 +333,6 @@ public class Property implements JSONable {
 		return mDistanceFromUser;
 	}
 
-	public void setDistanceFromUser(Distance distanceFromUser) {
-		this.mDistanceFromUser = distanceFromUser;
-	}
-
 	public String getSupplierType() {
 		return mSupplierType;
 	}
@@ -482,40 +349,8 @@ public class Property implements JSONable {
 		return mHotelRating;
 	}
 
-	public void setTotalReviews(int totalReviews) {
-		mTotalReviews = totalReviews;
-	}
-
-	public int getTotalReviews() {
-		return mTotalReviews;
-	}
-
-	public void setTotalRecommendations(int totalRecommendations) {
-		mTotalRecommendations = totalRecommendations;
-	}
-
-	public int getTotalRecommendations() {
-		return mTotalRecommendations;
-	}
-
-	public int getPercentRecommended() {
-		return Math.round(((float) mTotalRecommendations) / mTotalReviews * 100);
-	}
-
-	public void setAverageExpediaRating(double averageExpediaRating) {
-		mAverageExpediaRating = averageExpediaRating;
-	}
-
 	public double getAverageExpediaRating() {
 		return mAverageExpediaRating;
-	}
-
-	public boolean hasExpediaReviews() {
-		return mPropertyId != null && mTotalReviews != 0;
-	}
-
-	public void setLowestRate(Rate rate) {
-		mLowestRate = rate;
 	}
 
 	/**
@@ -542,44 +377,12 @@ public class Property implements JSONable {
 		return TextUtils.equals(mSupplierType, "E") || TextUtils.equals(mSupplierType, "MERCHANT");
 	}
 
-	public void setIsLowestRateMobileExclusive(boolean b) {
-		mIsLowestRateMobileExclusive = b;
-	}
-
-	public boolean isLowestRateMobileExclusive() {
-		return mIsLowestRateMobileExclusive;
-	}
-
-	public void setIsLowestRateTonightOnly(boolean b) {
-		mIsLowestRateTonightOnly = b;
-	}
-
-	public boolean isLowestRateTonightOnly() {
-		return mIsLowestRateTonightOnly;
-	}
-
 	public String getInfoSiteUrl() {
 		return mInfoSiteUrl;
 	}
 
 	public void setInfoSiteUrl(String infoSiteUrl) {
 		mInfoSiteUrl = infoSiteUrl;
-	}
-
-	public String getTelephoneSalesNumber() {
-		return mTelephoneSalesNumber;
-	}
-
-	public void setTelephoneSalesNumber(String telephoneSalesNumber) {
-		mTelephoneSalesNumber = telephoneSalesNumber;
-	}
-
-	public boolean isDesktopOverrideNumber() {
-		return mIsDesktopOverrideNumber;
-	}
-
-	public void setIsDesktopOverrideNumber(boolean isDesktopOverride) {
-		mIsDesktopOverrideNumber = isDesktopOverride;
 	}
 
 	public boolean isVipAccess() {
@@ -592,30 +395,6 @@ public class Property implements JSONable {
 
 	public boolean shouldShowCircles() {
 		return mShowCircles;
-	}
-
-	public void setShowCircles(boolean show) {
-		mShowCircles = show;
-	}
-
-	public Money getHighestPriceFromSurvey() {
-		return mHighestPriceFromSurvey;
-	}
-
-	public void setHighestPriceFromSurvey(Money highestPriceFromSurvey) {
-		mHighestPriceFromSurvey = highestPriceFromSurvey;
-	}
-
-	public boolean hasEtpOffer() {
-		return mHasEtpOffer;
-	}
-
-	public void setHasEtpOffer(boolean hasEtpOffer) {
-		mHasEtpOffer = hasEtpOffer;
-	}
-
-	public void setIsSponsored(boolean isSponsored) {
-		mIsSponsored = isSponsored;
 	}
 
 	public boolean isSponsored() {
@@ -676,8 +455,6 @@ public class Property implements JSONable {
 		mRoomsLeftAtThisRate = offer.roomsLeftAtThisRate;
 		mSupplierType = offer.supplierType;
 		mHotelRating = offer.hotelStarRating;
-		mTotalReviews = offer.totalReviews;
-		mTotalRecommendations = offer.totalRecommendations;
 		mAverageExpediaRating = offer.hotelGuestRating;
 		mLowestRate = new Rate();
 		mLowestRate.setNumRoomsLeft(offer.roomsLeftAtThisRate);
@@ -720,8 +497,6 @@ public class Property implements JSONable {
 			obj.putOpt("supplierType", mSupplierType);
 			obj.putOpt("amenityMask", mAmenityMask);
 			obj.putOpt("hotelRating", mHotelRating);
-			obj.putOpt("totalReviews", mTotalReviews);
-			obj.putOpt("totalRecommendations", mTotalRecommendations);
 			obj.putOpt("averageExpediaRating", mAverageExpediaRating);
 			obj.putOpt("isLowestRateMobileExclusive", mIsLowestRateMobileExclusive);
 			obj.putOpt("isLowestRateTonightOnly", mIsLowestRateTonightOnly);
@@ -775,8 +550,6 @@ public class Property implements JSONable {
 		mRoomsLeftAtThisRate = obj.optInt("roomsLeft", 0);
 		mSupplierType = obj.optString("supplierType", null);
 		mHotelRating = obj.optDouble("hotelRating");
-		mTotalReviews = obj.optInt("totalReviews", 0);
-		mTotalRecommendations = obj.optInt("totalRecommendations", 0);
 		mAverageExpediaRating = obj.optDouble("averageExpediaRating", 0);
 		mAmenityMask = obj.optInt("amenityMask");
 		mLowestRate = JSONUtils.getJSONable(obj, "lowestRate", Rate.class);
@@ -918,9 +691,4 @@ public class Property implements JSONable {
 			}
 		}
 	};
-
-	private String makeValidUrl(String string) {
-		return string.replace("[destinationUrl]","");
-	}
-
 }

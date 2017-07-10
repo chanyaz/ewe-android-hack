@@ -8,7 +8,6 @@
         android:id="@+id/traveler_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:digits="@string/alpha_numeric_digits"
         android:drawableRight="@drawable/ic_checkout_info"
         android:hint="@string/known_traveler_number"
         android:maxLength="13"

@@ -2679,6 +2679,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
 		boolean isFirstAppLaunch =
 			ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInCardOnLaunchScreen);
 		if (userStateManager.isUserAuthenticated()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowMemberPricingCardOnLaunchScreen);
 		}
@@ -4024,16 +4025,22 @@ public class OmnitureTracking {
 		createTrackPackagePageLoadEventBase(pageName).track();
 	}
 
-	private static void trackPackagePageLoadEventStandard(String pageName, int testKey) {
+	private static void trackPackagePageLoadEventStandard(String pageName, int...testKeys) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPackagePageLoadEventBase(pageName);
-		trackAbacusTest(s, testKey);
+		for (int testKey : testKeys) {
+			trackAbacusTest(s, testKey);
+		}
 		s.track();
 	}
 
 	public static void trackPackagesDestinationSearchInit() {
-		trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH,
-			AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)) {
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview, AbacusUtils.EBAndroidAppPackagesMidApi);
+		}
+		else {
+			trackPackagePageLoadEventStandard(PACKAGES_DESTINATION_SEARCH, AbacusUtils.EBAndroidAppPackagesRemoveBundleOverview);
+		}
 	}
 
 	public static void trackPackagesHSRMapInit() {
@@ -4387,6 +4394,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
 	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
 	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
+	private static final String FLIGHTS_V2_SEARCH_FORM_INTERACTED = "App.Flight.DS.Form.Interacted";
 	private static final String FLIGHTS_V2_SEARCH_FORM_CHANGE_PREFIX = "App.Flight.DS.";
 	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
 	private static final String FLIGHTS_V2_CROSS_SELL_PACKAGE_LINK_NAME = "Package Xsell Banner";
@@ -4574,6 +4582,15 @@ public class OmnitureTracking {
 		s.setEvar(28, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
 		s.setProp(16, FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK);
 		s.trackLink(null, "o", "Flight Baggage Fee", null, null);
+	}
+
+	public static void trackFlightSearchFormInteracted() {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_SEARCH_FORM_INTERACTED + "\" interaction...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_SEARCH_FORM_INTERACTED);
+		s.setProp(16, FLIGHTS_V2_SEARCH_FORM_INTERACTED);
+		s.trackLink(null, "o", "Form Interaction", null, null);
 	}
 
 	public static void trackFlightCheckoutConfirmationPageLoad(PageUsableData pageUsableData) {

@@ -191,19 +191,13 @@ class FlightV2UtilsTest {
 
     @Test
     fun testGetAdvanceSearchFilterHeaderString() {
-        assertNull(FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, false))
-        assertEquals("•  Nonstop  •  Refundable  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, true, true))
-        assertEquals("•  Nonstop  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, true, false))
-        assertEquals("•  Refundable  •", FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, true))
+        val priceString = "Prices roundtrip, per person."
+        assertNull(FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, false, priceString))
+        assertEquals("Showing nonstop flights. " + priceString, FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, true, false, priceString).toString())
+        assertEquals("Showing nonstop and refundable flights. " + priceString, FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, true, true, priceString).toString())
+        assertEquals("Showing refundable flights. " + priceString, FlightV2Utils.getAdvanceSearchFilterHeaderString(activity, false, true, priceString).toString())
     }
 
-    @Test
-    fun testGetAdvanceSearchFilterHeaderContDesc() {
-        assertNull(FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, false, false))
-        assertEquals("Showing NonStop Refundable flights only", FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, true, true))
-        assertEquals("Showing NonStop flights only", FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, true, false))
-        assertEquals("Showing Refundable flights only", FlightV2Utils.getAdvanceSearchFilterHeaderContDesc(activity, false, true))
-    }
 
     fun buildTestSeatClassAndBookingCodeList(numberOfObjects: Int): List<FlightTripDetails.SeatClassAndBookingCode> {
         val seatClassAndBookingCodeList = arrayListOf<FlightTripDetails.SeatClassAndBookingCode>()

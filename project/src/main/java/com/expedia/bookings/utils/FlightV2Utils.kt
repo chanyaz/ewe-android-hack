@@ -10,6 +10,7 @@ import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.text.HtmlCompat
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
@@ -277,24 +278,18 @@ object FlightV2Utils {
                 .format().toString()
     }
 
-    @JvmStatic fun getAdvanceSearchFilterHeaderString(context: Context, isNonStopFilterSelected: Boolean, isRefundableFilterSelected: Boolean): String? {
+    @JvmStatic fun getAdvanceSearchFilterHeaderString(context: Context, isNonStopFilterSelected: Boolean, isRefundableFilterSelected: Boolean, priceHeaderText: String): CharSequence? {
+        val headerText = StringBuilder()
         if (isNonStopFilterSelected && isRefundableFilterSelected) {
-            return context.getString(R.string.flight_nonstop_refundable_search_header)
+            headerText.append(context.getString(R.string.flight_nonstop_refundable_search_header))
         } else if (isNonStopFilterSelected) {
-            return context.getString(R.string.flight_nonstop_search_header)
+            headerText.append(context.getString(R.string.flight_nonstop_search_header))
         } else if (isRefundableFilterSelected) {
-            return context.getString(R.string.flight_refundable_search_header)
-        } else return null
-    }
-
-    @JvmStatic fun getAdvanceSearchFilterHeaderContDesc(context: Context, isNonStopFilterSelected: Boolean, isRefundableFilterSelected: Boolean): String? {
-        if (isNonStopFilterSelected && isRefundableFilterSelected) {
-            return context.getString(R.string.advancedSearch_header_nonStop_refundable_contDesc)
-        } else if (isNonStopFilterSelected) {
-            return context.getString(R.string.advancedSearch_header_nonStop_contDesc)
-        } else if (isRefundableFilterSelected) {
-            return context.getString(R.string.advancedSearch_header_refundable_contDesc)
-        } else return null
+            headerText.append(context.getString(R.string.flight_refundable_search_header))
+        }
+        if (headerText.isNotEmpty())
+            return  HtmlCompat.fromHtml(headerText.append(priceHeaderText).toString())
+        else return null
     }
 
     private fun isAllFlightCabinPreferencesSame(seatClassAndBookingCodeList: List<FlightTripDetails.SeatClassAndBookingCode>): Boolean {

@@ -1437,6 +1437,11 @@
     <string name="itin_card_details_reload_cruise">โหลดข้อมูลทริปล่องเรือใหม่</string>
     <string name="itin_card_details_remove_itin">ลบออกจากแผนการเดินทาง</string>
 
+    <!--Hotel itin card details-->
+    <string name="itin_hotel_details_room_details_title_text">รายละเอียดห้อง</string>
+    <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
+    <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">เช็คอิน — 3 วัน</string>
     <!-- Message to users that they can check into their hotel in two days. -->

@@ -598,6 +598,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					onChange(SectionBillingInfo.this);
 				}
 			});
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.ASCII);
 		}
 	};
 

@@ -21,12 +21,9 @@ import android.os.Bundle;
 
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.server.ExpediaServices;
@@ -258,42 +255,6 @@ public class JodaUtilsTest {
 		mBillingInfo.setExpirationDate(nextYear);
 		query = expediaServices.generateFlightCheckoutParams(flightItem, mBillingInfo, travelers);
 		verifyExpirationDates(query, nextYear);
-	}
-
-	@Test
-	public void testTimeInHotelCheckOutParams() throws InterruptedException {
-		ExpediaServices expediaServices = new ExpediaServices(getContext());
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		HotelSearchParams params = new HotelSearchParams();
-		Property property = new Property();
-		Rate rate = new Rate();
-		Money money = new Money();
-		money.setCurrency("USD");
-		rate.setTotalPriceWithMandatoryFees(money);
-		String tripId = "1234567";
-		String userId = "12345";
-		long tuid = 1234567;
-
-		LocalDate today = LocalDate.now();
-		mBillingInfo.setExpirationDate(today);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
-		verifyExpirationDates(query, today);
-
-		LocalDate tomorrow = today.plusDays(1);
-		mBillingInfo.setExpirationDate(tomorrow);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
-		verifyExpirationDates(query, tomorrow);
-
-		LocalDate nextMonth = today.plusMonths(1);
-		mBillingInfo.setExpirationDate(nextMonth);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
-		verifyExpirationDates(query, nextMonth);
-
-		LocalDate nextYear = today.plusYears(1);
-		mBillingInfo.setExpirationDate(nextYear);
-		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId, tuid);
-		verifyExpirationDates(query, nextYear);
-
 	}
 
 	/*

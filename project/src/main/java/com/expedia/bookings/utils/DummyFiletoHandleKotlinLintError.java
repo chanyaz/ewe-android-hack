@@ -45,7 +45,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_room_row,
 		R.layout.widget_hotel_info,
 		R.layout.widget_pay_later_info,
-		R.layout.all_flights_pricing_header_cell,
 		R.layout.package_banner_header_cell,
 		R.string.single_line_street_address_TEMPLATE,
 		R.string.call_customer_support_TEMPLATE,
@@ -1097,6 +1096,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_sticky_bottom_shadow_height,
 		R.layout.flight_advance_search_row,
 		R.layout.flight_advanced_search_view,
+		R.string.itin_hotel_details_room_details_text_TEMPLATE,
+		R.layout.widget_hotel_itin_room_details,
+		R.layout.hotel_itin_card_details,
 		R.string.advance_search_cont_desc_TEMPLATE,
 		R.string.row_collapse_button_description,
 		R.string.nonstop_flight_filter_label,
@@ -1104,9 +1106,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_nonstop_refundable_search_header,
 		R.string.flight_nonstop_search_header,
 		R.string.flight_refundable_search_header,
-		R.string.advancedSearch_header_nonStop_contDesc,
-		R.string.advancedSearch_header_nonStop_refundable_contDesc,
-		R.string.advancedSearch_header_refundable_contDesc,
 		R.layout.widget_traveler_cabin_class_horizontal,
 		R.layout.widget_traveler_cabin_class_vertical,
 		R.layout.hotel_bottom_button_widget,
@@ -1122,6 +1121,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.itin_sign_in_button_background_color,
 		R.color.itin_sign_in_button_text_color,
 		R.color.itin_refresh_warning_button_background_color,
-		R.color.itin_warning_color
+		R.color.itin_warning_color,
+		R.string.user_review_name_and_location_signature
 	};
 }

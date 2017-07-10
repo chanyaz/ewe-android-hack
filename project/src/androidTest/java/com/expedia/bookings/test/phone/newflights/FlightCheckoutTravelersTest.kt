@@ -74,6 +74,7 @@ class FlightCheckoutTravelersTest : NewFlightTestCase() {
         EspressoUtils.assertViewDoesNotHaveCompoundDrawable(R.id.last_name_input, R.drawable.invalid)
         Common.pressBack()
 
+        onView(withText("Save")).perform(click())
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
         Espresso.closeSoftKeyboard()
         PackageScreen.clickTravelerDone()

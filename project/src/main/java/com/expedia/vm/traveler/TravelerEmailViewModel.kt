@@ -3,9 +3,12 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.CommonSectionValidators
+import com.expedia.bookings.section.InvalidCharacterHelper
 import com.mobiata.android.validation.ValidationError
 
 open class TravelerEmailViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
+
+    override val invalidCharacterMode = InvalidCharacterHelper.Mode.EMAIL
 
     init {
         textSubject.subscribe { email -> traveler.email = email }

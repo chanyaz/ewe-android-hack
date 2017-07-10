@@ -121,7 +121,7 @@ class AbstractFlightListAdapterTest {
     fun testPackageBannerWidgetVisibility() {
         activatePackageBannerWidget()
 
-        assertEquals(sut.getItemViewType(0), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
+        assertEquals(sut.getItemViewType(1), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
 
         val packageBannerHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.PACKAGE_BANNER_VIEW.ordinal)
                 as AbstractFlightListAdapter.PackageBannerHeaderViewHolder
@@ -134,25 +134,6 @@ class AbstractFlightListAdapterTest {
 
         val packageBannerDescription = packageBannerHeaderViewHolder.packageBannerWidget.findViewById(R.id.package_flight_banner_description) as TextView
         assertEquals("Save when you book your flights and hotels together", packageBannerDescription.text)
-    }
-
-    @Test
-    fun testAllFlightsPricingViewVisibility() {
-        activatePackageBannerWidget()
-
-        assertEquals(sut.getItemViewType(1), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
-
-        val allFlightsPricingHeaderViewHolder = sut.onCreateViewHolder(FrameLayout(activity), AbstractFlightListAdapter.ViewTypes.ALL_FLIGHTS_PRICING_HEADER_VIEW.ordinal)
-                as AbstractFlightListAdapter.AllFlightsPricingHeaderViewHolder
-
-        assertTrue(allFlightsPricingHeaderViewHolder is AbstractFlightListAdapter.AllFlightsPricingHeaderViewHolder)
-        assertEquals(View.VISIBLE, allFlightsPricingHeaderViewHolder.root.visibility)
-
-        val textViewAllFlights = allFlightsPricingHeaderViewHolder.root.findViewById(R.id.textView_all_flights) as TextView
-        assertEquals("All Flights", textViewAllFlights.text)
-
-        val textViewFlightsPricing = allFlightsPricingHeaderViewHolder.root.findViewById(R.id.textView_flights_pricing) as TextView
-        assertEquals("Prices roundtrip per person", textViewFlightsPricing.text)
     }
 
     @Test

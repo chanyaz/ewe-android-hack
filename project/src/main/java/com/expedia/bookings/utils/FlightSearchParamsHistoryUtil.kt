@@ -22,7 +22,7 @@ object FlightSearchParamsHistoryUtil {
         }.start()
     }
 
-    fun loadPreviousFlightSearchParams(context: Context, loadSuccess: ((FlightSearchParams) -> Unit)? = null) {
+    fun loadPreviousFlightSearchParams(context: Context, loadSuccess: ((FlightSearchParams) -> Unit)? = null, loadFailed: (() -> Unit)? = null) {
         Thread {
             try {
                 val str = IoUtils.readStringFromFile(FLIGHT_SERCH_PARAMS_HISTORY_FILE, context)
@@ -30,6 +30,7 @@ object FlightSearchParamsHistoryUtil {
                 loadSuccess?.invoke(params)
             } catch (e: IOException) {
                 Log.e("Error reading flight search params history", e)
+                loadFailed?.invoke()
             }
         }.start()
     }

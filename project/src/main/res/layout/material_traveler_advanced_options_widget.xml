@@ -15,7 +15,6 @@
             android:id="@+id/traveler_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:digits="@string/alpha_numeric_digits"
             android:drawableRight="@drawable/ic_checkout_info"
             android:maxLength="13"
             android:maxLines="1"

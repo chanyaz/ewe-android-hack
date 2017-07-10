@@ -3,4 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.expedia.bookings.widget.ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray1"
+        android:fadingEdge="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Hotel thumbnail-->
+
+            <!--Check in/out info-->
+
+            <!--Map and directions-->
+
+            <!--Room details-->
+            <com.expedia.bookings.widget.itin.HotelItinRoomDetails
+                android:id="@+id/widget_hotel_itin_room_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!--Booking details-->
+
+        </LinearLayout>
+    </com.expedia.bookings.widget.ScrollView>
 </FrameLayout>

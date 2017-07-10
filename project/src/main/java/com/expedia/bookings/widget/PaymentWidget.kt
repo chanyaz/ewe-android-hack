@@ -273,6 +273,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         }
+        sectionLocation.addInvalidCharacterListener { text, mode ->
+            val activity = context as AppCompatActivity
+            InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
+        }
         sectionBillingInfo.addChangeListener(billingInfoChangedListener)
         filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.ic_hotel_credit_card), null, null, null)
         storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
