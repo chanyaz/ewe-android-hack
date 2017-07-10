@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.setTextAndVisibility
 import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -165,8 +166,7 @@ class HotelRoomRateView(context: Context) : LinearLayout(context) {
         vm.expandedBedTypeObservable.subscribeText(expandedBedType)
         vm.perNightPriceVisibleObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(perNight)
         vm.expandedAmenityObservable.subscribe { text ->
-            expandedAmenity.visibility = View.VISIBLE
-            expandedAmenity.text = text
+            expandedAmenity.setTextAndVisibility(text)
         }
         vm.collapsedUrgencyObservable.subscribeText(collapsedUrgency)
         vm.collapsedEarnMessageObservable.subscribeText(collapsedEarnMessaging)
