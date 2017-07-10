@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.adobe.mobile.Analytics
 import com.adobe.mobile.Config
+import com.adobe.mobile.Visitor
 import java.util.Hashtable
 
 class ADMS_Measurement {
@@ -106,6 +107,10 @@ class ADMS_Measurement {
 
         @JvmStatic fun sharedInstance(): ADMS_Measurement {
             return ADMS_Measurement()
+        }
+
+        @JvmStatic fun getUrlWithVisitorData(url: String?): String {
+            return Visitor.appendToURL(url)
         }
     }
 }

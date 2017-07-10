@@ -23,7 +23,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     val HEADER_CLASS = "site-header-primary"
     val FACEBOOK_LOGIN_CLASS = "facebook-login-pane"
-    val APP_VISITOR_ID_PARAM = "appvi="
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
@@ -71,13 +70,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewURLObservable.subscribe { url ->
-            webView.loadUrl(getUrlWithVisitorId(url))
+            webView.loadUrl(ADMS_Measurement.getUrlWithVisitorData(url))
         }
-    }
-
-    private fun getUrlWithVisitorId(url: String): String {
-        val visitorID = ADMS_Measurement.sharedInstance().visitorID
-        return "$url${if (url.contains("?")) "&" else "?"}$APP_VISITOR_ID_PARAM$visitorID"
     }
 
     fun setExitButtonOnClickListener(listener: OnClickListener) {

@@ -34,8 +34,6 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 	private static final String ARG_RETURN_FROM_ROOM_UPGRADE = "ARG_RETURN_FROM_ROOM_UPGRADE";
 	private static final String ARG_HANDLE_BACK = "ARG_HANDLE_BACK";
 	private static final String ARG_HANDLE_RETRY_ON_ERROR = "ARG_HANDLE_RETRY_ON_ERROR";
-	private static final String APP_VISITOR_ID_PARAM = "appvi=";
-
 
 	private boolean handleBack;
 
@@ -58,14 +56,9 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setUrl(String url) {
 			if (url != null) {
-				mIntent.putExtra(ARG_URL, getUrlWithVisitorId(url));
+				mIntent.putExtra(ARG_URL, ADMS_Measurement.getUrlWithVisitorData(url));
 			}
 			return this;
-		}
-
-		private String getUrlWithVisitorId(String url) {
-			String visitorID = ADMS_Measurement.sharedInstance().getVisitorID();
-			return url + (url.contains("?") ? "&" : "?") + APP_VISITOR_ID_PARAM + visitorID;
 		}
 
 		public IntentBuilder setTitle(String title) {
