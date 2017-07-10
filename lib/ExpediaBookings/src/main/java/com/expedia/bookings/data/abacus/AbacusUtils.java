@@ -47,6 +47,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppAPIMAuth = 14654;
 	public static final int EBAndroidPopulateCardholderName = 14525;
 	public static final int EBAndroidAppSecureCheckoutIcon = 14202;
+	public static final int EBAndroidAppFlightFlexEnabled = 14880;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	// Flight tests
@@ -202,6 +203,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidPopulateCardholderName);
 		testIDs.add(EBAndroidAppSecureCheckoutIcon);
 		testIDs.add(EBAndroidAppPackagesMidApi);
+		testIDs.add(EBAndroidAppFlightFlexEnabled);
 		return testIDs;
 	}
 

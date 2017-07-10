@@ -457,6 +457,15 @@
             android:summary="%s"
             android:title="Checkout secure icon AB test - 14202" />
 
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14880"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flex for flights AB test - 14880" />
+
     </PreferenceCategory>
 
 
