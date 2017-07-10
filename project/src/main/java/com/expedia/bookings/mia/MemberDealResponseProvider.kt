@@ -28,7 +28,9 @@ class MemberDealResponseProvider(private val smartOfferService: SmartOfferServic
         }
         else {
             val request = MemberDealRequest()
-            request.siteId = PointOfSale.getPointOfSale().tpid.toString()
+            val pos = PointOfSale.getPointOfSale()
+            request.siteId = pos.tpid.toString()
+            request.locale = pos.localeIdentifier.toString()
             searchSubscription = smartOfferService.fetchMemberDeals(request, dealsObserver)
         }
     }
