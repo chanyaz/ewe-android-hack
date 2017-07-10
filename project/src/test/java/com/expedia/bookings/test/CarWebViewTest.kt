@@ -3,7 +3,6 @@ package com.expedia.bookings.test
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.ADMS_Measurement
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
@@ -22,13 +21,13 @@ import org.robolectric.Robolectric
 import org.robolectric.shadows.ShadowApplication
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class CarWebViewTest {
 
     private var shadowApplication: ShadowApplication? = null
     private var activity: Activity by Delegates.notNull()
-    private val APP_VISITOR_ID_PARAM = "appvi="
 
     @Before
     fun before() {
@@ -240,17 +239,13 @@ class CarWebViewTest {
         PointOfSale.onPointOfSaleChanged(activity)
     }
 
-    private fun getCarUrlWithVisitorId(baseUrl: String): String {
-        val visitorID = ADMS_Measurement.sharedInstance().visitorID
-        return baseUrl + "&" + APP_VISITOR_ID_PARAM + visitorID
-    }
-
     private fun verifyCarsWebViewIsLaunched() {
         goToCars()
         val intent = shadowApplication!!.nextStartedActivity
         val intentUrl = intent.getStringExtra("ARG_URL")
         assertEquals(CarWebViewActivity::class.java.name, intent.component.className)
-        assertEquals(getCarUrlWithVisitorId(PointOfSale.getPointOfSale().carsTabWebViewURL), intentUrl)
+        assertTrue(intentUrl.startsWith(PointOfSale.getPointOfSale().carsTabWebViewURL))
+        assertTrue(intentUrl.contains("&adobe_mc="))
     }
 
     private fun verifyCarsAppViewIsLaunched() {

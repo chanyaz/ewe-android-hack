@@ -60,7 +60,7 @@ class HotelItinContentGeneratorTest {
 
         assertEquals("com.expedia.bookings.activity.WebViewActivity", intent.component.className)
         assertEquals(Constants.ITIN_SOFT_CHANGE_WEBPAGE_CODE, nextStartedActivityForResult.requestCode)
-        // note: WebViewActivity adds appvi param, hence contains() (not equals()) here
+        // note: WebViewActivity adds adobe_mc= param, hence contains() (not equals()) here
         assertTrue(intentUrl.contains(getBookingChangeUrl()))
         assertEquals("Edit Room Info", webViewTitle)
         assertTrue(isWebViewSendingCookies)
@@ -94,7 +94,7 @@ class HotelItinContentGeneratorTest {
 
         assertEquals("com.expedia.bookings.activity.WebViewActivity", intent.component.className)
         assertEquals(Constants.ITIN_ROOM_UPGRADE_WEBPAGE_CODE, nextStartedActivityForResult.requestCode)
-        // note: WebViewActivity adds appvi param, hence contains() (not equals()) here
+        // note: WebViewActivity adds adobe_mc= param, hence contains() (not equals()) here
         assertTrue(intentUrl.contains(getRoomUpgradeWebUrl()))
         assertEquals("Upgrade hotel room", webViewTitle)
         assertTrue(isWebViewSendingCookies)

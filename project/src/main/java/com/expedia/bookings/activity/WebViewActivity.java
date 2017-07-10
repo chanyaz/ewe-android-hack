@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -60,7 +59,7 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 
 		public IntentBuilder setUrl(String url) {
 			if (url != null) {
-				mIntent.putExtra(ARG_URL, getUrlWithVisitorId(url));
+				mIntent.putExtra(ARG_URL, ADMS_Measurement.getUrlWithVisitorData(url));
 			}
 			return this;
 		}
@@ -68,19 +67,12 @@ public class WebViewActivity extends AppCompatActivity implements WebViewFragmen
 		public IntentBuilder setUrlWithAnchor(String url, String anchor) {
 			if (url != null && anchor != null) {
 				mIntent.putExtra(ARG_URL, Phrase.from(mContext, R.string.itin_hotel_details_price_summary_url_TEMPLATE)
-					.put("url", getUrlWithVisitorId(url))
+					.put("url", ADMS_Measurement.getUrlWithVisitorData(url))
 					.put("anchor", anchor)
 					.format().toString());
 			}
 			return this;
 		}
-
-		@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-		public String getUrlWithVisitorId(String url) {
-			String visitorID = ADMS_Measurement.sharedInstance().getVisitorID();
-			return url + (url.contains("?") ? "&" : "?") + APP_VISITOR_ID_PARAM + visitorID;
-		}
-
 		public IntentBuilder setTitle(String title) {
 			mIntent.putExtra(ARG_TITLE, title);
 			return this;

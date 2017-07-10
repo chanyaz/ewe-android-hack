@@ -143,7 +143,7 @@ class WebCheckoutViewTest {
         getToWebCheckoutView()
         val testURL = "abcdefg"
         hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
-        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL?appvi="))
+        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL?adobe_mc="))
     }
 
     @Test
@@ -152,7 +152,7 @@ class WebCheckoutViewTest {
         getToWebCheckoutView()
         val testURL = "abcdefg?ab=c"
         hotelPresenter.webCheckoutView.viewModel.webViewURLObservable.onNext(testURL)
-        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL&appvi="))
+        assert((shadowOf(hotelPresenter.webCheckoutView.webView).lastLoadedUrl).startsWith("$testURL&adobe_mc="))
     }
 
     @Test
