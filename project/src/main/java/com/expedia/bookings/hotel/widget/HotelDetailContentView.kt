@@ -43,7 +43,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.DESCRIPTION_ANIMATION
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HOTEL_DESC_COLLAPSE_LINES
-import com.expedia.bookings.widget.HotelEtpStickyHeaderLayout
 import com.expedia.bookings.widget.HotelInfoView
 import com.expedia.bookings.widget.HotelRoomCardView
 import com.expedia.bookings.widget.HotelRoomDetailView
@@ -136,7 +135,7 @@ class HotelDetailContentView(context: Context, attrs: AttributeSet?) : RelativeL
     private val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
     private val payLaterButton: TextView by bindView(R.id.radius_pay_later)
 
-    private val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
+    private val etpContainer: RelativeLayout by bindView(R.id.etp_placeholder)
     private val etpContainerDropShadow: View by bindView(R.id.pay_later_drop_shadow)
     private val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
     private val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)

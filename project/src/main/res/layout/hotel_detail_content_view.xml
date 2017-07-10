@@ -595,7 +595,7 @@
 
     </RelativeLayout>
 
-    <com.expedia.bookings.widget.HotelEtpStickyHeaderLayout
+    <RelativeLayout
         android:id="@+id/etp_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -675,7 +675,7 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-    </com.expedia.bookings.widget.HotelEtpStickyHeaderLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/pay_later_drop_shadow"
