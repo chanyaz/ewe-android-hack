@@ -468,6 +468,9 @@ public class HotelViewModelTest {
 		if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
 			assertTrue(vm.getShowEarnMessage());
 		}
+		else {
+			assertFalse(vm.getShowEarnMessage());
+		}
 		assertTrue(!vm.getTopAmenityTitle().isEmpty());
 	}
 

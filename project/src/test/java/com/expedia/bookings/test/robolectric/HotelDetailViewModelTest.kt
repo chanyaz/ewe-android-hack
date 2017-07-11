@@ -328,6 +328,8 @@ class HotelDetailViewModelTest {
         if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
             assertTrue(vm.earnMessageVisibilityObservable.value)
             assertEquals("Earn $320.56", vm.earnMessageObservable.value.toString())
+        } else {
+            assertFalse(vm.earnMessageVisibilityObservable.value)
         }
     }
 
@@ -339,6 +341,8 @@ class HotelDetailViewModelTest {
         if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
             assertTrue(vm.earnMessageVisibilityObservable.value)
             assertEquals("Earn $320", vm.earnMessageObservable.value.toString())
+        } else {
+            assertFalse(vm.earnMessageVisibilityObservable.value)
         }
     }
 
@@ -354,6 +358,8 @@ class HotelDetailViewModelTest {
         if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
             assertTrue(vm.earnMessageVisibilityObservable.value)
             assertEquals("Earn 1,320 points", vm.earnMessageObservable.value.toString())
+        } else {
+            assertFalse(vm.earnMessageVisibilityObservable.value)
         }
     }
 

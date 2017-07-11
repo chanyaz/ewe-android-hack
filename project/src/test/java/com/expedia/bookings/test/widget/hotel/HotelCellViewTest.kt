@@ -148,6 +148,8 @@ class HotelCellViewTest {
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.hotelPriceTopAmenity.topAmenityTextView.visibility)
         if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
             Assert.assertEquals(View.VISIBLE, hotelViewHolder.earnMessagingText.visibility)
+        } else {
+            Assert.assertEquals(View.GONE, hotelViewHolder.earnMessagingText.visibility)
         }
     }
 

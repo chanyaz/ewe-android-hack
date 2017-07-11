@@ -194,6 +194,8 @@ class HotelRoomRateViewModelTest {
         if (ProductFlavorFeatureConfiguration.getInstance().showHotelLoyaltyEarnMessage()) {
             assertTrue(sut.collapsedEarnMessageVisibilityObservable.value)
             assertEquals("Earn $320", sut.collapsedEarnMessageObservable.value.toString())
+        } else {
+            assertFalse(sut.collapsedEarnMessageVisibilityObservable.value)
         }
     }
 
