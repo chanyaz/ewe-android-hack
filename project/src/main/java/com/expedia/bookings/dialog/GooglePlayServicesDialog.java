@@ -9,7 +9,7 @@ import android.view.KeyEvent;
 
 import com.expedia.bookings.R;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.Log;
 
 public class GooglePlayServicesDialog {
@@ -60,14 +60,16 @@ public class GooglePlayServicesDialog {
 	};
 
 	public void startChecking() {
-		int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+		GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+		int result = apiAvailability.isGooglePlayServicesAvailable(mActivity);
 		switch (result) {
 		case ConnectionResult.SERVICE_DISABLED:
 		case ConnectionResult.SERVICE_INVALID:
 		case ConnectionResult.SERVICE_MISSING:
-		case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED: {
+		case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+		case ConnectionResult.SERVICE_UPDATING: {
 			Log.d("Google Play Services: Raising dialog for user recoverable error " + result);
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(result, mActivity, 0);
+			Dialog dialog = apiAvailability.getErrorDialog(mActivity, result, 0);
 			dialog.setOnCancelListener(mGooglePlayServicesOnCancelListener);
 			dialog.setOnKeyListener(mGooglePlayServicesOnKeyListener);
 			dialog.show();

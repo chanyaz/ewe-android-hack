@@ -28,6 +28,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.data.user.UserStateManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
 import com.expedia.bookings.dialog.FlightCheckInDialogBuilder
+import com.expedia.bookings.dialog.GooglePlayServicesDialog
 import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
@@ -150,6 +151,8 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok)
         }
         AbacusHelperUtils.downloadBucket(this)
+
+        GooglePlayServicesDialog(this).startChecking()
 
         appStartupTimeLogger.setAppLaunchScreenDisplayed(System.currentTimeMillis())
         AppStartupTimeClientLog.trackAppStartupTime(appStartupTimeLogger, clientLogServices)
