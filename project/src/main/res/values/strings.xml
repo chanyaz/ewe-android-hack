@@ -812,22 +812,10 @@
     <string name="distance">Distance</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">From %s</string>
-    <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Laps</string>
-    <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Seats</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">There aren\'t enough adults (age 12+) to have infants sit in laps. They need their own seats.</string>
     <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
     <string name="max_two_infants_seated_per_adult">We are only able to book reserved seats for up to two infants per traveler aged 12+</string>
-    <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Seating Preference for Infants Under 2</string>
-    <!-- Description for infant seating preference message -->
-    <string name="infants_seating_preference_description">Will infants under age 2 (at time of flight) sit in laps or have their own seats?</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Infants in seats need their own tickets. Let\'s search again for the infants\' tickets.</string>
-    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Infants in lap don\'t need their own tickets. We\'ll start a new search with fewer tickets.</string>
     <!-- Label for infants under 2 seating preference -->
     <string name="infants_under_two_TEMPLATE">Infants under 2: %s</string>
     <!-- Header for a flight filter based upon number of stops -->
@@ -1013,12 +1001,9 @@
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
-    <!-- Unable to find itinerary for guest user -->
     <string name="unable_to_find_guest_itinerary">Unable to find itinerary. Please confirm on the Account screen that the Country setting matches the website address for your booking.</string>
     <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
     <string name="unable_to_find_registered_user_itinerary_template">This is not a guest itinerary. Please sign into the {brand} account associated with this itinerary.</string>
-    <!-- Enter Itinerary Details -->
-    <string name="enter_itinerary_details">Enter Itinerary Details</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} Itinerary #</string>
     <!-- Label for exclusive phone number for base tier rewards customers; brand name not parameterized as other brands will have to completely customize -->
@@ -1035,8 +1020,6 @@
     <string name="enter_a_guest_itinerary_number">Enter a Guest Itinerary</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Fetching your itineraries…</string>
-    <!-- Error fetching itinerary -->
-    <string name="itinerary_fetch_error">Error fetching itineraries</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Sign in for your trips</string>
     <!-- Button text to refresh your trips -->
@@ -2039,11 +2022,8 @@
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} year old</string>
-    <!-- Save traveler dialog -->
     <!-- save traveler -->
     <string name="save_traveler">Save Traveler</string>
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Save {name}\'s information under your {brand} account to speed up future purchases?</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
     <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
@@ -2054,16 +2034,6 @@
     <!--Content description for the Advanced button in traveler entry form used for Talkback-->
     <string name="expand_advanced_button_cont_desc">Expand Advanced (Optional) Button</string>
     <string name="collapse_advanced_button_cont_desc">Collapse Advanced (Optional) Button</string>
-
-    <!-- Overwrite traveler dialog -->
-    <!-- Can't Save Traveler -->
-    <string name="cant_save_traveler">Can\&apos;t Save Traveler</string>
-    <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">You already have a saved traveler with the name \"%1$s\".</string>
-    <!-- Don't save -->
-    <string name="dont_save">Don\&apos;t Save</string>
-    <!-- Overwrite -->
-    <string name="overwrite">Overwrite</string>
     <!-- Dialog message for updating saved travelers during checkout, Eg. Update traveler information under your Wotif account to speed up future purchases? -->
     <string name="update_traveler_dialog_message_TEMPLATE">Update traveler information under your {brand} account to speed up future purchases?</string>
     <!-- Update traveler dialog title-->
@@ -2116,9 +2086,6 @@
     <string name="seat_preference">Seat Preference</string>
     <!-- Special Assistance -->
     <string name="special_assistance">Special Assistance</string>
-
-    <!-- Entered invalid birthdate dialog -->
-    <string name="invalid_birthdate_message">The age that you entered does not match the age of the traveler that you searched for. Please update your information, and then try to check out again.</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -2268,38 +2235,10 @@
     <string name="retry">Retry</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Edit Filters</string>
-    <!-- Button label for calling -->
-    <string name="call_support">Support</string>
-    <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">It looks like the airline just raised the price of your ticket by %1$s.  Are you happy to pay the new total of %2$s?</string>
-    <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">We just found your requested flights on sale for %1$s less. Are you happy for us to charge you a new total of %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">It looks like the airline is charging a payment processing fee of %1$s. Are you happy to pay a new total of %2$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">It looks like the airline is charging a payment processing fee of %1$s and has just raised the price of your ticket by %2$s. Are you happy to pay a new total of %3$s?</string>
-    <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">It looks like the airline is charging a payment processing fee of %1$s but we just found your requested flights on sale for %2$s less. Are you happy to pay a new total of %3$s?</string>
     <!-- Error shown to user if their name on card is invalid -->
     <string name="error_name_on_card_mismatch">The cardholder name that you entered does not match the name on the credit card. Please try again.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
-    <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call {brand} Customer Support and quote this itinerary number: {itinerary}</string>
-    <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_TEMPLATE">We\'re really sorry, your flight is no longer available from {brand}.</string>
-    <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_TEMPLATE">We\'re really sorry, one of your flights is no longer available from {brand}.</string>
-    <!-- Button label imploring users to pick a new flight due to unavailability -->
-    <string name="pick_new_flight">Pick a New Flight</string>
-    <!-- Button label imploring users to pick flights due to unavailability -->
-    <string name="pick_new_flights">Pick New Flights</string>
-
-    <!-- Hotel booking dialog errors -->
     <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
     <string name="error_hotel_no_longer_available">We\'re really sorry, your hold on this room has expired</string>
-    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
-    <string name="pick_new_hotel">Pick a New Hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
     <!-- Error Screen toolbar title for payment failed screen -->
