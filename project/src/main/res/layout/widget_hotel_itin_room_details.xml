@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +11,6 @@
         <com.expedia.bookings.widget.TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
             android:text="@string/itin_hotel_details_room_details_title_text"
             android:textColor="@color/gray10"
             android:textSize="20sp"
@@ -20,13 +20,13 @@
             style="@style/MaterialCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:cardElevation="2dp">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_hotel_details_room_details_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
                 android:padding="16dp"
                 android:text="Deluxe Room, 2 Queen Beds, Accessible, Mountain View (bathtub)"
                 android:textColor="@color/gray10"

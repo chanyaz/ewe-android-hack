@@ -8,11 +8,15 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.HotelItinImage
+import com.expedia.bookings.widget.itin.HotelItinLocationDetails
 import com.expedia.bookings.widget.itin.HotelItinRoomDetails
 import com.expedia.bookings.widget.itin.HotelItinToolbar
 
 class HotelItinDetailsActivity() : AppCompatActivity() {
 
+    val locationDetailsView: HotelItinLocationDetails by lazy {
+        findViewById(R.id.widget_hotel_itin_location_details) as HotelItinLocationDetails
+    }
     val roomDetailsView: HotelItinRoomDetails by lazy {
         findViewById(R.id.widget_hotel_itin_room_details) as HotelItinRoomDetails
     }
@@ -43,6 +47,7 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
 
 
         val itinCardDataHotel: ItinCardDataHotel = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.id) as ItinCardDataHotel
+        locationDetailsView.setupWidget(itinCardDataHotel)
         roomDetailsView.setUpWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
         toolbar.setUpWidget(itinCardDataHotel)

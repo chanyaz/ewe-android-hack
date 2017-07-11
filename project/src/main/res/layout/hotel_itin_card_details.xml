@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.expedia.bookings.widget.itin.HotelItinToolbar
@@ -33,6 +32,10 @@
             <!--Check in/out info-->
 
             <!--Map and directions-->
+            <com.expedia.bookings.widget.itin.HotelItinLocationDetails
+                android:id="@+id/widget_hotel_itin_location_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <!--Room details-->
             <com.expedia.bookings.widget.itin.HotelItinRoomDetails

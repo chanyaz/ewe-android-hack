@@ -332,6 +332,16 @@ public class Location implements JSONable, Parcelable {
 		return Strings.joinWithoutEmpties(", ", locationParts);
 	}
 
+	public String toTwoLineAddressFormattedString() {
+		ArrayList<String> locationParts = new ArrayList<String>();
+		locationParts.add(mCity);
+		locationParts.add(mStateCode);
+		locationParts.add(mCountryCode);
+		locationParts.add(mPostalCode);
+
+		return Strings.joinWithoutEmpties(", ", locationParts);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Parcelable
 

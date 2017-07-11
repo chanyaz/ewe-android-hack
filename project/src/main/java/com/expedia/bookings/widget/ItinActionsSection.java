@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -67,6 +68,16 @@ public class ItinActionsSection extends android.widget.LinearLayout implements O
 		textView.setCompoundDrawablesWithIntrinsicBounds(summaryButton.getIconResId(), 0, 0, 0);
 		textView.setText(summaryButton.getText());
 		AccessibilityUtil.appendRoleContDesc(textView, summaryButton.getContentDescription(), R.string.accessibility_cont_desc_role_button);
+	}
+
+	@VisibleForTesting
+	public TextView getmRightButton() {
+		return mRightButton;
+	}
+
+	@VisibleForTesting
+	public TextView getmLeftButton() {
+		return mLeftButton;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

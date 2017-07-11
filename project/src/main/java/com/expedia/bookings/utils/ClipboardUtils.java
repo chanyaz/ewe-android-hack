@@ -32,4 +32,9 @@ public class ClipboardUtils {
 		ClipData clip = ClipData.newPlainText(label, text);
 		board.setPrimaryClip(clip);
 	}
+
+	public static String getText(Context context) {
+		ClipboardManager board = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+		return board.getPrimaryClip().getItemAt(0).getText().toString();
+	}
 }

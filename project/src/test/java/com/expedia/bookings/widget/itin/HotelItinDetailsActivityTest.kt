@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget.itin
 
+import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.itin.activity.HotelItinDetailsActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -7,6 +9,8 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
+import com.expedia.bookings.utils.ClipboardUtils
+import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,7 +40,20 @@ class HotelItinDetailsActivityTest {
         val hotelImageView: HotelItinImage = activity.hotelImageView
         hotelImageView.setUpWidget(itinCardDataHotel)
         assertEquals(hotelImageView.hotelNameTextView.text, itinCardDataHotel.propertyName)
+    }
 
+    fun testMapWidget() {
+        val locationDetailsView: HotelItinLocationDetails = activity.locationDetailsView
+        locationDetailsView.setupWidget(itinCardDataHotel)
+        assertEquals(View.VISIBLE, locationDetailsView.locationMapImageView.visibility)
+        assertEquals(locationDetailsView.addressLine1.text, itinCardDataHotel.propertyLocation.streetAddressString)
+        assertEquals(locationDetailsView.addressLine2.text, itinCardDataHotel.propertyLocation.toTwoLineAddressFormattedString())
+        assertEquals(locationDetailsView.actionButtons.getmLeftButton().text, itinCardDataHotel.localPhone)
+        locationDetailsView.address.performClick()
+        val address: String = Phrase.from(activity, R.string.itin_hotel_details_address_clipboard_TEMPLATE)
+                .put("addresslineone", locationDetailsView.addressLine1.text.toString())
+                .put("addresslinetwo", locationDetailsView.addressLine2.text.toString()).format().toString()
+        assertEquals(ClipboardUtils.getText(activity), address)
     }
 
     @Test

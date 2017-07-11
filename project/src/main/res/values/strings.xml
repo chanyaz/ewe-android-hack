@@ -1439,6 +1439,14 @@
     <string name="itin_hotel_details_room_details_title_text">Room Details</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
     <string name="itin_hotel_details_room_details_text_TEMPLATE">{roomtype}, {bedtype}</string>
+    <!--Hotel itin card Map widget address for clipboard. {addressline1}, {addressline2} (e.g., 920 Olive St, San Luis Obispo, CA 93405)-->
+    <string name="itin_hotel_details_address_clipboard_TEMPLATE">{addresslineone}, {addresslinetwo}</string>
+    <!--Hotel itin map view content description-->
+    <string name="itin_hotel_details_map_view_content_description">Hotel location Google map</string>
+    <!--Hotel itin call hotel button content description. Call hotel at {phonenumber} (eg., Call hotel at +18055437700)-->
+    <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Call hotel at {phonenumber}</string>
+    <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
+    <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotel address. {address}. Click to copy to clipboard. Button</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>
