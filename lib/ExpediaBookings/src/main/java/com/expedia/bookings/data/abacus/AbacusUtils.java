@@ -70,7 +70,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelRoomRateExpanded = 13246;
 	public static final int EBAndroidAppHotelUrgencyMessage = 13277;
 	public static final int EBAndroidAppHotelDetailsGalleryPeek = 13415;
-	public static final int EBAndroidAppHotelResultsCardReadability = 13554;
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
 	public static final int EBAndroidAppHotelGroupRoomRate = 14591;
 	public static final int EBAndroidAppHotelHideSearch = 14271;
@@ -165,7 +164,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsMoreInfoOnOverview);
 		testIDs.add(EBAndroidAppFlightsCrossSellPackageOnFSR);
 		testIDs.add(EBAndroidAppSimplifyFlightShopping);
-		testIDs.add(EBAndroidAppHotelResultsCardReadability);
 		testIDs.add(EBAndroidAppItinCrystalSkin);
 		testIDs.add(EBAndroidAppItinHotelRedesign);
 		testIDs.add(EBAndroidAppFlightStaticSortFilter);

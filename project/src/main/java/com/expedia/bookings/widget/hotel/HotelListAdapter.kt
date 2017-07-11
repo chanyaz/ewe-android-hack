@@ -14,17 +14,7 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
         BaseHotelListAdapter(hotelSelectedSubject, headerSubject, pricingHeaderSelectedSubject) {
 
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
-
-        var view: View
-        val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHotelResultsCardReadability)
-        if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT1.ordinal) {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell_content_below_image, parent, false)
-        } else if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell_content_right_of_image, parent, false)
-        } else {
-            view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
-        }
-
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
         val holder = HotelCellViewHolder(view as ViewGroup, parent.width)
         return holder
     }

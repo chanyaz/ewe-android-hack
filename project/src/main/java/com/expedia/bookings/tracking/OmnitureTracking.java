@@ -472,7 +472,6 @@ public class OmnitureTracking {
 		setEventsForSearchTracking(s, searchTrackingData.getPerformanceData(), "event12,event51");
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelUrgencyMessage);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsCardReadability);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHideSearch);
 		// Send the tracking data
 		s.track();

@@ -158,13 +158,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         } else if (viewType == LOADING_VIEW) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_loading_cell, parent, false)
             val loadingViewHolder = HotelLoadingViewHolder(view)
-
-            val variateForTest = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHotelResultsCardReadability)
-            if (variateForTest == AbacusUtils.DefaultTwoVariant.VARIANT2.ordinal) {
-                val resources = parent.context.resources
-                loadingViewHolder.resizeHeight(resources.getDimensionPixelSize(R.dimen.hotel_results_content_right_image_height),
-                        resources.getDimensionPixelSize(R.dimen.hotel_results_content_right_text_height))
-            }
             return loadingViewHolder
         } else if (viewType == PRICING_STRUCTURE_HEADER_VIEW) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_results_header_cell, parent, false)

@@ -824,13 +824,6 @@
         <item>@string/preference_abacus_setting_variant2</item>
     </string-array>
 
-    <string-array name="abacus_hotel_results_readability_choices">
-        <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_control</item>
-        <item>@string/preference_abacus_setting_variant1</item>
-        <item>@string/preference_abacus_setting_variant2</item>
-    </string-array>
-
     <string-array name="abacus_checkout_text_values">
         <item>-1</item>
         <item>0</item>
@@ -876,13 +869,6 @@
     </string-array>
 
     <string-array name="abacus_itin_share_button_choice_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string-array name="abacus_hotel_results_readability_values">
         <item>-1</item>
         <item>0</item>
         <item>1</item>

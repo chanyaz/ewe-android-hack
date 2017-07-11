@@ -32,15 +32,6 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_hotel_results_readability_choices"
-            android:entryValues="@array/abacus_hotel_results_readability_values"
-            android:summary="%s"
-            android:key="13554"
-            android:layout="@layout/preference"
-            android:title="Hotel Result Card Readability - 13554" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
