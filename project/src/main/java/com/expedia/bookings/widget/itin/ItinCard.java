@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Parcel;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -27,6 +28,7 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
@@ -1095,11 +1097,20 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		shareIntent.setType("text/plain");
 
 		SettingUtils.save(getContext(), "TripType", mItinContentGenerator.getType().toString());
-
+		Parcel shareIntentParcel = Parcel.obtain();
+		shareIntent.getExtras().writeToParcel(shareIntentParcel, 0);
+		int shareParcelSize = shareIntentParcel.dataSize();
 		Intent receiver = new Intent(getContext(), ItinShareTargetBroadcastReceiver.class);
 		PendingIntent pendingIntent = getBroadcast(getContext(), 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
 		Intent chooserIntent = Intent.createChooser(shareIntent, "", pendingIntent.getIntentSender());
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, shareIntent);
+		Parcel chooserIntentParcel = Parcel.obtain();
+		chooserIntent.getExtras().writeToParcel(chooserIntentParcel, 0);
+		int chooserParcelSize = chooserIntentParcel.dataSize();
+		Crashlytics.log("itin type =" + mItinContentGenerator.getType().toString()
+			+ "itin id = " + mItinContentGenerator.getItinCardData().getId()
+			+ "shareIntentParcelSize = " + shareParcelSize
+			+ "chooserParcelSize = " + chooserParcelSize );
 		getContext().startActivity(chooserIntent);
 	}
 
