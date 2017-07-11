@@ -1442,6 +1442,10 @@
     <string name="itin_hotel_details_price_summary_heading">Price summary</string>
     <!--Hotel itin card additional info heading-->
     <string name="itin_hotel_details_additional_info_heading">Additional information</string>
+    <!--Hotel itin checkin text-->
+    <string name="itin_hotel_details_checkin_text">Check-in</string>
+    <!--Hotel itin checkout text-->
+    <string name="itin_hotel_details_checkout_text">Check-out</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>

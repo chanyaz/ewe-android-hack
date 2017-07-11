@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin
 
+import android.text.format.DateFormat
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
+import java.util.Locale
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -92,5 +94,20 @@ class HotelItinDetailsActivityTest {
         assertEquals(WebViewActivity::class.java.name, intent.component.className)
         assertEquals("Additional information", intent.extras.getString("ARG_TITLE"))
         assertEquals(intentBuilder.getUrlWithVisitorId(itinCardDataHotel.detailsUrl), intent.extras.getString("ARG_URL"))
+    }
+
+    @Test
+    fun testItinHotelCheckInCheckoutDate() {
+        val hotelCheckinCheckout: HotelItinCheckInCheckOutDetails = activity.checkinCheckoutView
+        hotelCheckinCheckout.setUpWidget(itinCardDataHotel)
+
+        val formatPattern = DateFormat.getBestDateTimePattern(Locale.getDefault(), "EEE, MMM d")
+        val checkInDate = itinCardDataHotel?.startDate.toString(formatPattern)
+        val checkOutDate = itinCardDataHotel?.endDate.toString(formatPattern)
+
+        assertEquals(checkInDate, hotelCheckinCheckout.checkInDateView.text)
+        assertEquals(checkOutDate, hotelCheckinCheckout.checkOutDateView.text)
+        assertEquals(itinCardDataHotel.checkInTime?.toLowerCase(), hotelCheckinCheckout.checkInTimeView.text)
+        assertEquals(itinCardDataHotel.checkOutTime?.toLowerCase(), hotelCheckinCheckout.checkOutTimeView.text)
     }
 }
