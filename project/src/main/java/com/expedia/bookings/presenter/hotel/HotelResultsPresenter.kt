@@ -164,10 +164,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     private fun initSortCallToAction() {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
-            viewModel.hotelResultsObservable.subscribe {
-                narrowResultsPromptView.visibility = View.GONE
-                narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
+
+        viewModel.hotelResultsObservable.subscribe {
+            narrowResultsPromptView.visibility = View.GONE
+            narrowFilterPromptSubscription = adapter.filterPromptSubject.subscribe {
+                if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSortCallToAction)) {
                     val animationRunner = AnimationRunner(narrowResultsPromptView, context)
                     narrowResultsPromptView.visibility = View.VISIBLE
                     animationRunner.animIn(R.anim.filter_prompt_in)
@@ -175,13 +176,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                             .afterAction({ narrowResultsPromptView.visibility = View.GONE })
                             .duration(500L).outDelay(3000L)
                             .run()
-                    HotelTracking.trackHotelNarrowPrompt()
-                    narrowFilterPromptSubscription?.unsubscribe()
                 }
+                HotelTracking.trackHotelNarrowPrompt()
+                narrowFilterPromptSubscription?.unsubscribe()
             }
         }
     }
-    
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)

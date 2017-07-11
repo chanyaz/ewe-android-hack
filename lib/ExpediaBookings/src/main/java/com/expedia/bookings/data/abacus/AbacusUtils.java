@@ -74,7 +74,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelPinnedSearch = 13563;
 	public static final int EBAndroidAppHotelGroupRoomRate = 14591;
 	public static final int EBAndroidAppHotelHideSearch = 14271;
-	public static final int EBAndroidAppHotelSortCallToAction = 14332;
+	public static final int EBAndroidAppHotelSortCallToAction = 14923;
 	public static final int EBAndroidAppHotelAutoSuggestSameAsWeb = 14483;
 	public static final int EBAndroidAppHotelThrottleGalleryAnimation = 14785;
 	public static final int EBAndroidAppHotelSuperSearch = 14911;
