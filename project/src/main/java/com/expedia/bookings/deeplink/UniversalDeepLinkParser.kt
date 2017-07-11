@@ -30,6 +30,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
     private val TIME = Pattern.compile("([0-9]{1,2})([0-9]{2})(AM|PM)")
     private val HOTEL_INFO_SITE = Pattern.compile("/[^\\.]+\\.h(\\d+)\\.hotel-information")
     private val TRIPS_ITIN_NUM = Pattern.compile("/trips/([0-9]+)")
+    private val SIGN_IN = Pattern.compile(".+(?=\\/signin/?$).+")
 
      fun parseUniversalDeepLink(data: Uri): DeepLink {
          var routingDestination = getRoutingDestination(data)
@@ -44,7 +45,7 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
             "/things-to-do/search" -> return parseActivityUniversalDeepLink(data, dateFormat)
             "shareditin" -> return parseSharedItineraryUniversalDeepLink(data)
             "shorturl" -> return parseShortUrlDeepLink(data)
-            "/user/signin" -> return SignInDeepLink()
+            "/signin" -> return SignInDeepLink()
             "/member-pricing" -> return MemberPricingDeepLink()
             "/trips" -> return parseTripUniversalDeepLink(data)
             else ->
@@ -68,6 +69,8 @@ class UniversalDeepLinkParser(assets: AssetManager): DeepLinkParser(assets){
                 routingDestination = "hotel-infosite"
             } else if (TRIPS_ITIN_NUM.matcher(routingDestination).find()) {
                 routingDestination = "/trips"
+            } else if (SIGN_IN.matcher(routingDestination).find()) {
+                routingDestination = "/signin"
             }
         }
 

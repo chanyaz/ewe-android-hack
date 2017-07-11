@@ -106,6 +106,13 @@ class DeepLinkRouterActivityTest {
     }
 
     @Test
+    fun signInDeepLinkVariations() {
+        val signInUrl = "https://www.expedia.com/mobile/deeplink/anything/signin"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(signInUrl)
+        assertEquals(1, deepLinkRouterActivity.signInCallsCount)
+    }
+
+    @Test
     fun supportEmailDeepLink() {
         val supportEmailUrl = "expda://supportEmail"
         val deepLinkRouterActivity = getDeepLinkRouterActivity(supportEmailUrl)
