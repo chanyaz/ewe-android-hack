@@ -54,6 +54,7 @@ import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightItineraryType;
 import com.expedia.bookings.data.flights.FlightLeg.FlightSegment;
@@ -3282,6 +3283,18 @@ public class OmnitureTracking {
 		return travelRecordLocator + "|" + itinNumber;
 	}
 
+	private static String getFlightConfirmationTripNumberString(FlightCheckoutResponse checkoutResponse) {
+		String travelRecordLocator = checkoutResponse.getNewTrip().getTravelRecordLocator();
+		String itinNumber = checkoutResponse.getNewTrip().getItineraryNumber();
+		if (Strings.isEmpty(travelRecordLocator)) {
+			travelRecordLocator = "NA";
+		}
+		if (Strings.isEmpty(itinNumber)) {
+			itinNumber = "NA";
+		}
+		return travelRecordLocator + "|" + itinNumber;
+	}
+
 	@VisibleForTesting
 	protected static void addDeepLinkData(ADMS_Measurement s) {
 		// Yes this logic is ugly (but is as desired by marketing).
@@ -4652,6 +4665,7 @@ public class OmnitureTracking {
 		s.setCurrencyCode(checkoutResponse.getCurrencyCode());
 		s.setProp(71, checkoutResponse.getNewTrip().getTravelRecordLocator());
 		s.setProp(72, checkoutResponse.getOrderId());
+		s.setProp(8, getFlightConfirmationTripNumberString(checkoutResponse));
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 		addPageLoadTimeTrackingEvents(s, pageUsableData);
 
