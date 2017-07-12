@@ -28,6 +28,12 @@
             android:summary="Single page sign up flow."
             android:title="Enable Single Page Sign Up Flow" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_flight_subpub_change"
+            android:layout="@layout/preference"
+            android:summary="Flight Subpub Change"
+            android:title="Flight Subpub Change" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

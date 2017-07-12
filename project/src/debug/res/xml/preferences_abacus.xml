@@ -292,6 +292,16 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Advance Search Filters on SRP - 14602" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="14936"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flight subpub change - 14936 " />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -94,6 +94,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 				query.addExperiment(AbacusUtils.EBAndroidAppSignUpStringNonAPAC);
 			}
 			query.addExperiment(AbacusUtils.EBAndroidAppAPIMAuth);
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightSubpubChange);
 		}
 
 		Ui.getApplication(this).appComponent().abacus()

@@ -85,4 +85,6 @@ public class Constants {
 
 	//Business Region
 	public static final String ASIA_PACIFIC_REGION = "APAC";
+
+	public static final String FEATURE_SUBPUB = "SubPub";
 }

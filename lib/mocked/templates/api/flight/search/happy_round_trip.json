@@ -588,6 +588,11 @@
         "currencyCode": "USD",
         "formattedWholePrice": "$620"
       },
+      "discountAmount": {
+        "amount": "-6.24",
+        "formattedPrice": "$6.24",
+        "currencyCode": "USD",
+        "formattedWholePrice": "-$6"},
       "currency": "USD",
       "fareType": "PUBLISHED",
       "fees": "7.00",

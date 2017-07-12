@@ -23,13 +23,15 @@ public interface FlightApi {
 		@Query("cabinClassPreference") String cabinClass, @Field("ul") Integer legNo,
 		@Field("fl0") String selectedOutboundId,
 		@Query("showRefundableFlight") Boolean showRefundableFlight,
-		@Query("nonStopFlight") Boolean nonStopFlight);
+		@Query("nonStopFlight") Boolean nonStopFlight,
+		@Query("featureOverride") String featureOverride);
 
 	@FormUrlEncoded
 	@POST("/api/flight/trip/create?withInsurance=true")
 	Observable<FlightCreateTripResponse> createTrip(
 		@Query("mobileFlexEnabled") boolean flexEnabled,
-		@FieldMap Map<String, Object> queryParams);
+		@FieldMap Map<String, Object> queryParams,
+		@Query("featureOverride") String featureOverride);
 
 	@FormUrlEncoded
 	@POST("/api/flight/checkout")

@@ -53,6 +53,7 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val flightCabinClassObserver = endlessObserver<FlightServiceClassType.CabinCode> { cabinCode ->
         getParamsBuilder().flightCabinClass(cabinCode.name)
     }
+    val EBAndroidAppFlightSubpubChange = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightSubpubChange, R.string.preference_flight_subpub_change)
 
     var searchSubscription: Subscription? = null
     val advanceSearchObserver = endlessObserver<AdvanceSearchFilter> {
@@ -88,6 +89,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else {
                 dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
             }
+        }
+
+        if(EBAndroidAppFlightSubpubChange){
+            flightParamsBuilder.setFeatureOverride()
         }
 
         if (!((FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightRetainSearchParams, R.string.preference_flight_retain_search_params)) ||
