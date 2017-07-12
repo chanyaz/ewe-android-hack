@@ -459,7 +459,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE,
 		R.color.flight_overview_color_filter,
 		R.plurals.flight_filter_stops,
-		R.dimen.hotel_gallery_peek_amount,
 		R.transition.gallery_collapse_transition,
 		R.transition.gallery_expand_transition,
 		R.layout.hotel_detail_view_expanded_gallery,

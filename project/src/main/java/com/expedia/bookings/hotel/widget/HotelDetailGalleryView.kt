@@ -72,10 +72,6 @@ class HotelDetailGalleryView(context: Context, attrs: AttributeSet?) : RelativeL
         galleryItemScrolledSubject.onNext(position)
     }
 
-    fun peek() {
-        galleryRecyclerView.peekSecondImage()
-    }
-
     fun expand() {
         galleryRecyclerView.updateAccessibility(collapsed = false)
         hotelGalleryDescriptionContainer.visibility = View.VISIBLE

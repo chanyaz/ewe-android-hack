@@ -740,7 +740,6 @@ public class OmnitureTracking {
 		addPageLoadTimeTrackingEvents(s, pageLoadTimeData);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRoomRateExpanded);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelDetailsGalleryPeek);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelGroupRoomRate);
 
 		// Send the tracking data
