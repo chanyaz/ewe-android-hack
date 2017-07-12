@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_itin_name"
+                android:id="@+id/itin_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -24,7 +23,7 @@
                 android:textStyle="bold" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/hotel_itin_dates"
+                android:id="@+id/itin_toolbar_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/itin_toolbar_text"

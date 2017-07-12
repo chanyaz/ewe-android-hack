@@ -1,11 +1,13 @@
 package com.expedia.bookings.itin.activity
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.itin.HotelItinBookingDetails
@@ -35,14 +37,18 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
     val hotelBookingDetailsView: HotelItinBookingDetails by lazy {
         findViewById(R.id.widget_hotel_itin_booking_details) as HotelItinBookingDetails
     }
+    val itinCardDataHotel: ItinCardDataHotel by lazy {
+        ItineraryManager.getInstance().getItinCardDataFromItinId(intent.getStringExtra(ITIN_ID_EXTRA)) as ItinCardDataHotel
+    }
 
-    companion object IntentExtras {
+    companion object {
         private const val ITIN_ID_EXTRA = "ITIN_ID"
-        var Intent.id: String?
-            get() = getStringExtra(ITIN_ID_EXTRA)
-            set(id) {
-                putExtra(ITIN_ID_EXTRA, id)
-            }
+
+        @JvmStatic fun createIntent(context: Context, id: String): Intent {
+            val i = Intent(context, HotelItinDetailsActivity::class.java)
+            i.putExtra(HotelItinDetailsActivity.ITIN_ID_EXTRA, id)
+            return i
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,14 +60,16 @@ class HotelItinDetailsActivity() : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val itinCardDataHotel: ItinCardDataHotel = ItineraryManager.getInstance().getItinCardDataFromItinId(intent.id) as ItinCardDataHotel
         locationDetailsView.setupWidget(itinCardDataHotel)
         roomDetailsView.setUpWidget(itinCardDataHotel)
         hotelImageView.setUpWidget(itinCardDataHotel)
         checkinCheckoutView.setUpWidget(itinCardDataHotel)
-        toolbar.setUpWidget(itinCardDataHotel)
+        toolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         toolbar.setNavigationOnClickListener {
             super.finish()
+        }
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare()) {
+            toolbar.showShare()
         }
         hotelBookingDetailsView.setUpWidget(itinCardDataHotel)
     }

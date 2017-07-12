@@ -12,6 +12,7 @@ import com.squareup.phrase.Phrase
 
 class HotelItinRoomDetails(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
     val roomDetailsText: TextView by bindView(R.id.itin_hotel_details_room_details_text)
+    val roomDetailsHeaderText: TextView by bindView(R.id.itin_hotel_room_details_header)
 
     init {
         View.inflate(context, R.layout.widget_hotel_itin_room_details, this)

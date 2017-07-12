@@ -11,7 +11,6 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -798,9 +797,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			openItinInWebView(data.getDetailsUrl());
 		}
 		else if (data.getTripComponentType() == TripComponent.Type.HOTEL && isItinCardDetailFeatureOn) {
-			Intent i = new Intent(getContext(), HotelItinDetailsActivity.class);
-			HotelItinDetailsActivity.IntentExtras.setId(i, data.getId());
-			getContext().startActivity(i);
+			getContext().startActivity(HotelItinDetailsActivity.createIntent(getContext(), data.getId()));
 		}
 		else if (data.hasDetailData()) {
 			showDetails(position, true);

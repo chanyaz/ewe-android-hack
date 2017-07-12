@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.WebViewActivity
+import com.expedia.bookings.itin.activity.HotelItinManageBookingActivity
 import com.expedia.bookings.itin.data.ItinCardDataHotel
 import com.expedia.bookings.utils.bindView
 
@@ -22,7 +23,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
 
     fun setUpWidget(itinCardDataHotel: ItinCardDataHotel) {
         manageBookingCard.setIcon(R.drawable.ic_itin_manage_booking_icon)
-        manageBookingCard.setHeadingText(context.resources.getText(R.string.itin_hotel_details_manage_booking_heading))
+        manageBookingCard.setHeadingText(context.resources.getText(R.string.itin_hotel_manage_booking_header))
         manageBookingCard.setSubHeadingText(context.resources.getText(R.string.itin_hotel_details_manage_booking_subheading))
 
         priceSummaryCard.setIcon(R.drawable.ic_itin_credit_card_icon)
@@ -34,7 +35,7 @@ class HotelItinBookingDetails(context: Context, attr: AttributeSet?) : LinearLay
         additionalInfoCard.hideSubheading()
 
         manageBookingCard.setOnClickListener {
-            //call HotelItinManageBookingActivity
+            context.startActivity(HotelItinManageBookingActivity.createIntent(context, itinCardDataHotel.id))
         }
         priceSummaryCard.setOnClickListener {
             context.startActivity(buildWebViewIntent(R.string.itin_hotel_details_price_summary_heading, itinCardDataHotel.detailsUrl, "price-header").intent)

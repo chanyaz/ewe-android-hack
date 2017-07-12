@@ -9,16 +9,6 @@
         android:layout_marginRight="11dp"
         android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:text="@string/itin_hotel_details_room_details_title_text"
-            android:textColor="@color/gray10"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <android.support.v7.widget.CardView
             style="@style/MaterialCardView"
             android:layout_width="match_parent"

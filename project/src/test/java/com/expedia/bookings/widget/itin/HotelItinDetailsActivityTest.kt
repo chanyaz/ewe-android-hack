@@ -66,12 +66,12 @@ class HotelItinDetailsActivityTest {
     @Test
     fun testItinToolbarWidget() {
         val hotelItinToolbar: HotelItinToolbar = activity.toolbar
-        hotelItinToolbar.setUpWidget(itinCardDataHotel)
+        hotelItinToolbar.setUpWidget(itinCardDataHotel, itinCardDataHotel.propertyName)
         val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val startDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel?.startDate.toString().substringBefore("T")))
-        val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel?.endDate.toString().substringBefore("T")))
-        assertEquals(hotelItinToolbar.hotelNameTextView.text, itinCardDataHotel.propertyName)
-        assertEquals(hotelItinToolbar.hotelTripDatesTextView.text, startDate + " - " + endDate)
+        val startDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.startDate.toString().substringBefore("T")))
+        val endDate = DateUtils.localDateToMMMd(formatter.parseLocalDate(itinCardDataHotel.endDate.toString().substringBefore("T")))
+        assertEquals(hotelItinToolbar.toolbarTitleTextView.text, itinCardDataHotel.propertyName)
+        assertEquals(hotelItinToolbar.toolbarSubtitleTextView.text, startDate + " - " + endDate)
     }
 
     @Test

@@ -1421,7 +1421,7 @@
     <string name="itin_card_details_remove_itin">Remove from Itinerary</string>
 
     <!--Hotel itin card room details heading-->
-    <string name="itin_hotel_details_room_details_title_text">Room Details</string>
+    <string name="itin_hotel_details_room_details_title_text">Room details</string>
     <!--Hotel itin card booking details heading-->
     <string name="itin_hotel_details_booking_details_title_text">Booking details</string>
     <!--Hotel itin card Room details (room type and bed type). {roomtype}, {bedtype} (e.g., Standard Room, 1 Queen Bed)-->
@@ -1434,8 +1434,6 @@
     <string name="itin_hotel_details_call_button_content_description_TEMPLATE">Call hotel at {phonenumber}</string>
     <!--Hotel itin address copy button content description. {address}. Click to copy to clipboard. Button (eg., Hotel address. 920 Olive St, San Luis Obispo, CA 93405. Click to copy to clipboard. Button)-->
     <string name="itin_hotel_details_address_copy_content_description_TEMPLATE">Hotel address. {address}. Click to copy to clipboard. Button</string>
-    <!--Hotel itin card manage booking heading-->
-    <string name="itin_hotel_details_manage_booking_heading">Manage Booking</string>
     <!--Hotel itin card manage booking subheading-->
     <string name="itin_hotel_details_manage_booking_subheading">Change, cancel and support</string>
     <!--Hotel itin card price summary heading-->
@@ -1446,6 +1444,12 @@
     <string name="itin_hotel_details_checkin_text">Check-in</string>
     <!--Hotel itin checkout text-->
     <string name="itin_hotel_details_checkout_text">Check-out</string>
+    <!--Hotel itin manage booking button to change or cancel room-->
+    <string name="itin_hotel_manage_booking_cancel_change_header">CHANGE OR CANCEL ROOM</string>
+    <!--Hotel itin manage booking webview title-->
+    <string name="itin_hotel_manage_booking_webview_title">Change Or Cancel Room</string>
+    <!--Hotel itin manage booking room details header-->
+    <string name="itin_hotel_manage_booking_header">Manage booking</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>
