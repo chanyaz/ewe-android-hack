@@ -2,8 +2,8 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.packages.PackageFlightContainerViewModel
@@ -34,7 +34,7 @@ class PackageFlightContainerViewModelTests {
 
     @Test
     fun inboundFlightSearch() {
-        val resultsSubscriber = TestSubscriber<PackageSearchResponse>()
+        val resultsSubscriber = TestSubscriber<BundleSearchResponse>()
         sut.flightSearchResponseObservable.subscribe(resultsSubscriber)
         sut.performFlightSearch.onNext(PackageSearchType.INBOUND_FLIGHT)
 
@@ -46,7 +46,7 @@ class PackageFlightContainerViewModelTests {
 
     @Test
     fun outboundFlightSearch() {
-        val resultsSubscriber = TestSubscriber<PackageSearchResponse>()
+        val resultsSubscriber = TestSubscriber<BundleSearchResponse>()
         sut.flightSearchResponseObservable.subscribe(resultsSubscriber)
         sut.performFlightSearch.onNext(PackageSearchType.OUTBOUND_FLIGHT)
 

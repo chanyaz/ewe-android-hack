@@ -1,9 +1,12 @@
 package com.expedia.bookings.data.packages;
 
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.payment.LoyaltyInformation;
-import com.expedia.bookings.data.flights.FlightTripDetails.SeatClassAndBookingCode;
 import java.util.List;
+
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.flights.FlightTripDetails.SeatClassAndBookingCode;
+import com.expedia.bookings.data.multiitem.MultiItemOffer;
+import com.expedia.bookings.data.multiitem.PackageDeal;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class PackageOfferModel {
 	public String piid;
@@ -16,34 +19,42 @@ public class PackageOfferModel {
 	public LoyaltyInformation loyaltyInfo;
 	public List<SeatClassAndBookingCode> segmentsSeatClassAndBookingCode;
 
+	public PackageOfferModel() {
+		//default constructor
+	}
+
+	public PackageOfferModel(MultiItemOffer multiItemOffer) {
+		loyaltyInfo = multiItemOffer.getLoyaltyInfo();
+
+		PackageDeal packageDeal = multiItemOffer.getPackageDeal();
+		if (packageDeal != null && packageDeal.getDeal() != null) {
+			featuredDeal = true;//TODO PUK confirm
+
+			brandedDealData = new BrandedDealData();
+			brandedDealData.dealVariation = packageDeal.getDeal().getSticker();
+			brandedDealData.savingsAmount = "" + packageDeal.getSavingsAmount();
+			brandedDealData.savingPercentageOverPackagePrice = "" + packageDeal.getSavingsPercentage();
+			brandedDealData.freeNights = "" + packageDeal.getDeal().getMagnitude();
+		}
+	}
+
 	public static class PackagePrice {
 		public Money averageTotalPricePerTicket;
 		public Money packageTotalPrice;
 		public Money pricePerPerson;
 		public Money hotelPrice;
 		public Money flightPrice;
-		public Money sumFlightAndHotel;
 		public Money tripSavings;
-		public Money hotelAvgPricePerNight;
 		public String packageTotalPriceFormatted;
 		public String pricePerPersonFormatted;
-		public String hotelPriceFormatted;
-		public String flightPriceFormatted;
-		public String sumFlightAndHotelFormatted;
-		public String tripSavingsFormatted;
-		public String hotelAvgPricePerNightFormatted;
 		public String differentialPriceFormatted;
 		public String flightPlusHotelPricePerPersonFormatted;
 		public boolean showTripSavings;
-		public int percentageSavings;
 		public boolean deltaPositive;
 	}
 
 	public static class UrgencyMessage {
-		public int roomsLeft;
 		public int ticketsLeft;
-		public boolean showRoomsUrgency;
-		public boolean showFlightUrgency;
 	}
 
 	public static class BrandedDealData {

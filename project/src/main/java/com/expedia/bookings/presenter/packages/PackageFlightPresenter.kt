@@ -15,6 +15,7 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.flight.BaseFlightPresenter
@@ -22,6 +23,7 @@ import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -30,10 +32,10 @@ import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 import com.squareup.phrase.Phrase
@@ -70,6 +72,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         activity.finish()
     }
 
+    private fun isMidAPIEnabled(): Boolean {
+        return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppPackagesMidApi, R.string.preference_packages_mid_api)
+    }
+
     init {
         toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
             menuFilter.isVisible = if (showMenu) true else false
@@ -82,9 +88,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
             val params = Db.getPackageParams()
             params.selectedLegId = null
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE))
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE, isMidAPIEnabled()))
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE))
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE, isMidAPIEnabled()))
         }
 
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)

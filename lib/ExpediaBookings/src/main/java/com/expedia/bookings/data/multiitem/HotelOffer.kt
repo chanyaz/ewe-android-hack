@@ -31,7 +31,7 @@ data class HotelOffer(
         val nights: Int,
         val avgReferencePricePerNight: Money,
         val rateRuleId: Long,
-        val promotion: Promotion,
+        val promotion: Promotion?,
         //        val inventoryType: HotelInventoryType,
         val mandatoryFees: MandatoryFees,
         val memberDeal: Boolean,

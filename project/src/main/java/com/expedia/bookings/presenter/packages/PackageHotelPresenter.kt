@@ -24,7 +24,6 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration

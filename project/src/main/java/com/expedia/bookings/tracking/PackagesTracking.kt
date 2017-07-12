@@ -5,7 +5,6 @@ import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.multiitem.BundleSearchResponse
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.tracking.hotel.PageUsableData
 import com.expedia.vm.BaseFlightFilterViewModel
 

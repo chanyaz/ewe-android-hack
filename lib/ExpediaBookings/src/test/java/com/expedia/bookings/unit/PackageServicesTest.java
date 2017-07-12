@@ -12,10 +12,10 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.multiitem.BundleSearchResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripParams;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.utils.Constants;
@@ -51,7 +51,7 @@ public class PackageServicesTest {
 		server.enqueue(new MockResponse()
 			.setBody("{garbage}"));
 
-		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -59,7 +59,7 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params).subscribe(observer);
+		service.packageSearch(params, false).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
@@ -72,7 +72,7 @@ public class PackageServicesTest {
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
-		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
+		TestSubscriber<BundleSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
 			.origin(getDummySuggestion())
 			.destination(getDummySuggestion())
@@ -80,18 +80,18 @@ public class PackageServicesTest {
 			.endDate(LocalDate.now().plusDays(1))
 			.build();
 
-		service.packageSearch(params).subscribe(observer);
+		service.packageSearch(params, false).subscribe(observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
-		PackageSearchResponse response = observer.getOnNextEvents().get(0);
-		Assert.assertEquals(48, response.packageResult.hotelsPackage.hotels.size());
-		Assert.assertEquals(2, response.packageResult.flightsPackage.flights.size());
-		System.out.println(response.packageResult.flightsPackage.flights.get(0).flightSegments.get(0).airlineLogoURL);
-		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "b6"), response.packageResult.flightsPackage.flights.get(0).flightSegments.get(0).airlineLogoURL);
-		Assert.assertEquals(null, response.packageResult.flightsPackage.flights.get(0).flightSegments.get(1).airlineLogoURL);
+		BundleSearchResponse response = observer.getOnNextEvents().get(0);
+		Assert.assertEquals(48, response.getHotels().size());
+		Assert.assertEquals(2, response.getFlightLegs().size());
+		System.out.println(response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
+		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "b6"), response.getFlightLegs().get(0).flightSegments.get(0).airlineLogoURL);
+		Assert.assertEquals(null, response.getFlightLegs().get(0).flightSegments.get(1).airlineLogoURL);
 	}
 
 	@Test

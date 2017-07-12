@@ -2,6 +2,8 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.multiitem.BundleSearchResponse
+import com.expedia.bookings.data.multiitem.MultiItemApiSearchResponse
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -17,9 +19,9 @@ object PackageResponseUtils {
     val RECENT_PACKAGE_HOTEL_OFFER_FILE = "hotel_offer.dat"
 
 
-    fun savePackageResponse(context: Context, response: PackageSearchResponse, file: String) {
+    fun savePackageResponse(context: Context, response: BundleSearchResponse, file: String) {
         Thread(Runnable {
-            val type = object : TypeToken<PackageSearchResponse>() {}.type
+            val type = if(response is MultiItemApiSearchResponse) object: TypeToken<MultiItemApiSearchResponse>() {}.type else object: TypeToken<PackageSearchResponse>() {}.type
             val responseJson = Gson().toJson(response, type)
             try {
                 IoUtils.writeStringToFile(file, responseJson, context)
@@ -41,17 +43,20 @@ object PackageResponseUtils {
         }).start()
     }
 
-    fun loadPackageResponse(context: Context, file: String): PackageSearchResponse {
-        var recentResponse = PackageSearchResponse()
+    fun loadPackageResponse(context: Context, file: String, isMidApiEnabled: Boolean): BundleSearchResponse {
         try {
             val str = IoUtils.readStringFromFile(file, context)
-            val type = object : TypeToken<PackageSearchResponse>() {}.type
-            recentResponse = Gson().fromJson<PackageSearchResponse>(str, type)
+            if(isMidApiEnabled) {
+                val type = object : TypeToken<MultiItemApiSearchResponse>() {}.type
+                return Gson().fromJson<MultiItemApiSearchResponse>(str, type)
+            } else {
+                val type = object : TypeToken<PackageSearchResponse>() {}.type
+                return Gson().fromJson<PackageSearchResponse>(str, type)
+            }
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
-        return recentResponse
+        return PackageSearchResponse()
     }
 
     fun loadHotelOfferResponse(context: Context, file: String): HotelOffersResponse {
